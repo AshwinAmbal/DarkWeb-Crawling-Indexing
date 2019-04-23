@@ -1,14 +1,12 @@
-# TorScrapper and Crawler
+# DarkWeb Crawler and Indexer
 A basic scrapper made in python with BeautifulSoup and Tor support to - 
 
 * Scrape Onion and normal links.
 * Save the output in html format in Output folder.
-* Filter the html output and strip out useful data only (Work in Progress).
-* Striping out IOCs and other related data (On To-Do list).
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -26,11 +24,11 @@ These instructions will get you a copy of the project up and running on your loc
 [sudo] pip3 install -r requirements.txt
 ```
 
-TL;DR: We recommend installing TorScrapper inside a **virtual environment** on all platforms.
+TL;DR: We recommend installing oursystem inside a **virtual environment** on all platforms.
 
 Python packages can be installed either globally (a.k.a system wide), or in user-space. We do not recommend installing TorScrapper system wide.
 
-Instead, we recommend that you install TorScrapper within a so-called “virtual environment” (virtualenv). Virtualenvs allow you to not conflict with already-installed Python system packages (which could break some of your system tools and scripts), and still install packages normally with pip (without sudo and the likes).
+Instead, we recommend that you install our system within a so-called “virtual environment” (virtualenv). Virtualenvs allow you to not conflict with already-installed Python system packages (which could break some of your system tools and scripts), and still install packages normally with pip (without sudo and the likes).
 
 To get started with virtual environments, see virtualenv installation instructions. To install it globally (having it globally installed actually helps here), it should be a matter of running:
 
@@ -73,7 +71,11 @@ A step by step series of examples that tells what you have to do to get this pro
 [sudo] python3 TorScrapper.py
 ```
 
-* Check the scraped outputs in Output folder.
+* Check the scraped outputs in Output folder. Look into the codebase and you can edit where to save your files. Currently, it saves into a folder named hacking because the links given are related to that and hence that directory needs to be created beforehand too.
+
+* The code saves one file for each domain and strips out subdomain html text and appends it to the same file which is under the name of the domain.
+
+* The code employs BFS by using a queue to visit related urls from the seed url and a file crawled.txt is maintained for each folder so that same links aren't called again.
 
 
 ## Built With
@@ -84,6 +86,10 @@ A step by step series of examples that tells what you have to do to get this pro
 
 ## Authors
 
-* **Ashwin Karthik Ambalavanan**  (Email - ashwinambal96@gmail.com)
+* **Ashwin Karthik Ambalavanan**
+* **Aditya Vikram Sharma**
+* **Jerold Jacob**
+* **Mohanraam Sethuraman**
+* **Paul Simerda**
 
 
