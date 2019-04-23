@@ -81,10 +81,6 @@ A step by step series of examples that tells what you have to do to get this pro
 * [Python](https://www.python.org/) - Python programming language.
 * [Tor](https://www.torproject.org/) - If you don't know about Tor then you probably shouldn't be here :)
 
-## Contributing
-
-If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST]. If the idea is worth implementing, congratz you are now a contributor.
-
 
 ## Authors
 
