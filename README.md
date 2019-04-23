@@ -88,6 +88,6 @@ If you have new ideas which is worth implementing, mention those by starting a n
 
 ## Authors
 
-* **Abhishek Singh**  (Email - absinghemail@gmail.com)
+* **Ashwin Karthik Ambalavanan**  (Email - ashwinambal96@gmail.com)
 
 
