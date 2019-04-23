@@ -77,6 +77,8 @@ A step by step series of examples that tells what you have to do to get this pro
 
 * The code employs BFS by using a queue to visit related urls from the seed url and a file crawled.txt is maintained for each folder so that same links aren't called again.
 
+* A folder is created for each of the seed urls and all the related URLs are added to it
+
 
 ## Built With
 
