@@ -85,12 +85,117 @@ A step by step series of examples that tells what you have to do to get this pro
 * [Python](https://www.python.org/) - Python programming language.
 * [Tor](https://www.torproject.org/) - If you don't know about Tor then you probably shouldn't be here :)
 
+## Indexing with Apache Solr-8.0.0
+
+## Pre-requirements
+
+* Download the latest release of ***Apache Solr*** from Solr Website (https://lucene.apache.org/solr/mirrors-solr-latest-redir.html).
+
+* `solr-8.0.0.tgz` for Linux/Unix/OSX systems
+* `solr-0.0.0.zip` for Microsoft Windows systems
+
+## Basic Installation Setup and Commands
+
+* Extract the Solr distribution archive to local home directory using the following commands in the Terminal.
+
+* For Linux,
+
+```
+cd ~/
+tar zxf solr-8.0.0.tgz
+```
+
+Once extracted, Apache Solr is now ready to run by following the instructions given below.
+
+* To start solr, the following command can be used
+
+```
+[To the directory of Apache Solr-8.0.0] bin/solr start 
+```
+
+* This will start Solr in the background, listening on port 8983. You can use a Web browser to see the Admin Console. `http://localhost:8983/solr/`
+
+* To check the status of solr, the following command can be used
+
+```
+[To the directory of Apache Solr-8.0.0] bin/solr status 
+```
+
+* To stop solr, the following command can be used
+
+```
+[To the directory of Apache Solr-8.0.0] bin/solr stop 
+```
+
+## Indexing the crawled files
+
+Following step-by-step instructions will help you to index the crawled files.
+
+* Start Solr as a two-node Cluster and create a collection on the startup called **crawled** to store the indexed files on Solr. Press `Enter` key to follow the default setup.
+
+```
+solr-8.0.0:$ ./bin/solr start -e cloud
+
+To begin, how many Solr nodes would you like to run in your local cluster? (specify 1-4 nodes) [2]:[Enter]
+Ok, let's start up 2 Solr nodes for your example SolrCloud cluster.
+Please enter the port for node1 [8983]:[Press Enter]
+Please enter the port for node2 [7574]:[Press Enter]
+
+Now let's create a new collection for indexing documents in your 2-node cluster.
+Please provide a name for your new collection: [gettingstarted]
+[enter your desired collection name. The name we have used here is **crawled**]
+```
+
+* To index the data, enter the required number of shards to split and the replicas needed per shard. Default is 1 if Ubuntu is used as a Virtual Machine or else 2.
+* Choose the configration file for **crawled** collection. Default is *_default*.
+
+```
+How many shards would you like to split techproducts into? [2]
+How many replicas per shard would you like to create? [2]
+Please choose a configuration for the techproducts collection, available options are:
+_default or sample_techproducts_configs [_default] 
+[Press Enter]
+```
+
+* Eventually, You can see that the Apache Solr has been started and you can verify it by launching the Solr Admin UI in your web browser: http://localhost:8983/solr/.
+
+* To index the crawled files, use the following command.
+
+```
+solr-8.0.0:$ bin/post -c crawled [path_where_the_crawled_files_are_stored]/*
+```
+
+* When the above command is executed, all the files in the given location would have been successfully indexed and the output will be similar to the following:
+
+```
+SimplePostTool version 5.0.0
+Posting files to [base] url http://localhost:8983/solr/crawled/update...
+Entering auto mode. File endings considered are xml,json,jsonl,csv,pdf,doc,docx,ppt,pptx,xls,xlsx,odt,odp,ods,ott,otp,ots,rtf,htm,html,txt,log
+POSTing file [filename_1].html (text/html) to [base]
+POSTing file [filename_2].html (text/html) to [base]
+POSTing file [filename_3].html (text/html) to [base]
+POSTing file [filename_4].html (text/html) to [base]
+.....
+
+[Total_number_of_files] files indexed.
+COMMITting Solr index changes to http://localhost:8983/solr/crawled/update...
+Time spent:
+```
+* Now, the data is stored in Solr and this can be verified by typing your search term into the *query* section of *Solr Admin UI console*.
+
+## Post Indexing - Start the Web page
+
+* Start the Apache Solr by using the above mentioned instructions.
+
+* Once the indexing of files has been done, run the **try.html** file in localhost and start searching. The results of the query will be retrieved from solr and displayed on the web page.
+
+`NOTE:` If any CORS Error occurs during the searching process in the Chrome browser, add CORS extension to the browser.  
 
 ## Authors
 
 * **Ashwin Karthik Ambalavanan**
 * **Aditya Vikram Sharma**
-* **Jerold Jacob**
+* **Jerold Jacob Thomas**
 * **Mohanraam Sethuraman**
 * **Paul Simerda**
 
