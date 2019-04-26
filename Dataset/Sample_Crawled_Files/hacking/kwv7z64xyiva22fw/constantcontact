@@ -1,0 +1,3979 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+  
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" class="view-type-desktop client-type-desktop client-browser-unknown client-browser-group-unknown" id="page-">
+  <head>
+    
+    
+<script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={xpid:"UwYAV1BACQQFXVdbAQ=="};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(t){try{c.console&&console.log(t)}catch(e){}}var o,i=t("ee"),a=t(13),c={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(c.console=!0,o.indexOf("dev")!==-1&&(c.dev=!0),o.indexOf("nr_dev")!==-1&&(c.nrDev=!0))}catch(s){}c.nrDev&&i.on("internal-error",function(t){r(t.stack)}),c.dev&&i.on("fn-err",function(t,e,n){r(n.stack)}),c.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(c,function(t,e){return t}).join(", ")))},{}],2:[function(t,e,n){function r(t,e,n,r,c){try{p?p-=1:o(c||new UncaughtException(t,e,n),!0)}catch(f){try{i("ierr",[f,s.now(),!0])}catch(d){}}return"function"==typeof u&&u.apply(this,a(arguments))}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function o(t,e){var n=e?null:s.now();i("err",[t,n])}var i=t("handle"),a=t(14),c=t("ee"),s=t("loader"),f=t("gos"),u=window.onerror,d=!1,l="nr@seenError",p=0;s.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(h){"stack"in h&&(t(5),t(4),"addEventListener"in window&&t(3),s.xhrWrappable&&t(6),d=!0)}c.on("fn-start",function(t,e,n){d&&(p+=1)}),c.on("fn-err",function(t,e,n){d&&!n[l]&&(f(n,l,function(){return!0}),this.thrown=!0,o(n))}),c.on("fn-end",function(){d&&!this.thrown&&p>0&&(p-=1)}),c.on("internal-error",function(t){i("ierr",[t,s.now(),!0])})},{}],3:[function(t,e,n){function r(t){for(var e=t;e&&!e.hasOwnProperty(u);)e=Object.getPrototypeOf(e);e&&o(e)}function o(t){c.inPlace(t,[u,d],"-",i)}function i(t,e){return t[1]}var a=t("ee").get("events"),c=t(16)(a,!0),s=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";e.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,e){var n=t[1],r=s(n,"nr@wrapped",function(){function t(){if("function"==typeof n.handleEvent)return n.handleEvent.apply(n,arguments)}var e={object:t,"function":n}[typeof n];return e?c(e,"fn-",null,e.name||"anonymous"):n});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],4:[function(t,e,n){var r=t("ee").get("raf"),o=t(16)(r),i="equestAnimationFrame";e.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],5:[function(t,e,n){function r(t,e,n){t[0]=a(t[0],"fn-",null,n)}function o(t,e,n){this.method=n,this.timerDuration=isNaN(t[1])?0:+t[1],t[0]=a(t[0],"fn-",this,n)}var i=t("ee").get("timer"),a=t(16)(i),c="setTimeout",s="setInterval",f="clearTimeout",u="-start",d="-";e.exports=i,a.inPlace(window,[c,"setImmediate"],c+d),a.inPlace(window,[s],s+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(s+u,r),i.on(c+u,o)},{}],6:[function(t,e,n){function r(t,e){d.inPlace(e,["onreadystatechange"],"fn-",c)}function o(){var t=this,e=u.context(t);t.readyState>3&&!e.resolved&&(e.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,w,"fn-",c)}function i(t){g.push(t),h&&(b?b.then(a):v?v(a):(E=-E,O.data=E))}function a(){for(var t=0;t<g.length;t++)r([],g[t]);g.length&&(g=[])}function c(t,e){return e}function s(t,e){for(var n in t)e[n]=t[n];return e}t(3);var f=t("ee"),u=f.get("xhr"),d=t(16)(u),l=NREUM.o,p=l.XHR,h=l.MO,m=l.PR,v=l.SI,y="readystatechange",w=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],g=[];e.exports=u;var x=window.XMLHttpRequest=function(t){var e=new p(t);try{u.emit("new-xhr",[e],e),e.addEventListener(y,o,!1)}catch(n){try{u.emit("internal-error",[n])}catch(r){}}return e};if(s(p,x),x.prototype=p.prototype,d.inPlace(x.prototype,["open","send"],"-xhr-",c),u.on("send-xhr-start",function(t,e){r(t,e),i(e)}),u.on("open-xhr-start",r),h){var b=m&&m.resolve();if(!v&&!m){var E=1,O=document.createTextNode(E);new h(a).observe(O,{characterData:!0})}}else f.on("fn-end",function(t){t[0]&&t[0].type===y||a()})},{}],7:[function(t,e,n){function r(t){var e=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<d;r++)t.removeEventListener(u[r],this.listener,!1);if(!e.aborted){if(n.duration=a.now()-this.startTime,4===t.readyState){e.status=t.status;var i=o(t,this.lastSize);if(i&&(n.rxSize=i),this.sameOrigin){var s=t.getResponseHeader("X-NewRelic-App-Data");s&&(e.cat=s.split(", ").pop())}}else e.status=0;n.cbTime=this.cbTime,f.emit("xhr-done",[t],t),c("xhr",[e,n,this.startTime])}}}function o(t,e){var n=t.responseType;if("json"===n&&null!==e)return e;var r="arraybuffer"===n||"blob"===n||"json"===n?t.response:t.responseText;return h(r)}function i(t,e){var n=s(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}var a=t("loader");if(a.xhrWrappable){var c=t("handle"),s=t(8),f=t("ee"),u=["load","error","abort","timeout"],d=u.length,l=t("id"),p=t(11),h=t(10),m=window.XMLHttpRequest;a.features.xhr=!0,t(6),f.on("new-xhr",function(t){var e=this;e.totalCbs=0,e.called=0,e.cbTime=0,e.end=r,e.ended=!1,e.xhrGuids={},e.lastSize=null,p&&(p>34||p<10)||window.opera||t.addEventListener("progress",function(t){e.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,e){var n=this.metrics,r=t[0],o=this;if(n&&r){var i=h(r);i&&(n.txSize=i)}this.startTime=a.now(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof e.onload))&&o.end(e)}catch(n){try{f.emit("internal-error",[n])}catch(r){}}};for(var c=0;c<d;c++)e.addEventListener(u[c],this.listener,!1)}),f.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),f.on("xhr-load-added",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],e)}),f.on("removeEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],e)}),f.on("fn-start",function(t,e,n){e instanceof m&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=a.now()))}),f.on("fn-end",function(t,e){this.xhrCbStart&&f.emit("xhr-cb-time",[a.now()-this.xhrCbStart,this.onload,e],e)})}},{}],8:[function(t,e,n){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!e.protocol||":"===e.protocol||e.protocol===n.protocol,a=e.hostname===document.domain&&e.port===n.port;return r.sameOrigin=i&&(!e.hostname||a),r}},{}],9:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[f.now()].concat(c(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(13),c=t(14),s=t("ee").get("tracer"),f=t("loader"),u=NREUM;"undefined"==typeof window.newrelic&&(newrelic=u);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],l="api-",p=l+"ixn-";a(d,function(t,e){u[e]=o(l+e,!0,"api")}),u.addPageAction=o(l+"addPageAction",!0),u.setCurrentRouteName=o(l+"routeName",!0),e.exports=newrelic,u.interaction=function(){return(new r).get()};var h=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(p+"tracer",[f.now(),t,n],r),function(){if(s.emit((o?"":"no-")+"fn-start",[f.now(),r,o],n),o)try{return e.apply(this,arguments)}catch(t){throw s.emit("fn-err",[arguments,this,t],n),t}finally{s.emit("fn-end",[f.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){h[e]=o(p+e)}),newrelic.noticeError=function(t,e){"string"==typeof t&&(t=new Error(t)),i("err",[t,f.now(),!1,e])}},{}],10:[function(t,e,n){e.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(e){return}}}},{}],11:[function(t,e,n){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),e.exports=r},{}],12:[function(t,e,n){function r(t,e){if(!o)return!1;if(t!==o)return!1;if(!e)return!0;if(!i)return!1;for(var n=i.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var c=navigator.userAgent,s=c.match(a);s&&c.indexOf("Chrome")===-1&&c.indexOf("Chromium")===-1&&(o="Safari",i=s[1])}e.exports={agent:o,version:i,match:r}},{}],13:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],14:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],15:[function(t,e,n){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],16:[function(t,e,n){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(14),a="nr@original",c=Object.prototype.hasOwnProperty,s=!1;e.exports=function(t,e){function n(t,e,n,o){function nrWrapper(){var r,a,c,s;try{a=this,r=i(arguments),c="function"==typeof n?n(r,a):n||{}}catch(f){l([f,"",[r,a,o],c])}u(e+"start",[r,a,o],c);try{return s=t.apply(a,r)}catch(d){throw u(e+"err",[r,a,d],c),d}finally{u(e+"end",[r,a,s],c)}}return r(t)?t:(e||(e=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,e,o,i){o||(o="");var a,c,s,f="-"===o.charAt(0);for(s=0;s<e.length;s++)c=e[s],a=t[c],r(a)||(t[c]=n(a,f?c+o:o,i,c))}function u(n,r,o){if(!s||e){var i=s;s=!0;try{t.emit(n,r,o,e)}catch(a){l([a,n,r,o])}s=i}}function d(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){l([r])}for(var o in t)c.call(t,o)&&(e[o]=t[o]);return e}function l(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=o),n.inPlace=f,n.flag=a,n}},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?s(t,c,i):i()}function n(n,r,o,i){if(!l.aborted||i){t&&t(n,r,o);for(var a=e(o),c=m(n),s=c.length,f=0;f<s;f++)c[f].apply(a,r);var d=u[g[n]];return d&&d.push([x,n,r,a]),a}}function p(t,e){w[t]=m(t).concat(e)}function h(t,e){var n=w[t];if(n)for(var r=0;r<n.length;r++)n[r]===e&&n.splice(r,1)}function m(t){return w[t]||[]}function v(t){return d[t]=d[t]||o(n)}function y(t,e){f(t,function(t,n){e=e||"feature",g[n]=e,e in u||(u[e]=[])})}var w={},g={},x={on:p,addEventListener:p,removeEventListener:h,emit:n,get:v,listeners:m,context:e,buffer:y,abort:a,aborted:!1};return x}function i(){return new r}function a(){(u.api||u.feature)&&(l.aborted=!0,u=l.backlog={})}var c="nr@context",s=t("gos"),f=t(13),u={},d={},l=e.exports=o();l.backlog=u},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!E++){var t=b.info=NREUM.info,e=p.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return u.abort();f(g,function(e,n){t[e]||(t[e]=n)}),s("mark",["onload",a()+b.offset],null,"api");var n=p.createElement("script");n.src="https://"+t.agent,e.parentNode.insertBefore(n,e)}}function o(){"complete"===p.readyState&&i()}function i(){s("mark",["domContent",a()+b.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(c=Math.max((new Date).getTime(),c))-b.offset}var c=(new Date).getTime(),s=t("handle"),f=t(13),u=t("ee"),d=t(12),l=window,p=l.document,h="addEventListener",m="attachEvent",v=l.XMLHttpRequest,y=v&&v.prototype;NREUM.o={ST:setTimeout,SI:l.setImmediate,CT:clearTimeout,XHR:v,REQ:l.Request,EV:l.Event,PR:l.Promise,MO:l.MutationObserver};var w=""+location,g={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},x=v&&y&&y[h]&&!/CriOS/.test(navigator.userAgent),b=e.exports={offset:c,now:a,origin:w,features:{},xhrWrappable:x,userAgent:d};t(9),p[h]?(p[h]("DOMContentLoaded",i,!1),l[h]("load",r,!1)):(p[m]("onreadystatechange",o),l[m]("onload",r)),s("mark",["firstbyte",c],null,"api");var E=0,O=t(15)},{}]},{},["loader",2,7]);</script><style type="text/css">
+      #cc-content-sub-inner {
+        min-height: 650px;
+      }
+    </style>
+    
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+      <link rel="image_src" href="ACCOUNT.IMAGE.2" / >
+            
+              
+                <meta name="description" content="You're invited to ISSA Oklahoma's monthly meeting .  
+
+Agenda:
+	New Member & Visitor Introductions
+	Approval of Minutes from Last Meeting 
+	Officers Reports
+	Chair & Committee Reports
+	Announcements
+	Old Business
+	New Business
+	Presentation
+	Closing Announcement" />
+              
+              
+              
+              
+            
+            
+              <meta name="keywords" content="security, cyber, information" />
+             
+
+            <link href="https://imgssl.constantcontact.com/ced/layouts/layout-1.css?version=20161010091324" rel="stylesheet" type="text/css" id="cc-layout-css"/>
+            <link href="https://imgssl.constantcontact.com/ced/themes/base.css?version=20161010091324" rel="stylesheet" type="text/css" id="cc-base-css"/>
+            <link href="https://imgssl.constantcontact.com/ced/themes/business-3/business-3.css?version=20161010091324" rel="stylesheet" type="text/css" id="cc-theme-css"/>
+
+            <!-- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- -->
+            <title>ISSA Oklahoma Chapter April 2019 Meeting</title>
+            <!-- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- -->
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+ 
+     
+ 
+
+    
+
+ 
+
+
+
+    
+    
+    
+        
+        
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+            
+                <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+            
+        
+    
+
+    <link href="/core/css/jquery-ui/1.8.17/jquery.ui.base.css?version=20161010091324" media="all" rel="stylesheet" type="text/css"/>
+
+
+
+
+    
+        
+        
+            
+            
+        
+    
+    
+    
+        <script src="/core/js/jquery/1.7.1/plugins/jquery.cc.maxlength.js?version=20161010091324" language="javascript" id="javascript"></script>
+        
+        
+    
+        <script src="/core/js/jquery/1.7.1/plugins/jquery.scrollTo.js?version=20161010091324" language="javascript" id="javascript"></script>
+        
+        
+    
+    
+
+
+
+    
+         
+             
+            
+        
+        
+    
+    
+    <script>
+        jQuery.noConflict();
+    </script>
+      
+
+
+
+            
+            
+              
+                <script src="/core/js/jquery/utils/identifier.js?version=20161010091324" type="text/javascript" language="javascript" id="javascript"></script>
+              
+            
+            
+            
+            
+
+            
+                
+
+
+
+
+
+<script type="text/javascript" src="/core/components/uxCommon/cc.overlay.js?20161010091324"></script>
+<script type="text/javascript" src="/core/js/jquery/1.5.2/plugins/jquery.ux.infoPopup.js?20161010091324"></script>
+<link href="/core/css/jquery/1.5.2/plugins/jquery.ux.infoPopup.css?20161010091324" media="all" rel="stylesheet" type="text/css"/>
+
+
+<script type="text/javascript" src="/resource/js/evp/common/frameworks/jquery/plugin/validate/jquery.validate.min.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/util/util-lang.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/util/util-log.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/util/util-component.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/util/util-select.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/util/util-context.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/data.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/ui.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/user/tracking.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/common/global.js?20161010091324"></script>
+<link href="/resource/css/evp/common/event/component/payment/option/propay/propay-common.css?20161010091324" rel="stylesheet" type="text/css" media="all"/>
+<link href="/resource/css/evp/common/global.css?20161010091324" rel="stylesheet" type="text/css" media="all"/>
+
+
+<script type="text/javascript" src="/resource/js/evp/registrant/global.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/registrant/event/component/registrants/registrants.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/registrant/event/component/payment/option/propay/propay.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/registrant/workflow/review/review.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/registrant/decline/workflow/so/decline.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/registrant/register/items.js?20161010091324"></script>
+<script type="text/javascript" src="/resource/js/evp/registrant/register/registration.js?20161010091324"></script>
+<link href="/resource/css/evp/registrant/global.css?20161010091324" rel="stylesheet" type="text/css" media="all"/>
+<link href="/resource/css/evp/registrant/event/component/registrants.css?20161010091324" rel="stylesheet" type="text/css" media="all"/>
+<link href="/resource/css/evp/registrant/event/component/payment/option/propay.css?20161010091324" rel="stylesheet" type="text/css" media="all"/>
+
+
+
+<script type="text/javascript">
+    evp.common.context.addConfig({
+        model : {
+            defaultRequestData : {
+                'oeidk' : 'a07efzxhj8a3b635eb7'
+            }
+        }
+    });
+</script>
+
+
+
+
+            
+
+            
+            </head>
+            <!-- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- -->
+            <!-- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- -->
+            <body>
+              
+              
+
+              <div id="cc-container" class="cc-document">
+                <div id="cc-branding-outer"> 
+                  
+                  <div id="cc-branding-inner" class="cc-panel" align="LEFT">
+                    
+                  </div>
+                  <div id="cc-positioned-1"></div>
+                  <div id="cc-positioned-2"></div>
+                </div>
+
+                <div id="cc-content-outer">
+                  <div id="cc-content-inner">
+                    <div id="cc-positioned-3"></div>
+                    <div id="cc-positioned-4"></div>
+                    
+                      <div id="cc-content-sub-outer">
+                        <div id="cc-content-sub-inner" class="cc-panel">
+                          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="cc-block">
+        <h3 id="event_dateTime">When</h3>
+        <span id="span_event_dateTime_full_multiline">Monday, April 8, 2019 from 11:30 AM to 1:00 PM CDT</span>
+        <br />
+        <a id="lnkAddToCalendar" class="cc-calendar" href="/register/addtocalendar?oeidk=a07efzxhj8a3b635eb7" title="Add to Calendar">Add to Calendar</a>
+    </div>
+
+
+    <div class="cc-block">
+        <h3 id="event_where">Where</h3>
+    	<span id="span_event_where_multiline">
+		    
+                
+                
+                    <b>Spirit Bank</b>
+                    <br />
+                    
+                        <p>1800 S Baltimore Ave<br />Tulsa, OK 74119</p>
+                    
+                    
+                        
+                        
+                            
+                            <img id="map" src="https://api.tiles.virtualearth.net/api/GetMap.ashx?ppl=24,,36.13555,-95.98667&z=12&h=200&w=200
+          " alt="Event Address Map"/>
+                            <br />
+                            
+
+                            
+                                <a id="drive_dir_link_2" target="_blank" href="http://maps.google.com/maps?daddr=1800+S+Baltimore+Ave,Tulsa,OK+74119+us">Driving Directions</a>
+                                
+                            
+                            
+
+                        
+                    
+                
+            
+	    </span>
+    </div>
+
+
+    <div class="cc-block">
+        <h3 id="event_contact">Contact</h3>
+    	<span id="span_event_contact_multiline">
+		    
+                <b>ISSA Oklahoma Chapter</b><br />
+                
+                    ISSA Oklahoma<br />
+                
+                
+                
+                    <a href="mailto:info@oklahoma.issa.org"> info@oklahoma.issa.org</a><br />
+                
+            
+		    
+    	</span>
+    </div>
+
+
+    
+        
+
+
+
+
+
+
+
+
+
+<div id="event-registrants-component-overlay" class="overlay-target">
+    <div class="registrants">
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Alex Bliskavka</div>
+    <div class="registrant-business">
+        
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Jason Bougetz</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">US Cellular</span>
+        
+             - 
+            <span class="registrant-business-job-title">IS Security Operations Analyst 2</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Gina Bradley</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">The University of Tulsa</span>
+        
+             - 
+            <span class="registrant-business-job-title">Security Analyst II</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Spencer Bright</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Bank of Oklahoma</span>
+        
+             - 
+            <span class="registrant-business-job-title">Information Security Risk Consultant</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Craig Buchanan</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">City of Stillwater Oklahoma</span>
+        
+             - 
+            <span class="registrant-business-job-title">Security Administrator</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Danny Cox</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">BOK Financial</span>
+        
+             - 
+            <span class="registrant-business-job-title">Information Security Risk Consultant</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Wes DeVault</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Cimarex Energy Co</span>
+        
+             - 
+            <span class="registrant-business-job-title">CISO</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Chris Dixon</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">TokenEx</span>
+        
+             - 
+            <span class="registrant-business-job-title">GRC Manager</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Kraig Faulkner</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Symantec</span>
+        
+             - 
+            <span class="registrant-business-job-title">Systems Engineer</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Tara Garrett</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">BOK Financial</span>
+        
+             - 
+            <span class="registrant-business-job-title">Information Security Risk Analyst</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Kisha Jefferson</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Oklahoma Central Credit Union</span>
+        
+             - 
+            <span class="registrant-business-job-title">IT Infrastructure & Information Security Manager</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Marty Jennings</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Palo Alto Networks</span>
+        
+             - 
+            <span class="registrant-business-job-title">Palo Alto Networks</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Todd Johnson</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Vacuworx Global, LLC</span>
+        
+             - 
+            <span class="registrant-business-job-title">Vacuworx Global, LLC</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Michael Jones</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">ONEGas</span>
+        
+             - 
+            <span class="registrant-business-job-title">Supervisor Enterprise Security</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Jonathan Kimmitt</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">The University of Tulsa</span>
+        
+             - 
+            <span class="registrant-business-job-title">Mr.</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Alex Long</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Waterfield Energy</span>
+        
+             - 
+            <span class="registrant-business-job-title">Manager of Information Security</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Austin Manuel</div>
+    <div class="registrant-business">
+        
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Jennifer Morrow</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Avansic E-Discovery & Digital Forensics</span>
+        
+             - 
+            <span class="registrant-business-job-title">National Account Executive</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Aaron Moss</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">True Digital Security</span>
+        
+             - 
+            <span class="registrant-business-job-title">Security Consultant</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Tim Potter</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Matrix Service Company</span>
+        
+             - 
+            <span class="registrant-business-job-title">IT Security Manager</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Randy Roberts</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">The University of Tulsa</span>
+        
+             - 
+            <span class="registrant-business-job-title">The University of Tulsa</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Joy Scoggin</div>
+    <div class="registrant-business">
+        
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Pedro Serrano</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Cimarex Energy</span>
+        
+             - 
+            <span class="registrant-business-job-title">Security</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Shane Skidgel</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">U.S. Payments</span>
+        
+             - 
+            <span class="registrant-business-job-title">CISO</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Elizabeth Slovick</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Mid-Continent Group</span>
+        
+             - 
+            <span class="registrant-business-job-title">Senior Network Administrator</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Timothy Stadler</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Osage Casinos</span>
+        
+             - 
+            <span class="registrant-business-job-title">Osage Casinos</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Nathan Sweaney</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Secure Ideas</span>
+        
+             - 
+            <span class="registrant-business-job-title">Secure Ideas</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Steve Swinney</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Berendsen Fluid Power</span>
+        
+             - 
+            <span class="registrant-business-job-title">Berendsen Fluid Power</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Susan Teague</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Cylance</span>
+        
+             - 
+            <span class="registrant-business-job-title">Consulting Sales Director</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Reid VanDeventer</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">The University of Tulsa</span>
+        
+             - 
+            <span class="registrant-business-job-title">Security Analyst II</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Ryan Warren</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">H&P</span>
+        
+             - 
+            <span class="registrant-business-job-title">H&P</span>
+        
+    </div>
+</div>
+        
+    </div>
+</div>
+
+<div id="event-registrants-component" class="cc-block">
+
+    <h3>Look Who Else is Registered!</h3>
+
+    <div id="event-registrants" class="registrants">
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Alex Bliskavka</div>
+    <div class="registrant-business">
+        
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Jason Bougetz</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">US Cellular</span>
+        
+             - 
+            <span class="registrant-business-job-title">IS Security Operations Analyst 2</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Gina Bradley</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">The University of Tulsa</span>
+        
+             - 
+            <span class="registrant-business-job-title">Security Analyst II</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Spencer Bright</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Bank of Oklahoma</span>
+        
+             - 
+            <span class="registrant-business-job-title">Information Security Risk Consultant</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Craig Buchanan</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">City of Stillwater Oklahoma</span>
+        
+             - 
+            <span class="registrant-business-job-title">Security Administrator</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Danny Cox</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">BOK Financial</span>
+        
+             - 
+            <span class="registrant-business-job-title">Information Security Risk Consultant</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Wes DeVault</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Cimarex Energy Co</span>
+        
+             - 
+            <span class="registrant-business-job-title">CISO</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Chris Dixon</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">TokenEx</span>
+        
+             - 
+            <span class="registrant-business-job-title">GRC Manager</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-even">
+    <div class="registrant-name">Kraig Faulkner</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">Symantec</span>
+        
+             - 
+            <span class="registrant-business-job-title">Systems Engineer</span>
+        
+    </div>
+</div>
+        
+            
+            
+            
+
+<div class="registrant registrant-odd">
+    <div class="registrant-name">Tara Garrett</div>
+    <div class="registrant-business">
+        <span class="registrant-business-company">BOK Financial</span>
+        
+             - 
+            <span class="registrant-business-job-title">Information Security Risk Analyst</span>
+        
+    </div>
+</div>
+        
+
+        
+            <a id="registrants-all-link" href="#">View All</a>
+        
+    </div>
+
+</div>
+    
+
+ 
+
+
+
+
+                        </div>
+                      </div>
+                    
+                    <div id="cc-content" class="cc-panel">
+                        <div id="evm-rcol-container" class="evm-rcol-regrmc">
+                      <h1><span id="span_event_title">ISSA Oklahoma Chapter April 2019 Meeting</span></h1>
+                        
+                          <p>You're invited to ISSA Oklahoma's monthly meeting .  
+
+Agenda:
+	New Member & Visitor Introductions
+	Approval of Minutes from Last Meeting 
+	Officers Reports
+	Chair & Committee Reports
+	Announcements
+	Old Business
+	New Business
+	Presentation
+	Closing Announcement</p>
+                        
+                      
+                      
+                      <div id="reg-preview-message" data-reg-preview='{"inPreviewMode":false,"previewType":null}'></div>
+                                          
+                      
+                      
+                            
+                      
+                      
+
+
+
+
+
+
+
+
+<form id="evp_registration_base_id" action="/register/eventReg?oeidk=a07efzxhj8a3b635eb7" method="post">
+    
+    
+        
+    
+    
+
+
+
+
+
+
+
+
+<script src="/core/js/BrowserDetect.js?version=20161010091324" type="text/javascript" language="javascript" id="javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    var regStringValues = {
+        paymentSummaryTable:{
+            registrantName: "Name",
+            feeType: "Type",
+            feeQuantity: "Quantity",
+            feeName: "Fee",
+            total: "Total",
+            itemName: "Additional Items",
+            itemOption: "Option",
+            itemQuantity: "Quantity",
+            itemPrice: "Price",
+            itemTotal: "Total"
+        },
+        paymentOptions:{
+            credit: "ONLINE_CREDIT_CARD_PROCESSOR",
+            paypal: "PAYPAL",
+            google: "GOOGLE_CHECKOUT",
+            check: "CHECK",
+            door: "DOOR"
+        },
+        currentEventStatus: "ACTIVE",
+        eventStatusDraft: "DRAFT",
+        discount: "Discount",
+        continueText: "Continue",
+        submitText: "Register",
+        promocodeDuplicate: "Code has been applied.  See below.",
+        subTotal: "Subtotal:",
+        orderSubTotal: "Order Subtotal:",
+        degenerativeGuestName: "Guest(s)"
+
+    };
+</script>
+<div id="reg_form">
+    <div class="right_col">
+        
+        <input id="registrant.id.eventUid" name="registrant.id.eventUid" type="hidden" value="1131922593946"/>
+        <input id="registrant.id.trackName" name="registrant.id.trackName" type="hidden" value="Attendee"/>
+        <input id="registrant.id.subscriberSeqNo" name="registrant.id.subscriberSeqNo" type="hidden" value=""/>
+        <input id="registrant.key" name="registrant.key" type="hidden" value="4edf6232"/>
+        
+        
+        
+        <p class="evm-txt-requiredinfo"><span class="required-mark">*</span> Required information</p>
+        
+        
+            
+                
+                
+                
+
+                
+                	
+                    
+	                
+	                	<div class="reg-section">
+		                     
+		                    <h2 id="section-default">Personal Information</h2>
+		                    <ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        <span id="id_required_field_mark_nameFirst" class="required-mark">*</span>
+        <label id="id_text_field_label_nameFirst" for="id_text_nameFirst">First Name:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_nameFirst" name="registrant.nameFirst" maxlength="50" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        <span id="id_required_field_mark_nameLast" class="required-mark">*</span>
+        <label id="id_text_field_label_nameLast" for="id_text_nameLast">Last Name:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_nameLast" name="registrant.nameLast" maxlength="50" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        <span id="id_required_field_mark_emailAddress" class="required-mark">*</span>
+        <label id="id_text_field_label_emailAddress" for="id_text_emailAddress">Email Address:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_emailAddress" name="registrant.emailAddress" maxlength="80" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+        <li>
+            <span id="id_required_field_mark_emailAddress" class="required-mark">*</span>
+            <label id="emailAddress2_Label" for="emailAddress2">Confirm Email Address:</label>
+            <input autocomplete="off" id="emailAddress2" type="text" name="emailCheck" value="" size="50" maxlength="80"/>
+            
+                
+            
+        </li>
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+                
+                
+            
+            
+        
+    
+
+
+
+
+
+
+
+
+
+
+    <li>
+    <span id="id_required_field_mark_personalCustom1" class="required-mark">*</span>
+    
+        
+            
+            <label id="id_single_select_label_personalCustom1" for="id_select_personalCustom1">Are you currently a member of the ISSA Oklahoma Chapter?</label>
+            
+                
+                
+                
+                    <select name="registrant.personalCustom1" id="id_select_personalCustom1" >
+                        <option value="">--Choose--</option>
+                        
+                            
+                                <option value="0" >Yes</option>
+                            
+                        
+                            
+                                <option value="1" >No</option>
+                            
+                        
+                    </select>
+                    
+                        
+                        
+                        
+                        
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+                    
+                    </li>
+                
+            
+        
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+                
+                
+            
+            
+        
+    
+
+
+
+
+
+
+
+
+
+
+    <li>
+    <span id="id_required_field_mark_personalCustom2" class="required-mark">*</span>
+    
+        
+            
+            <label id="id_single_select_label_personalCustom2" for="id_select_personalCustom2">Do you require or need the CPE Credit certificate for this meeting?</label>
+            
+                
+                
+                
+                    <select name="registrant.personalCustom2" id="id_select_personalCustom2" >
+                        <option value="">--Choose--</option>
+                        
+                            
+                                <option value="0" >Yes</option>
+                            
+                        
+                            
+                                <option value="1" >No</option>
+                            
+                        
+                    </select>
+                    
+                        
+                        
+                        
+                        
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+                    
+                    </li>
+                
+            
+        
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        
+        <label id="id_text_field_label_personalPhone" for="id_text_personalPhone">Phone:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_personalPhone" name="registrant.personalPhone" maxlength="25" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        
+        <label id="id_text_field_label_personalAddress1" for="id_text_personalAddress1">Address 1:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_personalAddress1" name="registrant.personalAddress1" maxlength="50" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        
+        <label id="id_text_field_label_personalAddress2" for="id_text_personalAddress2">Address 2:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_personalAddress2" name="registrant.personalAddress2" maxlength="50" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        
+        <label id="id_text_field_label_personalCity" for="id_text_personalCity">City:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_personalCity" name="registrant.personalCity" maxlength="50" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+
+
+
+
+    <li>
+    
+    
+        
+            
+            <label id="id_single_select_label_personalState" for="id_select_personalState">State:</label>
+            
+                
+                
+                
+                    <select name="registrant.personalState" id="id_select_personalState" >
+                        <option value="">--Choose--</option>
+                        
+                            
+                                <option value="AL" >Alabama</option>
+                            
+                        
+                            
+                                <option value="AK" >Alaska</option>
+                            
+                        
+                            
+                                <option value="AZ" >Arizona</option>
+                            
+                        
+                            
+                                <option value="AR" >Arkansas</option>
+                            
+                        
+                            
+                                <option value="CA" >California</option>
+                            
+                        
+                            
+                                <option value="CO" >Colorado</option>
+                            
+                        
+                            
+                                <option value="CT" >Connecticut</option>
+                            
+                        
+                            
+                                <option value="DE" >Delaware</option>
+                            
+                        
+                            
+                                <option value="DC" >District of Columbia</option>
+                            
+                        
+                            
+                                <option value="FL" >Florida</option>
+                            
+                        
+                            
+                                <option value="GA" >Georgia</option>
+                            
+                        
+                            
+                                <option value="HI" >Hawaii</option>
+                            
+                        
+                            
+                                <option value="ID" >Idaho</option>
+                            
+                        
+                            
+                                <option value="IL" >Illinois</option>
+                            
+                        
+                            
+                                <option value="IN" >Indiana</option>
+                            
+                        
+                            
+                                <option value="IA" >Iowa</option>
+                            
+                        
+                            
+                                <option value="KS" >Kansas</option>
+                            
+                        
+                            
+                                <option value="KY" >Kentucky</option>
+                            
+                        
+                            
+                                <option value="LA" >Louisiana</option>
+                            
+                        
+                            
+                                <option value="ME" >Maine</option>
+                            
+                        
+                            
+                                <option value="MD" >Maryland</option>
+                            
+                        
+                            
+                                <option value="MA" >Massachusetts</option>
+                            
+                        
+                            
+                                <option value="MI" >Michigan</option>
+                            
+                        
+                            
+                                <option value="MN" >Minnesota</option>
+                            
+                        
+                            
+                                <option value="MS" >Mississippi</option>
+                            
+                        
+                            
+                                <option value="MO" >Missouri</option>
+                            
+                        
+                            
+                                <option value="MT" >Montana</option>
+                            
+                        
+                            
+                                <option value="NE" >Nebraska</option>
+                            
+                        
+                            
+                                <option value="NV" >Nevada</option>
+                            
+                        
+                            
+                                <option value="NH" >New Hampshire</option>
+                            
+                        
+                            
+                                <option value="NJ" >New Jersey</option>
+                            
+                        
+                            
+                                <option value="NM" >New Mexico</option>
+                            
+                        
+                            
+                                <option value="NY" >New York</option>
+                            
+                        
+                            
+                                <option value="NC" >North Carolina</option>
+                            
+                        
+                            
+                                <option value="ND" >North Dakota</option>
+                            
+                        
+                            
+                                <option value="OH" >Ohio</option>
+                            
+                        
+                            
+                                <option value="OK" >Oklahoma</option>
+                            
+                        
+                            
+                                <option value="OR" >Oregon</option>
+                            
+                        
+                            
+                                <option value="PA" >Pennsylvania</option>
+                            
+                        
+                            
+                                <option value="RI" >Rhode Island</option>
+                            
+                        
+                            
+                                <option value="SC" >South Carolina</option>
+                            
+                        
+                            
+                                <option value="SD" >South Dakota</option>
+                            
+                        
+                            
+                                <option value="TN" >Tennessee</option>
+                            
+                        
+                            
+                                <option value="TX" >Texas</option>
+                            
+                        
+                            
+                                <option value="UT" >Utah</option>
+                            
+                        
+                            
+                                <option value="VT" >Vermont</option>
+                            
+                        
+                            
+                                <option value="VA" >Virginia</option>
+                            
+                        
+                            
+                                <option value="WA" >Washington</option>
+                            
+                        
+                            
+                                <option value="WV" >West Virginia</option>
+                            
+                        
+                            
+                                <option value="WI" >Wisconsin</option>
+                            
+                        
+                            
+                                <option value="WY" >Wyoming</option>
+                            
+                        
+                            
+                                <option value="" >--------------</option>
+                            
+                        
+                            
+                                <option value="AB" >Alberta</option>
+                            
+                        
+                            
+                                <option value="BC" >British Columbia</option>
+                            
+                        
+                            
+                                <option value="MB" >Manitoba</option>
+                            
+                        
+                            
+                                <option value="NB" >New Brunswick</option>
+                            
+                        
+                            
+                                <option value="NL" >Newfoundland and Labrador</option>
+                            
+                        
+                            
+                                <option value="NT" >Northwest Territories</option>
+                            
+                        
+                            
+                                <option value="NS" >Nova Scotia</option>
+                            
+                        
+                            
+                                <option value="NU" >Nunavut</option>
+                            
+                        
+                            
+                                <option value="ON" >Ontario</option>
+                            
+                        
+                            
+                                <option value="PE" >Prince Edward Island</option>
+                            
+                        
+                            
+                                <option value="QC" >Quebec</option>
+                            
+                        
+                            
+                                <option value="SK" >Saskatchewan</option>
+                            
+                        
+                            
+                                <option value="YT" >Yukon Territory</option>
+                            
+                        
+                    </select>
+                    
+                        
+                        
+                        
+                        
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+                    
+                    </li>
+                
+            
+        
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        
+        <label id="id_text_field_label_personalZip" for="id_text_personalZip">ZIP Code:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_personalZip" name="registrant.personalZip" maxlength="25" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+                
+                
+            
+            
+        
+    
+
+
+
+
+
+
+
+
+
+
+    <li>
+    <span id="id_required_field_mark_personalCustom3" class="required-mark">*</span>
+    
+        
+            
+            <label id="id_single_select_label_personalCustom3" for="id_select_personalCustom3">Do you want to OPT in to share your contact information with the sponsor for this meeting?</label>
+            
+                
+                
+                
+                    <select name="registrant.personalCustom3" id="id_select_personalCustom3" >
+                        <option value="">--Choose--</option>
+                        
+                            
+                                <option value="0" >No</option>
+                            
+                        
+                            
+                                <option value="1" >Yes</option>
+                            
+                        
+                    </select>
+                    
+                        
+                        
+                        
+                        
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+                    
+                    </li>
+                
+            
+        
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li id="reg-section-promocode">
+        <h2 id="section-promocode">Promo Code</h2>
+        <div id="promocode-msg" class="tooltip " style="display:none;">
+            <p></p>
+            <div class="arrow-down"></div>
+        </div>
+        <div class="promocode-box">
+            <label for="promocode-input"> Enter Code: </label>
+            <input id="promocode-input" type="text" name="registrant.promoCode" value="" maxlength="12"/>
+            <input type="hidden" name="promoCodeSubmit" value="false" />
+            <input id="prev-promocode" type="hidden" name="previousValidPromoCode" value="" />
+            <input type="hidden" name="allRegistrantFeesHidden" value="false" />
+            <input type="hidden" name="allGuestFeesHidden" value="false" />
+            <a id="promo-code-apply" class="cc-btn-primary" href="#">Apply</a>
+             
+            <input type="hidden" name="discountPromoCodeType" value="" />
+            <input type="hidden" name="discountScopeEntireOrder" value="" />
+            <input type="hidden" name="discountPercent" value="" />
+            <input type="hidden" name="discountAmount" value="" />
+        </div>
+        
+  </li>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+    
+    <li>
+        <h3>Fee</h3>
+        <table id="table-fee-default-0">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th class="evp-cost">Fee</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            
+            
+            
+                
+                
+            
+            
+                <tr id="idFee_default_0"
+                    class="feeItem fee-reg">
+                    <td>
+                        <input type="hidden" name="fee_label" value="Event fee"  />
+                        <input type="hidden" name="fee_amt" value="10.0"  />
+                        <input type="hidden" name="discounted_fee" value=""  />
+                        <input type="hidden" name="discount_amount" value="0.00"  />
+                        <input id="idFee_default_0" type="radio" name="registrant.feeIdDto" value="WIeMatWfxajqj-Y62pvJx4PJUvBGM9P1V53KQcYO8Aw" style="display: none;"
+                                 checked="checked" />
+                        <label for="idFee_default_0">Event fee</label>
+                    
+                        
+                    </td>
+                    <td class="evp-cost"><span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">10.00</span> </td>
+                </tr>
+            
+            </tbody>
+        </table>
+    </li>
+
+</ul>
+		                </div>
+	                
+            	
+
+            
+
+        
+            
+                
+                
+                
+
+                
+                	
+                    
+	                
+	                	<div class="reg-section">
+		                     
+		                    <h2 id="section-business">Business Information</h2>
+		                    <ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        
+        <label id="id_text_field_label_businessCompany" for="id_text_businessCompany">Company:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_businessCompany" name="registrant.businessCompany" maxlength="50" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+            
+                
+            
+        
+    
+
+
+
+
+
+
+    
+        
+        
+    
+    <li>
+        
+        <label id="id_text_field_label_businessJobTitle" for="id_text_businessJobTitle">Job Title:</label>
+        
+            
+            
+            
+                <input type="text" id="id_text_businessJobTitle" name="registrant.businessJobTitle" maxlength="50" size="50" value=""  />
+                
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        
+            
+                
+                
+            
+            
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li>
+        
+        
+            
+            
+                <h3 id="id_multi_select_label_businessCustom1">Do you have one of the following certifications? Select all that apply.</h3>
+                <ul>
+                    
+                        
+                        
+                        
+                            
+                            
+                            
+                                
+                                    
+                                    
+                                    <li style="margin-bottom: 12px;"><input type="checkbox" name="registrant.businessCustom1" id="id_checkbox_0_businessCustom1" value="0"   /><label for="id_checkbox_0_businessCustom1">CISSP</label></li>
+                                
+                            
+                                
+                                    
+                                    
+                                    <li style="margin-bottom: 12px;"><input type="checkbox" name="registrant.businessCustom1" id="id_checkbox_1_businessCustom1" value="1"   /><label for="id_checkbox_1_businessCustom1">CISM</label></li>
+                                
+                            
+                                
+                                    
+                                    
+                                    <li style="margin-bottom: 12px;"><input type="checkbox" name="registrant.businessCustom1" id="id_checkbox_2_businessCustom1" value="2"   /><label for="id_checkbox_2_businessCustom1">CEH</label></li>
+                                
+                            
+                                
+                                    
+                                    
+                                    <li style="margin-bottom: 12px;"><input type="checkbox" name="registrant.businessCustom1" id="id_checkbox_3_businessCustom1" value="3"   /><label for="id_checkbox_3_businessCustom1">CISA</label></li>
+                                
+                            
+                                
+                                    
+                                    
+                                    <li style="margin-bottom: 12px;"><input type="checkbox" name="registrant.businessCustom1" id="id_checkbox_4_businessCustom1" value="4"   /><label for="id_checkbox_4_businessCustom1">CISSA</label></li>
+                                
+                            
+                                
+                                    
+                                    
+                                    <li style="margin-bottom: 12px;"><input type="checkbox" name="registrant.businessCustom1" id="id_checkbox_5_businessCustom1" value="5"   /><label for="id_checkbox_5_businessCustom1">Security +</label></li>
+                                
+                            
+                        
+                    
+                </ul>
+            
+        
+        
+            
+            
+            
+            
+
+
+
+
+
+    
+    
+    
+        
+        
+            
+            
+        
+    
+    
+
+        
+    </li>
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+		                </div>
+	                
+            	
+
+            
+
+        
+        
+        
+        
+            
+                
+                    
+
+
+
+
+
+
+
+
+
+    <div id="item_section">
+        
+        
+            
+            
+                
+            
+        
+        <h2>ISSA Polo Shirts for sale</h2>
+            
+        
+            
+        <table>
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th class="evp-qty">Qty.</th>
+                <th class="evp-max-limit">Max Limit</th>
+                <th class="evp-cost">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                
+                    
+                    
+                    
+                    
+                        <tr class="itemDiv" id="item_0">
+                            <td colspan="3">
+                                <h3 id="item_0_name">Men&#039;s ISSA Polo Shirt</h3>
+                                <p id="item_0_description">Men&#039;s ISSA Polo Shirt - Grey with Yellow logo. Shirts are placed on order and can be shipped or delivered to you at the next meeting.</p>
+                                    
+                                
+                                    <p id="item_0_registration_limit">Select up to 1</p>
+                                
+                                    
+                                
+                                    
+
+                                    
+                                <input id="registrant.items0.id" name="registrant.items[0].id" value="WIeMatWfxajqj-Y62pvJx4PJUvBGM9P1V53KQcYO8Aw" type="hidden" value=""/>
+                                    
+                                <input type="hidden" name="itemPrice" value="25.00" />
+                                    
+                                <input type="hidden" id="idItemName0" name="registrant.items[0].name" value="Men&#039;s ISSA Polo Shirt" />
+                            </td>
+                        </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items0.attributeList0.id" name="registrant.items[0].attributeList[0].id" value="WIeMatWfxajqj-Y62pvJx0XQU2aR_wPmDNJVddPgGWM" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName0.attributeList0" name="registrant.items[0].attributeList[0].name" value="Small" />
+                                    <label>Small</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_0_attribute_0_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_0_attribute_0_quantity_select"
+                                           name="registrant.items[0].attributeList[0].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_0_attribute_0_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_0_attribute_0_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items0.attributeList1.id" name="registrant.items[0].attributeList[1].id" value="WIeMatWfxajqj-Y62pvJx476STDHQ_sadfwfRCYGMSU" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName0.attributeList1" name="registrant.items[0].attributeList[1].name" value="Medium" />
+                                    <label>Medium</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_0_attribute_1_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_0_attribute_1_quantity_select"
+                                           name="registrant.items[0].attributeList[1].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_0_attribute_1_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_0_attribute_1_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items0.attributeList2.id" name="registrant.items[0].attributeList[2].id" value="WIeMatWfxajqj-Y62pvJx7oAnIoB6fDqm87mSslVs70" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName0.attributeList2" name="registrant.items[0].attributeList[2].name" value="Large" />
+                                    <label>Large</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_0_attribute_2_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_0_attribute_2_quantity_select"
+                                           name="registrant.items[0].attributeList[2].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_0_attribute_2_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_0_attribute_2_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items0.attributeList3.id" name="registrant.items[0].attributeList[3].id" value="WIeMatWfxajqj-Y62pvJx-2BQ8IbL1eM_wbCUgmo6gU" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName0.attributeList3" name="registrant.items[0].attributeList[3].name" value="Extra Large" />
+                                    <label>Extra Large</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_0_attribute_3_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_0_attribute_3_quantity_select"
+                                           name="registrant.items[0].attributeList[3].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_0_attribute_3_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_0_attribute_3_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items0.attributeList4.id" name="registrant.items[0].attributeList[4].id" value="WIeMatWfxajqj-Y62pvJx3r19DesHMWBgK0P72Yn134" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName0.attributeList4" name="registrant.items[0].attributeList[4].name" value="2XL" />
+                                    <label>2XL</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_0_attribute_4_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_0_attribute_4_quantity_select"
+                                           name="registrant.items[0].attributeList[4].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_0_attribute_4_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_0_attribute_4_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items0.attributeList5.id" name="registrant.items[0].attributeList[5].id" value="WIeMatWfxajqj-Y62pvJxzpYlXotflnqAK9NX0ZWVGg" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName0.attributeList5" name="registrant.items[0].attributeList[5].name" value="3XL" />
+                                    <label>3XL</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_0_attribute_5_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_0_attribute_5_quantity_select"
+                                           name="registrant.items[0].attributeList[5].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_0_attribute_5_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_0_attribute_5_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items0.attributeList6.id" name="registrant.items[0].attributeList[6].id" value="WIeMatWfxajqj-Y62pvJxwmJLeCJfseZ9flsZofvF2Y" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName0.attributeList6" name="registrant.items[0].attributeList[6].name" value="4XL" />
+                                    <label>4XL</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_0_attribute_6_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_0_attribute_6_quantity_select"
+                                           name="registrant.items[0].attributeList[6].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_0_attribute_6_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_0_attribute_6_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                    
+                
+            
+                
+                    
+                    
+                    
+                    
+                        <tr class="itemDiv" id="item_1">
+                            <td colspan="3">
+                                <h3 id="item_1_name">Women&#039;s ISSA Polo Shirts</h3>
+                                <p id="item_1_description">Women&#039;s ISSA Polo Shirts - Grey with Yellow logo. Shirts are placed on order and can be shipped or delivered to you at the next meeting.</p>
+                                    
+                                
+                                    <p id="item_1_registration_limit">Select up to 1</p>
+                                
+                                    
+                                
+                                    
+
+                                    
+                                <input id="registrant.items1.id" name="registrant.items[1].id" value="WIeMatWfxajqj-Y62pvJx7IwqpZ7nzW2Y09fUs00t3Q" type="hidden" value=""/>
+                                    
+                                <input type="hidden" name="itemPrice" value="25.00" />
+                                    
+                                <input type="hidden" id="idItemName1" name="registrant.items[1].name" value="Women&#039;s ISSA Polo Shirts" />
+                            </td>
+                        </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items1.attributeList0.id" name="registrant.items[1].attributeList[0].id" value="WIeMatWfxajqj-Y62pvJx6cwxz--wGhApJkflyZzneI" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName1.attributeList0" name="registrant.items[1].attributeList[0].name" value="Small" />
+                                    <label>Small</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_1_attribute_0_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_1_attribute_0_quantity_select"
+                                           name="registrant.items[1].attributeList[0].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_1_attribute_0_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_1_attribute_0_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items1.attributeList1.id" name="registrant.items[1].attributeList[1].id" value="WIeMatWfxajqj-Y62pvJxyttTZ4Ho-OIOWiLA0b4v5M" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName1.attributeList1" name="registrant.items[1].attributeList[1].name" value="Medium" />
+                                    <label>Medium</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_1_attribute_1_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_1_attribute_1_quantity_select"
+                                           name="registrant.items[1].attributeList[1].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_1_attribute_1_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_1_attribute_1_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items1.attributeList2.id" name="registrant.items[1].attributeList[2].id" value="WIeMatWfxajqj-Y62pvJx3pHrYOxDq80OhZcOCa6kzY" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName1.attributeList2" name="registrant.items[1].attributeList[2].name" value="Large" />
+                                    <label>Large</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_1_attribute_2_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_1_attribute_2_quantity_select"
+                                           name="registrant.items[1].attributeList[2].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_1_attribute_2_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_1_attribute_2_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items1.attributeList3.id" name="registrant.items[1].attributeList[3].id" value="WIeMatWfxajqj-Y62pvJxzkNmQZDK0V5JAXYydnquvM" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName1.attributeList3" name="registrant.items[1].attributeList[3].name" value="Extra Large" />
+                                    <label>Extra Large</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_1_attribute_3_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_1_attribute_3_quantity_select"
+                                           name="registrant.items[1].attributeList[3].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_1_attribute_3_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_1_attribute_3_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items1.attributeList4.id" name="registrant.items[1].attributeList[4].id" value="WIeMatWfxajqj-Y62pvJx7gFN6wFsAiA14ZGUKRh0EQ" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName1.attributeList4" name="registrant.items[1].attributeList[4].name" value="1XL" />
+                                    <label>1XL</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_1_attribute_4_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_1_attribute_4_quantity_select"
+                                           name="registrant.items[1].attributeList[4].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_1_attribute_4_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_1_attribute_4_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                            <tr class="itemOptionDiv">
+                                <td class="itemDisplayOption">
+                                        
+                                    <input id="registrant.items1.attributeList5.id" name="registrant.items[1].attributeList[5].id" value="WIeMatWfxajqj-Y62pvJxybIKTQw9J5OH-oq0eb6lZo" type="hidden" value=""/>
+                                        
+                                    <input type="hidden" id="idAttributeName1.attributeList5" name="registrant.items[1].attributeList[5].name" value="2XL" />
+                                    <label>2XL</label>
+                                        
+                                    
+                                        
+
+                                        
+                                    <div class="error-secondary" id="item_1_attribute_5_error">
+                                        
+                                    </div>
+                                        
+                                </td>
+                                <td class="evp-qty itemDisplaySelect">
+
+                                    
+                                    
+                                        
+                                        
+                                            
+                                        
+                                    
+
+                                    <input type="text" class="itemSelect" id="item_1_attribute_5_quantity_select"
+                                           name="registrant.items[1].attributeList[5].quantitySelected" value="" />
+                                </td>
+
+                                
+                                    
+                                
+                                    
+                                        
+                                    
+                                    
+                                
+
+                                <td class="evp-max-limit">
+                                    <span id="item_1_attribute_5_max_limit">1</span>
+                                </td>
+
+                                <td class="evp-cost">
+                                        
+                                    
+                                    
+                                        
+                                        
+                                            <span id="item_1_attribute_5_price">
+                                                    <span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">25.00</span> each
+                                                </span>
+                                        
+                                    
+                                        
+                                </td>
+                            </tr>
+                        
+                    
+                
+            
+            </tbody>
+        </table>
+    </div>
+
+                
+                
+                
+            
+        
+        
+        
+        
+            <div id="payment_summary_section">
+                <span style="display:none;"><span class="span_event_fee_currency_symbol">$</span><span class="evp_fee_value">9,999.99</span> </span>
+                <h2 id="section-payment-summary">Payment</h2>
+                <div id="payment-method">
+                    
+                    
+
+                    
+                    <h3><strong>Payment Method</strong></h3>
+                    <ul>
+
+                        
+                            <li>
+                                
+
+                                    
+                                        
+                                            <input id="table_cell_payment_paytype_paypal" type="radio" name="registrant.paymentType" value="PAYPAL" checked="checked" />
+                                        
+                                        
+                                    
+
+                                    
+                                        
+                                        
+                                            <label id="payment-type-paypal" for="table_cell_payment_paytype_paypal">Pay with PayPal or Credit Card</label>
+                                        
+                                    
+                                    
+                                
+                            </li>
+                        
+                            <li>
+                                
+
+                                    
+                                        
+                                            <input id="table_cell_payment_paytype_door" type="radio" name="registrant.paymentType" value="DOOR"  />
+                                        
+                                        
+                                    
+
+                                    
+                                        
+                                        
+                                            <label id="payment-type-door" for="table_cell_payment_paytype_door">Pay at Door</label>
+                                        
+                                    
+                                    
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+                <div id="payment-summary">
+                    <h3>Payment Summary</h3>
+                </div>
+            </div>
+        
+        
+        
+        
+        
+        
+        <input type="hidden" name="_page" value="1"/>
+        <input type="hidden" name="_finish" value=""/>
+        
+        <input type="hidden" name="sandbox" value="false"/> 
+        <input type="hidden" name="eventId" value="1131922593946"/>
+        <input type="hidden" name="eventKey" value="3b635eb7"/>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+    
+    <div id="register-buttons">
+        
+            <input id="showOnGuestList1" name="showOnGuestList" type="checkbox" value="true" checked="checked"/><input type="hidden" name="_showOnGuestList" value="on"/>Allow others to see that I have registered.  (Note: only your name, title, and company information will be shared.)
+        
+        
+            
+                <br/><input id="registrant.addRegistrantAsContact1" name="registrant.addRegistrantAsContact" type="checkbox" value="true"/><input type="hidden" name="_registrant.addRegistrantAsContact" value="on"/>Yes, I would like to receive your email newsletters
+                <input id="registrant.jmmlListId" name="registrant.jmmlListId" type="hidden" value="1106027767"/>
+            
+        
+        <br />
+
+		
+
+        <br />
+        <p class="reg-form-footer-disclaimer">By checking this box, you're consenting to receive marketing emails from:<br/>
+            <b>ISSA Oklahoma, PO Box 35623, Tulsa, OK 74153, United States<br/>http://oklahoma.issa.org</b><br/> You can revoke your consent to receive emails at any time by using
+            the SafeUnsubscribe<sup>TM</sup> link, found at the bottom of every email.
+            
+            <a href="https://www.constantcontact.com/legal/service-provider" target="_blank">Emails are serviced by Constant Contact.</a>
+        </p>
+
+        <a id="idButtonRegister" class="cc-btn-primary" href="#" >Register</a>
+        
+            
+                <div id="propay_hpp_flow_message" style="text-align:center; margin-bottom: 10px; display: none;">
+                    You will be taken to ProPay to complete payment.
+                </div>
+            
+            <div id="pp_btn" style="margin-bottom: 10px; display: none;">
+                <br />
+                
+                <a id="evp-payment-paypal-submit" class="cc-btn-primary" href="#">Continue</a>
+                You will be taken to PayPal to complete payment.<br/> No PayPal account is required.
+
+            </div>
+            
+                <a id="idButtonBack" class="cc-btn-secondary" href="http://events.r20.constantcontact.com/register/event?llr=z6vpvkrab&oeidk=a07efzxhj8a3b635eb7">Go back to Event Page</a>
+            
+        
+        
+    </div>
+    
+
+</form>
+
+    
+        
+
+
+
+
+
+
+
+<div id="" class="layout-content-separator view-type-toggle"></div>
+
+
+<div id="view-type-toggle">
+    <div id="view-type-toggle-mobile" class="view-type-option">
+       <a href="http://events.r20.constantcontact.com/register/event?llr=z6vpvkrab&oeidk=a07efzxhj8a3b635eb7&viewType=MOBILE" target="_top">Mobile View</a>
+    </div>
+    <div id="view-type-toggle-desktop" class="view-type-option">
+       <a href="http://events.r20.constantcontact.com/register/event?llr=z6vpvkrab&oeidk=a07efzxhj8a3b635eb7&viewType=DESKTOP" target="_top">Desktop View</a>
+    </div>
+</div>
+
+    
+
+<script src="/resource/js/evp/registrant/regform.js?version=20161010091324" type="text/javascript" language="javascript" id="javascript"></script>
+
+
+
+
+                      
+                      
+                        
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+   var _gaq = _gaq || [];
+
+    // use jquery if it's available
+   if( window.jQuery != null ) { 
+      jQuery.getScript(gaJsHost + "google-analytics.com/ga.js", function(){
+          try {
+              if( window.console ) window.console.log("Google Analytics : Through jQuery logged");
+              
+              _gaq.push(['_setAccount', 'UA-2821686-8']);
+              _gaq.push(['_trackPageview', 'Registration : Registration Form']);
+
+          }
+          catch(err) {
+              if( window.console ) window.console.log("Google Analytics : Through jQuery : Error");
+          }
+       });
+   }
+   else {
+	   document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+       try {
+          if (typeof(_gat) == 'object'){
+            var pageTracker = _gat._getTracker("UA-2821686-8");
+            if( window.console ) window.console.log("Google Analytics : Regular JS logged");
+            pageTracker._trackPageview('Registration : Registration Form');
+          }
+       }
+       catch(err) {
+           if( window.console ) window.console.log("Google Analytics : Regular JS : Error");
+
+       }
+   }
+</script>
+
+
+                        
+                        
+                      
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              
+
+
+
+
+
+              
+              
+                
+
+
+
+<span id="event-meta-hcalendar" class="vevent" style="display:none;">
+    <span class="dtstart"><span class="value-title" title="2019-04-08T11:30:00-0500"></span>2019-04-08T11:30:00-0500</span>
+    <span class="dtend"><span class="value-title" title="2019-04-08T13:00:00-0500"></span>2019-04-08T13:00:00-0500</span>
+    <span class="summary">ISSA Oklahoma Chapter April 2019 Meeting</span>
+    <span class="location">1800 S Baltimore Ave, Tulsa, OK, 74119, US</span>
+    <a class="url" href="http://events.r20.constantcontact.com/register/event?llr=z6vpvkrab&oeidk=a07efzxhj8a3b635eb7">http://events.r20.constantcontact.com/register/event?llr=z6vpvkrab&oeidk=a07efzxhj8a3b635eb7</a>
+</span>
+                
+
+
+<script type="text/javascript" src="/register/bundles/1231445627/js/evp/common/messages.js" ></script>
+
+<script type="text/javascript" src="/register/bundles/N1586976061/js/evp/registrant/messages.js" ></script>
+
+
+
+
+
+
+
+<div id="component-config" data-component='{"config" : {"components" : ["register.registration","register.items","event.component.registrants"]} }'></div>
+
+
+
+
+
+
+
+
+
+              
+            
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"errorBeacon":"bam.nr-data.net","licenseKey":"5ab79a9e36","agent":"","beacon":"bam.nr-data.net","applicationTime":510,"applicationID":"1759696","transactionName":"Y1MHYRBUCBJZBRJfW1oZL2YyGgMXSEkUU1NdRRFHA1sSTkoDAV9HQFMXGg5UHw5NEjkGBAFQF1AFalZRDQAEV0dRGA9GEg==","queueTime":0}</script></body>
+            </html>
+
+
+
+#####EOF#####
+
+

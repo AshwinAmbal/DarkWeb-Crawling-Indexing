@@ -1,0 +1,272 @@
+<html>
+<head>
+<script>
+function ck_submit() {
+
+  if (document.getElementById('os').value == '') { alert('Hey, add some more data...'); return false; }
+  return true;
+
+}
+</script>
+<style>
+body {
+  font-family: 'Georgia', 'Arial', 'Helvetica';
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+h1 {
+  border-width: 0 0 1px 0;
+  border-color: teal;
+  border-style: solid;
+  color: steelblue;
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+}
+
+li {
+  margin-bottom: 0.6em;
+}
+
+cite {
+  margin-left: 2em;
+  margin-right: 2em;
+  color: steelblue;
+  display: block;
+}
+
+code {
+  color: maroon;
+  font-family: 'Georgia', 'Arial', 'Helvetica';
+}
+
+xmp {
+  font-family: 'Bitstream Vera Sans Mono', 'Andale Mono', 'Lucida Console', 'monospace', 'fixed';
+  font-size: 80%;
+  line-height: 100%;
+  color: steelblue;
+}
+
+.slink {
+  font-size: 60%;
+  color: orange;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+</style>
+<title>p0f v3</title>
+<body>
+<h1>p0f v3 (version 3.09b)</h1>
+
+<span style="color: gray; font-size: 70%">
+Copyright (C) 2012-2014 by Michal Zalewski &lt;<a href="mailto:lcamtuf@coredump.cx">lcamtuf@coredump.cx</a>&gt;
+</span>
+
+<p>
+<i>Yeah, it's back!</i>
+
+<h2>1. What's this?</h2>
+
+P0f is a tool that utilizes an array of sophisticated, purely passive traffic
+fingerprinting mechanisms to identify the players behind any incidental TCP/IP
+communications (often as little as a single normal SYN) without interfering in
+any way. Version 3 is a complete rewrite of the original codebase, incorporating a significant
+number of improvements to network-level fingerprinting, and introducing the ability to reason
+about application-level payloads (e.g., HTTP).
+<p>
+
+Some of p0f's capabilities include:
+<ul>
+
+<li> Highly scalable and extremely fast identification of the operating system
+     and software on both endpoints of a vanilla TCP connection - especially in
+     settings where <a href="http://www.nmap.org/">NMap</a> probes are blocked, too slow, unreliable, or would
+     simply set off alarms.
+
+<li> Measurement of system uptime and network hookup, distance (including
+     topology behind NAT or packet filters), user language preferences, and so on.
+
+<li> Automated detection of connection sharing / NAT, load balancing, and
+     application-level proxying setups.
+
+<li> Detection of clients and servers that forge declarative statements
+     such as <i>X-Mailer</i> or <i>User-Agent</i>.
+
+</ul>
+
+The tool can be operated in the foreground or as a daemon, and offers a simple
+real-time API for third-party components that wish to obtain additional
+information about the actors they are talking to.
+<p>
+Common uses for p0f include reconnaissance during penetration tests; routine
+network monitoring; detection of unauthorized network interconnects in corporate
+environments; providing signals for abuse-prevention tools; and miscellanous
+forensics.
+<p>
+You can read more about its design and operation in 
+<a href="README">this document</a>. In one form or another,
+<a href="releases/old/2.x/">earlier versions</a> of p0f are used in a wide variety of projects, including
+<a href="http://www.pfsense.org/index.php?option=com_content&task=view&id=40&Itemid=43">pfsense</a>,
+<a href="http://ettercap.sourceforge.net">Ettercap</a>,
+<a href="http://prads.projects.linpro.no/">PRADS</a>,
+<a href="http://www.ijs.si/software/amavisd/">amavisd</a>, 
+<a href="http://www.snertsoft.com/sendmail/milter-p0f/">milter</a>, 
+<a href="http://postgrey.schweikert.ch/">postgrey</a>, 
+<a href="http://www.cipherdyne.org/fwknop/">fwknop</a>,
+<a href="http://chatteronthewire.org/mortalx.htm">Satori</a>,
+the OpenBSD firewall, and an assortment of commercial tools.
+<p>
+
+<i>
+<span style="color: gray">
+Fun fact: The idea for p0f dates back to 
+<a href="http://seclists.org/bugtraq/2000/Jun/141">June 10, 2000</a>. Today,
+almost all applications that do passive OS fingerprinting either simply reuse p0f
+for TCP-level checks (Ettercap, Disco, PRADS, Satori), or use inferior approaches that,
+for example, pay no attention to the intricate relationship between host's 
+window size and MTU (SinFP).</span></i>
+
+<h2>2. What's the output?</h2>
+
+A snippet of typical p0f output may look like this:
+
+<xmp>
+.-[ 1.2.3.4/1524 -> 4.3.2.1/80 (syn) ]-
+|
+| client   = 1.2.3.4
+| os       = Windows XP
+| dist     = 8
+| params   = none
+| raw_sig  = 4:120+8:0:1452:65535,0:mss,nop,nop,sok:df,id+:0
+|
+`----
+
+.-[ 1.2.3.4/1524 -> 4.3.2.1/80 (mtu) ]-
+|
+| client   = 1.2.3.4
+| link     = DSL
+| raw_mtu  = 1492
+|
+`----
+
+.-[ 1.2.3.4/1524 -> 4.3.2.1/80 (uptime) ]-
+|
+| client   = 1.2.3.4
+| uptime   = 0 days 11 hrs 16 min (modulo 198 days)
+| raw_freq = 250.00 Hz
+|
+|
+`----
+
+.-[ 1.2.3.4/1524 -> 4.3.2.1/80 (http request) ]-
+|
+| client   = 1.2.3.4/1524
+| app      = Firefox 5.x or newer
+| lang     = English
+| params   = none
+| raw_sig  = 1:Host,User-Agent,Accept=[text/html,application/xhtml+xml...
+|
+`----
+</xmp>
+
+<h2>3. Can I have it?</h2>
+
+Yup: <a href="releases/p0f-3.09b.tgz">click here</a> to download the current release (3.09b), or <a href="releases/">here</a> to browse
+older releases, including 2.0.x and 1.8.x.
+
+<p>
+
+Please keep in mind that p0f v3 is a complete rewrite of the original tool, including a brand new database of signatures. We are starting
+from scratch, so especially for the first few releases, please be sure to submit new signatures and report bugs with special zeal! I am particularly
+interested in:
+
+<ul>
+
+<li>TCP SYN ("who is connecting to me?") signatures for a variety of systems - especially from some of the older, more exotic, or more specialized platforms,
+such as Windows 9x, NetBSD, IRIX, Playstation, Cisco IOS, etc. To do this, you simply need to attempt establishing a connection to a box running p0f.
+The connection does not need to succeed.
+
+<li>TCP SYN+ACK signatures ("who am I connecting to?"). The current database is minimal, so all contributions are welcome. To collect these signatures, you
+need to compile the supplied <i>p0f-sendsyn</i> tool, and then use it to initiate a connection to an open port on a remote host; see
+<a href="README">README</a> for more.
+
+<li>HTTP request signatures - especially for older or more exotic browsers (e.g. MSIE5, mobile devices, gaming consoles), crawlers, command-line tools, and
+libraries. To collect a signature, you can run p0f on the client system itself, or on the web server it talks to.
+
+<li>HTTP response signatures. P0f ships with a minimal database here (only Apache 2.x has any real coverage). Signatures are best collected for three
+separate cases: several minutes of casual browsing with a modern browser; a request with <i>curl</i>; and another one with <i>wget</i>.
+
+</ul>
+
+<h2>4. Just show me how it works, OK?</h2>
+
+Not all capabilities of p0f can be showcased here, and as noted, this release candidate still has a relatively small database of fingerprints. That said,
+here's the most recent positive match p0f has for your IP:
+
+<p>
+
+<xmp style="color: crimson">
+*** Looks like p0f is down for maintenance, sorry. Check back later. ***
+
+</xmp>
+
+
+<i>Note that the result may be affected by transparent proxies set up by your ISP or your employer,
+and so on. Especially if you are seeing a dramatic mismatch (e.g. Windows misidentified as Linux), it's fairly unlikely
+that p0f is wrong. Cellular operators are particularly notorious for intercepting traffic.</i>
+<p>
+
+
+Okay, now here's your chance to do a good deed. If some of that information is incorrect, or if p0f simply
+could not identify you at all, please complete this short questionnaire:
+
+<p>
+
+<form method=post action=record.cgi enctype="multipart/form-data" style="width: 80%">
+
+<table>
+
+<style>td { padding-right: 1em; padding-bottom: 1em; vertical-align: top; }</style>
+
+<tr>
+<td style="width: 18em">Name, version, patchlevel of your OS:</td><td><input type=text name=os size=100 id=os><br>
+<font size=-1 color=gray>For example, 'Windows XP SP2' or 'Linux 3.1.2'</font>
+</tr>
+
+<tr>
+<td>Name and version of your browser:</td><td><input type=text name=browser size=100><br>
+<font size=-1 color=gray>For example, 'Firefox 8.0' or 'lynx 2.8.5'</font>
+
+</tr>
+
+<tr>
+<td>Any factors that may affect TCP or HTTP traffic?</td><td><input type=text name=notes size=100><br>
+<font size=-1 color=gray>TCP performance tweaks, VPN, transparent and regular
+proxies, Tor, etc.</font>
+</tr>
+
+<tr>
+<td>Your contact e-mail (optional):</td><td><input type=text name=mail size=100><br>
+<font size=-1 color=gray>This is so that I can follow up with you if I have questions. Please provide one!</font>
+</tr>
+
+</table>
+
+<br>
+<input type=submit onclick="return ck_submit()" value="Submit!">
+
+</form>
+
+<h2>5. Contact</h2>
+
+Please submit questions, comments, patches, signatures, and chocolate to
+&lt;<a href="mailto:lcamtuf@coredump.cx">lcamtuf@coredump.cx</a>&gt;. You can also
+<a href='https://twitter.com/lcamtuf'>follow me on Twitter</a>.
+<p><br></p>
+
+
+
+#####EOF#####
+
+

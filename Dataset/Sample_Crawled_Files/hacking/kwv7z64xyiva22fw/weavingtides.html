@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore a completely woven world and stitch with your endless tail">
+  <meta name="author" content="Team WeavingTides">
+  <meta name="keywords" content="artgame, exploration, weaving, woven world, stitching, relaxing">
+  <meta itemprop="name" content="WeavingTides | weave the world">
+  <meta itemprop="description" content="Explore a completely woven world and stitch with your endless tail">
+  <link rel="canonical" href="http://www.weavingtides.com">
+  <title>WeavingTides</title>
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/main.css" rel="stylesheet">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/icons/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/icons/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/icons/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icons/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/icons/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/icons/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/icons/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/icons/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/icons/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/icons/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/icons/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/icons/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/icons/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Icon Library -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+
+  <!-- |||| async css files START -->
+    <!-- featherlight -->
+    <link rel="stylesheet" href="/css/featherlight.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/css/featherlight.min.css"></noscript>
+
+    <!-- featherlight gallery -->
+    <link rel="stylesheet" href="/css/featherlight.gallery.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/css/featherlight.gallery.min.css"></noscript>
+
+
+
+  <!-- loadCSS script for asynchronous loading -->
+  <script>
+    /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+    (function(w){
+    	"use strict";
+    	/* exported loadCSS */
+    	var loadCSS = function( href, before, media ){
+    		// Arguments explained:
+    		// `href` [REQUIRED] is the URL for your CSS file.
+    		// `before` [OPTIONAL] is the element the script should use as a reference for injecting our stylesheet <link> before
+    		// By default, loadCSS attempts to inject the link after the last stylesheet or script in the DOM. However, you might desire a more specific location in your document.
+    		// `media` [OPTIONAL] is the media type or query of the stylesheet. By default it will be 'all'
+    		var doc = w.document;
+    		var ss = doc.createElement( "link" );
+    		var ref;
+    		if( before ){
+    			ref = before;
+    		}
+    		else {
+    			var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+    			ref = refs[ refs.length - 1];
+    		}
+
+    		var sheets = doc.styleSheets;
+    		ss.rel = "stylesheet";
+    		ss.href = href;
+    		// temporarily set media to something inapplicable to ensure it'll fetch without blocking render
+    		ss.media = "only x";
+
+    		// wait until body is defined before injecting link. This ensures a non-blocking load in IE11.
+    		function ready( cb ){
+    			if( doc.body ){
+    				return cb();
+    			}
+    			setTimeout(function(){
+    				ready( cb );
+    			});
+    		}
+    		// Inject link
+    			// Note: the ternary preserves the existing behavior of "before" argument, but we could choose to change the argument to "after" in a later release and standardize on ref.nextSibling for all refs
+    			// Note: `insertBefore` is used instead of `appendChild`, for safety re: http://www.paulirish.com/2011/surefire-dom-element-insertion/
+    		ready( function(){
+    			ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+    		});
+    		// A method (exposed on return object for external use) that mimics onload by polling document.styleSheets until it includes the new sheet.
+    		var onloadcssdefined = function( cb ){
+    			var resolvedHref = ss.href;
+    			var i = sheets.length;
+    			while( i-- ){
+    				if( sheets[ i ].href === resolvedHref ){
+    					return cb();
+    				}
+    			}
+    			setTimeout(function() {
+    				onloadcssdefined( cb );
+    			});
+    		};
+
+    		function loadCB(){
+    			if( ss.addEventListener ){
+    				ss.removeEventListener( "load", loadCB );
+    			}
+    			ss.media = media || "all";
+    		}
+
+    		// once loaded, set link's media back to `all` so that the stylesheet applies once it loads
+    		if( ss.addEventListener ){
+    			ss.addEventListener( "load", loadCB);
+    		}
+    		ss.onloadcssdefined = onloadcssdefined;
+    		onloadcssdefined( loadCB );
+    		return ss;
+    	};
+    	// commonjs
+    	if( typeof exports !== "undefined" ){
+    		exports.loadCSS = loadCSS;
+    	}
+    	else {
+    		w.loadCSS = loadCSS;
+    	}
+    }( typeof global !== "undefined" ? global : this ));
+  </script>
+
+  <!-- |||| async css files END -->
+
+  <meta name="apple-mobile-web-app-title" content="WeavingTides">
+  <meta name="application-name" content="WeavingTides">
+  <meta name="msapplication-config" content="img/icons/favicons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- cookie consent -->
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+  <script>
+  window.addEventListener("load", function(){
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": {
+        "background": "#000"
+      },
+      "button": {
+        "background": "#ffffff"
+      }
+    }
+  })});
+  </script>
+
+</head>
+
+<body id="page-top">
+
+  <!-- HOME Section -->
+  <section id="home" class="home-section">
+    <!-- LOGO -->
+    <div class="weaver-logo">
+      <img src="img/logos/weavingtides-logo.png" alt="Weaving Tides">
+    </div>
+
+    <!-- BLOG -->
+    <div class="blog-ribbon">
+      <a target="_blank" href="https://www.followfeathers.com/blog">
+        <img src="img/icons/ribbon.png" alt="Ribbon to our blog">
+        <p>Dev Blog</p>
+      </a>
+    </div>
+
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-lg-12">
+          <!-- Hidden Heading -->
+          <h1 class="hidden">WeavingTides</h1>
+
+          <!-- Award Overlays -->
+          <div id="weaver-awards"></div>
+
+          <script type="text/javascript">
+            /* Uncomment if we get the first few awards :)
+
+						//Load images into "weaver-awards" div
+						var src = document.getElementById("weaver-awards");
+						var img = [];
+						for(var i=1; i<=4; i++){
+							img[i] = document.createElement("img");
+							img[i].src="img/header/overlay/award_"+i+".png";
+							if(i % 2 == 0){
+								img[i].className = "right";
+							} else{
+								img[i].className = "left";
+							}
+							src.appendChild(img[i]);
+						}
+
+          */
+          </script>
+
+          <!-- "Stitch" Button -->
+          <!--
+          <h1><a href="#about" role="button" id="stitchButton" class="btn-available page-scroll btn btn-transparent btn-lg">stitch!</a></h1>
+          -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO Section -->
+  <section id="video" class="video-section">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12">
+                  <div id="startFrame_container" class="embed-responsive embed-responsive-16by9">
+                      <img id="yt_overlay" src="img/icons/yt_play.png">
+                      <img id="startFrame" class="embed-responsive-item" src="img/header/weaver-youtube.jpg" data-video="https://www.youtube.com/embed/evxStTYeAlM?rel=0&autoplay=1">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- ABOUT Section -->
+  <section id="about" class="about-section">
+    <div class="container">
+
+      <div class="row text-justify">
+        <div class="col-lg-12 text-center">
+          <h2 class="outline">Weaving Tides is an adventure game about riding dragons and stitching up a beautiful textile world!</h2>
+
+          <div id="aboutKun"></div>
+
+          <script type="text/javascript">
+            //create team members
+            var src = document.getElementById("aboutKun");
+            var div = [];
+            var wovenText = [];
+
+            wovenText[1] = 'Befriend and ride the dragon-like Weavers';
+            wovenText[2] = 'Collect magical embroideries and ribbons to customize your playstyle';
+            wovenText[3] = 'Overcome tricky textile puzzles and cheeky creatures';
+            wovenText[4] = 'Unveil the mysteries of the woven world!';
+
+            for(var i=1; i<=4; i++){
+              var imagepath = "img/icons/woven_symbol.png";
+              div[i] = document.createElement("div");
+              div[i].setAttribute('class', 'col-lg-6 col-md-6 col-xs-12');
+              div[i].innerHTML = '<div class="col-lg-2 col-md-2 col-xs-2"><img class="img-responsive" src="'+imagepath+'" alt="Weaver Icon"></div><div class="col-lg-10 col-md-10 col-xs-10"><h3 class="text-left">'+wovenText[i]+'</h3></div>';
+              src.appendChild(div[i]);
+            }
+          </script>
+
+
+
+
+
+          <!-- SOCIAL BUTTONS -->
+          <div id="socialBar">
+            <a href="https://twitter.com/FollowFeathers" class="fab fa-twitter outline" target="_blank"></a>
+            <a href="https://www.youtube.com/channel/UCy1kAY6xpkBczafgSbXrO9w" class="fab fa-youtube outline" target="_blank"></a>
+            <a href="https://www.facebook.com/FollowFeathers" class="	fab fa-facebook-square outline" target="_blank"></a>
+            <a href="https://www.instagram.com/followfeathers/" class="fab fa-instagram outlineSmall" target="_blank"></a>
+            <!--<a href="https://www.instagram.com/followfeathers/" class="fab fa-discord outlineSmall" target="_blank"></a>-->
+          </div>
+
+
+        </div>
+      </div>
+
+
+
+      <div class="newsletter row justify-content-center">
+
+        <!-- Begin MailChimp Signup Form -->
+        <form action="https://followfeathers.us19.list-manage.com/subscribe/post?u=180087d75865ea2186e1a2997&amp;id=052cf44b98" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+          <label for="mce-EMAIL">
+            <h3>Weaving Tides newsletter!</h3>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 text-center">
+              <p>Be among the first to hear about development updates, annoucements and special goodies!</p>
+            </div>
+          </label>
+
+          <!-- email adress -->
+          <div class="col-lg-2 col-md-2 col-xs-0"></div>
+          <input type="email" class="col-lg-5 col-md-5 col-xs-12 emailInput" value="" name="EMAIL" class="emailInput" id="mce-EMAIL" placeholder="Email Address" required>
+          <!-- subscribe -->
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="col-lg-3 col-md-3 col-xs-12 subscribeButton btn btn-default">
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_172cbf49e74ad268d6d59df2e_05a67db306" tabindex="-1" value=""></div>
+          <div class="clear"></div>
+
+
+        </form>
+        <!--End mc_embed_signup-->
+      </div>
+
+    </div>
+    <!-- /.container -->
+  </section>
+
+  <!-- SCREENSHOTS Section -->
+  <section id="screenshot" class="screenshot-section">
+    <div class="container">
+      <div class="row text-center">
+
+        <h2 class="outlineBig">Screenshots</h2>
+
+        <div id="screenshotKuns">
+        </div>
+
+        <script type="text/javascript">
+          //Load all images named "screenshot_0X.jpg" from screenshots folder
+          var src = document.getElementById("screenshotKuns");
+          var div = [];
+          for(var i=1; i<5; i++){
+            var imagepath = "img/screenshots/screenshot_0"+i+".jpg";
+            div[i] = document.createElement("div");
+            div[i].setAttribute('class', 'col-lg-6 col-md-6 col-xs-12 thumb');
+            div[i].innerHTML = '<a class="thumbnail gallery" href="#" data-featherlight="'+imagepath+'"><img class="img-responsive" src="'+imagepath+'" alt="Weaver Screenshot '+i+'"></a>';
+            src.appendChild(div[i]);
+          }
+        </script>
+
+      </div>
+    <!-- /.container -->
+    </div>
+  </section>
+
+  <!-- TEAM & PRESSKIT Section -->
+  <section id="team" class="team-section">
+    <div class="container">
+      <div class="row text-left">
+
+        <h2 class="text-center outlineBig">The Team</h2>
+
+        <div id="teamKun"></div>
+
+        <script type="text/javascript">
+          //create team members
+          var src = document.getElementById("teamKun");
+          var div = [];
+          var memberName = [];
+          var memberText = [];
+
+          memberName[1] = '<a class="outline" href="https://twitter.com/RenDemel" target="_blank" alt="Portfolio">Verena Demel</a>';
+          memberText[1] = 'creative director and indie chef';
+
+          memberName[2] = '<a class="outline" href="https://twitter.com/foxician" target="_blank" alt="Portfolio">Klaus FehkÃ¼hrer</a>';
+          memberText[2] = 'vfx artist and unicorn owner';
+
+          memberName[3] = '<a class="outline" href="http://www.slyce.at/" target="_blank" alt="Portfolio">Sebastian Rangger</a>';
+          memberText[3] = 'technical artist and ããã«ã¦';
+
+          memberName[4] = '<a class="outline" href="https://twitter.com/hubertsn" target="_blank" alt="Portfolio">Michael Huber</a>';
+          memberText[4] = 'programmer and spreadsheet tamer';
+
+          for(var i=1; i<=4; i++){
+            var imagepath = "img/team/member_0"+i+".jpg";
+            div[i] = document.createElement("div");
+            div[i].setAttribute('class', 'col-lg-6 col-md-6 col-xs-12');
+            div[i].innerHTML = '<div class="col-lg-4 col-md-4 col-xs-4"><img class="img-responsive teamMember" src="'+imagepath+'" alt="Weaver Icon"></div><div class="col-lg-8 col-md-8 col-xs-8"><h3>'+memberName[i]+'</h3><p>'+memberText[i]+'</p></div>';
+            src.appendChild(div[i]);
+          }
+        </script>
+
+      </div>
+
+      <!-- Presskit button -->
+      <div class="presskit row text-center">
+        <h3>All things Weaving Tides ...</h3>
+        <a href="https://www.followfeathers.com/press/sheet.php?p=weaving_tides" id="buttonPresskit" target="_blank" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Access the Presskit</a>
+      </div>
+
+      <!-- Threads image -->
+      <img src="img/icons/threads.png" alt="Threads" class="threadIcon">
+
+    <!-- /.container -->
+    </div>
+  </section>
+
+
+  <!-- FOOTER Section -->
+  <section id="footer" class="footer-section">
+    <div class="container">
+      <!-- Footer -->
+      <div class="row text-center impressum">
+        <h2><a data-toggle="modal" data-target="#impressumModal" href="">Â©2018 Follow the Feathers</a></h2>
+      </div>
+
+      <!-- Impressum Modal -->
+      <div id="impressumModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content text-center">
+            <p>
+              <h2>Legal</h2> Follow the Feathers OG</br>
+              Quellenstrasse 79-83, Tuer 85-87, 1100 Wien Favoriten </br>
+              </br>
+              <a href="mailto:info@weavingtides.com?Subject=WeavingTides" target="_top">info@weavingtides.com</a></br>
+              </br>
+              </br>This website uses Google Analytics, a service for</br>web analysis by Google Inc. <a href="https://www.google.com/intl/en/policies/privacy/" target="_blank" alt="Google Privacy Policy">Privacy Policy</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- /.container -->
+    </div>
+  </section>
+
+  <!-- jQuery -->
+  <script src="js/jquery.js"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+  <!-- Scrolling Nav JavaScript -->
+  <script src="js/jquery.easing.min.js"></script>
+  <script src="js/scrolling-nav.js"></script>
+
+  <!-- YouTube start image -->
+  <script>
+    //click image
+    $('#startFrame').click(function() {
+      var video = '<iframe src="' + $(this).attr('data-video') + '"></iframe>';
+      $(this).replaceWith(video);
+    });
+
+    //click button
+    $('#yt_overlay').click(function() {
+      var video = '<iframe src="' + $('#startFrame').attr('data-video') + '"></iframe>';
+      $('#startFrame').replaceWith(video);
+    });
+
+    //click container (always hide the button)
+    $("#startFrame_container").click(function() {
+      $('#yt_overlay').hide();
+    });
+  </script>
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86665046-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-86665046-1', { 'anonymize_ip': true });
+  </script>
+
+  <!-- featherlight plugin-->
+  <script defer src="/js/featherlight.min.js"></script>
+  <script defer src="/js/featherlight.gallery.min.js">
+    $('a.gallery').featherlightGallery({
+      openSpeed: 300
+    });
+  </script>
+
+  <!-- custom parallax effect-->
+
+  <!-- disable for speed-testing
+  <script defer src="/parallax/js/p5.min.js"></script>
+  <script defer src="/parallax/js/p5.dom.min.js"></script>
+  <script defer src="/parallax/js/sketch.js"></script>
+  -->
+
+
+  <style>
+    body {padding: 0; margin: 0;}
+  </style>
+
+</body>
+
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+        <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Magellan - Tencent Blade Team</title>
+        <meta name="description"  content="Magellan is a number of vulnerabilities that exist in SQLite. These vulnerabilities were discovered by Tencent Blade Team and verified to be able to successfully implement remote code execution in Chromium browsers." />
+        <meta name="keywords"  content="Magellan,SQLite vulnerability,Chrome vulnerability,Tencent Blade Team" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <style type="text/css">
+
+                .ui-flex {
+                    display: -webkit-box !important;
+                    display: -webkit-flex !important;
+                    display: -ms-flexbox !important;
+                    display: flex !important;
+                    -webkit-flex-wrap: wrap;
+                    -ms-flex-wrap: wrap;
+                    flex-wrap: wrap
+                }
+
+                .ui-flex, .ui-flex *, .ui-flex :after, .ui-flex :before {
+                    box-sizing: border-box
+                }
+
+                .ui-flex.justify-center {
+                    -webkit-box-pack: center;
+                    -webkit-justify-content: center;
+                    -ms-flex-pack: center;
+                    justify-content: center
+                }
+                .ui-flex.center {
+                    -webkit-box-pack: center;
+                    -webkit-justify-content: center;
+                    -ms-flex-pack: center;
+                    justify-content: center;
+                    -webkit-box-align: center;
+                    -webkit-align-items: center;
+                    -ms-flex-align: center;
+                    align-items: center
+                }
+            </style>
+        <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="./css/default.css">
+        <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
+        <script>window.jQuery || document.write('<script src="./js/jquery-1.11.0.min.js"><\/script>')</script>
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    </head>
+
+    <body>
+    <div class="htmleaf-container">
+                <div class="lang" style="float: right; margin-right: 10%;margin-top: 20px;" ><a href="index.html">ä¸­æ</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="index_en.html">English Version</a></div>
+                <br>
+                
+                <header class="htmleaf-header">
+                    <h1><b> Magellan</b></h1>
+                     <!-- <p class="lead">xx </p> -->
+                </header>
+    </div>
+                
+    <div class="container">
+                <hr>
+                 <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-justify">
+          <p >Magellan is a number of vulnerabilities that exist in SQLite. These vulnerabilities were discovered by Tencent Blade Team and verified to be able to successfully implement remote code execution in Chromium browsers. As a well-known database, SQLite is widely used in all modern mainstream operating systems and software, so this vulnerability has a wide range of influence. SQLite and Google had confirmed and fixed this vulnerability. We will not disclose any details of the vulnerability at this time, and we are pushing other vendors to fix this vulnerability as soon as possible.</p>
+          </div>
+      </div>
+      <br>
+      <div class="ui-flex justify-center center" >
+            <img src="./img/tspd.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./img/logo_png.png" width="25%">
+        </div>
+      </div>
+      <div class="container">
+          <hr>
+               <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 faq">
+          <h3 id="faq">Q &amp; A</h3>
+          <br>
+          <h4 >(1) Am I affected by the vulnerability?</h4>
+          <p >If your application uses the FTS3 extension in SQLite below 3.25.3 and allows an attacker to run arbitrary SQL statements (either deliberately or by accident) then you could be vulnerable to the Magellan attack. </p>
+          <br>
+          <h4>(2) What is the impact of this vulnerability?</h4>
+          <p>Remote code execution, leaking program memory or causing program crashes.</p>
+          <br>
+          <h4>(3) Does this vulnerability have been succesfully exploited?</h4>
+          <p>Yes, we successfully exploited Google Home (RCE) with this vulnerability.</p>
+          <br>
+          <h4>(4) What is the CVE ID of this vulnerability?</h4>
+          <p>CVE-2018-20346, CVE-2018-20505, CVE-2018-20506.</p>
+          <br>
+          <h4>(5) Has "Magellan" been abused in the wild?</h4>
+          <p>We have not found this vulnerability to have a public full exploit code.</p>
+          <br>
+          <h4>(6) Is there a workaround/fix?</h4>
+          <p>We have reported all the details of the vulnerability to Google and they have fixed the vulnerability ( <a href="https://chromium.googlesource.com/chromium/src/+/c368e30ae55600a1c3c9cb1710a54f9c55de786e">commit</a> ). If your product uses Chromium, please update to the official stable version 71.0.3578.80( <a href="https://chromereleases.googleblog.com/2018/12/stable-channel-update-for-desktop.html">Release updates</a>). If your product uses SQLite, please update to 3.26.0 ( <a href="https://www.sqlite.org/releaselog/3_26_0.html">Release updates</a>).</p>
+          <br>
+          <h4>(7) Are there plans to disclose details of the vulnerability?</h4>
+          <p>Not yet. We follow the responsible vulnerability disclosure process and will not disclose the details of the vulnerability in advance 90 days after the vulnerability report.</p>
+          <br>
+          <h4>(8) The specific scope of the vulnerability?</h4>
+          <p>Magellan means a group of vulnerabilities we have reported recently.They will affect old versions of :</p>
+          <p>- Chrome/Chromium.</p>
+          <p>- Smart devices using Chrome/Chromium.</p>
+          <p>- Browsers developed based on Chromium (like Opera ...). </p>
+          <p>- Browsers developed based on Webview.</p>
+          <p>- Android Apps that uses Webview and can access any website. </p>
+          <p>- Software that uses the Chromium and can access any website.  </p>
+          <p>- Sqlite shell (with FTS3 enabled, as described by medias). </p>
+          <p>- Programs, scripts, or Apps that use a Sqlite component with FTS3 enabled and accept external input for Sql statements. </p>
+          <p>- Programs, scripts, or Apps that open FTS3 and accept import from external sql backup </p>
+          <br>
+          <p>In those conditions program will not be affected:</p>
+          <p>- No external SQL request is accepted. </p>
+          <p>- FTS3 is disabled. </p>
+          <br>
+          </div>
+          </div>
+          </div>
+          <div class="container">
+            <hr>
+            <h3>Timeline</h3>
+            <br>
+            <p> - 1st Nov 2018 Reported vulnerabilities to Google.</p>
+            <p> - 1st Nov 2018 Vulnerabilities confirmed by Google.</p>
+            <p> - 3rd Nov 2018 Vulnerabilities reported to SQLite.</p>
+            <p> - 5th Nov 2018 SQLite released 3.25.3 to fix vulnerabilities.</p>
+            <p> - 28th Nov 2018 Google fixed vulnerabilities.</p>
+            <p> - 1st Dec 2018 SQLite released 3.26.0, introducing defense in depth.</p>
+            <p> - 3rd Dec 2018 Google released the official Chrome version 71.0.3578.80.</p>
+            <p> - 20th Dec 2018 Google decided to reward, the bonus is $10337.</p>
+            <p> - 21th Dec 2018 CVE ID has been assigned as CVE-2018-20346, CVE-2018-20505, CVE-2018-20506.</p>
+            </div>
+            <br>
+            
+        </div>
+
+
+            <div class="container">
+            <hr>
+            <h3>About us</h3>
+            <p >Tencent Blade Team was founded by Tencent Security Platform Department, focusing in security researches of AI, Mobile Internet, IoT and other cutting-edge technologies. So far, Tencent Blade Team has reported more than 100 security vulnerabilities to a large number of international manufacturers, including Google, Apple, Amazon and Adobe. In the future, Tencent Blade Team will continue to make the Internet a safer place for everyone.</p>
+            <p >Contact us: blade@tencent.com</p>
+            <p >Twitter: <a href="https://twitter.com/tencent_blade">https://twitter.com/tencent_blade</a></p>
+            <p >Website: <a href="https://blade.tencent.com">https://blade.tencent.com</a></p>
+            </div>
+            <br>
+            <div class="container">
+                <hr>
+                <p >Copyright Â© 2018 Tencent Security Platform Department.All Rights Reserved.</p>
+            </div>
+    </body>
+
+</html>
+
+
+
+#####EOF#####
+
+

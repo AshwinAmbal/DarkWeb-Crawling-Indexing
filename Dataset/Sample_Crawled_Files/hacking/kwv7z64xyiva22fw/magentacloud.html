@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="robots" content="noindex, follow">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>MagentaCLOUD</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+		<meta name="format-detection" content="telephone=no"/>
+		
+		<link href="v1.17.0/images/static/favicon.ico" rel="SHORTCUT ICON" type="image/x-icon" />
+		
+		<link rel="apple-touch-icon" sizes="180x180" href="images/static/apple-touch-icon-180x180.png">
+		<style type="text/css">
+		@-ms-viewport { width: device-width; }
+		@viewport { width: device-width; }
+
+		/* bootstrap css */
+		.nojs {
+			width: 320px;
+			margin: 0 auto;
+			display: block;
+			padding: 33px 17px 0 17px;
+		}
+
+		.nojs .lang {
+			margin-bottom: 15px;
+		}
+
+		.ie9lte .nojs .text {
+			width: 280px;
+			display: inline-block;
+		}
+		</style>
+		<script type="text/javascript">
+			window.Config = {"hasBackup":true,"hasFeedback":false,"hasSetupCredentials":false,"hasTracking":true,"global_nav_host":"header.cdb.t-online.de","login_redir_url":"/auth/idmlogin","unsupported_redir_uri":"https://static.magentacloud.de/browser-outdated/","logout_url":"https://accounts.login.idm.telekom.com/sessionmessage/logout?redirectURL=http://www.t-online.de/magentacloud-logout-abgeschlossen/id_51315186/index%2Fid_51315186%2Findex&skinID=no_scr","account_mgr_url":"https://account.idm.telekom.com/account-manager/index.xhtml","tealium_uri":"//tags-eu.tiqcdn.com/utag/telekom/mediencenter/prod/utag.js","websocket_uri":"wss://api.magentacloud.de/2.1/subscribe","app":{"name":"tmcfm","version":"1.17.0"},"cacheBuster":"v1.17.0"};
+		</script>
+	</head>
+	<body>
+		<div id="content"></div>
+		<noscript class="nojs">
+			
+				<h3>Deutsch</h3>
+				<p>Aktivieren Sie bitte JavaScript um MagentaCLOUD im Webbrowser benutzen zu kÃ¶nnen.</p>
+			
+				<h3>English</h3>
+				<p>Please activate JavaScript so you can use MagentaCLOUD in your browser.</p>
+			
+		</noscript>
+
+		<script type="text/javascript">
+			window.Bootstrap = function(ua) {
+	ua = typeof ua === "string" ? ua.toLowerCase() : "";
+
+	var msie = ua.indexOf("msie "),
+		ieMobile = ua.indexOf("IEMobile/"),
+		trident = ua.indexOf("trident/");
+
+	/**
+	 * returns Infinity or the parsed IE version
+	 * @return {[type]} [description]
+	 */
+	function getIEVersion() {
+		var result = null,
+			rv;
+
+		if (msie > 0) {
+			// IE 10 or older => return version number
+			result = parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+		} else if (ieMobile > 0) {
+			result = parseInt(ua.substring(ieMobile + 9, ua.indexOf(".", ieMobile)), 2);
+		} else if (trident > 0) {
+			// IE 11 => return version number
+			rv = ua.indexOf("rv:");
+			result = parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+		}
+
+		return result;
+	}
+
+	function isWindows() {
+		return ua.indexOf("windows") !== -1;
+	}
+	function isAndroid() {
+		return ua.indexOf("android") !== -1 && !isWindows();
+	}
+	function isIOS() {
+		return (/iphone|ipad|ipod/).test(ua) && !isWindows();
+	}
+
+	function isIE() {
+		return msie > 0 || ieMobile > 0 || trident > 0;
+	}
+	function isSafari() {
+		return ua.indexOf("safari/") !== -1 && !isChrome() && !isIE();
+	}
+	function isChrome() {
+		return ua.indexOf("chrom") !== -1;
+	}
+	function isFirefoxDesktop() {
+		// firefox on desktop can be identified by the fixed "20100101" gecko
+		// trail
+		// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent/Firefox
+		return /gecko\/20100101 firefox\//.test(ua);
+	}
+
+	this.navigator = {
+		isSafari: isSafari(),
+		isChrome: isChrome(),
+		isIE: isIE(),
+		isFirefoxDesktop: isFirefoxDesktop(),
+		ieVersion: getIEVersion()
+	};
+
+	this.os = {
+		isWindows: isWindows(),
+		isAndroid: isAndroid(),
+		isIOS: isIOS()
+	};
+
+	/** Check whether it's a IE with version less than the passed version.
+	 * @param {number} version to check against
+	 * @return {boolean} true if the IE version is less than the passed value, false if version was not parsable or not IE
+	 */
+	this.isIElessThan = function(version) {
+		var ieVersion = getIEVersion();
+		return ieVersion !== null && ieVersion < version;
+	};
+
+	/**
+	* Add a script tag to <head>
+	* @param {string} filename Source path
+	* @param {requireJSPath}* requireJSPath Optional path for data-main
+	*/
+	this.loadScript = function(filename, requireJSPath) {
+		var fileref = document.createElement("script");
+
+		fileref.setAttribute("type", "text/javascript");
+		fileref.setAttribute("src", filename);
+
+		if (requireJSPath) {
+			fileref.setAttribute("data-main", requireJSPath);
+		}
+
+		document.getElementsByTagName("head")[0].appendChild(fileref);
+	};
+
+	/**
+	* Add a link tag to <head> for css file
+	* @param {string} filename Source path
+	*/
+	this.loadStyle = function(filename) {
+		var fileref = document.createElement("link");
+
+		fileref.setAttribute("rel", "stylesheet");
+		fileref.setAttribute("type", "text/css");
+		fileref.setAttribute("href", filename);
+
+		document.getElementsByTagName("head")[0].appendChild(fileref);
+	};
+};
+
+		</script>
+		<script type="text/javascript">
+			var bootstrap = window.bootstrap = new Bootstrap(window.navigator.userAgent);
+			if (
+				(bootstrap.navigator.isSafari && bootstrap.os.isWindows) ||
+				bootstrap.isIElessThan(10)
+			) {
+				window.location = window.Config.unsupported_redir_uri;
+			} else if (!window.location.hash) {
+				window.location = window.Config.login_redir_url;
+			} else {
+			
+				bootstrap.loadStyle("v1.17.0/css/tmcfm.css");
+				bootstrap.loadScript("v1.17.0/js/tmcfm.js");
+			
+			}
+		</script>
+	</body>
+</html>
+
+
+
+#####EOF#####
+
+

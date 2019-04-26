@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<title>Exploiting MS14-066 / CVE-2014-6321 (aka &quot;Winshock&quot;) - Security SiftSecurity Sift</title><link rel="stylesheet" type="text/css" media="all" href="http://www.securitysift.com/wp-content/themes/news-leak/style.css" />
+<link rel="pingback" href="http://www.securitysift.com/xmlrpc.php" />
+
+<!-- This site is optimized with the Yoast SEO plugin v6.2 - https://yoa.st/1yg?utm_content=6.2 -->
+<meta name="description" content="A look at how to trigger the Winshock (MS14-066 / CVE-2014-6321) heap overflow found in the vulnerable schannel module."/>
+<link rel="canonical" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Exploiting MS14-066 / CVE-2014-6321 (aka &quot;Winshock&quot;) - Security Sift" />
+<meta property="og:description" content="A look at how to trigger the Winshock (MS14-066 / CVE-2014-6321) heap overflow found in the vulnerable schannel module." />
+<meta property="og:url" content="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/" />
+<meta property="og:site_name" content="Security Sift" />
+<meta property="article:tag" content="cve-2014-6321" />
+<meta property="article:tag" content="exploit" />
+<meta property="article:tag" content="memcpy" />
+<meta property="article:tag" content="ms14-066" />
+<meta property="article:tag" content="openssl" />
+<meta property="article:tag" content="schannel" />
+<meta property="article:tag" content="windows" />
+<meta property="article:tag" content="winshock" />
+<meta property="article:section" content="Exploits" />
+<meta property="article:published_time" content="2014-11-29T15:41:41-04:00" />
+<meta property="article:modified_time" content="2015-02-12T17:48:20-04:00" />
+<meta property="og:updated_time" content="2015-02-12T17:48:20-04:00" />
+<meta property="og:image" content="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_36-2.jpg" />
+<meta property="og:image:secure_url" content="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_36-2.jpg" />
+<meta property="og:image:width" content="946" />
+<meta property="og:image:height" content="256" />
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/www.securitysift.com\/","name":"Security Sift","potentialAction":{"@type":"SearchAction","target":"https:\/\/www.securitysift.com\/?s={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//s.gravatar.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Security Sift &raquo; Feed" href="https://www.securitysift.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Security Sift &raquo; Comments Feed" href="https://www.securitysift.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Security Sift &raquo; Exploiting MS14-066 / CVE-2014-6321 (aka &#8220;Winshock&#8221;) Comments Feed" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www.securitysift.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=074365af52b070ed64eed58390cfe1a7"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://www.securitysift.com/wp-content/themes/news-leak/pagenavi-css.css?ver=2.50' type='text/css' media='all' />
+<link rel='stylesheet' id='wpfb-css'  href='//www.securitysift.com/wp-content/plugins/wp-filebase/wp-filebase.css?t=1472162584&#038;ver=3.4.4' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-css'  href='http://www.securitysift.com/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='amazon-link-style-css'  href='http://www.securitysift.com/wp-content/plugins/amazon-link/Amazon.css?ver=3.2.8' type='text/css' media='all' />
+<link rel='stylesheet' id='easy_table_style-css'  href='http://www.securitysift.com/wp-content/plugins/easy-table/themes/default/style.css?ver=1.6' type='text/css' media='all' />
+<link rel='stylesheet' id='social-logos-css'  href='http://www.securitysift.com/wp-content/plugins/jetpack/_inc/social-logos/social-logos.min.css?ver=1' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css'  href='http://www.securitysift.com/wp-content/plugins/jetpack/css/jetpack.css?ver=5.7.1' type='text/css' media='all' />
+<script type='text/javascript' src='http://www.securitysift.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-content/themes/news-leak/js/jquery.tools.min.js?ver=074365af52b070ed64eed58390cfe1a7'></script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-content/themes/news-leak/js/custom.js?ver=074365af52b070ed64eed58390cfe1a7'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/www.securitysift.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<link rel='https://api.w.org/' href='https://www.securitysift.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.securitysift.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.securitysift.com/wp-includes/wlwmanifest.xml" /> 
+
+<link rel='shortlink' href='https://wp.me/p2IWUO-DQ' />
+<link rel="alternate" type="application/json+oembed" href="https://www.securitysift.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.securitysift.com%2Fexploiting-ms14-066-cve-2014-6321-aka-winshock%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.securitysift.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.securitysift.com%2Fexploiting-ms14-066-cve-2014-6321-aka-winshock%2F&#038;format=xml" />
+<script type="text/javascript">var INLINE_TWEETS_BASE_URL = "https://www.securitysift.com";</script>
+<link rel='dns-prefetch' href='//v0.wordpress.com'/>
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #fafafa; }
+</style>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34723613-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<meta name="google-site-verification" content="m2lA3OfNuKxCUlq06PL9zz9-9E40BibfdtkLlN9HAYw" />
+</head>
+<body class="post-template-default single single-post postid-2470 single-format-standard custom-background">
+
+<div id="wrapper">
+<div id="header">
+<div id="header-bar">
+<div id="top-nav">
+<ul id="pagenav">
+<li ><a href="https://www.securitysift.com/">Home</a></li>
+<li class="page_item page-item-41"><a href="https://www.securitysift.com/about/">About</a></li>
+<li class="page_item page-item-2215"><a href="https://www.securitysift.com/my-library/">My Library</a></li>
+</ul>
+</div>
+<div id="account"><ul>
+		</ul></div></div>
+
+<div id="logo">
+    	  <h1><a href="https://www.securitysift.com/"><img align="right" src="http://www.securitysift.com/wp-content/uploads/2012/09/logo_2x2.jpg">Security Sift</a></h1>
+Sifting through the world of Information Security, one bit at a time <br><br><br><br><span class='definition'>Sift: to examine (something) thoroughly so as to isolate that which is most important -- Oxford Dictionary</span></div>
+
+
+
+
+<div id="navigation">
+<div id="search_wrap">
+<form method="get" id="searchform" action="https://www.securitysift.com" >
+<input type="text" value="" name="s" id="s" />
+<input id="searchsubmit" type="image" src="http://www.securitysift.com/wp-content/themes/news-leak/images/btn_search.png" alt="Submit" />
+</form>
+
+</div></div></div><div id="container">
+<div id="content">
+<div id="container_ad">Google</div>
+<div id="post_holder">
+	    
+<h1>Exploiting MS14-066 / CVE-2014-6321 (aka &#8220;Winshock&#8221;)</h1>
+<div class="post_author"><img src="http://www.securitysift.com/wp-content/uploads/2012/09/mike_czumak.jpg" width="40" height="40" />
+<span>Written by:</span><span class="post_details"><a href="https://www.securitysift.com/author/admin/" title="Posts by Mike Czumak" rel="author">Mike Czumak</a></span></div>
+<div class="post_time"><span>Written on:</span><span class="post_details"><a href="https://www.securitysift.com/2014/11/29/">November 29, 2014 </a></span></div>
+
+<div id="comments_option">Comments are closed</div><div class="post"><h3>Introduction</h3>
+<p>I think enough time has passed now to provide a little more detail on how to exploit MS14-066 schannel vulnerability (aka &#8220;Winshock&#8221;). In this post I won&#8217;t be providing a complete PoC exploit, but I will delve into theÂ details on exactly how to trigger the heap overflow along with some example modifications to OpenSSL so you can replicate the issue yourself.</p>
+<p>This vulnerability was announced while I was on vacation so I didn&#8217;t have a chance to analyze it right away. Lucky for me, the research team at BeyondTrustÂ posted this conciseÂ write-up, keying in on the vulnerable code:Â <a href="http://blog.beyondtrust.com/triggering-ms14-066" target="_blank">http://blog.beyondtrust.com/triggering-ms14-066</a>. When I first lookedÂ at the specifics of the vulnerability, I admittedly discounted it&#8217;s severity solely for the fact that it seemed necessary to have some form of mutual certificate-based authentication to trigger &#8212; still a big deal but not as widespread as I first imagined (or so I thought). Then, a couple of days later,Â Malware Tech posted this gem:Â <a href="http://www.malwaretech.com/2014/11/how-ms14-066-winshock-is-worse-than.html" target="_blank">http://www.malwaretech.com/2014/11/how-ms14-066-winshock-is-worse-than.html</a>. Wow&#8230;triggering the exploit on web servers even if they were set to ignore certificates definitely renewed my interest. @MalwareTechBlog subsequently released this nice write-up with additional details, but by that time I was already deep into examining theÂ exploit (though it&#8217;s still worth a read if you haven&#8217;t already):Â <a href="http://www.malwaretech.com/2014/11/ms14-066-in-depth-analysis.html" target="_blank">http://www.malwaretech.com/2014/11/ms14-066-in-depth-analysis.html</a>.</p>
+<p>If you&#8217;ve already had a chance to read these sources, please bear with me, because forÂ the sake of completeness, I will be repeating some of the information.</p>
+<p>First, let&#8217;s take a closer lookÂ at the vulnerableÂ function&#8230;</p>
+<h3>schannel!DecodeSigAndReverse</h3>
+<p>Here is the disassembly for the pertinent portions of the <span style="font-family: 'courier new', courier;">DecodeSigAndReverse</span> function (found in <span style="font-family: 'courier new', courier;">schannel.dll</span>) which is responsible for decoding the encoded certificate signature.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_01-1.png"><img class="aligncenter size-large wp-image-2475" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_01-1-1024x779.png" alt="ms14066_01-1" width="640" height="486" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_01-1-1024x779.png 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_01-1-300x228.png 300w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_01-1.png 1307w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p>Of interest to us are the calls to <span style="font-family: 'courier new', courier;">CryptDecodeObject</span> the the two subsequent calls to <span style="font-family: 'courier new', courier;">memcpy</span> (found in the lower left yellow box), which is what ultimately triggers this vulnerability. I&#8217;ll get into more details but first it&#8217;s important to note that to trigger the vulnerable <span style="font-family: 'courier new', courier;">memcpy</span>, we need to somehow force the server to verify a client-provided ECC certificate (as indicated by the <span style="font-family: 'courier new', courier;">cmp ebx, 2Fh</span> instruction highlighted below).</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_02.png"><img class="aligncenter  wp-image-2476" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_02-1024x562.png" alt="ms14066_02" width="442" height="243" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_02-1024x562.png 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_02-300x164.png 300w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_02.png 1028w" sizes="(max-width: 442px) 100vw, 442px" /></a></p>
+<p>Most web servers will ignore a submitted client certificate (unless certificate authentication is required). However, asÂ @MalwareTechBlog pointed out, vulnerable IIS servers will actually process a certificate that is forcefully presented regardless of the configured SSL settings. I&#8217;ll be demonstrating this vulnerability only for IIS on port 443, though you mayÂ be able to replicate similar results for RDP.</p>
+<h3>The Setup</h3>
+<p>The first thing you&#8217;ll need to do to trigger this exploit is configure IIS SSL settingsÂ (I used a Win 7 box) as follows:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_03.jpg"><img class="aligncenter  wp-image-2477" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_03.jpg" alt="ms14066_03" width="437" height="192" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_03.jpg 709w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_03-300x132.jpg 300w" sizes="(max-width: 437px) 100vw, 437px" /></a></p>
+<p>Generate a self-signed certificate (using OpenSSL), upload to your Windows box and bind it to your site:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_04.jpg"><img class="aligncenter  wp-image-2478" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_04.jpg" alt="ms14066_04" width="448" height="273" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_04.jpg 1001w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_04-300x182.jpg 300w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_04-295x180.jpg 295w" sizes="(max-width: 448px) 100vw, 448px" /></a></p>
+<p>Now generate an EC cert/key pair to use on your &#8220;attacking&#8221; machine. Next you&#8217;ll need to download the OpenSSL source. For my test setup IÂ used version 1.0.1j onÂ a Kali box.Â Since you&#8217;re probably going to be modifying and recompiling many times, you may want to use the .configure script to permanently set any desired build variables (such as install location).</p>
+<p>Once you&#8217;ve got your web server configured, your client cert/key generated, and openSSL source downloaded, it&#8217;s time to make some modifications, specifically to <span style="font-family: 'courier new', courier;">s3_clnt.c</span>. First, we need to force the sending of our client certificate whichÂ can be done as follows:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_05.png"><img class="aligncenter  wp-image-2480" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_05-1024x886.png" alt="ms14066_05" width="436" height="378" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_05-1024x886.png 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_05-300x259.png 300w" sizes="(max-width: 436px) 100vw, 436px" /></a></p>
+<p>Notice I&#8217;ve altered the caseÂ statement logic to force a call to <span style="font-family: 'courier new', courier;">ssl3_send_client_certificate</span>.</p>
+<p>Next you&#8217;ll need toÂ force certificate verification, which can be done with the following modification to makeÂ a call to <span style="font-family: 'courier new', courier;">ssl3_send_client_verify</span>:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_06.png"><img class="aligncenter  wp-image-2481" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_06-1000x1024.png" alt="ms14066_06" width="415" height="425" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_06-1000x1024.png 1000w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_06-293x300.png 293w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_06.png 1524w" sizes="(max-width: 415px) 100vw, 415px" /></a></p>
+<p>Connect a remote kernel debugger to your test IIS box and set a breakpoint on <span style="font-family: 'courier new', courier;">schannel!DecodeSigAndReverse</span>. Then connect via the modified OpenSSL s_client and you should trigger your breakpoint:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_391.jpg"><img class="aligncenter size-large wp-image-2523" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_391-1024x191.jpg" alt="ms14066_39" width="640" height="119" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_391-1024x191.jpg 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_391-300x56.jpg 300w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_08.jpg"><img class="aligncenter  wp-image-2484" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_08.jpg" alt="ms14066_08" width="418" height="277" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_08.jpg 806w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_08-300x199.jpg 300w" sizes="(max-width: 418px) 100vw, 418px" /></a></p>
+<p>Once you&#8217;ve confirmed you can enter the vulnerable function, it&#8217;s time to delve into the details to understand how to exploit it.</p>
+<h3>A Closer Look</h3>
+<p>If you referÂ back to the disassembly of <span style="font-family: 'courier new', courier;">DecodeSigAndReverse</span>, one of the the initialÂ things toÂ happen is the first of two calls to <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa379911%28v=vs.85%29.aspx" target="_blank">CryptDecodeObject</a>.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_07.jpg"><img class="aligncenter  wp-image-2483" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_07.jpg" alt="ms14066_07" width="335" height="222" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_07.jpg 728w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_07-300x198.jpg 300w" sizes="(max-width: 335px) 100vw, 335px" /></a>This first call sets <span style="font-family: 'courier new', courier;">pvStructInfo</span> to null to determine theÂ size of the buffer needed to hold the decoded signatureÂ for proper memory allocation (which is handled by the subsequent call to <span style="font-family: 'courier new', courier;">SPExternalAlloc</span>).</p>
+<p>The second call to <span style="font-family: 'courier new', courier;">CryptDecodeObject</span> is the one of interest.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_10.jpg"><img class="aligncenter size-large wp-image-2486" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_10-1024x243.jpg" alt="ms14066_10" width="640" height="151" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_10-1024x243.jpg 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_10-300x71.jpg 300w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_10.jpg 1432w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p>Testing this with an unmodified EC cert and key pair you shouldÂ see something similar to the following forÂ <span style="font-family: 'courier new', courier;">pcbStructInfo</span> and <span style="font-family: 'courier new', courier;">pvStructInfo</span>:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_09.jpg"><img class="aligncenter  wp-image-2485" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_09.jpg" alt="ms14066_09" width="414" height="383" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_09.jpg 697w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_09-300x277.jpg 300w" sizes="(max-width: 414px) 100vw, 414px" /></a></p>
+<p>You can see before the call that the designated size is 50h and the <span style="font-family: 'courier new', courier;">pvStructInfo</span> structure is 0&#8217;d out and ready to receive the decoded signature. <span style="font-family: 'courier new', courier;">cbEncoded</span> holds the size of the encoded signature, which in this case is 46h. The encoded signature looks as follows:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_12.jpg"><img class="aligncenter  wp-image-2488" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_12.jpg" alt="ms14066_12" width="407" height="353" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_12.jpg 680w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_12-300x260.jpg 300w" sizes="(max-width: 407px) 100vw, 407px" /></a></p>
+<p>* Note: in the above pic, <span style="font-family: 'courier new', courier;">ebp+0ch</span> shows the size of the encoded signature (46h) and the memory at location <span style="font-family: 'courier new', courier;">002dc57b</span> holds the encoded signature.</p>
+<p>When the second <span style="font-family: 'courier new', courier;">CryptDecodeObject</span> function returns,Â <span style="font-family: 'courier new', courier;">pvStructInfoÂ </span>now holds the decoded signature:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_13.jpg"><img class="aligncenter size-full wp-image-2489" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_13.jpg" alt="ms14066_13" width="633" height="134" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_13.jpg 633w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_13-300x63.jpg 300w" sizes="(max-width: 633px) 100vw, 633px" /></a></p>
+<p>Now we can shift our attention to the two <span style="font-family: 'courier new', courier;">memcpy</span> functions that follow.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_14.jpg"><img class="aligncenter  wp-image-2490" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_14.jpg" alt="ms14066_14" width="231" height="161" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_14.jpg 368w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_14-300x209.jpg 300w" sizes="(max-width: 231px) 100vw, 231px" /></a></p>
+<p>The first <span style="font-family: 'courier new', courier;">memcpy</span> will copy the number of bytes of the decoded signature designated in <span style="font-family: 'courier new', courier;">[esi]</span> (in this case 20h or 32d) to a designated buffer (<span style="font-family: 'courier new', courier;">Dst</span>). In the screenshot below, you can see that the contents of this buffer after the call to <span style="font-family: 'courier new', courier;">memcpy</span> containÂ the firstÂ 32 bytes of the decoded signature returned byÂ <span style="font-family: 'courier new', courier;">CryptDecodeObject</span>.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_15.jpg"><img class="aligncenter  wp-image-2491" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_15.jpg" alt="ms14066_15" width="450" height="461" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_15.jpg 856w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_15-293x300.jpg 293w" sizes="(max-width: 450px) 100vw, 450px" /></a></p>
+<p>Similarly, the second <span style="font-family: 'courier new', courier;">memcpy</span>Â copies the remaining 32 bytes of the decoded signature to the adjacent reserved space in memory (<span style="font-family: 'courier new', courier;">Dst</span>).</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_16.jpg"><img class="aligncenter  wp-image-2492" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_16.jpg" alt="ms14066_16" width="439" height="440" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_16.jpg 901w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_16-150x150.jpg 150w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_16-300x300.jpg 300w" sizes="(max-width: 439px) 100vw, 439px" /></a></p>
+<p>It&#8217;s the second <span style="font-family: 'courier new', courier;">memcpy</span> function that is vulnerable to a heap overflow and will be the focus of our attention. To understand whyÂ it&#8217;s vulnerable to an overflow condition, we need to see how the destination buffer (<span style="font-family: 'courier new', courier;">Dst</span>) is allocated which actually happens in the <span style="font-family: 'courier new', courier;">CheckClientVerifyMessage()</span>.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_18.jpg"><img class="aligncenter  wp-image-2493" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_17.jpg" alt="ms14066_17" width="438" height="135" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_17.jpg 1007w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_17-300x92.jpg 300w" sizes="(max-width: 438px) 100vw, 438px" /></a></p>
+<p>Notice in the third block below (before the call to <span style="font-family: 'courier new', courier;">DecodeSigAndReverse</span>) is the call to <span style="font-family: 'courier new', courier;">SPExternalAlloc</span>, which reserves the memory (<span style="font-family: 'courier new', courier;">Dst</span>) where our decoded signature will be copied via the two calls to <span style="font-family: 'courier new', courier;">memcpy</span> shown previously.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_19.jpg"><img class="aligncenter size-large wp-image-2497" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_19-1024x537.jpg" alt="ms14066_19" width="640" height="335" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_19-1024x537.jpg 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_19-300x157.jpg 300w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p>You&#8217;ll recall each of those calls to <span style="font-family: 'courier new', courier;">memcpy</span> copied 32 bytes (20h) of the decoded signature to adjacent portions of memory to fill a total of 40h bytes. This 40h bytes is reserved by <span style="font-family: 'courier new', courier;">SPExternalAlloc</span> by taking the total key size (in this case 256 bits), dividing it by 8 (to convert to bytes) and doubling it (256 / 8 = 32 * 2 = 64d or 40 h). The dangerous assumption here is that the decoded signature will always be twice the size of the key. We&#8217;re about to see why that&#8217;s not true.</p>
+<h3>Modifying The Encoded Signature</h3>
+<p>The first thing we want to do is have some control over the size of the encoded signature represented by <span style="font-family: 'courier new', courier;">cbEncoded</span>. If you refer to the call to <span style="font-family: 'courier new', courier;">CheckClientVerifyMessage()</span>, you&#8217;ll notice that <span style="font-family: 'courier new', courier;">cbEncoded</span>Â is passed as a parameter, which means we need to back up even further to the functionÂ <span style="font-family: 'courier new', courier;">DigestCertVerify()</span>.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_21.jpg"><img class="aligncenter size-large wp-image-2499" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_21-1024x191.jpg" alt="ms14066_21" width="640" height="119" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_21-1024x191.jpg 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_21-300x56.jpg 300w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_21.jpg 1147w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p>We can see at location <span style="font-family: 'courier new', courier;">0xXXXX98CE</span> of <span style="font-family: 'courier new', courier;">DigestCertVerify</span> that <span style="font-family: 'courier new', courier;">cbEncoded</span> is located at <span style="font-family: 'courier new', courier;">[esi+1]</span>. It turns out <span style="font-family: 'courier new', courier;">[esi]</span> merely points to the start of the encoded signature structure which looks like this:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_22.jpg"><img class="aligncenter  wp-image-2500" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_22.jpg" alt="ms14066_22" width="443" height="220" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_22.jpg 936w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_22-300x148.jpg 300w" sizes="(max-width: 443px) 100vw, 443px" /></a></p>
+<p>Notice <span style="font-family: 'courier new', courier;">[esi+1]</span> holds the value of <span style="font-family: 'courier new', courier;">cbEncoded</span> (47h). The bytes that follow make up the encoded signature that will eventually be passed to <span style="font-family: 'courier new', courier;">CrypteDecodeObject()</span> within <span style="font-family: 'courier new', courier;">DecodeSigAndReverse()</span>. Here is a look at that call so you can see they are identical:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_23.jpg"><img class="aligncenter  wp-image-2501" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_23.jpg" alt="ms14066_23" width="452" height="189" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_23.jpg 680w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_23-300x125.jpg 300w" sizes="(max-width: 452px) 100vw, 452px" /></a></p>
+<p>The structure that holds our encoded signature isÂ <a href="http://msdn.microsoft.com/en-us/windows/aa377194%28v=vs.71%29.aspx" target="_blank">defined onÂ MSDN</a>Â as follows:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_26.png"><img class="aligncenter  wp-image-2508" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_26-1024x477.png" alt="ms14066_26" width="512" height="239" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_26-1024x477.png 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_26-300x140.png 300w" sizes="(max-width: 512px) 100vw, 512px" /></a></p>
+<p>For the purpose of this demo, I&#8217;ll call this structure <span style="font-family: 'courier new', courier;">sig</span>. We&#8217;ve identified the total size of <span style="font-family: 'courier new', courier;">sig</span> by the byte located at <span style="font-family: 'courier new', courier;">sig[1]</span>. Structure members <span style="font-family: 'courier new', courier;">r</span> and <span style="font-family: 'courier new', courier;">s</span> are decoded and copied via the two memcpy operations. What&#8217;s even more interesting is that two other bytes of <span style="font-family: 'courier new', courier;">sig</span>Â (which is under our control) dictate the size of <span style="font-family: 'courier new', courier;">r</span> and <span style="font-family: 'courier new', courier;">s</span> used in each memcpy operation.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_24.png"><img class="aligncenter  wp-image-2502" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_24.png" alt="ms14066_24" width="473" height="235" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_24.png 936w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_24-300x148.png 300w" sizes="(max-width: 473px) 100vw, 473px" /></a></p>
+<p>This means we have control over how many bytes are written via each memcpy and can use that to overwrite the reserved heap buffer. In addition, other than a few required byte values, the majority of the encoded signature is irrelevant, meaning we can inject any values we wish.</p>
+<p>In addition, submitting an invalid encoded signature to <span style="font-family: 'courier new', courier;">CryptDecodeObject</span>Â doesn&#8217;t result in an error. Instead, it simply returns the invalid encoded signature that we passed it and that data isÂ subsequently written to the heap via the vulnerable <span style="font-family: 'courier new', courier;">memcpy</span> functions. This means we can predict the subsequent return values that will be passed to the vulnerable <span style="font-family: 'courier new', courier;">memcpy</span> functions and written viaÂ theÂ heap overflow.</p>
+<p>From my brief testing, I identified the following required values for sig:</p>
+<ul>
+<li>sig[1] = cbEncoded (total size of sig); my testing indicates that max size is \x81</li>
+<li>sig[2] = \x30; required (leave unchanged)</li>
+<li>sig[3] = (sig[1] -1); max size is \x7f</li>
+<li>sig[4] = \x02; appears to represent data type that follows</li>
+<li>sig[5] = size of r or memcpy 1; minimum value is 1</li>
+<li>sig[6] = any single byte value such as \x00</li>
+<li>sig[7] =Â \x02; appears to represent data type that follows</li>
+<li>sig[8] = sig[1] &#8211; 7 = \x7a</li>
+<li>sig[9]&#8230;sig[x] = any arbitrary values for heap oveflow</li>
+</ul>
+<h3>Triggering the Exploit</h3>
+<p>So, how can we influence the encoded signature value? Rather than changing the content of the certificate, we can modify the encoded signature directly in OpenSSLÂ via the <span style="font-family: 'courier new', courier;">ssl3_send_client_verify</span> function.</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_38.jpg"><img class="aligncenter  wp-image-2514" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_38-811x1024.jpg" alt="ms14066_38" width="438" height="553" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_38-811x1024.jpg 811w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_38-237x300.jpg 237w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_38.jpg 1175w" sizes="(max-width: 438px) 100vw, 438px" /></a></p>
+<p>A couple things to note about the above modified signature. The first <span style="font-family: 'courier new', courier;">memcpy</span> is represented by the three bytes at <span style="font-family: 'courier new', courier;">psig[2]</span> &#8211; <span style="font-family: 'courier new', courier;">psig[4]</span> (<span style="font-family: 'courier new', courier;">\x02\x01\x00</span>). Again, I believe the first byte to represent the data type, the second byte is the sizeÂ forÂ <span style="font-family: 'courier new', courier;">memcpy</span>, and the third byte is the content (src) to write. A single byte of <span style="font-family: 'courier new', courier;">\x00</span> will result in the first <span style="font-family: 'courier new', courier;">memcpy</span> writing 32 null bytes to the first half of the reserved 64 bytes.</p>
+<p>The nextÂ 32 bytes as well as up to 90 additional bytes will be consumed by what follows <span style="font-family: 'courier new', courier;">psig[7]</span> and <span style="font-family: 'courier new', courier;">psig[8]</span>. This is what results in the heap overflow.</p>
+<p>For purposes of illustration, notice I changed the total size of the signatureÂ to a much larger value of 15,500. Although <span style="font-family: 'courier new', courier;">CryptDecodeObject</span>Â limits the size of the total signature it will process (again, my testing indicated the limit is \x81), <span style="font-family: 'courier new', courier;">DecodeSigAndReverse</span> accepts much larger values forÂ the encoded signature (<span style="font-family: 'courier new', courier;">pbEncoded</span>) which means arbitrary data can be written to memory before it&#8217;s processed by <span style="font-family: 'courier new', courier;">CryptDecodeObject</span>Â Note: it appears that <span style="font-family: 'courier new', courier;">DecodeSigAndReverse</span> properly allocates memory for the encoded signature and none of my tests resulted in an overflow condition as a result submitting a large signature; however,Â being able to write 10,000+ bytes of arbitrary data may come in handy.</p>
+<p>You can see an example of this below:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_25.jpg"><img class="aligncenter  wp-image-2504" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_25.jpg" alt="ms14066_25" width="508" height="478" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_25.jpg 848w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_25-300x282.jpg 300w" sizes="(max-width: 508px) 100vw, 508px" /></a></p>
+<p>Following this through to the <span style="font-family: 'courier new', courier;">memcpy</span> functions, the resulting heap overflow looks as follows:</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_36-2.jpg"><img class="aligncenter  wp-image-2512" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_36-2.jpg" alt="ms14066_36" width="543" height="147" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_36-2.jpg 946w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_36-2-300x81.jpg 300w" sizes="(max-width: 543px) 100vw, 543px" /></a></p>
+<p>Not surprisingly, this overflow results in an Access Violation (yours may vary).</p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_37-2.jpg"><img class="aligncenter  wp-image-2513" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_37-2.jpg" alt="ms14066_37" width="547" height="553" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_37-2.jpg 914w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_37-2-296x300.jpg 296w" sizes="(max-width: 547px) 100vw, 547px" /></a></p>
+<p><a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_40.png"><img class="aligncenter  wp-image-2531" src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_40-1024x854.png" alt="ms14066_40" width="385" height="320" srcset="https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_40-1024x854.png 1024w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_40-300x250.png 300w, https://www.securitysift.com/wp-content/uploads/2014/11/ms14066_40.png 1136w" sizes="(max-width: 385px) 100vw, 385px" /></a></p>
+<p>One thing to note about this basic demonstration is that the heap overflow may not be triggered immediately nor will the access violation caused by this simple demo be consistent. I found you can typically trigger it at-willÂ by establishing another (valid) connection via an unmodified version of OpenSSL s_client. Here&#8217;s a quick 30 second video demonstrating what it looks like on the target machine.</p>
+<p><video controls="controls" width="580" height="290"><source src="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066.mp4" type="video/mp4" /></video></p>
+<p>As I said earlier, I won&#8217;t be providing a full working exploit PoC at this time nor will I be uploadingÂ my modified version of OpenSSL. That said, the information in this post should be more than enough to understand how this vulnerability can be exploited (though reliability will be a factor) and you may think of additional methods of exploitation. Regardless, this simple demo is still enough to interrupt IIS services and reboot the target machine so please do not test it against any servers unless you have explicit permission to do so!</p>
+<h3>Conclusion</h3>
+<p>To recap, the second <span style="font-family: 'courier new', courier;">memcpy</span> found in <span style="font-family: 'courier new', courier;">schannel!DecodeSigAndReverse</span> is vulnerable to a heap overflow condition due to the presumption of the decoded signatureÂ size (twice the size of the key) made in the calling functionÂ <span style="font-family: 'courier new', courier;">CheckClientVerifyMessage</span>. Since we can control (to a degree) the size and content of the <span style="font-family: 'courier new', courier;">memcpy</span> function (via the encoded signature) andÂ <span style="font-family: 'courier new', courier;">CryptDecodeObject</span> leaves theÂ encoded signature input untouched, we can predict the values written in the heap overflow. This can all be triggered via some basic modification to OpenSSL.</p>
+<p>Hopefully this gave you some additional insight into how this vulnerability can be triggered and exploited, and as always, apply those patches if you haven&#8217;t already!</p>
+<p>Until next time,</p>
+<p>Mike</p>
+<p><a class="twitter-follow-button" href="http://twitter.com/securitysift" data-show-count="true">Follow @securitysift</a></p>
+<div style="clear:both;"></div><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-2470" class="share-google-plus-1 sd-button share-icon" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span>Google</span></a></li><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-2470" class="share-twitter sd-button share-icon" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-2470" class="share-facebook sd-button share-icon" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/?share=facebook" target="_blank" title="Click to share on Facebook"><span>Facebook</span></a></li><li class="share-linkedin"><a rel="nofollow" data-shared="sharing-linkedin-2470" class="share-linkedin sd-button share-icon" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span>LinkedIn</span></a></li><li class="share-email"><a rel="nofollow" data-shared="" class="share-email sd-button share-icon" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/?share=email" target="_blank" title="Click to email this to a friend"><span>Email</span></a></li><li class="share-pinterest"><a rel="nofollow" data-shared="sharing-pinterest-2470" class="share-pinterest sd-button share-icon" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/?share=pinterest" target="_blank" title="Click to share on Pinterest"><span>Pinterest</span></a></li><li class="share-reddit"><a rel="nofollow" data-shared="" class="share-reddit sd-button share-icon" href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/?share=reddit" target="_blank" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></div>
+</div>
+<div class="post_category"><span>In category:</span> <a href="https://www.securitysift.com/category/exploits/" rel="category tag">Exploits</a><br /><span>Tags:</span><a href="https://www.securitysift.com/tag/cve-2014-6321/" rel="tag">cve-2014-6321</a> , <a href="https://www.securitysift.com/tag/exploit/" rel="tag">exploit</a> , <a href="https://www.securitysift.com/tag/memcpy/" rel="tag">memcpy</a> , <a href="https://www.securitysift.com/tag/ms14-066/" rel="tag">ms14-066</a> , <a href="https://www.securitysift.com/tag/openssl/" rel="tag">openssl</a> , <a href="https://www.securitysift.com/tag/schannel/" rel="tag">schannel</a> , <a href="https://www.securitysift.com/tag/windows/" rel="tag">windows</a> , <a href="https://www.securitysift.com/tag/winshock/" rel="tag">winshock</a><br />    </div>
+
+</div>
+    
+<div id="comments">
+	<h3>55 Comments <a href="#leave-comment"> add one</a></h3>
+<ol class="commentlist">
+	<li class="comment even thread-even depth-1"id="li-comment-41793"><div id="comment-41793"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/f3e6cb687146a22c24976870bebc3f44?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/f3e6cb687146a22c24976870bebc3f44?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://www.dwisiswanto.com/' rel='external nofollow' class='url'>CaFc Versace</a></cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-41793">November 30, 2014 at 11:22 am</a></div><div class="comment-body"><p>Nice!</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-41811"><div id="comment-41811"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-41811">November 30, 2014 at 2:20 pm</a></div><div class="comment-body"><p>Thx</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-odd thread-alt depth-1"id="li-comment-41850"><div id="comment-41850"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/74cff7d6b63a40a4a1362f0fc0abd760?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/74cff7d6b63a40a4a1362f0fc0abd760?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Daniel</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-41850">November 30, 2014 at 5:53 pm</a></div><div class="comment-body"><p>Great write up, although parts are beyond me.   How feasible is a remote code exploit from this point?</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-41940"><div id="comment-41940"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-41940">December 1, 2014 at 9:37 am</a></div><div class="comment-body"><p>Thanks Daniel. Remote code exploitation is certainly feasible, though reliability is a factor. Though I haven&#8217;t seen it (so I don&#8217;t know what exactly it does), Immunity has released a PoC for its Canvas customers.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-even depth-1"id="li-comment-41911"><div id="comment-41911"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/cf5c5a9c5e6e75548d7a85f37e4f7280?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/cf5c5a9c5e6e75548d7a85f37e4f7280?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://zana_adil86@hotmail.com' rel='external nofollow' class='url'>Toby</a></cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-41911">December 1, 2014 at 5:32 am</a></div><div class="comment-body"><p>Hi Mike, </p>
+<p>Thanks for brilliant technical description!</p>
+<p>Quick question! how do i go about generate EC cert/key pair also where would you be using them?</p>
+<p>Regards </p>
+<p>much appreciate your help</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-41941"><div id="comment-41941"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-41941">December 1, 2014 at 9:39 am</a></div><div class="comment-body"><p>Thanks Toby. Regarding how to generate the EC cert, I would use OpenSSL (Google: generate ecdsa certificate openssl). You will use them with s_client when connecting to the server (see my screenshot).</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-odd thread-alt depth-1"id="li-comment-41974"><div id="comment-41974"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/0e43d38f78cbf707bb9c532bd51748f5?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/0e43d38f78cbf707bb9c532bd51748f5?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Alan</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-41974">December 1, 2014 at 1:53 pm</a></div><div class="comment-body"><p>I mucked about a bit with this last night.  The setChar lines are presumably deliberately broken so I attempted to fix those to get openssl compiled, however wasnt able to get anything but schannel errors in my eventvwr.  </p>
+<p>My C skills stop at me realising that psig is an array mind you.</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-41977"><div id="comment-41977"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-41977">December 1, 2014 at 1:58 pm</a></div><div class="comment-body"><p>setChar is just a simple function I added to modify a single character. </p>
+<p>void setChar(unsigned char* oldValue, const char newValue) {<br />
+    *oldValue = newValue;<br />
+}</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment even depth-3"id="li-comment-42010"><div id="comment-42010"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/0e43d38f78cbf707bb9c532bd51748f5?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/0e43d38f78cbf707bb9c532bd51748f5?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Alan</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42010">December 1, 2014 at 7:09 pm</a></div><div class="comment-body"><p>Wasnt able to trigger the issue against a Windows 7 Pro SP1 x64 test VM with no patches installed vs RDP or IIS.</p>
+<p>After including your function declaration I did make one other small alteration to the code which was to declare the array before we tried to use it.</p>
+<p>I find it oddly comforting that my limited &#8216;pigeon C&#8217; and extensive linux knowledge (day job is *nix sys admin) was insufficient to trigger the vulnerability even after being provided all the ingredients on a plate here ð</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-4"id="li-comment-42101"><div id="comment-42101"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42101">December 2, 2014 at 10:13 am</a></div><div class="comment-body"><p>It took some trial and error on my part to get everything working correctly. I was able to successfully replicate on both Win 7 32- and 64-bit machines. I did leave some &#8220;ingredients&#8221; out of my tutorial though I&#8217;ve filled in some blanks in my comments. Also note that you&#8217;ll have to ensure you&#8217;re not getting an &#8220;unable to verify&#8221; return code (21) from your server cert or the authentication process will never make it to cert verification (at least w/ the minimal openssl mods I made).</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-even depth-1"id="li-comment-42028"><div id="comment-42028"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/ef550c4ff2c386dbc2b94fc14187bef7?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/ef550c4ff2c386dbc2b94fc14187bef7?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">phay</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42028">December 1, 2014 at 9:50 pm</a></div><div class="comment-body"><p>in file s3_clnt.c,what is the relationship between &#8220;psig&#8221; and &#8220;p&#8221;?<br />
+in my test,I set &#8220;p = psig&#8221;,but when windbg break into:<br />
+schannel!CSsl3TlsServerContext::DigestCertVerify+0x1a8:<br />
+001b:74df98ce 0fb606          movzx   eax,byte ptr [esi]</p>
+<p>kd&gt; d [esi] l 100<br />
+000a02bf  00 46 81 30 7f 02 01 00-02 7a cc cc cc cc cc cc .F0.0&#8230;..z&#8230;..<br />
+000a02cf  cc cc cc cc cc cc cc cc-cc cc cc cc cc cc cc cc  &#8230;&#8230;&#8230;&#8230;&#8230;.<br />
+000a02df  cc cc cc cc cc cc cc cc-cc cc cc cc cc cc cc cc  &#8230;&#8230;&#8230;&#8230;&#8230;.<br />
+000a02ef  cc cc cc cc cc cc cc cc-cc cc cc cc cc cc cc cc  &#8230;&#8230;&#8230;&#8230;&#8230;.<br />
+000a02ff  cc cc cc cc cc cc cc cc-cc cc cc cc cc cc cc cc  &#8230;&#8230;&#8230;&#8230;&#8230;.</p>
+<p>The &#8220;81&#8221; is one byte behind cbEncoded byte,why?</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-42033"><div id="comment-42033"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42033">December 1, 2014 at 10:46 pm</a></div><div class="comment-body"><p>I&#8217;m not in front of my test machine now, but psig[1] should be where \x46 is located. psig is really the same as p, I just renamed it during testing as I was modifying various portions of the code. It may depend on where you&#8217;re declaring/defining it. At the beginning of the ssl3_send_client_verify function you should see something like: </p>
+<p>    d=(unsigned char *)s->init_buf->data;<br />
+    p= &#038;(d[4]);</p>
+<p>I simply added:  </p>
+<p>    psig = &#038;(d[4]);</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-odd thread-alt depth-1"id="li-comment-42187"><div id="comment-42187"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/9ba2c2f6e89da737a56f938c9b31cf0c?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/9ba2c2f6e89da737a56f938c9b31cf0c?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">phay</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42187">December 2, 2014 at 10:04 pm</a></div><div class="comment-body"><p>Thank you for your tips!I have successfully triggered the crash.<br />
+Can I have a copy of the Remote code exploitation POC, plsï¼<br />
+If yes,pls send to my emailï¼[redacted]<br />
+Thanks!</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-42193"><div id="comment-42193"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42193">December 2, 2014 at 10:55 pm</a></div><div class="comment-body"><p>Glad it worked for you. One of the reasons I haven&#8217;t shared a more complete PoC is because I haven&#8217;t gotten reliable code execution to this point. If it&#8217;s not something that&#8217;s repeatable, it&#8217;s no better than a DoS. I haven&#8217;t had a chance to work on it over the last few days but I hope to take another look soon. And if I don&#8217;t get a chance anytime soon, hopefully the info I&#8217;ve provided is enough for someone else to get it reliably working! Btw, I hope you don&#8217;t mind but I redacted your email address from your comment just in case you didn&#8217;t want it publicly disclosed. </p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-even depth-1"id="li-comment-42264"><div id="comment-42264"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/f7948bd9825f6793cf5b4be07dd2427c?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/f7948bd9825f6793cf5b4be07dd2427c?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">KMorwath</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42264">December 3, 2014 at 9:32 am</a></div><div class="comment-body"><p>CRYPT_UINT_BLOB is defined here:</p>
+<p><a href="http://msdn.microsoft.com/en-us/windows/aa381414(v=vs.80)" rel="nofollow">http://msdn.microsoft.com/en-us/windows/aa381414(v=vs.80)</a>.aspx</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+<li class="comment odd alt thread-odd thread-alt depth-1"id="li-comment-42456"><div id="comment-42456"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/32a301bd47e936536a30f623db182725?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/32a301bd47e936536a30f623db182725?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">uvbs</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42456">December 4, 2014 at 5:04 am</a></div><div class="comment-body"><p>greatï¼ nice work.<br />
+i follow your stepï¼ but there was a problem i couldn&#8217;t handle it.</p>
+<p>Here is output:<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+Loading &#8216;screen&#8217; into random state &#8211; done<br />
+CONNECTED(00000764)<br />
+depth=0 C = CN, ST = XX, L = asdf, O = asdf, OU = asdf, CN = uvbsxx, emailAddres<br />
+s = <a href="mailto:tjjtds@183.com">tjjtds@183.com</a><br />
+verify error:num=18:self signed certificate<br />
+verify return:1<br />
+depth=0 C = CN, ST = XX, L = asdf, O = asdf, OU = asdf, CN = uvbsxx, emailAddres<br />
+s = <a href="mailto:tjjtds@183.com">tjjtds@183.com</a><br />
+verify return:1<br />
+[+]Force Certicate<br />
+[+]force cert verify<br />
+3604:error:14099044:SSL routines:SSL3_SEND_CLIENT_VERIFY:internal error:.\ssl\s3<br />
+_clnt.c:3136:<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;<br />
+ may be my generated certificate is wrong! BTW, my compile system is xp, target system is win2012 , iis 8, TLS = 3.3</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-42725"><div id="comment-42725"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-42725">December 5, 2014 at 3:48 pm</a></div><div class="comment-body"><p>I haven&#8217;t tested on xp but have you checked to see what resides at line 3136 of s3_clnt.c? That&#8217;s what&#8217;s triggering your error.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-even depth-1"id="li-comment-43079"><div id="comment-43079"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/e2c871566002b966c742dd2586e865de?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/e2c871566002b966c742dd2586e865de?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Alexander</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43079">December 7, 2014 at 10:55 pm</a></div><div class="comment-body"><p>Dear Mike i tried to do this on my windows 7 x86 system hosted by virtual machine but couldn&#8217;t get it to crash.  Can you please email me the modified openssl or POC ? would be a great help thx. My email: [redacted]</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-43254"><div id="comment-43254"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43254">December 9, 2014 at 9:52 am</a></div><div class="comment-body"><p>The mod&#8217;d openssl file isn&#8217;t going to provide you much more insight than what I&#8217;ve included in the post and comments. I may be able to give you some pointers if you can provide some additional info. Are you receiving errors? Are you able to successfully exchange a cert? Were you able to hit the breakpoint of the vulnerable function on your target machine?</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-odd thread-alt depth-1"id="li-comment-43256"><div id="comment-43256"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/9066c1f09076b41d0480ea7f21624f76?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/9066c1f09076b41d0480ea7f21624f76?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">F0rb1dd3n</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43256">December 9, 2014 at 10:07 am</a></div><div class="comment-body"><p>How can I fix it??</p>
+<p>../libssl.a(s3_clnt.o): In function <code>ssl3_send_client_verify':<br />
+s3_clnt.c:(.text+0x3fe0): undefined reference to </code>setChar&#8217;<br />
+s3_clnt.c:(.text+0x3ff1): undefined reference to <code>setChar'<br />
+s3_clnt.c:(.text+0x4002): undefined reference to </code>setChar&#8217;<br />
+s3_clnt.c:(.text+0x4013): undefined reference to <code>setChar'<br />
+s3_clnt.c:(.text+0x4024): undefined reference to </code>setChar&#8217;<br />
+../libssl.a(s3_clnt.o):s3_clnt.c:(.text+0x4032): more undefined references to <code>setChar' follow<br />
+collect2: error: ld returned 1 exit status<br />
+make[2]: ** [link_app.] Erro 1<br />
+make[2]: Saindo do diretÃ³rio </code>/root/Downloads/openssl-1.0.1j/apps&#8217;<br />
+make[1]: ** [openssl] Erro 2<br />
+make[1]: Saindo do diretÃ³rio `/root/Downloads/openssl-1.0.1j/apps&#8217;<br />
+make: ** [build_apps] Erro 1</p>
+<p>You said you will make an upload of modified OpenSSL, how can I download it?</p>
+<p>Thanks</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-43263"><div id="comment-43263"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43263">December 9, 2014 at 11:02 am</a></div><div class="comment-body"><p>I was not planning on posting my mod&#8217;d version of OpenSSL but I gave all of the info that should be necessary to replicate. You&#8217;re getting this error because you haven&#8217;t defined the setChar function. I included what that function would look like in a previous comment.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-even depth-1"id="li-comment-43274"><div id="comment-43274"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/9066c1f09076b41d0480ea7f21624f76?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/9066c1f09076b41d0480ea7f21624f76?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">F0rb1dd3n</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43274">December 9, 2014 at 12:00 pm</a></div><div class="comment-body"><p>Sorry, for my fault. </p>
+<p>and Thanks very much for your help.</p>
+<p>greetings</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-43276"><div id="comment-43276"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43276">December 9, 2014 at 12:10 pm</a></div><div class="comment-body"><p>No problem, glad I could help.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-odd thread-alt depth-1"id="li-comment-43293"><div id="comment-43293"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/b4f3debca8c6c7e8e9bd7b4dad544883?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/b4f3debca8c6c7e8e9bd7b4dad544883?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Rich</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43293">December 9, 2014 at 3:05 pm</a></div><div class="comment-body"><p>Mike,</p>
+<p>I&#8217;m getting a connection reset by peer error right after &#8220;[+] Forcing cert verification&#8221; that I suspect is caused by the immediately preeceding error 20 (unable to get local issuer certificate) and error 21 (unable to verify the first certificate).</p>
+<p>If you agree, is there any chance you&#8217;ll reconsider providing the ancillary cert generation incantation?  ð</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-43299"><div id="comment-43299"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43299">December 9, 2014 at 3:46 pm</a></div><div class="comment-body"><p>Generating the cert is pretty straightforward. Here is an example: <a href="http://stackoverflow.com/questions/11992036/how-do-i-create-an-ecdsa-certificate-with-the-openssl-command-line" rel="nofollow">http://stackoverflow.com/questions/11992036/how-do-i-create-an-ecdsa-certificate-with-the-openssl-command-line</a></p>
+<p>However, I suspect your 20/21 errors are stemming from the fact that you haven&#8217;t added the server cert to your trusted store. Try doing that and see if the error changes from 20/21 (which will prevent this from working) to 18 (self-signed certificate)</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-even depth-1"id="li-comment-43393"><div id="comment-43393"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/b4f3debca8c6c7e8e9bd7b4dad544883?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/b4f3debca8c6c7e8e9bd7b4dad544883?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Rich</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43393">December 10, 2014 at 2:28 pm</a></div><div class="comment-body"><p>Mike, I worked past the cert issue, but was still unable to trigger the break point in spite of setting up my debugger like yours (<a href="http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_08.jpg" rel="nofollow">http://www.securitysift.com/wp-content/uploads/2014/11/ms14066_08.jpg</a>).  I&#8217;d much appreciate any guidance you can give me.</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-43638"><div id="comment-43638"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43638">December 12, 2014 at 9:20 am</a></div><div class="comment-body"><p>I&#8217;m assuming you&#8217;re now getting a return code of 18 (self-signed cert and no other errors). If that&#8217;s the case make sure that after you&#8217;ve set your breakpoint on your target you switch to the appropriate process context (.process /i [process]) &#8212; otherwise, the breakpoint will not hit. It probably goes without saying, but also make sure that the breakpoint is enabled (bl). Also, I&#8217;m not sure what EC key type you used, but I had no issues with prime256v1 so you might want to try that if you&#8217;re using something different.</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment odd alt depth-3"id="li-comment-46234"><div id="comment-46234"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/5f88b442c0934e6ad1da4a9b0d48613b?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/5f88b442c0934e6ad1da4a9b0d48613b?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">sdfsdf</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-46234">December 29, 2014 at 11:35 am</a></div><div class="comment-body"><p>Hi!<br />
+How didi you fix the 21 error? Using -CAPath does nothing for me</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-4"id="li-comment-46375"><div id="comment-46375"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-46375">December 30, 2014 at 10:02 am</a></div><div class="comment-body"><p>The cert should be added/installed to your trusted store to remedy that error. You can have a look at this link (<a href="http://gagravarr.org/writing/openssl-certs/others.shtml" rel="nofollow">http://gagravarr.org/writing/openssl-certs/others.shtml</a>) but the steps for doing so may vary depending on your platform. For testing purposes, I had no issue if I created the cert on my &#8220;attacking&#8221; Linux box.</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment odd alt depth-5"id="li-comment-46394"><div id="comment-46394"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/5f88b442c0934e6ad1da4a9b0d48613b?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/5f88b442c0934e6ad1da4a9b0d48613b?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">sdfsdf</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-46394">December 30, 2014 at 1:09 pm</a></div><div class="comment-body"><p>Never mind, I have a working PoC. Thanks for your help.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-odd thread-alt depth-1"id="li-comment-43612"><div id="comment-43612"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/32584a41988058f9a8342dfac5f2ce0b?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/32584a41988058f9a8342dfac5f2ce0b?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Gary</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43612">December 12, 2014 at 5:12 am</a></div><div class="comment-body"><p>I&#8217;m running in to similar problems in getting the debugger to trigger the breakpoint. I&#8217;ve set it up to break in the same way, and have similarly modified and compiled openssl. Am running IIS on a fresh install of Windows 7 x64.</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-43639"><div id="comment-43639"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43639">December 12, 2014 at 9:21 am</a></div><div class="comment-body"><p>I just replied to Rich&#8217;s post with some ideas you might want to try.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-even depth-1"id="li-comment-43704"><div id="comment-43704"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/b4f3debca8c6c7e8e9bd7b4dad544883?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/b4f3debca8c6c7e8e9bd7b4dad544883?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Rich</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43704">December 12, 2014 at 4:25 pm</a></div><div class="comment-body"><p>Mike, I appreciate your continued patience with me (I say optimistically :)).  Tracing reveals that, in my case, schannel!_imp_CertGetPublicKeyLength is returning 0.  According to MSDN, this means the function is unable to determine the key length.  I have to conclude I am doing something wrong in setting up my cert.  </p>
+<p>Would you kindly take a look at my command line inputs and let me know if anything jumps out at you as wrong?</p>
+<p>root@kali:~/Desktop#openssl ecparam -name prime256v1 -genkey -param_enc explicit -out private-key.pem</p>
+<p>root@kali:~/Desktop#openssl req -new -key private-key.pem -x509 -nodes -days 365 -out server.pem</p>
+<p>root@kali:~/Desktop#openssl s_client -connect 192.168.211.199:443 -state -verify 5 -tls1 -cert ./client.pem -key ./private-key.pem</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment odd alt depth-2"id="li-comment-43710"><div id="comment-43710"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/b4f3debca8c6c7e8e9bd7b4dad544883?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/b4f3debca8c6c7e8e9bd7b4dad544883?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Rich</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-43710">December 12, 2014 at 4:51 pm</a></div><div class="comment-body"><p>I missed the part where I renamed server.pem to client.pem.  Sorry for the confusion.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-odd thread-alt depth-1"id="li-comment-44010"><div id="comment-44010"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/d0392bf0903d737bf300717b89b1e8f1?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/d0392bf0903d737bf300717b89b1e8f1?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Ako</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-44010">December 14, 2014 at 3:29 pm</a></div><div class="comment-body"><p>level of threat does this CVE pose to a windows network/domain?<br />
+How might this vulnerability be exploited and how might an exploit work?<br />
+Remedial action necessary to mitigate this CVE?</p>
+<p>thank you</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-44052"><div id="comment-44052"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-44052">December 14, 2014 at 10:29 pm</a></div><div class="comment-body"><p>It&#8217;s a heap overflow that could allow for remote code execution, which is why Microsoft rated it Critical. Even in the most basic example that I posted here, it could lead to a denial of service condition. In terms of remediation, you should patch this one ASAP, especially for any public-facing servers (MS did have some issues with the initial patch for Server 2008/R2, Server 2012, Vista but those were addressed on Nov 18/Dec 9). There are other supplementary controls (such as network-based IPS) that may potentially identify and block exploit attempts (though I haven&#8217;t tested the effectiveness of any myself).</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-even depth-1"id="li-comment-44127"><div id="comment-44127"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/d0392bf0903d737bf300717b89b1e8f1?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/d0392bf0903d737bf300717b89b1e8f1?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Ako</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-44127">December 15, 2014 at 1:19 pm</a></div><div class="comment-body"><p>Ok thank you</p>
+<p>has MS released any patches yet?</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-44147"><div id="comment-44147"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-44147">December 15, 2014 at 4:06 pm</a></div><div class="comment-body"><p>Yep, you can find them here: <a href="https://technet.microsoft.com/en-us/library/security/ms14-066.aspx" rel="nofollow">https://technet.microsoft.com/en-us/library/security/ms14-066.aspx</a></p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-odd thread-alt depth-1"id="li-comment-44530"><div id="comment-44530"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/d0392bf0903d737bf300717b89b1e8f1?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/d0392bf0903d737bf300717b89b1e8f1?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Ako</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-44530">December 18, 2014 at 3:04 pm</a></div><div class="comment-body"><p>is there any ways to make it clear the threat does this CVE pose to a windows network/domain</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+<li class="comment odd alt thread-even depth-1"id="li-comment-45341"><div id="comment-45341"><div class="comment-author vcard"><img alt='' src='http://2.gravatar.com/avatar/5fbc9a3467adb73d37575a920c95e4a0?s=40&#038;d=mm&#038;r=pg' srcset='http://2.gravatar.com/avatar/5fbc9a3467adb73d37575a920c95e4a0?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">mj</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-45341">December 23, 2014 at 4:49 pm</a></div><div class="comment-body"><p>good job,<br />
+May i know which version of windows/schannel and openssl you used please?<br />
+Is your IDA Pro loaded function name DecodeSigAndReverse automatically from symbols ?</p>
+<p>Thanks</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-45347"><div id="comment-45347"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-45347">December 23, 2014 at 5:23 pm</a></div><div class="comment-body"><p>Thanks mj. The schannel.dll on my target win7 32-bit is dated 3/4/2014. Openssl version is listed in the post. Yes, IDA loaded the symbols/PDB.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-odd thread-alt depth-1"id="li-comment-48002"><div id="comment-48002"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/99d4af0f6c3876acdceee38ad9ad1021?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/99d4af0f6c3876acdceee38ad9ad1021?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">DrKN</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-48002">January 12, 2015 at 5:34 pm</a></div><div class="comment-body"><p>Well, I have been doing the test all days in last two weeks and realised that the verify return code (code 21) is not failing the exploit.<br />
+Here is a note for people who want to try:<br />
+test and understand every line you added/deleted! Asking for the working source do not gain yourself any knowledge ð</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+<li class="comment even thread-even depth-1"id="li-comment-50216"><div id="comment-50216"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/390105a4ab80cde30259b6c6bd055be4?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/390105a4ab80cde30259b6c6bd055be4?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">alex</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-50216">February 7, 2015 at 12:43 am</a></div><div class="comment-body"><p>Hi,<br />
+would you mine pleaes countinue the tutorial of exploiting ?<br />
+you had an excellent tutorial about the exploiting but it was not compelete.</p>
+<p>i mean the heap overflow, bypas ASLR DEP and etc</p>
+<p>thanks</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-50523"><div id="comment-50523"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-50523">February 12, 2015 at 5:53 pm</a></div><div class="comment-body"><p>Alex,</p>
+<p>I definitely plan to continue the series, though I&#8217;ve been sidetracked with several other projects. I&#8217;ll get back to it as soon as I can. Thanks for the feedback!</p>
+<p>&#8211; Mike</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-odd thread-alt depth-1"id="li-comment-53215"><div id="comment-53215"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/73c1cf06b1166538d1055742440a2730?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/73c1cf06b1166538d1055742440a2730?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Zia</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-53215">April 8, 2015 at 2:45 am</a></div><div class="comment-body"><p>Mike I have modified the code as per your this tutorial but I was unable to understand setChar function is doing? Can you please provide little elaboration on this</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-53247"><div id="comment-53247"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-53247">April 8, 2015 at 2:15 pm</a></div><div class="comment-body"><p>Zia,</p>
+<p>Take a look at my comment from Dec 1 where I provide the code &#8212; it&#8217;s a simple function that just modifies the value of a character. Hopefully this answers your question.</p>
+<p>-Mike</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment even thread-even depth-1"id="li-comment-54831"><div id="comment-54831"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/7ec8a5c16354a520a078e891e41f3a7e?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/7ec8a5c16354a520a078e891e41f3a7e?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='https://www.threatintelligence.com' rel='external nofollow' class='url'>Ty</a></cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-54831">May 11, 2015 at 11:42 pm</a></div><div class="comment-body"><p>Hey Mike,</p>
+<p>Great article. Thanks.</p>
+<p>Should this work against RDP also, or do tweaks need making for different services? I would have thought the exploit would be relatively generic since the SSL is triggered before the underlying protocol, but then again the different services may have different SSL configurations.</p>
+<p>Also, I modified the OpenSSL source so that it trusts self signed certificates and get &#8220;Verify return code: 0 (ok)&#8221;. I assume that should still work right?</p>
+<p>Thanks,<br />
+Ty</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2"id="li-comment-54946"><div id="comment-54946"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-54946">May 13, 2015 at 4:10 pm</a></div><div class="comment-body"><p>Re: RDP, if I recall from my testing, my mods will not work but I could be mistaken. Off the top of my head, I see no reason why your self-sign mod won&#8217;t work.</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment even depth-3"id="li-comment-54957"><div id="comment-54957"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/7ec8a5c16354a520a078e891e41f3a7e?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/7ec8a5c16354a520a078e891e41f3a7e?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='https://www.threatintelligence.com' rel='external nofollow' class='url'>Ty</a></cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-54957">May 13, 2015 at 7:32 pm</a></div><div class="comment-body"><p>Thanks Mike. Do you know why your mods wouldn&#8217;t work on RDP? I would be keen to know what the difference is.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-odd thread-alt depth-1"id="li-comment-55181"><div id="comment-55181"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/973539eaf85b3276e30c409f8589ac12?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/973539eaf85b3276e30c409f8589ac12?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">0xFFFF</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-55181">May 18, 2015 at 3:32 am</a></div><div class="comment-body"><p>Hello Mike!</p>
+<p>Could you please share your POC code?<br />
+And have you got any reliable exploit?</p>
+<p>Thank you!</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-55207"><div id="comment-55207"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-55207">May 18, 2015 at 3:01 pm</a></div><div class="comment-body"><p>Everything needed to reproduce my results is available in the post (with additional info in the comments). No, I did not create a reliable exploit and unfortunately I haven&#8217;t had an opportunity to spend much time on it.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-even depth-1"id="li-comment-58175"><div id="comment-58175"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/1be9ce7f0ec3da48065645ad1d673a42?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/1be9ce7f0ec3da48065645ad1d673a42?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">M</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-58175">July 13, 2015 at 8:20 pm</a></div><div class="comment-body"><p>How did you decide which process to start debugging via kd?  I have looked in all of my processes on my test machine and none of them have schannel.dll mapped in, so I can&#8217;t set a breakpoint on the buggy function.</p>
+</div><div class="reply"></div></div><ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor even depth-2"id="li-comment-58281"><div id="comment-58281"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/994f6f4df87e50e415f089b8189751a6?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mike Czumak</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-58281">July 16, 2015 at 10:15 am</a></div><div class="comment-body"><p>Change context to the LSASS process first. Then you can set your breakpoint on the schannel functions.</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-odd thread-alt depth-1"id="li-comment-66522"><div id="comment-66522"><div class="comment-author vcard"><img alt='' src='http://0.gravatar.com/avatar/34ef5a932abf5e3485a8dedaf68bf33f?s=40&#038;d=mm&#038;r=pg' srcset='http://0.gravatar.com/avatar/34ef5a932abf5e3485a8dedaf68bf33f?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">K</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-66522">January 19, 2016 at 4:06 am</a></div><div class="comment-body"><p>Thank you for your great tutorial mike, I really appreciate it.<br />
+Unfortunately I stuck with segmentation fault when I use make test commands. The result part:<br />
+client authentication<br />
+server authentication<br />
+depth=1 /C=AU/O=Dodgy Brothers/CN=Dodgy CA<br />
+depth=0 /C=AU/O=Dodgy Brothers/CN=Brother 1/CN=Brother 2<br />
+depth=1 /C=AU/O=Dodgy Brothers/CN=Dodgy CA<br />
+depth=0 /C=AU/O=Dodgy Brothers/CN=Brother 1/CN=Brother 2<br />
+SSLv2, cipher SSLv2 IDEA-CBC-MD5, 2048 bit RSA<br />
+1 handshakes of 256 bytes done<br />
+test sslv3<br />
+Available compression methods:<br />
+  NONE<br />
+[+] Forcing client certificate<br />
+[+] Forcing cert verification<br />
+Segmentation fault<br />
+make[1]: *** [test_ssl] Error 1<br />
+make[1]: Leaving directory `/root/Desktop/openssl-1.0.1j/test&#8217;<br />
+make: *** [tests] Error 2</p>
+<p>I use comnmands:<br />
+./config<br />
+make<br />
+make test<br />
+make install</p>
+<p>Can you help me to fix it?<br />
+Should I connect my PC to internet (I using Virtual)? (I guess not)</p>
+<p>I Guess my problem appear when I add this code:<br />
+{<br />
+//s-&gt;state=SSL3_ST_CW_CHANGE_A;<br />
+printf(&#8220;[+] Forcing cert verification\n&#8221;);//added<br />
+s-&gt;state=SSL3_ST_CW_CERT_VRFY_A;//added<br />
+s-&gt;s3-&gt;change_cipher_spec=0;<br />
+}</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+<li class="comment even thread-even depth-1"id="li-comment-69753"><div id="comment-69753"><div class="comment-author vcard"><img alt='' src='http://1.gravatar.com/avatar/714b0b17bb974b818a71a44ed40de391?s=40&#038;d=mm&#038;r=pg' srcset='http://1.gravatar.com/avatar/714b0b17bb974b818a71a44ed40de391?s=80&#038;d=mm&#038;r=pg 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">nancheal</cite> <span class="says">says:</span></div><div class="comment-meta commentmetadata"><a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/#comment-69753">May 19, 2016 at 5:16 am</a></div><div class="comment-body"><p>hi mike<br />
+have you ever analysis what nessus does<br />
+to see wheather there is a cve-2014-6321 on target<br />
+if you do,can you plz tell me what nessus do in this process<br />
+till now i can clearly see nessus change the sign of certificate<br />
+and there is a different reaction between pathed target and whithout pathed<br />
+but it change every time ,can you help me ?<br />
+thx</p>
+</div><div class="reply"></div></div></li><!-- #comment-## -->
+</ol>
+	<div class="navigation">
+		<div class="alignleft"></div>
+		<div class="alignright"></div>
+	</div>
+
+
+
+ 
+
+
+
+</div>
+     
+		<div class="next_prev">
+      
+
+<p>Previous post: <a href="https://www.securitysift.com/windows-ole-rce-exploit-ms14-060/" rel="prev">Windows OLE RCE Exploit MS14-060 (CVE-2014-4114) &#8211; Sandworm</a></p>		<p>Next post: <a href="https://www.securitysift.com/developing-a-security-assessment-program/" rel="next">Developing a Security Assessment Program</a></p> 
+        </div>
+	  
+
+</div>
+<div id="sidebar">
+ 
+<div id="social"><span>Connect with me...</span>
+ <div class="social_img"><a href="http://www.securitysift.com/?feed=rss"><img src=" http://www.securitysift.com/wp-content/themes/news-leak/images/rss.png" width="56" height="28" /></a></div> <div class="social_img"><a href="www.linkedin.com/in/michaelczumak "><img src=" http://www.securitysift.com/wp-content/themes/news-leak/images/in.png" width="56" height="28" /></a></div> <div class="social_img"><a href="https://twitter.com/SecuritySift"><img src=" http://www.securitysift.com/wp-content/themes/news-leak/images/tweeter.png" width="56" height="28" /></a></div> <div class="social_img"><a href="https://www.facebook.com/secsift"><img src=" http://www.securitysift.com/wp-content/themes/news-leak/images/face.png" width="56" height="28" /></a></div></div><div id="tabs">
+<ul class="tabs"> 
+	<li><a href="#">Most Popular Posts</a></li> 
+	<li class="last"><a href="#">Random Posts</a></li> 
+	
+</ul> 
+<div class="panes"> 
+	<div><ul>
+
+<li>
+<a href="https://www.securitysift.com/offsec-pwb-oscp/" title="Offensive Security&#8217;s PWB and OSCP &#8212; My Experience">Offensive Security&#8217;s PWB and OSCP &#8212; My Experience</a><span>October 9, 2013</span>
+</li>
+
+<li>
+<a href="https://www.securitysift.com/exploiting-ms14-066-cve-2014-6321-aka-winshock/" title="Exploiting MS14-066 / CVE-2014-6321 (aka &#8220;Winshock&#8221;)">Exploiting MS14-066 / CVE-2014-6321 (aka &#8220;Winshock&#8221;)</a><span>November 29, 2014</span>
+</li>
+
+<li>
+<a href="https://www.securitysift.com/windows-exploit-development-part-2-intro-stack-overflow/" title="Windows Exploit Development &#8211; Part 2: Intro to Stack Based Overflows">Windows Exploit Development &#8211; Part 2: Intro to Stack Based Overflows</a><span>December 13, 2013</span>
+</li>
+
+<li>
+<a href="https://www.securitysift.com/pecloak-py-an-experiment-in-av-evasion/" title="peCloak.py &#8211; An Experiment in AV Evasion">peCloak.py &#8211; An Experiment in AV Evasion</a><span>March 9, 2015</span>
+</li>
+
+<li>
+<a href="https://www.securitysift.com/phishing-with-macros-and-powershell/" title="Phishing with Macros and Powershell">Phishing with Macros and Powershell</a><span>May 22, 2015</span>
+</li>
+
+
+    
+    </ul></div> 
+	<div>
+<ul>
+	<li><a href="https://www.securitysift.com/securing-healthcare-gov-failures-fixes-and-next-steps/">Securing Healthcare.gov &#8211; Failures, Fixes, and Next Steps</a><span>January 17, 2014</span></li>
+	<li><a href="https://www.securitysift.com/drupal-7-sqli/">Drupal 7 SQL Injection (CVE-2014-3704)</a><span>October 17, 2014</span></li>
+	<li><a href="https://www.securitysift.com/who-do-you-trust-cross-domain-content-extraction-with-clickjacking/">Who do you trust? Cross-domain content extraction with Clickjacking</a><span>June 11, 2013</span></li>
+	<li><a href="https://www.securitysift.com/not-your-breach-but-still-your-concern/">Not your breach, but still your concern</a><span>September 11, 2012</span></li>
+	<li><a href="https://www.securitysift.com/how-not-to-restrict-cross-domain-flash-content/">How NOT To Restrict Cross-Domain Flash Content</a><span>January 8, 2014</span></li>
+    
+    </ul>
+</div> 
+	
+</div> 
+</div>
+
+
+
+<div id="categories">
+<div class="cat_arch">
+<h3>Categories</h3>
+<ul>
+	<li class="cat-item cat-item-11"><a href="https://www.securitysift.com/category/breaches/" >Breaches</a>
+</li>
+	<li class="cat-item cat-item-74"><a href="https://www.securitysift.com/category/exploits/" >Exploits</a>
+</li>
+	<li class="cat-item cat-item-119"><a href="https://www.securitysift.com/category/opinion/" >Opinion</a>
+</li>
+	<li class="cat-item cat-item-175"><a href="https://www.securitysift.com/category/pentesting/" >Pentesting</a>
+</li>
+	<li class="cat-item cat-item-37"><a href="https://www.securitysift.com/category/puzzles/" >Puzzles</a>
+</li>
+	<li class="cat-item cat-item-61"><a href="https://www.securitysift.com/category/trainingcertifications/" >Training/Certifications</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://www.securitysift.com/category/uncategorized/" >Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="https://www.securitysift.com/category/web-security/" >Web Security</a>
+</li>
+</ul>
+</div>
+<div class="cat_arch">
+<h3>Archives</h3>
+<ul>
+	<li><a href='https://www.securitysift.com/2017/10/'>October 2017</a></li>
+	<li><a href='https://www.securitysift.com/2017/09/'>September 2017</a></li>
+	<li><a href='https://www.securitysift.com/2015/05/'>May 2015</a></li>
+	<li><a href='https://www.securitysift.com/2015/04/'>April 2015</a></li>
+	<li><a href='https://www.securitysift.com/2015/03/'>March 2015</a></li>
+	<li><a href='https://www.securitysift.com/2015/02/'>February 2015</a></li>
+	<li><a href='https://www.securitysift.com/2014/12/'>December 2014</a></li>
+	<li><a href='https://www.securitysift.com/2014/11/'>November 2014</a></li>
+	<li><a href='https://www.securitysift.com/2014/10/'>October 2014</a></li>
+	<li><a href='https://www.securitysift.com/2014/09/'>September 2014</a></li>
+	<li><a href='https://www.securitysift.com/2014/07/'>July 2014</a></li>
+	<li><a href='https://www.securitysift.com/2014/05/'>May 2014</a></li>
+</ul></div>
+</div>
+
+<div id="pages-2" class="widget widget_pages"><h3>Pages</h3>		<ul>
+			<li class="page_item page-item-41"><a href="https://www.securitysift.com/about/">About</a></li>
+<li class="page_item page-item-2215"><a href="https://www.securitysift.com/my-library/">My Library</a></li>
+		</ul>
+		</div><div id="twitter_timeline-2" class="widget widget_twitter_timeline"><h3>Follow me on Twitter</h3><a class="twitter-timeline" data-width="300" data-height="400" data-theme="light" data-link-color="#f96e5b" data-border-color="#e8e8e8" data-tweet-limit="10" data-lang="EN" data-partner="jetpack" data-widget-id="422832532212559872">My Tweets</a></div></div></div>
+<div id="footer">
+
+<div id="footer_bellow">
+<div id="footerbar">
+</div>
+
+<!-- <div id="description"><h3>About</h3><p> Examining any and all topics in the vast world of Information Security. </p></div>-->
+<p class="copyright">The views and and opinions expressed in this blog are my own and do not represent those of my previous or current employer. &copy; Copyright 2019 Security Sift. All Rights Reserved, <br /><a href="http://www.archystudio.com/website-design/">News Leak theme by Archy Studio</a></p>
+
+</div>
+</div>
+<hr class="hidden" /></div>
+	<div style="display:none">
+	<div class="grofile-hash-map-f3e6cb687146a22c24976870bebc3f44">
+	</div>
+	<div class="grofile-hash-map-994f6f4df87e50e415f089b8189751a6">
+	</div>
+	<div class="grofile-hash-map-74cff7d6b63a40a4a1362f0fc0abd760">
+	</div>
+	<div class="grofile-hash-map-cf5c5a9c5e6e75548d7a85f37e4f7280">
+	</div>
+	<div class="grofile-hash-map-0e43d38f78cbf707bb9c532bd51748f5">
+	</div>
+	<div class="grofile-hash-map-ef550c4ff2c386dbc2b94fc14187bef7">
+	</div>
+	<div class="grofile-hash-map-9ba2c2f6e89da737a56f938c9b31cf0c">
+	</div>
+	<div class="grofile-hash-map-f7948bd9825f6793cf5b4be07dd2427c">
+	</div>
+	<div class="grofile-hash-map-32a301bd47e936536a30f623db182725">
+	</div>
+	<div class="grofile-hash-map-e2c871566002b966c742dd2586e865de">
+	</div>
+	<div class="grofile-hash-map-9066c1f09076b41d0480ea7f21624f76">
+	</div>
+	<div class="grofile-hash-map-b4f3debca8c6c7e8e9bd7b4dad544883">
+	</div>
+	<div class="grofile-hash-map-5f88b442c0934e6ad1da4a9b0d48613b">
+	</div>
+	<div class="grofile-hash-map-32584a41988058f9a8342dfac5f2ce0b">
+	</div>
+	<div class="grofile-hash-map-d0392bf0903d737bf300717b89b1e8f1">
+	</div>
+	<div class="grofile-hash-map-5fbc9a3467adb73d37575a920c95e4a0">
+	</div>
+	<div class="grofile-hash-map-99d4af0f6c3876acdceee38ad9ad1021">
+	</div>
+	<div class="grofile-hash-map-390105a4ab80cde30259b6c6bd055be4">
+	</div>
+	<div class="grofile-hash-map-73c1cf06b1166538d1055742440a2730">
+	</div>
+	<div class="grofile-hash-map-7ec8a5c16354a520a078e891e41f3a7e">
+	</div>
+	<div class="grofile-hash-map-973539eaf85b3276e30c409f8589ac12">
+	</div>
+	<div class="grofile-hash-map-1be9ce7f0ec3da48065645ad1d673a42">
+	</div>
+	<div class="grofile-hash-map-34ef5a932abf5e3485a8dedaf68bf33f">
+	</div>
+	<div class="grofile-hash-map-714b0b17bb974b818a71a44ed40de391">
+	</div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/www.securitysift.com\/exploiting-ms14-066-cve-2014-6321-aka-winshock\/":2470};
+	</script>
+	<div id="sharing_email" style="display: none;">
+		<form action="/exploiting-ms14-066-cve-2014-6321-aka-winshock/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="" />
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="" />
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="" />
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" title="This field is for validation and should not be changed" />
+			
+			<img style="float: right; display: none" class="loading" src="http://www.securitysift.com/wp-content/plugins/jetpack/modules/sharedaddy/images/loading.gif" alt="loading" width="16" height="16" />
+			<input type="submit" value="Send Email" class="sharing_send" />
+			<a rel="nofollow" href="#cancel" class="sharing_cancel">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+		<link rel='stylesheet' id='inline_tweets_shared-css'  href='http://www.securitysift.com/wp-content/plugins/inline-tweets/css/shared.css?ver=2.0' type='text/css' media='all' />
+<script type='text/javascript' src='http://www.securitysift.com/wp-includes/js/comment-reply.min.js?ver=074365af52b070ed64eed58390cfe1a7'></script>
+<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201914'></script>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?ver=2019Apraa'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-content/plugins/jetpack/modules/wpgroho.js?ver=074365af52b070ed64eed58390cfe1a7'></script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-content/plugins/jetpack/_inc/build/twitter-timeline.min.js?ver=4.0.0'></script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-includes/js/wp-embed.min.js?ver=074365af52b070ed64eed58390cfe1a7'></script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-content/plugins/inline-tweets/js/handler.js?ver=074365af52b070ed64eed58390cfe1a7'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.securitysift.com/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=5.7.1'></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-google-plus-1', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+</script>
+<script type='text/javascript' src='https://stats.wp.com/e-201914.js' async defer></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:5.7.1',blog:'40265578',post:'2470',tz:'-4',srv:'www.securitysift.com'} ]);
+	_stq.push([ 'clickTrackerInit', '40265578', '2470' ]);
+</script>
+</body>
+</html>
+
+<!--Generated by Endurance Page Cache-->
+
+
+#####EOF#####
+
+

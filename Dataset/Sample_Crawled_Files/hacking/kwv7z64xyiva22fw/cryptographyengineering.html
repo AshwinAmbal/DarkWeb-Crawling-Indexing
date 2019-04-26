@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://blog.cryptographyengineering.com/xmlrpc.php">
+
+<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>Attack of the week: searchable encryption and the ever-expanding leakage function &#8211; A Few Thoughts on Cryptographic Engineering</title>
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9ibG9nLmNyeXB0b2dyYXBoeWVuZ2luZWVyaW5nLmNvbQ%3D%3D"
+		+ "&id=9549322"
+		+ "&time=1554358929";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//matthewdgreen.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="A Few Thoughts on Cryptographic Engineering &raquo; Feed" href="https://blog.cryptographyengineering.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="A Few Thoughts on Cryptographic Engineering &raquo; Comments Feed" href="https://blog.cryptographyengineering.com/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s0.wp.com/_static/??-eJx9kN0OwiAMhV9IRI0/24XxWRg0s0qB0C5zby/bohfGcEN6mvP1kKPHpGwMAkE0DSr5ocfAekw2kmJCD9OP2lrmjf6PeXwC6wdIMvapFlWzZ/BGwKkUWX7UF8Ng/eDK1bLQDll05+NyvMsmT5pl8rAlDLUgGzOUPSUjs4PAoQEPVGw1bETXg6zR66wEXlWE0vkTNI/30kO1grXarksZmFV5CQdSci9/W7gbXfenY9s2l0Oze7wBjpahOg==?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='independent-publisher-fonts-css'  href='https://fonts.googleapis.com/css?family=PT+Sans%3A400%2C700%2C400italic%2C700italic%7CPT+Serif%3A400%2C700%2C400italic%2C700italic&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s1.wp.com/_static/??-eJyVj9EKwjAMRX/IGqaC7EH8lq2LXaRNypIx/HsrQ6iIA1/CvSTnJoElOy9syAZpdjnOgVghIONEpfFD7r3qDirWRkyokOceiAfMWAqbKz6SjjiB2iPi/xixX1G3ZC/pK6C6eaEhoCmYZJdFi6p2ErDY+sVbbGUFFBfFd0bCH8bdYkfTFjphHyUUGaBMVfYFXdOlObVNezycm/b+BAfQj+Q=?cssminify=yes' type='text/css' media='all' />
+<style id='independent-publisher-style-inline-css' type='text/css'>
+#hero-header { background: url("https://matthewdgreen.files.wordpress.com/2016/07/2274252795_918bcffc01_b.jpg") no-repeat center; background-size: cover; background-attachment: scroll; }
+</style>
+<link rel='stylesheet' id='print-css-3-1' href='https://s2.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h&cssminify=yes' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s0.wp.com/_static/??/wp-content/mu-plugins/actionbar/actionbar.css,/wp-content/themes/h4/global.css?m=1516985148j&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyFj+EKwjAMhF/Irug6/CU+S+1iSW3T2rQb+vR2oD/UoRAIR77jLnJOAsn4OgJL1+ZaId+eq3O8kb8AEdBmXaALSC/YRCpAZWFT5BKAWVtYuYZ4Qg+iMuQGUGkx57jCvVdCmhDmv5iDkrS5iAyM96/0UEXy1SKxzODbA6NYun6o5jqGw3YY1K7v90q5BzAxcHE='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://matthewdgreen.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='On Ghost Users and Messaging&nbsp;Backdoors' href='https://blog.cryptographyengineering.com/2018/12/17/on-ghost-users-and-messaging-backdoors/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/" />
+<link rel='shortlink' href='https://wp.me/pE4dk-1jg' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fblog.cryptographyengineering.com%2F2019%2F02%2F11%2Fattack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fblog.cryptographyengineering.com%2F2019%2F02%2F11%2Fattack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Attack of the week: searchable encryption and the ever-expanding leakage function" />
+<meta property="og:url" content="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/" />
+<meta property="og:description" content="A few days ago I had the pleasure of hosting Kenny Paterson, who braved snow and historic cold (by Baltimore standards) to come talk to us about encrypted databases. Kenny&#8217;s newest result is â¦" />
+<meta property="article:published_time" content="2019-02-11T16:41:51+00:00" />
+<meta property="article:modified_time" content="2019-02-11T20:27:47+00:00" />
+<meta property="og:site_name" content="A Few Thoughts on Cryptographic Engineering" />
+<meta property="og:image" content="https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png" />
+<meta property="og:image:width" content="922" />
+<meta property="og:image:height" content="588" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:text:title" content="Attack of the week: searchable encryption and the ever-expanding leakage&nbsp;function" />
+<meta name="twitter:card" content="summary" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s2.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://matthewdgreen.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://matthewdgreen.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://blog.cryptographyengineering.com/osd.xml" title="A Few Thoughts on Cryptographic Engineering" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="A Few Thoughts on Cryptographic Engineering" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Some random thoughts about crypto. Notes from a course I teach. Pictures of my dachshunds." /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://blog.cryptographyengineering.com/feed/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="A few days ago I had the pleasure of hosting Kenny Paterson, who braved snow and historic cold (by Baltimore standards) to come talk to us about encrypted databases. Kenny&#039;s newest result is with first authors Paul Grubbs, Marie-Sarah LacharitÃ© and Brice MinaudÂ (let&#039;s call it GLMP). It isn&#039;t so much aboutÂ building encrypted databases, as it&hellip;" />
+<link rel="amphtml" href="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/amp/"><style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s2.wp.com/?custom-css=1&#038;csblog=E4dk&#038;cscache=6&#038;csrev=14" />
+		</head>
+
+<body class="post-template-default single single-post postid-5038 single-format-standard mp6 customizer-styles-applied has-header-image has-sidebar gravatar-logo-disabled highlander-enabled highlander-light">
+
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	
+<div id="hero-header" class="site-hero-section">
+			<a id="slide-menu-toggle" class="menu-toggle" href="#slide-menu" aria-controls="slide-menu" aria-expanded="false" role="button" onclick="return false;">
+			Menu		</a><!-- #slide-menu-toggle -->
+	
+	<div class="inner">
+				<h1 class="site-title"><a href="https://blog.cryptographyengineering.com/" rel="home">A Few Thoughts on Cryptographic Engineering</a></h1>
+		<h2 class="site-description">Some random thoughts about crypto. Notes from a course I teach. Pictures of my dachshunds.</h2>
+
+			</div><!-- .inner -->
+</div><!-- #hero-header -->
+
+
+	<div id="content-wrapper">
+		<header id="masthead" class="site-header" role="banner">
+			
+			
+<div id="secondary" class="widget-area" role="complementary">
+	<aside id="media_image-3" class="widget widget_media_image"><style>.widget.widget_media_image { overflow: hidden; }.widget.widget_media_image img { height: auto; max-width: 100%; }</style><img class="image alignnone" src="https://matthewdgreen.files.wordpress.com/2016/08/matthew-green.jpg?w=200&#038;h=300" alt="" width="160" height="240" /></aside><aside id="text-4" class="widget widget_text"><h1 class="widget-title">Matthew Green</h1>			<div class="textwidget">I'm a cryptographer and professor at Johns Hopkins University. I've designed and analyzed cryptographic systems used in wireless networks, payment systems and digital content protection platforms. In my research I look at the various ways cryptography can be used to promote user privacy. 
+<p>
+<a href="https://isi.jhu.edu/~mgreen">My academic website</a><br>
+<a href="https://twitter.com/matthew_d_green">My twitter feed</a><br>
+<a href="https://blog.cryptographyengineering.com/top-posts/">Top Posts</a><br>
+<a href="https://staging.cryptographyengineering.com/useful-cryptography-resources/">Useful crypto resources</a><br>
+<a href="https://blog.cryptographyengineering.com/p/bitcoin-tipjar.html">
+Bitcoin tipjar</a><br>
+<a href="http://cryptopals.com/">Cryptopals challenges</a><p>
+
+<a href="http://www.springer.com/computer/security+and+cryptology/journal/13389">Journal of Cryptographic Engineering
+(not related to this blog)</a></div>
+		</aside><aside id="search-4" class="widget widget_search"><form role="search" method="get" class="search-form" action="https://blog.cryptographyengineering.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form></aside><aside id="top-posts-4" class="widget widget_top-posts"><h1 class="widget-title">Top Posts &amp; Pages</h1><ul>				<li>
+										<a href="https://blog.cryptographyengineering.com/2018/09/23/why-im-leaving-chrome/" class="bump-view" data-bump-view="tp">
+						Why I&#039;m done with Chrome					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2012/01/02/very-casual-introduction-to-fully/" class="bump-view" data-bump-view="tp">
+						A very casual introduction to Fully Homomorphic Encryption					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/" class="bump-view" data-bump-view="tp">
+						Attack of the week: searchable encryption and the ever-expanding leakage function					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2016/06/15/what-is-differential-privacy/" class="bump-view" data-bump-view="tp">
+						What is Differential Privacy?					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2014/11/27/zero-knowledge-proofs-illustrated-primer/" class="bump-view" data-bump-view="tp">
+						Zero Knowledge Proofs: An illustrated primer					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2018/01/10/attack-of-the-week-group-messaging-in-whatsapp-and-signal/" class="bump-view" data-bump-view="tp">
+						Attack of the Week: Group Messaging in WhatsApp and Signal					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2013/03/12/attack-of-week-rc4-is-kind-of-broken-in/" class="bump-view" data-bump-view="tp">
+						Attack of the week: RC4 is kind of broken in TLS					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2018/10/19/lets-talk-about-pake/" class="bump-view" data-bump-view="tp">
+						Let&#039;s talk about PAKE					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2012/05/19/how-to-choose-authenticated-encryption/" class="bump-view" data-bump-view="tp">
+						How to choose an Authenticated Encryption mode					</a>
+										</li>
+								<li>
+										<a href="https://blog.cryptographyengineering.com/2018/04/07/hash-based-signatures-an-illustrated-primer/" class="bump-view" data-bump-view="tp">
+						Hash-based Signatures: An illustrated Primer					</a>
+										</li>
+				</ul></aside><aside id="text-6" class="widget widget_text">			<div class="textwidget"><i>Banner image by Matt Blaze</i></div>
+		</aside><aside id="archives-6" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<label class="screen-reader-text" for="archives-dropdown-6">Archives</label>
+		<select id="archives-dropdown-6" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+			
+			<option value="">Select Month</option>
+				<option value='https://blog.cryptographyengineering.com/2019/02/'> February 2019 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2018/12/'> December 2018 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2018/10/'> October 2018 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2018/09/'> September 2018 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2018/07/'> July 2018 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2018/05/'> May 2018 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2018/04/'> April 2018 &nbsp;(3)</option>
+	<option value='https://blog.cryptographyengineering.com/2018/02/'> February 2018 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2018/01/'> January 2018 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2017/12/'> December 2017 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2017/11/'> November 2017 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2017/10/'> October 2017 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2017/09/'> September 2017 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2017/07/'> July 2017 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2017/03/'> March 2017 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2017/02/'> February 2017 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2017/01/'> January 2017 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2016/11/'> November 2016 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2016/08/'> August 2016 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2016/07/'> July 2016 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2016/06/'> June 2016 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2016/03/'> March 2016 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/12/'> December 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/11/'> November 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/10/'> October 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/09/'> September 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/08/'> August 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/07/'> July 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/05/'> May 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/04/'> April 2015 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/03/'> March 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/02/'> February 2015 &nbsp;(3)</option>
+	<option value='https://blog.cryptographyengineering.com/2015/01/'> January 2015 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/12/'> December 2014 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/11/'> November 2014 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/10/'> October 2014 &nbsp;(3)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/09/'> September 2014 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/08/'> August 2014 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/07/'> July 2014 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/04/'> April 2014 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/03/'> March 2014 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/02/'> February 2014 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2014/01/'> January 2014 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/12/'> December 2013 &nbsp;(4)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/10/'> October 2013 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/09/'> September 2013 &nbsp;(4)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/08/'> August 2013 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/07/'> July 2013 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/06/'> June 2013 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/05/'> May 2013 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/04/'> April 2013 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/03/'> March 2013 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/02/'> February 2013 &nbsp;(3)</option>
+	<option value='https://blog.cryptographyengineering.com/2013/01/'> January 2013 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/12/'> December 2012 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/11/'> November 2012 &nbsp;(1)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/10/'> October 2012 &nbsp;(4)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/09/'> September 2012 &nbsp;(3)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/08/'> August 2012 &nbsp;(4)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/07/'> July 2012 &nbsp;(2)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/06/'> June 2012 &nbsp;(3)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/05/'> May 2012 &nbsp;(5)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/04/'> April 2012 &nbsp;(6)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/03/'> March 2012 &nbsp;(4)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/02/'> February 2012 &nbsp;(7)</option>
+	<option value='https://blog.cryptographyengineering.com/2012/01/'> January 2012 &nbsp;(8)</option>
+	<option value='https://blog.cryptographyengineering.com/2011/12/'> December 2011 &nbsp;(11)</option>
+	<option value='https://blog.cryptographyengineering.com/2011/11/'> November 2011 &nbsp;(13)</option>
+	<option value='https://blog.cryptographyengineering.com/2011/10/'> October 2011 &nbsp;(7)</option>
+	<option value='https://blog.cryptographyengineering.com/2011/09/'> September 2011 &nbsp;(8)</option>
+
+		</select>
+		</aside></div><!-- #secondary -->		</header><!-- #masthead -->
+
+		<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+<article id="post-5038" class="post-5038 post type-post status-publish format-standard hentry category-attacks category-databases">
+			<div class="entry-meta light-text">
+			<a href="https://blog.cryptographyengineering.com/author/matthewdgreen/" title="Posts by Matthew Green" rel="author">Matthew Green</a>			<span class="cat-links">
+				in <a href="https://blog.cryptographyengineering.com/category/attacks/" rel="category tag">attacks</a>, <a href="https://blog.cryptographyengineering.com/category/databases/" rel="category tag">databases</a>			</span><!-- .cat-links -->
+
+			<span class="published-on"><time class="entry-date published" datetime="2019-02-11T16:41:51+00:00">February 11, 2019</time><time class="updated" datetime="2019-02-11T20:27:47+00:00">February 11, 2019</time></span>
+
+							<span class="word-count">4,173 Words</span>
+			
+					</div><!-- .entry-meta -->
+			<header class="entry-header">
+			<h1 class="entry-title">Attack of the week: searchable encryption and the ever-expanding leakage&nbsp;function</h1>		</header><!-- .entry-header -->
+	<div class="entry-content">
+		<p>A few days ago I had the pleasure of hosting Kenny Paterson, who braved snow and historic cold (by Baltimore standards) to come talk to us about encrypted databases.</p>
+<p>Kenny&#8217;s newest result is with first authors <a href="https://eprint.iacr.org/2019/011.pdf">Paul Grubbs, Marie-Sarah LacharitÃ© and Brice Minaud</a>Â (let&#8217;s call it GLMP). It isn&#8217;t so much aboutÂ <em>building</em> encrypted databases, as it is about the risks of building themÂ <em>badly.</em> And &#8212; for reasons I will get into shortly &#8212; there have been a lot of badly-constructed encrypted database schemes going around. What GLMPÂ point out is that this weakness isn&#8217;t so much a knock against the authors of those schemes, but rather, an indication that they may just be trying to do the impossible.</p>
+<p>Hopefully this is a good enough start to get you drawn in. Which is excellent, because I&#8217;m going to need to give you a lot of background.</p>
+<h3>What&#8217;s an &#8220;encrypted&#8221; database, and why are they a problem?</h3>
+<p>Databases (both relational and otherwise) are a pretty important part of the computing experience. Modern systems make vast use of databases and their accompanying query technology in order to power just about every software application we depend on.</p>
+<p>Because these databases often contain sensitive information, there has been a strong push toÂ <em>secure</em> that data. A key goal is to encrypt the contents of the database, so that a malicious database operator (or a hacker) can&#8217;t get access to it if they compromise a single machine. If we lived in a world where security <em>was all that mattered</em>, the encryption part would be pretty easy: database records are, after all, just blobs of data &#8212; and we know how to encrypt those. So we could generate a cryptographic key on our local machine, encrypt the data before we upload it to a vulnerable database server, and just keep that key locally on our client computer.</p>
+<p>Voila: we&#8217;re safe against a database hack!</p>
+<p>The problem with this approach is that encrypting the database records leaves us with a database full of opaque, unreadable encrypted junk. Since we have the decryption key on our client, we can decrypt and read those records after we&#8217;ve downloaded them. But this approach completely disables one of the most useful features of modern databases: the ability for the database server itself to search (orÂ <em>query</em>) the database for specific records, so that the client doesn&#8217;t have to.</p>
+<p>Unfortunately, standard encryption borks search capability pretty badly. If I want to search a database for, say, employees whose salary is between $50,000 and $100,000, my database is helpless: all it sees is row after row of encrypted gibberish. In the worst case, the client will have to downloadÂ <em>all</em> of the data rows and search them itself &#8212; yuck.</p>
+<p>This has led to much wailing and gnashing of teeth in the database community. As a result, many cryptographers (and a distressing number ofÂ <em>non-cryptographers</em>) have tried to fix the problem with &#8220;fancier&#8221; crypto. This has not gone very well.</p>
+<p>It would take me a hundred years to detail all of various solutions that have been put forward. But let me just hit a few of the high points:</p>
+<ul>
+<li>Some proposals have suggested usingÂ <a href="https://en.wikipedia.org/wiki/Deterministic_encryption">deterministic encryption</a> to encrypt database records. Deterministic encryption ensures that a given plaintext will <em>always</em> encrypt to a single ciphertext value, at least for a given key.Â This enables exact-match queries: a client can simply encrypt the exact value (&#8220;John Smith&#8221;) that it&#8217;s searching for, and ask the database to identify encrypted rows that match it.</li>
+<li>Of course, exact-match queries don&#8217;t support more powerful features. Most databases also need to supportÂ <a href="https://en.wikipedia.org/wiki/Range_query_(database)">range queries</a>. One approach to this is something calledÂ <a href="https://crypto.stanford.edu/ore/">order revealing encryption</a> (or its weaker sibling,Â <a href="https://eprint.iacr.org/2012/624.pdf">order preserving encryption</a>). These do exactly what they say they do: they allow the database to compare two encrypted records to determine which plaintext is greater than the other.</li>
+<li>Some people have proposed to use trusted hardware to solve these problems in a &#8220;simpler&#8221; way, but as we like to say in cryptography: <em>if we actually had trusted hardware, nobody would pay our salaries. </em>And, speaking more seriously, even hardware might not stop the leakage-based attacks discussed below.</li>
+</ul>
+<p>This summary barely scratches the surface of this problem, and frankly you don&#8217;t need to know all the details for the purpose of this blog post.</p>
+<p>What youÂ <em>do</em> need to know is that each of the above proposals entails has some degree of &#8220;leakage&#8221;. Namely, if I&#8217;m an attacker who is able to compromise the database, both to see its contentsÂ <em>and</em> to see how it responds when you (a legitimate user) makes a query, then I can learnÂ <em>something</em> about the data being queried.</p>
+<h3>What some examples of leakage, and what&#8217;s a leakage function?</h3>
+<p>Leakage is a (nearly) unavoidable byproduct of an encrypted database that supports queries. It can happen when the attacker simplyÂ <em>looks</em> at the encrypted data, as she might if she was able to dump the contents of your database and post them on the dark web. But a more powerful type of leakage occursÂ when the attacker is able to <em>compromise</em> your database server and observe the query interaction between legitimate client(s) and your database.</p>
+<p>Take deterministic encryption, for instance.</p>
+<p>Deterministic encryption has the very useful, but also unpleasant feature that the same plaintextÂ <em>will always</em> encrypt to the same ciphertext. This leads to very obvious types of leakage, in the sense that an attacker can see repeated records in the dataset itself. Extending this to the active setting, if a legitimate client queries on a specific encrypted value, the attacker can see exactly which recordsÂ <em>match</em> the attacker&#8217;s encrypted value. She can see how often each value occurs, which gives and indication of what value it might be <em>(e.g.,</em>Â the last name &#8220;Smith&#8221; is more common than &#8220;Azriel&#8221;.) All of these vectors leak valuable information to an attacker.</p>
+<p>Other systems leak more.Â <a href="https://eprint.iacr.org/2012/624.pdf">Order-preserving encryption</a> leaks the <em>exact order</em> of a list of underlying records, because it causes the resulting ciphertexts to have the same order. This is great for searching and sorting, but unfortunately it leaks tons of useful information to an attacker. Indeed, researchers have shown that, in real datasets, an ordering can be combined with knowledge about the record distribution in order to (approximately)Â <a href="https://eprint.iacr.org/2016/895.pdf">reconstruct the contents of an encrypted database</a>.</p>
+<p>FancierÂ <a href="https://crypto.stanford.edu/ore/">order-revealing encryption</a>Â schemes aren&#8217;t quite so careless with your confidentiality: they enable the legitimate client to perform range queries, but without leaking the full ordering so trivially. This approach can leak<em>Â less</em>Â information: but a persistent attacker will still learn some data from observing a query and its response &#8212; at a minimum, she will learn which rows constitute the response to a query, since the database must pack up the matching records and send them over to the client.</p>
+<p>If you&#8217;re having trouble visualizing what this last type of leakage might look like, here&#8217;s a picture that shows what an attacker might see when a user queries an unencrypted database vs. what the attacker might see with a really &#8220;good&#8221; encrypted database that supports range queries:</p>
+<p><img data-attachment-id="5039" data-permalink="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/leakage/" data-orig-file="https://matthewdgreen.files.wordpress.com/2019/02/leakage.png?w=700" data-orig-size="563,455" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="leakage" data-image-description="" data-medium-file="https://matthewdgreen.files.wordpress.com/2019/02/leakage.png?w=700?w=300" data-large-file="https://matthewdgreen.files.wordpress.com/2019/02/leakage.png?w=700?w=563" class="alignnone size-full wp-image-5039" src="https://matthewdgreen.files.wordpress.com/2019/02/leakage.png?w=700" alt="leakage" srcset="https://matthewdgreen.files.wordpress.com/2019/02/leakage.png 563w, https://matthewdgreen.files.wordpress.com/2019/02/leakage.png?w=150 150w, https://matthewdgreen.files.wordpress.com/2019/02/leakage.png?w=300 300w" sizes="(max-width: 563px) 100vw, 563px"   /></p>
+<p>So the TL;DR here is that many encrypted database schemes have some sort of &#8220;leakage&#8221;, and this leakage can potentially reveal information about (a) what a client is querying on, and (b) what data is in the actual database.</p>
+<h3>But surely cryptographers don&#8217;t build leaky schemes?</h3>
+<p>Sometimes the perfect is the enemy of the good.</p>
+<p>Cryptographers could spend a million years stressing themselves to death over the practical impact of different types of leakage. They could also try to do things perfectly using expensive techniques like <a href="https://blog.cryptographyengineering.com/2012/01/02/very-casual-introduction-to-fully/">fully-homomorphic encryption</a>Â and <a href="https://en.wikipedia.org/wiki/Oblivious_ram">oblivious RAM</a> &#8212; but the results would be highly inefficient. So a common view in the field is researchers should<em>Â do the very best we can</em>, and then carefully explain to users what the risks are.</p>
+<p>For example, a real database system might provide the following guarantee:</p>
+<blockquote><p>&#8220;Records are opaque. If the user queries for all records BETWEEN some hidden valuesÂ <strong>X</strong> ANDÂ <strong>Y</strong> then all the database will learn isÂ the <span style="text-decoration:underline;">row numbers of the records that match this range</span>, and <span style="text-decoration:underline;">nothing else</span>.&#8221;</p></blockquote>
+<p>This is a pretty awesome guarantee, particularly if you can formalize it and <em>prove</em> that a scheme achieves it. And indeed, this is something that researchers have tried to do. The formalized description is typically achieved by defining something called aÂ <em>leakage function. </em>It might not be possible to prove that a scheme is absolutely private, but we can prove that it only leaks as much as the leakage function allows.</p>
+<p>Now, I may be overdoing this slightly, but I want to be very clear about this next part:</p>
+<p>Proving your encrypted database protocol is secureÂ with respect to a specific leakage functionÂ <em>does not mean it is safe to use in practice</em>. What it means is that you are punting <em>that question</em>Â <em>to the application developer</em>, who is presumed to know how this leakage will affect their dataset and their security needs. Your leakage function and proof simply tell the app developer what information your scheme is (provably) going to protect, and what it won&#8217;t.</p>
+<p>The obvious problem with this approach is that application developers probably don&#8217;t have any idea what&#8217;s safe to use either. Helping them to figure this out is one goal of this new GLMPÂ paper and its related work.</p>
+<h3>So what leaks from these schemes?</h3>
+<p>GLMP don&#8217;t look at a specific encryption scheme. Rather, they ask a more general question: let&#8217;s imagine that we can only see that a legitimate user has made a range query &#8212; but <em>not</em> what the actual queried range values are. Further, let&#8217;s assume we can also see which records the database returns for that query, but not their actual values.</p>
+<p><em>How much does just this information tell us about the contents of the database?</em></p>
+<p>You can see that this is a very limited amount of leakage. Indeed, it is possibly the least amount of leakage you could imagine for any system that supports range queries, and is also efficient. So in one sense, you could say authors are asking a different and much more important question: <em>are any of these encrypted databases actually secure?</em></p>
+<p>The answer is somewhat worrying.</p>
+<h3>Can you give me a simple, illuminating example?</h3>
+<p>Let&#8217;s say I&#8217;m an attacker who has compromised a database, and observes the following two range queries/results from a legitimate client:</p>
+<p><strong>Query 1:</strong> SELECT * FROM Salaries BETWEEN âï¸ and ð¹Â  Â  <strong>Result 1:</strong> (rows 1, 3, 5)<br />
+<strong>Query 2:</strong> SELECT * FROM Salaries BETWEEN ð¨ and ð±Â  Â  <strong>Result 2:Â </strong>(rows 1, 43, 3, 5)</p>
+<p>Here I&#8217;m using the emoji to illustrate that an attacker can&#8217;t see the actual values submitted within the range queries &#8212; those are protected by the scheme &#8212; nor can she see the <em>actual values</em> of the result rows, since the fancy encryption scheme hides all this stuff. All the attacker sees is that a range query came in, and some specific rows were scooped up off disk after running the fancy search protocol.</p>
+<p>So what can the attacker learn from the above queries? Surprisingly: quite a bit.</p>
+<p>At very minimum, the attacker learns that Query 2 returned <em>all of the same records as Query 1.Â </em>Thus the range of the latter query clearly somewhat overlaps with the range of the former.Â  There is an additional record (row 43) that is not within the range of Query 1. That tells us that row 43 must must be either the &#8220;next&#8221; greater or smaller record than each of rows (1, 3, 5). That&#8217;s useful information.</p>
+<p>Get enough useful information, it turns out that it starts to add up. In 2016,Â <a href="https://scholar.harvard.edu/files/gkellaris/files/genericattacks.pdf">Kellaris, Kollios, Nissim and OâNeill</a>Â showed that if you know the <em>distribution of the query range endpoints</em> &#8212; for example, if you assumed that they were uniformly random &#8212; then you can get more than just the order of records. You can reconstruct theÂ <em>exact value of every record in the database.</em></p>
+<p>This result is statistical in nature. If I know that the queries are uniformly random, then I can model how often a given value (say, Age=34 out of a range 1-120) should be responsive to a given random query results. By counting the actual occurrences of a specific row after many such queries, I can guess which rows correlate to specific record values. The more queries I see, the more certain I can be.The KellarisÂ <em>et al.</em> paper shows that this takesÂ <img src="https://s0.wp.com/latex.php?latex=O%28N%5E4%7Elog%7EN%29&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="O(N^4~log~N)" title="O(N^4~log~N)" class="latex" /> queries, where <em>NÂ </em>is the number of possible values your data can take on (e.g., the ages of your employees, ranging between 1 and 100 would give N=100.) This is assuming an arbitrary dataset. The results get much betterÂ if the database is &#8220;dense&#8221;, meaning every possible value occurs once.</p>
+<p>In practice the KellarisÂ <em>et al.</em> results mean that database fields with small domains (like ages) could be quickly reconstructed after observing a reasonable number of queries from a legitimate user, albeit one who likes to query everything randomly.</p>
+<p>So that&#8217;s really bad!</p>
+<p>The main bright spot in this research &#8212;- at least up until recently &#8212; was thatÂ many types of data haveÂ <em>much larger</em> domains. If you&#8217;re dealing with salary data ranging from, say, $1 to $200,000, then N=200,000 and this dominant <img src="https://s0.wp.com/latex.php?latex=N%5E4&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="N^4" title="N^4" class="latex" /> tends to make KellarisÂ <em>et al.</em> attacks impractical, simply because they&#8217;ll take too long. Similarly, data like employee last names (encoded as a form that can be sorted and range-queries) gives you even vaster domains like <img src="https://s0.wp.com/latex.php?latex=N%3D26%5E%7B12%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="N=26^{12}" title="N=26^{12}" class="latex" />, say, and so perhaps we could pleasantly ignore these results and spend our time on more amusing engagements.</p>
+<h3>I bet we can&#8217;t ignore these results, can we?</h3>
+<p>Indeed, it seems that we can&#8217;t. The reason we can&#8217;t sit on our laurels and hope for an attacker to die of old age recovering large-domain data sets is due to something called <em><a href="https://www.google.com/search?q=improved+reconstruction+attacks+on+encrypted+data+using+range+query+leakage&amp;oq=Improved+reconstruction+attacks+on+encrypted+data+using+range+query+leakage&amp;aqs=chrome.0.0.298j0j7&amp;sourceid=chrome&amp;ie=UTF-8">approximate database reconstruction</a>, </em>or <img src="https://s0.wp.com/latex.php?latex=%5Cepsilon-&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;epsilon-" title="&#92;epsilon-" class="latex" />ADR.</p>
+<p>The setting here is the same: an attacker sits and watches an attacker make (uniformly random) range queries. The critical difference is that <em>this</em> attacker isn&#8217;t trying to get every database record back at its exact value: she&#8217;s willing to tolerate some degree of error, up to an additive <img src="https://s0.wp.com/latex.php?latex=%5Cepsilon+N&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;epsilon N" title="&#92;epsilon N" class="latex" />. For example, if I&#8217;m trying to recover employee salaries, I don&#8217;t need them to be exact: getting them within 1% or 5% is probably good enough for my purposes. Similarly, reconstructingÂ <em>nearly all</em> of the letters in your last name probably lets me guess the rest, especially if I know the distribution of common last names.</p>
+<p>Which <em>finally</em> brings us to this new GLMPÂ <a href="https://eprint.iacr.org/2019/011.pdf">paper</a>, which puts <img src="https://s0.wp.com/latex.php?latex=%5Cepsilon-&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;epsilon-" title="&#92;epsilon-" class="latex" />ADR on steroids. What it shows is that the same setting, if one is willing to &#8220;sacrifice&#8221; a few of the highest and lowest values in the database, an attacker can reconstruct nearly the full database in a much smaller (asymptotic) number of queries, specifically: <img src="https://s0.wp.com/latex.php?latex=O%28%5Cepsilon%5E%7B-2%7D+log%7E%5Cepsilon%5E%7B-1%7D%29&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="O(&#92;epsilon^{-2} log~&#92;epsilon^{-1})" title="O(&#92;epsilon^{-2} log~&#92;epsilon^{-1})" class="latex" /> queries, where <img src="https://s0.wp.com/latex.php?latex=%5Cepsilon&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;epsilon" title="&#92;epsilon" class="latex" /> is the error parameter.</p>
+<p>The important thing to notice about these results is that the valueÂ <em>N</em> has dropped out of the equation. The only term that&#8217;s left is theÂ <em>error termÂ </em><img src="https://s0.wp.com/latex.php?latex=%5Cepsilon&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;epsilon" title="&#92;epsilon" class="latex" />. That means these results are &#8220;scale-free&#8221;, and (asymptotically, at least), they work just as well for small values ofÂ <em>N</em> as large ones, and large databases and small ones. This is really remarkable.</p>
+<h3>Big-O notation doesn&#8217;t do anything for me: what does this even mean?</h3>
+<p>Big-O notation is beloved by computer scientists, but potentially meaningless in practice. There could be huge constants in these terms that render these attacks completely impractical. Besides, weird equations involving epsilon characters are impossible for humans to understand.</p>
+<p>Sometimes the easiest way to understand a theoretical result is to plug some actual numbers in and see what happens. GLMP were kind enough to do this for us, by first generating several random databases &#8212; each containing 1,000 records, for different values ofÂ <em>N</em>.Â They then ran their recovery algorithm against a simulated batch of random range queries to see what the actual error rate looked like as the query count increased.</p>
+<p>Here are their results:</p>
+<figure data-shortcode="caption" id="attachment_5041" aria-describedby="caption-attachment-5041" style="width: 922px" class="wp-caption alignnone"><img data-attachment-id="5041" data-permalink="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/glmpgraph-2/" data-orig-file="https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png?w=700" data-orig-size="922,588" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="GLMPgraph" data-image-description="" data-medium-file="https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png?w=700?w=300" data-large-file="https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png?w=700?w=700" class="alignnone size-full wp-image-5041" src="https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png?w=700" alt="GLMPgraph" srcset="https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png?w=700 700w, https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png?w=150 150w, https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png?w=300 300w, https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png?w=768 768w, https://matthewdgreen.files.wordpress.com/2019/02/glmpgraph-1.png 922w" sizes="(max-width: 700px) 100vw, 700px"   /><figcaption id="caption-attachment-5041" class="wp-caption-text">Experimental results (Figure 2) from <a href="https://eprint.iacr.org/2019/011.pdf">GrubbsÂ </a><a href="https://eprint.iacr.org/2019/011.pdf"><em>et al.</em></a><em> (GLMP,Â </em>2019). The Y-axis represents the measuredÂ <em>error</em> between the reconstructed database and the actual dataset (smaller is better.) The X-axis represents the number of queries. Each database contains 1,000 records, but there are four different values ofÂ <em>N</em> tested here. Notice that the biggest error occurs around the very largest and smallest values in the dataset, so the results areÂ <em>much</em> better if one is willing to &#8220;sacrifice&#8221; these values.</figcaption></figure>
+<p>Even after just 100 queries, the error in the dataset has been hugely reduced, and after 500 queries the contents of the database &#8212; excluding the tails &#8212; can be recovered with only about a 1-2% error rate.</p>
+<p>Moreover, these experimental results illustrate the fact that recovery works at many scales: that is, they work nearly as well for very different values of N, ranging from 100 to 100,000. This means that the only variable you really need to think about as an attacker is:Â <em>how close do I need my reconstruction to be?</em> This is probably not very good news for any real data set.</p>
+<h3>How do these techniques actually work?</h3>
+<p>The answer is both very straightforward and deeply complex. The straightforward part is simple; the complex part requires an understanding of <a href="https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_theory">Vapnik-Chervonenkis learning theory</a> (VC-theory) which is beyond the scope of this blog post, but is explained in <a href="https://eprint.iacr.org/2019/011.pdf">the paper</a>.</p>
+<p>At the very highest level the recovery approach is similar to what&#8217;s been done in the past: using response probabilities to obtain record values. This paper does it much more efficiently and <em>approximately</em>, using some fancy learning theory results while making a few assumptions.</p>
+<p>At the highest level: we are going to assume that the range queries are made on random endpoints ranging from 1 to <em>N</em>. This is a big assumption, and more on it later! Yet with just this knowledge in hand, we learn quite a bit. For example: we can compute the probability that a potential record value (say, the specific salary $34,234) is going to be sent back, provided we know the total value lies in the range 1-<em>N</em> (say, we know all salaries are between $1 and $200,000).</p>
+<p>If we draw the resulting probability curve in freehand, it might look something like the chart below. This isn&#8217;t actually to scale or (probably) even accurate, but it illustrates a key point: by the nature of (random) range queries, records near the center are going to have a higher overall chance of being responsive to any given query, since the &#8220;center&#8221; values are more frequently covered by random ranges, and records near the extreme high- and low values will be chosen less frequently.</p>
+<figure data-shortcode="caption" id="attachment_5042" aria-describedby="caption-attachment-5042" style="width: 716px" class="wp-caption alignnone"><img data-attachment-id="5042" data-permalink="https://blog.cryptographyengineering.com/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/badgraph/" data-orig-file="https://matthewdgreen.files.wordpress.com/2019/02/badgraph.png?w=700" data-orig-size="716,392" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="badgraph" data-image-description="" data-medium-file="https://matthewdgreen.files.wordpress.com/2019/02/badgraph.png?w=700?w=300" data-large-file="https://matthewdgreen.files.wordpress.com/2019/02/badgraph.png?w=700?w=700" class="alignnone size-full wp-image-5042" src="https://matthewdgreen.files.wordpress.com/2019/02/badgraph.png?w=700" alt="badgraph" srcset="https://matthewdgreen.files.wordpress.com/2019/02/badgraph.png?w=700 700w, https://matthewdgreen.files.wordpress.com/2019/02/badgraph.png?w=150 150w, https://matthewdgreen.files.wordpress.com/2019/02/badgraph.png?w=300 300w, https://matthewdgreen.files.wordpress.com/2019/02/badgraph.png 716w" sizes="(max-width: 700px) 100vw, 700px"   /><figcaption id="caption-attachment-5042" class="wp-caption-text">I drew this graph freehand to mimic a picture in Kenny&#8217;s slides. Not a real plot!</figcaption></figure>
+<p>The high-level goal of database reconstruction is to match the observed response rate for a given row (say, row 41) to the number of responses we&#8217;d expect see for different specific concrete values in the range. Clearly the accuracy of this approach is going to depend on the number of queries you, the attacker, can observe &#8212; more is better. And since the response rates are lower at the highest and lowest values,Â it will take more queries to guess outlying data values.</p>
+<p>You might also notice that there is one major pitfall here. Since the graph above isÂ <em>symmetric</em> around its midpoint, the expected response rate will be the same for a record at .25*N and a record at .75*N &#8212; that is, a $50,000 salary will be responsive to random queries at precisely same rate as a $150,000 salary. So even if you get every database row pegged precisely to its response rate, your results might still be &#8220;flipped&#8221; horizontally around the midpoint. Usually this isn&#8217;t the end of the world, because databases aren&#8217;t normally full of unstructured random data &#8212; high salaries will be less common than low salaries in most organizations, for example, so you can probably figure out the ordering based on that assumption. But this last &#8220;bit&#8221; of information is technically not guaranteed to come back, minus some assumptions about the data set.</p>
+<p>Thus, the recovery algorithm breaks down into two steps: first, observe the response rate for each record as random range queries arrive. For each record that responds to such a query, try to solve for a concrete value thatÂ <em>minimizes</em> the difference between the expected response rate on that value, and the observed rate. The probability estimation can be made more efficient (eliminating a quadratic term) by assuming that there is at least one record in the database within the range .2N-.3N (or .7N-.8N, due to symmetry). Using this &#8220;anchor&#8221; record requires a mild assumption about the database contents.</p>
+<p>What remains is to show that the resulting attack is efficient. You can do this by simply implementing it &#8212; as illustrated by the charts above. Or you can <em>prove</em> that it&#8217;s efficient.Â The GLMP<em>Â </em>paperÂ uses some very heavy statistical machinery to do the latter. Specifically, they make use of a result from <a href="https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_theory">Vapnik-Chervonenkis learning theory</a> (VC-theory), which shows that the bound can be derived from something called the <a href="https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_dimension">VC-dimension</a>Â (which is a small number, in this case) and is unrelated to the actual value ofÂ <em>N</em>. That proof forms the bulk of the result, but the empirical results are also pretty good.</p>
+<h3>Is there anything else in the paper?</h3>
+<p>Yes. It gets worse. There&#8217;s so much in this paper that I cannot possibly include it all here without risking carpal tunnel and boredom, and all of it is bad news for the field of encrypted databases.</p>
+<p>The biggest additional result is one that shows thatÂ <em>if all you want is an approximate ordering</em> of the database rows, then you can do this efficiently using something calledÂ a <a href="https://en.wikipedia.org/wiki/PQ_tree">PQ tree.</a>Â Asymptotically, this requires <img src="https://s0.wp.com/latex.php?latex=O%28%5Cepsilon%5E%7B-1%7D+log%7E%5Cepsilon%5E%7B-1%7D%29&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="O(&#92;epsilon^{-1} log~&#92;epsilon^{-1})" title="O(&#92;epsilon^{-1} log~&#92;epsilon^{-1})" class="latex" /> queries, and experimentally the results are again even better than one would expect.</p>
+<p>What&#8217;s even more important about this ordering result is that it works <em>independently of the query distribution</em>. That is: we do not need to have random range queries in order for this to work: it works reasonably well regardless of how the client puts its queries together (up to a point).</p>
+<p>Even better, the authors show that this ordering, along with some knowledge of the underlying database distribution &#8212; for example, let&#8217;s say we know that it consists of U.S. citizen last names &#8212; can also be used to obtain approximate database reconstruction. Oy vey!</p>
+<p>And there&#8217;s still even more:</p>
+<ul>
+<li>The authors show how to obtain <em>even more efficientÂ </em>database recovery in a setting where the query range values are known to the attacker, using <a href="https://en.wikipedia.org/wiki/Probably_approximately_correct_learning">PAC learning</a>. This is a more generous setting than previous work, but it could be realistic in some cases.</li>
+<li>Finally, they extend this result toÂ <em>prefix</em> andÂ <em>suffix</em> queries, as well as range queries, and show that they can run their attacks on a dataset from the Fraternal Order of Police, obtaining record recovery in a few hundred queries.</li>
+</ul>
+<p>In short: this is all really bad for the field of encrypted databases.</p>
+<h3>So what do we do about this?</h3>
+<p>I don&#8217;t know. Ignore these results? <a href="https://www.usenix.org/system/files/1401_08-12_mickens.pdf">Fake our own deaths and move into a submarine</a>?</p>
+<p>In all seriousness: database encryption has been a controversial subject in our field. I wish I could say that there&#8217;s been an actual debate, but it&#8217;s more that different researchers have fallen into different camps, and nobody has really had the data to make their position in a compelling way. There have actually been some very personal arguments made about it.</p>
+<p>The schools of thought are as follows:</p>
+<p>The first holds thatÂ <em>any kind of database encryption is better than storing records in plaintext</em>Â and we should stop demanding things be perfect, when the alternative is a world of <a href="https://en.wikipedia.org/wiki/List_of_data_breaches">constant data breaches</a> and sadness.</p>
+<p>To me this is a supportable position, given that the current attack model for plaintext databases is something like &#8220;copy the database files, or just run a local SELECT * query&#8221;, and the threat model for an encrypted database is &#8220;gain persistence on the server and run sophisticated statistical attacks.&#8221; Most attackers are pretty lazy, so even a weak system is probably better than nothing.</p>
+<p>The countervailing school of thought has two points: sometimes theÂ <em>good</em> is much worse than the perfect, particularly if it gives application developers an outsized degree of confidence of the security that their encryption system is going to provide them.</p>
+<p>If even the best encryption protocol is only throwing a tiny roadblock in the attacker&#8217;s way, why risk thisÂ <em>at all</em>? Just let the database community come up with some kind of ROT13 encryptionÂ <em>that everyone knows to be crap</em>Â and stop throwing good research time into a problem that has no good solution.</p>
+<p>I don&#8217;t really know who is right in this debate. I&#8217;m just glad to see we&#8217;re getting closer to having it.</p>
+<p>&nbsp;</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled">
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>	</div><!-- .entry-content -->
+
+			<div class="entry-footer">
+			
+					</div><!-- .entry-footer -->
+	</article><!-- #post-## -->
+			
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://blog.cryptographyengineering.com/2018/12/17/on-ghost-users-and-messaging-backdoors/" rel="prev">On Ghost Users and Messaging&nbsp;Backdoors</a></div></div>
+	</nav>
+			
+		
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+		</div><!-- #content -->
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			<div class="site-info">
+				<a href="https://wordpress.com/?ref=footer_custom_svg" title="Create a website or blog at WordPress.com"><svg style="fill: currentColor; position: relative; top: 1px;" width="14px" height="15px" viewBox="0 0 14 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="title" role="img">
+				<desc id="title">Create a website or blog at WordPress.com</desc>
+				<path d="M12.5225848,4.97949746 C13.0138466,5.87586309 13.2934037,6.90452431 13.2934037,7.99874074 C13.2934037,10.3205803 12.0351007,12.3476807 10.1640538,13.4385638 L12.0862862,7.88081544 C12.4453251,6.98296834 12.5648813,6.26504621 12.5648813,5.62667922 C12.5648813,5.39497674 12.549622,5.17994084 12.5225848,4.97949746 L12.5225848,4.97949746 Z M7.86730089,5.04801561 C8.24619178,5.02808979 8.58760099,4.98823815 8.58760099,4.98823815 C8.9267139,4.94809022 8.88671369,4.44972248 8.54745263,4.46957423 C8.54745263,4.46957423 7.52803983,4.54957381 6.86996227,4.54957381 C6.25158863,4.54957381 5.21247202,4.46957423 5.21247202,4.46957423 C4.87306282,4.44972248 4.83328483,4.96816418 5.17254589,4.98823815 C5.17254589,4.98823815 5.49358462,5.02808979 5.83269753,5.04801561 L6.81314716,7.73459399 L5.43565839,11.8651647 L3.14394256,5.04801561 C3.52312975,5.02808979 3.86416859,4.98823815 3.86416859,4.98823815 C4.20305928,4.94809022 4.16305906,4.44972248 3.82394616,4.46957423 C3.82394616,4.46957423 2.80475558,4.54957381 2.14660395,4.54957381 C2.02852925,4.54957381 1.88934333,4.54668493 1.74156477,4.54194422 C2.86690406,2.83350881 4.80113651,1.70529256 6.99996296,1.70529256 C8.638342,1.70529256 10.1302017,2.33173369 11.2498373,3.35765419 C11.222726,3.35602457 11.1962815,3.35261718 11.1683554,3.35261718 C10.5501299,3.35261718 10.1114609,3.89113285 10.1114609,4.46957423 C10.1114609,4.98823815 10.4107217,5.42705065 10.7296864,5.94564049 C10.969021,6.36482346 11.248578,6.90326506 11.248578,7.68133501 C11.248578,8.21992476 11.0413918,8.84503256 10.7696866,9.71584277 L10.1417574,11.8132391 L7.86730089,5.04801561 Z M6.99996296,14.2927074 C6.38218192,14.2927074 5.78595654,14.2021153 5.22195356,14.0362644 L7.11048207,8.54925635 L9.04486267,13.8491542 C9.05760348,13.8802652 9.07323319,13.9089317 9.08989995,13.9358945 C8.43574834,14.1661896 7.73285573,14.2927074 6.99996296,14.2927074 L6.99996296,14.2927074 Z M0.706448182,7.99874074 C0.706448182,7.08630113 0.902152921,6.22015756 1.25141403,5.43749503 L4.25357806,13.6627848 C2.15393732,12.6427902 0.706448182,10.4898387 0.706448182,7.99874074 L0.706448182,7.99874074 Z M6.99996296,0.999 C3.14016476,0.999 0,4.13905746 0,7.99874074 C0,11.8585722 3.14016476,14.999 6.99996296,14.999 C10.8596871,14.999 14,11.8585722 14,7.99874074 C14,4.13905746 10.8596871,0.999 6.99996296,0.999 L6.99996296,0.999 Z" id="wordpress-logo-simplified-cmyk" stroke="none" fill=âcurrentColorâ fill-rule="evenodd"></path>
+			</svg></a>
+				
+							</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #content-wrapper -->
+
+			<div id="slide-menu" aria-expanded="false">
+			<button class="menu-toggle" aria-controls="slide-menu" aria-expanded="false">Menu</button>
+
+			<h2 class="menu-title">Menu</h2>
+			<nav id="slide-navigation" class="main-slide-navigation" role="navigation">
+				<ul id="menu-about" class="menu"><li id="menu-item-860" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-860"><a href="https://matthewdgreen.wordpress.com">Home</a></li>
+<li id="menu-item-871" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-871"><a href="https://blog.cryptographyengineering.com/about-me/">About Me</a></li>
+<li id="menu-item-872" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-872"><a href="https://blog.cryptographyengineering.com/bitcoin-tipjar/">Bitcoin Tipjar</a></li>
+<li id="menu-item-1249" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1249"><a href="https://blog.cryptographyengineering.com/top-posts/">Top Posts</a></li>
+<li id="menu-item-1232" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1232"><a href="https://blog.cryptographyengineering.com/all-posts/">All Posts</a></li>
+<li id="menu-item-873" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-873"><a href="https://blog.cryptographyengineering.com/useful-cryptography-resources/">Useful Cryptography Resources</a></li>
+</ul>			</nav><!-- #slide-navigation -->
+
+					</div><!-- #slide-menu -->
+	</div><!-- #page -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="9549322" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://blog.cryptographyengineering.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="A Few Thoughts on Cryptographic Engineering" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="131665267f" /><input type="hidden" name="_wp_http_referer" value="/2019/02/11/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1524699534h&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"9549322","siteName":"A Few Thoughts on Cryptographic Engineering","siteURL":"https:\/\/blog.cryptographyengineering.com","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/independent-publisher","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fblog.cryptographyengineering.com%2F2019%2F02%2F11%2Fattack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function%2F&signup_flow=account&domain=blog.cryptographyengineering.com","themeURL":"","xhrURL":"https:\/\/blog.cryptographyengineering.com\/wp-admin\/admin-ajax.php","nonce":"7f04033116","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"d8f3a9b0c8\" \/>","referer":"https:\/\/blog.cryptographyengineering.com\/2019\/02\/11\/attack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function\/","canFollow":"1","feedID":"53033543","statusMessage":"","customizeLink":"https:\/\/matthewdgreen.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fmatthewdgreen.wordpress.com%2F2019%2F02%2F11%2Fattack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function%2F","postID":"5038","shortlink":"https:\/\/wp.me\/pE4dk-1jg","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/blog.cryptographyengineering.com\/5038","statsLink":"https:\/\/wordpress.com\/stats\/post\/5038\/blog.cryptographyengineering.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Independent Publisher","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 542 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fblog.cryptographyengineering.com%2F2019%2F02%2F11%2Fattack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function%2F&signup_flow=account&domain=blog.cryptographyengineering.com\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/blog.cryptographyengineering.com\/wp-admin\/admin-ajax.php","nonce":"7c5eeeebfd","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/matthewdgreen.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fblog.cryptographyengineering.com%2F2019%2F02%2F11%2Fattack-of-the-week-searchable-encryption-and-the-ever-expanding-leakage-function%2F","blog_id":"9549322","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=9549322&v=wpcom&tz=0&user_id=0&subd=matthewdgreen","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJydUdFSAyEM/CFTajsdxwfHb6GQ64WDgASu+veFjtUb29GxL5CE3U2yqGMCE7kgF+VEWZzJYHpfOXlQi6dQIfl6IBblaUJRbxUrjpqtx/wTXEYMDZLqXhFbTNgOLtByTzJi7o2GyqZQZLmHLJ4sAuuZDrqL3KUxUQJPPMEQTRUY6GrpP2WIjRKTKRU4JhPDL65pG4hhr7MKWgrmFkGcMee2iXzX/qlQsjbTlYVL0tnkTvqKLug2vK+9eTcjEd+qu/bN+ePzWi1RN3oZnWMV9MphSW0uuBQa5zW8PO522/XT5nmzdid28+0u'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'9549322','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'9549322','v':'wpcom','tz':'0','user_id':'0','post':'5038','subd':'matthewdgreen'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dldi1Cdz1FW1N6S0NteFFsTTZdcCU0P29mXyxINV1GX24sZ3YuQ1UvQUNPazVmMmRhP0MreGUxczZfRzhrOUtYODYuUFBhQ2RxMHlGXzNlbHlvP0V4Um1aSUhTWl0lMTJTbj9+TjZUTEpdN0tQZG05WUtrU100WEtJbSxfZXI4V05mS0p4NlFybi9ncXo0TmhKY3pwQjhdJUg0NVt5YU5tTWFDJTdOOWl4ZVlybS8sZmNQTGszTi53ZT03U25QVVpSK0F0QTQwTWQvS1t0SFRzaUJudCV5bjEyMGQsfFM/SFpTXXhSeFROaXxaM2s0eGwtTGFBJUF4eX4='}]);
+_stq.push([ 'clickTrackerInit', '9549322', '5038' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+
+
+#####EOF#####
+
+

@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8"><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="85wAGAWAuJVKY63Av9XQL_d8G9S3oJQ9FIKRL_p_NnA" />
+<meta name="msvalidate.01" content="0051B8D8511A2B9F4DE35FC989DC79B8" />
+<meta name="p:domain_verify" content="79d8cbefee03f25db6ce46c4316ae312"/>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<title>The Age of Surveillance Capitalism by Shoshana Zuboff | PublicAffairs</title>
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//launcher.zo.la' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Hachette Book Group &raquo; Feed" href="https://www.publicaffairsbooks.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Hachette Book Group &raquo; Comments Feed" href="https://www.publicaffairsbooks.com/comments/feed/" />
+<meta name='description' content='The challenges to humanity posed by the digital future, the first detailed examination of the unprecedented form of power called âsurveillance capitalism,â and the quest by powerful corporations to predict and control our behavior.' /><!-- WP SEO -->
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.publicaffairsbooks.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.1.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0' href='https://www.publicaffairsbooks.com/_static/??-eJytjcFuwyAQRH+oGGMDwYeq37LsLvEqGCyDVeXv60bKvYdKcxq9mae/dyUF80ncNLamSVrXMVd8qCzxgOOpW39mHjYpwwV86GuBtXQuXfeVt2u3Aq7cO18kdMHXz7tTTToPZjQTICDilHzyi4kU/vKoYq0PdT/quWvM8kvEUzK9FJlLU2u8K8hZUd1AShsmP8McyE9MuBgGpJEtBTZXPIX4P9b9jFkQUgI52uAdWAejhxvZ0SLGBZ0BNCkGb5Kxb+fX9mmcs3Nw0235AT1ahIg=' type='text/css' media='all' />
+<link rel='stylesheet' id='hbg-google-fonts-source-sans-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C600%2C700&#038;ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2' href='https://www.publicaffairsbooks.com/wp-content/mu-plugins/jetpack/css/jetpack.css?m=1554324954g' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.publicaffairsbooks.com/_static/??-eJzTLy/QzcxLzilNSS3WzwKiwtLUokoopZdVrKOPT4FubmZ6UWJJql5uZh5QsX2uraGpqZGJiZGhhUEWACVeIKY='></script>
+<script type='text/javascript' src='https://launcher.zo.la/assets/zbwidget-launcher-0.1.0.js?ver=0.1.0'></script>
+<link rel='https://api.w.org/' href='https://www.publicaffairsbooks.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.publicaffairsbooks.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.publicaffairsbooks.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.1.1" />
+<link rel="canonical" href="https://www.publicaffairsbooks.com/titles/shoshana-zuboff/the-age-of-surveillance-capitalism/9781610395694/" />
+<link rel='shortlink' href='https://www.publicaffairsbooks.com/?p=125966' />
+<link rel="alternate" type="application/json+oembed" href="https://www.publicaffairsbooks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.publicaffairsbooks.com%2Ftitles%2Fshoshana-zuboff%2Fthe-age-of-surveillance-capitalism%2F9781610395694%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.publicaffairsbooks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.publicaffairsbooks.com%2Ftitles%2Fshoshana-zuboff%2Fthe-age-of-surveillance-capitalism%2F9781610395694%2F&#038;format=xml" />
+<style type='text/css'>img#wpstats{display:none}</style>			<script>
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push(
+					{"imprint":"publicaffairs","genre":"Business &amp; Economics","genreSecondary":"Industries","genreTertiary":"Computers &amp; Information Technology"}				);
+			</script>
+		
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="book" />
+<meta property="og:title" content="The Age of Surveillance Capitalism" />
+<meta property="og:url" content="https://www.publicaffairsbooks.com/titles/shoshana-zuboff/the-age-of-surveillance-capitalism/9781610395694/" />
+<meta property="og:description" content="The challenges to humanity posed by the digital future, the first detailed examination of the unprecedented form of power called &quot;surveillance capitalism,&quot; a..." />
+<meta property="article:published_time" content="2017-06-27T21:33:47+00:00" />
+<meta property="article:modified_time" content="2019-03-26T07:03:08+00:00" />
+<meta property="og:site_name" content="PublicAffairs" />
+<meta property="og:image" content="https://www.publicaffairsbooks.com/wp-content/uploads/2018/01/97816103956941.jpg?fit=484%2C750" />
+<meta property="og:image:width" content="484" />
+<meta property="og:image:height" content="750" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:text:title" content="The Age of Surveillance Capitalism" />
+<meta name="twitter:image" content="https://www.publicaffairsbooks.com/wp-content/uploads/2018/01/97816103956941.jpg?fit=484%2C750&#038;w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Visit the post for more." />
+<meta property="og:book.author" content="Shoshana Zuboff" />
+<meta property="og:book.isbn" content="9781610395694" />
+<meta property="og:book.release_date" content="January 15, 2019" />
+<meta property="og:price:currency" content="USD" />
+<meta property="og:price:amount" content="38" />
+<meta name="twitter:text:isbn" content="9781610395694" />
+<meta name="twitter:text:cta" content="Read More" />
+<meta name="twitter:text:description" content="The challenges to humanity posed by the digital future, the first detailed examination of the unprecedented form of power called &quot;surveillance capitalism,&quot; a..." />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="icon" href="https://www.publicaffairsbooks.com/wp-content/uploads/2017/09/cropped-hachette-logo1.png?fit=32%2C32" sizes="32x32" />
+<link rel="icon" href="https://www.publicaffairsbooks.com/wp-content/uploads/2017/09/cropped-hachette-logo1.png?fit=192%2C192" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://www.publicaffairsbooks.com/wp-content/uploads/2017/09/cropped-hachette-logo1.png?fit=180%2C180" />
+<meta name="msapplication-TileImage" content="https://www.publicaffairsbooks.com/wp-content/uploads/2017/09/cropped-hachette-logo1.png?fit=270%2C270" />
+		<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+
+/* CSS Overrides */
+.postid-669041 .carousel {
+	padding-bottom: 0;
+}
+.postid-669041 .module--fixed {
+	margin: 0;
+}
+
+.postid-669041 .module-posts-carousel__1 {
+	margin-top: -2rem;
+}
+
+.postid-597575 .featured-carousel__caption {
+	width:100%; margin-top: 2.2em;
+}
+
+.original-price {
+	text-decoration: line-through;
+}
+
+.site__share.title-header__share .cls-1, .share.module.module--fixed .cls-1 {
+	fill: unset !important;
+}
+
+.postid-597575 .featured-carousel__caption-text h2 {
+	font-size: 4.4em; color: white; text-align: center; text-shadow: 0 0 3px #575757;
+}
+
+.postid-597575 .featured-carousel__caption-text p {
+	font-size: 3.4em; color: white; text-align: center; text-shadow: 0 0 2px #575757;
+}
+
+.page .signup, .single-post .signup {
+	margin-left: 0;
+}
+
+.collapse-policy .panel-body {
+	background: #363636;
+	padding: 0;
+	padding-bottom: 0.5rem;
+}
+
+.panel-close {
+	line-height: 1;
+}
+
+.panel-body .praise__content, .praise-item__content, .panel-body {
+	background: #ffffff;
+}
+
+.site-footer__logo svg .cls-1, .imprint .imprint__global-logo svg .cls-1 {
+	fill: white;
+}
+
+@media (max-width: 48rem) {
+	.content-block__content img { max-width: 100%; height: auto;}}
+
+/* Hide follow this author */
+.site__share-prompt--desktop,
+.site__share-prompt--mobile {
+	display: none;
+}
+
+.meet-the-author__inner {
+	display: flex;
+}
+
+.page-template-default a:hover { 
+text-decoration: underline; 
+}
+
+.site-footer__menu a:hover {
+text-decoration: underline;
+}
+
+.site-header__social-header {
+margin-right: .3125rem;
+}
+
+.site-search__button {
+border-radius: 4px;
+min-width:57px;
+}
+.site-search__input {
+border-radius: 4px;
+}
+
+.signup__form button {
+border-radius: 4px;
+margin-left:0px;
+}
+.signup__form input {
+border-radius: 4px;
+}
+
+@media (min-width: 48rem) {
+.site-search__button {
+border-radius: 0px 4px 4px 0px;
+}
+.site-search__input {
+border-radius: 4px 0px 0px 4px;
+}
+
+.signup__form button {
+border-radius: 0px 4px 4px 0px;
+margin-left:0px;
+}
+.signup__form input {
+border-radius: 4px 0px 0px 4px;
+}
+}
+.secondary-feature__category {
+color: #6d6c6c;
+}
+.secondary-feature h3 {
+font-size: 1.438rem;
+}
+.secondary-feature__inner--inverse .secondary-feature__category {
+color: #F1F1F1;
+}
+.secondary-feature--border {
+margin-top: 1.875rem;
+}
+.secondary-feature--padded {
+    max-width: 58.75rem;
+    margin: auto;
+}
+
+.title-header {
+padding: 3em 0em;}
+
+.alignleft {
+float:left; margin-right: 2em;margin-bottom:1em;}
+
+.genre-item__content {
+height:100%;
+}
+
+.site-header__desktop-logo {text-align:center;}
+
+.genre-item__content {height:100%;}
+
+.module--size-md {flex:3;}
+.module--size-sm {flex:2;}
+
+.praise-item {
+font: 400 1rem Source Sans Pro,helvetica,sans-serif;text-align: justify;
+}
+
+@media (min-width: 75rem) {.title-header__content {
+width:50%;
+}}
+
+@media (min-width: 75rem) {.title-header__actions {
+width:25%;
+}}
+
+body:not(:-moz-handler-blocked) .dropdown__arrow { 
+position: relative;
+top: -15px;
+ }
+
+.title-header__read-more:hover {
+	cursor: pointer;
+}
+
+.contributor-header__description {
+	height: 12rem;
+}
+
+/* Page Specific Styles*/
+/* Basic Books */
+
+.postid-230804 .in-the-news__article h3 a {
+color: #161415;font: 700 1rem Source Sans Pro,helvetica,sans-serif;text-decoration: underline;}
+
+.basic-books .site-header__top {
+background: black;
+background-size: cover;
+}
+@media (min-width: 2000px) {.postid-230804 .site-header__top {
+	background: black;
+}}
+.postid-360334 .content-block__post-meta {
+width:100%}
+.postid-360338 .content-block__post-meta {
+width:100%}
+
+/* Basic Books Categories */
+
+.postid-404276 .module--fixed .module__content, .site__content--fixed {
+    width: 100%;
+}
+
+/* Hachette Books */
+
+.postid-168921 .secondary-feature--padded {
+margin-bottom: 3.125rem;
+}
+
+/* Hachette Books - Meet the Team */
+.postid-169004 .content-block__post-meta {
+width:100%;
+}
+.postid-169004 .content-block .module__content {
+margin-top:3.5em;
+}
+
+.postid-168921 #media-video .carousel__slide-content--2 {
+    width: 100%;
+}
+.postid-168921 #media-video .carousel__slide-content--2 iframe {
+    height: 27.5rem;
+    width: 100%;
+}
+
+/* Theft by Finding */
+.postid-6882 .media .carousel__slide-content {
+    width: 100%;
+}
+.postid-6882 .media .carousel__slide-content iframe {
+    height: 27.5rem;
+    width: 100%;
+}
+
+/* David Sedaris */
+.postid-3452 .module-media__4 {
+margin-top: 3.25rem;
+}
+.author-photos {display:none;}
+
+/* Home */
+.home .signup {
+margin-bottom:0px;
+}
+
+/* Imprints */
+.page-id-230746 .resources, .page-id-230746 .author-essays-box {
+	width: 100%;
+	display: flex !important;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.page-id-230746 .resources p {
+			font-size: 1.125rem;
+		}
+
+@media (min-width: 48rem) {
+	 .page-id-230746 .content-block__post-content p {
+		padding: 0;
+	} }
+
+.page-id-230746 .content-block__content {padding: 10px 0; }
+.page-id-230746 .resource-item, .page-id-230746 .author-essays-item {
+	display: flex !important;
+	flex-direction: column;
+	align-items: center;
+	margin: 15px 10px;
+}
+
+.page-id-230746 .resources	.headerimg {
+display: flex !important;
+align-items: center;
+flex-direction: row;
+}
+ 
+.page-id-230746 .resources h3 {
+color:#3c97ba;font: 700 2rem Source Sans Pro, helvetica, sans-serif; 
+margin-top: .9375rem;
+text-transform: uppercase;
+}
+.page-id-230746 .resource-item h3 {
+color:#3c97ba;
+font: 700 1rem Source Sans Pro,helvetica,sans-serif;
+margin-top: .9375rem;
+text-transform: uppercase;
+}
+@media (max-width: 900px) { .page-id-230746 .resources,  .page-id-230746 .author-essays-box {
+    flex-direction: column;
+	}
+}
+
+/*Mulholland Books*/
+.postid-230832 .tabbed-content__header
+{color: #363636;}
+
+/* JIMMY Patterson */
+.postid-230816 .module--dark {
+ padding: 0 0;
+}
+
+/*Little Brown*/
+.postid-230829 .content-block__post-meta { width: 100%; }
+
+/* Little Brown Meet Little, Brown */
+.postid-362528 .content-block__post-meta {
+width: calc(100% - 30px);
+}
+
+/* jimmy patterson Meet JIMMY Patterson */
+.postid-364818 .content-block__post-meta {
+width: calc(100% - 30px);
+}
+
+/*LBYR*/
+.postid-230830 .module--fixed .module__content, .site__content--fixed {
+ width: 100%; 
+}
+
+.postid-230830 .carousel__slide-content--2 {
+   float: left;
+   width: 40%;
+}
+
+.postid-230830 .signup {
+    background: #464645;
+    margin-bottom: 0rem;
+}
+
+.postid-230830 .content-block__post-meta {
+    width: calc(100% - 30px);
+}
+
+.postid-230830 .title-featured-video .module-header, .title-featured-video .search-filter__title, .title-featured-video .search-header__subtitle, .title-featured-video .search-header__title {
+    background: #fff;
+    margin-bottom: 0;
+    padding-bottom: 1.875rem;
+    margin-top: 1.875rem;
+}
+
+.postid-230830 .site-footer {
+    margin-top: 0;
+}
+
+/*LBYR - Picture Books */
+.postid-358513 .module--fixed .module__content, .site__content--fixed {
+    width: 100%;
+}
+.postid-358513 .carousel__slide-content--2 {
+   float: left;
+   width: 40%;
+}
+
+/*LBYR - Middle Grade */
+.postid-358633 .module--fixed .module__content, .site__content--fixed {
+    width: 100%;
+}
+.postid-358633 .carousel__slide-content--2 {
+   float: left;
+   width: 40%;
+}
+
+/*LBYR - Young Adult*/
+.postid-358958 .module--fixed .module__content, .site__content--fixed {
+    width: 100%;
+}
+.postid-358958 .carousel__slide-content--2 {
+   float: left;
+   width: 40%;
+}
+
+/*LBYR - Passport to Read */
+.postid-400287 .content-block__post-content img {
+    display: inline-block;
+}
+
+.postid-400287 .carousel__slide-content--fullBleed .homepage-header__image {opacity:1;}
+
+/* Grand Central Publishing */
+.postid-230703 .module--fixed .module__content, .site__content--fixed {
+width: 100%;}
+
+.postid-230703 .content-block__post-image img {
+height: auto;width: 60%;}
+
+.postid-362812 .content-block__post-meta {
+width: calc(100% - 20px);}
+
+/*Grand Central Life & Style*/
+.postid-230812 .site-footer {
+margin-top: 0;}
+
+.postid-230812 .signup {
+background: #464645;
+margin-bottom: 0;}
+
+.postid-360280 .module--fixed .module__content, .site__content--fixed {
+ width: 75%;}
+
+.postid-360280 .content-block__post-meta {
+width: calc(100% - 30px);}
+
+.postid-360344 .signup {
+background: #464645;margin-bottom: 0;}
+
+.postid-360344 .site-footer {
+margin-top: 0;}
+
+.postid-361808 .content-block__post-meta {
+width: calc(100% - 30px);}
+
+/* Forever & Forever Yours */
+.postid-230810 .content-block__post-meta {
+width: calc(100% - 30px);}
+
+.postid-230834 .site-footer {
+margin-top: 0rem;}
+
+.postid-378977 .signup {
+background: #464645;
+margin-bottom: 0rem;}
+
+.postid-378977 .site-footer {
+margin-top: 0rem;}
+
+/* Orbit */
+.postid-230834 .module--fixed .module__content, .site__content--fixed {width: 100%;}
+
+.postid-230834 .content-block__post-image img {height: auto;width: 60%;}
+
+.postid-230834 .content-block__post-meta {width: calc(100% - 30px);}
+
+.postid-230834 .site-footer {
+margin-top: 0rem;}
+
+.postid-230834 .signup {
+	background: #464645;margin-bottom: 0rem;}
+
+.postid-362035 .content-block__post-meta {
+width: calc(100% - 30px);}
+
+.postid-461144 .site-footer {
+margin-top: 0rem;}
+
+/* Twelve */
+.postid-362971 .content-block__post-meta {
+width: calc(100% - 30px);}
+
+/* FaithWords */
+.postid-354154 .secondary-feature--border:last-of-type {
+margin-right: 0;} 
+
+.postid-354154 .secondary-feature--border { margin-top: 0;}
+
+/*DaCapo Press Staff*/
+.postid-373697 .content-block__post-image img {max-width: 40%;}
+
+.postid-230808 .secondary-feature--border { margin-top: 0; }
+
+/*Seal Press*/
+.postid-230844 .highlights .carousel {
+padding: 1rem .9375rem 1rem; }
+
+
+/* PublicAffairs and Nation Books EARLY COPIES Pages */
+.postid-381989 .content-block__post-content .ecdiv {
+width: 50%;margin: 0 auto; text-align: center;}
+
+/* The Book of Mistakes */
+.postid-378872 .media img { max-width: 100%; }
+
+.postid-378872 .carousel__slide-content--fullBleed .homepage-header__image {opacity:1;}
+
+/* Faces of Praise */
+.postid-384391 .carousel__slide-content--fullBleed .homepage-header__image {opacity:1;}
+
+/* You Are Beautiful */
+.postid-384388 .carousel__slide-content--fullBleed .homepage-header__image {opacity:1;}
+
+.postid-384388 .site-footer {
+margin-top: 0rem;}
+
+.postid-384388 .signup {
+background: #464645;
+margin-bottom: 0rem;}
+
+/* To the Finish Line */
+.postid-386850 .media img { max-width: 100%; }
+
+.postid-386850 .carousel__slide-content--fullBleed .homepage-header__image {opacity:1;}
+
+.postid-386850 .site-footer {
+margin-top: 0rem;}
+
+.postid-386850 .signup {
+background: #464645;
+margin-bottom: 0rem;}
+
+/* Sweepstakes Sample */
+.postid- .carousel__slide-content--fullBleed .homepage-header__image {opacity:1;}
+
+.postid-387263 .site-footer {
+margin-top: 0rem;}
+
+/* Wattpad */
+.wattpad .site-header__top {
+background: #ee9a20; }
+
+.wattpad .site-header__nav {
+background: #ee9a20; }
+
+/*Patterson Mockup*/
+.postid-400705 .site-header__top {
+background: #0050b3; }
+.postid-400705 .site-header__nav {
+background: #0050b3; }
+
+
+/*Mus. of Broken Relats */
+.postid-387205 .media img {max-width: 100%;}
+
+.postid-387205 .praise-item {
+margin-bottom: 1.875rem;
+width: calc(100% - 1.875rem);}
+
+@media (min-width: 360px) {.postid-387205 .media img {
+max-width: 100%;}
+
+.postid-387205 .carousel__slide-content--2 {
+ width: 100%;}
+
+.postid-387205 .carousel__slide-wrapper {
+ display: -webkit-box;}}
+
+/* Phil Buchanan Tour */
+.postid-538335 .events__list li {display: block;}
+
+/* FYE */
+.postid-446014 .outer {
+	align-items: center;
+}
+.postid-446014 .inner {
+	margin: 10px;
+}
+
+/* Gutsy Girl Enhanced Title*/
+.postid-360560 .carousel-background h3, .postid-360560 .carousel-background h2, .postid-360560 .carousel-background p {
+	color: #f5909c !important;} 
+
+/* GREAT AMERICAN READ */
+.postid-473344 .carousel-background h3, .postid-473344 .carousel-background h2, .postid-473344 .carousel-background p {
+	color: #ffdf4f !important;}
+
+.postid-473344 div.featured-carousel h3, .postid-473344 div.featured-carousel h2, .postid-473344 div.featured-carousel p {
+    color: #ffdf4f !important;}
+
+/* PROUD */
+.postid-456099 .proud-image-box {
+display: flex; justify-content: center;
+	}
+
+/* CODE GIRLS POSTS */
+.postid-469271 .codegirls-image-box {
+display: flex; justify-content: center;
+	}
+.postid-469313 .codegirls-image-box {
+	display: flex; justify-content: center;
+	}
+.postid-469308 .codegirls-image-box {
+	display: flex; justify-content: center;}
+
+/*BLAEDEL*/
+.blaedel-nav-box a { font-size: 1rem; }
+
+.postid-469084 .module--fixed .module__content, .site__content--fixed {
+ width: 100%;}
+
+.postid-469086 .module--fixed .module__content, .site__content--fixed {
+ width: 75%;}
+
+/*The President is Missing*/
+@media (max-width: 60.5625rem) { .postid-472815 p.carousel-background__tagline {
+	display: flex;
+	margin-top: 1rem;} }
+
+@media (max-width: 48rem) {
+.postid-472815 .content-block__post-content { word-wrap: break-word; }
+	.postid-472815 .content-block__post-content img {
+		max-width: 100%; height: auto; overflow: hidden;
+	}
+}
+
+/*Jake Tapper*/
+.postid-473006 .module--fixed .module__content, .site__content--fixed {
+    width: 100%;}
+
+.postid-473008 .content-block .module__content {
+ border: 1px solid #f1f1f1;
+ box-shadow: 0 6px 0 #993333;}
+
+@media (min-width: 60.625rem) {
+.postid-473003 .module-carousel-background__0 .featured-carousel__image { 
+margin-left: 0;width: 100%;}}
+
+@media (min-width: 60.625rem) {
+.postid-473003 .module-carousel-background__0 .featured-carousel__caption {
+ display: none;}}
+
+.postid-375457 .jaketapper_media_box { display: flex; flex-direction: row; justify-content: center; }
+
+@media (max-width: 48rem) { .postid-375457 .jaketapper_media_box { flex-direction: column; } }
+
+/* Maps of the World */
+.postid-480849 .module--fixed .module__content, .site__content--fixed {
+width: 100%;}
+
+/* HACHETTE ACADEMIC */
+.postid-478269 .carousel-background__caption {
+width: 100%;}
+
+.postid-478269 .carousel-background__image {
+width: 0%;}
+
+.postid-478269 .carousel-background__caption {
+margin-right: 8.33333%;}
+
+.postid-478269 div.carousel-background a, .postid-478269 div.carousel-background h2, .postid-478269 div.carousel-background h3, .postid-478269 div.carousel-background p {
+text-align: center;}
+
+@media (min-width: 40.625rem) {
+.postid-478269 div.carousel-background .carousel__slide-content {height: 22.125rem;}}
+
+@media (max-width: 40.625rem) {
+.postid-478269 div.carousel-background .carousel__slide-content {height: 28.125rem;}}
+
+/* novel suspects */
+.postid-495907 .panel-heading:not(.search-filter__panel-heading).panel-heading--active, .postid-495886 .panel-heading:not(.search-filter__panel-heading).panel-heading--active, .postid-495899 .panel-heading:not(.search-filter__panel-heading).panel-heading--active,.postid-495892 .panel-heading:not(.search-filter__panel-heading).panel-heading--active { color: #990000; }
+
+.single-post .article-content__wrapper .secondary-feature__image img { box-shadow: none; }
+
+@media (min-width: 60.625rem) {.postid-495907 .secondary-feature__content .secondary-feature__image {max-width: 30rem;}} 
+
+/* CAREERS PAGE */
+@media (min-width: 85rem) {
+.page-id-230711 .page  .article-content__wrapper,  .postid-230711 .single-post .article-content__wrapper {
+    width: 80.75rem;}}
+
+@media (max-width: 60.625rem) {
+.page-id-230711 .page  .article-content__wrapper,  .postid-230711 .single-post .article-content__wrapper {
+    width: 58.75rem;}}
+
+@media (max-width: 48rem) {
+.page-id-230711 .page  .article-content__wrapper,  .postid-230711 .single-post .article-content__wrapper {
+  width: 46.875rem;}}
+
+@media (max-width: 30rem) {
+.page-id-230711 .page  .article-content__wrapper,  .postid-230711 .single-post .article-content__wrapper {
+  width: 24.875rem;
+	margin-left: -12px;}}
+
+/* SEDARIS */
+@media (max-width: 48rem) { .sedaris-homepage__description { padding: 0 1rem; }}
+
+/* Elin Hilderbrand */
+.starfish img { width: 60vw; margin: 0 auto; }
+
+.mejs-container { min-width: 5px !important; }
+
+.postid-513094 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(3), .postid-513094 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(4) {
+    display: none;}
+
+/* George Pelecanos */
+/* home page styles */
+.postid-555235 .pelecanos-btn>a {
+	color: #333333;
+	text-decoration: none;
+}
+.postid-555235 .pelecanos-btn>a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.postid-555235 a.pelecanos-homepage__about-link:hover {
+	text-decoration: none;
+	color: #C5322E;
+}
+.postid-555235 .pelecanos-homepage__about-box .pelecanos-home__feature-text a {
+	color: #7bcdcd;
+}
+.postid-555235 .pelecanos-homepage__about-box .pelecanos-home__feature-text a:hover {
+	color: #C5322E;
+	text-decoration: none;
+}
+.postid-555235 .content-block a:hover {
+	text-decoration: none;
+}
+@media (max-width: 48rem) {
+.postid-555235 .module-content-block__3 {
+	border-top: 1px solid #fff;
+	}
+.postid-555235 h4.panel-title {
+		font-size: 2.5rem;
+		letter-spacing: 1px;
+		font-weight: 300;
+	}
+.postid-555235 h2.pelecanos__feature-item-header {
+		font-size: 2.5rem;
+	 margin-top: 1rem;
+	}
+}
+.postid-555235 .tabbed-content__header {
+	background-color: transparent;
+}
+.postid-555235 .nav-tabs {
+	border-bottom: none;
+}
+.postid-555235 .tabbed-content__header .nav-tabs>li.active>a {
+	background: transparent;
+}
+.postid-555235 .nav-tabs>li.active>a {
+	background: transparent;
+}
+.postid-555235 .highlights {
+	margin-top: 0;
+	padding-top: 1.875rem;
+}
+@media (min-width: 48rem) {
+.postid-555235 .pelecanos-newsletter-signup, .postid-501388 .pelecanos-newsletter-signup {
+		border-right: none;
+	}
+.postid-555235 .module-content-block__3 {
+		border-left: 1px solid #fff;
+	}
+.postid-555235 .signup__legal {
+		width: 80%;
+		margin-right: auto;
+		margin-left: auto;
+}
+.postid-555235 .content-block__post-content .pelecanos__homepage-feature-item p {
+		padding-right: 0;
+	}
+.postid-555235 .site-footer {
+		margin-top: 0;
+	}
+}
+/* books page styles */
+.postid-555828 .secondary-feature h2 {
+	margin-bottom: .5rem;
+  font-size: 3rem;
+}
+.postid-555828 .secondary-feature__text .secondary-feature__text-copy {
+	color: #cacaca;
+}
+
+/* about page styles */
+.postid-555424 .content-block__content {
+	color: #fff;
+}
+.postid-555424 .content-block__content h1 {
+	font-family: 'Teko', sans-serif;
+	letter-spacing: 1px;
+	font-size: 2rem;
+}
+.postid-555424 .content-block__post-content p {
+	font-size: 1.2rem;
+  line-height: 24px;
+}
+.postid-555424 a.pelecanos-homepage__about-link:hover {
+	color: #C5322E;
+	text-decoration: none;
+}
+/* news page styles */
+.postid-555650 .content-block__post-content {
+	font-size: 1.2rem;
+  line-height: 24px;
+	color: #fff;
+}
+.postid-555650 .content-block__post-content a {
+	color: #7bcdcd;
+}
+.postid-555650 .posts-carousel h3 {
+	color: #acacac;
+}
+/* events page styles */
+.postid-555652 .event-list__item {
+	color: #cacaca;
+}
+.postid-555652 .events__item-actions>a {
+	color: #7bcdcd;
+}
+/* playlist page styles */
+.postid-555422 .secondary-feature h2 {
+	font-size: 2.5em;
+}
+/* movie review page styles */
+.postid-555265 .secondary-feature h2 {
+	margin-bottom: 0;
+	font-size: 2.5rem;
+}
+.postid-555265 .secondary-feature__inner.module__content {
+	 padding-top: 1.875rem;
+}
+.postid-555265 .submodule-featured-post .secondary-post__content {
+	margin-bottom: 0;
+}
+/* other works page styles */
+.postid-555719 .secondary-feature__inner--grey {
+	background: transparent;
+	border-top: none;
+}
+.postid-555719 .secondary-feature__inner--grey .secondary-feature__category {
+	 font-family: 'Teko', sans-serif;
+	color: #fff;
+	font-size: 2.5rem;
+}
+.postid-555719 .secondary-feature h2 {
+	font-family: 'Teko', sans-serif;
+	color: #fff;
+	font-size: 3rem;
+	font-weight: 300;
+}
+.postid-555719 .content-block__post-content p {
+	color: #cacaca;
+}
+
+/* Shade preorder */
+.postid-556337 img.souza-preorder, .postid-505218 img.souza-preorder, .postid-505405 img.souza-preorder { width: 700px; height: 700px; }
+@media (max-width: 760px) {.postid-556337 img.souza-preorder, .postid-505218 img.souza-preorder, .postid-505405 img.souza-preorder  { width: 500px; height: 500px; }}
+@media (max-width: 375px) {.postid-556337 img.souza-preorder, .postid-505218 img.souza-preorder, .postid-505405 img.souza-preorder   { width: 300px; height: 300px; }}
+
+/* Dear Every Breath */
+.postid-558555 .content-block__post-link, .postid-593436 .content-block__post-link, .postid-593494 .content-block__post-link, .postid-593510 .content-block__post-link, .postid-593544 .content-block__post-link, .postid-593535 .content-block__post-link, .postid-593531 .content-block__post-link { display: none; }
+/* Todd Parr China Tour Page */
+.postid-558847 .events__item-actions>a {
+	display: none;
+}
+.postid-558847 .event-list__item-date-location {
+	color: #f14038;
+}
+.postid-558847 .module-header {
+	color: #244ec6;
+}
+
+/* 404 */
+.error-404 a { text-decoration: underline; font-weight: 700; }
+/* Jelly Telly Styles */
+.jellytelly__homepage-feature-container {
+	display: flex;
+  flex-direction: row;
+}
+.jellytelly__homepage-feature-item {
+	 margin: 0 auto;
+   text-align: center;
+}
+
+.fortnite-footer-logo-container { flex-wrap: wrap; }
+/* LB School and Library */
+a.lb-school-library-button {
+    border-radius: 10px;
+    padding: 10px;
+    background-image: linear-gradient(to right bottom, #acd999, #94d29a, #7bcb9c, #61c3a0, #44bba4);
+    text-transform: uppercase;
+    color: #fff;
+    font-family: 'Raleway';
+    font-weight: 700;
+}
+a.lb-school-library-button:hover {
+    background-image: linear-gradient(to right bottom, #9ac289, #83ba88, #6bb188, #52a889, #379e8a);
+}
+/* Sally Field Tour Date Patch */
+.postid-434023 .carousel__slide-content:first-child .events__expand-button.events__expand-button--hidden { display: block; }
+.postid-434025 .carousel__slide-content:first-child .events__expand-button.events__expand-button--hidden { display: block; }
+
+
+/*Age of Light*/
+.postid-479088 .map-point h3, .postid-479338 .map-point h3, .postid-478794 .map-point h3, .postid-479166 .map-point h3 {text-align: center;line-height: 0;}
+.postid-479088 .map-point h2, .postid-479338 .map-point h2, .postid-478794 .map-point h2, .postid-479166 .map-point h2  {text-align: center;line-height: 1em;margin-bottom: .4em;}
+.postid-479088 .map-point p, .postid-479338 .map-point p, .postid-478794 .map-point p, .postid-479166 .map-point p {text-align: left;margin-top: 0.8em;line-height: 1em;}
+.postid-479088 #mp1, .postid-479338 #mp1, .postid-478794 #mp1, .postid-479166 #mp1 {top:46%;left:62%;}
+.postid-479088 #mp2, .postid-479338 #mp2, .postid-478794 #mp2, .postid-479166 #mp2 {top:51%;left:61%;}
+.postid-479088 #mp3, .postid-479338 #mp3, .postid-478794 #mp3, .postid-479166 #mp3 {top:47%;left:64%;}
+.postid-479088 #mp4, .postid-479338 #mp4, .postid-478794 #mp4, .postid-479166 #mp4 {top:52%;left:64%;}
+.postid-479088 #mp5, .postid-479338 #mp5, .postid-478794 #mp5, .postid-479166 #mp5 {top:64%;left:81%;}
+.postid-479088 #mp6, .postid-479338 #mp6, .postid-478794 #mp6, .postid-479166 #mp6 {top:62%;left:62%;}
+.postid-479088 #mp7, .postid-479338 #mp7, .postid-478794 #mp7, .postid-479166 #mp7 {top:64%;left:67%;}
+.postid-479088 #mp8, .postid-479338 #mp8, .postid-478794 #mp8, .postid-479166 #mp8 {top:69%;left:71%;}
+.postid-479088 #mp9, .postid-479338 #mp9, .postid-478794 #mp9, .postid-479166 #mp9 {top:77%;left:29%;}
+.postid-479088 #mp10, .postid-479338 #mp10, .postid-478794 #mp10, .postid-479166 #mp10 {top:46%;left:49%;}
+.postid-479088 #mp11, .postid-479338 #mp11, .postid-478794 #mp11, .postid-479166 #mp11 {top:28%;left:43%;}
+.postid-479088 .map-point:hover .content, .postid-479088 .map-point:hover .content-below, .postid-479088 .map-point:hover .content-left,
+.postid-479338 .map-point:hover .content, .postid-479338 .map-point:hover .content-below, .postid-479338 .map-point:hover .content-left,
+.postid-478794 .map-point:hover .content, .postid-478794 .map-point:hover .content-below, .postid-478794 .map-point:hover .content-left,
+.postid-479166 .map-point:hover .content, .postid-479166 .map-point:hover .content-below, .postid-479166 .map-point:hover .content-left,
+.postid-479088 #mp1:hover .content, .postid-479338 #mp1:hover .content, .postid-478794 #mp1:hover .content, .postid-479166 #mp1:hover .content {visibility: visible;opacity: 1;}
+.postid-479088 .map-point:hover, .postid-479338 .map-point:hover, .postid-478794 .map-point:hover, .postid-479166 .map-point:hover {z-index: 1;}
+.postid-479088 .centered-y, .postid-479338 .centered-y, .postid-478794 .centered-y, .postid-479166 .centered-y {z-index: 999;display:inline-block;}
+.postid-479088 .distribution-map, .postid-479338 .distribution-map, .postid-478794 .distribution-map, .postid-479166 .distribution-map {position: relative;width: 100%;padding: 20px;box-sizing: border-box;margin: 0 auto;z-index: 0;}
+.postid-479088 .distribution-map img, .postid-479338 .distribution-map img, .postid-478794 .distribution-map img, .postid-479166 .distribution-map img {width: 100%;position: relative;margin: 0;padding: 0;}
+.postid-479088 .map-point .content, .postid-479088 .map-point .content-below, .postid-479088 .map-point .content-left,
+.postid-479338 .map-point .content, .postid-479338 .map-point .content-below, .postid-479338 .map-point .content-left,
+.postid-478794 .map-point .content, .postid-478794 .map-point .content-below, .postid-478794 .map-point .content-left,
+.postid-479166 .map-point .content, .postid-479166 .map-point .content-below, .postid-479166 .map-point .content-left {visibility: hidden;width: 300px;min-height:120px;background-color: #555;color: #fff;text-align: center;padding: 5px 1em;border-radius: 6px;position: absolute;z-index: 0;left: 50%;margin-left: -150px;opacity: 0;transition: opacity 0.3s;}
+.postid-479088 .map-point .content,
+.postid-479338 .map-point .content,
+.postid-478794 .map-point .content,
+.postid-479166 .map-point .content { bottom: 125%;  }
+.postid-479088 .map-point .content-below,
+.postid-479338 .map-point .content-below,
+.postid-478794 .map-point .content-below,
+.postid-479166 .map-point .content-below { top: 1.2rem; }
+.postid-479088 .map-point .content-left,
+.postid-479338 .map-point .content-left,
+.postid-478794 .map-point .content-left,
+.postid-479166 .map-point .content-left {bottom: 125%;left: 0%;margin-left: -250px;}
+.postid-479088 .map-point .content::after, .postid-479088 .map-point .content-left::after, .postid-479088 .map-point .content-below::after,
+.postid-479338 .map-point .content::after, .postid-479338 .map-point .content-left::after, .postid-479338 .map-point .content-below::after,
+.postid-478794 .map-point .content::after, .postid-478794 .map-point .content-left::after, .postid-478794 .map-point .content-below::after,
+.postid-479166 .map-point .content::after, .postid-479166 .map-point .content-left::after, .postid-479166 .map-point .content-below::after {content: "";position: absolute;margin-left: -5px;border-width: 5px;border-style: solid;border-color: #555 transparent transparent transparent;}
+.postid-479088 .map-point .content::after, .postid-479338 .map-point .content::after, .postid-478794 .map-point .content::after, .postid-479166 .map-point .content::after {top: 100%;left: 50%;}
+.postid-479088 .map-point .content-left::after, .postid-479338 .map-point .content-left::after, .postid-478794 .map-point .content-left::after, .postid-479166 .map-point .content-left::after {top: 100%;left: 85%;}
+.postid-479088 .map-point .content-below::after, .postid-479338 .map-point .content-below::after, .postid-478794 .map-point .content-below::after, .postid-479166 .map-point .content-below::after {top: -8%;left: 50%;border-color: transparent transparent #555 transparent;}
+.postid-479088 .distribution-map .map-point, .postid-479338 .distribution-map .map-point, .postid-478794 .distribution-map .map-point, .postid-479166 .distribution-map .map-point {cursor: pointer;outline: none;position: absolute;width: 14px;height: 14px;border-radius: 7px;filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);opacity: 0.8;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);-moz-transition: opacity 0.25s ease-in-out 0.25s, width 0.25s ease-in-out 0.25s, height 0.25s ease-in-out 0.25s, z-index 0.25s ease-in-out 0.25s;-o-transition: opacity 0.25s ease-in-out 0.25s, width 0.25s ease-in-out 0.25s, height 0.25s ease-in-out 0.25s, z-index 0.25s ease-in-out 0.25s;-webkit-transition: opacity 0.25s ease-in-out, width 0.25s ease-in-out, height 0.25s ease-in-out, z-index 0.25s ease-in-out;-webkit-transition-delay: 0.25s, 0.25s, 0.25s, 0.25s;transition: opacity 0.25s ease-in-out 0.25s, width 0.25s ease-in-out 0.25s, height 0.25s ease-in-out 0.25s, z-index 0.25s ease-in-out 0.25s;background: rgba(255, 255, 255, 0.85);border: 4px solid red;}
+.postid-479088 .map-point::after, .postid-479338 .map-point::after, .postid-478794 .map-point::after, .postid-479166 .map-point::after {position: absolute;content: '';width: 0px;height: 0px;bottom: -14px;left: -2px;border: 5px solid transparent;border-top: 7px solid red;}
+/*Age of Light END*/
+
+/* Hide Certain Retailers */
+/*beautiful on the outside */
+.postid-611984 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(3), .postid-611984 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(6), .postid-611984 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(4) { display: none;}
+
+.postid-611984 .buy-button-container :nth-child(3), .postid-611984 .buy-button-container :nth-child(6), .postid-611984 .buy-button-container :nth-child(4) { display: none; }
+
+/* everything is just fine */
+.postid-538295 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(3), .postid-538295 .buy-button-container :nth-child(3), .postid-639841 .buy-button-container :nth-child(2), .postid-639841 .buy-button-container :nth-child(6) { display: none; } 
+
+/* chasing cosby */
+.postid-538717 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(6) { display: none; } 
+
+/*the girls, hysterical, the memo */
+.postid-569439 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(3), .postid-569439 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(4), .postid-552528 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(3), .postid-552528 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(4), .postid-594964 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(3), .postid-594964 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(4), .postid-569338 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(4)  {display:none;}
+
+/*Hide ebooks.com*/
+.postid-569796 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(6), .postid-595072 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(6), .postid-552788 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(6), .postid-513451 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(6), .postid-569810 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(6), .postid-639841 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(2), .postid-639841 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(6) { display: none; } 
+
+/*go see the pricipal*/
+.postid-586551 .title-header__dropdowns .dropdown--default ul.dropdown-menu :nth-child(3) { display: none; } 
+
+/*JP DEMO OVERRIDES*/
+.postid-644163 .formstack-module img {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.postid-644163 .fsSubmitButton, .postid-644163 .formstack-module span,
+.postid-644163 .formstack-module textarea {
+	font-family: Libre Baskerville;
+}
+
+.postid-644163 .fsSubmitButton, .postid-644163 .formstack-module h1 {
+	font-family: Oswald !important;
+}
+
+.postid-644163 .fsSubmitButton {
+	text-transform: uppercase;
+}
+
+@media (max-width: 48rem) {
+.postid-643708 .site-header {
+		background-size: cover;
+		position: relative;
+		background-position: 62% 20%;
+		height: 25em;
+}
+}
+
+	@media (min-width: 48rem) {
+.postid-643708 .site__content
+	{
+		margin-top: 0;
+	}
+}
+
+@media (min-width: 37.5rem) {
+.postid-655090 .module-content-block__1 .module-header.module-header--default-center, 
+.postid-655090 .module-content-block__2 .module-header.module-header--default-center {
+		
+			padding: 10px 10px 10px 10px !important;
+	}
+}
+
+.jpnavbar > .site-header__branding > .site-header__mobile-logo > a {
+	
+	    justify-content: flex-start;
+	  white-space: nowrap;
+}
+
+/* Osteen override */
+@media (min-width: 980px) { img.exceptional-book { margin-left: 3rem !important; }}
+h2.vo-signature {
+	color: #54595f !important;
+	font-family: 'Roboto';
+	font-weight: 600;
+	font-size: 1.5rem;
+	margin-top: 3rem;
+}
+/* End Osteen */
+
+/* TrueCrime Audio*/
+@media (min-width: 60.625rem) { .postid-672781 div.featured-carousel .carousel__slide-content { height: 18.125rem;}}
+/* .postid-672781 #site-header {
+	display: none;}
+ */
+.postid-672781 .secondary-feature__inner--grey {
+	width: 50%;
+}
+@media (max-width: 48rem) {
+	.postid-672781 .secondary-feature__inner--grey {
+	width: 100%;
+}
+}
+.postid-672781 .secondary-feature__text .secondary-feature__link,
+.postid-672781 .content-block__post-content {margin:0;}
+
+/* ellie claire */
+#ellie-claire-gifts-wrap img {
+	display: inline-block;
+	margin: 0 0.8rem;
+}
+@media (max-width: 75rem) {
+	#ellie-claire-gifts-wrap img {
+	display: block;
+		margin: 0.8rem auto;
+}
+}		</style>
+			</head>
+	<body class="hbg-title-template-default single single-hbg-title postid-125966">
+				<div id="page" class="site single-post page imprint">
+			<header class="site-header">
+	<nav class="site-header__nav swappable" data-swap-location=".imprint-header__menu" data-swap-method="append" data-swap-max="m">
+		<a href="https://www.hachettebookgroup.com/">
+			<div class="site-header__desktop-logo imprint__global-logo ">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59.72 59.73"><title>Hachette Logo</title><polygon class="cls-1" points="59.72 59.73 59.72 0 36.93 0 36.93 4.33 55.4 4.33 55.4 55.4 41.26 55.4 41.26 36.93 18.46 36.93 18.46 41.26 36.93 41.26 36.93 59.73 59.72 59.73"/><polygon class="cls-1" points="22.79 18.47 41.26 18.47 41.26 22.79 18.47 22.79 18.47 4.33 4.33 4.33 4.33 55.4 22.79 55.4 22.79 59.73 0 59.73 0 0 22.79 0 22.79 18.47"/></svg>
+			</div>
+		</a>
+		<div class="menu-imprint-nav-container"><ul id="menu-hachette-primary-menu" class="menu site-header__menu" data-toggle-element="site-header__mobile-menu" data-toggle-block="site-header__mobile-menu"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/genres/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Genres">Genres</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/landing-page/contributor/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Authors">Authors</a></span></li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/imprints/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Imprints">Imprints</a><span id="expand-site-header__sub-menu-1280789745" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-1280789745" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-1280789745" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-1280789745" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-1280789745"><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/grand-central-publishing/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Grand Central Publishing">Grand Central Publishing</a><span id="expand-site-header__sub-menu-1965017423" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-1965017423" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-1965017423" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-1965017423" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-1965017423"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/grand-central-publishing/forever/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Forever / Forever Yours">Forever / Forever Yours</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/grand-central-publishing/twelve/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Twelve">Twelve</a></span></li>	</ul>
+</li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/orbit/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Orbit Publishing">Orbit Publishing</a><span id="expand-site-header__sub-menu-490479092" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-490479092" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-490479092" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-490479092" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-490479092"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/imprint/orbit/page/orbit-catalog/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Orbit">Orbit</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/redhook/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Redhook">Redhook</a></span></li>	</ul>
+</li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/hachette-audio/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Hachette Audio">Hachette Audio</a><span id="expand-site-header__sub-menu-797153667" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-797153667" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-797153667" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-797153667" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-797153667"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/hachette-audio/wattpad/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Wattpad">Wattpad</a></span></li>	</ul>
+</li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/hachette-nashville/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Hachette Nashville">Hachette Nashville</a><span id="expand-site-header__sub-menu-811955821" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-811955821" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-811955821" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-811955821" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-811955821"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/hachette-nashville/center-street/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Center Street">Center Street</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/hachette-nashville/faithwords/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="FaithWords">FaithWords</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/hachette-nashville/worthy-books/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Worthy Books">Worthy Books</a></span></li>	</ul>
+</li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/little-brown-and-company/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Little, Brown and Company">Little, Brown and Company</a><span id="expand-site-header__sub-menu-1941771073" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-1941771073" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-1941771073" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-1941771073" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-1941771073"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/little-brown-and-company/back-bay-books/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Back Bay Books">Back Bay Books</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/little-brown-and-company/jimmy-patterson/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="JIMMY Patterson">JIMMY Patterson</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/little-brown-and-company/little-brown-spark/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Little, Brown Spark">Little, Brown Spark</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/little-brown-and-company/mulholland-books/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Mulholland Books">Mulholland Books</a></span></li>	</ul>
+</li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/little-brown-books-for-young-readers/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Little, Brown Books for Young Readers">Little, Brown Books for Young Readers</a></span></li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/perseus/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Perseus">Perseus</a><span id="expand-site-header__sub-menu-252946012" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-252946012" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-252946012" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-252946012" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-252946012"><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/perseus/avalon-travel/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Avalon Travel">Avalon Travel</a><span id="expand-site-header__sub-menu-1991520301" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-1991520301" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-1991520301" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span></li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/perseus/basic-books/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Basic Books">Basic Books</a><span id="expand-site-header__sub-menu-2072278175" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-2072278175" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-2072278175" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span></li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/perseus/hachette-books/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Hachette Books">Hachette Books</a><span id="expand-site-header__sub-menu-911676299" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-911676299" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-911676299" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span></li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="PublicAffairs">PublicAffairs</a><span id="expand-site-header__sub-menu-1883089603" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-1883089603" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-1883089603" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span></li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/perseus/running-press/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Running Press">Running Press</a><span id="expand-site-header__sub-menu-1084812716" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-1084812716" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-1084812716" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span></li>	</ul>
+</li></ul>
+</li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/landing-page/about-hachette-book-group-2/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="About">About</a><span id="expand-site-header__sub-menu-1566307250" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-1566307250" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-1566307250" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-1566307250" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-1566307250"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/landing-page/about-hachette-book-group-2/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Our Mission">Our Mission</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/about/careers/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Careers">Careers</a></span></li></ul>
+</li></ul></div>	</nav>
+</header>
+<header id="site-header" class="site-header imprint-header publicaffairs">
+	<div class="site-header__top" data-toggle-element="site-header__search">
+		<div class="site-header__mobile-menu-toggle">
+			<button class="site-header__hamburger toggleable" data-toggle-target="site-header__mobile-menu" data-toggle-block="site-header__mobile-menu">&#9776;</button>
+		</div>
+
+		<ul class="site-header__social">
+							<li class="site-header__social-header">
+					Follow Us				</li>
+									<li class="site-header__social-list-item">
+						<a href="https://www.facebook.com/PublicAffairs" target="_blank"
+							data-type="link-event" data-category="Social Share" data-action="Header" data-label="Facebook"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Facebook Icon</title><path class="cls-1" d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0Zm4.47,19.37H21.06V30.44H16.23c0-3.41,0-7.4,0-11H14.18V15.93h2c.1-2.55.14-5.07,1.41-6.36C19,8.12,20.4,8.3,24.55,8.3v3.56s-2.63-.26-3.29.75c-.36.55-.15,2.16-.18,3.32h3.49C24.27,17.28,24.06,18.2,23.84,19.37Z" transform="translate(0 0.01)"/></svg>
+						</a>
+					</li>
+													<li class="site-header__social-list-item">
+						<a href="https://twitter.com/public_affairs" target="_blank"
+							data-type="link-event" data-category="Social Share" data-action="Header" data-label="Twitter"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Twitter Icon</title><path class="cls-1" d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0Zm9.32,13.62a6.18,6.18,0,0,1-1.3,1.49l-.6.47A11,11,0,0,1,26.62,18a10.69,10.69,0,0,1-7.49,8.45,11.45,11.45,0,0,1-5.41.22A13.94,13.94,0,0,1,11.47,26a9,9,0,0,1-1.08-.56l-.34-.2a6.24,6.24,0,0,0,1.22,0c.38-.06.74,0,1.09-.12a7.83,7.83,0,0,0,2.29-.83,4.25,4.25,0,0,0,1-.68,3.25,3.25,0,0,1-1.14-.2A3.84,3.84,0,0,1,12.14,21c.37,0,1.45.14,1.71-.07a2.79,2.79,0,0,1-1.25-.5,3.68,3.68,0,0,1-1.8-3.27l.39.19a4.2,4.2,0,0,0,.8.22,1.15,1.15,0,0,0,.52,0h0c-.19-.22-.51-.37-.7-.61a3.91,3.91,0,0,1-.86-3.47,4.43,4.43,0,0,1,.41-1h0a2.33,2.33,0,0,0,.35.4A7,7,0,0,0,12.85,14a11.25,11.25,0,0,0,4.67,2.26,7.31,7.31,0,0,0,1.72.22,3.55,3.55,0,0,1,0-1.79,3.77,3.77,0,0,1,2.16-2.57,4.64,4.64,0,0,1,.85-.26l.47-.06a3.93,3.93,0,0,1,3,1.2,6.2,6.2,0,0,0,2-.66l.48-.26a3.82,3.82,0,0,1-1.24,1.79,1.82,1.82,0,0,1-.42.3h0a7.15,7.15,0,0,0,2.16-.59Z" transform="translate(0 0)"/></svg>
+						</a>
+					</li>
+													<li class="site-header__social-list-item">
+						<a href="https://www.instagram.com/publicaffairsbooks/" target="_blank"
+							data-type="link-event" data-category="Social Share" data-action="Header" data-label="Instagram"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Instagram Icon</title><rect x="23.01" y="11.86" width="3.88" height="3.88" rx="0.97" ry="0.97"/><path d="M25.31,19.37a5.94,5.94,0,1,1-11.66-1.58H11.86v8.12a1,1,0,0,0,1,1H25.92a1,1,0,0,0,1-1V17.79H25.1A5.94,5.94,0,0,1,25.31,19.37Z" transform="translate(0 0)"/><path d="M19.37,23.13a3.76,3.76,0,0,0,3.76-3.76,3.9,3.9,0,0,0,0-.4l0-.11c0-.09,0-.19,0-.28l0-.12c0-.09,0-.17-.07-.26l0-.12-.1-.24,0,0h0a3.75,3.75,0,0,0-6.81,0h0l0,0-.1.24,0,.12c0,.08-.05.17-.07.26l0,.12c0,.09,0,.18,0,.28s0,.07,0,.11a3.83,3.83,0,0,0,0,.4A3.76,3.76,0,0,0,19.37,23.13Z" transform="translate(0 0)"/><path d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0Zm9.69,26.64a2.42,2.42,0,0,1-2.42,2.42H12.1a2.42,2.42,0,0,1-2.42-2.42V12.1A2.42,2.42,0,0,1,12.1,9.68H26.64a2.42,2.42,0,0,1,2.42,2.42Z" transform="translate(0 0)"/></svg>
+						</a>
+					</li>
+																									</ul>
+
+		<h2 class="site-header__branding">
+						<a href="https://www.publicaffairsbooks.com/">
+					<div class="site-header__desktop-logo site-header__logo--publicaffairs">
+		<img src="https://www.publicaffairsbooks.com/wp-content/themes/hachette-book-group/client/build/images/imprint-logos-white/publicaffairs.png" />
+	</div>
+		<div class="site-header__mobile-logo site-header__logo--publicaffairs">
+		<img src="https://www.publicaffairsbooks.com/wp-content/themes/hachette-book-group/client/build/images/imprint-logos-white/publicaffairs.png">
+	</div>
+				</a>
+				</h2>
+
+		
+		
+<div class="site-search">
+	<form id="global-hbg-search" class="site-search__form" name="search-form" action="https://www.publicaffairsbooks.com/">
+		<label class="site-search__label" for="search-form-5ca6887def958">Search</label>
+		<span class="site-search_background"></span>
+		<input class="site-search__input" type="search" id="search-form-5ca6887def958" value="" placeholder="Search the website for a title or author" name="s">
+		<button class="site-search__button">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.68 38.68"><title>Search</title><path class="cls-2" d="M37.62,32.49,27,21.86A14.54,14.54,0,1,0,21.86,27L32.49,37.62a3.63,3.63,0,1,0,5.13-5.13ZM14.5,25.38A10.88,10.88,0,1,1,25.38,14.5,10.88,10.88,0,0,1,14.5,25.38Z"/></svg>
+		</button>
+	</form>
+</div>
+	</div>
+	<div class="menu-publicaffairs-container"><nav class="site-header__nav"><ul id="menu-publicaffairs" class="menu site-header__menu" data-toggle-element="site-header__mobile-menu"><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="#" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Imprints">Imprints</a><span id="expand-site-header__sub-menu-1941247770" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-1941247770" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-1941247770" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-1941247770" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-1941247770"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/imprint/perseus/bold-type-books/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Bold Type Books">Bold Type Books</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/imprint/perseus/publicaffairs/the-economist/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Economist Books">Economist Books</a></span></li></ul>
+</li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/imprint/perseus/publicaffairs/page/publicaffairs-authors/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Authors">Authors</a></span></li><li class="site-header__menu-item site-header__menu-item-has-children"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/imprint/perseus/publicaffairs/page/public-affairs-categories/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Categories">Categories</a><span id="expand-site-header__sub-menu-2732530" class="site-header__menu-expand sub-menu-expand toggleable" data-toggle-target="site-header__sub-menu-2732530" data-toggle-block="site-header__sub-menu" data-toggle-element="site-header__sub-menu-2732530" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span></span><ul id="site-header__sub-menu-2732530" class="site-header__sub-menu sub-menu" data-toggle-element="site-header__sub-menu-2732530"><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/history/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="History">History</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/political-science/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Political Science">Political Science</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/biography-autobiography/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Biography &amp; Autobiography">Biography &amp; Autobiography</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/business-economics/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Business &amp; Economics">Business &amp; Economics</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/sports-recreation/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Sports &amp; Recreation">Sports &amp; Recreation</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/social-science/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Social Science">Social Science</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/social-science/womens-studies/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Women&#039;s Studies">Women&#039;s Studies</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/health-fitness/health-care-issues/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Health Care Issues">Health Care Issues</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/family-relationships/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Family &amp; Relationships">Family &amp; Relationships</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/genre/technology-engineering/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="Technology &amp; Engineering">Technology &amp; Engineering</a></span></li></ul>
+</li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/imprint/perseus/publicaffairs/page/publicaffairs-about-us/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="About Us">About Us</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/imprint/perseus/publicaffairs/page/for-readers/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="For Readers">For Readers</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.publicaffairsbooks.com/imprint/perseus/publicaffairs/page/publicaffairs-for-the-media/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="For Media">For Media</a></span></li><li class="site-header__menu-item"><span class="site-header__menu-item-text"><a href="https://www.hachettebookgroup.com/" data-type="link-event" data-category="Main Nav" data-action="Click on Nav" data-label="HBG Home">HBG Home</a></span></li></ul></nav></div></header>
+
+<!-- Popup Modal -->
+<div class="modal-popup modal-site-popup modal-imprint-popup modal fade" id="newsletter_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title"></h4>
+	  </div>
+			<div class="signup module">
+	<div class="module__content">
+	<div class="signup__content">
+		<p class="newsletter-text">Get recommended reads, deals, and more from Hachette</p>
+		<div class="signup__form-wrapper">
+			<form class="signup__form">
+				<label for="email_address_input" class="screen-reader-text">Get recommended reads, deals, and more from Hachette</label>
+				<input id="email_address_input" type="email" name="email_address" class="hachette-input hachette-email" placeholder="Your email address" />
+												<button class="newsletter-submit"
+					data-type="click-event" data-category="Form Newsletter" data-action="Submit Form" data-label="Submit Newsletter"
+				>
+					Sign Up				</button>
+			</form>
+		</div>
+	</div>
+		<p class="signup__legal">
+			By clicking âSign Up,â I acknowledge that I have read and agree to Hachette Book Groupâs 			<a href="https://www.publicaffairsbooks.com/terms-and-policies/privacy-policy/">Privacy Policy</a>
+			 and 			<a href="https://www.publicaffairsbooks.com/terms-and-policies/terms-of-use/">Terms of Use</a>
+		</p>
+	</div>
+</div>
+	</div>
+  </div>
+</div>
+<!-- Collapse -->
+<div class="collapse-policy collapse panel-collapse" id="privacy_collapse">
+	<div class="panel-body panel-fixed">
+		<div class="panel-heading" role="tab" id="headingOne">
+			<h4 class="panel-title">
+				<button type="button" class="panel-close" data-toggle="collapse" data-parent="#accordion" href="#privacy_collapse" aria-expanded="true" aria-controls="collapsePolicy" aria-label="Close">
+					<span aria-hidden="true">Ã</span>
+				</button>
+			</h4>
+		</div>
+		<p>Please take a moment to review Hachette Book Group&#039;s updated Privacy Policy: <a class="modal-link" href="https://www.publicaffairsbooks.com/terms-and-policies/privacy-policy/">read the updated policy here</a>.</p>
+	</div>
+</div>
+			<div id="content" class="site__content">
+				
+	<div class="landing-page-module module-carousel-background__0">
+		
+<div class="featured-carousel module">
+	<div class="module__content">
+		<div id="hachette-carousel-1786413539" class="carousel slide">
+			<ol class="carousel-indicators">
+									<li data-target="#hachette-carousel-1786413539" data-slide-to="1"></li>
+							</ol>
+			<div class="carousel-inner" role="listbox">
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content carousel__slide-content--fullBleed">
+															<div class="featured-carousel__bg-image " data-swap-location=".featured-carousel__mobile-image-1737551618" data-swap-method="append" data-swap-max="l">
+											
+			
+			
+			<img src="https://www.publicaffairsbooks.com/wp-content/uploads/2017/06/Zuboff_Header_02.jpg?resize=1920%2C560">
+		
+									</div>
+														
+							<div class="featured-carousel__caption">
+						<div class="featured-carousel__caption-text">
+							
+							<h2></h2>
+
+							
+													</div>
+
+								<div class="featured-carousel__mobile-image featured-carousel__mobile-image-1737551618"></div>
+
+															</div>
+						</div>
+					</div>
+							</div>
+			<a class="left carousel-control site-carousel__control--prev" href="#hachette-carousel-1786413539" role="button" data-slide="prev" data-type="link-event" data-category="Hero Slider" data-action="Click Hero" data-label="">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+			</a>
+			<a class="right carousel-control site-carousel__control--next" href="#hachette-carousel-1786413539" role="button" data-slide="next" data-type="link-event" data-category="Hero Slider" data-action="Click Hero" data-label="">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+			</a>
+		</div>
+	</div>
+</div>
+	</div>
+
+
+	<div class="landing-page-module module-buy-buttons__1">
+		
+<div class="content-block module module--fixed">
+	<div class="content-block__content">
+					<h2 class="module-header module-header--default-center">
+				ORDER YOUR COPY TODAY			</h2>
+		
+		<div class="buy-button-container module__content module--fixed">
+							<a target="_blank" href="https://www.amazon.com/gp/product/1610395697?tag=hacboogrosit-20"
+				   data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+				   data-label="Amazon"
+				>
+					<div class="btn btn-default btn-default buy-button-module__btn">
+						<span class="buy-button-module__text">
+								Amazon						</span>
+					</div>
+				</a>
+							<a target="_blank" href="https://www.barnesandnoble.com/w/the-age-of-surveillance-capitalism-shoshana-zuboff/1127581387?ean=9781610395694&#038;st=AFF&#038;2sid=Hachette%20Book%20Group_8040641_NA&#038;sourceId=AFFHachette%20Book%20Group"
+				   data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+				   data-label="BARNES &amp; NOBLE"
+				>
+					<div class="btn btn-default btn-default buy-button-module__btn">
+						<span class="buy-button-module__text">
+								BARNES &amp; NOBLE						</span>
+					</div>
+				</a>
+							<a target="_blank" href="https://www.indiebound.org/book/9781610395694"
+				   data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+				   data-label="INDIEBOUND"
+				>
+					<div class="btn btn-default btn-default buy-button-module__btn">
+						<span class="buy-button-module__text">
+								INDIEBOUND						</span>
+					</div>
+				</a>
+							<a target="_blank" href="http://www.booksamillion.com/p/9781610395694?AID=11552245&#038;PID=8040641&#038;cjevent=a5b3fa1824c411e983a6001e0a180511"
+				   data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+				   data-label="BOOKS-A-MILLION"
+				>
+					<div class="btn btn-default btn-default buy-button-module__btn">
+						<span class="buy-button-module__text">
+								BOOKS-A-MILLION						</span>
+					</div>
+				</a>
+					</div>
+	</div>
+</div>
+	</div>
+
+
+	<div class="landing-page-module module-newsletter-signup__2">
+		<div class="signup module">
+	<div class="module__content">
+	<div class="signup__content">
+		<p class="newsletter-text">Get recommended reads, deals, and more from Hachette</p>
+		<div class="signup__form-wrapper">
+			<form class="signup__form">
+				<label for="email_address_input" class="screen-reader-text">Get recommended reads, deals, and more from Hachette</label>
+				<input id="email_address_input" type="email" name="email_address" class="hachette-input hachette-email" placeholder="Your email address" />
+												<button class="newsletter-submit"
+					data-type="click-event" data-category="Form Newsletter" data-action="Submit Form" data-label="Submit Newsletter"
+				>
+					Sign Up				</button>
+			</form>
+		</div>
+	</div>
+		<p class="signup__legal">
+			By clicking âSign Up,â I acknowledge that I have read and agree to Hachette Book Groupâs 			<a href="https://www.publicaffairsbooks.com/terms-and-policies/privacy-policy/">Privacy Policy</a>
+			 and 			<a href="https://www.publicaffairsbooks.com/terms-and-policies/terms-of-use/">Terms of Use</a>
+		</p>
+	</div>
+</div>
+	</div>
+
+
+	<div class="landing-page-module module-title-header__3">
+		<header class="title-header module" itemscope itemtype="http://schema.org/Book">
+	<meta itemprop="url" content="https://www.publicaffairsbooks.com/titles/shoshana-zuboff/the-age-of-surveillance-capitalism/9781610395694/" />
+	<div class="module__content module--fixed">
+		<div class="title-header__image">
+			<img width="435" height="675" src="" class="lazyload" alt="The Age of Surveillance Capitalism" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2017/06/ageofsurveillance.jpg?fit=435%2C675" />		</div>
+		<div class="title-header__content">
+			<div class="title-header__primary-info">
+									<h1 itemprop="name">
+						The Age of Surveillance Capitalism					</h1>
+										<p class="title-header__subtitle">
+						The Fight for a Human Future at the New Frontier of Power					</p>
+																<div class="title-header__bylines">
+							<p class="title-header__byline">
+								by <a href="https://www.publicaffairsbooks.com/contributor/shoshana-zuboff/" class="title-header__author"><span itemprop="author">Shoshana Zuboff</span></a>							</p>
+						</div>
+													</div>
+
+							<div class="title-header__description">
+					<div id="title-header__description-text-2098278211-truncate" class="title-header__description-text truncate" data-load-more-target="title-header__read-more" truncateMobile truncateDesktop itemprop="description">
+						<div><strong>The challenges to humanity posed by the digital future, the first detailed examination of the unprecedented form of power called &#8220;surveillance capitalism,&#8221; and the quest by powerful corporations to predict and control our behavior.</strong><br /><br />In this masterwork of original thinking and research, Shoshana Zuboff provides startling insights into the phenomenon that she has named surveillance capitalism. The stakes could not be higher: a global architecture of behavior modification threatens human nature in the twenty-first century just as industrial capitalism disfigured the natural world in the twentieth.</div><div><br /></div><div>Zuboff vividly brings to life the consequences as surveillance capitalism advances from Silicon Valley into every economic sector. Vast wealth and power are accumulated in ominous new &#8220;behavioral futures markets,&#8221; where predictions about our behavior are bought and sold, and the production of goods and services is subordinated to a new &#8220;means of behavioral modification.&#8221;</div><div><br /></div><div>The threat has shifted from a totalitarian Big Brother state to a ubiquitous digital architecture: a &#8220;Big Other&#8221; operating in the interests of surveillance capital. Here is the crucible of an unprecedented form of power marked by extreme concentrations of knowledge and free from democratic oversight. Zuboff&#8217;s comprehensive and moving analysis lays bare the threats to twenty-first century society: a controlled &#8220;hive&#8221; of total connection that seduces with promises of total certainty for maximum profit&#8211;at the expense of democracy, freedom, and our human future.</div><div><br /></div><div>With little resistance from law or society, surveillance capitalism is on the verge of dominating the social order and shaping the digital future&#8211;if we let it.</div>					</div>
+					<a data-load-more-element="title-header__read-more" class="title-header__read-more">
+						Read More					</a>
+				</div>
+			
+			<div class="title-header__meta">
+				<div class="title-header__award">
+									</div>
+									<p class="title-header__genre">
+						Genre: <span><a href="https://www.publicaffairsbooks.com/genre-category/nonfiction/"><span itemprop="genre">Nonfiction</span></a> / <a href="https://www.publicaffairsbooks.com/genre/business-economics/"><span itemprop="genre">Business &amp; Economics</span></a> / <a href="https://www.publicaffairsbooks.com/genre/business-economics/industries/"><span itemprop="genre">Industries</span></a> / <a href="https://www.publicaffairsbooks.com/genre/business-economics/industries/computers-information-technology/"><span itemprop="genre">Computers &amp; Information Technology</span></a></span>
+					</p>
+								<div class="title-header__meta-group">
+											<p>
+							On Sale: January 15th 2019							<meta itemprop="datePublished" content="2019-01-15" />
+						</p>
+												<p itemprop="price">
+							Price: $38 / $49.5 (CAD)						</p>
+												<p>Page Count: <span itemprop="numberOfPages">704</span></p>
+												<p>ISBN-13: <span itemprop="isbn">9781610395694</span></p>
+										</div>
+			</div>
+		</div>
+
+		<div class="title-header__actions swappable" data-swap-location=".title-header__primary-info" data-swap-method="after" data-swap-max="m">
+			<ul class="site__share title-header__share">
+				<li class="site__share-prompt">Share</li>
+				<li class="share-facebook">
+					<a href="//www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.publicaffairsbooks.com%2Ftitles%2Fshoshana-zuboff%2Fthe-age-of-surveillance-capitalism%2F9781610395694%2F" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Facebook Icon</title><path class="cls-1" d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0Zm4.47,19.37H21.06V30.44H16.23c0-3.41,0-7.4,0-11H14.18V15.93h2c.1-2.55.14-5.07,1.41-6.36C19,8.12,20.4,8.3,24.55,8.3v3.56s-2.63-.26-3.29.75c-.36.55-.15,2.16-.18,3.32h3.49C24.27,17.28,24.06,18.2,23.84,19.37Z" transform="translate(0 0.01)"/></svg>
+					</a>
+				</li>
+				<li class="share-twitter">
+					<a href="//twitter.com/intent/tweet?url=https%3A%2F%2Fwww.publicaffairsbooks.com%2Ftitles%2Fshoshana-zuboff%2Fthe-age-of-surveillance-capitalism%2F9781610395694%2F&#038;text=The%20Age%20of%20Surveillance%20Capitalism" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Twitter Icon</title><path class="cls-1" d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0Zm9.32,13.62a6.18,6.18,0,0,1-1.3,1.49l-.6.47A11,11,0,0,1,26.62,18a10.69,10.69,0,0,1-7.49,8.45,11.45,11.45,0,0,1-5.41.22A13.94,13.94,0,0,1,11.47,26a9,9,0,0,1-1.08-.56l-.34-.2a6.24,6.24,0,0,0,1.22,0c.38-.06.74,0,1.09-.12a7.83,7.83,0,0,0,2.29-.83,4.25,4.25,0,0,0,1-.68,3.25,3.25,0,0,1-1.14-.2A3.84,3.84,0,0,1,12.14,21c.37,0,1.45.14,1.71-.07a2.79,2.79,0,0,1-1.25-.5,3.68,3.68,0,0,1-1.8-3.27l.39.19a4.2,4.2,0,0,0,.8.22,1.15,1.15,0,0,0,.52,0h0c-.19-.22-.51-.37-.7-.61a3.91,3.91,0,0,1-.86-3.47,4.43,4.43,0,0,1,.41-1h0a2.33,2.33,0,0,0,.35.4A7,7,0,0,0,12.85,14a11.25,11.25,0,0,0,4.67,2.26,7.31,7.31,0,0,0,1.72.22,3.55,3.55,0,0,1,0-1.79,3.77,3.77,0,0,1,2.16-2.57,4.64,4.64,0,0,1,.85-.26l.47-.06a3.93,3.93,0,0,1,3,1.2,6.2,6.2,0,0,0,2-.66l.48-.26a3.82,3.82,0,0,1-1.24,1.79,1.82,1.82,0,0,1-.42.3h0a7.15,7.15,0,0,0,2.16-.59Z" transform="translate(0 0)"/></svg>
+					</a>
+				</li>
+				<li class="share-email">
+					<a href="mailto:friend@example.com?subject=Check%20this%20out.&#038;body=The%20Age%20of%20Surveillance%20Capitalism%0D%0A%0D%0A%0D%0A%0D%0Ahttps%3A%2F%2Fwww.publicaffairsbooks.com%2Ftitles%2Fshoshana-zuboff%2Fthe-age-of-surveillance-capitalism%2F9781610395694%2F">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Email Icon</title><path class="cls-1" d="M8.38,12.53a.64.64,0,0,0,0,.09V26.1l6.29-7.48Z" transform="translate(0 0)"/><polygon class="cls-1" points="29.58 11.97 9.17 11.97 19.37 19.94 29.58 11.97"/><polygon class="cls-1" points="19.37 23.18 16.46 20.36 9.07 26.83 29.68 26.83 22.29 20.36 19.37 23.18"/><path class="cls-1" d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0ZM31.83,26.72a1.57,1.57,0,0,1-.36,1,.55.55,0,0,1-.21.21,1.44,1.44,0,0,1-1,.36H8.45a1.5,1.5,0,0,1-1-.37.58.58,0,0,1-.2-.21,1.5,1.5,0,0,1-.35-1V12a1.59,1.59,0,0,1,.36-1,.74.74,0,0,1,.29-.27,1.39,1.39,0,0,1,.89-.31H30.29a1.5,1.5,0,0,1,.7.18l0-.05.66.63-.06,0a1.58,1.58,0,0,1,.21.78Z" transform="translate(0 0)"/><path class="cls-1" d="M24.08,18.62l6.29,7.48V12.62a.64.64,0,0,0,0-.09Z" transform="translate(0 0)"/></svg>
+					</a>
+				</li>
+			</ul>
+
+			<div class="title-header__imprint">
+										<a href="https://www.publicaffairsbooks.com/">
+							<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609.2 73.4"><style>.st0{fill:#231f20}</style><title>Public Affairs Logo</title><path class="st0" d="M10.7 8.7H1.3V2.1h33c16.5 0 21.8 12 21.8 20.5.2 11.3-8.7 20.5-20 20.8H35c-3.4 0-6.7-.5-10-1.3v24h9.9v6.7H1.2v-6.6h9.4l.1-57.5zm14.2 25.2c1.7.4 3.4.6 5.2.6 6.6 0 10.7-4.7 10.7-12.3C40.8 13.1 36 8 27.7 8h-2.8v25.9z"/><path class="st0" d="M36.2 74.1H-.1v-9.3h9.4V10H-.1V.8h34.3c18.3 0 23.2 13.7 23.2 21.8.1 5.8-2 11.3-6.1 15.4-4 4.2-9.4 6.5-15.2 6.6h-1.2c-2.9 0-5.8-.3-8.6-1v21h9.9v9.5zM2.6 71.4h31v-4h-9.9V40.3l1.7.4c3.2.8 6.4 1.3 9.7 1.3h1.1c5.1-.1 9.8-2.2 13.4-5.8s5.4-8.5 5.3-13.6c0-7.1-4.3-19.2-20.5-19.2H2.6v3.9H12v60.2H2.6v3.9zm27.5-35.6c-1.8 0-3.7-.2-5.5-.6l-1-.2V6.6h4.2c9 0 14.4 5.8 14.4 15.6-.1 8.3-4.8 13.6-12.1 13.6zm-3.8-3c1.3.2 2.6.3 3.9.4 5.8 0 9.3-4.1 9.3-10.9 0-8.3-4.2-12.9-11.7-12.9h-1.5v23.4zM60.1 23.8v-5h25.4v5h-7.4v26.9c0 9.9 4.4 16.7 13 16.7 7.4 0 12.6-5.2 12.6-17.3V23.8h-7.2v-5H120v5h-7v26c0 14.9-8.4 23.4-23 23.4-15.4 0-22.6-9.1-22.6-23V23.8h-7.3z"/><path class="st0" d="M90 73.8c-15 0-23.3-8.4-23.3-23.7V24.5h-7.3v-6.3h26.8v6.3h-7.4v26.2c0 10.2 4.5 16.1 12.3 16.1 7.7 0 12-5.9 12-16.6V24.5h-7.2v-6.3h24.7v6.3h-6.9v25.3c0 15.2-8.7 24-23.7 24zM68.1 23.1v27c0 14.4 7.8 22.4 21.9 22.4 14.2 0 22.4-8.3 22.4-22.7V23.1h6.9v-3.6H97.2v3.6h7.2v27c0 15.6-8.3 17.9-13.3 17.9-8.5 0-13.6-6.5-13.6-17.4V23.1h7.4v-3.6H60.8v3.7l7.3-.1zM132.5 24.1h-7.1v-5h22.8c11.9 0 17.5 5.8 17.5 13.2 0 5.9-3.3 10.2-10.7 12.2v.2c11.8 1.3 15.2 7 15.2 13 0 7-5.5 14.8-18.3 14.8h-26.5v-4.9h7.1V24.1zm12.2 18.7c5.3 0 9-2.7 9-10.1 0-5.5-2.9-8.6-8-8.6h-2.3v18.7h1.3zm1.2 24.6c8.6 0 12-3.7 12-9.8s-4.4-9.8-12.2-9.8h-2.3v19.5h2.5z"/><path class="st0" d="M151.9 73h-27.2v-6.3h7.1v-42h-7.1v-6.3h23.4c13.4 0 18.2 7.1 18.2 13.8 0 5.7-3 9.8-8.8 12.1 10.9 1.9 13.3 8.2 13.3 13.3.1 7.4-5.9 15.4-18.9 15.4zM126 71.7h25.8c12.2 0 17.7-7.1 17.7-14.1 0-7.1-4.9-11.3-14.6-12.3l-.6-.1v-1.3l.5-.1c6.8-1.8 10.2-5.7 10.2-11.5 0-7.8-6.3-12.5-16.9-12.5H126v3.6h7.1v44.7H126v3.6zm19.9-3.6h-3.2V47.2h3c8 0 12.8 3.9 12.8 10.4 0 7-4.2 10.5-12.6 10.5zm-1.9-1.3h1.8c7.7 0 11.3-2.9 11.3-9.1 0-5.8-4.2-9.1-11.5-9.1H144v18.2zm.7-23.4l-2-.1v-20h3c5.4 0 8.7 3.5 8.7 9.3-.1 7.2-3.3 10.8-9.7 10.8zM144 42h.7c5.6 0 8.3-3.1 8.3-9.5 0-5.1-2.6-8-7.3-8H144V42zM183.9 24.1H177v-5h25v5h-7.3v43.4h17v-8h5.5v13.1h-40.1v-5.1h6.9l-.1-43.4z"/><path class="st0" d="M217.8 73.2h-41.4v-6.4h6.9l-.2-42h-6.9v-6.3h26.4v6.3h-7.3v42H211v-8h6.8v14.4zm-40.1-1.4h38.7V60.1h-4.2v8H194V23.4h7.3v-3.6h-23.7v3.6h6.9l.2 44.7h-6.9v3.7zM232 24.1h-7.4v-5h25.3v5h-7.1v43.4h7.1v5h-25.3v-5h7.4V24.1z"/><path class="st0" d="M250.5 73.1h-26.6v-6.3h7.4v-42h-7.4v-6.3h26.6v6.3h-7.1v42h7.1v6.3zm-25.2-1.4h23.9v-3.6h-7.1V23.4h7.1v-3.6h-23.9v3.6h7.4v44.7h-7.4v3.6zM303.6 67c-5.8 4.1-12.7 6.2-19.8 6-14.5.6-26.8-10.6-27.4-25.1v-1.6c0-13.4 8.7-28.4 29.1-28.4 4 0 7.9.6 11.7 1.9l.7-2.7h3.9v16h-4.6c-.9-6.1-6.3-10.5-12.4-10.1-9.8 0-15.6 8.2-15.6 22.3 0 16.9 9.4 22.9 17.3 22.9 6.3-.2 12.3-2.5 17.2-6.5l-.1 5.3z"/><path class="st0" d="M282.6 73.7c-14.3 0-26.3-11.3-26.9-25.8v-1.6c0-14 9.3-29.1 29.7-29.1 3.8-.1 7.6.5 11.3 1.7l.7-2.5h5.1v17.4h-5.9l-.1-.6c-.8-5.8-5.9-9.9-11.7-9.6-9.5 0-14.9 7.9-14.9 21.7 0 16.4 8.9 22.3 16.6 22.3 6.1-.2 12-2.5 16.8-6.3l1.1-.9v7l-.3.2c-6 4.2-12.9 6.3-20.2 6.2-.5-.1-.9-.1-1.3-.1zm3.1-55.1h-.3c-13.7 0-28.4 8.7-28.4 27.8v1.5c.6 14.1 12.6 25.1 26.7 24.5 6.9.1 13.5-1.8 19.2-5.7v-3.5c-4.8 3.5-10.6 5.6-16.5 5.8-12.4 0-17.9-11.9-17.9-23.6 0-14.4 6.1-23 16.2-23 6.3-.4 11.8 4 13 10.1h3.4V17.8h-2.7l-.8 2.9-.7-.2c-3.6-1.3-7.3-1.9-11.2-1.9zM340.8.7l24.7 68.7h6v3.4h-21v-3.4h7.6l-7.8-22.1h-26.1l-7.5 22.1h6.6v3.3h-17.1v-3.4h5.9l24-68.7 4.7.1zm-4.1 8l-11 34H349l-12.3-34z"/><path class="st0" d="M372.2 73.4h-22.3v-4.7h7.3L349.9 48h-25.1l-7 20.8h6.3v4.7h-18.4v-4.7h6.1l24-68.7 5.5-.1.2.4L366 68.7h6.2v4.7zm-21-1.3h19.7V70H365L340.3 1.3h-3.7l-24 68.7h-5.7v2.1h15.8v-2h-6.9l7.9-23.5h27L359 70h-7.9v2.1zm-1.3-28.7h-25.2l11.9-36.7 13.3 36.7zM326.6 42H348l-11.3-31.3L326.6 42z"/><g><path class="st0" d="M403.3 44.5v-6.7h3.6v17.8h-3.6v-7.7h-14.8v21.6h7.4v3.3h-21v-3.4h7.5V22.9h-7.5v-3.4h35.3V30h-3.6v-7h-18.2v21.5h14.9z"/><path class="st0" d="M396.6 73.4h-22.3v-4.7h7.5V23.6h-7.5v-4.7h36.6v11.8H406v-7h-16.9v20.2l13.5-.1v-6.7h4.9v19.1h-4.9v-7.7h-13.4v20.3h7.4v4.6zm-21-1.3h19.7v-2h-7.4V47.2H404v7.7h2.2V38.5H404v6.7l-16.2.1V22.4h19.6v7h2.2v-9.2h-34v2.1h7.5v47.8h-7.5v2z"/></g><g><path class="st0" d="M443.9 44.5v-6.7h3.6v17.8h-3.6v-7.7h-14.8v21.6h7.4v3.3h-20.9v-3.4h7.5V22.9h-7.5v-3.4H451V30h-3.6v-7h-18.2v21.5h14.7z"/><path class="st0" d="M437.2 73.4h-22.3v-4.7h7.5V23.6h-7.5v-4.7h36.7v11.8h-4.9v-7h-16.9v20.2l13.5-.1v-6.7h4.9v19.1h-4.9v-7.7h-13.4v20.3h7.4v4.6zm-21-1.3h19.6v-2h-7.4V47.2h16.1v7.7h2.2V38.5h-2.2v6.7l-16.1.1V22.4H448v7h2.3v-9.2h-34v2.1h7.5v47.8h-7.5v2z"/></g><g><path class="st0" d="M474.8 18.5l18.7 51h4.5v3.3h-15.7v-3.4h4.8l-5.9-15.8h-18.9l-5.6 15.8h5v3.4h-12.9v-3.4h4.5l18-51 3.5.1zm-3.5 8.3h-.2l-7.6 23.5h16.6l-8.8-23.5z"/><path class="st0" d="M498.7 73.4h-17v-4.7h4.5l-5.4-14.5h-17.9l-5.1 14.5h4.7v4.7h-14.2v-4.7h4.7l18-51 4.4.1 18.7 50.9h4.7v4.7zM483 72.1h14.3v-2H493l-18.7-51-2.5-.1-18 50.9h-4.3V72h11.6v-2.1h-5.2l6.1-17.1h19.8l6.4 17.1H483v2.2zm-1.9-21.2h-18.5l8.1-24.8h1.1l9.3 24.8zm-16.7-1.3h14.8l-7.9-21.1-6.9 21.1z"/></g><g><path class="st0" d="M509 22.9h-7.6v-3.4h21v3.4H515v46.5h7.4v3.3h-21.2v-3.4h7.8V22.9z"/><path class="st0" d="M523.1 73.4h-22.5v-4.7h7.8V23.6h-7.6v-4.7h22.3v4.7h-7.4v45.2h7.4v4.6zm-21.2-1.3h19.8v-2h-7.4V22.3h7.4v-2.1h-19.6v2.1h7.6v47.8h-7.8v2z"/></g><g><path class="st0" d="M536.5 22.9h-7.4v-3.4h20c12 0 16.7 6.9 16.7 13.9 0 6.7-4.9 12.4-11.6 13.4v.2c6.3 2.5 9.2 5.8 12.7 13.1l4.5 9.3h5.3v3.4h-10L560 59.3c-3.9-8-8.2-11.1-14.7-11.1h-2.9v21.4h7.6v3.3h-21.1v-3.4h7.4l.2-46.6zm8.6 21.9c8.9 0 14-4 14-11 0-5.1-2.9-10.8-11.6-10.8h-5v21.9h2.6z"/><path class="st0" d="M577.5 73.4h-11.1l-6.9-13.9c-3.8-7.7-7.7-10.7-14.1-10.7h-2.2v20h7.6v4.6h-22.4v-4.7h7.4V23.6h-7.4v-4.7h20.7c12.8 0 17.4 7.8 17.4 14.5 0 6.5-4.3 11.9-10.3 13.6 5.1 2.4 7.9 5.6 11.4 12.7l4.4 8.9h5.6v4.8zm-10.3-1.3h9V70h-5.1l-4.7-9.7c-3.7-7.6-6.5-10.4-12.4-12.7l-.4-.2v-1.2l.6-.1c6.4-.9 11-6.3 11-12.7 0-6.4-4.2-13.2-16-13.2h-19.3v2.1h7.4v47.8h-7.4v2.1h19.7v-1.9H542V47.5h3.5c6.8 0 11.3 3.3 15.3 11.5l6.4 13.1zm-22.1-26.6h-3.2V22.3h5.6c9 0 12.2 5.9 12.2 11.5.1 7.4-5.2 11.7-14.6 11.7zm-1.8-1.4h1.8c8.5 0 13.4-3.8 13.4-10.4 0-2.4-.8-10.2-10.9-10.2h-4.3v20.6z"/></g><g><path class="st0" d="M579.8 58.6h3.6V65c2.3 3.4 6.2 5.5 10.3 5.5 5.6.3 10.4-4 10.7-9.5v-.2c0-12.3-24.6-12.4-24.6-28.2-.2-7.6 5.7-13.9 13.3-14.2h1.4c3.4-.2 6.7.8 9.5 2.7V18h3.6v13.4H604V26c-2.1-2.9-5.6-4.5-9.2-4.3-5.8 0-9.6 3.3-9.6 8.4 0 13.7 24.6 11.6 24.6 29.2 0 8.4-6.5 14.4-15.5 14.4-4 0-7.9-1.4-11-3.9V74h-3.6l.1-15.4z"/><path class="st0" d="M584 74.6h-4.9V57.9h4.9v6.9c2.2 3.1 5.8 5 9.6 5 5.2.3 9.7-3.7 10-8.9 0-5.5-5.3-8.5-10.8-11.7-6.5-3.7-13.8-7.9-13.8-16.6-.1-3.8 1.3-7.5 3.9-10.3 2.6-2.8 6.2-4.4 10.1-4.5h1.5c3-.2 6.1.6 8.8 2.1v-2.7h4.9V32h-4.9v-5.8c-2-2.6-5.2-4.1-8.4-3.8-5.5 0-9 3.1-9 7.8 0 6 5 8.7 10.8 11.9 6.5 3.5 13.8 7.5 13.8 17.3 0 8.7-6.8 15.1-16.1 15.1-3.7 0-7.3-1.1-10.4-3.2v3.3zm-3.5-1.3h2.2v-4.9l1.1.9c3 2.5 6.7 3.7 10.6 3.8 8.7 0 14.8-5.6 14.8-13.7 0-9-6.7-12.6-13.1-16.1-5.9-3.2-11.5-6.3-11.5-13.1 0-5.4 4.1-9.1 10.3-9.1 3.7-.3 7.5 1.5 9.7 4.6l.1.2v4.9h2.2v-12h-2.2v3.8l-1-.7c-2.7-1.8-5.9-2.7-9.1-2.6h-1.5c-3.5.1-6.7 1.6-9.1 4.1-2.4 2.5-3.7 5.9-3.6 9.4 0 8 6.7 11.8 13.1 15.5 5.9 3.4 11.5 6.6 11.5 12.7v.2c-.3 5.9-5.4 10.5-11.4 10.2-4.3 0-8.4-2.2-10.8-5.8l-.1-.2v-5.9h-2.2v13.8z"/></g></svg>
+						</a>
+						<meta itemprop="publisher" content="PublicAffairs" />
+								</div>
+
+			<div class="title-header__dropdowns">
+				<div class="title-header__dropdown dropdown dropdown--inverse btn-group">
+			<button class="btn btn-default btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span class="dropdown-toggle__button-text">Hardcover</span>
+			<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+		</button>
+		<ul class="dropdown-menu">
+							<li>
+					<a href="https://www.publicaffairsbooks.com/titles/shoshana-zuboff/the-age-of-surveillance-capitalism/9781610395700/">
+						ebook					</a>
+				</li>
+							<li>
+					<a href="https://www.publicaffairsbooks.com/titles/shoshana-zuboff/the-age-of-surveillance-capitalism/9781478947271/">
+						Audiobook Downloadable <span class="title-header__dropdown-format">Unabridged</span>					</a>
+				</li>
+					</ul>
+	</div>
+<div class="dropdown dropdown--default btn-group">
+	<button class="btn btn-default btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<span class="dropdown-toggle__button-text">Buy Book</span>
+		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</button>
+	<ul class="dropdown-menu">
+					<li>
+				<a target="_blank" href="http://www.amazon.com/gp/product/1610395697?tag=hacboogrosit-20"
+					data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+					data-label="Amazon"
+				>
+					Amazon				</a>
+			</li>
+					<li>
+				<a target="_blank" href="http://www.anrdoezrs.net/links/8040641/type/dlg/http://www.barnesandnoble.com/s/9781610395694"
+					data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+					data-label="Barnes &amp; Noble"
+				>
+					Barnes &amp; Noble				</a>
+			</li>
+					<li>
+				<a target="_blank" href="http://www.walmart.com/search/search-ng.do?search_query=9781610395694"
+					data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+					data-label="Walmart"
+				>
+					Walmart				</a>
+			</li>
+					<li>
+				<a target="_blank" href="http://www.target.com/s?searchTerm=9781610395694"
+					data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+					data-label="Target"
+				>
+					Target				</a>
+			</li>
+					<li>
+				<a target="_blank" href="http://www.anrdoezrs.net/links/8040641/type/dlg/http://www.booksamillion.com/p/9781610395694"
+					data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+					data-label="Books-A-Million"
+				>
+					Books-A-Million				</a>
+			</li>
+					<li>
+				<a target="_blank" href="http://www.powells.com/book/-9781610395694"
+					data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+					data-label="Powell&#039;s"
+				>
+					Powell&#039;s				</a>
+			</li>
+					<li>
+				<a target="_blank" href="http://www.indiebound.org/book/9781610395694"
+					data-type="link-event" data-category="Retailer Button" data-action="Click to Retail"
+					data-label="Indiebound"
+				>
+					Indiebound				</a>
+			</li>
+			</ul>
+</div>
+<div class="title-header__dropdown dropdown title-header__read-excerpt read-excerpt">
+	<a href="#module-whats-inside" class="btn btn-default">
+		Read Excerpt	</a>
+</div>
+<div
+	id="exam-copy"
+	class="exam-copy title-header__dropdown dropdown title-header__exam-copy"
+	data-isbn=""
+>
+	<div class="btn btn-default zb-btn">
+					<a href="https://examcopyrequestform.poweredbyzola.com/?isbn=9781610395694" target="_blank">
+				<p>Request Desk/Exam Copy</p>
+			</a>
+			</div>
+</div>
+			</div>
+					</div>
+	</div>
+</header>
+	</div>
+
+
+	<div class="landing-page-module module-in-the-news__4">
+		
+<div class="in-the-news module module--fixed">
+	<div class="module__content module--fixed">
+		<h2 class="module-header module-header--default-center">
+			In the News		</h2>
+
+					<article class="in-the-news__article">
+				<time datetime="2019-02-25T10:04:58-04:00">
+					February 25 2019				</time>
+				<h3><a href="http://nymag.com/intelligencer/2019/02/shoshana-zuboff-q-and-a-the-age-of-surveillance-capital.html"  target="_blank" aria-label="Shoshana Zuboff on Surveillance Capitalismâs Threat to Democracy (New York Magazine) (Opens in a new window)" >
+					Shoshana Zuboff on Surveillance Capitalismâs Threat to Democracy (New York Magazine)				</a></h3>
+				<div class="in-the-news__article-content">
+					Given the fragility of the global political and economic order, surveillance capitalism amounts to a âcoup from above,â Zuboff argues, an assault on democracy by way of subverting the very idea of what it means to be an individual.				</div>
+				<a class="in-the-news__article-link" href="http://nymag.com/intelligencer/2019/02/shoshana-zuboff-q-and-a-the-age-of-surveillance-capital.html"  target="_blank" aria-label="Shoshana Zuboff on Surveillance Capitalismâs Threat to Democracy (New York Magazine) (Opens in a new window)" >
+					Read more				</a>
+			</article>
+					<article class="in-the-news__article">
+				<time datetime="2019-02-13T09:39:19-04:00">
+					February 13 2019				</time>
+				<h3><a href="https://techcrunch.com/2019/02/04/why-no-one-really-quits-google-or-facebook/"  target="_blank" aria-label="Why no one really quits Facebook or Google (TechCrunch) (Opens in a new window)" >
+					Why no one really quits Facebook or Google (TechCrunch)				</a></h3>
+				<div class="in-the-news__article-content">
+					But surveillance capitalism isnât a totalizing system: consumers do have choices here, at least when it comes to consumer apps.... There are companies that have even made privacy their distinguishing feature. And consumers respond pretty consistently: I will take free with surveillance over paid with privacy.				</div>
+				<a class="in-the-news__article-link" href="https://techcrunch.com/2019/02/04/why-no-one-really-quits-google-or-facebook/"  target="_blank" aria-label="Why no one really quits Facebook or Google (TechCrunch) (Opens in a new window)" >
+					Read more				</a>
+			</article>
+					<article class="in-the-news__article">
+				<time datetime="2019-01-22T17:21:54-04:00">
+					January 22 2019				</time>
+				<h3><a href="https://www.nytimes.com/2019/01/18/technology/google-facebook-surveillance-capitalism.html"  target="_blank" aria-label="How Google and Facebook Spawned Surveillance Capitalism (NYT) (Opens in a new window)" >
+					How Google and Facebook Spawned Surveillance Capitalism (NYT)				</a></h3>
+				<div class="in-the-news__article-content">
+					âSurveillance capitalism has taken human experience, specifically private human experience, and unilaterally claimed it as something to be bought and sold in the marketplace,â Dr. Zuboff told me during a visit to The Timesâs office.				</div>
+				<a class="in-the-news__article-link" href="https://www.nytimes.com/2019/01/18/technology/google-facebook-surveillance-capitalism.html"  target="_blank" aria-label="How Google and Facebook Spawned Surveillance Capitalism (NYT) (Opens in a new window)" >
+					Read more				</a>
+			</article>
+		
+			</div>
+</div>
+	</div>
+
+
+	<div class="landing-page-module module-event-list__5">
+			</div>
+
+
+	<div class="landing-page-module module-whats-inside__6">
+		<div
+	id="module-whats-inside"
+	class="inside module module-whats-inside zola module--fixed module--dark"
+	data-isbn="9781610395694"
+>
+	<div class="module__content module--fixed">
+		<h2 class="module-header module-header--default module-header--default-center">
+			What&#039;s Inside		</h2>
+		<div class="inside__inner">
+			<div id="inside__inner-content-2002183666-truncate" class="inside__inner-content" data-load-more-target="whats-inside__read-more" truncateDesktop truncateMobile>
+							</div>
+		</div>
+		<a data-load-more-element="whats-inside__read-more" class="btn btn-default whats-inside__read-more" loadmoreToggle>
+			<span class="toggle-text_truncated">
+				Read More			</span>
+			<span class="toggle-text_expanded">
+				Read Less			</span>
+		</a>
+	</div>
+</div>
+	</div>
+
+
+	<div class="landing-page-module module-praise__7">
+		
+<div class="praise module module--fixed toggled-tabs" data-module-name="praise" data-toggle-view="both">
+	<div class="module__content module--fixed praise__inner">
+		<h2 class="module-header module-header--default-center">
+			Praise		</h2>
+		<div class="toggled-tabs__content">
+			<div class="praise__items toggled-tabs__item" data-slug="" data-title="">
+				<div class="praise-item">
+	<div id="praise-item__content-329024500-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-909142510__read-more" truncateMobile truncateDesktop>
+		<b>An International Bestseller</b><br>	</div>
+	<a data-load-more-element="praise-item-909142510__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-1391276152-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1763567044__read-more" truncateMobile truncateDesktop>
+		"Many adjectives
+could be used to describe Shoshana Zuboff's latest book: groundbreaking,
+magisterial, alarming, alarmist, preposterous. One will do: unmissable... As we
+grope around in the darkness trying to grasp the contours of our digital era, <i>The
+Age of Surveillance Capitalism</i> shines a searing light on how this latest
+revolution is transforming our economy, politics, society - and lives."â<b><i><b>John Thornhill,</b> <b>FINANCIAL TIMES </b></b></i>	</div>
+	<a data-load-more-element="praise-item-1763567044__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-401872276-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1914666209__read-more" truncateMobile truncateDesktop>
+		"Extraordinarily
+intelligent... Absorbing Zuboff's methodical determination, the way she pieces
+together sundry examples into this comprehensive work of scholarship and
+synthesis, requires patience, but the rewards are considerable - a heightened
+sense of awareness, and a deeper appreciation of what's at stake. A business
+model that seeks growth by cataloging our 'every move, emotion, utterance and
+desire' is too radical to be taken for granted. As Zuboff repeatedly says near
+the end of the book, 'It is not O.K.'"â<b><i><b>Jennifer Szalai, NEW YORK TIMES</b></b></i>	</div>
+	<a data-load-more-element="praise-item-1914666209__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-1412540489-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-767759213__read-more" truncateMobile truncateDesktop>
+		"The rare volume that puts a name on a problem just as it becomes critical... This book's major contribution is to give a name to what's happening, to put it in cultural and historical perspective, and to ask us to pause long enough to think about the future and how it might be different from today."â<b><i><b>Frank Rose, WALL STREET JOURNAL</b></b></i>	</div>
+	<a data-load-more-element="praise-item-767759213__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-571030724-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-2121188260__read-more" truncateMobile truncateDesktop>
+		"An original and often
+brilliant work, and it arrives at a crucial moment, when the public and its
+elected representatives are at last grappling with the extraordinary power of
+digital media and the companies that control it. Like another recent masterwork
+of economic analysis, Thomas Piketty's 2013 <i>Capital in the Twenty-First
+Century</i>, the book challenges assumptions, raises uncomfortable questions
+about the present and future, and stakes out ground for a necessary and overdue
+debate. Shoshana Zuboff has aimed an unsparing light onto the shadowy new
+landscape of our lives. The picture is not pretty."â<b><i><b>Nicholas Carr, LOS ANGELES REVIEW OF BOOKS</b></b></i>	</div>
+	<a data-load-more-element="praise-item-2121188260__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-105500060-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-697456644__read-more" truncateMobile truncateDesktop>
+		"An intensively
+researched, engagingly written chronicle of surveillance capitalism's origins
+and its deleterious prospects for our society... [Zuboff's] after something
+bigger, providing a scaffolding of critical thinking from which to examine the
+great crises of the digital age... This is the rare book that we should trust to
+lead us down the long hard road of understanding."â<b><i><b>Jacob Silverman, NEW YORK TIMES BOOK REVIEW</b></b></i>	</div>
+	<a data-load-more-element="praise-item-697456644__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-365837525-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-420373440__read-more" truncateMobile truncateDesktop>
+		"Shoshana Zuboff's The Age of Surveillance Capitalism is already drawing comparisons to seminal socioeconomic investigations like Rachel Carson's "Silent Spring" and Karl Marx's "Capital." Zuboff's book deserves these comparisons and more: Like the former, it's an alarming exposÃ© about how business interests have poisoned our world, and like the latter, it provides a framework to understand and combat that poison. But The Age of Surveillance Capitalism, named for the now-popular term Zuboff herself coined five years ago, is also a masterwork of horror. It's hard to recall a book that left me as haunted as Zuboff's, with its descriptions of the gothic algorithmic daemons that follow us at nearly every instant of every hour of every day to suck us dry of metadata. Even those who've made an effort to track the technology that tracks us over the last decade or so will be chilled to their core by Zuboff, unable to look at their surroundings the same way."â<b><i><b>Sam Biddle, THE INTERCEPT</b></b></i>	</div>
+	<a data-load-more-element="praise-item-420373440__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-586636744-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-424664079__read-more" truncateMobile truncateDesktop>
+		<b>"<i>The
+Age of Surveillance Capitalism</i> is brilliant and essential</b>. Shoshana Zuboff
+reveals capitalism's most dangerous frontier with stunning clarity: The new
+economic order of surveillance capitalism founded on extreme inequalities
+of knowledge and power. Her sweeping analysis demonstrates the unprecedented
+challenges to human autonomy, social solidarity, and democracy perpetrated by
+this rogue capitalism. Zuboff's book finally empowers us to understand and
+fight these threats effectively--<b>a
+masterpiece of rare conceptual daring, beautifully written and deeply
+urgent." </b>â<b><i><b>Robert B. Reich, author of <i>The Common Good</i> and <i>Saving Capitalism: For the Many, Not the Few</i></b></b></i>	</div>
+	<a data-load-more-element="praise-item-424664079__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-27939584-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1772129686__read-more" truncateMobile truncateDesktop>
+		"<b>From the very first page I was consumed
+with an overwhelming imperative: everyone needs to read this book as an act of
+digital self-defense. With tremendous lucidity and moral courage, Zuboff
+demonstrates not only how our minds are being mined for data but also how they
+are being rapidly and radically changed in the process</b>. The hour is late
+and much has been lost already-but as we learn in these indispensable pages, there is
+still hope for emancipation."â<b><i><b>Naomi Klein, author of <i>This Changes Everything</i> and <i>No Logo</i>, and Gloria Steinem Chair in Media, Culture, and Feminist Studies at Rutgers University </b><br><br></b></i>	</div>
+	<a data-load-more-element="praise-item-1772129686__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-453415433-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-2129706790__read-more" truncateMobile truncateDesktop>
+		"Zuboff's
+expansive, erudite, deeply-researched exploration of digital futures elucidates
+the norms and hidden terminal goals of information-intensive industries. <b>Zuboff's book is the information industry's
+<i>Silent Spring</i>."</b><i></i>â<b><i><b>Chris Hoofnagle, University of California, Berkeley</b></b></i>	</div>
+	<a data-load-more-element="praise-item-2129706790__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-2139564060-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-733641770__read-more" truncateMobile truncateDesktop>
+		"<b>My mind is blown on every page by the depth of Shoshana's research, the breadth of her knowledge, the rigor of her intellect, and finally by the power of her arguments</b>. I'm not sure we can end the age of surveillance capitalism without her help, and that's why I believe <b>this is the most important book of our time</b>."â<b><i><b>Doc Searls, author of <i>The Intention Economy</i>, editor-in-chief, <i>Linux Journal</i></b></b></i>	</div>
+	<a data-load-more-element="praise-item-733641770__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-1262247210-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-683702763__read-more" truncateMobile truncateDesktop>
+		"In
+the future, if people still read books, they will view this as <b>the classic study of how everything
+changed. <i>The Age of Surveillance
+Capitalism</i> is a<i> </i>masterpiece
+that stunningly reveals the essence of twenty-first-century society, and offers
+a dire warning about technology gone awry that we ignore at our peril. </b>Shoshana
+Zuboff has somehow escaped from the fishbowl in which we all now live, and
+introduced to us the concept of water. A work of penetrating intellect, this is
+also a deeply human book about what is becoming, as it relentlessly
+demonstrates, a dangerously inhuman time."â<b><i><b>Kevin Werbach</b>, <b>The Wharton School, University of Pennsylvania, and author of <i>The Blockchain and the New Architecture of Trust</i></b><br><br>  <b><i> </i></b></b></i>	</div>
+	<a data-load-more-element="praise-item-683702763__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-1833602234-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-609996559__read-more" truncateMobile truncateDesktop>
+		<b>"</b><b>A panoramic exploration of one of the most urgent
+issues of our times</b>,
+Zuboff reinterprets contemporary capitalism through the prism of the digital
+revolution, producing a book of immense ambition and erudition. Zuboff is one
+of our most prescient and profound thinkers on the rise of the digital. In an
+age of inane Twitter soundbites and narcissistic Facebook posts, Zuboff's
+serious scholarship is great cause for celebration."â<b><i><b>Andrew Keen, author of <i>How to Fix the Future</i></b></b></i>	</div>
+	<a data-load-more-element="praise-item-609996559__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-276966122-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1015072565__read-more" truncateMobile truncateDesktop>
+		"Zuboff is <b>a strikingly original voice, simultaneously bold and wise, eloquent and passionate, learned and accessible</b>. Read this book to understand the inner workings of today's digital capitalism, its threats to twenty-first century society, and the reforms we must make for a better tomorrow."â<b><i><b>Frank Pasquale, University of Maryland Carey School of Law, Author of <i>The Black Box Society</i></b></b></i>	</div>
+	<a data-load-more-element="praise-item-1015072565__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-80739130-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-687642128__read-more" truncateMobile truncateDesktop>
+		<b>"Shoshana Zuboff has
+produced the most provocative compelling moral framework thus far for
+understanding the new realities of our digital environment and its
+anti-democratic threats</b>. From now on, all serious writings on the internet
+and society will have to take into account with <i>The Age of Surveillance
+Capitalism</i>."â<b><i><b>Joseph Turow, Robert Lewis Shayon Chair Professor, Annenberg School, University of Pennsylvania</b><br><br></b></i>	</div>
+	<a data-load-more-element="praise-item-687642128__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-111969994-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-2019414425__read-more" truncateMobile truncateDesktop>
+		"The defining challenge for the future of the market
+economy is the concentration of data, knowledge, and surveillance power. Not
+just our privacy but our individuality is at stake, and this <b>very readable and thought-provoking</b>
+book alerts us to these existential dangers. Highly recommended."â<b><i><b>Daron Acemoglu, coauthor of <i>Why Nations Fail</i></b></b></i>	</div>
+	<a data-load-more-element="praise-item-2019414425__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-1094149122-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1763957787__read-more" truncateMobile truncateDesktop>
+		"I
+will make a guarantee: Assuming we survive to tell the tale<b>, <i>The Age of Surveillance Capitalism</i> has a high probability of
+joining the likes Adam Smith's <i>The Wealth
+of Nations</i> and Max Weber's <i>Economy
+and Society</i> as defining social-economics texts of modern times</b>. It is
+not a 'quick read'; it is to be savored and re-read and discussed with
+colleagues and friends. No zippy one-liners from me, except to almost literally
+beg you to read/ingest this book."â<b><i><b>Tom Peters, coauthor of <i>In Search of Excellence</i></b></b></i>	</div>
+	<a data-load-more-element="praise-item-1763957787__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-661524579-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1682083231__read-more" truncateMobile truncateDesktop>
+		Selected as one of the top ten titles in Business &amp; Economics for Spring 2018.â<b><i><b><i>Publishers Weekly</i></b></b></i>	</div>
+	<a data-load-more-element="praise-item-1682083231__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-1222771032-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1354272602__read-more" truncateMobile truncateDesktop>
+		"One of the most
+important criticisms of the power of Big Tech."â<b><i><b>Rana Foroohar, FINANCIAL TIMES</b></b></i>	</div>
+	<a data-load-more-element="praise-item-1354272602__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-171719323-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-260197715__read-more" truncateMobile truncateDesktop>
+		"Chilling and
+essential."â<b><i><b>GLOBE AND MAIL</b></b></i>	</div>
+	<a data-load-more-element="praise-item-260197715__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-1562123707-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1804434532__read-more" truncateMobile truncateDesktop>
+		"A book that no tech
+industry official will want the American public to read... One of the true joys
+of this insanely brilliant, deeply unsettling book is how fluidly Ms. Zuboff's
+style incorporates jargon, analogy, research and memoir."â<b><i><b>PITTSBURGH POST-GAZETTE</b></b></i>	</div>
+	<a data-load-more-element="praise-item-1804434532__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-229204287-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1906737682__read-more" truncateMobile truncateDesktop>
+		"The most ambitious
+attempt yet to paint the bigger picture and to explain how the effects of
+digitisation that we are now experiencing as individuals and citizens have come
+about... A continuation of a tradition that includes Adam Smith, Max Weber, Karl
+Polanyi and-dare I say it-Karl Marx... A striking and illuminating book."â<b><i><b>THE OBSERVER</b></b></i>	</div>
+	<a data-load-more-element="praise-item-1906737682__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-787137077-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-11804858__read-more" truncateMobile truncateDesktop>
+		"Eye-opening...she raises questions about businesses that mine personal data, manipulate our desires for instantaneous information, and encourage us to narcissistically display our egos and foibles on social media platforms."â<b><i><b>SAN ANTONIO EXPRESS-NEWS</b></b></i>	</div>
+	<a data-load-more-element="praise-item-11804858__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-227556770-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-2123830378__read-more" truncateMobile truncateDesktop>
+		"Staggeringly brilliant."â<b><i><b>WINNIPEG FREE PRESS	</b></b></i>	</div>
+	<a data-load-more-element="praise-item-2123830378__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+<div class="praise-item">
+	<div id="praise-item__content-890186899-truncate" class="praise-item__content truncate" data-load-more-target="praise-item-1746068375__read-more" truncateMobile truncateDesktop>
+		"A warning bell, sounded clearly for both the people in danger and of those with the power to do something to keep them safe... a truly sobering shock to the system, a call for ordinary people to re-assert control before it's too late."â<b><i><b>THE NATIONAL (UAE)</b></b></i>	</div>
+	<a data-load-more-element="praise-item-1746068375__read-more" class="praise-item__read-more">
+		Read More		<span class="icon-arrow dropdown__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+</span>
+	</a>
+</div>
+			</div>
+		</div>
+	</div>
+</div>
+	</div>
+
+
+	<div class="landing-page-module module-related-titles__8">
+		
+<div class="contributor-titles module">
+	<div class="module__content">
+		<div id="titles-carousel-14235-carousel" class="carousel slide" data-desktop-slide-items="6" data-mobile-slide-items="1" data-desktop-slide-rows="1">
+							<h2 class="module-header module-header--default-center">
+					Related Reads				</h2>
+			
+			<ol class="carousel-indicators banner__carousel-indicators">
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="0"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="1"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="2"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="3"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="4"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="5"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="6"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="7"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="8"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="9"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="10"></li>
+									<li data-target="#titles-carousel-14235-carousel" data-slide-to="11"></li>
+							</ol>
+			<div class="carousel-inner" role="listbox">
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/amy-webb/the-big-nine/9781541773745/" aria-label="The Big Nine">
+								<img width="184" height="285" src="" class="lazyload" alt="The Big Nine" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2019/03/9781541773745.jpg?fit=184%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/david-sax/the-revenge-of-analog/9781610395724/" aria-label="The Revenge of Analog">
+								<img width="190" height="285" src="" class="lazyload" alt="The Revenge of Analog" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2017/06/9781610395724.jpg?fit=190%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/tom-wainwright/narconomics/9781610395847/" aria-label="Narconomics">
+								<img width="190" height="285" src="" class="lazyload" alt="Narconomics" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2017/09/9781610395847.jpg?fit=190%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/robert-bryce/smaller-faster-lighter-denser-cheaper/9781610392068/" aria-label="Smaller Faster Lighter Denser Cheaper">
+								<img width="187" height="285" src="" class="lazyload" alt="Smaller Faster Lighter Denser Cheaper" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2017/09/9781610392068.jpg?fit=187%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/david-folkenflik/murdochs-world/9781610390903/" aria-label="Murdoch&#039;s World">
+								<img width="184" height="285" src="" class="lazyload" alt="Murdoch&#039;s World" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2017/09/9781610390903.jpg?fit=184%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/robert-bryce/gusher-of-lies/9781586486563/" aria-label="Gusher of Lies">
+								<img width="190" height="285" src="" class="lazyload" alt="Gusher of Lies" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2017/06/9781586486563.jpg?fit=190%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/gary-p-pisano/creative-construction/9781610398763/" aria-label="Creative Construction">
+								<img width="184" height="285" src="" class="lazyload" alt="Creative Construction" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2018/05/97816103987631.jpg?fit=184%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/nigel-travis/the-challenge-culture/9781541762152/" aria-label="The Challenge Culture">
+								<img width="184" height="285" src="" class="lazyload" alt="The Challenge Culture" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2018/07/97815417621521.jpg?fit=184%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/mo-bunnell/the-snowball-system/9781610399593/" aria-label="The Snowball System">
+								<img width="184" height="285" src="" class="lazyload" alt="The Snowball System" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2018/01/snowballsystem_foronline.jpg?fit=184%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/mariana-mazzucato/the-value-of-everything/9781610396752/" aria-label="The Value of Everything">
+								<img width="187" height="285" src="" class="lazyload" alt="The Value of Everything" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2018/07/9781610396752.jpg?fit=187%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/john-tennent/guide-to-financial-management/9781541730106/" aria-label="Guide to Financial Management">
+								<img width="178" height="285" src="" class="lazyload" alt="Guide to Financial Management" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2018/08/9781541730106.jpg?fit=178%2C285" />							</a>
+						</div>
+					</div>
+									<div class="item carousel__slide">
+						<div class="carousel__slide-content">
+							<a href="https://www.publicaffairsbooks.com/titles/marc-levinson/guide-to-financial-markets/9781541742512/" aria-label="Guide to Financial Markets">
+								<img width="178" height="285" src="" class="lazyload" alt="Guide to Financial Markets" data-src="https://www.publicaffairsbooks.com/wp-content/uploads/2018/07/97815417425121.jpg?fit=178%2C285" />							</a>
+						</div>
+					</div>
+							</div>
+			<a class="left carousel-control site-carousel__control--prev" href="#titles-carousel-14235-carousel" role="button">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+			</a>
+			<a class="right carousel-control site-carousel__control--next" href="#titles-carousel-14235-carousel" role="button">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 22.14"><title>Arrow Icon</title><path d="M38,17.45h0L21.37.85h0a2.76,2.76,0,0,0-2-.85h0a2.76,2.76,0,0,0-2,.85h0L.76,17.45h0a2.77,2.77,0,1,0,4.1,3.72l14.5-14.5L34.06,21.37h0A2.77,2.77,0,0,0,38,17.45Z"/></svg>
+			</a>
+		</div>
+	</div>
+</div>
+	</div>
+
+<div class="share module module--fixed">
+	<div class="module__content module--fixed">
+		<ul class="site__share">
+			<li class="site__share-prompt">Share</li>
+			<li class="share-facebook">
+				<a href="//www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.publicaffairsbooks.com%2Ftitles%2Fshoshana-zuboff%2Fthe-age-of-surveillance-capitalism%2F9781610395694%2F" target="_blank"
+					data-type="link-event" data-category="Social Share" data-action="Click to Share" data-label="Facebook"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Facebook Icon</title><path class="cls-1" d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0Zm4.47,19.37H21.06V30.44H16.23c0-3.41,0-7.4,0-11H14.18V15.93h2c.1-2.55.14-5.07,1.41-6.36C19,8.12,20.4,8.3,24.55,8.3v3.56s-2.63-.26-3.29.75c-.36.55-.15,2.16-.18,3.32h3.49C24.27,17.28,24.06,18.2,23.84,19.37Z" transform="translate(0 0.01)"/></svg>
+				</a>
+			</li>
+			<li class="share-twitter">
+				<a href="//twitter.com/intent/tweet?url=https%3A%2F%2Fwww.publicaffairsbooks.com%2Ftitles%2Fshoshana-zuboff%2Fthe-age-of-surveillance-capitalism%2F9781610395694%2F&#038;text=The%20Age%20of%20Surveillance%20Capitalism" target="_blank"
+					data-type="link-event" data-category="Social Share" data-action="Click to Share" data-label="Twitter"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Twitter Icon</title><path class="cls-1" d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0Zm9.32,13.62a6.18,6.18,0,0,1-1.3,1.49l-.6.47A11,11,0,0,1,26.62,18a10.69,10.69,0,0,1-7.49,8.45,11.45,11.45,0,0,1-5.41.22A13.94,13.94,0,0,1,11.47,26a9,9,0,0,1-1.08-.56l-.34-.2a6.24,6.24,0,0,0,1.22,0c.38-.06.74,0,1.09-.12a7.83,7.83,0,0,0,2.29-.83,4.25,4.25,0,0,0,1-.68,3.25,3.25,0,0,1-1.14-.2A3.84,3.84,0,0,1,12.14,21c.37,0,1.45.14,1.71-.07a2.79,2.79,0,0,1-1.25-.5,3.68,3.68,0,0,1-1.8-3.27l.39.19a4.2,4.2,0,0,0,.8.22,1.15,1.15,0,0,0,.52,0h0c-.19-.22-.51-.37-.7-.61a3.91,3.91,0,0,1-.86-3.47,4.43,4.43,0,0,1,.41-1h0a2.33,2.33,0,0,0,.35.4A7,7,0,0,0,12.85,14a11.25,11.25,0,0,0,4.67,2.26,7.31,7.31,0,0,0,1.72.22,3.55,3.55,0,0,1,0-1.79,3.77,3.77,0,0,1,2.16-2.57,4.64,4.64,0,0,1,.85-.26l.47-.06a3.93,3.93,0,0,1,3,1.2,6.2,6.2,0,0,0,2-.66l.48-.26a3.82,3.82,0,0,1-1.24,1.79,1.82,1.82,0,0,1-.42.3h0a7.15,7.15,0,0,0,2.16-.59Z" transform="translate(0 0)"/></svg>
+				</a>
+			</li>
+			<li class="share-email">
+				<a href="mailto:friend@example.com?subject=Check%20this%20out.&#038;body=The%20Age%20of%20Surveillance%20Capitalism%0D%0A%0D%0A%0D%0A%0D%0Ahttps%3A%2F%2Fwww.publicaffairsbooks.com%2Ftitles%2Fshoshana-zuboff%2Fthe-age-of-surveillance-capitalism%2F9781610395694%2F"
+					data-type="link-event" data-category="Social Share" data-action="Click to Share" data-label="Email"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.75 38.75"><title>Email Icon</title><path class="cls-1" d="M8.38,12.53a.64.64,0,0,0,0,.09V26.1l6.29-7.48Z" transform="translate(0 0)"/><polygon class="cls-1" points="29.58 11.97 9.17 11.97 19.37 19.94 29.58 11.97"/><polygon class="cls-1" points="19.37 23.18 16.46 20.36 9.07 26.83 29.68 26.83 22.29 20.36 19.37 23.18"/><path class="cls-1" d="M19.37,0A19.37,19.37,0,1,0,38.75,19.37,19.37,19.37,0,0,0,19.37,0ZM31.83,26.72a1.57,1.57,0,0,1-.36,1,.55.55,0,0,1-.21.21,1.44,1.44,0,0,1-1,.36H8.45a1.5,1.5,0,0,1-1-.37.58.58,0,0,1-.2-.21,1.5,1.5,0,0,1-.35-1V12a1.59,1.59,0,0,1,.36-1,.74.74,0,0,1,.29-.27,1.39,1.39,0,0,1,.89-.31H30.29a1.5,1.5,0,0,1,.7.18l0-.05.66.63-.06,0a1.58,1.58,0,0,1,.21.78Z" transform="translate(0 0)"/><path class="cls-1" d="M24.08,18.62l6.29,7.48V12.62a.64.64,0,0,0,0-.09Z" transform="translate(0 0)"/></svg>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+				
+<footer class="site-footer">
+	<div class="site-footer__logo">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59.72 59.73">
+	<title>Hachette Logo</title>
+	<polygon class="cls-1" points="59.72 59.73 59.72 0 36.93 0 36.93 4.33 55.4 4.33 55.4 55.4 41.26 55.4 41.26 36.93 18.46 36.93 18.46 41.26 36.93 41.26 36.93 59.73 59.72 59.73"/><polygon class="cls-1" points="22.79 18.47 41.26 18.47 41.26 22.79 18.47 22.79 18.47 4.33 4.33 4.33 4.33 55.4 22.79 55.4 22.79 59.73 0 59.73 0 0 22.79 0 22.79 18.47"/></svg>
+	</div>
+	<nav class="site-footer__menus">
+		
+<ul class="site-footer__menu">
+	<li class="site-footer__menu-item-has-children" >
+		<span class="site-footer__menu-text toggleable" data-toggle-target="site-footer__sub-menu-about" data-toggle-block="site-footer__sub-menu" data-toggle-element="site-footer__sub-menu-about">
+			About			<span class="site-footer__menu-expand sub-menu-expand">
+				<span class="site-footer__plus">+</span>
+				<span class="site-footer__minus">-</span>
+			</span>
+		</span>
+		<div class="sub-menu" data-toggle-element="site-footer__sub-menu-about">
+			<ul id="menu-about" class="menu"><li id="menu-item-647353" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-647353"><a href="/landing-page/about-hachette-book-group-2/">About Us</a></li>
+<li id="menu-item-478324" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-478324"><a href="https://www.publicaffairsbooks.com/leadership/">Our Leadership</a></li>
+<li id="menu-item-478335" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-478335"><a href="https://www.publicaffairsbooks.com/imprints/">Imprints</a></li>
+<li id="menu-item-550778" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-550778"><a href="https://www.publicaffairsbooks.com/newsletters/">Newsletter Subscription</a></li>
+<li id="menu-item-478326" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-478326"><a href="https://www.publicaffairsbooks.com/corporate-social-responsibility/">Corporate Social Responsibility</a></li>
+<li id="menu-item-478330" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-478330"><a href="https://www.hachettebookgroup.biz/client-publishers/">Third-Party Distribution</a></li>
+<li id="menu-item-478329" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-478329"><a href="https://www.publicaffairsbooks.com/about/hbg-in-the-news/">HBG In the News</a></li>
+<li id="menu-item-478328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-478328"><a href="https://www.publicaffairsbooks.com/press-publicity/">Press &#038; Publicity</a></li>
+</ul>		</div>
+	</li>
+</ul>
+
+<ul class="site-footer__menu">
+	<li class="site-footer__menu-item-has-children" >
+		<span class="site-footer__menu-text toggleable" data-toggle-target="site-footer__sub-menu-resources" data-toggle-block="site-footer__sub-menu" data-toggle-element="site-footer__sub-menu-resources">
+			Resources			<span class="site-footer__menu-expand sub-menu-expand">
+				<span class="site-footer__plus">+</span>
+				<span class="site-footer__minus">-</span>
+			</span>
+		</span>
+		<div class="sub-menu" data-toggle-element="site-footer__sub-menu-resources">
+			<ul id="menu-resources" class="menu"><li id="menu-item-230735" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-230735"><a target="_blank" href="https://www.hachettebookgroup.biz/authors-agents/">Authors &#038; Agents</a></li>
+<li id="menu-item-230733" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-230733"><a target="_blank" href="https://www.hachettebookgroup.biz/booksellers/">Booksellers</a></li>
+<li id="menu-item-230734" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-230734"><a target="_blank" href="https://www.hachettebookgroup.biz/client-publishers/">Client Publishers</a></li>
+<li id="menu-item-230736" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-230736"><a target="_blank" href="https://www.hachettebookgroup.biz/librarians-educators/">Librarians &#038; Educators</a></li>
+<li id="menu-item-665775" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-665775"><a href="https://www.hachettebookgroup.com/landing-page/ordersupport">eCommerce Order Support</a></li>
+<li id="menu-item-488029" class="menu-item menu-item-type-post_type menu-item-object-landing-page menu-item-488029"><a href="https://www.hachettebookgroup.com/imprint/hachette-academic/">Hachette Academic</a></li>
+<li id="menu-item-478331" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-478331"><a href="http://www.hachettespeakersbureau.com/">Hachette Speakers Bureau</a></li>
+<li id="menu-item-512066" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-512066"><a href="https://www.publicaffairsbooks.com/about/careers/">Careers</a></li>
+<li id="menu-item-478333" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-478333"><a href="https://www.hachettebookgroup.com/landing-page/contact-us-2/">Contact HBG</a></li>
+<li id="menu-item-478352" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-478352"><a href="https://www.publicaffairsbooks.com/about/faqs/">FAQ</a></li>
+<li id="menu-item-512923" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-512923"><a href="https://www.hachettebookgroup.com/sitemap/">Sitemap</a></li>
+</ul>		</div>
+	</li>
+</ul>
+
+<ul class="site-footer__menu">
+	<li class="site-footer__menu-item-has-children" >
+		<span class="site-footer__menu-text toggleable" data-toggle-target="site-footer__sub-menu-terms-and-policies" data-toggle-block="site-footer__sub-menu" data-toggle-element="site-footer__sub-menu-terms-and-policies">
+			Terms and Policies			<span class="site-footer__menu-expand sub-menu-expand">
+				<span class="site-footer__plus">+</span>
+				<span class="site-footer__minus">-</span>
+			</span>
+		</span>
+		<div class="sub-menu" data-toggle-element="site-footer__sub-menu-terms-and-policies">
+			<ul id="menu-terms-and-policies" class="menu"><li id="menu-item-230741" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-230741"><a href="https://www.hachettebookgroup.com/terms-and-policies/terms-of-use/">Terms of Use</a></li>
+<li id="menu-item-230740" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-230740"><a href="https://www.publicaffairsbooks.com/terms-and-policies/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-362560" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-362560"><a href="https://www.hachettebookgroup.com/terms-and-policies/report-piracy/">Report Piracy</a></li>
+<li id="menu-item-230738" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-230738"><a href="https://www.publicaffairsbooks.com/terms-and-policies/cpsia/">CPSIA</a></li>
+</ul>		</div>
+	</li>
+</ul>
+	</nav>
+	<div class="site-footer__copyright">
+		Â© 2019 Hachette Book Group	</div>
+</footer>
+			</div><!-- #content -->
+		</div><!-- #page -->
+				<div class="gdpr-banner" id="gdpr-opt-in">
+			<div class="gdpr-banner-container">
+				<button class="gdpr-banner-button__dismiss" aria-label="close">X</button>
+				<div class="gdpr-banner-content">
+					<p>We use cookies to enhance your visit to us. By using our website you agree to our use of these cookies.Â <a class="cc_more_info" href="https://www.publicaffairsbooks.com/terms-and-policies/privacy-policy/" target="_self">Find out more.</a></p>
+				</div>
+				<div class="gdpr-banner__buttons">
+					<button class="gdpr-banner-button__accept btn btn-normal">OK</button>
+				</div>
+			</div>
+		</div>
+		<script type='text/javascript' src='https://www.publicaffairsbooks.com/wp-content/mu-plugins/jetpack/_inc/build/photon/photon.min.js?m=1521944427g'></script>
+<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201914'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var uiAutocompleteL10n = {"noResults":"No results found.","oneResult":"1 result found. Use up and down arrow keys to navigate.","manyResults":"%d results found. Use up and down arrow keys to navigate.","itemSelected":"Item selected."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var newsletter = {"ajax_url":"https:\/\/www.publicaffairsbooks.com\/wp-admin\/admin-ajax.php","nonce":"f09fbb86ba","duplicate":"Success! You're signed up.","success":"Success! You're signed up.","invalid":"Hm, try another email?","error":"We're sorry, there was an error."};
+var whatsInside = {"ajaxUrl":"\/wp-admin\/admin-ajax.php?action=zola_preview&zola-auth=311115d814"};
+var lazyTitles = {"ajaxUrl":"\/wp-admin\/admin-ajax.php?action=lazy_title&load-title-auth=2226931558"};
+var icons = {"contributor":"https:\/\/www.publicaffairsbooks.com\/wp-content\/themes\/hachette\/static\/images\/icons\/contributor.png","hbg-title":"https:\/\/www.publicaffairsbooks.com\/wp-content\/themes\/hachette\/static\/images\/icons\/hbg-title.png"};
+var geoCountryCode = "US";
+var euroUser = "false";
+var gdprForAll = "false";
+var analytics = {"environAuth":"EVafa-1EU0ArWEPW1vxdeQ","environPreview":"env-24","dataLayer":"dataLayer","containerKey":"GTM-5LRFFXK"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.publicaffairsbooks.com/_static/??-eJytkMtOxDAMRX+ING3SEGaBZs1n5OG2LnnRJIzm70kRLFiUCgnJGzvH9zqX3hLBYFy1kOna6q3CdqcVqYkbdB5Dt+YHekjd0M5QzrkUMxaM4Zz0EOoR1Vo1DPdzEVVLNNEnB+XHJ0wMBUKhZQHfdhZlFigFaC6qoNk12pZvZ3IFE2e20zVYd5jDEt9he/mU/JvL94i0VOAXswMlomN8JfMWa6LG4U7ois7u0g5CJoueiXKO2OgVhtyZoZej5KLvh0lyJrVg0z/apaodGjVNCrfcMd3LXkvJjLw82lExYfhJkK0Fr8F+vV/98yDEyJ8Ek5f1A55E88U='></script>
+<script type='text/javascript' src='https://stats.wp.com/e-201914.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:7.2.1',blog:'155679224',post:'125966',tz:'-4',srv:'www.publicaffairsbooks.com'} ]);
+	_stq.push([ 'clickTrackerInit', '155679224', '125966' ]);
+</script>
+	<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"658e85a11b","applicationID":"129129957","transactionName":"NVZRZhMHDUVVVUMKCgwcclEVDwxYG0FFAhUSVkE=","queueTime":0,"applicationTime":409,"atts":"GRFGEFsdHhoWVxVZHh9O","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
+
+
+
+
+#####EOF#####
+
+

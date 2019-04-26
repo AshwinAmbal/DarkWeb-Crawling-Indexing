@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="ie6 skip-js" lang="en-US"> <![endif]-->
+<!--[if IE 7]>         <html class="ie7 skip-js" lang="en-US"> <![endif]-->
+<!--[if IE 8]>         <html class="ie8" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en-US">         <!--<![endif]-->
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<meta property="fb:admins" content="204504093" />
+<meta name="google-site-verification" content="i6ZARmNgvcdv1LL8W2r_MEw2noUtATGC60x_3KFzLb4" />
+<title>Web Server Survey | Netcraft</title>
+
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+
+<link rel="shortcut icon" href="https://news.netcraft.com/assets/favicon.ico" />
+
+<link rel="manifest" href="https://news.netcraft.com/assets/js/manifest.json">
+
+<!--[if lt IE 9]>
+<script src="https://news.netcraft.com/assets/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link rel='stylesheet' id='oppan-netcraft-style-css'  href='https://news.netcraft.com/assets/style.css?ver=1212022019' type='text/css' media='all' />
+
+ 
+
+<!-- All in One SEO Pack 1.6.10.2 by Michael Torbert of Semper Fi Web Design[536,573] -->
+<meta name="robots" content="noindex,follow" />
+<link rel="canonical" href="https://news.netcraft.com/archives/category/web-server-survey" />
+<!-- /all in one seo pack -->
+
+</head>
+
+<body class="archive category category-web-server-survey category-8 no-js">
+    <div class="wrapper">
+    <div id="fb-root"></div>
+    <div class="fixed-header">
+	<header class="top-layout" id="full-header">
+        <div class="container">
+            <div class="grid-wrapper">
+            <div class="grid one-quarter">
+                <a class="site-logo" href="http://www.netcraft.com">
+                    <img src="https://news.netcraft.com/assets/images/logo@2x.png" alt="Netcraft" width="165" height="45" />
+                </a>
+            </div>
+
+            <div class="grid two-quarters top-mid-container not-print">
+                    <div id="advert-banner" class="advert advert-horizontal">
+        <noscript><a target='_blank' href='//ads.netcraft.com/www/delivery/ck.php?n=99e9501'>
+        <img alt='' src='//ads.netcraft.com/www/delivery/avw.php?zoneid=3&amp;n=99e9501' />
+        </a>
+        </noscript>
+    </div>
+    
+
+            </div>
+
+            <div class="grid one-quarter top-right-header not-print">
+                <ul class="nav nav--top milli">
+                    <li id="menu-item-16665" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16665"><a href="http://www.netcraft.com/about-netcraft/contact-us/">Contact Us</a></li>
+<li id="menu-item-16666" class="last-item menu-item menu-item-type-custom menu-item-object-custom menu-item-16666"><a href="http://www.netcraft.com/about-netcraft/email-subscription/">Subscribe</a></li>
+                        <li class="share-icon"><a href="https://twitter.com/netcraft" class="twitter-icon">Follow us on Twitter</a></li>
+    <li class="share-icon"><a href="https://www.facebook.com/Netcraft" class="facebook-icon">Follow us on Facebook</a></li>
+    <li class="share-icon"><a href="http://news.netcraft.com/feed" class="email-icon">Netcraft RSS Feed</a></li>
+                </ul>
+
+                <div class="site-search">
+                        <form method="get" id="searchform" action="https://news.netcraft.com/search/">
+    <table class="field-and-submit"><tr><td class="main-side">
+        <input type="text" class="field" name="q" id="s" placeholder="Search Netcraft" /></td><td>
+        <input type="submit" class="submit" name="submit" id="searchsubmit" value="Search" /></td>
+        </tr></table>
+    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+    </header>
+
+    <nav id="fixable-nav">
+        <div class="container">
+            <ul class="nav nav--main">
+                <li class="logo-menu-link">
+                    <a href="http://www.netcraft.com">
+                        <img src="https://news.netcraft.com/assets/images/logo.png"
+                             alt="Netcraft" width="108" />
+                    </a>
+                </li>
+                <li id="menu-item-16627" class="no-children home-menu-link short-link menu-item menu-item-type-custom menu-item-object-custom menu-item-16627"><a href="http://www.netcraft.com">Home</a></li>
+<li id="menu-item-16628" class="current-menu-item no-children short-link menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-16628"><a href="https://news.netcraft.com/">News</a></li>
+<li id="menu-item-16617" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16617"><a href="http://www.netcraft.com/anti-phishing/">Anti-Phishing</a>
+<ul class="sub-menu">
+	<li id="menu-item-16618" class="external-link menu-item menu-item-type-custom menu-item-object-custom menu-item-16618"><a target="_blank" href="http://toolbar.netcraft.com/">Anti-Phishing Extension</a></li>
+	<li id="menu-item-27441" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27441"><a href="http://www.netcraft.com/anti-phishing/mobile-phishing-protection/">Mobile Phishing Protection</a></li>
+	<li id="menu-item-16619" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16619"><a href="http://www.netcraft.com/anti-phishing/phishing-site-feed/">Phishing Site Feed</a></li>
+	<li id="menu-item-16620" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16620"><a href="http://www.netcraft.com/anti-phishing/hosting-phishing-alerts/">Hosting Phishing Alerts</a></li>
+	<li id="menu-item-16621" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16621"><a href="http://www.netcraft.com/anti-phishing/certificate-authority-phishing-alerts/">SSL CA Phishing Alerts</a></li>
+	<li id="menu-item-16622" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16622"><a href="https://www.netcraft.com/anti-phishing/protection-for-tlds/">Protection for TLDs against Phishing and Malware</a></li>
+	<li id="menu-item-16623" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16623"><a href="https://www.netcraft.com/anti-phishing/deceptive-domain-score/">Deceptive Domain Score</a></li>
+	<li id="menu-item-16624" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16624"><a href="http://www.netcraft.com/anti-phishing/fraud-detection/">Fraud Detection</a></li>
+	<li id="menu-item-16625" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16625"><a href="http://www.netcraft.com/anti-phishing/phishing-site-takedown/">Phishing Site Takedown &#038; Countermeasures</a></li>
+	<li id="menu-item-16626" class="external-link menu-item menu-item-type-custom menu-item-object-custom menu-item-16626"><a target="_blank" href="https://report.netcraft.com/">Report Suspicious URL</a></li>
+</ul>
+</li>
+<li id="menu-item-16629" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16629"><a href="http://www.netcraft.com/security-testing/">Security Testing</a>
+<ul class="sub-menu">
+	<li id="menu-item-16630" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16630"><a href="http://www.netcraft.com/security-testing/audited/">Audited by Netcraft</a></li>
+	<li id="menu-item-16631" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16631"><a href="http://www.netcraft.com/security-testing/dedicated-server-monitoring/">Dedicated Server Monitoring</a></li>
+	<li id="menu-item-16632" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16632"><a href="http://www.netcraft.com/security-testing/web-application/">Web Application Security Testing</a></li>
+	<li id="menu-item-16633" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16633"><a href="http://www.netcraft.com/security-testing/mobile-app-security-testing/">Mobile App Security Testing</a></li>
+	<li id="menu-item-25113" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25113"><a href="https://www.netcraft.com/security-testing/netcraft-security-testing-for-certificate-authorities/">Netcraft Certificate Issuance Security Testing</a></li>
+	<li id="menu-item-25114" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25114"><a href="https://www.netcraft.com/security-testing/netcraft-hosted-scanning-service/">Netcraft Hosted Scanning Service</a></li>
+	<li id="menu-item-16634" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16634"><a href="http://www.netcraft.com/security-testing/web-application-course/">Web Application Security Course</a></li>
+	<li id="menu-item-16635" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16635"><a href="http://www.netcraft.com/security-testing/comparison-of-security-services/">Comparison of Security Services</a></li>
+	<li id="menu-item-16636" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16636"><a href="http://www.netcraft.com/security-testing/security-testing-f-a-q/">Security Testing F.A.Q.</a></li>
+	<li id="menu-item-16637" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16637"><a href="http://www.netcraft.com/security-testing/open-redirect-detection/">Open Redirect Detection Service</a></li>
+</ul>
+</li>
+<li id="menu-item-16638" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16638"><a href="http://www.netcraft.com/internet-data-mining/">Internet Data Mining</a>
+<ul class="sub-menu">
+	<li id="menu-item-16639" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16639"><a href="http://www.netcraft.com/internet-data-mining/hosting-analysis/">Hosting Provider Analysis</a></li>
+	<li id="menu-item-16640" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16640"><a href="http://www.netcraft.com/internet-data-mining/hosting-provider-switching-dataset/">Hosting Provider Switching Analysis</a></li>
+	<li id="menu-item-16641" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16641"><a href="http://www.netcraft.com/internet-data-mining/hosting-provider-server-count/">Hosting Provider Server Count</a></li>
+	<li id="menu-item-16642" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16642"><a href="https://www.netcraft.com/internet-data-mining/hosting-provider-index/">Hosting Provider Index</a></li>
+	<li id="menu-item-16643" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16643"><a href="http://www.netcraft.com/internet-data-mining/site-operator-survey/">Site Operator Survey</a></li>
+	<li id="menu-item-16644" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16644"><a href="http://www.netcraft.com/internet-data-mining/million-busiest-websites/">Million Busiest Websites</a></li>
+	<li id="menu-item-16645" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16645"><a href="http://www.netcraft.com/internet-data-mining/busiest-sites-switching-analysis/">Busiest Sites Switching Analysis</a></li>
+	<li id="menu-item-16646" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16646"><a href="http://www.netcraft.com/internet-data-mining/ssl-survey/">SSL Survey</a></li>
+	<li id="menu-item-16647" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16647"><a href="http://www.netcraft.com/internet-data-mining/due-diligence-for-hosting-industry-investment-and-acquisitions/">Due Diligence for Hosting Industry Investment and Acquisitions</a></li>
+</ul>
+</li>
+<li id="menu-item-16648" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16648"><a href="http://www.netcraft.com/monitoring-services/">Performance</a>
+<ul class="sub-menu">
+	<li id="menu-item-16649" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16649"><a href="http://www.netcraft.com/security-testing/dedicated-server-monitoring/">Dedicated Server Monitoring</a></li>
+	<li id="menu-item-16650" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16650"><a href="http://www.netcraft.com/monitoring-services/hosting-prospect-monitoring-uptime-alerts/">Hosting Prospects Performance Alerts</a></li>
+	<li id="menu-item-16651" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16651"><a href="http://uptime.netcraft.com/perf/reports/Hosters">Hosting Providers Network Performance</a></li>
+	<li id="menu-item-16652" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16652"><a href="http://uptime.netcraft.com/perf/reports/performance/OCSP">OCSP Responder Performance Monitoring</a></li>
+</ul>
+</li>
+<li id="menu-item-16653" class="last-item menu-item menu-item-type-custom menu-item-object-custom menu-item-16653"><a href="http://www.netcraft.com/about-netcraft/">About Netcraft</a>
+<ul class="sub-menu">
+	<li id="menu-item-16654" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16654"><a href="http://www.netcraft.com/about-netcraft/">About Us</a></li>
+	<li id="menu-item-16655" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16655"><a href="http://www.netcraft.com/about-netcraft/contact-us/">Contact Us</a></li>
+	<li id="menu-item-16656" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16656"><a href="http://www.netcraft.com/about-netcraft/jobs/">Careers</a></li>
+	<li id="menu-item-16657" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16657"><a href="http://www.netcraft.com/about-netcraft/banner-advertising/">Advertising with Netcraft</a></li>
+	<li id="menu-item-16658" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16658"><a href="http://www.netcraft.com/about-netcraft/email-subscription/">Email Subscription</a></li>
+	<li id="menu-item-16659" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16659"><a href="http://www.netcraft.com/about-netcraft/fair-use-copyright/">Fair Use and Copyright</a></li>
+	<li id="menu-item-16660" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16660"><a href="http://www.netcraft.com/about-netcraft/privacy-statement/">Privacy Statement</a></li>
+</ul>
+</li>
+            </ul>
+        </div>
+    </nav>
+    </div>
+
+    <!-- main content container -->
+    <div class="container container--initial">
+        <div class="container--internal">
+        <div class="notice print-only">
+            <strong>Fair Use:</strong> Please note that use of the Netcraft site is
+            subject to our Fair Use and Copyright policies.  For more information,
+            please visit <em>http://www.netcraft.com/about-netcraft/fair-use-copyright/</em>,
+            or email <em>info@netcraft.com</em>.
+        </div>
+
+    <div class="grid-wrapper grid-wrapper--main posts">
+    <div class="grid seven-tenths main-content">
+                    
+<article id="post-27508" class="post-27508 post type-post status-publish format-standard hentry category-most-popular category-web-server-survey">
+    <header class="entry-header">
+         
+            <h1 class="entry-title"><a href="https://news.netcraft.com/archives/2019/03/28/march-2019-web-server-survey.html" title="Permalink to March 2019 Web Server Survey" rel="bookmark">March 2019 Web Server Survey</a>
+            </h1>
+        
+    </header>
+
+    <div class="entry-content">
+        <p>In the <b>March 2019</b> survey we received responses from <b>1,462,021,378</b> sites, <b>232,162,099</b> unique domains, and <b>8,526,624</b> web-facing computers. This reflects a loss of 15.8 million sites, but a gain of 2.57 million domains and 160k web-facing computers.</p>
+
+<p>The March survey brings major upheaval in the domains metric. A large 8 million domain switch from Microsoft to nginx at GoDaddy has allowed nginx to overtake Microsoft to gain second place. Many of these freshly-switched domains do not host distinct content, instead redirecting elsewhere. Accordingly, nginx's share of active sites increased by a more moderate 3.3%. The total number of domains using nginx grew by 15.4%, a 3.24 percentage point increase of market share. Microsoft lost 3.95 p.p. Both remain some way behind Apache in the domains metric, which is 13.8 million domains ahead of nginx.</p>
+
+<p>The largest three vendors - Apache, Microsoft, and nginx - showed at least minor increases in the number of active sites using their respective platforms this month. However, there has been an overall decrease in active site numbers over the past year. Apache in particular has seen a significant drop in active sites of around 20 million. In contrast, the LiteSpeed web server has seen more stable growth from month to month, having increased 960k (+31.7%) over the past year. Cloudflareâs server software, which had <a href="https://blog.cloudflare.com/end-of-the-road-for-cloudflare-nginx/">previously identified itself as a flavour of nginx</a> prior to 2018, also demonstrated significant growth, serving content for 4.54 million more active sites (+65.6%) than it did a year ago.</p>
+
+<p>Within the top million busiest sites, nginx continues to increase its share of the market, with a further small increase of 0.078 p.p. this month. Apache had its first monthly increase since September 2013, gaining back 0.051 p.p. Apache has been on a downward trend since late 2011 when it held around a 66% majority. Despite this, it has still remained the largest vendor amongst the million busiest sites, despite its market share halving to 32.5% as of March 2019. Microsoft servers have also seen a general decrease of market share over time, and its share has fallen to just under 9% this month.</p>
+
+<h3>F5 Acquires NGINX</h3>
+
+<p>On March 11th, F5 Networks, Inc. <a href="https://www.f5.com/company/news/press-releases/f5-acquires-nginx-to-bridge-netops-devops">announced its acquisition of NGINX, Inc.</a>, the developer of the open source nginx web server. A similar <a href="https://www.nginx.com/blog/nginx-joins-f5/">announcement</a> was made by NGINX on their website the same day. The acquisition comes with a $670 million price tag.</p>
+
+<p>F5 and NGINX both provide rival sets of products, although the two have traditionally targeted different communities. F5âs BIG-IP line-up provides a variety of specialised products and service-based solutions for application delivery networking. Much of the key functionality provided by BIG-IP products, such as reverse proxying and load-balancing, overlap with the feature set of NGINX Plus, an exclusively software-based product providing a load balancer, web server, and content cache, along with exclusive features not included in the open-source edition of nginx. NGINX has made numerous blog posts and guides promoting its NGINX Plus product over F5âs BIG-IP, with <a href="https://www.nginx.com/blog/nginx-plus-vs-f5-big-ip-2018-price-performance-comparison/">competitive pricing</a> and greater <a href="https://www.nginx.com/blog/how-hardware-load-balancers-are-killing-agile-development-and-competitive-advantage/">developer agility</a> being common points of discussion.</p>
+
+<p>In March 2019, Netcraft identified 12.6 million domains being served by F5 BIG-IP systems. Most of these BIG-IP systems are used in conjunction with other web server software.</p>
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph01_201903_00"><img src="https://news.netcraft.com/wp-content/uploads/2019/03/wpid-wss-total.png" alt="Total number of websites"/><br /></div>
+<div id="button-div01_201903_00"></div></div></div>
+<br />
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph02_201903_00"><img src="https://news.netcraft.com/wp-content/uploads/2019/03/wpid-wss-share.png" alt="Web server market share"/><br /></div>
+</div></div>
+<br />
+
+<table cellspacing="3" class="centered">
+    <tr><th>Developer</th><th>February 2019</th><th>Percent</th><th>March 2019</th><th>Percent</th><th>Change</th></tr>
+    <tr align="right"><td align="left">Apache</td><td>386,522,266</td><td>26.16%</td><td>403,603,745</td><td>27.61%</td><td>1.45</td></tr>
+<tr align="right"><td align="left">Microsoft</td><td>419,972,039</td><td>28.42%</td><td>381,017,776</td><td>26.06%</td><td>-2.36</td></tr>
+<tr align="right"><td align="left">nginx</td><td>374,544,606</td><td>25.34%</td><td>375,431,606</td><td>25.68%</td><td>0.33</td></tr>
+<tr align="right"><td align="left">Google</td><td>23,912,250</td><td>1.62%</td><td>24,809,682</td><td>1.70%</td><td>0.08</td></tr>
+
+</table>
+
+
+ <a href="https://news.netcraft.com/archives/2019/03/28/march-2019-web-server-survey.html#more-27508" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a>    </div>
+
+        <div class="meta">
+        <div class="grid-wrapper">
+        <div class="grid post-meta-author-etc">
+                            <p>Posted by Netcraft on 28th March, 2019 in
+                <a href="https://news.netcraft.com/archives/category/web-server-survey" title="View all posts in Web Server Survey" rel="category tag">Web Server Survey</a>                                                </p>
+                    </div>
+        </div>
+
+        <div class="grid-wrapper">
+        <div class="grid post-share-links not-print">
+            <h4 class="share-title">Share:</h4>
+                        <div class="facebook-sharrre" data-url="http://news.netcraft.com/archives/2019/03/28/march-2019-web-server-survey.html" data-text="March 2019 Web Server Survey" data-title="Like"></div>
+            <a class="twitter-icon" href="https://twitter.com/intent/tweet?text=March+2019+Web+Server+Survey&url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F03%2F28%2Fmarch-2019-web-server-survey.html">Share on Twitter</a>
+            <a class="linkedin-icon" title="Share on LinkedIn" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;source=Netcraft&amp;url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F03%2F28%2Fmarch-2019-web-server-survey.html&amp;title=March+2019+Web+Server+Survey">
+                Share on LinkedIn
+            </a>
+            <a class="googleplus-icon" title="Share on Google+" onclick="window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2);return false;" href="https://plus.google.com/share?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F03%2F28%2Fmarch-2019-web-server-survey.html">
+                Share on Google+
+            </a>
+            <a class="hackernews-icon" title="Submit to Hacker News" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://news.ycombinator.com/submitlink?u=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F03%2F28%2Fmarch-2019-web-server-survey.html&amp;title=March+2019+Web+Server+Survey">
+                Submit to Hacker News
+            </a>
+            <a class="reddit-icon" title="Submit to Reddit" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=1000, top='+($(window).height()/2 - 225) +', left='+($(window).width()/2 - 500)); return false;" href="http://www.reddit.com/submit?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F03%2F28%2Fmarch-2019-web-server-survey.html&amp;title=March+2019+Web+Server+Survey">
+                Submit to Reddit
+            </a>
+        </div>
+        </div>
+
+    </div>
+
+    </article>
+                    
+<article id="post-27248" class="post-27248 post type-post status-publish format-standard hentry category-most-popular category-web-server-survey">
+    <header class="entry-header">
+         
+            <h1 class="entry-title"><a href="https://news.netcraft.com/archives/2019/02/28/february-2019-web-server-survey.html" title="Permalink to February 2019 Web Server Survey" rel="bookmark">February 2019 Web Server Survey</a>
+            </h1>
+        
+    </header>
+
+    <div class="entry-content">
+        <p>In the <b>February 2019</b> survey we received responses from <b>1,477,803,927</b> sites, <b>229,586,773</b> unique domains, and <b>8,366,753</b> web-facing computers.  This reflects a loss of 40.4 million sites, and gains of 979k domains, and 157k web-facing computers.</p>
+<p>Microsoft experienced the largest gain in domains this month, with a net increase of just over one million. Despite several months of relatively small fluctuating gains and losses, the number of domains running Microsoft server software is on a general upward trend. Its total now stands at 59.3 million domains, up by just under 2.6 million (+4.6%) since this time last year. However, this strong domain growth was not reflected in any other metric this month &ndash; Microsoft gained only 478 web-facing computers, made losses both in active sites and within the top million sites, and suffered a sizable loss of 65 million hostnames.</p>
+<p>On 20 February, Microsoft published a <a href="https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV190005">security advisory</a> regarding a potential denial of service vulnerability in IIS. It can be exploited by sending specially crafted HTTP/2 requests to a Microsoft IIS web server, causing CPU usage to spike to 100% until the malicious connections are killed by IIS. Microsoft has addressed this issue in February's "non-security" update by providing the ability to <a href="https://support.microsoft.com/en-us/help/4491420/define-thresholds-on-the-number-of-http-2-settings-parameters-exchange">define limits</a> on the number of HTTP/2 settings parameters allowed over a connection.</p>
+<p>nginx's growth in the domains metric was some way behind Microsoft's this month, with an increase of 622k. nginx's current total of 52.6 million domains represents a growth of over 8.6 million domains (+19.1%) since February 2018 &ndash; over three times that of Microsoft &ndash; however, its market share has remained just under 3 percentage points behind Microsoft's since April 2018. In terms of web-facing computers, nginx experienced the largest increase (+102k), continuing its steady gains in market share. It now holds a 29.0% share of the web-facing computer market with a total of 2.4 million.</p>
+<p>The latest version of nginx (<a href="http://nginx.org/en/CHANGES">1.15.9 mainline</a>) was released on 26 February, with some small changes including two new features and two bug fixes. Another product in the nginx family, <a href="https://unit.nginx.org/">NGINX Unit</a> 1.7.1, was also released in February to address a security vulnerability in its router process. NGINX Unit is a lightweight web application server that can serve sandboxed Go, Perl, PHP, Python, Ruby and &ndash; soon &ndash; Java applications.</p>
+<p>Apache is still losing domains, with a decrease of 216k this month, and 7.3 million domains over the past year. Apache is also gradually losing market share in terms of web-facing computers, despite an overall increase in the number of public web servers using it: this month, Apache gained 32.9k web-facing computers, taking its total up to 3.2 million, while competitor growth caused its market share to fall to 38.04%. The latest version, Apache 2.4.38, was released on 22 January. This release in the 2.4.x stable branch is regarded as the best available version of Apache, and includes three security fixes and multiple bug fixes.</p>
+
+
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph01_201902_00"><img src="https://news.netcraft.com/wp-content/uploads/2019/01/wpid-wss-total.png" alt="Total number of websites"/><br /></div>
+<div id="button-div01_201902_00"></div></div></div>
+<br />
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph02_201902_00"><img src="https://news.netcraft.com/wp-content/uploads/2019/01/wpid-wss-share.png" alt="Web server market share"/><br /></div>
+</div></div>
+<br />
+
+<table cellspacing="3" class="centered">
+    <tr><th>Developer</th><th>January 2019</th><th>Percent</th><th>February 2019</th><th>Percent</th><th>Change</th></tr>
+    <tr align="right"><td align="left">Microsoft</td><td>485,175,885</td><td>31.96%</td><td>419,972,039</td><td>28.42%</td><td>-3.54</td></tr>
+<tr align="right"><td align="left">Apache</td><td>323,398,866</td><td>21.30%</td><td>386,522,266</td><td>26.16%</td><td>4.85</td></tr>
+<tr align="right"><td align="left">nginx</td><td>375,594,875</td><td>24.74%</td><td>374,544,606</td><td>25.34%</td><td>0.61</td></tr>
+<tr align="right"><td align="left">Google</td><td>23,982,033</td><td>1.58%</td><td>23,912,250</td><td>1.62%</td><td>0.04</td></tr>
+
+</table>
+
+
+ <a href="https://news.netcraft.com/archives/2019/02/28/february-2019-web-server-survey.html#more-27248" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a>    </div>
+
+        <div class="meta">
+        <div class="grid-wrapper">
+        <div class="grid post-meta-author-etc">
+                            <p>Posted by Netcraft on 28th February, 2019 in
+                <a href="https://news.netcraft.com/archives/category/web-server-survey" title="View all posts in Web Server Survey" rel="category tag">Web Server Survey</a>                                                </p>
+                    </div>
+        </div>
+
+        <div class="grid-wrapper">
+        <div class="grid post-share-links not-print">
+            <h4 class="share-title">Share:</h4>
+                        <div class="facebook-sharrre" data-url="http://news.netcraft.com/archives/2019/02/28/february-2019-web-server-survey.html" data-text="February 2019 Web Server Survey" data-title="Like"></div>
+            <a class="twitter-icon" href="https://twitter.com/intent/tweet?text=February+2019+Web+Server+Survey&url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F02%2F28%2Ffebruary-2019-web-server-survey.html">Share on Twitter</a>
+            <a class="linkedin-icon" title="Share on LinkedIn" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;source=Netcraft&amp;url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F02%2F28%2Ffebruary-2019-web-server-survey.html&amp;title=February+2019+Web+Server+Survey">
+                Share on LinkedIn
+            </a>
+            <a class="googleplus-icon" title="Share on Google+" onclick="window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2);return false;" href="https://plus.google.com/share?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F02%2F28%2Ffebruary-2019-web-server-survey.html">
+                Share on Google+
+            </a>
+            <a class="hackernews-icon" title="Submit to Hacker News" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://news.ycombinator.com/submitlink?u=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F02%2F28%2Ffebruary-2019-web-server-survey.html&amp;title=February+2019+Web+Server+Survey">
+                Submit to Hacker News
+            </a>
+            <a class="reddit-icon" title="Submit to Reddit" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=1000, top='+($(window).height()/2 - 225) +', left='+($(window).width()/2 - 500)); return false;" href="http://www.reddit.com/submit?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F02%2F28%2Ffebruary-2019-web-server-survey.html&amp;title=February+2019+Web+Server+Survey">
+                Submit to Reddit
+            </a>
+        </div>
+        </div>
+
+    </div>
+
+    </article>
+                    
+<article id="post-26999" class="post-26999 post type-post status-publish format-standard hentry category-most-popular category-web-server-survey">
+    <header class="entry-header">
+         
+            <h1 class="entry-title"><a href="https://news.netcraft.com/archives/2019/01/24/january-2019-web-server-survey.html" title="Permalink to January 2019 Web Server Survey" rel="bookmark">January 2019 Web Server Survey</a>
+            </h1>
+        
+    </header>
+
+    <div class="entry-content">
+        <p>In the <b>January 2019</b> survey we received responses from <b>1,518,207,412</b> sites, <b>228,607,903</b> unique domains, and <b>8,209,715</b> web-facing computers. This reflects a loss of 138 million sites, and gains of 768.9k domains, and 61.9k web-facing computers.</p>
+
+<p>The vast majority of the loss of sites this month was seen for those using Microsoft web server software &mdash; dropping by 203 million sites (-29%).   While much of this loss was concentrated at a single hosting provider and made up of automatically generated sites, Microsoft suffered losses in all metrics this month, albeit with much smaller reductions elsewhere.  While Microsoft lost more than two hundred million sites in a single month, the net loss of domains was just 89k. Much of this drop can be attributed to IIS 6.0 and 7.5, while the latest version 10.0 saw a gain of 89k domains, and IIS 8.5 gained 164k.</p>
+
+<p>nginx continues to gain market share in the web-facing computer metric, with the largest increase of 47k computers this month being more than double that of Apache's 21k gain.   In the domains market nginx remains at somewhat of a plateau, with a loss of 144k domains taking its market share down to 22.7% &mdash; just 0.2pp higher than its share in April 2018.  The largest factor this month &mdash; a single domain parking company, Bodis, moving all of its parked sites over to OpenResty.   While the survey tracks these two products separately, OpenResty makes uses of the nginx core, integrating it with additional Lua-based modules.</p>
+
+<p>Apache experienced a large gain in the domains metric this month with an increase of 245k.  However, even with the losses seen for both Microsoft and nginx, it was not enough to boost Apache's market share which remains at 32.5%.  The largest gain in domains came again for Cloudflare with an increase of 500k.  Cloudflare predominantly uses its own server software <a href="https://blog.cloudflare.com/end-of-the-road-for-cloudflare-nginx/">originally based on nginx</a>.  OpenResty also saw greater gains than the market leader Apache, increasing by 388k with help from the movement of sites from nginx at Bodis.</p>
+
+<p>Apache has <a href="https://httpd.apache.org/security/vulnerabilities_24.html">released an update</a> to httpd 2.4.38 to address an "important" remote DoS vulnerability, which allowed remote attackers to trigger an infinite loop through client-initiated renegotiation on servers using httpd 2.4.37 and OpenSSL version 1.1.1 or later. This is the <a href="https://twitter.com/iamamoose/status/1087764899357515776">first "important" level security issue</a> in Apache HTTP Server since July 2017.</p>
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph01_201901_00"><img src="https://news.netcraft.com/wp-content/uploads/2018/12/wpid-wss-total.png" alt="Total number of websites"/><br /></div>
+<div id="button-div01_201901_00"></div></div></div>
+<br />
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph02_201901_00"><img src="https://news.netcraft.com/wp-content/uploads/2018/12/wpid-wss-share.png" alt="Web server market share"/><br /></div>
+</div></div>
+<br />
+
+<table cellspacing="3" class="centered">
+    <tr><th>Developer</th><th>December 2018</th><th>Percent</th><th>January 2019</th><th>Percent</th><th>Change</th></tr>
+    <tr align="right"><td align="left">Microsoft</td><td>688,039,056</td><td>41.53%</td><td>485,175,885</td><td>31.96%</td><td>-9.58</td></tr>
+<tr align="right"><td align="left">nginx</td><td>358,383,169</td><td>21.63%</td><td>375,594,875</td><td>24.74%</td><td>3.11</td></tr>
+<tr align="right"><td align="left">Apache</td><td>313,736,739</td><td>18.94%</td><td>323,398,866</td><td>21.30%</td><td>2.36</td></tr>
+<tr align="right"><td align="left">Google</td><td>23,810,336</td><td>1.44%</td><td>23,982,033</td><td>1.58%</td><td>0.14</td></tr>
+
+</table>
+
+
+ <a href="https://news.netcraft.com/archives/2019/01/24/january-2019-web-server-survey.html#more-26999" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a>    </div>
+
+        <div class="meta">
+        <div class="grid-wrapper">
+        <div class="grid post-meta-author-etc">
+                            <p>Posted by Netcraft on 24th January, 2019 in
+                <a href="https://news.netcraft.com/archives/category/web-server-survey" title="View all posts in Web Server Survey" rel="category tag">Web Server Survey</a>                                                </p>
+                    </div>
+        </div>
+
+        <div class="grid-wrapper">
+        <div class="grid post-share-links not-print">
+            <h4 class="share-title">Share:</h4>
+                        <div class="facebook-sharrre" data-url="http://news.netcraft.com/archives/2019/01/24/january-2019-web-server-survey.html" data-text="January 2019 Web Server Survey" data-title="Like"></div>
+            <a class="twitter-icon" href="https://twitter.com/intent/tweet?text=January+2019+Web+Server+Survey&url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F01%2F24%2Fjanuary-2019-web-server-survey.html">Share on Twitter</a>
+            <a class="linkedin-icon" title="Share on LinkedIn" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;source=Netcraft&amp;url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F01%2F24%2Fjanuary-2019-web-server-survey.html&amp;title=January+2019+Web+Server+Survey">
+                Share on LinkedIn
+            </a>
+            <a class="googleplus-icon" title="Share on Google+" onclick="window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2);return false;" href="https://plus.google.com/share?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F01%2F24%2Fjanuary-2019-web-server-survey.html">
+                Share on Google+
+            </a>
+            <a class="hackernews-icon" title="Submit to Hacker News" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://news.ycombinator.com/submitlink?u=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F01%2F24%2Fjanuary-2019-web-server-survey.html&amp;title=January+2019+Web+Server+Survey">
+                Submit to Hacker News
+            </a>
+            <a class="reddit-icon" title="Submit to Reddit" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=1000, top='+($(window).height()/2 - 225) +', left='+($(window).width()/2 - 500)); return false;" href="http://www.reddit.com/submit?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2019%2F01%2F24%2Fjanuary-2019-web-server-survey.html&amp;title=January+2019+Web+Server+Survey">
+                Submit to Reddit
+            </a>
+        </div>
+        </div>
+
+    </div>
+
+    </article>
+                    
+<article id="post-26943" class="post-26943 post type-post status-publish format-standard hentry category-web-server-survey">
+    <header class="entry-header">
+         
+            <h1 class="entry-title"><a href="https://news.netcraft.com/archives/2018/12/17/december-2018-web-server-survey.html" title="Permalink to December 2018 Web Server Survey" rel="bookmark">December 2018 Web Server Survey</a>
+            </h1>
+        
+    </header>
+
+    <div class="entry-content">
+        <p>In the <b>December 2018</b> survey we received responses from <b>1,656,556,205</b> sites, <b>227,839,033</b> unique domains, and <b>8,147,795</b> web-facing computers. This reflects a gain of 4.37 million sites, 1.09 million domains, and 98.9k web-facing computers.</p>
+
+<p>Whilst Apache's server software remains the market leader in most metrics, its share continues to erode in favour of competing products. In December 2018, Apache's flagship server product, httpd, saw a net decrease of 938k domains (-1.27% from last month), 28.6 million sites (-8.43%), and 848k active sites (-1.49%). Whilst another Apache product, known as Coyote, grew by 151k domains this month (+32.6%), the majority of the increase is attributable to parking pages, rather than sites with unique content. Apache's share of the top million sites has been falling steadily over the past few years, and is now down to 33.04%.  Although it still holds the largest share, its margin is rapidly shrinking, and its dominance will likely be challenged by nginx in a year's time. Despite these losses, the number of web-facing computers running Apache software does, however, continue to grow, with an increase of 22.8k (+0.73%) this month.</p>
+
+<p>nginx showed the fastest growth, having increased its domain count by 624k (+1.21%) this month. It also saw a 247k increase in active sites (+0.60%) &mdash; whereas Microsoft and Apache both saw losses &mdash; and has consistently seen large increases in its web-facing computer count.  nginx has now reached 2.28 million web-facing computers, a significant 39.9% growth over the past 12 months compared to Apache's 4.98% and Microsoft's 1.93% over the same period. nginx saw two new releases in during November, fixing three CVEs, as well as introducing a few minor features and bug fixes.</p>
+
+<p>Microsoft's server software holds the greatest market share when it comes to total number of sites. With over 688 million, it now has more sites than nginx (358 million) and Apache (314 million) combined, representing 41.53% of the market. This month Microsoft experienced an increase of 35.9 million sites and 246k domains.  Much of the domain increase was seen at Amazon (+146k) and GoDaddy (+189k). Microsoft presently powers 9.33% of the world's top one million websites. Microsoft's top million share has seen some fluctuation over the year, with a slight decrease of 0.13pp this month, but only 0.30pp over 12 months.</p>
+
+<p>Some of the large increase in overall domains this month can be seen at Cloudflare, which predominantly uses its own server software <a href="https://blog.cloudflare.com/end-of-the-road-for-cloudflare-nginx/">originally based on nginx</a>. 8.20 million domains are currently served from servers identifying themselves as Cloudflare &mdash; 373k more than last month. At Google, usage of GSE (Google Servlet Engine) dropped massively from 897k domains down to 228k in favour of another google server, GHS, which is often used purely for redirects.</p>
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph01_201812_00"><img src="https://news.netcraft.com/wp-content/uploads/2018/11/wpid-wss-total.png" alt="Total number of websites"/><br /></div>
+<div id="button-div01_201812_00"></div></div></div>
+<br />
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph02_201812_00"><img src="https://news.netcraft.com/wp-content/uploads/2018/11/wpid-wss-share.png" alt="Web server market share"/><br /></div>
+</div></div>
+<br />
+
+<table cellspacing="3" class="centered">
+    <tr><th>Developer</th><th>November 2018</th><th>Percent</th><th>December 2018</th><th>Percent</th><th>Change</th></tr>
+    <tr align="right"><td align="left">Microsoft</td><td>652,135,936</td><td>39.47%</td><td>688,039,056</td><td>41.53%</td><td>2.06</td></tr>
+<tr align="right"><td align="left">nginx</td><td>358,695,276</td><td>21.71%</td><td>358,383,169</td><td>21.63%</td><td>-0.08</td></tr>
+<tr align="right"><td align="left">Apache</td><td>341,675,499</td><td>20.68%</td><td>313,736,739</td><td>18.94%</td><td>-1.74</td></tr>
+<tr align="right"><td align="left">Google</td><td>24,094,431</td><td>1.46%</td><td>23,810,336</td><td>1.44%</td><td>-0.02</td></tr>
+
+</table>
+
+
+ <a href="https://news.netcraft.com/archives/2018/12/17/december-2018-web-server-survey.html#more-26943" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a>    </div>
+
+        <div class="meta">
+        <div class="grid-wrapper">
+        <div class="grid post-meta-author-etc">
+                            <p>Posted by Netcraft on 17th December, 2018 in
+                <a href="https://news.netcraft.com/archives/category/web-server-survey" title="View all posts in Web Server Survey" rel="category tag">Web Server Survey</a>                                                </p>
+                    </div>
+        </div>
+
+        <div class="grid-wrapper">
+        <div class="grid post-share-links not-print">
+            <h4 class="share-title">Share:</h4>
+                        <div class="facebook-sharrre" data-url="http://news.netcraft.com/archives/2018/12/17/december-2018-web-server-survey.html" data-text="December 2018 Web Server Survey" data-title="Like"></div>
+            <a class="twitter-icon" href="https://twitter.com/intent/tweet?text=December+2018+Web+Server+Survey&url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F12%2F17%2Fdecember-2018-web-server-survey.html">Share on Twitter</a>
+            <a class="linkedin-icon" title="Share on LinkedIn" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;source=Netcraft&amp;url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F12%2F17%2Fdecember-2018-web-server-survey.html&amp;title=December+2018+Web+Server+Survey">
+                Share on LinkedIn
+            </a>
+            <a class="googleplus-icon" title="Share on Google+" onclick="window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2);return false;" href="https://plus.google.com/share?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F12%2F17%2Fdecember-2018-web-server-survey.html">
+                Share on Google+
+            </a>
+            <a class="hackernews-icon" title="Submit to Hacker News" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://news.ycombinator.com/submitlink?u=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F12%2F17%2Fdecember-2018-web-server-survey.html&amp;title=December+2018+Web+Server+Survey">
+                Submit to Hacker News
+            </a>
+            <a class="reddit-icon" title="Submit to Reddit" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=1000, top='+($(window).height()/2 - 225) +', left='+($(window).width()/2 - 500)); return false;" href="http://www.reddit.com/submit?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F12%2F17%2Fdecember-2018-web-server-survey.html&amp;title=December+2018+Web+Server+Survey">
+                Submit to Reddit
+            </a>
+        </div>
+        </div>
+
+    </div>
+
+    </article>
+                    
+<article id="post-26898" class="post-26898 post type-post status-publish format-standard hentry category-web-server-survey">
+    <header class="entry-header">
+         
+            <h1 class="entry-title"><a href="https://news.netcraft.com/archives/2018/11/26/november-2018-web-server-survey.html" title="Permalink to November 2018 Web Server Survey" rel="bookmark">November 2018 Web Server Survey</a>
+            </h1>
+        
+    </header>
+
+    <div class="entry-content">
+        <p>In the <b>November 2018</b> survey we received responses from <b>1,652,185,816</b> sites, <b>226,752,928</b> unique domains, and <b>8,048,899</b> web-facing computers. This reflects a loss of 21.3 million sites, but a gain of 1.7 million domains and 121 thousand web-facing computers.</p>
+
+<p>The largest contributor to the increase in domains this month came from sites running on Microsoft server software, with an additional 1.18 million domains.  The growth was concentrated at GoDaddy on domains running IIS 7.5.x, which took up 1.16 million of the increase.  In addition to newly detected IIS domains, and a movement of some domains from nginx, many existing domains running previously unknown IIS versions also reported as IIS 7.5.x this month, resulting in the total number of domains for this version almost doubling to reach 12.7 million.  This makes IIS 7.5.x the most common version seen by the survey, 2.7 million domains ahead of the newer 8.5.x version in second place, which first saw release in 2013.  Despite the large gain in domains, Microsoft experienced losses in most other metrics, including a significant loss of 3.14 million active sites.    Many of the domains gained at GoDaddy are likely to be holding pages, contributing only a small increase to the number of IIS active sites hosted at the company.</p>
+
+<p>nginx experienced the largest loss in domains this month of 560 thousand, largely caused by a drop of just over 1 million domains at GoDaddy.  Nginx has been experiencing a steady rise in market share by domains for many years, however this has now remained relatively static for the last 6-months at 23%.  nginx remains just under 3 percentage points behind Microsoftâs 26% market share.  Meanwhile though, nginx has continued to show strong growth in web-facing computers, with the largest increase this month of 51 thousand.  Here its steady market share increases have shown no such pause, and it holds almost 28% of the market.  Apache and Microsoft followed some way behind in web-facing computer gains, with increases of 13 thousand and 12 thousand, both experiencing small losses in market share as a result.</p>
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph01_201811_00"><img src="https://news.netcraft.com/wp-content/uploads/2018/10/wpid-wss-total.png" alt="Total number of websites"/><br /></div>
+<div id="button-div01_201811_00"></div></div></div>
+<br />
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph02_201811_00"><img src="https://news.netcraft.com/wp-content/uploads/2018/10/wpid-wss-share.png" alt="Web server market share"/><br /></div>
+</div></div>
+<br />
+
+<table cellspacing="3" class="centered">
+    <tr><th>Developer</th><th>October 2018</th><th>Percent</th><th>November 2018</th><th>Percent</th><th>Change</th></tr>
+    <tr align="right"><td align="left">Microsoft</td><td>656,395,388</td><td>39.22%</td><td>652,135,936</td><td>39.47%</td><td>0.25</td></tr>
+<tr align="right"><td align="left">nginx</td><td>330,074,974</td><td>19.72%</td><td>358,695,276</td><td>21.71%</td><td>1.99</td></tr>
+<tr align="right"><td align="left">Apache</td><td>384,514,944</td><td>22.98%</td><td>341,675,499</td><td>20.68%</td><td>-2.30</td></tr>
+<tr align="right"><td align="left">Google</td><td>23,620,555</td><td>1.41%</td><td>24,094,431</td><td>1.46%</td><td>0.05</td></tr>
+
+</table>
+
+
+ <a href="https://news.netcraft.com/archives/2018/11/26/november-2018-web-server-survey.html#more-26898" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a>    </div>
+
+        <div class="meta">
+        <div class="grid-wrapper">
+        <div class="grid post-meta-author-etc">
+                            <p>Posted by Netcraft on 26th November, 2018 in
+                <a href="https://news.netcraft.com/archives/category/web-server-survey" title="View all posts in Web Server Survey" rel="category tag">Web Server Survey</a>                                                </p>
+                    </div>
+        </div>
+
+        <div class="grid-wrapper">
+        <div class="grid post-share-links not-print">
+            <h4 class="share-title">Share:</h4>
+                        <div class="facebook-sharrre" data-url="http://news.netcraft.com/archives/2018/11/26/november-2018-web-server-survey.html" data-text="November 2018 Web Server Survey" data-title="Like"></div>
+            <a class="twitter-icon" href="https://twitter.com/intent/tweet?text=November+2018+Web+Server+Survey&url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F11%2F26%2Fnovember-2018-web-server-survey.html">Share on Twitter</a>
+            <a class="linkedin-icon" title="Share on LinkedIn" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;source=Netcraft&amp;url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F11%2F26%2Fnovember-2018-web-server-survey.html&amp;title=November+2018+Web+Server+Survey">
+                Share on LinkedIn
+            </a>
+            <a class="googleplus-icon" title="Share on Google+" onclick="window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2);return false;" href="https://plus.google.com/share?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F11%2F26%2Fnovember-2018-web-server-survey.html">
+                Share on Google+
+            </a>
+            <a class="hackernews-icon" title="Submit to Hacker News" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://news.ycombinator.com/submitlink?u=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F11%2F26%2Fnovember-2018-web-server-survey.html&amp;title=November+2018+Web+Server+Survey">
+                Submit to Hacker News
+            </a>
+            <a class="reddit-icon" title="Submit to Reddit" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=1000, top='+($(window).height()/2 - 225) +', left='+($(window).width()/2 - 500)); return false;" href="http://www.reddit.com/submit?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F11%2F26%2Fnovember-2018-web-server-survey.html&amp;title=November+2018+Web+Server+Survey">
+                Submit to Reddit
+            </a>
+        </div>
+        </div>
+
+    </div>
+
+    </article>
+                    
+<article id="post-26814" class="post-26814 post type-post status-publish format-standard hentry category-web-server-survey">
+    <header class="entry-header">
+         
+            <h1 class="entry-title"><a href="https://news.netcraft.com/archives/2018/10/29/october-2018-web-server-survey.html" title="Permalink to October 2018 Web Server Survey" rel="bookmark">October 2018 Web Server Survey</a>
+            </h1>
+        
+    </header>
+
+    <div class="entry-content">
+        <p>In the <b>October 2018</b> survey we received responses from <b>1,673,535,333</b> sites, <b>225,042,277</b> unique domains, and <b>7,927,795</b> web-facing computers. This reflects a gain of 31 million sites, 2.4 million domains and 142 thousand web-facing computers.</p>
+
+<p>Nginx contributed the majority of this month's growth in terms of both domains and web-facing computers.  Over 1.6 million additional domains were running nginx this month, taking its total up to 52 million.  Combined with a loss of 444 thousand domains using Microsoft web server software, nginx now stands only 5 million domains behind Microsoft's second place spot. Apache remains in the lead, a further 18 million domains ahead. Despite regular gains in absolute numbers, including an increase of 200 thousand this month, Apache is continuing to experience a steady decline in market share.  In terms of web-facing computers, nginx's gain of 70 thousand was almost twice that of Apache and Microsoft combined, which increased by 19 thousand and 16 thousand computers respectively.</p>
+
+<p>Apache's active sites market share took a large hit this month, dropping over 8 percentage points down to 30%. The loss of 13 million active sites was concentrated at the Skyrock blogging platform, where sites stopped including a server banner for HTTP requests this month, meaning they are included in the "Other" category. However, the HTTPS version of these sites still appear to be running on Apache web servers returning 'Server: Apache' headers.</p>
+
+<p>OpenResty gained 160 thousand domains (+6%), ratcheting up its total to 3 million, overtaking LiteSpeed at 2.9 million domains and becoming the fifth largest web server by number of domains. The OpenResty web platform integrates the standard nginx core with a LuaJIT compiler and a number of Lua libraries and third-party modules to run powerful web applications within the web server itself.</p>
+
+<p>Netcraft's Web Server Survey continues to see strong growth among many of the new gTLDs.  The .app and .icu gTLDs have shown the greatest gains among new TLDs launching in the last 6-months. The number of domains responding in this month's survey increased by 11 thousand since September for Google's .app domain, to over 236 thousand domains. Registrations for .icu domains (short for "I See You") increased by 10 thousand since September, a 30% increase to 42 thousand domains. This growth for .icu has also seen the number of active sites more than double, to just over 6 thousand.</p>
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph01_201810_00"><img src="https://news.netcraft.com/wp-content/uploads/2018/09/wpid-wss-total1.png" alt="Total number of websites"/><br /></div>
+<div id="button-div01_201810_00"></div></div></div>
+<br />
+
+
+<div class="graphdiv"><div class="branddiv">
+<div class="jsgraph" id="graph02_201810_00"><img src="https://news.netcraft.com/wp-content/uploads/2018/09/wpid-wss-share1.png" alt="Web server market share"/><br /></div>
+</div></div>
+<br />
+
+<table cellspacing="3" class="centered">
+    <tr><th>Developer</th><th>September 2018</th><th>Percent</th><th>October 2018</th><th>Percent</th><th>Change</th></tr>
+    <tr align="right"><td align="left">Microsoft</td><td>585,892,927</td><td>35.67%</td><td>656,395,388</td><td>39.22%</td><td>3.55</td></tr>
+<tr align="right"><td align="left">Apache</td><td>384,521,189</td><td>23.41%</td><td>384,514,944</td><td>22.98%</td><td>-0.44</td></tr>
+<tr align="right"><td align="left">nginx</td><td>319,330,263</td><td>19.44%</td><td>330,074,974</td><td>19.72%</td><td>0.28</td></tr>
+<tr align="right"><td align="left">Google</td><td>22,210,093</td><td>1.35%</td><td>23,620,555</td><td>1.41%</td><td>0.06</td></tr>
+
+</table>
+
+
+ <a href="https://news.netcraft.com/archives/2018/10/29/october-2018-web-server-survey.html#more-26814" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a>    </div>
+
+        <div class="meta">
+        <div class="grid-wrapper">
+        <div class="grid post-meta-author-etc">
+                            <p>Posted by Netcraft on 29th October, 2018 in
+                <a href="https://news.netcraft.com/archives/category/web-server-survey" title="View all posts in Web Server Survey" rel="category tag">Web Server Survey</a>                                                </p>
+                    </div>
+        </div>
+
+        <div class="grid-wrapper">
+        <div class="grid post-share-links not-print">
+            <h4 class="share-title">Share:</h4>
+                        <div class="facebook-sharrre" data-url="http://news.netcraft.com/archives/2018/10/29/october-2018-web-server-survey.html" data-text="October 2018 Web Server Survey" data-title="Like"></div>
+            <a class="twitter-icon" href="https://twitter.com/intent/tweet?text=October+2018+Web+Server+Survey&url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F10%2F29%2Foctober-2018-web-server-survey.html">Share on Twitter</a>
+            <a class="linkedin-icon" title="Share on LinkedIn" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://www.linkedin.com/shareArticle?mini=true&amp;source=Netcraft&amp;url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F10%2F29%2Foctober-2018-web-server-survey.html&amp;title=October+2018+Web+Server+Survey">
+                Share on LinkedIn
+            </a>
+            <a class="googleplus-icon" title="Share on Google+" onclick="window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2);return false;" href="https://plus.google.com/share?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F10%2F29%2Foctober-2018-web-server-survey.html">
+                Share on Google+
+            </a>
+            <a class="hackernews-icon" title="Submit to Hacker News" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2); return false;" href="http://news.ycombinator.com/submitlink?u=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F10%2F29%2Foctober-2018-web-server-survey.html&amp;title=October+2018+Web+Server+Survey">
+                Submit to Hacker News
+            </a>
+            <a class="reddit-icon" title="Submit to Reddit" onclick="window.open(this.href, '_blank','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450, width=1000, top='+($(window).height()/2 - 225) +', left='+($(window).width()/2 - 500)); return false;" href="http://www.reddit.com/submit?url=http%3A%2F%2Fnews.netcraft.com%2Farchives%2F2018%2F10%2F29%2Foctober-2018-web-server-survey.html&amp;title=October+2018+Web+Server+Survey">
+                Submit to Reddit
+            </a>
+        </div>
+        </div>
+
+    </div>
+
+    </article>
+        
+        
+<div class="pagination">
+    <span class='page-numbers current'>1</span>
+<a class='page-numbers' href='https://news.netcraft.com/archives/category/web-server-survey/page/2'>2</a>
+<a class='page-numbers' href='https://news.netcraft.com/archives/category/web-server-survey/page/3'>3</a>
+<a class='page-numbers' href='https://news.netcraft.com/archives/category/web-server-survey/page/4'>4</a>
+<a class='page-numbers' href='https://news.netcraft.com/archives/category/web-server-survey/page/5'>5</a>
+<a class='page-numbers' href='https://news.netcraft.com/archives/category/web-server-survey/page/6'>6</a>
+<span class="page-numbers dots">&hellip;</span>
+<a class='page-numbers' href='https://news.netcraft.com/archives/category/web-server-survey/page/35'>35</a>
+<a class="next page-numbers" href="https://news.netcraft.com/archives/category/web-server-survey/page/2">Next &raquo;</a></div>
+
+    </div>
+    <div class="grid three-tenths main-sidebar not-print">
+        <aside id="netcraft_popularposts_plugin-2" class="widget widget_netcraft_popularposts_plugin">        <div id="most-read-articles" class="widget widget_netcraft_popular_posts">
+        <h3 class="widget-title"><a href="https://news.netcraft.com/archives/category/most-popular">Most Popular</a></h3>            <p id="most-read-loading">Loading...</p>
+            <ol id="most-read-articles-list">
+            </ol>
+        </div>
+        </aside><aside id="get_in_touch-2" class="widget widget_get_in_touch"><h3 class="widget-title">Get in Touch</h3>            <div class="get-in-touch-textwidget textwidget">
+                <span class="lead">+44 (0) 1225 447500</span>
+                <span><a href="mailto:info@netcraft.com">info@netcraft.com</a></span>
+            </div>
+        </aside><aside id="netcraft_column_ad-2" class="widget widget_netcraft_column_ad">        <div class="advert advert-column" id="advert-skyscraper">
+        <noscript>
+            <a target='_blank' href='//ads.netcraft.com/www/delivery/ck.php?n=5ec32a4'>
+            <img alt='' src='//ads.netcraft.com/www/delivery/avw.php?zoneid=4&amp;amp;n=5ec32a4' />
+        </a></noscript>
+        </div>
+        </aside><aside id="selected-categories-2" class="widget selected_categories"><h3 class="widget-title">Categories</h3>        <ul>
+        	<li class="cat-item cat-item-7"><a href="https://news.netcraft.com/archives/category/around-the-net" title="View all posts filed under Around the Net">Around the Net</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="https://news.netcraft.com/archives/category/dogfood" title="View all posts filed under Dogfood">Dogfood</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="https://news.netcraft.com/archives/category/hosting" title="View all posts filed under Hosting">Hosting</a>
+</li>
+	<li class="cat-item cat-item-42"><a href="https://news.netcraft.com/archives/category/most-popular" title="View all posts filed under Most Popular">Most Popular</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="https://news.netcraft.com/archives/category/netcraft-services" title="View all posts filed under Netcraft Services">Netcraft Services</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://news.netcraft.com/archives/category/other" title="View all posts filed under Other">Other</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="https://news.netcraft.com/archives/category/performance" title="View all posts filed under Performance">Performance</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="https://news.netcraft.com/archives/category/security" title="View all posts filed under Security">Security</a>
+</li>
+	<li class="cat-item cat-item-8 current-cat"><a href="https://news.netcraft.com/archives/category/web-server-survey" title="View all posts filed under Web Server Survey">Web Server Survey</a>
+</li>
+        </ul>
+</aside><aside id="archive-year" class="widget widget_archive_year">
+<h3 class="widget-title">Archives</h3>
+    <ul>
+    	<li><a href='https://news.netcraft.com/archives/2019' title='2019'>2019</a></li>
+	<li><a href='https://news.netcraft.com/archives/2018' title='2018'>2018</a></li>
+	<li><a href='https://news.netcraft.com/archives/2017' title='2017'>2017</a></li>
+	<li><a href='https://news.netcraft.com/archives/2016' title='2016'>2016</a></li>
+	<li><a href='https://news.netcraft.com/archives/2015' title='2015'>2015</a></li>
+	<li><a href='https://news.netcraft.com/archives/2014' title='2014'>2014</a></li>
+	<li><a href='https://news.netcraft.com/archives/2013' title='2013'>2013</a></li>
+	<li><a href='https://news.netcraft.com/archives/2012' title='2012'>2012</a></li>
+	<li><a href='https://news.netcraft.com/archives/2011' title='2011'>2011</a></li>
+	<li><a href='https://news.netcraft.com/archives/2010' title='2010'>2010</a></li>
+	<li><a href='https://news.netcraft.com/archives/2009' title='2009'>2009</a></li>
+	<li><a href='https://news.netcraft.com/archives/2008' title='2008'>2008</a></li>
+	<li><a href='https://news.netcraft.com/archives/2007' title='2007'>2007</a></li>
+	<li><a href='https://news.netcraft.com/archives/2006' title='2006'>2006</a></li>
+	<li><a href='https://news.netcraft.com/archives/2005' title='2005'>2005</a></li>
+	<li><a href='https://news.netcraft.com/archives/2004' title='2004'>2004</a></li>
+	<li><a href='https://news.netcraft.com/archives/2003' title='2003'>2003</a></li>
+	<li><a href='https://news.netcraft.com/archives/2002' title='2002'>2002</a></li>
+    </ul>
+</aside>
+    </div>
+    </div>
+
+    </div><!-- end content internal -->
+    </div><!-- end content .container -->
+
+    
+<div class="container not-print">
+    <div class="links-bottom">
+        <h5>Advertisers Directory</h5>
+        <ul class="nav nav--links-bottom">
+                            <li><a href="http://www.eukhost.com/vmware-cloud-hosting/?utm_source=net&amp;utm_medium=text&amp;utm_campaign=news.netcraft.com">eUKhost VMware Cloud Hosting From &#163;35 / mo</a></li>
+                    <li><a href="http://www.psw.net/ssl.cfm">SSL Certificates from 15 EURO per year</a></li>
+                    <li><a href="http://www.vultr.com/">SSD Cloud Servers in 14 Cities Worldwide</a></li>
+                    <li><a href="https://metapress.com/">Website Setup Guides by Metapress</a></li>
+                </ul>
+        <p><small>Your link here?  <a href="mailto:banners@netcraft.com?subject=Advertising%20on%20Netcraft">Advertising on the Netcraft Blog</a>.</small></p>
+    </div>
+</div>
+
+
+    <div class="push"></div>
+    </div> <!-- end wrapper -->
+
+    <footer class="bottom-layout">
+        <div class="container">
+
+            <ul class="nav nav--footer nav--fit not-print">
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16617"><a href="http://www.netcraft.com/anti-phishing/">Anti-Phishing</a>
+<ul class="sub-menu">
+	<li class="external-link menu-item menu-item-type-custom menu-item-object-custom menu-item-16618"><a target="_blank" href="http://toolbar.netcraft.com/">Anti-Phishing Extension</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27441"><a href="http://www.netcraft.com/anti-phishing/mobile-phishing-protection/">Mobile Phishing Protection</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16619"><a href="http://www.netcraft.com/anti-phishing/phishing-site-feed/">Phishing Site Feed</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16620"><a href="http://www.netcraft.com/anti-phishing/hosting-phishing-alerts/">Hosting Phishing Alerts</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16621"><a href="http://www.netcraft.com/anti-phishing/certificate-authority-phishing-alerts/">SSL CA Phishing Alerts</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16622"><a href="https://www.netcraft.com/anti-phishing/protection-for-tlds/">Protection for TLDs against Phishing and Malware</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16623"><a href="https://www.netcraft.com/anti-phishing/deceptive-domain-score/">Deceptive Domain Score</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16624"><a href="http://www.netcraft.com/anti-phishing/fraud-detection/">Fraud Detection</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16625"><a href="http://www.netcraft.com/anti-phishing/phishing-site-takedown/">Phishing Site Takedown &#038; Countermeasures</a></li>
+	<li class="external-link menu-item menu-item-type-custom menu-item-object-custom menu-item-16626"><a target="_blank" href="https://report.netcraft.com/">Report Suspicious URL</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16629"><a href="http://www.netcraft.com/security-testing/">Security Testing</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16630"><a href="http://www.netcraft.com/security-testing/audited/">Audited by Netcraft</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16631"><a href="http://www.netcraft.com/security-testing/dedicated-server-monitoring/">Dedicated Server Monitoring</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16632"><a href="http://www.netcraft.com/security-testing/web-application/">Web Application Security Testing</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16633"><a href="http://www.netcraft.com/security-testing/mobile-app-security-testing/">Mobile App Security Testing</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25113"><a href="https://www.netcraft.com/security-testing/netcraft-security-testing-for-certificate-authorities/">Netcraft Certificate Issuance Security Testing</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25114"><a href="https://www.netcraft.com/security-testing/netcraft-hosted-scanning-service/">Netcraft Hosted Scanning Service</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16634"><a href="http://www.netcraft.com/security-testing/web-application-course/">Web Application Security Course</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16635"><a href="http://www.netcraft.com/security-testing/comparison-of-security-services/">Comparison of Security Services</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16636"><a href="http://www.netcraft.com/security-testing/security-testing-f-a-q/">Security Testing F.A.Q.</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16637"><a href="http://www.netcraft.com/security-testing/open-redirect-detection/">Open Redirect Detection Service</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16638"><a href="http://www.netcraft.com/internet-data-mining/">Internet Data Mining</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16639"><a href="http://www.netcraft.com/internet-data-mining/hosting-analysis/">Hosting Provider Analysis</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16640"><a href="http://www.netcraft.com/internet-data-mining/hosting-provider-switching-dataset/">Hosting Provider Switching Analysis</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16641"><a href="http://www.netcraft.com/internet-data-mining/hosting-provider-server-count/">Hosting Provider Server Count</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16642"><a href="https://www.netcraft.com/internet-data-mining/hosting-provider-index/">Hosting Provider Index</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16643"><a href="http://www.netcraft.com/internet-data-mining/site-operator-survey/">Site Operator Survey</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16644"><a href="http://www.netcraft.com/internet-data-mining/million-busiest-websites/">Million Busiest Websites</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16645"><a href="http://www.netcraft.com/internet-data-mining/busiest-sites-switching-analysis/">Busiest Sites Switching Analysis</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16646"><a href="http://www.netcraft.com/internet-data-mining/ssl-survey/">SSL Survey</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16647"><a href="http://www.netcraft.com/internet-data-mining/due-diligence-for-hosting-industry-investment-and-acquisitions/">Due Diligence for Hosting Industry Investment and Acquisitions</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16648"><a href="http://www.netcraft.com/monitoring-services/">Performance</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16649"><a href="http://www.netcraft.com/security-testing/dedicated-server-monitoring/">Dedicated Server Monitoring</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16650"><a href="http://www.netcraft.com/monitoring-services/hosting-prospect-monitoring-uptime-alerts/">Hosting Prospects Performance Alerts</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16651"><a href="http://uptime.netcraft.com/perf/reports/Hosters">Hosting Providers Network Performance</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16652"><a href="http://uptime.netcraft.com/perf/reports/performance/OCSP">OCSP Responder Performance Monitoring</a></li>
+</ul>
+</li>
+<li class="last-item menu-item menu-item-type-custom menu-item-object-custom menu-item-16653"><a href="http://www.netcraft.com/about-netcraft/">About Netcraft</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16654"><a href="http://www.netcraft.com/about-netcraft/">About Us</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16655"><a href="http://www.netcraft.com/about-netcraft/contact-us/">Contact Us</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16656"><a href="http://www.netcraft.com/about-netcraft/jobs/">Careers</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16657"><a href="http://www.netcraft.com/about-netcraft/banner-advertising/">Advertising with Netcraft</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16658"><a href="http://www.netcraft.com/about-netcraft/email-subscription/">Email Subscription</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16659"><a href="http://www.netcraft.com/about-netcraft/fair-use-copyright/">Fair Use and Copyright</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16660"><a href="http://www.netcraft.com/about-netcraft/privacy-statement/">Privacy Statement</a></li>
+</ul>
+</li>
+            </ul>
+
+            <div class="copyright milli">
+                Copyright &copy; 1995-2019 Netcraft Ltd.  All Rights Reserved. <br>
+                2 Belmont, Bath, BA1 5DZ, United Kingdom &nbsp;&nbsp;&nbsp;
+                <ul id="menu-site-meta-as-on-www" class="nav nav--copyright milli"><li id="menu-item-16661" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16661"><a href="http://www.netcraft.com/about-netcraft/fair-use-copyright/">Fair Use Policy</a></li>
+<li id="menu-item-16662" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16662"><a href="http://www.netcraft.com/about-netcraft/privacy-statement/">Privacy Statement</a></li>
+<li id="menu-item-16663" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16663"><a href="mailto:webmaster@netcraft.com">Webmaster</a></li>
+</ul>            </div>
+        </div>
+    </footer>
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var netcraft_ajax = {"url":"https://news.netcraft.com/wp-content/plugins/Netcraft-Popular-Posts/getPosts.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://news.netcraft.com/wp-includes/js/jquery/jquery.js'></script>
+<script type='text/javascript' src='https://news.netcraft.com/wp-content/plugins/Netcraft-Popular-Posts/postStatistics.js'></script>
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+<script type='text/javascript' src='https://news.netcraft.com/wp-content/plugins/netcraft-wss-graph/js/wssGraphData.js?ver=28032019'></script>
+<script type='text/javascript' src='https://news.netcraft.com/wp-content/plugins/netcraft-wss-graph/js/wssGraph.js?ver=1'></script>
+<script type='text/javascript' src='https://news.netcraft.com/assets/js/jquery.sharrre.min.js?ver=1'></script>
+<script type='text/javascript' src='https://news.netcraft.com/assets/js/intro.js?ver=1'></script>
+<script type='text/javascript' src='//ads.netcraft.com/www/delivery/spcjs.php?id=1&#038;target=_blank&#038;ver=1'></script>
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(
+        ['_setAccount', 'UA-2150242-1'],
+        ['_trackPageview'],
+        ['b._setAccount', 'UA-2150242-9'],
+        ['b._trackPageview']
+    );
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    jQuery(document).ready(function($) {
+        $('a[href^="mailto"]').click(function() {
+            _gaq.push(['_trackEvent', 'email', 'send', this.href.replace(/^mailto:/i, ''), , true]);
+            var url = this.href;
+            setTimeout(function() { window.location = url; }, 150);
+            return false;
+        });
+    });
+</script> 
+    <script>
+    jQuery(function(){
+        if (typeof OA_output != "undefined") {
+            if (typeof OA_output[3] == "string") {
+                var t = document.getElementById('advert-banner');
+                if (t) t.innerHTML = OA_output[3];
+            }
+            if (typeof OA_output[4] == "string") {
+                var t = document.getElementById('advert-skyscraper');
+                if (t) t.innerHTML = OA_output[4];
+            }
+        }
+    });
+    </script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

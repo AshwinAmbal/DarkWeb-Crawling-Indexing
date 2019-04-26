@@ -1,0 +1,588 @@
+<!DOCTYPE html><!--[if lt IE 9]>
+<html ng-controller="MainController" class="no-js">
+<![endif]--><!--[if gte IE 9]>
+<html ng-controller="MainController" class="no-js" ng-app="naibcApp">
+<![endif]--><!--[if !IE]> --> <html ng-controller=MainController class=no-js ng-app=naibcApp> <!-- <![endif]--> <head> <meta http-equiv=X-UA-Compatible content="IE=edge"> <meta charset=utf-8> <meta name=viewport content="width=device-width"> <base href="/"> <title translate=global.title></title> <link rel=P3Pv1 href=/w3c/p3p.xml type=text/xml> <link rel="shortcut icon" href=/favicon.ico type=image/x-icon> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Oswald:400,300,700"> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Gudea:400,700,400italic"> <link rel=stylesheet href=/styles/f2e2d05b.vendor-home.css> <link rel=stylesheet href=/styles/f26fb22c.home.css> <!--[if lte IE 8]>
+	<style>.navbar-collapse{ display: none !important; }</style>
+	<!--<![endif]--> <!--[if lte IE 8]>
+	<script src="/scripts/6e3bf06e.shiv-home.js"></script>
+	<!--<![endif]--> <!-- Determine the theme on the server and set a variable to determine it at runtime. --> <script type=text/javascript src=/theme></script> </head> <body class="client-{{ client }}" ng-class="{'is-admin': isAuthorized(userRoles.admin)}" ng-cloak> <div class=loading-overlay ng-hide=hideOverlay></div> <div class="navbar navbar-default" role=navigation> <div class=container> <div class=navbar-title> <a href="/"> <span translate>global.title</span> </a> </div> <div class=navbar-header> <button type=button class=navbar-toggle data-toggle=collapse data-target=#navbar-collapse> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <span class="language-menu language-menu__mobile"> </span> <a class=navbar-brand href=http://www.networkadvertising.org> <img ng-src={{navLogoUrl}} alt="{{ 'global.logoAlt' | translate }}"> </a> </div> <div class="collapse navbar-collapse" id=navbar-collapse ng-switch=authenticated> <ul class="nav navbar-nav navbar-right external-links"> <li ng-switch-when=false class=dropdown> <button type=button class=dropdown-toggle data-toggle=dropdown> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <ul class=dropdown-menu> <li> <a translate href=http://www.networkadvertising.org/understanding-online-advertising>global.menu.external.howAdsWork</a> <a translate href=http://www.networkadvertising.org/faq>global.menu.external.faq</a> <a translate href=http://www.networkadvertising.org/code-enforcement>global.menu.external.codesAndEnforcement</a> <a translate href="http://www.networkadvertising.org/contact-support/report-problem/">global.menu.external.reportProblem</a> <a translate href=http://www.networkadvertising.org/privacy-policy>global.menu.external.privacyPolicy</a> <a translate href=http://www.networkadvertising.org/terms-of-use>global.menu.external.termsOfUse</a> </li> </ul> <span class="language-menu language-menu__desktop"> </span> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer"> <a href=/member> <span class="glyphicon glyphicon-asterisk"></span> <span translate>global.menu.members</span> </a> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer" ng-controller=AdminController> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-tower"></span> <span class=hidden-tablet translate>global.menu.admin</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu> <li> <a href=/metrics> <span class="glyphicon glyphicon-dashboard"></span> <span translate>global.menu.account.metrics</span> </a> </li> <li> <a href=/health> <span class="glyphicon glyphicon-heart"></span> <span translate>global.menu.account.health</span> </a> </li> <li> <a href=/configuration> <span class="glyphicon glyphicon-list-alt"></span> <span translate>global.menu.account.configuration</span> </a> </li> <li> <a href=/audits> <span class="glyphicon glyphicon-bell"></span> <span translate>global.menu.account.audits</span> </a> </li> <li> <a href=/logs> <span class="glyphicon glyphicon-tasks"></span> <span translate>global.menu.account.logs</span> </a> </li> <li> <a href=/docs> <span class="glyphicon glyphicon-book"></span> <span translate>global.menu.account.apidocs</span> </a> </li> </ul> </li> <li class="dropdown pointer" ng-switch-when=true> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-user"></span> <span class=hidden-tablet translate>global.menu.account.main</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu ng-controller=MenuController> <li class=item-profile> <a href=/profile> <span class="glyphicon glyphicon-user"></span> <span translate>global.menu.account.profile</span> </a> </li> <li> <a href=/settings> <span class="glyphicon glyphicon-wrench"></span> <span translate>global.menu.account.settings</span> </a> </li> <li> <a href=/password> <span class="glyphicon glyphicon-lock"></span> <span translate>global.menu.account.password</span> </a> </li> <li> <a href=/logout> <span class="glyphicon glyphicon-log-out"></span> <span translate>global.menu.account.logout</span> </a> </li> </ul> </li> </ul> </div> </div> </div> <div class=container> <!--[if lt IE 9]>
+	<div class="browserupgrade">
+		<p translate="global.browsehappy">You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.</p>
+	</div>
+	<![endif]--> <div id=nojavascript> <h1>JavaScript Not Detected</h1> <p>The site requires that you enable JavaScript for your browser. Please turn on JavaScript for your browser and click "Try Again" to proceed.</p> <p><a href class="btn btn-primary" role=button>Try Again</a> - <a href="" class="btn btn-info" role=button>Learn More</a></p> </div> <div class=main ng-view></div> <div class=footer></div> </div> <script type=text/javascript>// Fake noscript tag to avoid Chrome bug
+	document.getElementById('nojavascript').style.display = 'none';</script> <script src=/scripts/63e3d464.home.js></script> </body> </html>
+
+
+#####EOF#####
+
+
+<!DOCTYPE html><!--[if lt IE 9]>
+<html ng-controller="MainController" class="no-js">
+<![endif]--><!--[if gte IE 9]>
+<html ng-controller="MainController" class="no-js" ng-app="naibcApp">
+<![endif]--><!--[if !IE]> --> <html ng-controller=MainController class=no-js ng-app=naibcApp> <!-- <![endif]--> <head> <meta http-equiv=X-UA-Compatible content="IE=edge"> <meta charset=utf-8> <meta name=viewport content="width=device-width"> <base href="/"> <title translate=global.title></title> <link rel=P3Pv1 href=/w3c/p3p.xml type=text/xml> <link rel="shortcut icon" href=/favicon.ico type=image/x-icon> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Oswald:400,300,700"> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Gudea:400,700,400italic"> <link rel=stylesheet href=/styles/f2e2d05b.vendor-home.css> <link rel=stylesheet href=/styles/f26fb22c.home.css> <!--[if lte IE 8]>
+	<style>.navbar-collapse{ display: none !important; }</style>
+	<!--<![endif]--> <!--[if lte IE 8]>
+	<script src="/scripts/6e3bf06e.shiv-home.js"></script>
+	<!--<![endif]--> <!-- Determine the theme on the server and set a variable to determine it at runtime. --> <script type=text/javascript src=/theme></script> </head> <body class="client-{{ client }}" ng-class="{'is-admin': isAuthorized(userRoles.admin)}" ng-cloak> <div class=loading-overlay ng-hide=hideOverlay></div> <div class="navbar navbar-default" role=navigation> <div class=container> <div class=navbar-title> <a href="/"> <span translate>global.title</span> </a> </div> <div class=navbar-header> <button type=button class=navbar-toggle data-toggle=collapse data-target=#navbar-collapse> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <span class="language-menu language-menu__mobile"> </span> <a class=navbar-brand href=http://www.networkadvertising.org> <img ng-src={{navLogoUrl}} alt="{{ 'global.logoAlt' | translate }}"> </a> </div> <div class="collapse navbar-collapse" id=navbar-collapse ng-switch=authenticated> <ul class="nav navbar-nav navbar-right external-links"> <li ng-switch-when=false class=dropdown> <button type=button class=dropdown-toggle data-toggle=dropdown> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <ul class=dropdown-menu> <li> <a translate href=http://www.networkadvertising.org/understanding-online-advertising>global.menu.external.howAdsWork</a> <a translate href=http://www.networkadvertising.org/faq>global.menu.external.faq</a> <a translate href=http://www.networkadvertising.org/code-enforcement>global.menu.external.codesAndEnforcement</a> <a translate href="http://www.networkadvertising.org/contact-support/report-problem/">global.menu.external.reportProblem</a> <a translate href=http://www.networkadvertising.org/privacy-policy>global.menu.external.privacyPolicy</a> <a translate href=http://www.networkadvertising.org/terms-of-use>global.menu.external.termsOfUse</a> </li> </ul> <span class="language-menu language-menu__desktop"> </span> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer"> <a href=/member> <span class="glyphicon glyphicon-asterisk"></span> <span translate>global.menu.members</span> </a> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer" ng-controller=AdminController> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-tower"></span> <span class=hidden-tablet translate>global.menu.admin</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu> <li> <a href=/metrics> <span class="glyphicon glyphicon-dashboard"></span> <span translate>global.menu.account.metrics</span> </a> </li> <li> <a href=/health> <span class="glyphicon glyphicon-heart"></span> <span translate>global.menu.account.health</span> </a> </li> <li> <a href=/configuration> <span class="glyphicon glyphicon-list-alt"></span> <span translate>global.menu.account.configuration</span> </a> </li> <li> <a href=/audits> <span class="glyphicon glyphicon-bell"></span> <span translate>global.menu.account.audits</span> </a> </li> <li> <a href=/logs> <span class="glyphicon glyphicon-tasks"></span> <span translate>global.menu.account.logs</span> </a> </li> <li> <a href=/docs> <span class="glyphicon glyphicon-book"></span> <span translate>global.menu.account.apidocs</span> </a> </li> </ul> </li> <li class="dropdown pointer" ng-switch-when=true> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-user"></span> <span class=hidden-tablet translate>global.menu.account.main</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu ng-controller=MenuController> <li class=item-profile> <a href=/profile> <span class="glyphicon glyphicon-user"></span> <span translate>global.menu.account.profile</span> </a> </li> <li> <a href=/settings> <span class="glyphicon glyphicon-wrench"></span> <span translate>global.menu.account.settings</span> </a> </li> <li> <a href=/password> <span class="glyphicon glyphicon-lock"></span> <span translate>global.menu.account.password</span> </a> </li> <li> <a href=/logout> <span class="glyphicon glyphicon-log-out"></span> <span translate>global.menu.account.logout</span> </a> </li> </ul> </li> </ul> </div> </div> </div> <div class=container> <!--[if lt IE 9]>
+	<div class="browserupgrade">
+		<p translate="global.browsehappy">You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.</p>
+	</div>
+	<![endif]--> <div id=nojavascript> <h1>JavaScript Not Detected</h1> <p>The site requires that you enable JavaScript for your browser. Please turn on JavaScript for your browser and click "Try Again" to proceed.</p> <p><a href class="btn btn-primary" role=button>Try Again</a> - <a href="" class="btn btn-info" role=button>Learn More</a></p> </div> <div class=main ng-view></div> <div class=footer></div> </div> <script type=text/javascript>// Fake noscript tag to avoid Chrome bug
+	document.getElementById('nojavascript').style.display = 'none';</script> <script src=/scripts/63e3d464.home.js></script> </body> </html>
+
+
+#####EOF#####
+
+
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="x-dns-prefetch-control" content="on" />
+<link rel="dns-prefetch" href="//dg1pu8fiy5cr6.cloudfront.net" />
+<!--[if IE 9]>
+<link rel="prefetch" href="//dg1pu8fiy5cr6.cloudfront.net" />
+<![endif]-->
+<link rel="shortcut icon" href="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/nai_favicon.png" type="image/png" />
+<meta name="Generator" content="Drupal 7 (http://drupal.org)" />
+  <title>NAI: Network Advertising Initiative</title>
+
+      <meta name="MobileOptimized" content="width">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width">
+  
+  <link type="text/css" rel="stylesheet" href="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/cdn/css/https/css_z-LkkQhno1Us3jf7DDv392kDx47ss6n0iBpM3La05XA.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/cdn/css/https/css_6KubNbCQjT_SctZ5Z3jjv7YuUFVOo1FP6X01oWb4XyE.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/cdn/css/https/css_W10L-5unh91Qx_3N6jnOei2Xllik_KkhqEOkz-fraks.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/cdn/css/https/css_yzbWgwkKtJqoUlNh-nbMABIVmFIXhB3y0OVN4N8eBT0.css" media="print" />
+  <style type="text/css">
+    @import url(//fonts.googleapis.com/css?family=Oswald::400,300,700);
+    @import url(//fonts.googleapis.com/css?family=Gudea:700,400,400italic);
+  </style>
+  <script src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/js/js_v7z_ueNi9EIrZXPI8So7AkuzyXuKekr2jbdDptsM5Oc.js"></script>
+<script src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/js/js_QniX-x7pWSCZJ9V1D0zMDUy1N2mdDbna4mXE_9gkRAo.js"></script>
+<script src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/js/js_FbUgRVtZbOTBXXstJZj8W1tcF3dygHsgTXpv_zoWaxs.js"></script>
+<script src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/js/js_gPqjYq7fqdMzw8-29XWQIVoDSWTmZCGy9OqaHppNxuQ.js"></script>
+<script>(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","//www.google-analytics.com/analytics.js","ga");ga("create", "UA-2473248-1", {"cookieDomain":"auto"});ga("send", "pageview");</script>
+<script src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/js/js_eL1VXHjp07g71Ejg0mCHEIu67phuviHizpAnKlHdVw4.js"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"nai2","theme_token":"xTIAsoImhL7y25OUeCgi1Lj_Y0m649yVfAmU4ZSPaiQ","js":{"sites\/all\/modules\/jquery_update\/replace\/jquery\/1.7\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/nice_menus\/js\/jquery.bgiframe.js":1,"sites\/all\/modules\/nice_menus\/js\/jquery.hoverIntent.js":1,"sites\/all\/modules\/nice_menus\/js\/superfish.js":1,"sites\/all\/modules\/nice_menus\/js\/nice_menus.js":1,"sites\/all\/modules\/nai\/js\/nai.js":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"0":1,"sites\/all\/libraries\/slidejs\/jquery.slides.js":1,"sites\/all\/themes\/nai2\/js\/nai_slider.js":1,"sites\/all\/themes\/nai2\/js\/agree.js":1,"sites\/all\/themes\/nai2\/js\/hover-menu-mobile.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"sites\/all\/modules\/date\/date_api\/date.css":1,"sites\/all\/modules\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/calendar\/css\/calendar_multiday.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/nice_menus\/css\/nice_menus.css":1,"sites\/all\/modules\/nice_menus\/css\/nice_menus_default.css":1,"sites\/all\/modules\/panels\/css\/panels.css":1,"sites\/all\/modules\/panels\/plugins\/layouts\/threecol_33_34_33\/threecol_33_34_33.css":1,"sites\/all\/themes\/nai2\/system.base.css":1,"sites\/all\/themes\/nai2\/system.menus.css":1,"sites\/all\/themes\/nai2\/system.messages.css":1,"sites\/all\/themes\/nai2\/system.theme.css":1,"sites\/all\/themes\/nai2\/comment.css":1,"sites\/all\/themes\/nai2\/node.css":1,"sites\/all\/themes\/nai2\/old_css\/html-reset.css":1,"sites\/all\/themes\/nai2\/old_css\/wireframes.css":1,"sites\/all\/themes\/nai2\/old_css\/layout-fixed.css":1,"sites\/all\/themes\/nai2\/old_css\/tabs.css":1,"sites\/all\/themes\/nai2\/old_css\/messages.css":1,"sites\/all\/themes\/nai2\/old_css\/pages.css":1,"sites\/all\/themes\/nai2\/old_css\/block-editing.css":1,"sites\/all\/themes\/nai2\/old_css\/blocks.css":1,"sites\/all\/themes\/nai2\/old_css\/navigation.css":1,"sites\/all\/themes\/nai2\/old_css\/panels-styles.css":1,"sites\/all\/themes\/nai2\/old_css\/views-styles.css":1,"sites\/all\/themes\/nai2\/old_css\/nodes.css":1,"sites\/all\/themes\/nai2\/old_css\/comments.css":1,"sites\/all\/themes\/nai2\/old_css\/forms.css":1,"sites\/all\/themes\/nai2\/old_css\/fields.css":1,"sites\/all\/themes\/nai2\/fontawesome\/css\/font-awesome.min.css":1,"sites\/all\/themes\/nai2\/old_css\/slideshow.css":1,"sites\/all\/themes\/nai2\/old_css\/nai.css":1,"sites\/all\/themes\/nai2\/old_css\/primary-links.css":1,"sites\/all\/themes\/nai2\/old_css\/print.css":1}},"nice_menus_options":{"delay":"800","speed":"fast"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"}});</script>
+      <!--[if lt IE 9]>
+    <script src="/sites/all/themes/zen/js/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+<body class="html front not-logged-in no-sidebars page-front-panel page-panels" >
+  
+
+    <!--{6a282d544dc348f55cf17f1c73fa9d1d}-->
+
+      <p class="skip-link__wrapper">
+      <a href="#main-menu" class="skip-link visually-hidden visually-hidden--focusable" id="skip-link">Jump to navigation</a>
+    </p>
+  
+  
+<div id="page-wrapper">
+  <div id="page" class=" page">
+
+    <div id="header">
+      <div class="section clearfix with-navigation">
+        <div id='social-media-wrapper'>
+          <ul>
+            <li>
+              <a href="https://www.linkedin.com/company/network-advertising-initiative-nai-">
+                <img src="/sites/all/themes/nai2/images/linkedin-2.png" alt="" height = "25"/>
+              </a>
+            </li>
+            <li>
+              <a href = 'https://www.facebook.com/pages/Network-Advertising-Initiative/1404760919736948'>
+                <img src="/sites/all/themes/nai2/images/facebook-3.png" alt="" height = "25"/>
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com/NAI">
+                <img src="/sites/all/themes/nai2/images/twitter.png" alt="" height = "25"/>
+              </a>
+            </li>
+          </ul>
+        </div><!-- END social-media-wrapper -->
+
+                  <a href="/" title="Home" rel="home" id="logo"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/all/themes/nai2/logo.png" alt="Home" /></a>
+        
+        <div id="navigation">
+          <div class="section clearfix">
+            <ul class="nice-menu nice-menu-down nice-menu-main-menu" id="nice-menu-0"><li class="menu__item menu-162 menuparent  menu-path-about-nai first odd "><a href="/about-nai/" title="" class="menu__link">Who We Are</a><ul><li class="menu__item menu-165 menu-path-node-9 first odd "><a href="/about-nai/about-nai/" class="menu__link">About NAI</a></li>
+<li class="menu__item menu-300 menu-path-about-nai-our-team  even "><a href="/about-nai/our-team/" title="" class="menu__link">Our Team</a></li>
+<li class="menu__item menu-283 menu-path-about-nai-board-of-directors  odd "><a href="/about-nai/board-of-directors/" class="menu__link">Board</a></li>
+<li class="menu__item menu-175 menu-path-participating-networks  even "><a href="/participating-networks/" title="" class="menu__link">Members</a></li>
+<li class="menu__item menu-164 menu-path-node-8  odd "><a href="/about-nai/history/" title="" class="menu__link">History</a></li>
+<li class="menu__item menu-166 menu-path-node-10  even "><a href="/about-nai/nai-news/" class="menu__link">NAI in the News</a></li>
+<li class="menu__item menu-1394 menu-path-node-483  odd "><a href="/about-nai/careers/" class="menu__link">Careers</a></li>
+<li class="menu__item menu-1456 menu-path-node-642  even last"><a href="/events/" title="" class="menu__link">Events</a></li>
+</ul></li>
+<li class="menu__item menu-177 menuparent  menu-path-node-321  even "><a href="/understanding-online-advertising/" title="" class="menu__link">Understanding Online Advertising</a><ul><li class="menu__item menu-976 menu-path-node-328 first odd "><a href="/understanding-online-advertising/what-is-it/" title="" class="menu__link">What is it?</a></li>
+<li class="menu__item menu-977 menu-path-node-329  even "><a href="/understanding-online-advertising/how-does-it-work/" title="" class="menu__link">How does it work?</a></li>
+<li class="menu__item menu-978 menu-path-node-330  odd "><a href="/understanding-online-advertising/how-does-it-benefit-me/" title="" class="menu__link">How does it benefit me?</a></li>
+<li class="menu__item menu-979 menu-path-node-331  even "><a href="/understanding-online-advertising/what-are-my-options/" title="" class="menu__link">What are my options?</a></li>
+<li class="menu__item menu-2513 menu-path-faq-page  odd "><a href="/faq/" title="" class="menu__link">FAQs</a></li>
+<li class="menu__item menu-1280 menu-path-understanding-online-advertising-glossary  even last"><a href="/understanding-online-advertising/glossary/" title="" class="menu__link">Glossary</a></li>
+</ul></li>
+<li class="menu__item menu-287 menuparent  menu-path-node-164  odd "><a href="/code-enforcement/" class="menu__link">Code &amp; Enforcement</a><ul><li class="menu__item menu-1392 menu-path-networkadvertisingorg-code-enforcement-code first odd "><a href="http://www.networkadvertising.org/code-enforcement/code" title="" class="menu__link">Code</a></li>
+<li class="menu__item menu-285 menu-path-node-163  even last"><a href="/code-enforcement/enforcement/" class="menu__link">Enforcement</a></li>
+</ul></li>
+<li class="menu__item menu-290 menuparent  menu-path-contact-support  even "><a href="/contact-support/" title="" class="menu__link">Contact &amp; Support</a><ul><li class="menu__item menu-808 menu-path-node-166 first odd last"><a href="/contact-support/report-problem/" title="Report a Problem" class="menu__link">Report a Problem</a></li>
+</ul></li>
+<li class="menu__item menu-172 menu-path-node-15  odd "><a href="/join-nai/" class="menu__link">Join NAI</a></li>
+<li class="menu__item menu-169 menu-path-blog  even last"><a href="/blog/" title="" class="menu__link">Blog</a></li>
+</ul>
+          </div>
+        </div><!-- /#navigation -->
+
+        
+      </div>
+
+              <div id="header-shadow"></div>
+        
+<div class="view view-rotating-banner view-id-rotating_banner view-display-id-banner_block view-dom-id-5f6ce2e214df703b36089ca8b4f0a739">
+    
+  
+          <div id="slides">
+          <div class="views-row views-row-1 views-row-odd views-row-first slide">
+      
+          <a href="http://events.constantcontact.com/register/event?llr=uhazgdmab&amp;oeidk=a07efy5usjf1117a012"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/rotating_banner/public/rotating_banner/nai2019summitpromo.jpg?itok=Nq92ukgk" width="703" height="363" alt="" /></a>    </div>
+  <div class="views-row views-row-2 views-row-even slide">
+      
+          <a href="https://www.networkadvertising.org/sites/default/files/naisummit2019agenda.pdf"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/rotating_banner/public/rotating_banner/summitagendapromo.png?itok=i89UgI5G" width="703" height="363" alt="" /></a>    </div>
+  <div class="views-row views-row-3 views-row-odd slide">
+      
+          <a href="https://www.facebook.com/media/set/?set=a.2070933703119663.1073741837.1404760919736948&amp;type=1&amp;l=2886faa68e"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/rotating_banner/public/rotating_banner/2018photospromo.jpg?itok=UzeTSUcF" width="703" height="363" alt="" /></a>    </div>
+  <div class="views-row views-row-4 views-row-even slide">
+      
+          <a href="https://www.networkadvertising.org/sites/default/files/nai_code2018.pdf"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/rotating_banner/public/rotating_banner/2018naicodepromo.png?itok=Z7xjNpJU" width="703" height="363" alt="" /></a>    </div>
+  <div class="views-row views-row-5 views-row-odd views-row-last slide">
+      
+          <a href="http://advertisingconsent.eu/"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/rotating_banner/public/rotating_banner/iabindustryframework.png?itok=5SaBAUu_" width="703" height="363" alt="" /></a>    </div>
+
+          <a href="#" class="slidesjs-previous slidesjs-navigation prev"><i class="icon-chevron-left icon-large"></i></a>
+          <a href="#" class="slidesjs-next slidesjs-navigation next"><i class="icon-chevron-right icon-large"></i></a>
+      </div>
+
+  
+  
+  
+  
+  
+  
+</div>
+        <a href="http://optout.networkadvertising.org/#!/"><div id="consumer-opt-out_front"></div></a>
+      
+
+    </div><!-- END div#header -->
+
+
+    <div id="main-wrapper">
+      <div id="main" class="clearfix">
+
+        <div id="content" class="column">
+          <div class="section">
+
+            <a href="#skip-link" class="visually-hidden visually-hidden--focusable" id="main-content">Back to top</a>
+                                    
+                                                
+
+            
+            <div id="content-area">
+              
+
+
+
+<div class="panel-display panel-3col-33 clearfix" >
+  <div class="panel-panel panel-col-first">
+    <div class="inside"><div class="panel-pane pane-node"  >
+  
+        <h2 class="pane-title pane__title">
+      Leading Industry Since 2000    </h2>
+    
+  
+  <div id="node-143" class="node node-page view-mode-full clearfix">
+  
+  
+  
+  
+  <div class="content">
+    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>NAI is a non-profit organization that is the leading self-regulatory association dedicated to responsible data collection and its use for digital advertising. Since 2000, we have been working with the leaders in online advertising to craft policies that help ensure responsible data collection and use practices. The result is the development of high standards that are practical and scalable to benefit everyone.</p>
+<p>In 2013, the NAI extended its well-respected program and high standards to advertising across mobile applications by releasing a draft Code of Conduct for the mobile application environment.</p>
+<p>In 2015, the NAI published its Guidance for the use of non-cookie technologies, further extending its high standards to next-generation advertising technologies. We believe that implementing these best practices will enhance trust and support the continued development of informative, creative and free content and services on the Internet, across the mobile ecosystem, and beyond. Â </p>
+<p>In 2017, the NAI published the 2018 Code of Conduct, consolidating requirements for web-based and app-based data collection and use into one document, incorporating relevant NAI Guidance documents, and updating terminology.</p>
+<p><a href="/sites/default/files/nai_code2018.pdf" target="_blank"><img alt="" height="71" src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/imce/nai_pdf.png" style="display: block; margin-left: auto; margin-right: auto;" width="209" /></a></p>
+</div></div></div>  </div>
+
+    </div><!-- /.node -->
+
+  
+  </div>
+</div>
+  </div>
+
+  <div class="panel-panel panel-col">
+    <div class="inside"><div class="panel-pane pane-views pane-recent-news"  >
+  
+        <h2 class="pane-title pane__title">
+      Recent News    </h2>
+    
+  
+  <div class="view view-recent-news view-id-recent_news view-display-id-block_1 view-dom-id-f7dde827e183e28a8ef05c33dcd3c8bd">
+        
+  
+  
+      <div class="view-content">
+      <div class="item-list">    <ul>          <li class="views-row views-row-1 views-row-odd views-row-first">
+  
+  <div class="views-field views-field-title">            <span class="field-content"><a href="https://www.networkadvertising.org/sites/default/files/naicommentletterccpaimplementingregulations.pdf ">NAI Submits Comment Letter for CCPA Implementing Regulations</a></span>  </div></li>
+          <li class="views-row views-row-2 views-row-even">
+  
+  <div class="views-field views-field-title">            <span class="field-content"><a href="https://www.networkadvertising.org/sites/default/files/sponsorshipopportunitiesnai2019summitchicago_news.pdf ">NAI Summit Sponsorship Opportunities</a></span>  </div></li>
+          <li class="views-row views-row-3 views-row-odd">
+  
+  <div class="views-field views-field-title">            <span class="field-content"><a href="https://www.networkadvertising.org/sites/default/files/nai_staffing_press_release.pdf ">David LeDuc Joins NAI</a></span>  </div></li>
+          <li class="views-row views-row-4 views-row-even">
+  
+  <div class="views-field views-field-title">            <span class="field-content"><a href="https://www.networkadvertising.org/sites/default/files/adtradeindustrylettertosencarlylerewaprivacyact.pdf ">NAI Participates in Ad Industry Letter to Sen. Carlyle regarding WA Privacy Act</a></span>  </div></li>
+          <li class="views-row views-row-5 views-row-odd views-row-last">
+  
+  <div class="views-field views-field-title">            <span class="field-content"><a href="https://www.networkadvertising.org/sites/default/files/nai_comments_ftc_21december2018.pdf ">NAI Submits Comments to FTC ahead of Hearing on Competition and Consumer Protection in the 21st Century - February 2019</a></span>  </div></li>
+      </ul></div>    </div>
+  
+  
+  
+  
+  
+  
+</div>
+  
+  </div>
+<div class="panel-pane pane-views pane-blog-posts"  >
+  
+        <h2 class="pane-title pane__title">
+      <a href="/blog/">Blog</a>    </h2>
+    
+  
+  <div class="view view-blog-posts view-id-blog_posts view-display-id-block_1 view-dom-id-32ec75eaa130a687c60ccaae4d8ccdbc">
+        
+  
+  
+      <div class="view-content">
+      <div class="item-list">    <ul>          <li class="views-row views-row-1 views-row-odd views-row-first">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="/blog-entry/how-nai-protects-consumers-sensitive-information-digital-advertising/">How the NAI Protects Consumers&#039; Sensitive Information in Digital Advertising</a></span>  </div>  
+  <span class="views-field views-field-created">        <span class="field-content">February 27, 2019 </span>  </span></li>
+          <li class="views-row views-row-2 views-row-even">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="/blog-entry/member-viewpoint-ninthdecimal-reacts-gdpr-ccpa-changing-tide-consumer-data-privacy/">Member Viewpoint: NinthDecimal Reacts to the GDPR, CCPA, &amp; The Changing Tide in Consumer Data Privacy</a></span>  </div>  
+  <span class="views-field views-field-created">        <span class="field-content">February 7, 2019 </span>  </span></li>
+          <li class="views-row views-row-3 views-row-odd">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="/blog-entry/how-nai-helps-protect-consumer-location-data/">How the NAI Helps Protect Consumer Location Data</a></span>  </div>  
+  <span class="views-field views-field-created">        <span class="field-content">December 14, 2018 </span>  </span></li>
+          <li class="views-row views-row-4 views-row-even views-row-last">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="/blog-entry/summary-of-first-ftc-hearing-competition-consumer-protection-21st-century/">Summary of First FTC Hearing on Competition &amp; Consumer Protection in the 21st Century</a></span>  </div>  
+  <span class="views-field views-field-created">        <span class="field-content">September 17, 2018 </span>  </span></li>
+      </ul></div>    </div>
+  
+  
+  
+  
+  
+  
+</div>
+  
+  </div>
+</div>
+  </div>
+
+  <div class="panel-panel panel-col-last">
+    <div class="inside"><div class="panel-pane pane-block pane-block-3"  >
+  
+      
+  
+  <p style="text-align: center;"><a href="/join-nai"><img alt="" height="166" src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/imce/join_nai.png" width="212" /></a></p>
+<p style="text-align: center;">Â </p>
+<!-- <p style="text-align: center;"><a href="/understanding-online-advertising"><img alt="" height="176.5" src="/sites/default/files/imce/the_right_ads1.gif" width="212" /></a></p> --><p style="text-align: center;"><a href="/understanding-online-advertising"><img alt="Better Ads for a Better Internet" src="/sites/default/files/nai_300x250.gif" width="212" /></a></p>
+<p style="text-align: center;">Â </p>
+<p><a href="/user/login"><img alt="" height="44" src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/imce/member_login.png" style="display: block; margin-left: auto; margin-right: auto;" width="170" /></a></p>
+
+  
+  </div>
+</div>
+  </div>
+</div>
+            </div>
+
+              <div class="region region-content-bottom">
+    <div class="block block-views first last odd" id="block-views-participating-networks-block-1">
+
+        <h2 class="block__title">NAI Members</h2>
+    
+  <div class="view view-participating-networks view-id-participating_networks view-display-id-block_1 view-dom-id-6dca224182b8ea2f0d99b5241b1c0a93">
+        
+  
+  
+      <div class="view-content">
+      <div class="item-list">    <ul>          <li class="views-row views-row-1 views-row-odd views-row-first">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/innovidlogo.png?itok=kakea8B6" width="110" height="20" alt="" /></div>  </div></li>
+          <li class="views-row views-row-2 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/ignitionone.png?itok=QBfpR9ja" width="110" height="19" alt="" /></div>  </div></li>
+          <li class="views-row views-row-3 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/vistologo.png?itok=3TNlv4YV" width="110" height="43" alt="" /></div>  </div></li>
+          <li class="views-row views-row-4 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/r1logo_0.png?itok=F42AXTxt" width="110" height="49" alt="" /></div>  </div></li>
+          <li class="views-row views-row-5 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/factuallogo.png?itok=-x1rPY1z" width="110" height="28" alt="" /></div>  </div></li>
+          <li class="views-row views-row-6 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/pp_logo_gradient_horiz.png?itok=1cxj36jz" width="110" height="23" alt="" /></div>  </div></li>
+          <li class="views-row views-row-7 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/Google.png?itok=2uCpozCk" width="110" height="40" alt="" /></div>  </div></li>
+          <li class="views-row views-row-8 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/exelate.png?itok=SnoGMUw_" width="110" height="31" alt="" /></div>  </div></li>
+          <li class="views-row views-row-9 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/vibrant.png?itok=q4c7ZfdV" width="110" height="45" alt="" /></div>  </div></li>
+          <li class="views-row views-row-10 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/cuebiqlogo.png?itok=DrhMKXDO" width="110" height="38" alt="" /></div>  </div></li>
+          <li class="views-row views-row-11 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/ninthdecimallogo.png?itok=bY7VYJHN" width="110" height="68" alt="" /></div>  </div></li>
+          <li class="views-row views-row-12 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/crosspixel.png?itok=etkalvQ7" width="105" height="28" alt="" /></div>  </div></li>
+          <li class="views-row views-row-13 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/ihsmarkitlogo.png?itok=B9NV3MuN" width="110" height="45" alt="" /></div>  </div></li>
+          <li class="views-row views-row-14 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/kbmg_logo.png?itok=Hl9FL-Vx" width="110" height="46" alt="" /></div>  </div></li>
+          <li class="views-row views-row-15 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/freckleiot.png?itok=X4yj1tCz" width="110" height="68" alt="" /></div>  </div></li>
+          <li class="views-row views-row-16 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/revealmobilelogo.png?itok=sS1OCuvF" width="110" height="33" alt="" /></div>  </div></li>
+          <li class="views-row views-row-17 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/amobeelogo.jpg?itok=LRAlAE9G" width="110" height="20" alt="" /></div>  </div></li>
+          <li class="views-row views-row-18 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/apollologo.png?itok=qCdg8NPE" width="110" height="103" alt="" /></div>  </div></li>
+          <li class="views-row views-row-19 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/datonics.png?itok=7FxBTlGT" width="110" height="16" alt="" /></div>  </div></li>
+          <li class="views-row views-row-20 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/index-exchange-logo-oct2014-onlightbg.png?itok=BZgjGMRX" width="110" height="45" alt="" /></div>  </div></li>
+          <li class="views-row views-row-21 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/rubicon_0.png?itok=dbbC4g7y" width="110" height="32" alt="" /></div>  </div></li>
+          <li class="views-row views-row-22 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/mediamath.png?itok=aAqDvulu" width="110" height="76" alt="" /></div>  </div></li>
+          <li class="views-row views-row-23 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/placeexchangelogo.png?itok=OO64BBjE" width="110" height="26" alt="" /></div>  </div></li>
+          <li class="views-row views-row-24 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/ns.png?itok=tMAHDAgK" width="110" height="24" alt="" /></div>  </div></li>
+          <li class="views-row views-row-25 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/eyeotalogo.png?itok=RQwntQEd" width="110" height="34" alt="" /></div>  </div></li>
+          <li class="views-row views-row-26 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/owneriq2.png?itok=oXdHBhRT" width="110" height="31" alt="" /></div>  </div></li>
+          <li class="views-row views-row-27 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/_addthis.png?itok=bYTQr_cC" width="110" height="18" alt="" /></div>  </div></li>
+          <li class="views-row views-row-28 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/qualialogo.png?itok=XSKuAKRG" width="110" height="49" alt="" /></div>  </div></li>
+          <li class="views-row views-row-29 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/imlogo.png?itok=LjFLh3dU" width="110" height="27" alt="" /></div>  </div></li>
+          <li class="views-row views-row-30 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/truedata.png?itok=biuPVkOu" width="110" height="13" alt="" /></div>  </div></li>
+          <li class="views-row views-row-31 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/narrativlogo_0.png?itok=0BEyLilb" width="110" height="11" alt="" /></div>  </div></li>
+          <li class="views-row views-row-32 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/corporate.png?itok=mufr_9nA" width="110" height="16" alt="" /></div>  </div></li>
+          <li class="views-row views-row-33 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/exponential_logo.png?itok=866YZldM" width="110" height="46" alt="" /></div>  </div></li>
+          <li class="views-row views-row-34 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/intentmedia_0.png?itok=58HP34kF" width="110" height="28" alt="" /></div>  </div></li>
+          <li class="views-row views-row-35 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/logo.png?itok=SFEYSwe0" width="110" height="131" alt="" /></div>  </div></li>
+          <li class="views-row views-row-36 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/cv.png?itok=YTMTdUSh" width="110" height="37" alt="" /></div>  </div></li>
+          <li class="views-row views-row-37 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/lotame.png?itok=UQa8qFsb" width="110" height="21" alt="" /></div>  </div></li>
+          <li class="views-row views-row-38 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/criteo_rgb_small.png?itok=IbTC2lNY" width="110" height="30" alt="" /></div>  </div></li>
+          <li class="views-row views-row-39 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/33across_0.png?itok=cQ-uHDb2" width="110" height="13" alt="" /></div>  </div></li>
+          <li class="views-row views-row-40 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/throtleonboardinglogo.png?itok=5V9igMIw" width="110" height="37" alt="" /></div>  </div></li>
+          <li class="views-row views-row-41 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/bouncexlogo.png?itok=_UJjknsN" width="110" height="18" alt="" /></div>  </div></li>
+          <li class="views-row views-row-42 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/flashtalking.png?itok=wbbgfbGQ" width="110" height="17" alt="" /></div>  </div></li>
+          <li class="views-row views-row-43 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/beeswaxlogo.png?itok=EoOulbJ4" width="110" height="22" alt="" /></div>  </div></li>
+          <li class="views-row views-row-44 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/nativologo.png?itok=pnBs0iyi" width="110" height="18" alt="" /></div>  </div></li>
+          <li class="views-row views-row-45 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/adaralogo.png?itok=NR1izW3y" width="110" height="30" alt="" /></div>  </div></li>
+          <li class="views-row views-row-46 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/branchlogo.png?itok=ybKlI4CO" width="110" height="41" alt="" /></div>  </div></li>
+          <li class="views-row views-row-47 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/netseer.png?itok=kAgjn5mF" width="110" height="46" alt="" /></div>  </div></li>
+          <li class="views-row views-row-48 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/run_logo.png?itok=Wm4qETiz" width="110" height="34" alt="" /></div>  </div></li>
+          <li class="views-row views-row-49 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/weboramalogo.png?itok=6pwlMuzi" width="110" height="25" alt="" /></div>  </div></li>
+          <li class="views-row views-row-50 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/simplifi_logo_rgb.png?itok=B-oLbXG9" width="110" height="35" alt="" /></div>  </div></li>
+          <li class="views-row views-row-51 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/signal.png?itok=hZt0yzjq" width="110" height="39" alt="" /></div>  </div></li>
+          <li class="views-row views-row-52 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/kargo_logo_w_tagline_rgb.png?itok=-CBR98jq" width="110" height="49" alt="" /></div>  </div></li>
+          <li class="views-row views-row-53 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/outbrainlogo.png?itok=w1-JkPXX" width="110" height="27" alt="" /></div>  </div></li>
+          <li class="views-row views-row-54 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/yieldmologo_0.png?itok=cPVX71UR" width="110" height="33" alt="" /></div>  </div></li>
+          <li class="views-row views-row-55 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/acuity_sm.png?itok=qpJxLuw5" width="110" height="45" alt="" /></div>  </div></li>
+          <li class="views-row views-row-56 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/clickscologo.png?itok=uuqffuXF" width="110" height="38" alt="" /></div>  </div></li>
+          <li class="views-row views-row-57 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/steelhouselogo.png?itok=Q-JvrBBa" width="110" height="13" alt="" /></div>  </div></li>
+          <li class="views-row views-row-58 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/placeiqlogo.png?itok=B8HDLGf2" width="110" height="34" alt="" /></div>  </div></li>
+          <li class="views-row views-row-59 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/miqlogo.png?itok=wtmKE5Ad" width="110" height="46" alt="" /></div>  </div></li>
+          <li class="views-row views-row-60 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/appreciatelogo.png?itok=ruLFrO6x" width="110" height="18" alt="" /></div>  </div></li>
+          <li class="views-row views-row-61 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/sharethis.png?itok=fNH6SS0D" width="110" height="24" alt="" /></div>  </div></li>
+          <li class="views-row views-row-62 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/thetradedesk-logolockup-cmyk.png?itok=wOJuVUUA" width="110" height="14" alt="" /></div>  </div></li>
+          <li class="views-row views-row-63 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/adroll.png?itok=Z5RclIX9" width="110" height="25" alt="" /></div>  </div></li>
+          <li class="views-row views-row-64 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/safegraphlogo.png?itok=3w3apTeC" width="110" height="65" alt="" /></div>  </div></li>
+          <li class="views-row views-row-65 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/sambalogo.jpg?itok=aha6M_W0" width="110" height="39" alt="" /></div>  </div></li>
+          <li class="views-row views-row-66 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/alikeaudiencelogo_0.png?itok=QJWUACBa" width="110" height="27" alt="" /></div>  </div></li>
+          <li class="views-row views-row-67 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/Microsoft_Logo.png?itok=imiDBvLM" width="110" height="26" alt="" /></div>  </div></li>
+          <li class="views-row views-row-68 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/retargetlylogo.png?itok=yLJZcdz7" width="110" height="28" alt="" /></div>  </div></li>
+          <li class="views-row views-row-69 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/parrablelogo_sm.png?itok=f3Zw7_5i" width="110" height="110" alt="" /></div>  </div></li>
+          <li class="views-row views-row-70 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/odatacloudlogo.png?itok=74ADw5Dt" width="110" height="53" alt="" /></div>  </div></li>
+          <li class="views-row views-row-71 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/dataxulogo.png?itok=PVK2C8HY" width="110" height="32" alt="" /></div>  </div></li>
+          <li class="views-row views-row-72 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/medianet.png?itok=v-m0QpQO" width="110" height="27" alt="" /></div>  </div></li>
+          <li class="views-row views-row-73 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/audigentlogo.png?itok=2f9HTAkP" width="110" height="32" alt="" /></div>  </div></li>
+          <li class="views-row views-row-74 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/dataplusmathlogo.jpg?itok=tPFUHvaP" width="110" height="24" alt="" /></div>  </div></li>
+          <li class="views-row views-row-75 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/krux_low_res_large.png?itok=vPcPzkT-" width="110" height="35" alt="" /></div>  </div></li>
+          <li class="views-row views-row-76 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/pubmatic.png?itok=_eTBaKrt" width="110" height="26" alt="" /></div>  </div></li>
+          <li class="views-row views-row-77 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/choozlelogo.png?itok=xrcHalue" width="110" height="69" alt="" /></div>  </div></li>
+          <li class="views-row views-row-78 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/rakutenmarketinglogo.jpg?itok=JDmBRFQI" width="110" height="46" alt="" /></div>  </div></li>
+          <li class="views-row views-row-79 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/undertone_0.png?itok=O7eXFYFp" width="110" height="20" alt="" /></div>  </div></li>
+          <li class="views-row views-row-80 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/oathlogo.png?itok=UpOQq6ES" width="110" height="44" alt="" /></div>  </div></li>
+          <li class="views-row views-row-81 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/bazaarvoice.png?itok=mwIxe4G8" width="110" height="15" alt="" /></div>  </div></li>
+          <li class="views-row views-row-82 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/clickagylogo.png?itok=TfUQ055s" width="110" height="45" alt="" /></div>  </div></li>
+          <li class="views-row views-row-83 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/gumgum_logo_final.png?itok=0tKRo0ms" width="110" height="28" alt="" /></div>  </div></li>
+          <li class="views-row views-row-84 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/netmining.png?itok=2G-Y_3G7" width="110" height="27" alt="" /></div>  </div></li>
+          <li class="views-row views-row-85 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/sizmek.png?itok=Z6GO4qgF" width="110" height="34" alt="" /></div>  </div></li>
+          <li class="views-row views-row-86 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/emxlogo.png?itok=GtrB-JyD" width="110" height="44" alt="" /></div>  </div></li>
+          <li class="views-row views-row-87 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/adobelogo_0.png?itok=F-NyPP3u" width="80" height="110" alt="" /></div>  </div></li>
+          <li class="views-row views-row-88 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/tapadlogo.png?itok=70Al56pK" width="110" height="20" alt="" /></div>  </div></li>
+          <li class="views-row views-row-89 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/fysicallogo.png?itok=qBKErGvp" width="110" height="42" alt="" /></div>  </div></li>
+          <li class="views-row views-row-90 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/drawbridgelogo_color-01.png?itok=OAojvHfx" width="110" height="24" alt="" /></div>  </div></li>
+          <li class="views-row views-row-91 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/taboolalogo.jpg?itok=ECYI2_BZ" width="110" height="27" alt="" /></div>  </div></li>
+          <li class="views-row views-row-92 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/numberlylogo.png?itok=AK9OazMJ" width="110" height="24" alt="" /></div>  </div></li>
+          <li class="views-row views-row-93 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/eyeviewlogo.png?itok=jW77oJeW" width="110" height="62" alt="" /></div>  </div></li>
+          <li class="views-row views-row-94 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/pulpologo.png?itok=uXqpKX9G" width="110" height="64" alt="" /></div>  </div></li>
+          <li class="views-row views-row-95 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/quantcast.png?itok=PwNFImLU" width="110" height="20" alt="" /></div>  </div></li>
+          <li class="views-row views-row-96 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/viantlogo.png?itok=ab2YqsEA" width="110" height="24" alt="" /></div>  </div></li>
+          <li class="views-row views-row-97 views-row-odd">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/onemarketlogo.png?itok=1mDd2-YY" width="110" height="23" alt="" /></div>  </div></li>
+          <li class="views-row views-row-98 views-row-even">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/skyhooklogo.png?itok=KIUb_9CT" width="110" height="23" alt="" /></div>  </div></li>
+          <li class="views-row views-row-99 views-row-odd views-row-last">  
+  <div class="views-field views-field-field-company-logo">        <div class="field-content"><img src="https://dg1pu8fiy5cr6.cloudfront.net/sites/default/files/styles/pn_small/public/participating_networks/appnexusxandrlogo.png?itok=OxqA0D57" width="110" height="33" alt="" /></div>  </div></li>
+      </ul></div>    </div>
+  
+  
+  
+  
+  
+  
+</div>
+</div>
+  </div>
+
+            
+          </div>
+        </div><!-- /.section, /#content -->
+
+        
+        <div class="region region-sidebar-second column sidebar">
+          <div class="section">
+                      </div>
+        </div>
+
+      </div><!-- /#main -->
+    </div><!-- /#main-wrapper -->
+
+  </div><!-- /#page -->
+</div><!-- /#page-wrapper -->
+
+
+<div id="footer">
+  <div class="section">
+
+    <div class="section">
+
+      <h2 class="element-invisible">Main menu</h2><ul class="links inline links__system_secondary_menu" id="secondary-menu"><li class="menu-1267 first"><a href="/choices/" title="">Opt Out</a></li>
+<li class="menu-1578"><a href="/mobile-choice/" title="">Mobile Opt Out</a></li>
+<li class="menu-811"><a href="/privacy-policy/" title="">Privacy</a></li>
+<li class="menu-187"><a href="/terms-of-use/" title="">Terms</a></li>
+<li class="menu-185 last"><a href="/user/login/" title="">Members Only Login</a></li>
+</ul>
+
+        <footer class="footer region region-footer" role="contentinfo">
+    <div class="block block-block first last odd" id="block-block-37">
+
+      
+  <p>Â© 2017 Network Advertising Initiative. All Rights Reserved.</p>
+
+</div>
+  </footer>
+
+    </div>
+
+  </div>
+</div>
+
+
+  </body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,2287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>BotMiner: Clustering Analysis of Network Traffic for
+Protocol- and Structure-Independent Botnet Detection
+</TITLE>
+<META NAME="description" CONTENT="BotMiner: Clustering Analysis of Network Traffic for
+Protocol- and Structure-Independent Botnet Detection
+">
+<META NAME="keywords" CONTENT="0_MainPaper">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="Microsoft FrontPage 5.0">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+
+</HEAD>
+
+<a href="http://www.usenix.org"><img src="/graphics/new_usenix.jpg" width="288" height="232" alt="Check out the new USENIX Web site." align="right"></a>
+
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+
+<P>
+
+<P>
+
+<P>
+
+<H1 ALIGN=CENTER>BotMiner: Clustering Analysis of Network Traffic for
+<BR>Protocol- and Structure-Independent Botnet Detection
+</H1>
+<P ALIGN=CENTER><STRONG>
+Guofei Gu</STRONG><sup>1</sup><STRONG>, Roberto Perdisci</STRONG><sup>2</sup><STRONG>, Junjie Zhang</STRONG><sup>1</sup><STRONG>, and Wenke 
+Lee</STRONG><sup>1</sup><STRONG>
+<BR>
+</STRONG><sup>1</sup><STRONG>College of Computing, Georgia Institute of Technology
+<BR>
+</STRONG><sup>2</sup><STRONG>Damballa, Inc. Atlanta, GA 30308, USA
+<BR><TT>{guofei,jjzhang,wenke}@cc.gatech.edu, perdisci@damballa.com</TT>
+</STRONG></P>
+<P ALIGN=LEFT></P>
+
+<P>
+
+<H3>Abstract:</H3>
+<DIV>
+  Botnets are now the key platform for many Internet attacks, such as
+  spam, distributed denial-of-service (DDoS), identity theft, and
+  phishing. Most of the current botnet detection approaches work only
+  on specific botnet command and control (C&amp;C) protocols (e.g.,
+  <TT>IRC</TT>) and structures (e.g., centralized), and can become
+  ineffective as botnets change their C&amp;C techniques. In this paper,
+  we present a general detection framework that is independent of
+  botnet C&amp;C protocol and structure, and requires no <EM>a priori</EM>
+  knowledge of botnets (such as captured bot binaries and hence the botnet signatures, and C&amp;C server names/addresses). 
+We start from the definition and
+  essential properties of botnets. We define a botnet as a
+  <I>coordinated group</I> of <I>malware</I> instances that are
+  <I>controlled</I> via C&amp;C communication channels. The essential
+  properties of a botnet are that the bots communicate with some C&amp;C
+  servers/peers, perform malicious activities, and do so in a similar
+  or correlated way. Accordingly, our detection framework clusters
+  similar communication traffic and similar malicious traffic, and
+  performs cross cluster correlation to identify the hosts that share
+  both similar communication patterns <EM>and</EM> similar malicious activity
+  patterns. These hosts are thus bots in the monitored network.  We
+  have implemented our BotMiner prototype system and evaluated it using many real network traces. The results show that it can detect real-world botnets
+  (<TT>IRC</TT>-based, <TT>HTTP</TT>-based, and P2P botnets including
+  Nugache and Storm worm), and has a very low false positive rate.
+
+<P>
+</DIV>
+<P>
+
+<P>
+
+<H1><A NAME="SECTION00010000000000000000">
+1 Introduction</A>
+</H1>
+
+<P>
+Botnets are becoming one of the most serious threats to Internet
+security. A botnet is a network of compromised machines under the
+influence of malware (bot) code. The botnet is commandeered by a
+``botmaster'' and utilized as ``resource'' or ``platform'' for attacks such as distributed denial-of-service
+(DDoS) attacks, and fraudulent activities such as spam, phishing, identity theft, and information exfiltration.
+
+<P>
+In order for a botmaster to command a botnet, there needs to be a
+command and control (C&amp;C) channel through which bots receive commands
+and coordinate attacks and fraudulent activities. The C&amp;C channel is 
+the means by which individual bots form a bot<EM>net</EM>. Centralized C&amp;C structures using the Internet Relay Chat (<TT>IRC</TT>)
+protocol have been utilized by botmasters for a
+long time. In this architecture, each bot logs into an <TT>IRC</TT>
+channel, and seeks commands from the botmaster. Even today, many
+botnets are still designed this way. Quite a few botnets, though, have
+begun to use other protocols such as <TT>HTTP</TT>&nbsp;[<A
+ HREF="index.html#botnetVehicle">24</A>,<A
+ HREF="index.html#Chiang07">8</A>,<A
+ HREF="index.html#Clickbot_hotbots07">14</A>,<A
+ HREF="index.html#bobax">39</A>], 
+probably because <TT>HTTP</TT>-based C&amp;C communications are more stealthy given that 
+Web traffic is generally allowed in most networks. 
+Although centralized C&amp;C structures are effective, 
+they suffer from the single-point-of-failure problem. 
+For example, if the <TT>IRC</TT> channel (or
+the Web server) is taken down due to detection and response efforts,
+the botnet loses its C&amp;C structure and becomes a collection of
+isolated compromised machines. 
+Recently, botmasters began using peer-to-peer (P2P) communication to avoid this weakness. 
+For example, Nugache&nbsp;[<A
+ HREF="index.html#Nugache06">28</A>] and Storm worm&nbsp;[<A
+ HREF="index.html#Grizzard:2007">18</A>,<A
+ HREF="index.html#HolzLeet08">23</A>]  (a.k.a. Peacomm)
+are two representative P2P botnets. Storm, in particular, distinguishes
+itself as having infected a large number of computers on the Internet and 
+effectively becoming one of the ``world's top super-computers''&nbsp;[<A
+ HREF="index.html#StormSupercomputer07">27</A>] for the botmasters.
+
+<P>
+Researchers have proposed a few approaches
+[<A
+ HREF="index.html#Binkley2006">7</A>,<A
+ HREF="index.html#Holz:2007">17</A>,<A
+ HREF="index.html#Gu:2007">19</A>,<A
+ HREF="index.html#BotSniffer2008">20</A>,<A
+ HREF="index.html#ATT_hotbots07">26</A>,<A
+ HREF="index.html#BBN_ML">29</A>,<A
+ HREF="index.html#Reiter_DIMVA08">35</A>,<A
+ HREF="index.html#BBN_LCN_botnet">40</A>] to detect the existence of botnets in monitored
+networks. Almost all of these approaches are designed for detecting
+botnets that use <TT>IRC</TT> or <TT>HTTP</TT> based C&amp;C
+[<A
+ HREF="index.html#Binkley2006">7</A>,<A
+ HREF="index.html#Holz:2007">17</A>,<A
+ HREF="index.html#ATT_hotbots07">26</A>,<A
+ HREF="index.html#BBN_ML">29</A>,<A
+ HREF="index.html#BBN_LCN_botnet">40</A>]. For example, Rishi [<A
+ HREF="index.html#Holz:2007">17</A>] is designed to detect <TT>IRC</TT> botnets using known IRC bot nickname patterns as signatures. In [<A
+ HREF="index.html#ATT_hotbots07">26</A>,<A
+ HREF="index.html#BBN_LCN_botnet">40</A>], network flows are clustered and classified according to IRC-like traffic patterns. Another more recent system, BotSniffer, [<A
+ HREF="index.html#BotSniffer2008">20</A>] is designed mainly
+for detecting C&amp;C activities with centralized servers (with protocols such as <TT>IRC</TT> and <TT>HTTP</TT><A NAME="tex2html1"
+  HREF="#foot186"><SUP>1</SUP></A>). One exception is perhaps BotHunter [<A
+ HREF="index.html#Gu:2007">19</A>], which is capable of detecting bots regardless of the C&amp;C structure and network protocol as long as the bot behavior follows a <EM>pre-defined</EM> infection life cycle dialog model.
+
+<P>
+However, botnets are evolving and can be quite flexible. We have
+witnessed that the protocols used for C&amp;C evolved from <TT>IRC</TT> to
+others (e.g., <TT>HTTP</TT> [<A
+ HREF="index.html#botnetVehicle">24</A>,<A
+ HREF="index.html#Chiang07">8</A>,<A
+ HREF="index.html#Clickbot_hotbots07">14</A>,<A
+ HREF="index.html#bobax">39</A>]), and the structure moved from centralized
+to distributed (e.g., using P2P [<A
+ HREF="index.html#Nugache06">28</A>,<A
+ HREF="index.html#Grizzard:2007">18</A>]). Furthermore, a botnet during its
+lifetime can also change its C&amp;C server address frequently, e.g.,
+using fast-flux service networks [<A
+ HREF="index.html#Holz:2008">22</A>]. Thus, the
+aforementioned detection approaches designed for <TT>IRC</TT> or
+<TT>HTTP</TT> based botnets may become ineffective against the
+recent/new botnets. Even BotHunter may fail as soon as botnets change
+their infection model(s).
+
+<P>
+Therefore, we need to develop a next generation botnet detection system, which
+should be independent of the C&amp;C protocol, structure, and infection
+model of botnets, and be resilient to the change of C&amp;C server addresses. In
+addition, it should require no <EM>a priori</EM> knowledge of specific botnets (such as captured bot binaries and hence the botnet signatures, and C&amp;C
+server names/addresses).
+
+<P>
+In order to design such a general detection system that can resist
+evolution and changes in botnet C&amp;C techniques, we need to study the
+<EM>intrinsic</EM> botnet communication and activity characteristics that
+remain detectable with the proper detection features and
+algorithms. We thus start with the definition and essential properties of a
+botnet. We define a botnet as:
+
+<P>
+``A <I>coordinated group</I> of <I>malware</I> instances that are
+<I>controlled</I> via C&amp;C channels''.
+
+<P>
+The term ``malware'' means these bots are used to perform <EM>  malicious activities</EM>. According to [<A
+ HREF="index.html#zhuge07">44</A>], about 53% of botnet activity commands observed in
+thousands of real-world <TT>IRC</TT>-based botnets are related to scan
+(for the purpose of spreading or DDoS<A NAME="tex2html2"
+  HREF="#foot204"><SUP>2</SUP></A>), and about 14.4% are related to binary downloading (for
+the purpose of malware updating). In addition, most of <TT>HTTP</TT>-based
+and P2P-based botnets are used to send spam
+[<A
+ HREF="index.html#Grizzard:2007">18</A>,<A
+ HREF="index.html#bobax">39</A>]. The term ``controlled'' means these bots
+have to contact their C&amp;C servers to obtain commands to carry out activities, e.g., to scan. In
+other words, there should be <EM>communication between bots and C&amp;C
+  servers/peers</EM> (which can be centralized or distributed). Finally,
+the term ``coordinated group'' means that multiple (at least two) bots within the
+same botnet will perform <EM>similar</EM> or <EM>correlated</EM> C&amp;C
+communications and malicious activities. If the botmaster commands each bot individually with a different command/channel, the bots are nothing but some isolated/unrelated infections. That is, they do not function as a bot<I>net</I> according to our definition and are out of the scope of this work<A NAME="tex2html3"
+  HREF="#foot232"><SUP>3</SUP></A>.
+
+<P>
+We propose a general detection framework that is based on these
+essential properties of botnets. This framework monitors both
+<I>who is talking to whom</I> that may suggest C&amp;C communication
+activities and <I>who is doing what</I> that may suggest malicious
+activities, and finds a <I>coordinated group pattern</I> in both kinds
+of activities. More specifically, our detection framework clusters
+similar communication activities in the <EM>C-plane</EM> (C&amp;C communication traffic),
+clusters similar malicious activities in the <EM>A-plane</EM> (activity
+traffic), and performs cross cluster correlation to identify the hosts
+that share both similar communication patterns <EM>and</EM> similar
+malicious activity patterns. These hosts, according to the botnet
+definition and properties discussed above, are bots in the
+monitored network. 
+
+<P>
+This paper makes the following main contributions.
+
+<P>
+
+<UL>
+<LI>We develop a novel general botnet detection framework that is
+  grounded on the definition and essential properties of botnets. Our
+  detection framework is thus independent of botnet C&amp;C protocol and
+  structure, and requires no <EM>a priori</EM> knowledge (e.g.,
+  C&amp;C addresses/signatures) of specific botnets. It can detect both centralized (e.g., <TT>IRC,HTTP</TT>) and current (and possibly future) P2P based botnets.
+
+<P>
+</LI>
+<LI>We define a new ``aggregated communication flow'' (C-flow) record data
+  structure to store aggregated traffic statistics, and design a new
+  layered clustering scheme with a set of traffic features measured on
+  the C-flow records. Our clustering scheme can
+  accurately and efficiently group similar C&amp;C traffic patterns.
+
+<P>
+</LI>
+<LI>We build a BotMiner prototype system based on our general detection
+  framework, and evaluate it with multiple real-world network traces
+  including normal traffic and several real-world botnet traces
+  that contain <TT>IRC</TT>, <TT>HTTP</TT> and P2P-based botnet traffic
+  (including Nugache and Storm). The results show that BotMiner has a high detection rate and a low false positive rate.
+</LI>
+</UL>
+
+<P>
+The rest of the paper is organized as follows. In Section
+<A HREF="#sec:framework">2</A>, we describe the assumptions, objectives, architecture of our BotMiner detection
+framework, and its detection algorithms and implementation. In Section
+<A HREF="#sec:experiment">3</A>, we describe our evaluation on various real-world
+network traces. In Section <A HREF="#sec:discussion">4</A>, we discuss current limitations and possible solutions. We review the related work in Section
+<A HREF="#sec:relatedwork">5</A> and conclude in Section <A HREF="#sec:conclusion">6</A>.
+
+<P>
+
+<H1><A NAME="SECTION00020000000000000000"></A>
+<A NAME="sec:framework"></A><BR>
+2 BotMiner Detection Framework and Implementation
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00021000000000000000"></A>
+<A NAME="SECTION:problemStatement"></A><BR>
+2.1 Problem Statement and Assumptions
+</H2>
+
+<P>
+According to the definition given above, a botnet is characterized by both a C&amp;C communication channel (from which the botmaster's commands are received) and malicious activities (when commands are executed). 
+Some other forms of malware (e.g., worms) may perform malicious activities, but they do not connect to a C&amp;C channel. On the other hand, some normal applications (e.g., <TT>IRC</TT> clients and normal P2P file sharing software) may show communication patterns similar to a botnet's C&amp;C channel, but they do not perform malicious activities.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:cc-activity"></A><A NAME="300"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
+Possible structures of a botnet: (a) centralized; (b) peer-to-peer.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER"> <IMG
+ WIDTH="541" HEIGHT="219" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1.png"
+ ALT="\includegraphics[width=12cm]{figure/Cc-actvity.eps}"> </DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Figure <A HREF="#fig:cc-activity">1</A> illustrates two typical botnet structures, namely <I>centralized</I> and <I>P2P</I>. The bots receive commands from the botmaster using a <I>push</I> or <I>pull</I> mechanism [<A
+ HREF="index.html#BotSniffer2008">20</A>] and execute the assigned tasks. 
+
+<P>
+The operation of a centralized botnet is relatively easy and intuitive [<A
+ HREF="index.html#BotSniffer2008">20</A>], whereas this is not necessarily true for P2P botnets. Therefore, here we briefly illustrate an example of a typical P2P-based botnet, namely Storm worm&nbsp;[<A
+ HREF="index.html#Grizzard:2007">18</A>,<A
+ HREF="index.html#HolzLeet08">23</A>]. In order to issue commands to the bots, the botmaster publishes/shares command files over the P2P network, along with specific search keys that can be used by the bots to find the published command files. Storm bots utilize a pull mechanism to receive the commands. Specifically, each bot frequently contacts its neighbor peers searching for specific keys in order to locate the related command files. In addition to search operations, the bots also frequently communicate with their peers and send <I>keep-alive</I> messages.
+
+<P>
+In both centralized and P2P structures, bots within the same botnet are likely to behave similarly in terms of communication patterns. This is largely due to the fact that bots are non-human driven, pre-programmed to perform the same routine C&amp;C logic/communication as coordinated by the same botmaster. 
+In the centralized structure, even if the address of the C&amp;C server may change frequently (e.g., by frequently changing the A record of a Dynamic DNS domain name), the C&amp;C communication patterns remain unchanged. In the case of P2P-based botnets, the peer communications (e.g., to search for commands or to send <I>keep-alive</I> messages) follow a similar pattern for all the bots in the botnet, although each bot may have a different set of neighbor peers and may communicate on different ports.
+
+<P>
+Regardless of the specific structure of the botnet (centralized or P2P), members of the same botnet (i.e., the bots) are coordinated through the C&amp;C channel. In general, a bot<I>net</I> is different from a set of <I>isolated</I> individual malware instances, in which each different instance is used for a totally different purpose. Although in an extreme case a botnet can be configured to degenerate into a group of <I>isolated hosts</I>, this is not the common case. In this paper, we focus on the most typical and useful situation in which bots in the same bot<I>net</I> perform similar/coordinated activities. To the best of our knowledge, this holds true for most of the existing botnets observed in the wild.
+
+<P>
+To summarize, we assume that bots within the same botnet will be characterized by similar malicious activities, as well as similar C&amp;C communication patterns. Our assumption holds even in the case when the botmaster chooses to divide a botnet into <I>sub-botnets</I>, for example by assigning different tasks to different sets of bots. In this case, each sub-botnet will be characterized by similar malicious activities and C&amp;C communications patterns, and our goal is to detect each sub-botnet.
+In Section <A HREF="#sec:discussion">4</A> we provide a detailed discussion on possible <I>evasive</I> botnets that may violate our assumptions.
+
+<P>
+
+<H2><A NAME="SECTION00022000000000000000">
+2.2 Objectives</A>
+</H2>
+
+<P>
+The objective of BotMiner is to detect <I>groups</I> of compromised machines within a monitored network that are part of a botnet. We do so by passively analyzing network traffic in the monitored network. 
+
+<P>
+Note that we do not aim to detect botnets at the very moment when 
+victim machines are compromised and infected with malware (bot) code. 
+In many cases these events may not be observable by passively monitoring network traffic. For example, an already infected laptop may be carried in and connected to the monitored network, or a user may click on a malicious email attachment and get infected. In this paper we are not concerned with the way internal hosts become infected (e.g., by malicious email attachments, remote exploiting, and Web drive-by download). 
+We focus on the detection of groups of already compromised machines inside the monitored network that are part of a botnet.
+
+<P>
+Our detection approach meets several goals:
+
+<UL>
+<LI>it is independent of the protocol and structure used for communicating with the botmaster (the C&amp;C channel) or peers, and is resistant to changes in the location of the C&amp;C server(s).
+
+<P>
+</LI>
+<LI>it is independent of the content of the C&amp;C communication. That is, we do not inspect the content of the C&amp;C communication itself, because C&amp;C could be encrypted or use a customized (obscure) protocol.
+
+<P>
+</LI>
+<LI>it generates a low number of false positives and false negatives.
+
+<P>
+</LI>
+<LI>the analysis of network traffic employs a reasonable amount of resources and time, making detection relatively efficient.
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION00023000000000000000">
+2.3 Architecture of BotMiner Detection Framework</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:arch"></A><A NAME="327"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2:</STRONG>
+Architecture overview of our BotMiner detection framework.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER">  <IMG
+ WIDTH="540" HEIGHT="262" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2.png"
+ ALT="\includegraphics[width=12cm]{figure/arch.eps}"> </DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Figure <A HREF="#fig:arch">2</A> shows the architecture of our BotMiner detection system, which consists of five main components: C-plane monitor, A-plane monitor, C-plane clustering module, A-plane clustering module, and cross-plane correlator. 
+
+<P>
+The two traffic monitors in C-plane and A-plane can be deployed at the edge of the network examining traffic between internal and external networks, similar to BotHunter [<A
+ HREF="index.html#Gu:2007">19</A>] and BotSniffer [<A
+ HREF="index.html#BotSniffer2008">20</A>]<A NAME="tex2html6"
+  HREF="#foot333"><SUP>4</SUP></A>. They run in parallel and monitor the network traffic. The C-plane monitor is responsible for logging network flows in a format suitable for efficient storage and further analysis, and the A-plane monitor is responsible for detecting suspicious activities (e.g., scanning, spamming, and exploit attempts). 
+The C-plane clustering and A-plane clustering components process the logs generated by the C-plane and A-plane monitors, respectively. Both modules extract a number of features from the raw logs and apply clustering algorithms in order to find groups of machines that show very similar communication (in the C-plane) and activity (in the A-plane) patterns. 
+Finally, the cross-plane correlator combines the results of the C-plane and A-plane clustering and makes a final decision on which machines are possibly members of a botnet. In an ideal situation, the traffic monitors should be distributed on the Internet, and the monitor logs are reported to a central repository for clustering and cross-plane analysis.
+
+<P>
+In our current prototype system, traffic monitors are implemented in C for the purpose of efficiency (working on real-time network traffic). The clustering and correlation analysis components are implemented mainly in Java and R (<TT><A NAME="tex2html7"
+  HREF="http://www.r-project.org/">http://www.r-project.org/</A></TT>), and they work offline on logs generated from the monitors. 
+
+<P>
+The following sections present the details of the design and implementation of each component of the detection framework.
+
+<P>
+
+<H2><A NAME="SECTION00024000000000000000">
+2.4 Traffic Monitors</A>
+</H2>
+
+<P>
+
+<H4><A NAME="SECTION00024010000000000000">
+C-plane Monitor.</A>
+</H4>
+The C-plane monitor captures network flows and records information on <I>who is talking to whom</I>. 
+Many network routers support the logging of network flows, e.g., Cisco (<TT><A NAME="tex2html8"
+  HREF="www.cisco.com">www.cisco.com</A></TT>) and Juniper (<TT><A NAME="tex2html9"
+  HREF="www.juniper.net">www.juniper.net</A></TT>) routers. 
+Open source solutions like Argus (Audit Record Generation and Utilization System, <TT><A NAME="tex2html10"
+  HREF="http://www.qosient.com/argus">http://www.qosient.com/argus</A></TT>) are also available. We adapted an efficient network flow capture tool developed at our research lab, i.e., <TT>fcapture</TT> <A NAME="tex2html11"
+  HREF="#foot342"><SUP>5</SUP></A>, which is based on the Judy library (<TT><A NAME="tex2html12"
+  HREF="http://judy.sourceforge.net/">http://judy.sourceforge.net/</A></TT>).
+Currently, we limit our interest to TCP and UDP flows. Each flow record contains the following information: time, duration, source IP, source port, destination IP, destination port, and the number of packets and bytes transfered in both directions.
+The main advantage of our tool is that it works very efficiently on high speed networks (very low packet loss ratio on a network with 300Mbps traffic), and can generate very compact flow records that comply with the requirement for further processing by the C-plain clustering module. As a comparison, our flow capturing tool generates compressed records ranging from 200MB to 1GB per day from the traffic in our academic network, whereas Argus generates around 36GB of compressed binary flow records per day on average (without recording any payload information). Our tool makes the storage of several weeks or even months of flow data feasible.
+
+<P>
+
+<H4><A NAME="SECTION00024020000000000000">
+A-plane Monitor.</A>
+</H4>
+The A-plane monitor logs information on <I>who is doing what</I>. It analyzes the outbound traffic through the monitored network and is capable of detecting several malicious activities that the internal hosts may perform. For example, the A-plane monitor is able to detect scanning activities (which may be used for malware propagation or DoS attacks), spamming, binary downloading (possibly used for malware update), and exploit attempts (used for malware propagation or targeted attacks). 
+These are the most common and ``useful'' activities a botmaster may command his bots to perform&nbsp;[<A
+ HREF="index.html#Collins:2007">9</A>,<A
+ HREF="index.html#Feamster06">33</A>,<A
+ HREF="index.html#zhuge07">44</A>].
+
+<P>
+Our A-plane monitor is built based on Snort [<A
+ HREF="index.html#Snort_99">36</A>], an open-source intrusion detection tool, for the purpose of convenience. 
+We adapted existing intrusion detection techniques and implemented them as Snort pre-processor plug-ins or signatures.
+For scan detection we adapted SCADE (Statistical sCan Anomaly Detection Engine), which is a part of BotHunter [<A
+ HREF="index.html#Gu:2007">19</A>] and available at&nbsp;[<A
+ HREF="index.html#BotHunterWebSite">11</A>]. 
+Specifically, we mainly use two anomaly detection modules: the <I>abnormally-high scan rate</I> and weighted <I>failed connection rate</I>. We use an <TT>OR</TT> combination rule, so that an event detected by either of the two modules will trigger an alert. 
+In order to detect spam-related activities, we developed a new Snort plug-in. We focused on detecting anomalous amounts of DNS queries for MX records from the same source IP and the amount of SMTP connections initiated by the same source to mail servers outside the monitored network. Normal clients are unlikely to act as SMTP servers and therefore should rely on the internal SMTP server for sending emails. Use of many distinct external SMTP servers for many times by the same internal host is an indication of possible malicious activities.
+For the detection of PE (Portable Executable) binary downloading we used an approach similar to PEHunter&nbsp;[<A
+ HREF="index.html#PehunterWebSite">42</A>] and BotHunter's egg download detection method&nbsp;[<A
+ HREF="index.html#Gu:2007">19</A>]. 
+One can also use specific exploit rules in BotHunter to detect internal hosts that attempt to exploit external machines. 
+Other state-of-the-art detection techniques can be easily added to our A-plane monitoring to expand its ability to detect typical botnet-related malicious activities.
+
+<P>
+It is important to note that A-plane monitoring alone is not sufficient for botnet detection purpose. First of all, these A-plane activities are not exclusively used in botnets. Second, because of our relatively loose design of A-plane monitor (for example, we will generate a log whenever there is a PE binary downloading in the network regardless of whether the binary is malicious or not), relying on only the logs from these activities will generate a lot of false positives. This is why we need to further perform A-plane clustering analysis as discussed shortly in Section <A HREF="#section:a-plane-clustering">2.6</A>.
+
+<P>
+
+<H2><A NAME="SECTION00025000000000000000"></A>
+<A NAME="SECTION:c-plane-clustering"></A><BR>
+2.5 C-plane Clustering
+</H2>
+
+<P>
+C-plane clustering is responsible for reading the logs generated by the C-plane monitor and finding clusters of machines that share similar communication patterns. Figure <A HREF="#fig:flow-cluster">3</A> shows the architecture of the C-plane clustering.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:flow-cluster"></A><A NAME="361"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3:</STRONG>
+C-plane clustering.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER"> <IMG
+ WIDTH="451" HEIGHT="126" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="\includegraphics[width=10cm]{figure/Flow-cluster.eps}"> </DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+First of all, we filter out irrelevant (or uninteresting) traffic flows. This is done in two steps: basic-filtering and white-listing.
+It is worth noting that these two steps are not critical for the proper functioning of the C-plane clustering module. Nonetheless, they are useful for reducing the traffic workload and making the actual clustering process more efficient.
+In the basic-filtering step, we filter out all the flows that are not directed from internal hosts to external hosts. Therefore, we ignore the flows related to communications between internal hosts<A NAME="tex2html14"
+  HREF="#foot364"><SUP>6</SUP></A> and flows initiated from external hosts towards internal hosts (filter rule 1, denoted as <TT>F1</TT>). We also filter out flows that are not completely established (filter rule 2, denoted as <TT>F2</TT>), i.e., those flows that only contain one-way traffic. These flows are mainly caused by scanning activity (e.g., when a host sends SYN packets without completing the TCP hand-shake).
+In white-list filtering, we filter out those flows whose destinations are well known as legitimate servers (e.g., <TT>Google</TT>, <TT>Yahoo!</TT>) that will unlikely host botnet C&amp;C servers. This filter rule is denoted as <TT>F3</TT>. In our current evaluation, the white list is based on the US top 100 and global top 100 most popular websites from <TT><A NAME="tex2html15"
+  HREF="Alexa.com">Alexa.com</A></TT>.
+
+<P>
+After basic-filtering and white-listing, we further reduce the traffic workload by aggregating related flows into communication flows (C-flows) as follows. Given an epoch <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="$ E$"> (typically one day), all <IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="$ m$"> TCP/UDP flows that share the same protocol (TCP or UDP), source IP, destination IP and port, are aggregated into the same C-flow <!-- MATH
+ $c_i=\{f_j\}_{j=1..m}$
+ -->
+<IMG
+ WIDTH="110" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$ c_i=\{f_j\}_{j=1..m}$">, where each <IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$ f_j$"> is a single TCP/UDP flow. Basically, the set <!-- MATH
+ $\{c_i\}_{i=1..n}$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$ \{c_i\}_{i=1..n}$"> of all the <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"> C-flows observed during <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="$ E$"> tells us ``who was talking to whom'', during that epoch.
+
+<P>
+
+<H3><A NAME="SECTION00025100000000000000"></A>
+<A NAME="SECTION:FeatureExtraction"></A><BR>
+2.5.1 Vector Representation of C-flows
+</H3>
+The objective of C-plane clustering is to group hosts that share similar communication flows. This can be accomplished by clustering the C-flows. In order to apply clustering algorithms to C-flows we first need to translate them in a suitable vector representation. We extract a number of statistical features from each C-flow <IMG
+ WIDTH="16" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$ c_i$">, and translate them into <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$ d$">-dimensional pattern vectors <!-- MATH
+ $\vec{p}_i\in\mathbb{R}^d$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$ \vec{p}_i\in\mathbb{R}^d$">. We can describe this task as a projection function <!-- MATH
+ $F:\mbox{C-plane}\rightarrow{\mathbb{R}^d}$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img13.png"
+ ALT="$ F:$">C-plane<IMG
+ WIDTH="43" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$ \rightarrow{\mathbb{R}^d}$">. 
+The projection function <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img15.png"
+ ALT="$ F$"> is defined as follows. Given a C-flow <IMG
+ WIDTH="16" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$ c_i$">, we compute the discrete sample distribution of (currently) four random variables:
+
+<OL>
+<LI><I>the number of flows per hour (fph)</I>. <I>fph</I> is computed by counting the number of TCP/IP flows in <IMG
+ WIDTH="16" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$ c_i$"> that are present for each hour of the epoch <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="$ E$">.
+</LI>
+<LI><I>the number of packets per flow (ppf)</I>. <I>ppf</I> is computed by summing the total number of packets sent within each TCP/UDP flow in <IMG
+ WIDTH="16" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$ c_i$">.
+</LI>
+<LI><I>the average number of bytes per packets (bpp)</I>. For each TCP/UDP flow <!-- MATH
+ $f_j\in{c_i}$
+ -->
+<IMG
+ WIDTH="50" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img16.png"
+ ALT="$ f_j\in{c_i}$"> we divide the overall number of bytes transfered within <IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$ f_j$"> by the number of packets sent within <IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$ f_j$">. 
+</LI>
+<LI><I>the average number of bytes per second (bps)</I>. <I>bps</I> is computed as the total number of bytes transfered within each <!-- MATH
+ $f_j\in{c_i}$
+ -->
+<IMG
+ WIDTH="50" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img16.png"
+ ALT="$ f_j\in{c_i}$"> divided by the duration of <IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$ f_j$">. 
+</LI>
+</OL>
+An example of the results of this process is shown in Figure <A HREF="#fig:visitexample">4</A>, where we select a random client from a real network flow log (we consider a one-day epoch) and illustrate the features extracted from its visits to <TT>Google</TT>.
+
+<DIV ALIGN="CENTER"><A NAME="fig:visitexample"></A><A NAME="529"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4:</STRONG>
+Visit pattern (shown in distribution) to <TT>Google</TT> from a randomly chosen normal client. </CAPTION>
+<TR><TD><IMG
+ WIDTH="953" HEIGHT="180" BORDER="0"
+ SRC="img17.png"
+ ALT="\begin{figure*}\centering
+\begin{tabular}{llll}
+\setlength{\epsfxsize}{0.4\...
+...ize}
+\subfigure[bps]
+{\epsfbox{figure/bps.eps}}
+\end{tabular}
+\end{figure*}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Given the discrete sample distribution of each of these four random variables, we compute an approximate version of it by means of a binning technique. For example, in order to approximate the distribution of <I>fph</I> we divide the x-axis in 13 intervals as <!-- MATH
+ $[0,k_1],(k_1,k_2],...,(k_{12},\infty)$
+ -->
+<IMG
+ WIDTH="184" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img18.png"
+ ALT="$ [0,k_1],(k_1,k_2],...,(k_{12},\infty)$">. The values <!-- MATH
+ $k_1,..,k_{12}$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img19.png"
+ ALT="$ k_1,..,k_{12}$"> are computed as follows. First, we compute the overall discrete sample distribution of <IMG
+ WIDTH="31" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$ fph$"> considering all the C-flows in the traffic for an epoch <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="$ E$">. Then, we compute the quantiles<A NAME="tex2html17"
+  HREF="#foot530"><SUP>7</SUP></A><!-- MATH
+ $q_{5\%}, q_{10\%}, q_{15\%}, q_{20\%}, q_{25\%}, q_{30\%}, q_{40\%}$
+ -->
+<IMG
+ WIDTH="257" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="$ q_{5\%}, q_{10\%}, q_{15\%}, q_{20\%}, q_{25\%}, q_{30\%}, q_{40\%}$">,
+<!-- MATH
+ $q_{50\%}, q_{60\%}, q_{70\%}, q_{80\%}, q_{90\%}$
+ -->
+<IMG
+ WIDTH="188" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img26.png"
+ ALT="$ q_{50\%}, q_{60\%}, q_{70\%}, q_{80\%}, q_{90\%}$">, of the obtained distribution, and we set <!-- MATH
+ $k_1=q_{5\%}$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$ k_1=q_{5\%}$">, <!-- MATH
+ $k_2=q_{10\%}$
+ -->
+<IMG
+ WIDTH="72" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$ k_2=q_{10\%}$">, <!-- MATH
+ $k_3=q_{15\%}$
+ -->
+<IMG
+ WIDTH="72" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img29.png"
+ ALT="$ k_3=q_{15\%}$">, etc.
+Now, for each C-flow we can describe its <I>fph</I> (approximate) distribution as a vector of 13 elements, where each element <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img30.png"
+ ALT="$ i$"> represents the number of times <I>fph</I> assumed a value within the corresponding interval <!-- MATH
+ $(k_{i-1},k_i]$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img31.png"
+ ALT="$ (k_{i-1},k_i]$">. 
+We also apply the same algorithm for <I>ppf</I>, <I>bpp</I>, and <I>bps</I>, and therefore we map each C-flow <IMG
+ WIDTH="16" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$ c_i$"> into a pattern vector <IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img32.png"
+ ALT="$ \vec{p_i}$"> of <IMG
+ WIDTH="49" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img33.png"
+ ALT="$ d=52$"> elements.
+Figure <A HREF="#fig:visitscaled">5</A> shows the scaled visiting pattern extracted form the same C-flow shown in Figure <A HREF="#fig:visitexample">4</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:visitscaled"></A><A NAME="535"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5:</STRONG>
+Scaled visit pattern (shown in distribution) to <TT>Google</TT> for the same client in Figure&nbsp;<A HREF="#fig:visitexample">4</A>. </CAPTION>
+<TR><TD><IMG
+ WIDTH="955" HEIGHT="183" BORDER="0"
+ SRC="img34.png"
+ ALT="\begin{figure*}\centering
+\begin{tabular}{llll}
+\setlength{\epsfxsize}{0.4\...
+...figure[Scaled bps]
+{\epsfbox{figure/bps_bin.eps}}
+\end{tabular}
+\end{figure*}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H3><A NAME="SECTION00025200000000000000">
+2.5.2 Two-step Clustering</A>
+</H3>
+Since bots belonging to the same botnet share similar behavior (from both the communication and activity points of view) as we discussed before, our objective is to look for groups of C-flows that are similar to each other. Intuitively, pattern vectors that are close to each other in <!-- MATH
+ $\mathbb{R}^d$
+ -->
+<IMG
+ WIDTH="23" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img35.png"
+ ALT="$ \mathbb{R}^d$"> represent C-flows with similar communication patterns in the C-plane. For example, suppose two bots of the same botnet connect to two different C&amp;C servers (because some botnets use multiple C&amp;C servers). Although the connections from both bots to the C&amp;C servers will be in different C-flows because of different source/destination pairs, their C&amp;C traffic characteristics should be similar. That is, in <!-- MATH
+ $\mathbb{R}^d$
+ -->
+<IMG
+ WIDTH="23" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img35.png"
+ ALT="$ \mathbb{R}^d$">, these C-flows should be found as being very similar.
+In order to find groups of hosts that share similar communication patterns, we apply clustering techniques on the dataset <!-- MATH
+ $\mathcal{D}=\{\vec{p}_i=F(c_i)\}_{i=1..n}$
+ -->
+<IMG
+ WIDTH="162" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$ \mathcal{D}=\{\vec{p}_i=F(c_i)\}_{i=1..n}$"> of the pattern vector representations of C-flows.
+Clustering techniques perform unsupervised learning. Typically, they aim at finding meaningful groups of data points in a given feature space <!-- MATH
+ $\mathbb{F}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img37.png"
+ ALT="$ \mathbb{F}$">. The definition of ``meaningful clusters'' is application-dependent. Generally speaking, the goal is to group the data into clusters that are both compact and well separated from each other, according to a suitable similarity metric defined in the feature space <!-- MATH
+ $\mathbb{F}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img37.png"
+ ALT="$ \mathbb{F}$">&nbsp;[<A
+ HREF="index.html#Jain1999">25</A>].
+
+<P>
+Clustering C-flows is a challenging task because <!-- MATH
+ $|\mathcal{D}|$
+ -->
+<IMG
+ WIDTH="26" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img38.png"
+ ALT="$ \vert\mathcal{D}\vert$">, the cardinality of <!-- MATH
+ $\mathcal{D}$
+ -->
+<IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img39.png"
+ ALT="$ \mathcal{D}$">, is often large even for moderately large networks, and the dimensionality <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$ d$"> of the feature space is also large. Furthermore, because the percentage of machines in a network that are infected by bots is generally small, we need to 
+separate the few botnet-related C-flows from a large number of benign C-flows. All these make clustering of C-flows very expensive.
+
+<P>
+In order to cope with the complexity of clustering of <!-- MATH
+ $\mathcal{D}$
+ -->
+<IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img39.png"
+ ALT="$ \mathcal{D}$">, we solve the problem in several steps (currently in two steps), as shown in a simple form in Figure&nbsp;<A HREF="#FIGURE:_2-step_clustering">6</A>.
+
+<DIV ALIGN="CENTER"><A NAME="FIGURE:_2-step_clustering"></A><A NAME="482"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6:</STRONG>
+Two-step clustering of C-flows.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER"><IMG
+ WIDTH="243" HEIGHT="224" ALIGN="BOTTOM" BORDER="0"
+ SRC="img40.png"
+ ALT="\includegraphics[scale=0.4]{figure/clustering.eps}">
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+At the first step, we perform coarse-grained clustering on a reduced feature space <!-- MATH
+ $\mathbb{R}^{d'}$
+ -->
+<IMG
+ WIDTH="27" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \mathbb{R}^{d'}$">, with <IMG
+ WIDTH="46" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img42.png"
+ ALT="$ d'&lt;d$">, using a simple (i.e., non-expensive) clustering algorithm (we will explain below how we perform dimensionality reduction). The results of this first-step clustering is a set <!-- MATH
+ $\{\mathcal{C}'_i\}_{i=1..\gamma_1}$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img43.png"
+ ALT="$ \{\mathcal{C}'_i\}_{i=1..\gamma_1}$"> of <IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img44.png"
+ ALT="$ \gamma_1$"> relatively large clusters. By doing so we subdivide the dataset <!-- MATH
+ $\mathcal{D}$
+ -->
+<IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img39.png"
+ ALT="$ \mathcal{D}$"> into smaller datasets (the clusters <!-- MATH
+ $\mathcal{C}'_i$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$ \mathcal{C}'_i$">) that contain ``clouds'' of points that are not too far from each other.
+
+<P>
+Afterwards, we refine this result by performing a second-step clustering on each different dataset <!-- MATH
+ $\mathcal{C}'_i$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$ \mathcal{C}'_i$"> using a simple clustering algorithm on the complete description of the C-flows in <!-- MATH
+ $\mathbb{R}^d$
+ -->
+<IMG
+ WIDTH="23" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img35.png"
+ ALT="$ \mathbb{R}^d$"> (i.e., we do not perform dimensionality reduction in the second-step clustering). This second step generates a set of <IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img46.png"
+ ALT="$ \gamma_2$"> smaller and more precise clusters <!-- MATH
+ $\{\mathcal{C}''_i\}_{i=1..\gamma_2}$
+ -->
+<IMG
+ WIDTH="79" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img47.png"
+ ALT="$ \{\mathcal{C}''_i\}_{i=1..\gamma_2}$">. 
+
+<P>
+We implement the first- and second-step clustering using the <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$">-means clustering algorithm&nbsp;[<A
+ HREF="index.html#Pelleg2000">31</A>]. <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$">-means is an efficient algorithm based on <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img48.png"
+ ALT="$ K$">-means&nbsp;[<A
+ HREF="index.html#Jain1999">25</A>], a very popular clustering algorithm. Different from <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img48.png"
+ ALT="$ K$">-means, the <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$">-means algorithm does not require the user to choose the number <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img48.png"
+ ALT="$ K$"> of final clusters in advance. <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$">-means runs multiple rounds of <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img48.png"
+ ALT="$ K$">-means internally and performs efficient clustering validation using the Bayesian Information Criterion&nbsp;[<A
+ HREF="index.html#Pelleg2000">31</A>] in order to compute the best value of <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img48.png"
+ ALT="$ K$">. <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$">-means is fast and scales well with respect to the size of the dataset&nbsp;[<A
+ HREF="index.html#Pelleg2000">31</A>].
+
+<P>
+For the first-step (coarse-grained) clustering, we first reduce the dimensionality of the feature space from <IMG
+ WIDTH="49" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img33.png"
+ ALT="$ d=52$"> features (see Section&nbsp;<A HREF="#SECTION:FeatureExtraction">2.5.1</A>) into <IMG
+ WIDTH="46" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img49.png"
+ ALT="$ d'=8$"> features by simply computing the mean and variance of the distribution of <I>fph</I>, <I>ppf</I>, <I>bpp</I>, and <I>bps</I> for each C-flow. Then we apply the <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$">-means clustering algorithm on the obtained representation of C-flows to find the coarse-grained clusters <!-- MATH
+ $\{\mathcal{C}'_i\}_{i=1..\gamma_1}$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img43.png"
+ ALT="$ \{\mathcal{C}'_i\}_{i=1..\gamma_1}$">.
+Since the size of the clusters <!-- MATH
+ $\{\mathcal{C}'_i\}_{i=1..\gamma_1}$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img43.png"
+ ALT="$ \{\mathcal{C}'_i\}_{i=1..\gamma_1}$"> generated by the first-step clustering is relatively small, we can now afford to perform a more expensive analysis on each <!-- MATH
+ $\mathcal{C}'_i$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$ \mathcal{C}'_i$">. Thus, for the second-step clustering, we use all the <IMG
+ WIDTH="49" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img33.png"
+ ALT="$ d=52$"> available features to represent the C-flows, and we apply the <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$">-means clustering algorithm to refine the results of the first-step clustering. 
+
+<P>
+Of course, since unsupervised learning is a notoriously difficult task, the results of this two-step clustering algorithm may still be not perfect. As a consequence, the C-flows related to a botnet may be grouped into some distinct clusters, which basically represent <I>sub-botnets</I>. Furthermore, a cluster that contains mostly botnet or benign C-flows may also contain some ``noisy'' benign or botnet C-flows, respectively. However, we would like to stress the fact that these problems are not necessarily critical and can be alleviated by performing correlation with the results of the activity-plane (A-plane) clustering (see Section&nbsp;<A HREF="#SECTION:Cross-Plane_Correlation">2.7</A>).
+
+<P>
+Finally, we need to note that it is possible to bootstrap the clustering from A-plane logs. For example, one may apply clustering to only those hosts that appear in the A-plane logs (i.e., the suspicious activity logs). This may greatly reduce the workload of the C-plane clustering module, if speed is the main concern. Similarly, one may bootstrap the A-plane correlation from C-plane logs, e.g., by monitoring only clients that previously formed communication clusters, or by giving monitoring preference to those clients that demonstrate some persistent C-flow communications (assuming botnets are used for long-term purpose).
+
+<P>
+
+<H2><A NAME="SECTION00026000000000000000"></A>
+<A NAME="section:a-plane-clustering"></A><BR>
+2.6 A-plane Clustering
+</H2>
+
+<P>
+In this stage, we perform two-layer clustering on activity logs. Figure <A HREF="#fig:a-cluster">7</A> shows the clustering process in A-plane.
+
+<DIV ALIGN="CENTER"><A NAME="fig:a-cluster"></A><A NAME="516"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 7:</STRONG>
+A-plane clustering.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER"> <IMG
+ WIDTH="360" HEIGHT="175" ALIGN="BOTTOM" BORDER="0"
+ SRC="img50.png"
+ ALT="\includegraphics[width=8cm]{figure/Activity-cluster.eps}"> </DIV></TD></TR>
+</TABLE>
+</DIV>
+
+For the whole list of clients that perform at least one malicious activity during one day, we first cluster them according to the types of their activities (e.g., scan, spam, and binary downloading). This is the first layer clustering. Then, for each activity type, we further cluster clients according to specific activity features (the second layer clustering). For scan activity, features could include scanning ports, that is, two clients could be clustered together if they are scanning the same ports. Another candidate feature could be the target subnet/distribution, e.g., whether the clients are scanning the same subnet. For spam activity, two clients could be clustered together if their SMTP connection destinations are highly overlapped. This might not be robust when the bots are configured to use different SMTP servers in order to evade detection. One can further consider the spam content if the whole SMTP traffic is captured. To cluster spam content, one may consider the similarity of embedded URLs that are very likely to be similar with the same botnet&nbsp;[<A
+ HREF="index.html#Zhuang08email">43</A>], SMTP connection frequency, content entropy, and the normalized compression distance (NCD&nbsp;[<A
+ HREF="index.html#Bailey07">5</A>,<A
+ HREF="index.html#DBLP:journals_jcs_Wehner07">41</A>]) on the entire email bodies.
+For outbound exploit activity, one can cluster two clients if they send the same type of exploit, indicated by the Snort alert SID. 
+For binary downloading activity, two clients could be clustered together if they download similar binaries (because they download from the same URL as indicated in the command from the botmaster). A distance function between two binaries can be any string distance such as DICE used in [<A
+ HREF="index.html#BotSniffer2008">20</A>] <A NAME="tex2html21"
+  HREF="#foot536"><SUP>8</SUP></A>.
+
+<P>
+In our current implementation, we cluster scanning activities according to the destination scanning ports. For spam activity clustering, because there are very few hosts that show spamming activities in our monitored network, we simply cluster hosts together if they perform spamming (i.e., using only the first layer clustering here). For binary downloading, we configure our binary downloading monitor to capture only the first portion (packet) of the binary for efficiency reasons (if necessary, we can also capture the entire binary). We simply compare whether these early portions of the binaries are the same or not. In other words, currently, our A-plane clustering implementation utilizes relatively weak cluster features. In the future, we plan to implement clustering on more complex feature sets discussed above, which are more robust against evasion. However, even with the current weak cluster features, BotMiner already demonstrated high accuracy with a low false positive rate as shown in our later experiments.
+
+<P>
+
+<H2><A NAME="SECTION00027000000000000000"></A>
+<A NAME="SECTION:Cross-Plane_Correlation"></A><BR>
+2.7 Cross-plane Correlation
+</H2>
+
+<P>
+Once we obtain the clustering results from A-plane (activities patterns) and C-plane (communication patterns), we perform cross-plane correlation. The idea is to cross-check clusters in the two planes to find out intersections that reinforce evidence of a host being part of a botnet. In order to do this, we first compute a botnet score <IMG
+ WIDTH="33" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$ s(h)$"> for each host <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> on which we have witnessed at least one kind of suspicious activity. We filter out the hosts that have a score below a certain detection threshold <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$ \theta$">, and then group the remaining most suspicious hosts according to a similarity metric that takes into account the A-plane and C-plane clusters these hosts have in common.
+
+<P>
+We now explain how the botnet score is computed for each host.
+Let <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="$ H$"> be the set of hosts reported in the output of the A-plane clustering module, and <IMG
+ WIDTH="47" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img55.png"
+ ALT="$ h\in{H}$">. Also, let <!-- MATH
+ $\mathcal{A}^{(h)} = \{A_i\}_{i=1..m_h}$
+ -->
+<IMG
+ WIDTH="137" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img56.png"
+ ALT="$ \mathcal{A}^{(h)} = \{A_i\}_{i=1..m_h}$"> be the set of <IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img57.png"
+ ALT="$ m_h$"> A-clusters that contain <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$">, and <!-- MATH
+ $\mathcal{C}^{(h)} = \{C_i\}_{i=1..n_h}$
+ -->
+<IMG
+ WIDTH="130" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$ \mathcal{C}^{(h)} = \{C_i\}_{i=1..n_h}$"> be the set of <IMG
+ WIDTH="22" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$ n_h$"> C-clusters that contain <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$">.
+We compute the botnet score for <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> as
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+s(h) = \sum_{\substack{i,j \\j>i \\t(A_i) \neq t(A_j)}} w(A_i)w(A_j)\frac{|A_i \cap A_j|}{|A_i \cup A_j|} + \sum_{i,k} w(A_i)\frac{|A_i \cap C_k|}{|A_i \cup C_k|},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="435" HEIGHT="101" ALIGN="MIDDLE" BORDER="0"
+ SRC="img60.png"
+ ALT="$\displaystyle s(h) = \sum_{\substack{i,j  j&gt;i  t(A_i) \neq t(A_j)}} w(A_i)w...
+...rt} + \sum_{i,k} w(A_i)\frac{\vert A_i \cap C_k\vert}{\vert A_i \cup C_k\vert},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(1)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <!-- MATH
+ $A_i,A_j\in{\mathcal{A}^{(h)}}$
+ -->
+<IMG
+ WIDTH="97" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img61.png"
+ ALT="$ A_i,A_j\in{\mathcal{A}^{(h)}}$"> and <!-- MATH
+ $C_k\in{\mathcal{C}^{(h)}}$
+ -->
+<IMG
+ WIDTH="70" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$ C_k\in{\mathcal{C}^{(h)}}$">, <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$ t(A_i)$"> is the type of activity cluster <IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$ A_i$"> refers to (e.g., scanning or spamming), and <!-- MATH
+ $w(A_i)\geqslant1$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img65.png"
+ ALT="$ w(A_i)\geqslant1$"> is an <I>activity weight</I> assigned to <IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$ A_i$">. <IMG
+ WIDTH="46" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img66.png"
+ ALT="$ w(A_i)$"> assigns higher values to ``strong'' activities (e.g., spam and exploit) and lower values to ``weak'' activities (e.g., scanning and binary download).
+
+<P>
+<IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> will receive a high score if it has performed multiple types of suspicious activities, and if other hosts that were clustered with <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> also show the same multiple types of activities.
+For example, assume that <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> performed scanning and then attempted to exploit a machine outside the monitored network. Let <IMG
+ WIDTH="23" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$ A_1$"> be the cluster of hosts that were found to perform scanning and were grouped with <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> in the same cluster. Also, let <IMG
+ WIDTH="23" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img68.png"
+ ALT="$ A_2$"> be a cluster related to exploit activities that includes <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> and other hosts that performed similar activities. A larger overlap between <IMG
+ WIDTH="23" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$ A_1$"> and <IMG
+ WIDTH="23" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img68.png"
+ ALT="$ A_2$"> would result in a higher score being assigned to <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$">. Similarly, if <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> belongs to A-clusters that have a large overlap with C-clusters, then it means that the hosts clustered together with <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$ h$"> share similar activities as well as similar communication patterns.
+
+<P>
+Given a predefined detection threshold <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$ \theta$">, we consider all the hosts <IMG
+ WIDTH="47" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img55.png"
+ ALT="$ h\in{H}$"> with <!-- MATH
+ $s(h)>\theta$
+ -->
+<IMG
+ WIDTH="62" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img69.png"
+ ALT="$ s(h)&gt;\theta$"> as (likely) bots, and filter out the hosts whose scores do not exceed <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$ \theta$">. Now, let <!-- MATH
+ $B\subseteq{H}$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img70.png"
+ ALT="$ B\subseteq{H}$"> be the set of detected bots, <!-- MATH
+ $\mathcal{A}^{(B)}=\{A_i\}_{i=1..m_B}$
+ -->
+<IMG
+ WIDTH="142" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img71.png"
+ ALT="$ \mathcal{A}^{(B)}=\{A_i\}_{i=1..m_B}$"> be the set of A-clusters that each contains at least one bot <IMG
+ WIDTH="46" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$ h\in{B}$">, and <!-- MATH
+ $\mathcal{C}^{(B)}=\{C_i\}_{i=1..n_B}$
+ -->
+<IMG
+ WIDTH="134" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img73.png"
+ ALT="$ \mathcal{C}^{(B)}=\{C_i\}_{i=1..n_B}$"> be the set of C-clusters that each contains at least one bot <IMG
+ WIDTH="46" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$ h\in{B}$">. Also, let <!-- MATH
+ $\mathcal{K}^{(B)} = \mathcal{A}^{(B)} \cup \mathcal{C}^{(B)} = \{K^{(B)}_i\}_{i=1..(m_B+n_B)}$
+ -->
+<IMG
+ WIDTH="299" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img74.png"
+ ALT="$ \mathcal{K}^{(B)} = \mathcal{A}^{(B)} \cup \mathcal{C}^{(B)} = \{K^{(B)}_i\}_{i=1..(m_B+n_B)}$"> be an ordered union/set of A- and C-clusters.
+We then describe each bot <IMG
+ WIDTH="46" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$ h\in{B}$"> as a binary vector <!-- MATH
+ $b(h)\in\{0,1\}^{|\mathcal{K}^{(B)}|}$
+ -->
+<IMG
+ WIDTH="127" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img75.png"
+ ALT="$ b(h)\in\{0,1\}^{\vert\mathcal{K}^{(B)}\vert}$">, whereby the <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img30.png"
+ ALT="$ i$">-th element <IMG
+ WIDTH="45" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img76.png"
+ ALT="$ b_i=1$"> if <!-- MATH
+ $h\in{K^{(B)}_i}$
+ -->
+<IMG
+ WIDTH="68" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="$ h\in{K^{(B)}_i}$">, and <IMG
+ WIDTH="45" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img78.png"
+ ALT="$ b_i=0$"> otherwise.
+Given this representation, we can define the following similarity between bots <IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img79.png"
+ ALT="$ h_i$"> and <IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img80.png"
+ ALT="$ h_j$"> as
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+sim(h_i,h_j) = \sum_{k=1}^{m_B} I(b_k^{(i)}=b_k^{(j)}) + I(\sum_{k=m_B+1}^{m_B+n_B} I(b_k^{(i)}=b_k^{(j)}) \geq 1),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="433" HEIGHT="65" ALIGN="MIDDLE" BORDER="0"
+ SRC="img81.png"
+ ALT="$\displaystyle sim(h_i,h_j) = \sum_{k=1}^{m_B} I(b_k^{(i)}=b_k^{(j)}) + I(\sum_{k=m_B+1}^{m_B+n_B} I(b_k^{(i)}=b_k^{(j)}) \geq 1),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(2)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where we use <!-- MATH
+ $b^{(i)}=b(h_i)$
+ -->
+<IMG
+ WIDTH="81" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img82.png"
+ ALT="$ b^{(i)}=b(h_i)$"> and <!-- MATH
+ $b^{(j)}=b(h_j)$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="$ b^{(j)}=b(h_j)$">, for the sake of brevity. <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img84.png"
+ ALT="$ I(X)$"> is the indication function, which equals to one when the boolean argument <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$"> is true, and equals to zero when <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$"> is false. The intuition behind this metric is that if two hosts appear in the same activity clusters and in at least one common C-cluster, they should be clustered together.
+
+<P>
+This definition of similarity between hosts gives us the opportunity to apply hierarchical clustering. This allows us to build a dendrogram, i.e., a tree like graph (see Figure&nbsp;<A HREF="#fig:bot-dendrogram">8</A>) that encodes the relationships among the bots. We use the Davies-Bouldin (DB) validation index&nbsp;[<A
+ HREF="index.html#Halkidi2001">21</A>] to find the best dendrogram cut, which produces the most compact and well separated clusters. The obtained clusters group bots in (sub-) botnets.
+Figure&nbsp;<A HREF="#fig:bot-dendrogram">8</A> shows a (hypothetical) example. Assuming that the best cut suggested by the DB index is the one at height 90, we would obtain two botnets, namely <!-- MATH
+ $\{h_8,h_3,h_5\}$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img85.png"
+ ALT="$ \{h_8,h_3,h_5\}$">, and <!-- MATH
+ $\{h_4,h_6,h_9,h_2,h_1,h_7\}$
+ -->
+<IMG
+ WIDTH="153" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img86.png"
+ ALT="$ \{h_4,h_6,h_9,h_2,h_1,h_7\}$">.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:bot-dendrogram"></A><A NAME="952"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 8:</STRONG>
+Example of hierarchical clustering for botnet detection.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER"> <IMG
+ WIDTH="335" HEIGHT="207" ALIGN="BOTTOM" BORDER="0"
+ SRC="img87.png"
+ ALT="\includegraphics[scale=0.5]{figure/bot-dendrogram.eps}"> 
+ </DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In our current implementation, we simply set weight <IMG
+ WIDTH="75" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="$ w(A_i)=1$"> for all <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img30.png"
+ ALT="$ i$"> and <IMG
+ WIDTH="41" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img89.png"
+ ALT="$ \theta=0$">, which essentially means that we will consider all hosts that appear in two different types of A-clusters and/or in both A- and C-clusters as suspicious candidates for further hierarchical clustering.
+
+<P>
+
+<H1><A NAME="SECTION00030000000000000000"></A>
+<A NAME="sec:experiment"></A><BR>
+3 Experiments
+</H1>
+
+<P>
+To evaluate our BotMiner detection framework and prototype system, we have tested its performance on several real-world network traffic traces, including both (presumably) normal data from our campus network and collected botnet data.
+
+<P>
+
+<H2><A NAME="SECTION00031000000000000000">
+3.1 Experiment Setup and Data Collection</A>
+</H2>
+
+<P>
+We set up traffic monitors to work on a span port mirroring a backbone router at the campus network of the College of Computing at Georgia Tech. The traffic rate is typically 200Mbps-300Mbps at daytime. We ran the C-plane and A-plane monitors for a continuous 10-day period in late 2007. A random sampling of the network trace shows that the traffic is very diverse, containing many normal application protocols, such as <TT>HTTP</TT>, <TT>SMTP</TT>, <TT>POP</TT>, <TT>FTP</TT>, <TT>SSH</TT>, <TT>NetBios</TT>, <TT>DNS</TT>, <TT>SNMP</TT>, IM (e.g., <TT>ICQ</TT>, <TT>AIM</TT>), P2P (e.g., <TT>Gnutella</TT>, <TT>Edonkey</TT>, <TT>bittorrent</TT>), and <TT>IRC</TT>. This serves as a good background to test the false positives and detection performance on a normal network with rich application protocols.
+
+<P>
+We have collected a total of eight different botnets covering <TT>IRC, HTTP</TT> and P2P. Table&nbsp;<A HREF="#tab:bot_trace">1</A> lists the basic information about these traces.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="1216"></A>
+<TABLE>
+<CAPTION><STRONG>Table 1:</STRONG>
+Collected botnet traces, covering <TT>IRC, HTTP</TT> and P2P based botnets. Storm and Nugache share the same file, so the statistics of the whole file are reported. </CAPTION>
+<TR><TD><DIV ALIGN="CENTER">        <TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Trace</TD>
+<TD ALIGN="CENTER">Size</TD>
+<TD ALIGN="CENTER">Duration</TD>
+<TD ALIGN="CENTER">Pkt</TD>
+<TD ALIGN="CENTER">TCP/UDP flows</TD>
+<TD ALIGN="CENTER">Botnet clients</TD>
+<TD ALIGN="CENTER">C&amp;C server</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Botnet-IRC-rbot</TD>
+<TD ALIGN="CENTER">169MB</TD>
+<TD ALIGN="CENTER">24h</TD>
+<TD ALIGN="CENTER">1,175,083</TD>
+<TD ALIGN="CENTER">180,988</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Botnet-IRC-sdbot</TD>
+<TD ALIGN="CENTER">66KB</TD>
+<TD ALIGN="CENTER">9m</TD>
+<TD ALIGN="CENTER">474</TD>
+<TD ALIGN="CENTER">19</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Botnet-IRC-spybot</TD>
+<TD ALIGN="CENTER">15MB</TD>
+<TD ALIGN="CENTER">32m</TD>
+<TD ALIGN="CENTER">180,822</TD>
+<TD ALIGN="CENTER">147,945</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Botnet-IRC-N</TD>
+<TD ALIGN="CENTER">6.4MB</TD>
+<TD ALIGN="CENTER">7m</TD>
+<TD ALIGN="CENTER">65,111</TD>
+<TD ALIGN="CENTER">5635</TD>
+<TD ALIGN="CENTER">259</TD>
+<TD ALIGN="CENTER">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Botnet-HTTP-1</TD>
+<TD ALIGN="CENTER">6MB</TD>
+<TD ALIGN="CENTER">3.6h</TD>
+<TD ALIGN="CENTER">65,695</TD>
+<TD ALIGN="CENTER">2,647</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Botnet-HTTP-2</TD>
+<TD ALIGN="CENTER">37MB</TD>
+<TD ALIGN="CENTER">19h</TD>
+<TD ALIGN="CENTER">395,990</TD>
+<TD ALIGN="CENTER">9,716</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Botnet-P2P-Storm</TD>
+<TD ALIGN="CENTER">1.2G</TD>
+<TD ALIGN="CENTER">24h</TD>
+<TD ALIGN="CENTER">59,322,490</TD>
+<TD ALIGN="CENTER">5,495,223</TD>
+<TD ALIGN="CENTER">13</TD>
+<TD ALIGN="CENTER">P2P</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Botnet-P2P-Nugache</TD>
+<TD ALIGN="CENTER">1.2G</TD>
+<TD ALIGN="CENTER">24h</TD>
+<TD ALIGN="CENTER">59,322,490</TD>
+<TD ALIGN="CENTER">5,495,223</TD>
+<TD ALIGN="CENTER">82</TD>
+<TD ALIGN="CENTER">P2P</TD>
+</TR>
+</TABLE>
+ <A NAME="tab:bot_trace"></A> </DIV></TD></TR>
+</TABLE>
+</DIV><P></P><BR>
+
+<P>
+We re-used two <TT>IRC</TT> and two <TT>HTTP</TT> botnet traces introduced in [<A
+ HREF="index.html#BotSniffer2008">20</A>], i.e., <TT>V-Spybot</TT>, <TT>V-Sdbot</TT>, <TT>B-HTTP-I</TT>, and <TT>B-HTTP-II</TT>. In short, <TT>V-Spybot</TT> and <TT>V-Sdbot</TT> are generated by executing modified bot code (Spybot and Sdbot [<A
+ HREF="index.html#Barford06">6</A>]) in a fully controlled virtual network. They contain four Windows XP/2K IRC bot clients, and last several minutes. <TT>B-HTTP-I</TT> and <TT>B-HTTP-II</TT> are generated based on the description of Web-based C&amp;C communications in [<A
+ HREF="index.html#botnetVehicle">24</A>,<A
+ HREF="index.html#bobax">39</A>]. Four bot clients communicate with a controlled server and execute the received command (e.g., <TT>spam</TT>). In <TT>B-HTTP-I</TT>, the bot contacts the server periodically (about every five minutes) and the whole trace lasts for about 3.6 hours. In <TT>B-HTTP-II</TT>, we have a more stealthy C&amp;C communication where the bot waits a random time between zero to ten minutes each time before it visits the server, and the whole trace lasts for 19 hours.
+These four traces are renamed as <TT>Botnet-IRC-spybot</TT>, <TT>Botnet-IRC-sdbot</TT>, <TT>Botnet-HTTP-1</TT>, and <TT>Botnet-HTTP-2</TT>, respectively. In addition, we also generated a new <TT>IRC</TT> botnet trace that lasts for a longer time (a whole day) using modified Rbot&nbsp;[<A
+ HREF="index.html#Holz05">3</A>] source code. Again this is generated in a controlled virtual network with four Windows clients and one <TT>IRC</TT> server. This trace is labeled as <TT>Botnet-IRC-rbot</TT>.
+
+<P>
+We also obtained a real-world <TT>IRC</TT>-based botnet C&amp;C trace that was captured in the wild in 2004, labeled as <TT>Botnet-IRC-N</TT>. The trace contains about 7-minute <TT>IRC</TT> C&amp;C communications, and has hundreds of bots connected to the <TT>IRC</TT> C&amp;C server. The botmaster set the command ``<TT>.scan.startall</TT>'' in the TOPIC of the channel. Thus, every bot would begin to propagate through scanning once joining the channel. They report their successful transfer of binary to some machines, and also report the machines that have been exploited. We believe this could be a variant of Phatbot&nbsp;[<A
+ HREF="index.html#Barford06">6</A>]. Although we obtained only the <TT>IRC</TT> C&amp;C traffic, we hypothesize that the scanning activities are easy to detect given the fact that bots are performing scanning commands in order to propagate. Thus, we assume we have an A-plane cluster with the botnet members because we want to see if we can still capture C-plane clusters and obtain cross-plane correlation results.
+
+<P>
+Finally, we obtained a real-world trace containing two P2P botnets, Nugache&nbsp;[<A
+ HREF="index.html#Nugache06">28</A>] and Storm&nbsp;[<A
+ HREF="index.html#Grizzard:2007">18</A>,<A
+ HREF="index.html#HolzLeet08">23</A>]. The trace lasts for a whole day, and there are 82 Nugache bots and 13 Storm bots in the trace.
+It was captured from a group of honeypots running in the wild in late 2007. Each instance is running in Wine 
+(an open source implementation of the Windows API on top of Unix/Linux) instead of a virtual or physical machine. Such a set-up is known as winobot [<A
+ HREF="index.html#BotTaxonomy07">12</A>] and is used by researchers to track botnets. By using a lightweight emulation environment (Wine), winobots can run hundreds and thousands of black-box instances of a given malware. This allows one to participate in a P2P botnet <I>en mass</I>. Nugache is a TCP-based P2P bot that performs encrypted communications on port 8.  Storm, originating in January of 2007, is one of the very few known UDP based P2P bots. It is based on the Kademlia [<A
+ HREF="index.html#Kademlia02">30</A>] protocol and makes use of the Overnet network [<A
+ HREF="index.html#Overnet">2</A>] to locate related data (e.g., commands). Storm is well-known as a spam botnet with a huge number of infected hosts [<A
+ HREF="index.html#StormSupercomputer07">27</A>]. In the implementation of winobot, several malicious capabilities such as sending spam are disabled for legality reason, thus we can not observe spam traffic from the trace. However, we ran a full version of Storm on a VM-based honeypot (instead of Wine environment) and easily observed that it kept sending a huge amount of spam traffic, which makes the A-plane monitoring quite easy. Similarly, when running Nugache on a VM-based honeypot, we observed scanning activity to port 8 because it attempted to connect to its seeding peers but failed a lot of times (because the peers may not be available). Thus, we can detect and cluster A-plane activities for these P2P botnets.
+
+<P>
+
+<H2><A NAME="SECTION00032000000000000000">
+3.2 Evaluation Results</A>
+</H2>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="1176"></A>
+<TABLE>
+<CAPTION><STRONG>Table 2:</STRONG>
+C-plane traffic statistics, basic results of filtering, and C-flows.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER">        <TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Trace</TD>
+<TD ALIGN="CENTER">Pkts</TD>
+<TD ALIGN="CENTER">Flows</TD>
+<TD ALIGN="CENTER">Filtered by <TT>F1</TT></TD>
+<TD ALIGN="CENTER">Filtered by <TT>F2</TT></TD>
+<TD ALIGN="CENTER">Filtered by <TT>F3</TT></TD>
+<TD ALIGN="CENTER">Flows after filtering</TD>
+<TD ALIGN="CENTER">C-flows (TCP/UDP)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-1</TD>
+<TD ALIGN="CENTER">5,178,375,514</TD>
+<TD ALIGN="CENTER">23,407,743</TD>
+<TD ALIGN="CENTER">20,727,588</TD>
+<TD ALIGN="CENTER">939,723</TD>
+<TD ALIGN="CENTER">40,257</TD>
+<TD ALIGN="CENTER">1,700,175</TD>
+<TD ALIGN="CENTER">66,981 / 132,333</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-2</TD>
+<TD ALIGN="CENTER">7,131,674,165</TD>
+<TD ALIGN="CENTER">29,632,407</TD>
+<TD ALIGN="CENTER">27,861,853</TD>
+<TD ALIGN="CENTER">533,666</TD>
+<TD ALIGN="CENTER">25,758</TD>
+<TD ALIGN="CENTER">1,211,130</TD>
+<TD ALIGN="CENTER">34,691 / 96,261</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-3</TD>
+<TD ALIGN="CENTER">9,701,255,613</TD>
+<TD ALIGN="CENTER">30,192,645</TD>
+<TD ALIGN="CENTER">28,491,442</TD>
+<TD ALIGN="CENTER">513,164</TD>
+<TD ALIGN="CENTER">24,329</TD>
+<TD ALIGN="CENTER">1,163,710</TD>
+<TD ALIGN="CENTER">39,744 / 94,081</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-4</TD>
+<TD ALIGN="CENTER">14,713,667,172</TD>
+<TD ALIGN="CENTER">35,590,583</TD>
+<TD ALIGN="CENTER">33,434,985</TD>
+<TD ALIGN="CENTER">600,901</TD>
+<TD ALIGN="CENTER">33,958</TD>
+<TD ALIGN="CENTER">1,520,739</TD>
+<TD ALIGN="CENTER">73,021 / 167,146</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-5</TD>
+<TD ALIGN="CENTER">11,177,174,133</TD>
+<TD ALIGN="CENTER">56,235,380</TD>
+<TD ALIGN="CENTER">52,795,168</TD>
+<TD ALIGN="CENTER">1,323,475</TD>
+<TD ALIGN="CENTER">40,016</TD>
+<TD ALIGN="CENTER">2,076,721</TD>
+<TD ALIGN="CENTER">57,664 / 167,175</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-6</TD>
+<TD ALIGN="CENTER">9,950,803,423</TD>
+<TD ALIGN="CENTER">75,037,684</TD>
+<TD ALIGN="CENTER">71,397,138</TD>
+<TD ALIGN="CENTER">1,464,571</TD>
+<TD ALIGN="CENTER">51,931</TD>
+<TD ALIGN="CENTER">2,124,044</TD>
+<TD ALIGN="CENTER">59,383 / 176,210</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-7</TD>
+<TD ALIGN="CENTER">10,039,871,506</TD>
+<TD ALIGN="CENTER">109,549,192</TD>
+<TD ALIGN="CENTER">105,530,316</TD>
+<TD ALIGN="CENTER">1,614,158</TD>
+<TD ALIGN="CENTER">56,688</TD>
+<TD ALIGN="CENTER">2,348,030</TD>
+<TD ALIGN="CENTER">55,023 / 150,211</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-8</TD>
+<TD ALIGN="CENTER">11,174,937,812</TD>
+<TD ALIGN="CENTER">96,364,123</TD>
+<TD ALIGN="CENTER">92,413,010</TD>
+<TD ALIGN="CENTER">1,578,215</TD>
+<TD ALIGN="CENTER">60,768</TD>
+<TD ALIGN="CENTER">2,312,130</TD>
+<TD ALIGN="CENTER">56,246 / 179,838</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-9</TD>
+<TD ALIGN="CENTER">9,504,436,063</TD>
+<TD ALIGN="CENTER">62,550,060</TD>
+<TD ALIGN="CENTER">56,516,281</TD>
+<TD ALIGN="CENTER">3,163,645</TD>
+<TD ALIGN="CENTER">30,581</TD>
+<TD ALIGN="CENTER">2,839,553</TD>
+<TD ALIGN="CENTER">25,557 / 164,986</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-10</TD>
+<TD ALIGN="CENTER">11,071,701,564</TD>
+<TD ALIGN="CENTER">83,433,368</TD>
+<TD ALIGN="CENTER">77,601,188</TD>
+<TD ALIGN="CENTER">2,964,948</TD>
+<TD ALIGN="CENTER">27,837</TD>
+<TD ALIGN="CENTER">2,839,395</TD>
+<TD ALIGN="CENTER">25,436 / 154,294</TD>
+</TR>
+</TABLE>
+ <A NAME="tab:trace_filter"></A></DIV></TD></TR>
+</TABLE>
+</DIV><P></P><BR>
+
+<P>
+Table&nbsp;<A HREF="#tab:trace_filter">2</A> lists the statistics for the 10 days of network data we used to validate our detection system. For each day there are around 5-10 billion packets (TCP and UDP) and 30-100 million flows. Table&nbsp;<A HREF="#tab:trace_filter">2</A> shows the results of several steps of filtering. The first step of filtering (filter rule <TT>F1</TT>) seems to be the most effective filter in terms of data volume reduction. <TT>F1</TT> filters out those flows that are not initiated from internal hosts to external hosts, and achieves about 90% data volume reduction. The is because most of the flows are within the campus network (i.e., they are initiated from internal hosts towards other internal hosts). <TT>F2</TT> further filters out around 0.5-3 million of non-completely-established flows. <TT>F3</TT> further reduces the data volume by filtering out another 30,000 flows. After applying all the three steps of filtering, there are around 1 to 3 million flows left per day. We converted these remaining flows into C-flows as described in Section&nbsp;<A HREF="#SECTION:c-plane-clustering">2.5</A>, and obtained around 40,000 TCP C-flows and 130,000 UDP C-flows per day.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="1190"></A>
+<TABLE>
+<CAPTION><STRONG>Table 3:</STRONG>
+C-plane and A-plane clustering results.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER">        <TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Trace</TD>
+<TD ALIGN="CENTER">Step-1 C-clusters</TD>
+<TD ALIGN="CENTER">Step-2 C-clusters</TD>
+<TD ALIGN="CENTER">A-plane logs</TD>
+<TD ALIGN="CENTER">A-clusters</TD>
+<TD ALIGN="CENTER">False Positive Clusters</TD>
+<TD ALIGN="CENTER">FP Rate</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-1 (TCP/UDP)</TD>
+<TD ALIGN="CENTER">1,374</TD>
+<TD ALIGN="CENTER">4,958</TD>
+<TD ALIGN="CENTER">1,671</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0 (0/878)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-2 (TCP/UDP)</TD>
+<TD ALIGN="CENTER">904</TD>
+<TD ALIGN="CENTER">2,897</TD>
+<TD ALIGN="CENTER">5,434</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">0.003 (2/638)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-3 (TCP/UDP)</TD>
+<TD ALIGN="CENTER">1,128</TD>
+<TD ALIGN="CENTER">2,480</TD>
+<TD ALIGN="CENTER">4,324</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">0.003 (2/692)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-4 (TCP/UDP)</TD>
+<TD ALIGN="CENTER">1,528</TD>
+<TD ALIGN="CENTER">4,089</TD>
+<TD ALIGN="CENTER">5,483</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">0.01 (9/871)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-5 (TCP/UDP)</TD>
+<TD ALIGN="CENTER">1,051</TD>
+<TD ALIGN="CENTER">3,377</TD>
+<TD ALIGN="CENTER">6,461</TD>
+<TD ALIGN="CENTER">5</TD>
+<TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">0.0048 (4/838)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-6 (TCP)</TD>
+<TD ALIGN="CENTER">1,163</TD>
+<TD ALIGN="CENTER">3,469</TD>
+<TD ALIGN="CENTER">6,960</TD>
+<TD ALIGN="CENTER">3</TD>
+<TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">0.008 (7/877)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-7 (TCP)</TD>
+<TD ALIGN="CENTER">954</TD>
+<TD ALIGN="CENTER">3,257</TD>
+<TD ALIGN="CENTER">6,452</TD>
+<TD ALIGN="CENTER">5</TD>
+<TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">0.006 (5/835)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-8 (TCP)</TD>
+<TD ALIGN="CENTER">1,170</TD>
+<TD ALIGN="CENTER">3,226</TD>
+<TD ALIGN="CENTER">8,270</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">0.0091 (8/877)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-9 (TCP)</TD>
+<TD ALIGN="CENTER">742</TD>
+<TD ALIGN="CENTER">1,763</TD>
+<TD ALIGN="CENTER">7,687</TD>
+<TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0 (0/714)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Day-10 (TCP)</TD>
+<TD ALIGN="CENTER">712</TD>
+<TD ALIGN="CENTER">1,673</TD>
+<TD ALIGN="CENTER">7,524</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0 (0/689)</TD>
+</TR>
+</TABLE>
+ <A NAME="tab:test_trace"></A> </DIV></TD></TR>
+</TABLE>
+</DIV><P></P><BR>
+
+<P>
+We then performed two-step clustering on C-flows as described in Section&nbsp;<A HREF="#SECTION:c-plane-clustering">2.5</A>. Table&nbsp;<A HREF="#tab:test_trace">3</A> shows the clustering results and false positives (number of clusters that are not botnets). The results for the first 5 days are related to both TCP and UDP traffic, whereas in the last 5 days we focused on only TCP traffic.
+
+<P>
+It is easy to see from Table&nbsp;<A HREF="#tab:test_trace">3</A> that there are thousands of C-clusters generated each day. In addition, there are several thousand activity logs generated from A-plane monitors. Since we use relatively weak monitor modules, it is not surprising that we have this many activity logs.  Many logs report binary downloading events or scanning activities. We cluster these activity logs according to their activity features. As explained early, we are interested in groups of machines that perform activities in a similar/coordinated way. Therefore, we filter out the A-clusters that contain only one host.
+This simple filtering rule allows us to obtain a small number of A-clusters and reduce the overall false positive rate of our botnet detection system.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="1200"></A>
+<TABLE>
+<CAPTION><STRONG>Table 4:</STRONG>
+Botnet detection results using BotMiner.</CAPTION>
+<TR><TD><DIV ALIGN="CENTER">        <TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Botnet</TD>
+<TD ALIGN="CENTER">Number of Bots</TD>
+<TD ALIGN="CENTER">Detected?</TD>
+<TD ALIGN="CENTER">Clustered Bots</TD>
+<TD ALIGN="CENTER">Detection Rate</TD>
+<TD ALIGN="CENTER">False Positive Clusters/Hosts</TD>
+<TD ALIGN="CENTER">FP Rate</TD>
+</TR>
+<TR><TD ALIGN="LEFT">IRC-rbot</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">YES</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">100%</TD>
+<TD ALIGN="CENTER">1/2</TD>
+<TD ALIGN="CENTER">0.003</TD>
+</TR>
+<TR><TD ALIGN="LEFT">IRC-sdbot</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">YES</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">100%</TD>
+<TD ALIGN="CENTER">1/2</TD>
+<TD ALIGN="CENTER">0.003</TD>
+</TR>
+<TR><TD ALIGN="LEFT">IRC-spybot</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">YES</TD>
+<TD ALIGN="CENTER">3</TD>
+<TD ALIGN="CENTER">75%</TD>
+<TD ALIGN="CENTER">1/2</TD>
+<TD ALIGN="CENTER">0.003</TD>
+</TR>
+<TR><TD ALIGN="LEFT">IRC-N</TD>
+<TD ALIGN="CENTER">259</TD>
+<TD ALIGN="CENTER">YES</TD>
+<TD ALIGN="CENTER">258</TD>
+<TD ALIGN="CENTER">99.6%</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">HTTP-1</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">YES</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">100%</TD>
+<TD ALIGN="CENTER">1/2</TD>
+<TD ALIGN="CENTER">0.003</TD>
+</TR>
+<TR><TD ALIGN="LEFT">HTTP-2</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">YES</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">100%</TD>
+<TD ALIGN="CENTER">1/2</TD>
+<TD ALIGN="CENTER">0.003</TD>
+</TR>
+<TR><TD ALIGN="LEFT">P2P-Storm</TD>
+<TD ALIGN="CENTER">13</TD>
+<TD ALIGN="CENTER">YES</TD>
+<TD ALIGN="CENTER">13</TD>
+<TD ALIGN="CENTER">100%</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">P2P-Nugache</TD>
+<TD ALIGN="CENTER">82</TD>
+<TD ALIGN="CENTER">YES</TD>
+<TD ALIGN="CENTER">82</TD>
+<TD ALIGN="CENTER">100%</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0</TD>
+</TR>
+</TABLE>
+ <A NAME="tab:FNtest"></A> </DIV></TD></TR>
+</TABLE>
+</DIV><P></P><BR>
+
+<P>
+Afterwards, we apply cross-plane correlation.
+We assume that the traffic we collected from our campus network is normal. In order to verify this assumption we used state-of-the-art botnet detection techniques like BotHunter&nbsp;[<A
+ HREF="index.html#Gu:2007">19</A>] and BotSniffer&nbsp;[<A
+ HREF="index.html#BotSniffer2008">20</A>].
+Therefore, any cluster generated as a result of the cross-plane correlation is considered as a <I>false positive cluster</I>. 
+It is easy to see from Table&nbsp;<A HREF="#tab:test_trace">3</A> that there are very few such false positive clusters every day (from zero to four). Most of these clusters contain only two clients (i.e., they induce two false positives). In three out of ten days no false positive was reported. 
+In both Day-2 and Day-3, the cross-correlation produced one false positive cluster containing two hosts. Two false positive clusters were reported in each day from Day-5 to Day-8. In Day-4, the cross-plane correlation produced four false positive clusters. 
+
+<P>
+For each day of traffic, the last column of Table&nbsp;<A HREF="#tab:test_trace">3</A> shows the false positive rate (FP rate), which is calculated as the fraction of IP addresses reported in the false positive clusters over the total number of distinct normal clients appearing in that day. After further analysis we found that many of these false positives are caused by clients performing binary downloading from websites not present in our whitelist. In practice, the number of false positives may be reduced by implementing a better binary downloading monitor and clustering module, e.g., by capturing the entire binary and performing content inspection (using either anomaly-based detection systems&nbsp;[<A
+ HREF="index.html#Schultz_2001">38</A>] or signature-based AV tools).
+
+<P>
+In order to validate the detection accuracy of BotMiner, we overlaid botnet traffic to normal traffic.
+We consider one botnet trace at a time and overlay it to the entire normal traffic trace of Day-2.
+We simulate a near-realistic scenario by constructing the test dataset as follows. Let <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"> be the number of distinct bots in the botnet trace we want to overlay to normal traffic. We randomly select <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"> distinct IP addresses from the normal traffic trace and map them to the <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"> IP addresses of the bots. That is, we replace an <IMG
+ WIDTH="28" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img90.png"
+ ALT="$ IP_i$"> of a normal machine with the <IMG
+ WIDTH="28" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img90.png"
+ ALT="$ IP_i$"> of a bot. In this way, we obtain a dataset of mixed normal and botnet traffic where a set of <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"> machines show both normal and botnet-related behavior.
+Table <A HREF="#tab:FNtest">4</A> reports the detection results for each botnet.
+
+<P>
+Table&nbsp;<A HREF="#tab:FNtest">4</A> shows that BotMiner is able to detect all eight botnets. We verified whether the members in the reported clusters are actually bots or not. For 6 out of 8 botnets, we obtained 100% detection rate, i.e., we successfully identified all the bots within the 6 botnets. For example, in the case of P2P botnets (<TT>Botnet-P2P-Nugache</TT> and <TT>Botnet-P2P-Storm</TT>), BotMiner correctly generated a cluster containing all the botnet members. In the case of <TT>Botnet-IRC-spybot</TT>, BotMiner correctly detected a cluster of bots. However, one of the bots belonging to the botnet was not reported in the cluster, which means that the detector generated a false negative. 
+<TT>Botnet-IRC-N</TT> contains 259 bot clients. BotMiner was able to identify 258 of the bots in one cluster, whereas one of the bots was not detected. Therefore, in this case BotMiner had a detection rate of 99.6%.
+
+<P>
+There were some cases in which BotMiner also generated a false positive cluster containing two normal hosts. 
+We verified that these two normal hosts in particular were also responsible for the false positives generated during the analysis of the Day-2 normal traffic (see Table&nbsp;<A HREF="#tab:test_trace">3</A>).
+
+<P>
+As we can see, BotMiner performs quite well in our experiments, showing a very high detection rate with relatively few false positives in real-world network traces.
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION00040000000000000000"></A>
+<A NAME="sec:discussion"></A><BR>
+4 Limitations and Potential Solutions
+</H1>
+
+<P>
+Like any intrusion/anomaly detection system, BotMiner is not perfect or complete. It is likely that once adversaries know our detection framework and implementation, they might find some ways to evade detection, e.g., by evading the C-plane and A-plane monitoring and clustering, or the cross-plane correlation analysis. We now address these limitations and discuss possible solutions.
+
+<P>
+
+<H2><A NAME="SECTION00041000000000000000">
+4.1 Evading C-plane Monitoring and Clustering</A>
+</H2>
+
+<P>
+Botnets may try to utilize a legitimate website (e.g., <TT>Google</TT>) for their C&amp;C purpose in attempt to evade detection. Evasion would be successful in this case if we whitelisted such legitimate websites to reduce the volume of monitored traffic and improve the efficiency of our detection system. However, if a legitimate website, say <TT>Google</TT>, is used as a means to locate a secondary URL for actual command hosting or binary downloading, botnets may not be able to hide this secondary URL and the corresponding communications. Therefore, clustering of network traffic towards the server pointed by this secondary URL will likely allow us to detect the bots. Also, whitelisting is just an optional operation. One may easily choose not to use whitelisting to avoid such kind of evasion attempts (of course, in this case one may face the trade-off between accuracy and efficiency).
+
+<P>
+Botnet members may attempt to intentionally manipulate their communication patterns to evade our C-plane clustering. 
+The easiest thing is to switch to multiple C&amp;C servers. However, this does not help much to evade our detection because such peer communications could still be clustered together just like how we cluster P2P communications. A more advanced way is to randomize each individual communication pattern, for example by randomizing the number of packets per flow (e.g., by injecting random packets in a flow), and the number of bytes per packet (e.g., by padding random bytes in a packet). However, such randomization may introduce similarities among botnet members if we measure the distribution and entropy of communication features. Also, this randomization may raise suspicion because normal user communications may not have such randomized patterns.
+Advanced evasion may be attempted by bots that try to mimic the communication patterns of normal hosts, in a way similar to polymorphic blending attacks [<A
+ HREF="index.html#Fogla06">15</A>]. 
+Furthermore, bots could use covert channes&nbsp;[<A
+ HREF="index.html#CovertChannel">1</A>] to hide their actual C&amp;C communications.
+We acknowledge that, generally speaking, communication randomization, mimicry attacks and covert channel represent limitations for all traffic-based detection approaches, including BotMiner's C-plane clustering technique. By incorporating more detection features such as content inspection and host level analysis, the detection system may make evasion more difficult.
+
+<P>
+Finally, we note that if botnets are used to perform multiple tasks (in A-plane), we may still detect them even when they can evade C-plane monitoring and analysis. By using the scoring algorithm described in Section <A HREF="#SECTION:Cross-Plane_Correlation">2.7</A>, we can perform cross clustering analysis among multiple activity clusters (in A-plane) to accumulate the suspicious score needed to claim the existence of botnets. Thus, we may even <I>not</I> require C-plane analysis if there is already a <I>strong</I> cross-cluster correlation among different types of malicious activities in A-plane. For example, if the same set of hosts involve several types of A-plane clusters (e.g., they send spams, scan others, and/or download the same binaries), they can be reported as botnets because those behaviors, by themselves, are highly suspicious and most likely indicating botnets behaviors [<A
+ HREF="index.html#Gu:2007">19</A>,<A
+ HREF="index.html#BotSniffer2008">20</A>]. 
+
+<P>
+
+<H2><A NAME="SECTION00042000000000000000">
+4.2 Evading A-plane Monitoring and Clustering</A>
+</H2>
+
+<P>
+Malicious activities of botnets are unlikely or relatively hard to change as long as the botmaster wants the botnets to perform ``useful'' tasks. However, the botmaster can attempt to evade BotMiner's A-plane monitoring and clustering in several ways.
+
+<P>
+Botnets may perform very stealthy malicious activities in order to evade the detection of A-plane monitors. For example, they can scan very slowly (e.g., send one scan per hour), send spam very slowly (e.g., send one spam per day). This will evade our monitor sensors. However, this also puts a limit on the utility of bots.
+
+<P>
+In addition, as discussed above, if the botmaster commands each bot <I>randomly and individually</I> to perform different task, the bots are not different from previous generations of isolated, individual malware instances. This is unlikely the way a bot<I>net</I> is used in practice. A more advanced evasion is to differentiate the bots and avoid commanding bots in the same monitored network the same way. This will cause additional effort and inconvenience for the botmaster. To defeat such an evasion, we can deploy distributed monitors on the Internet to cover a larger monitored space. 
+
+<P>
+Note, if the botmaster takes the extreme action of randomizing/individualizing both the C&amp;C communications and attack activities of each bots, then these bots are probably not part of a bot<I>net</I> according to our specific definition because the bots are not performing similar/coordinated commanded activities. 
+Orthogonal to the <I>horizontal correlation</I> approaches such as BotMiner to detect a bot<I>net</I>, we can always use complementary systems like BotHunter [<A
+ HREF="index.html#Gu:2007">19</A>] that examine the behavior history of <I>distinct</I> host for a dialog or <I>vertical correlation</I> based approach to detect <I>individual</I> bots.
+
+<P>
+
+<H2><A NAME="SECTION00043000000000000000">
+4.3 Evading Cross-plane Analysis</A>
+</H2>
+
+<P>
+A botmaster can command the bots to perform an extremely delayed task (e.g., delayed for days after receiving commands). Thus, the malicious activities and C&amp;C communications are in different days. If only using one day's data, we may not be able to yield cross-plane clusters. As a solution, we may use multiple-day data and cross check back several days. Although this has the hope of capturing these botnets, it may also suffer from generating more false positives. Clearly, there is a trade-off. The botmaster also faces the trade-off because a very slow C&amp;C essentially impedes the efficiency in controlling/coordinating the bot army. Also, a bot infected machine may be disconnected from the Internet or be powered off by the users
+during the delay and become unavailable to the botmaster.
+
+<P>
+In summary, while it is possible that a botmaster can find a way to exploit the limitations of BotMiner, the convenience or the efficiency of botnet C&amp;C and the utility of the botnet also suffer. Thus, we believe that our protocol- and structure-independent detection framework represents a significant advance in botnet detection. 
+
+<P>
+
+<H1><A NAME="SECTION00050000000000000000"></A>
+<A NAME="sec:relatedwork"></A><BR>
+5 Related Work
+</H1>
+
+<P>
+To collect and analyze bots, researchers widely utilize honeypot techniques&nbsp;[<A
+ HREF="index.html#Nepenthes">4</A>,<A
+ HREF="index.html#Rajab06">32</A>,<A
+ HREF="index.html#Freiling05">16</A>]. Freiling et&nbsp;al.&nbsp;[<A
+ HREF="index.html#Freiling05">16</A>] used honeypots to study the problem of botnets. Nepenthes&nbsp;[<A
+ HREF="index.html#Nepenthes">4</A>] is a special honeypot tool for automatic malware sample collection. Rajab et&nbsp;al.&nbsp;[<A
+ HREF="index.html#Rajab06">32</A>] provided an in-depth measurement study of the current botnet activities by conducting a multi-faceted approach to collect bots and track botnets. Cooke et&nbsp;al.&nbsp;[<A
+ HREF="index.html#Cooke05">10</A>] conducted several basic studies of botnet dynamics. In [<A
+ HREF="index.html#Dagon06">13</A>], Dagon et al. proposed to use DNS sinkholing technique for botnet study and pointed out the global diurnal behavior of botnets. Barford and Yegneswaran [<A
+ HREF="index.html#Barford06">6</A>] provided a detailed study on the code base of several common bot families. Collins et&nbsp;al.&nbsp;[<A
+ HREF="index.html#Collins:2007">9</A>] presented their observation of a relationship between botnets and scanning/spamming activities.
+
+<P>
+Several recent papers proposed different approaches to detect botnets. 
+Ramachandran et&nbsp;al.[<A
+ HREF="index.html#Ramachandran:2006">34</A>] proposed using DNSBL counter-intelligence to
+find botnet members that generate spams. This approach is useful for just certain types of spam botnets. In [<A
+ HREF="index.html#Reiter_DIMVA08">35</A>], Reiter and Yen proposed a system TAMD to detect malware
+(including botnets) by aggregating traffic that shares the same
+external destination, similar payload, and that involves
+internal hosts with similar OS platforms. TAMD's aggregation method based on destination networks focuses on networks that experience an increase in traffic as compared to a historical baseline. Different
+from BotMiner that focuses on botnet detection, TAMD aims to detect a
+broader range of malware. Since TAMD's aggregation features are
+different from BotMiner's (in which we cluster similar communication
+patterns and similar malicious activity patterns), TAMD and BotMiner can
+complement each other in botnet and malware detection.
+Livadas et&nbsp;al.[<A
+ HREF="index.html#BBN_ML">29</A>,<A
+ HREF="index.html#BBN_LCN_botnet">40</A>] proposed a machine learning
+based approach for botnet detection using some general network-level
+traffic features of chat-like protocols such as <TT>IRC</TT>. 
+Karasaridis et&nbsp;al.[<A
+ HREF="index.html#ATT_hotbots07">26</A>] studied network flow level detection of IRC botnet controllers for backbone networks. The above two are similar to our work in C-plane clustering but different in many ways. First, they are used to detect IRC-based botnet (by matching a known IRC traffic profile), while we do not have the assumption of known C&amp;C protocol profiles. Second, we use a different feature set on a new communication flow (C-flow) data format instead of traditional network flow. Third, we consider both C-plane and A-plane information instead of just flow records.
+
+<P>
+Rishi [<A
+ HREF="index.html#Holz:2007">17</A>] is a 
+signature-based <TT>IRC</TT> botnet detection system by matching known IRC bot
+nickname patterns.  Binkley and Singh [<A
+ HREF="index.html#Binkley2006">7</A>] proposed
+combining IRC statistics and TCP work weight for the detection of
+IRC-based botnets.  In [<A
+ HREF="index.html#Gu:2007">19</A>], we described
+BotHunter, which is a passive bot detection system that uses dialog
+correlation to associate IDS events to a user-defined bot infection dialog model. Different from BotHunter's <I>dialog correlation</I> or <I>vertical correlation</I> that mainly examines the behavior history associated with each <I>distinct</I> host, BotMiner utilizes a <I>horizontal correlation</I> approach that examines correlation <I>across</I> multiple hosts. BotSniffer [<A
+ HREF="index.html#BotSniffer2008">20</A>] is an anomaly-based botnet C&amp;C detection system that also utilizes <I>horizontal correlation</I>. However, it is used mainly for detecting <I>centralized</I> C&amp;C activities (e.g., <TT>IRC</TT> and <TT>HTTP</TT>). 
+
+<P>
+The aforementioned systems are mostly limited to specific botnet protocols and structures, and many of them work only on IRC-based botnets. BotMiner is a novel general detection system that does not have such limitations and can greatly complement existing detection approaches.
+
+<P>
+
+<H1><A NAME="SECTION00060000000000000000"></A>
+<A NAME="sec:conclusion"></A><BR>
+6 Conclusion &amp; Future Work
+</H1>
+
+<P>
+Botnet detection is a challenging problem. In this paper, we
+proposed a novel network anomaly-based botnet detection system that
+is independent of the protocol and structure used by botnets. Our system
+exploits the essential definition and properties of botnets, i.e.,
+bots within the same botnet will exhibit similar C&amp;C communication
+patterns and similar malicious activities patterns. 
+In our experimental
+evaluation on many real-world network traces, BotMiner shows
+excellent detection accuracy on various types of botnets (including <TT>IRC</TT>-based, <TT>HTTP</TT>-based, and P2P-based botnets) with a very low false positive rate on normal traffic.
+
+<P>
+It is likely that future botnets (especially P2P botnets) may utilize evasion techniques to avoid detection, as discussed in Section <A HREF="#sec:discussion">4</A>. In our future work, we will study new techniques to monitor/cluster communication and activity patterns of botnets, and these techniques are intended to be more robust to evasion attempts.
+In addition, we plan to further improve the efficiency of the C-flow converting and clustering algorithms, combine different correlation techniques (e.g., vertical correlation and horizontal correlation), and develop new real-time detection systems based on a layered design using sampling techniques to work in very high speed and very large network environments.
+
+<P>
+
+<H1><A NAME="SECTION00070000000000000000">
+Acknowledgments</A>
+</H1>
+We would like to thank David Dagon and Yan Chen for their help in providing some of the evaluation data in our experiments. We thank Robert Edmonds for his support on using <TT>fcapture</TT>. In addition, we thank Angelos Stavrou, Rachna Dhamija, and anonymous reviewers for their insightful comments and feedback.
+This material is based upon work supported in part by the National Science Foundation under Grants CCR-0133629, CNS-0627477, and CNS-0716570, by the U.S. Army Research Office under Grant W911NF0610042, and by the Air Force Research Laboratory (AFRL) under Grant FA8750-08-2-0141. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation, the U.S. Army Research Office, and the Air Force Research Laboratory.
+
+<P>
+
+<H2><A NAME="SECTION00080000000000000000">
+Bibliography</A>
+</H2><DL COMPACT><DD><P></P><DT><A NAME="CovertChannel">1</A>
+<DD>
+A guide to understanding covert channel analysis of trusted systems, version 1.
+<BR>NCSC-TG-030, Library No. S-240,572, National Computer Security
+  Center, November 1993.
+
+<P></P><DT><A NAME="Overnet">2</A>
+<DD>
+Overnet.
+<BR><TT><A NAME="tex2html27"
+  HREF="http://en.wikipedia.org/wiki/Overnet">http://en.wikipedia.org/wiki/Overnet</A></TT>, 2008.
+
+<P></P><DT><A NAME="Holz05">3</A>
+<DD>
+P.&nbsp;Bacher, T.&nbsp;Holz, M.&nbsp;Kotter, and G.&nbsp;Wicherski.
+<BR>Know your enemy: Tracking botnets.
+<BR><TT><A NAME="tex2html28"
+  HREF="http://www.honeynet.org/papers/bots/">http://www.honeynet.org/papers/bots/</A></TT>, 2005.
+
+<P></P><DT><A NAME="Nepenthes">4</A>
+<DD>
+P.&nbsp;Baecher, M.&nbsp;Koetter, T.&nbsp;Holz, M.&nbsp;Dornseif, and F.&nbsp;Freiling.
+<BR>The nepenthes platform: An efficient approach to collect malware.
+<BR>In <EM>Proceedings of International Symposium on Recent Advances in
+  Intrusion Detection (RAID'06)</EM>, Hamburg, September 2006.
+
+<P></P><DT><A NAME="Bailey07">5</A>
+<DD>
+M.&nbsp;Bailey, J.&nbsp;Oberheide, J.&nbsp;Andersen, M.&nbsp;Mao, F.&nbsp;Jahanian, and J.&nbsp;Nazario.
+<BR>Automated classification and analysis of internet malware.
+<BR>In <EM>Proceedings of International Symposium on Recent Advances in
+  Intrusion Detection (RAID'07)</EM>, 2007.
+
+<P></P><DT><A NAME="Barford06">6</A>
+<DD>
+P.&nbsp;Barford and V.&nbsp;Yegneswaran.
+<BR>An Inside Look at Botnets.
+<BR>Special Workshop on Malware Detection, Advances in Information
+  Security, Springer Verlag, 2006.
+
+<P></P><DT><A NAME="Binkley2006">7</A>
+<DD>
+J.&nbsp;R. Binkley and S.&nbsp;Singh.
+<BR>An algorithm for anomaly-based botnet detection.
+<BR>In <EM>Proceedings of USENIX SRUTI'06</EM>, pages 43-48, July 2006.
+
+<P></P><DT><A NAME="Chiang07">8</A>
+<DD>
+K.&nbsp;Chiang and L.&nbsp;Lloyd.
+<BR>A case study of the rustock rootkit and spam bot.
+<BR>In <EM>Proceedings of USENIX HotBots'07</EM>, 2007.
+
+<P></P><DT><A NAME="Collins:2007">9</A>
+<DD>
+M.&nbsp;Collins, T.&nbsp;Shimeall, S.&nbsp;Faber, J.&nbsp;Janies, R.&nbsp;Weaver, M.&nbsp;D. Shon, and
+  J.&nbsp;Kadane.
+<BR>Using uncleanliness to predict future botnet addresses,.
+<BR>In <EM>Proceedings of ACM/USENIX Internet Measurement Conference
+  (IMC'07)</EM>, 2007.
+
+<P></P><DT><A NAME="Cooke05">10</A>
+<DD>
+E.&nbsp;Cooke, F.&nbsp;Jahanian, and D.&nbsp;McPherson.
+<BR>The zombie roundup: Understanding, detecting, and disrupting botnets.
+<BR>In <EM>Proceedings of USENIX SRUTI'05</EM>, 2005.
+
+<P></P><DT><A NAME="BotHunterWebSite">11</A>
+<DD>
+Cyber-TA.
+<BR>BotHunter Free Internet Distribution Page.
+<BR><TT><A NAME="tex2html29"
+  HREF="http://www.cyber-ta.org/BotHunter">http://www.cyber-ta.org/BotHunter</A></TT>, 2008.
+
+<P></P><DT><A NAME="BotTaxonomy07">12</A>
+<DD>
+D.&nbsp;Dagon, G.&nbsp;Gu, C.&nbsp;Lee, and W.&nbsp;Lee.
+<BR>A taxonomy of botnet structures.
+<BR>In <EM>Proceedings of the 23 Annual Computer Security Applications
+  Conference (ACSAC'07)</EM>, 2007.
+
+<P></P><DT><A NAME="Dagon06">13</A>
+<DD>
+D.&nbsp;Dagon, C.&nbsp;Zou, and W.&nbsp;Lee.
+<BR>Modeling botnet propagation using timezones.
+<BR>In <EM>Proceedings of the 13th Annual Network and Distributed
+  System Security Symposium (NDSS'06)</EM>, January 2006.
+
+<P></P><DT><A NAME="Clickbot_hotbots07">14</A>
+<DD>
+N.&nbsp;Daswani and M.&nbsp;Stoppelman.
+<BR>The anatomy of clickbot.a.
+<BR>In <EM>Proceedings of USENIX HotBots'07</EM>, 2007.
+
+<P></P><DT><A NAME="Fogla06">15</A>
+<DD>
+P.&nbsp;Fogla, M.&nbsp;Sharif, R.&nbsp;Perdisci, O.&nbsp;M. Kolesnikov, and W.&nbsp;Lee.
+<BR>Polymorphic blending attack.
+<BR>In <EM>Proceedings of the 15th USENIX Security Symposium
+  (Security'06)</EM>, 2006.
+
+<P></P><DT><A NAME="Freiling05">16</A>
+<DD>
+F.&nbsp;Freiling, T.&nbsp;Holz, and G.&nbsp;Wicherski.
+<BR>Botnet Tracking: Exploring a Root-cause Methodology to Prevent
+  Denial of Service Attacks.
+<BR>In <EM>Proceedings of 10th European Symposium on Research in
+  Computer Security (ESORICS'05)</EM>, 2005.
+
+<P></P><DT><A NAME="Holz:2007">17</A>
+<DD>
+J.&nbsp;Goebel and T.&nbsp;Holz.
+<BR>Rishi: Identify bot contaminated hosts by irc nickname evaluation.
+<BR>In <EM>Proceedings of USENIX HotBots'07</EM>, 2007.
+
+<P></P><DT><A NAME="Grizzard:2007">18</A>
+<DD>
+J.&nbsp;B. Grizzard, V.&nbsp;Sharma, C.&nbsp;Nunnery, B.&nbsp;B. Kang, and D.&nbsp;Dagon.
+<BR>Peer-to-peer botnets: Overview and case study.
+<BR>In <EM>Proceedings of USENIX HotBots'07</EM>, 2007.
+
+<P></P><DT><A NAME="Gu:2007">19</A>
+<DD>
+G.&nbsp;Gu, P.&nbsp;Porras, V.&nbsp;Yegneswaran, M.&nbsp;Fong, and W.&nbsp;Lee.
+<BR>BotHunter: Detecting malware infection through ids-driven dialog
+  correlation.
+<BR>In <EM>Proceedings of the 16th USENIX Security Symposium
+  (Security'07)</EM>, 2007.
+
+<P></P><DT><A NAME="BotSniffer2008">20</A>
+<DD>
+G.&nbsp;Gu, J.&nbsp;Zhang, and W.&nbsp;Lee.
+<BR>BotSniffer: Detecting botnet command and control channels in
+  network traffic.
+<BR>In <EM>Proceedings of the 15th Annual Network and Distributed System
+  Security Symposium (NDSS'08)</EM>, 2008.
+
+<P></P><DT><A NAME="Halkidi2001">21</A>
+<DD>
+M.&nbsp;Halkidi, Y.&nbsp;Batistakis, and M.&nbsp;Vazirgiannis.
+<BR>On clustering validation techniques.
+<BR><EM>J. Intell. Inf. Syst.</EM>, 17(2-3):107-145, 2001.
+
+<P></P><DT><A NAME="Holz:2008">22</A>
+<DD>
+T.&nbsp;Holz, C.&nbsp;Gorecki, K.&nbsp;Rieck, and F.&nbsp;C. Freiling.
+<BR>Detection and mitigation of fast-flux service networks.
+<BR>In <EM>Proceedings of the 15th Annual Network and Distributed System
+  Security Symposium (NDSS'08)</EM>, 2008.
+
+<P></P><DT><A NAME="HolzLeet08">23</A>
+<DD>
+T.&nbsp;Holz, M.&nbsp;Steiner, F.&nbsp;Dahl, E.&nbsp;Biersack, and F.&nbsp;Freiling.
+<BR>Measurements and mitigation of peer-to-peer-based botnets: A case
+  study on storm worm.
+<BR>In <EM>Proceedings of the First USENIX Workshop on Large-Scale
+  Exploits and Emergent Threats (LEET'08)</EM>, 2008.
+
+<P></P><DT><A NAME="botnetVehicle">24</A>
+<DD>
+N.&nbsp;Ianelli and A.&nbsp;Hackworth.
+<BR>Botnets as a vehicle for online crime.
+<BR>http://www.cert.org/archive/pdf/Botnets.pdf, 2005.
+
+<P></P><DT><A NAME="Jain1999">25</A>
+<DD>
+A.&nbsp;K. Jain, M.&nbsp;N. Murty, and P.&nbsp;J. Flynn.
+<BR>Data clustering: a review.
+<BR><EM>ACM Computer Survey</EM>, 31(3):264-323, 1999.
+
+<P></P><DT><A NAME="ATT_hotbots07">26</A>
+<DD>
+A.&nbsp;Karasaridis, B.&nbsp;Rexroad, and D.&nbsp;Hoeflin.
+<BR>Wide-scale botnet detection and characterization.
+<BR>In <EM>Proceedings of USENIX HotBots'07</EM>, 2007.
+
+<P></P><DT><A NAME="StormSupercomputer07">27</A>
+<DD>
+B.&nbsp;Krebs.
+<BR>Storm worm dwarfs world's top supercomputers.
+<BR>
+  <TT><A NAME="tex2html30"
+  HREF="http://blog.washingtonpost.com/securityfix/2007/08/storm_worm_dwarfs_worlds_top_s_1.html">http://blog.washingtonpost.com/securityfix/2007/08/storm_worm_dwarfs_worlds_top_s_1.html</A></TT>, 2007.
+
+<P></P><DT><A NAME="Nugache06">28</A>
+<DD>
+R.&nbsp;Lemos.
+<BR>Bot software looks to improve peerage.
+<BR><TT><A NAME="tex2html31"
+  HREF="Http://www.securityfocus.com/news/11390">Http://www.securityfocus.com/news/11390</A></TT>, 2006.
+
+<P></P><DT><A NAME="BBN_ML">29</A>
+<DD>
+C.&nbsp;Livadas, R.&nbsp;Walsh, D.&nbsp;Lapsley, and W.&nbsp;T. Strayer.
+<BR>Using machine learning techniques to identify botnet traffic.
+<BR>In <EM>Proceedings of the 2nd IEEE LCN Workshop on Network Security
+  (WoNS'2006)</EM>, 2006.
+
+<P></P><DT><A NAME="Kademlia02">30</A>
+<DD>
+P.&nbsp;Maymounkov and D.&nbsp;Mazieres.
+<BR>Kademlia: A peer-to-peer information system based on the XOR
+  metric.
+<BR>In <EM>Proceedings of the 1st International Workshop on Peer-to-Peer
+  Systems (IPTPS'02)</EM>, 2002.
+
+<P></P><DT><A NAME="Pelleg2000">31</A>
+<DD>
+D.&nbsp;Pelleg and A.&nbsp;W. Moore.
+<BR>X-means: Extending k-means with efficient estimation of the number of
+  clusters.
+<BR>In <EM>Proceedings of the Seventeenth International Conference on
+  Machine Learning (ICML'00)</EM>, pages 727-734, San Francisco, CA, USA, 2000.
+  Morgan Kaufmann Publishers Inc.
+
+<P></P><DT><A NAME="Rajab06">32</A>
+<DD>
+M.&nbsp;Rajab, J.&nbsp;Zarfoss, F.&nbsp;Monrose, and A.&nbsp;Terzis.
+<BR>A multi-faceted approach to understanding the botnet phenomenon.
+<BR>In <EM>Proceedings of ACM SIGCOMM/USENIX Internet Measurement
+  Conference (IMC'06)</EM>, Brazil, October 2006.
+
+<P></P><DT><A NAME="Feamster06">33</A>
+<DD>
+A.&nbsp;Ramachandran and N.&nbsp;Feamster.
+<BR>Understanding the network-level behavior of spammers.
+<BR>In <EM>Proceedings of ACM SIGCOMM'06</EM>, 2006.
+
+<P></P><DT><A NAME="Ramachandran:2006">34</A>
+<DD>
+A.&nbsp;Ramachandran, N.&nbsp;Feamster, and D.&nbsp;Dagon.
+<BR>Revealing botnet membership using DNSBL counter-intelligence.
+<BR>In <EM>Proceedings of USENIX SRUTI'06</EM>, 2006.
+
+<P></P><DT><A NAME="Reiter_DIMVA08">35</A>
+<DD>
+M.&nbsp;K. Reiter and T.-F. Yen.
+<BR>Traffic aggregation for malware detection.
+<BR>In <EM>Proceedings of the Fifth GI International Conference on
+  Detection of Intrusions and Malware, and Vulnerability Assessment
+  (DIMVA'08)</EM>, 2008.
+
+<P></P><DT><A NAME="Snort_99">36</A>
+<DD>
+M.&nbsp;Roesch.
+<BR>Snort - lightweight intrusion detection for networks.
+<BR>In <EM>Proceedings of USENIX LISA'99</EM>, 1999.
+
+<P></P><DT><A NAME="Polyunpack2006">37</A>
+<DD>
+P.&nbsp;Royal, M.&nbsp;Halpin, D.&nbsp;Dagon, R.&nbsp;Edmonds, and W.&nbsp;Lee.
+<BR>Polyunpack: Automating the hidden-code extraction of unpack-executing
+  malware.
+<BR>In <EM>Proceedings of the 22nd Annual Computer Security Applications
+  Conference (ACSAC'06)</EM>, pages 289-300, Washington, DC, USA, 2006. IEEE
+  Computer Society.
+
+<P></P><DT><A NAME="Schultz_2001">38</A>
+<DD>
+M.&nbsp;G. Schultz, E.&nbsp;Eskin, E.&nbsp;Zadok, and S.&nbsp;J. Stolfo.
+<BR>Data mining methods for detection of new malicious executables.
+<BR>In <EM>Proceedings of the 2001 IEEE Symposium on Security and
+  Privacy</EM>, 2001.
+
+<P></P><DT><A NAME="bobax">39</A>
+<DD>
+SecureWorks.
+<BR>Bobax trojan analysis.
+<BR>http://www.secureworks.com/research/threats/bobax/, 2004.
+
+<P></P><DT><A NAME="BBN_LCN_botnet">40</A>
+<DD>
+W.&nbsp;T. Strayer, R.&nbsp;Walsh, C.&nbsp;Livadas, and D.&nbsp;Lapsley.
+<BR>Detecting botnets with tight command and control.
+<BR>In <EM>Proceedings of the 31st IEEE Conference on Local Computer
+  Networks (LCN'06)</EM>, 2006.
+
+<P></P><DT><A NAME="DBLP:journals_jcs_Wehner07">41</A>
+<DD>
+S.&nbsp;Wehner.
+<BR>Analyzing worms and network traffic using compression.
+<BR><EM>Journal of Computer Security</EM>, 15(3):303-320, 2007.
+
+<P></P><DT><A NAME="PehunterWebSite">42</A>
+<DD>
+T.&nbsp;Werner.
+<BR>PE Hunter.
+<BR><TT><A NAME="tex2html32"
+  HREF="http://honeytrap.mwcollect.org/pehunter">http://honeytrap.mwcollect.org/pehunter</A></TT>, 2007.
+
+<P></P><DT><A NAME="Zhuang08email">43</A>
+<DD>
+L.&nbsp;Zhuang, J.&nbsp;Dunagan, D.&nbsp;R. Simon, H.&nbsp;J. Wang, I.&nbsp;Osipkov, G.&nbsp;Hulten, and
+  J.&nbsp;Tygar.
+<BR>Characterizing botnets from email spam records.
+<BR>In <EM>Proceedings of the First USENIX Workshop on Large-Scale
+  Exploits and Emergent Threats (LEET'08)</EM>, 2008.
+
+<P></P><DT><A NAME="zhuge07">44</A>
+<DD>
+J.&nbsp;Zhuge, T.&nbsp;Holz, X.&nbsp;Han, J.&nbsp;Guo, and W.&nbsp;Zou.
+<BR>Characterizing the irc-based botnet phenomenon.
+<BR>Peking University &amp; University of Mannheim Technical Report, 2007.
+</DL>
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot186">...HTTP</A><A
+ HREF="index.html#tex2html1"><SUP>1</SUP></A></DT>
+<DD>BotSniffer could be extended to support other protocol based C&amp;C, if the corresponding protocol matchers are added.
+
+</DD>
+<DT><A NAME="foot204">... DDoS</A><A
+ HREF="index.html#tex2html2"><SUP>2</SUP></A></DT>
+<DD>For spreading, the scans usually span many different hosts (within a subnet) indicated by the botnet command. For DDoS, usually there are numerous connection attempts to a specific host. In both cases, the traffic can be considered as scanning related.
+
+</DD>
+<DT><A NAME="foot232">... work</A><A
+ HREF="index.html#tex2html3"><SUP>3</SUP></A></DT>
+<DD>
+One can still use our complementary system, BotHunter [<A
+ HREF="index.html#Gu:2007">19</A>], to detect individual bots. In this paper, we focus on the detection of a bot<I>net</I>.
+We further clarify our assumptions in Section&nbsp;<A HREF="#SECTION:problemStatement">2.1</A> and address limitations in Section&nbsp;<A HREF="#sec:discussion">4</A>.
+
+
+</DD>
+<DT><A NAME="foot333">...BotSniffer2008</A><A
+ HREF="index.html#tex2html6"><SUP>4</SUP></A></DT>
+<DD>All these tools can also be deployed in LANs.
+
+</DD>
+<DT><A NAME="foot342">...fcapture </A><A
+ HREF="index.html#tex2html11"><SUP>5</SUP></A></DT>
+<DD>This tool will be released in open source soon.
+
+</DD>
+<DT><A NAME="foot364">... hosts</A><A
+ HREF="index.html#tex2html14"><SUP>6</SUP></A></DT>
+<DD>If the C-plane monitor is deployed at the edge router, these traffic will not be seen. However, if the monitor is deployed/tested in a LAN, then this filtering can be used.
+
+</DD>
+<DT><A NAME="foot530">... quantiles</A><A
+ HREF="index.html#tex2html17"><SUP>7</SUP></A></DT>
+<DD>The quantile <IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$ q_{l\%}$"> of a random variable <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$ X$"> is the value <IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$ q$"> for which <!-- MATH
+ $P(X<q)=l\%$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img24.png"
+ ALT="$ P(X&lt;q)=l\%$">.
+
+</DD>
+<DT><A NAME="foot536">...BotSniffer2008 </A><A
+ HREF="index.html#tex2html21"><SUP>8</SUP></A></DT>
+<DD>In an extreme case that bots update their binaries from different URLs (and the binaries are packed to be polymorphic thus different from each other), one should unpack the binary using tools such as Polyunpack&nbsp;[<A
+ HREF="index.html#Polyunpack2006">37</A>]  before calculating the distance. One may also directly apply normalized compression distance (NCD&nbsp;[<A
+ HREF="index.html#Bailey07">5</A>,<A
+ HREF="index.html#DBLP:journals_jcs_Wehner07">41</A>]) on the original (maybe packed) binaries.
+
+</DD>
+</DL><BR><HR>
+<ADDRESS>
+Guofei Gu
+2008-05-09
+</ADDRESS>
+</BODY>
+</HTML>
+
+
+#####EOF#####
+
+
+
+
+
+#####EOF#####
+
+
+
+
+
+#####EOF#####
+
+

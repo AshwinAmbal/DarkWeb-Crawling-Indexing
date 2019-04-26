@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<!--[if lte IE 7]> <html class="ie-lte7" dir="ltr"> <![endif]-->
+<!--[if lte IE 9]> <html class="ie-lte9" dir="ltr"> <![endif]-->
+<!--[if !IE]><!--> <html dir="ltr">             <!--<![endif]-->
+<head>
+        <title>44con-announce</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="44con-announce Email Forms">
+        <meta name="keywords" content="44con-announce">
+        <script src="//twemoji.maxcdn.com/2/twemoji.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.8/dojo/dojo.js"></script>
+<script type="text/javascript">
+    require([
+        "dojo/query",
+        "dojo/dom",
+        "dojo/dom-geometry",
+        "dojo/dom-class",
+        "dojo/dom-style",
+        "dojo/dom-construct",
+        "dijit/focus",
+        "dojo/parser",
+        "dijit/form/DateTextBox",
+        "dojo/NodeList-traverse",
+        "dojo/domReady!"
+    ], function(query, dom, domGeom, domClass, domStyle, domConstruct, focusUtil, parser){
+
+        // Move the focused-field class to the field-group that contains the focused input.
+        var handle = focusUtil.watch("curNode", function(name, oldValue, newValue){
+            var parent = query(newValue).closest('.field-group');
+            if(!domClass.contains(parent, "focused-field")) {
+                query('.focused-field').removeClass('focused-field');
+                parent.addClass('focused-field');
+            }
+        });
+
+        // Add error class to parent wrapper and only show error borders on empty fields in addresses
+        query('.feedback.error').closest('.field-group').addClass('error');
+        query('.addressfield input:text[value=""]').addClass('empty');
+
+        // Focus first input of birthdayfield or phonefield-us when parent wrapper is clicked
+        query('div.subfields').on("click", function(e){
+            var firstInput = query('input', e.target)[0];
+            focusUtil.focus(firstInput);
+        });
+
+        // Prevent image blowout in IE6 since it doesn't support max-width
+        if (domClass.contains(query('html')[0], "ie-lte7")){
+
+            query('img').forEach(function(node){
+                var computedStyle = domStyle.getComputedStyle(node);
+                var w = domGeom.getContentBox(node, computedStyle).w;
+                console.log(w);
+                if(w >= 600){
+                    domStyle.set(node, "width", "600px");
+                }
+            });
+        }
+
+        // Use native checkboxes and radio buttons outside the app
+        dojo.query(".radio input, .checkbox input").removeAttr("data-dojo-type");
+
+        // Render DateTextBoxes
+        parser.parse();
+
+        query('form').on("submit",function(e){
+            var invalidDate = dojo.query('.dijitTextBoxError');
+            if(invalidDate.length){
+                query('.dijitDateTextBox ~ .feedback.error').forEach(domConstruct.destroy);
+                invalidDate.forEach(function(node) {
+                    domConstruct.place('<div class="feedback error"><div class="errorText">Please enter a valid date</div></div>', node, 'after');
+                });
+                e.preventDefault();
+            }
+        });
+
+        twemoji.parse(document.body, { size: 72 });
+
+        query(".emoji").forEach(function(emoji){
+            domStyle.set(emoji, {
+                width: "16px",
+                height: "16px"
+            });
+        });
+    });
+</script>
+
+<script src='https://www.google.com/recaptcha/api.js' async defer></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+        
+        
+	<style type="text/css">/* Forms */
+
+label {
+    display:block;
+    width:auto;
+    margin-top:8px;
+    font-weight:bold;
+}
+
+.mergeRow {
+    padding:0 0 6px 0 !important;
+    clear:both;
+}
+
+.field-group {
+    position:relative;
+    margin:3px 0 12px 0;
+    overflow:hidden;
+    background:transparent !important;
+}
+.mergeRow-radio .field-group, .mergeRow-interests-checkboxes .field-group {margin-bottom:6px;}
+
+input, textarea, select {
+    display:block;
+    margin:0;
+    padding:10px;
+    background:#fff;
+    width:100%;
+    border:2px solid #d0d0d0 !important;
+    border-radius:3px;
+    -webkit-appearance: none;
+}
+
+.field-group input, select, textarea, .dijitInputField {
+    font-size: 14px;
+}
+
+.field-group.error > input,
+.field-group.error > select,
+.field-group.error .addressfield input.empty,
+.field-group.error .birthdayfield,
+.field-group.error .subfields,
+.field-group.error .datefield .dijitInputInner,
+.datefield .dijitTextBoxError .dijitInputInner,
+.field-group.error textarea {
+    border-color:#e85c41 !important;
+}
+
+textarea {
+    font:14px/18px 'Helvetica', Arial, sans-serif;
+    width:100%;
+    height:150px;
+    overflow:auto;
+}
+
+select {
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px;
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px, -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f1f1f1));
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px, -webkit-linear-gradient(top, #fff, #f1f1f1);
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px,     -ms-linear-gradient(top, #fff, #f1f1f1);
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px,         linear-gradient(to bottom, #fff, #f1f1f1);
+}
+html[dir="rtl"] select {background-position:14px -295px;}
+
+/* Firefox always displays native select arrow button, so hide the background image arrow. */
+@-moz-document url-prefix() {
+select {
+    padding: 8px;
+    background-position: -99px 0 !important;
+    -moz-appearance: none;
+}
+}
+
+input:focus, textarea:focus, select:focus, .focused-field .subfields {
+border-color:#5d5d5d !important;
+outline:none;
+}
+
+/* Prevent Chrome's autofill yellow box shadow */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+
+
+.field-help {
+    display:block;
+    font-weight:normal;
+    position:static;
+    float:none;
+    clear:both;
+    margin:0;
+    padding:0;
+    max-height:0;
+    overflow:hidden;
+    -webkit-transition: all .25s;
+    -moz-transition: all .25s;
+    -ms-transition: all .25s;
+    transition: all .25s;
+}
+.focused-field .field-help, input:focus + .field-help {
+    display:block;
+    padding:10px 0;
+    max-height:100px;
+}
+
+.field-help .help {
+    min-height:16px;
+    text-decoration: none;
+}
+
+
+/* Error container */
+.feedback {
+    padding:10px 0;
+    line-height:16px;
+    font-size:14px;
+}
+
+.feedback br {display:none;}
+
+.feedback div {
+    font:14px/20px 'Helvetica', Arial, sans-serif !important;
+    padding:0 !important;
+    margin:0 !important;
+}
+
+.indicates-required {text-align:right;}
+.indicates-required span {
+    font-size:150%;
+    font-weight:bold;
+    display:inline !important;
+}
+
+.formstatus {
+    margin-bottom:12px;
+    font-size:18px;
+}
+
+.alert {
+    background:#e4f3d4;
+    border:2px solid #5ca000;
+    font-size:14px;
+    color:#4e7e0e !important;
+    margin:10px 0;
+    padding:10px;
+}
+
+
+/* Groups, checkboxes, radio buttons */
+ul.interestgroup_field,
+ul.interestgroup_field li,
+ul.unsub-options,
+ul.unsub-options li,
+.interestgroup_row {
+    display:block;
+    padding:0;
+    margin:0;
+    list-style:none;
+}
+label.checkbox, label.radio {
+    font-weight:normal;
+    position:relative;
+    line-height:24px;
+}
+.checkbox input, .radio input {
+    width:auto !important;
+    display:inline-block;
+    margin-right:5px;
+    padding:0;
+    border:none;
+    background-color:transparent;
+}
+
+/* Address blocks */
+.addressfield span {display:block; margin:3px 0 15px 0;}
+.addressfield label {display:none;}
+.cityfield {width:35%; float:left; padding-right:12px;}
+.statefield {width:30%; float:left; padding-right:12px;}
+.zipfield {width:35%; float:left;}
+.countryfield {clear:both;}
+
+/* Date picker */
+.dijitCalendarPopup {position:absolute;}
+.dijitComboBox.dijitDateTextBox .dijitArrowButtonContainer {
+    cursor:pointer;
+    position:absolute;
+    top:3px;
+    right:2px;
+    background:url(/images/icons/signup-sprite.png) no-repeat 10px -235px;
+    height:34px;
+    width:42px;
+    opacity:.5;
+    padding:0 5px;
+}
+.dijitComboBox.dijitDateTextBox .dijitArrowButtonContainer input {visibility:hidden;}
+.dijitComboBox.dijitDateTextBox .dijitArrowButtonContainer:hover {opacity:1;}
+.dijitValidationContainer {display:none;}
+
+/* Input placeholder color */
+.dijitPlaceHolder {position:absolute; top:10px; left:10px; color:#ababab !important; font-weight:normal;}
+::-webkit-input-placeholder {color:#ababab;}
+:-moz-placeholder {color:#ababab; opacity:1;}
+::-moz-placeholder {color:#ababab; opacity:1;}
+:-ms-input-placeholder {color:#ababab;}
+
+html[dir="rtl"] .dijitComboBox.dijitDateTextBox .dijitArrowButtonContainer {left:6px; right:auto;}
+html[dir="rtl"] .dijitPlaceHolder {left:auto; right:10px;}
+
+
+/* Birthday & US phone field */
+.subfields {
+    display:block;
+    margin:0;
+    padding:8px 10px;
+    background:#fff;
+    width:100%;
+    border:2px solid #d0d0d0;
+    border-radius:3px;
+    color:#d0d0d0
+}
+.subfields input {
+    display:inline-block;
+    margin:0;
+    padding:0;
+    width:2.5em;
+    border:none !important;
+    text-align:center;
+}
+.subfields label {display:none;}
+.phonedetail2 input {width:3.4em;}
+.birthdayfield input {width:1.7em;}
+
+/* Forward to friend */
+.captcha {
+    float:left;
+    width:320px;
+    margin-right:20px;
+    min-height:150px;
+}
+.captcha input {display:inline;}
+
+/* Archive list */
+#archive-list {
+    display:block;
+    margin:15px 0;
+    padding:0;
+    border-top:1px solid #eee;
+}
+#archive-list li {
+    display:block;
+    list-style:none;
+    margin:0;
+    padding:6px 10px;
+    border-bottom:1px solid #eee;
+}
+
+.borderbox, .field-help, input, textarea, select {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.field-shift {
+    left: -9999px; position: absolute;
+}
+
+html[dir="rtl"] .field-shift {
+    right: -9999px;
+    left: auto;
+}
+
+
+/* Image replacement for checkbox and radio buttons. */
+/* Placing in @media block forces browsers that don't support :checked to fall back to native inputs. */
+@media only screen {
+    .mergeRow-radio .field-group, .mergeRow-interests-checkboxes .field-group {margin:0 -6px 11px -6px;}
+
+    .checkbox, .radio {
+        margin:9px 0 0 0;
+        padding:0;
+    }
+
+    /* Position and hide the real checkboxes and radio buttons */
+    .checkbox input, .radio input {
+        position:absolute;
+        width:24px;
+        height:24px;
+        overflow:hidden;
+        margin:0;
+        padding:0;
+        outline:0;
+        opacity:0;
+    }
+
+    .checkbox input + span, .radio input + span {
+        display:block;
+        border-radius:3px;
+        padding:6px 6px 6px 38px;
+    }
+
+    .checkbox:hover span,
+    .checkbox input:focus + span,
+    .radio:hover span,
+    .radio input:focus + span {
+        background:rgba(0,0,0,.05);
+    }
+
+    /* Insert a pseudo element inside each label with a background sprite.  */
+    .checkbox input + span:before, .radio input + span:before {
+        display:block;
+        position:absolute;
+        top:6px;
+        left:6px;
+        width:24px;
+        height:24px;
+        background:url(/images/icons/signup-sprite.png) no-repeat;
+        content:" ";
+        vertical-align:top;
+    }
+
+    /* Position the background sprite based on state of checkbox/radio. */
+    .radio input:focus + span:before { background-position:0 -30px; }
+    .radio input:checked + span:before { background-position:0 -60px; }
+    .radio input:checked:focus + span:before { background-position:-0 -90px; }
+    .checkbox input + span:before { background-position:0 -120px; }
+    .checkbox input:focus + span:before { background-position:0 -150px; }
+    .checkbox input:checked + span:before { background-position:0 -180px; }
+    .checkbox input:checked:focus + span:before { background-position:0 -210px; }
+
+    /* Right-to-left checkbox/radio modifications */
+    html[dir="rtl"] .checkbox input + span:before, html[dir="rtl"] .radio input + span:before {left:auto; right:0;}
+    html[dir="rtl"] .checkbox input + span, html[dir="rtl"] .radio input + span {padding:6px 38px 6px 6px;}
+}
+
+/* Use high-res sprite for retina displays */
+@media (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 1.5dppx) {
+    .checkbox input + span:before, .radio input + span:before, .calendar-icon {
+        background-image:url(/images/icons/signup-sprite-2x.png);
+        background-size: 24px;
+    }
+}
+
+/* IE6 and 7 overrides */
+.ie-lte7 .field-group input, .ie-lte7 .subfields {width:535px;}
+.ie-lte7 .cityfield input {width:170px;}
+.ie-lte7 .statefield input {width:121px;}
+.ie-lte7 .zipfield input {width:170px;}
+.ie-lte7 .subfields input {width:40px;}
+.ie-lte7 .hidden-from-view {display:none;}
+.ie-lte7 select {
+    display:inline-block;
+    width:560px;
+}
+
+/* IE doesn't support input placeholders until v10, show labels on addresses */
+.ie-lte7 .addressfield label, .ie-lte9 .addressfield label {display:block; font-weight:normal; font-size:14px;}
+
+/* Dijit styles for date picker */
+.dijitPopup .dijitReset{margin:0;border:0;padding:0;font:inherit;line-height:normal;color:inherit;font-family:"Helvetica Neue",Helvetica,Arial,Verdana,sans-serif}
+.dijitPopup .dj_a11y .dijitReset{-moz-appearance:none;}
+.dijitPopup .dijitInline{display:inline-block;border:0;padding:0;vertical-align:middle}
+.dijitPopup .dijitInline{display:inline-table;box-sizing:content-box;-moz-box-sizing:content-box}
+.dijitPopup .dijitHidden{display:none !important}
+.dijitPopup .dijitVisible{display:block !important;position:relative;}
+.dijitPopup .dijitInputContainer{overflow:hidden;float:none !important;position:relative}
+.dijitPopup .dj_ie .dijitSelect input,
+.dijitPopup .dj_ie input.dijitTextBox,
+.dijitPopup .dj_ie .dijitTextBox input{font-size:100%}
+.dijitPopup .dijitSelect .dijitButtonText{float:left;vertical-align:top}
+.dijitPopup .dijitSelect{padding:0 !important;}
+.dijitPopup .dijitTextBox .dijitSpinnerButtonContainer,
+.dijitPopup .dijitTextBox .dijitArrowButtonContainer,
+.dijitPopup .dijitValidationTextBox .dijitValidationContainer{float:right;text-align:center}
+.dijitPopup .dijitSelect input.dijitInputField,
+.dijitPopup .dijitTextBox input.dijitInputField{padding-left:0 !important;padding-right:0 !important}
+.dijitPopup .dijitValidationTextBox .dijitValidationContainer{display:none}
+.dijitPopup .dijitTeeny{font-size:1px;line-height:1px}
+.dijitPopup .dijitOffScreen{position:absolute !important;left:50% !important;top:-10000px !important}
+.dijitPopup .dijitPositionOnly{padding:0 !important;border:0 !important;background-color:transparent !important;background-image:none !important;height:auto !important;width:auto !important}
+.dijitPopup .dijitNonPositionOnly{float:none !important;position:static !important;margin:0 0 0 0 !important;vertical-align:middle !important}
+.dijitPopup .dijitBackgroundIframe{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;border:0;padding:0;margin:0}
+.dijitPopup .dijitDisplayNone{display:none !important}
+.dijitPopup .dijitContainer{overflow:hidden;}
+
+.dijitPopup{position:absolute;background-color:transparent;margin:0;border:0;padding:0}
+.dijitPopup{-webkit-box-shadow:0 6px 6px 1px rgba(0, 0, 0, 0.1);box-shadow:0 6px 6px 1px rgba(0, 0, 0, 0.1);border-radius:6px}
+@media screen and (max-width:40em){
+    .dijitPopup{width:96% !important;left:50% !important;margin:0 auto 0 -48%}
+}
+.dijitPopup .dijitMenuTable{width:100% !important}
+
+.dijitMenu{border:1px solid #000;background-color:#fff}
+.dijitMenuTable{border-collapse:collapse;border-width:0;background-color:#fff}
+.dj_webkit .dijitMenuTable td[colspan="2"]{border-right:hidden}
+.dijitMenuItem{text-align:left;white-space:nowrap;padding:.1em .2em;cursor:pointer}
+.dijitMenuItem:focus{outline:none}
+.dijitMenuItemIcon,
+.dijitMenuExpand{background-repeat:no-repeat}
+.dijitMenuItemDisabled *{opacity:.5;cursor:default}
+.dj_ie .dj_a11y .dijitMenuItemDisabled,
+.dj_ie .dj_a11y .dijitMenuItemDisabled *,
+.dj_ie .dijitMenuItemDisabled *{color:#808080;filter:alpha(opacity=35)}
+.dijitMenuItemLabel{position:relative;vertical-align:middle}
+.dj_a11y .dijitMenuItemSelected{border:1px dotted #000 !important;}
+.dj_ff3 .dj_a11y .dijitMenuItem td{padding:0 !important;background:none !important}
+.dj_a11y .dijitMenuItemSelected .dijitMenuItemLabel{border-width:1px;border-style:solid}
+.dj_ie8 .dj_a11y .dijitMenuItemLabel{position:static}
+.dijitMenuExpandA11y{display:none}
+.dj_a11y .dijitMenuExpandA11y{display:inline}
+.dijitMenuSeparator td{border:0;padding:0}
+.dijitMenuSeparatorTop{height:50%;margin:0;margin-top:3px;font-size:1px}
+.dijitMenuSeparatorBottom{height:50%;margin:0;margin-bottom:3px;font-size:1px}
+.dijitCheckedMenuItemIconChar{vertical-align:middle;visibility:hidden}
+.dijitCheckedMenuItemChecked .dijitCheckedMenuItemIconChar{visibility:visible}
+.dj_a11y .dijitCheckedMenuItemIconChar{display:inline !important}
+.dj_a11y .dijitCheckedMenuItemIcon{display:none}
+.dj_ie .dj_a11y .dijitMenuBar .dijitMenuItem{margin:0}
+
+
+
+.dijitCalendarContainer{width:auto;}
+.dijitCalendarContainer th,
+.dijitCalendarContainer td{padding:0;vertical-align:middle}
+.dijitCalendarYearLabel{white-space:nowrap;}
+.dijitCalendarNextYear{margin:0 0 0 .55em}
+.dijitCalendarPreviousYear{margin:0 .55em 0 0}
+.dijitCalendarIncrementControl{vertical-align:middle}
+.dijitCalendarIncrementControl,
+.dijitCalendarDateTemplate,
+.dijitCalendarMonthLabel,
+.dijitCalendarPreviousYear,
+.dijitCalendarNextYear{cursor:pointer}
+.dijitCalendarDisabledDate{color:#808080;text-decoration:line-through;cursor:default}
+.dijitSpacer{position:relative;height:1px;overflow:hidden;visibility:hidden}
+.dijitCalendarMonthMenu .dijitCalendarMonthLabel{text-align:center}
+
+.dijitCalendar{border:solid 1px #cfcfcf;background-color:#fff;text-align:center;padding:18px;border-radius:6px;border-collapse:separate}
+.dijitCalendar img{border:none}
+.dijitCalendarMonthContainer th{text-align:center;vertical-align:middle}
+.dijitCalendarMonthLabel{color:#595959;font-size:.9375em;font-weight:bold;padding:6px 12px}
+.dijitA11ySideArrow{display:none}
+
+.dijitCalendarArrow{cursor:pointer;border:1px solid transparent;position:relative;}
+.dijitCalendarArrow img {display:none;}
+.dijitCalendarArrow:hover{background-color:#f2f2f2;border-color:#d0d0d0}
+.dijitCalendarArrow:after{content:" "; width:0; height:0; border:6px solid transparent; border-left:6px solid #333; display:block; position:absolute; top:25%; left:45%}
+.dijitCalendarArrow:first-child:before{content:" "; width:0; height:0; border:6px solid transparent; border-right:6px solid #333; display:block; position:absolute; top:25%; left:45%}
+.dijitCalendarArrow:first-child:after{border:none;}
+
+.dijitCalendarCurrentDate {background:#eee;}
+.dijitCalendarDayLabelTemplate{text-align:center;font-weight:bold;padding:8px 12px}
+.dijitCalendarDayLabel{font-weight:bold;font-size:.9375em;text-align:center;color:#595959}
+.dijitCalendarDateTemplate{border-bottom:0 none;font-size:.9375em;font-weight:500;letter-spacing:.05em;text-align:center;color:#595959}
+.dijitCalendarPreviousMonth,
+.dijitCalendarNextMonth{border-bottom:0 none}
+.dijitCalendarDateTemplate .dijitCalendarDateLabel{text-decoration:none;display:block;padding:6px 10px;border:1px solid transparent;-webkit-transition-property:background-color,border;-ms-transition-property:background-color,border;transition-property:background-color,border;-webkit-transition-duration:.35s;-ms-transition-duration:.35s;transition-duration:.35s}
+.dijitCalendarPreviousMonth .dijitCalendarDateLabel,
+.dijitCalendarNextMonth .dijitCalendarDateLabel{color:#ababab;border-color:#fff;}
+.dijitCalendarYearContainer{vertical-align:middle}
+.dijitCalendarYearControl{padding:1px 2px 2px 2px}
+.dijitCalendarYearLabel{padding:8px 0 0;margin:0;font-size:.9375em}
+.dijitCalendarYearLabel span{vertical-align:middle}
+.dijitCalendarSelectedYear{padding:0 6px;font-size:.9375em;color:#52bad5}
+.dijitCalendarNextYear,
+.dijitCalendarPreviousYear{font-size:.9375em;border:1px solid transparent;padding:6px 12px}
+.dijitCalendarHoveredDate .dijitCalendarDateLabel,
+.dijitCalendarEnabledDate:hover .dijitCalendarDateLabel{background-color:#b1e0ec;border:solid 1px #52bad5;color:#595959;-webkit-transition-duration:.2s;-ms-transition-duration:.2s;transition-duration:.2s}
+.dijitCalendarNextYearHover,
+.dijitCalendarNextYear:hover,
+.dijitCalendarPreviousYearHover,
+.dijitCalendarPreviousYear:hover{color:#595959;background-color:#f2f2f2;border-color:#d0d0d0}
+.dijitCalendarNextYearActive,
+.dijitCalendarNextYear:active .dijitCalendarPreviousYearActive,
+.dijitCalendarPreviousYear:active{background-color:#c7c7c7}
+.dijitCalendarActiveDate .dijitCalendarDateLabel,
+.dijitCalendarEnabledDate:active .dijitCalendarDateLabel{border:solid 1px #fff;-webkit-transition-duration:.1s;-ms-transition-duration:.1s;transition-duration:.1s}
+.dijitCalendarSelectedDate .dijitCalendarDateLabel{color:#595959;background-color:#b1e0ec;border:solid 1px #52bad5}
+.dijitCalendarDisabledDate .dijitCalendarDateLabel{color:#808080;text-decoration:line-through}
+.dijitCalendar .dijitDropDownButton{margin:0;background-color:transparent}
+.dijitCalendar .dijitDropDownButtonHover .dijitButtonNode,
+.dijitCalendar .dijitDropDownButton:hover .dijitButtonNode{background-color:transparent;border:0 none}
+.dijitCalendarMonthMenu{border-color:#ababab;background-color:#fff;text-align:center;background-image:none}
+.dijitCalendarMonthMenu .dijitCalendarMonthLabel{border-top:solid 1px transparent;border-bottom:solid 1px transparent}
+.dijitCalendarMonthMenu .dijitCalendarMonthLabelHover,
+.dijitCalendarMonthMenu .dijitCalendarMonthLabel:hover{background-color:#b1e0ec;border-color:#52bad5;border-width:1px 0}
+
+.dijitTooltip{display:none !important;}
+
+</style><style type="text/css">
+		body{
+			font:14px/20px 'Helvetica', Arial, sans-serif;
+			margin:0;
+			padding:75px 0 0 0;
+			text-align:center;
+			-webkit-text-size-adjust:none;
+			background-color:#6E6E6E;
+		}
+		p{
+			padding:0 0 10px 0;
+		}
+		h1 img{
+			max-width:100%;
+			height:auto !important;
+			vertical-align:bottom;
+		}
+		h2{
+			font-size:22px;
+			line-height:28px;
+			margin:0 0 12px 0;
+		}
+		h3{
+			margin:0 0 12px 0;
+		}
+		.headerBar{
+			background:none;
+			padding:0;
+			border:none;
+		}
+		.wrapper{
+			width:600px;
+			margin:0 auto 10px auto;
+			text-align:left;
+		}
+		input.formEmailButton{
+			border:none !important;
+		}
+		.formEmailButton{
+			display:inline-block;
+			font-weight:500;
+			font-size:16px;
+			line-height:42px;
+			font-family:'Helvetica', Arial, sans-serif;
+			width:auto;
+			white-space:nowrap;
+			height:42px;
+			margin:12px 5px 12px 0;
+			padding:0 22px;
+			text-decoration:none;
+			text-align:center;
+			cursor:pointer;
+			border:0;
+			border-radius:3px;
+			vertical-align:top;
+		}
+		.formEmailButton span{
+			display:inline;
+			font-family:'Helvetica', Arial, sans-serif;
+			text-decoration:none;
+			font-weight:500;
+			font-style:normal;
+			font-size:16px;
+			line-height:42px;
+			cursor:pointer;
+			border:none;
+		}
+		.rounded6{
+			border-radius:6px;
+		}
+		.poweredWrapper{
+			padding:20px 0;
+			width:560px;
+			margin:0 auto;
+		}
+		.poweredBy{
+			display:block;
+		}
+		span.or{
+			display:inline-block;
+			height:32px;
+			line-height:32px;
+			padding:0 5px;
+			margin:5px 5px 0 0;
+		}
+		.clear{
+			clear:both;
+		}
+		.profile-list{
+			display:block;
+			margin:15px 20px;
+			padding:0;
+			list-style:none;
+			border-top:1px solid #eee;
+		}
+		.profile-list li{
+			display:block;
+			margin:0;
+			padding:5px 0;
+			border-bottom:1px solid #eee;
+		}
+		html[dir=rtl] .wrapper,html[dir=rtl] .container,html[dir=rtl] label{
+			text-align:right !important;
+		}
+		html[dir=rtl] ul.interestgroup_field label{
+			padding:0;
+		}
+		html[dir=rtl] ul.interestgroup_field input{
+			margin-left:5px;
+		}
+		html[dir=rtl] .hidden-from-view{
+			right:-5000px;
+			left:auto;
+		}
+		body,#bodyTable{
+			background-color:#eeeeee;
+		}
+		h1{
+			font-size:28px;
+			line-height:110%;
+			margin-bottom:30px;
+			margin-top:0;
+			padding:0;
+		}
+		#templateContainer{
+			background-color:#eeeeee;
+		}
+		#templateBody{
+			background-color:#ffffff;
+		}
+		.bodyContent{
+			line-height:150%;
+			font-family:Helvetica;
+			font-size:14px;
+			color:#333333;
+			padding:20px;
+		}
+		a:link,a:active,a:visited,a{
+			color:#336699;
+		}
+		.formEmailButton:link,.formEmailButton:active,.formEmailButton:visited,.formEmailButton,.formEmailButton span{
+			background-color:#5d5d5d !important;
+			color:#ffffff !important;
+		}
+		.formEmailButton:hover{
+			background-color:#444444 !important;
+			color:#ffffff !important;
+		}
+		label{
+			line-height:150%;
+			font-family:Helvetica;
+			font-size:16px;
+			color:#5d5d5d;
+		}
+		.field-group input,select,textarea,.dijitInputField{
+			font-family:Helvetica;
+			color:#5d5d5d !important;
+		}
+		.asterisk{
+			color:#cc6600;
+			font-size:20px;
+		}
+		label .asterisk{
+			visibility:hidden;
+		}
+		.indicates-required{
+			display:none;
+		}
+		.field-help{
+			color:#777;
+		}
+		.error,.errorText{
+			color:#e85c41;
+			font-weight:bold;
+		}
+	@media (max-width: 620px){
+		body{
+			width:100%;
+			-webkit-font-smoothing:antialiased;
+			padding:10px 0 0 0 !important;
+			min-width:300px !important;
+		}
+
+}	@media (max-width: 620px){
+		.wrapper,.poweredWrapper{
+			width:auto !important;
+			max-width:600px !important;
+			padding:0 10px;
+		}
+
+}	@media (max-width: 620px){
+		#templateContainer,#templateBody,#templateContainer table{
+			width:100% !important;
+			-moz-box-sizing:border-box;
+			-webkit-box-sizing:border-box;
+			box-sizing:border-box;
+		}
+
+}	@media (max-width: 620px){
+		.addressfield span{
+			width:auto;
+			float:none;
+			padding-right:0;
+		}
+
+}	@media (max-width: 620px){
+		.captcha{
+			width:auto;
+			float:none;
+		}
+
+}		.gdpr-mergeRow{
+			margin:10px 0;
+			color:#4a4a4a;
+			font-family:Helvetica;
+		}
+		.gdpr-content{
+			margin:0 -20px 0 -20px;
+			padding:20px;
+			background:rgba(255, 255, 255, 0.8);
+		}
+		#gdpr-label{
+			margin-top:0;
+		}
+		#gdpr-description{
+			margin-top:6px;
+			margin-bottom:0;
+			padding-bottom:11px;
+		}
+		.gdpr-content p{
+			color:#4a4a4a;
+			font-size:13px;
+			line-height:1.5;
+		}
+		.gdpr-content .checkbox-group label{
+			font-weight:normal;
+			font-size:13px;
+		}
+		#gdpr-legal{
+			padding-top:20px;
+			margin:0;
+		}
+		.gdpr-footer{
+			margin:0 -20px 0 -20px;
+			padding:20px;
+			background:rgba(255, 255, 255, 0.9);
+			overflow:auto;
+			color:#6d6d6d;
+		}
+		.gdpr-footer p{
+			font-size:10px;
+			line-height:1.5;
+			margin-bottom:0;
+		}
+		.gdpr-footer a{
+			color:#206578;
+		}
+		.gdpr-footer img{
+			width:65px;
+			float:left;
+			margin-right:15px;
+		}
+</style></head>
+	<body>
+
+		<div class="wrapper rounded6" id="templateContainer">
+		    <h1 class="masthead">44con-announce</h1>
+
+		    <div id="templateBody" class="bodyContent rounded6">
+	
+        
+        
+        
+        
+        <div id="subscribeFormWelcome">Welcome to 44Con-announce. Please fill in the form below and we&#39;ll send you details of announcements regarding 44Con and the goings on around it. It&#39;s easy to unsubscribe, and we promise not to sell your details on.
+</div>
+<div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+
+
+
+<form action="https://44con.us2.list-manage.com/subscribe/post" method="POST">
+    <input type="hidden" name="u" value="8aa1512f3599fc5f17e933b2a">
+    <input type="hidden" name="id" value="392dc4ffdd">
+    
+
+    <!-- people should not fill these in and expect good things -->
+    <div class="field-shift" aria-label="Please leave the following three fields empty">
+        <label for="b_name">Name: </label>
+        <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name">
+
+        <label for="b_email">Email: </label>
+        <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
+
+        <label for="b_comment">Comment: </label>
+        <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
+    </div>
+
+    <div id="mergeTable" class="mergeTable">
+        
+        
+        <div class="mergeRow dojoDndItem mergeRow-email" id="mergeRow-0">
+            <label for="MERGE0">Email Address <span class="req asterisk">*</span></label>
+            <div class="field-group">
+                <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" size="25" value="">
+                
+                
+            </div>
+            
+        </div>
+        
+        
+        
+        <div class="mergeRow dojoDndItem mergeRow-text" id="mergeRow-1">
+            <label for="MERGE1">First Name</label>
+            <div class="field-group">
+                <input type="text" name="MERGE1" id="MERGE1" size="25" value="">
+                
+                
+            </div>
+            
+        </div>
+        
+        
+        
+        <div class="mergeRow dojoDndItem mergeRow-text" id="mergeRow-2">
+            <label for="MERGE2">Last Name</label>
+            <div class="field-group">
+                <input type="text" name="MERGE2" id="MERGE2" size="25" value="">
+                
+                
+            </div>
+            
+        </div>
+        
+        
+
+
+        
+
+        
+        <div class="mergeRow-emailFormat">
+            <label>Preferred format</label>
+            <div class="field-group groups">
+                <div class="interestgroup_field radio-group">
+                    <label class="radio" for="EMAILTYPE_HTML"><input type="radio" name="EMAILTYPE" id="EMAILTYPE_HTML" value="html" checked><span>HTML</span></label>
+                    <label class="radio" for="EMAILTYPE_TEXT"><input type="radio" name="EMAILTYPE" id="EMAILTYPE_TEXT" value="text" ><span>Plain-text</span></label>
+                </div>
+            </div>
+        </div>
+        
+
+        
+    </div>
+
+    <div class="submit_container clear">
+        <input type="submit" class="formEmailButton" name="submit" value="Subscribe to list">
+    </div>
+    <input type="hidden" name="ht" value="33ba907e2aa9c4c3aeff07c8a1ec1e53996a5b73:MTU1NDI4NDE5MS44MzM4">
+    <input type="hidden" name="mc_signupsource" value="hosted">
+</form>
+
+
+		    </div>
+		</div>
+
+        
+		<div class="poweredWrapper">
+			<span class="poweredBy"><a href="http://www.mailchimp.com/monkey-rewards/?utm_source=freemium_newsletter&utm_medium=email&utm_campaign=monkey_rewards&aid=8aa1512f3599fc5f17e933b2a&afl=1"><img src="https://gallery.mailchimp.com/089443193dd93823f3fed78b4/images/postmark_mailchimp_red.gif" border="0" alt="Email Marketing Powered by Mailchimp" title="Mailchimp Email Marketing"></a></span>
+		</div>
+		
+    </body>
+</html>
+<script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-38639293-3', {'allowLinker': true});
+            ga('set', 'hostname', '.list-manage.com');
+            ga('send', 'pageview');
+        </script>
+
+
+#####EOF#####
+
+
+<!DOCTYPE html>
+<!--[if lte IE 7]> <html class="ie-lte7" dir="ltr"> <![endif]-->
+<!--[if lte IE 9]> <html class="ie-lte9" dir="ltr"> <![endif]-->
+<!--[if !IE]><!--> <html dir="ltr">             <!--<![endif]-->
+<head>
+        <title>44con-announce</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="44con-announce Email Forms">
+        <meta name="keywords" content="44con-announce">
+        <script src="//twemoji.maxcdn.com/2/twemoji.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.8/dojo/dojo.js"></script>
+<script type="text/javascript">
+    require([
+        "dojo/query",
+        "dojo/dom",
+        "dojo/dom-geometry",
+        "dojo/dom-class",
+        "dojo/dom-style",
+        "dojo/dom-construct",
+        "dijit/focus",
+        "dojo/parser",
+        "dijit/form/DateTextBox",
+        "dojo/NodeList-traverse",
+        "dojo/domReady!"
+    ], function(query, dom, domGeom, domClass, domStyle, domConstruct, focusUtil, parser){
+
+        // Move the focused-field class to the field-group that contains the focused input.
+        var handle = focusUtil.watch("curNode", function(name, oldValue, newValue){
+            var parent = query(newValue).closest('.field-group');
+            if(!domClass.contains(parent, "focused-field")) {
+                query('.focused-field').removeClass('focused-field');
+                parent.addClass('focused-field');
+            }
+        });
+
+        // Add error class to parent wrapper and only show error borders on empty fields in addresses
+        query('.feedback.error').closest('.field-group').addClass('error');
+        query('.addressfield input:text[value=""]').addClass('empty');
+
+        // Focus first input of birthdayfield or phonefield-us when parent wrapper is clicked
+        query('div.subfields').on("click", function(e){
+            var firstInput = query('input', e.target)[0];
+            focusUtil.focus(firstInput);
+        });
+
+        // Prevent image blowout in IE6 since it doesn't support max-width
+        if (domClass.contains(query('html')[0], "ie-lte7")){
+
+            query('img').forEach(function(node){
+                var computedStyle = domStyle.getComputedStyle(node);
+                var w = domGeom.getContentBox(node, computedStyle).w;
+                console.log(w);
+                if(w >= 600){
+                    domStyle.set(node, "width", "600px");
+                }
+            });
+        }
+
+        // Use native checkboxes and radio buttons outside the app
+        dojo.query(".radio input, .checkbox input").removeAttr("data-dojo-type");
+
+        // Render DateTextBoxes
+        parser.parse();
+
+        query('form').on("submit",function(e){
+            var invalidDate = dojo.query('.dijitTextBoxError');
+            if(invalidDate.length){
+                query('.dijitDateTextBox ~ .feedback.error').forEach(domConstruct.destroy);
+                invalidDate.forEach(function(node) {
+                    domConstruct.place('<div class="feedback error"><div class="errorText">Please enter a valid date</div></div>', node, 'after');
+                });
+                e.preventDefault();
+            }
+        });
+
+        twemoji.parse(document.body, { size: 72 });
+
+        query(".emoji").forEach(function(emoji){
+            domStyle.set(emoji, {
+                width: "16px",
+                height: "16px"
+            });
+        });
+    });
+</script>
+
+<script src='https://www.google.com/recaptcha/api.js' async defer></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+        
+        
+	<style type="text/css">/* Forms */
+
+label {
+    display:block;
+    width:auto;
+    margin-top:8px;
+    font-weight:bold;
+}
+
+.mergeRow {
+    padding:0 0 6px 0 !important;
+    clear:both;
+}
+
+.field-group {
+    position:relative;
+    margin:3px 0 12px 0;
+    overflow:hidden;
+    background:transparent !important;
+}
+.mergeRow-radio .field-group, .mergeRow-interests-checkboxes .field-group {margin-bottom:6px;}
+
+input, textarea, select {
+    display:block;
+    margin:0;
+    padding:10px;
+    background:#fff;
+    width:100%;
+    border:2px solid #d0d0d0 !important;
+    border-radius:3px;
+    -webkit-appearance: none;
+}
+
+.field-group input, select, textarea, .dijitInputField {
+    font-size: 14px;
+}
+
+.field-group.error > input,
+.field-group.error > select,
+.field-group.error .addressfield input.empty,
+.field-group.error .birthdayfield,
+.field-group.error .subfields,
+.field-group.error .datefield .dijitInputInner,
+.datefield .dijitTextBoxError .dijitInputInner,
+.field-group.error textarea {
+    border-color:#e85c41 !important;
+}
+
+textarea {
+    font:14px/18px 'Helvetica', Arial, sans-serif;
+    width:100%;
+    height:150px;
+    overflow:auto;
+}
+
+select {
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px;
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px, -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f1f1f1));
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px, -webkit-linear-gradient(top, #fff, #f1f1f1);
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px,     -ms-linear-gradient(top, #fff, #f1f1f1);
+    background:#fff url(/images/icons/signup-sprite.png) no-repeat right -295px,         linear-gradient(to bottom, #fff, #f1f1f1);
+}
+html[dir="rtl"] select {background-position:14px -295px;}
+
+/* Firefox always displays native select arrow button, so hide the background image arrow. */
+@-moz-document url-prefix() {
+select {
+    padding: 8px;
+    background-position: -99px 0 !important;
+    -moz-appearance: none;
+}
+}
+
+input:focus, textarea:focus, select:focus, .focused-field .subfields {
+border-color:#5d5d5d !important;
+outline:none;
+}
+
+/* Prevent Chrome's autofill yellow box shadow */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+
+
+.field-help {
+    display:block;
+    font-weight:normal;
+    position:static;
+    float:none;
+    clear:both;
+    margin:0;
+    padding:0;
+    max-height:0;
+    overflow:hidden;
+    -webkit-transition: all .25s;
+    -moz-transition: all .25s;
+    -ms-transition: all .25s;
+    transition: all .25s;
+}
+.focused-field .field-help, input:focus + .field-help {
+    display:block;
+    padding:10px 0;
+    max-height:100px;
+}
+
+.field-help .help {
+    min-height:16px;
+    text-decoration: none;
+}
+
+
+/* Error container */
+.feedback {
+    padding:10px 0;
+    line-height:16px;
+    font-size:14px;
+}
+
+.feedback br {display:none;}
+
+.feedback div {
+    font:14px/20px 'Helvetica', Arial, sans-serif !important;
+    padding:0 !important;
+    margin:0 !important;
+}
+
+.indicates-required {text-align:right;}
+.indicates-required span {
+    font-size:150%;
+    font-weight:bold;
+    display:inline !important;
+}
+
+.formstatus {
+    margin-bottom:12px;
+    font-size:18px;
+}
+
+.alert {
+    background:#e4f3d4;
+    border:2px solid #5ca000;
+    font-size:14px;
+    color:#4e7e0e !important;
+    margin:10px 0;
+    padding:10px;
+}
+
+
+/* Groups, checkboxes, radio buttons */
+ul.interestgroup_field,
+ul.interestgroup_field li,
+ul.unsub-options,
+ul.unsub-options li,
+.interestgroup_row {
+    display:block;
+    padding:0;
+    margin:0;
+    list-style:none;
+}
+label.checkbox, label.radio {
+    font-weight:normal;
+    position:relative;
+    line-height:24px;
+}
+.checkbox input, .radio input {
+    width:auto !important;
+    display:inline-block;
+    margin-right:5px;
+    padding:0;
+    border:none;
+    background-color:transparent;
+}
+
+/* Address blocks */
+.addressfield span {display:block; margin:3px 0 15px 0;}
+.addressfield label {display:none;}
+.cityfield {width:35%; float:left; padding-right:12px;}
+.statefield {width:30%; float:left; padding-right:12px;}
+.zipfield {width:35%; float:left;}
+.countryfield {clear:both;}
+
+/* Date picker */
+.dijitCalendarPopup {position:absolute;}
+.dijitComboBox.dijitDateTextBox .dijitArrowButtonContainer {
+    cursor:pointer;
+    position:absolute;
+    top:3px;
+    right:2px;
+    background:url(/images/icons/signup-sprite.png) no-repeat 10px -235px;
+    height:34px;
+    width:42px;
+    opacity:.5;
+    padding:0 5px;
+}
+.dijitComboBox.dijitDateTextBox .dijitArrowButtonContainer input {visibility:hidden;}
+.dijitComboBox.dijitDateTextBox .dijitArrowButtonContainer:hover {opacity:1;}
+.dijitValidationContainer {display:none;}
+
+/* Input placeholder color */
+.dijitPlaceHolder {position:absolute; top:10px; left:10px; color:#ababab !important; font-weight:normal;}
+::-webkit-input-placeholder {color:#ababab;}
+:-moz-placeholder {color:#ababab; opacity:1;}
+::-moz-placeholder {color:#ababab; opacity:1;}
+:-ms-input-placeholder {color:#ababab;}
+
+html[dir="rtl"] .dijitComboBox.dijitDateTextBox .dijitArrowButtonContainer {left:6px; right:auto;}
+html[dir="rtl"] .dijitPlaceHolder {left:auto; right:10px;}
+
+
+/* Birthday & US phone field */
+.subfields {
+    display:block;
+    margin:0;
+    padding:8px 10px;
+    background:#fff;
+    width:100%;
+    border:2px solid #d0d0d0;
+    border-radius:3px;
+    color:#d0d0d0
+}
+.subfields input {
+    display:inline-block;
+    margin:0;
+    padding:0;
+    width:2.5em;
+    border:none !important;
+    text-align:center;
+}
+.subfields label {display:none;}
+.phonedetail2 input {width:3.4em;}
+.birthdayfield input {width:1.7em;}
+
+/* Forward to friend */
+.captcha {
+    float:left;
+    width:320px;
+    margin-right:20px;
+    min-height:150px;
+}
+.captcha input {display:inline;}
+
+/* Archive list */
+#archive-list {
+    display:block;
+    margin:15px 0;
+    padding:0;
+    border-top:1px solid #eee;
+}
+#archive-list li {
+    display:block;
+    list-style:none;
+    margin:0;
+    padding:6px 10px;
+    border-bottom:1px solid #eee;
+}
+
+.borderbox, .field-help, input, textarea, select {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.field-shift {
+    left: -9999px; position: absolute;
+}
+
+html[dir="rtl"] .field-shift {
+    right: -9999px;
+    left: auto;
+}
+
+
+/* Image replacement for checkbox and radio buttons. */
+/* Placing in @media block forces browsers that don't support :checked to fall back to native inputs. */
+@media only screen {
+    .mergeRow-radio .field-group, .mergeRow-interests-checkboxes .field-group {margin:0 -6px 11px -6px;}
+
+    .checkbox, .radio {
+        margin:9px 0 0 0;
+        padding:0;
+    }
+
+    /* Position and hide the real checkboxes and radio buttons */
+    .checkbox input, .radio input {
+        position:absolute;
+        width:24px;
+        height:24px;
+        overflow:hidden;
+        margin:0;
+        padding:0;
+        outline:0;
+        opacity:0;
+    }
+
+    .checkbox input + span, .radio input + span {
+        display:block;
+        border-radius:3px;
+        padding:6px 6px 6px 38px;
+    }
+
+    .checkbox:hover span,
+    .checkbox input:focus + span,
+    .radio:hover span,
+    .radio input:focus + span {
+        background:rgba(0,0,0,.05);
+    }
+
+    /* Insert a pseudo element inside each label with a background sprite.  */
+    .checkbox input + span:before, .radio input + span:before {
+        display:block;
+        position:absolute;
+        top:6px;
+        left:6px;
+        width:24px;
+        height:24px;
+        background:url(/images/icons/signup-sprite.png) no-repeat;
+        content:" ";
+        vertical-align:top;
+    }
+
+    /* Position the background sprite based on state of checkbox/radio. */
+    .radio input:focus + span:before { background-position:0 -30px; }
+    .radio input:checked + span:before { background-position:0 -60px; }
+    .radio input:checked:focus + span:before { background-position:-0 -90px; }
+    .checkbox input + span:before { background-position:0 -120px; }
+    .checkbox input:focus + span:before { background-position:0 -150px; }
+    .checkbox input:checked + span:before { background-position:0 -180px; }
+    .checkbox input:checked:focus + span:before { background-position:0 -210px; }
+
+    /* Right-to-left checkbox/radio modifications */
+    html[dir="rtl"] .checkbox input + span:before, html[dir="rtl"] .radio input + span:before {left:auto; right:0;}
+    html[dir="rtl"] .checkbox input + span, html[dir="rtl"] .radio input + span {padding:6px 38px 6px 6px;}
+}
+
+/* Use high-res sprite for retina displays */
+@media (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 1.5dppx) {
+    .checkbox input + span:before, .radio input + span:before, .calendar-icon {
+        background-image:url(/images/icons/signup-sprite-2x.png);
+        background-size: 24px;
+    }
+}
+
+/* IE6 and 7 overrides */
+.ie-lte7 .field-group input, .ie-lte7 .subfields {width:535px;}
+.ie-lte7 .cityfield input {width:170px;}
+.ie-lte7 .statefield input {width:121px;}
+.ie-lte7 .zipfield input {width:170px;}
+.ie-lte7 .subfields input {width:40px;}
+.ie-lte7 .hidden-from-view {display:none;}
+.ie-lte7 select {
+    display:inline-block;
+    width:560px;
+}
+
+/* IE doesn't support input placeholders until v10, show labels on addresses */
+.ie-lte7 .addressfield label, .ie-lte9 .addressfield label {display:block; font-weight:normal; font-size:14px;}
+
+/* Dijit styles for date picker */
+.dijitPopup .dijitReset{margin:0;border:0;padding:0;font:inherit;line-height:normal;color:inherit;font-family:"Helvetica Neue",Helvetica,Arial,Verdana,sans-serif}
+.dijitPopup .dj_a11y .dijitReset{-moz-appearance:none;}
+.dijitPopup .dijitInline{display:inline-block;border:0;padding:0;vertical-align:middle}
+.dijitPopup .dijitInline{display:inline-table;box-sizing:content-box;-moz-box-sizing:content-box}
+.dijitPopup .dijitHidden{display:none !important}
+.dijitPopup .dijitVisible{display:block !important;position:relative;}
+.dijitPopup .dijitInputContainer{overflow:hidden;float:none !important;position:relative}
+.dijitPopup .dj_ie .dijitSelect input,
+.dijitPopup .dj_ie input.dijitTextBox,
+.dijitPopup .dj_ie .dijitTextBox input{font-size:100%}
+.dijitPopup .dijitSelect .dijitButtonText{float:left;vertical-align:top}
+.dijitPopup .dijitSelect{padding:0 !important;}
+.dijitPopup .dijitTextBox .dijitSpinnerButtonContainer,
+.dijitPopup .dijitTextBox .dijitArrowButtonContainer,
+.dijitPopup .dijitValidationTextBox .dijitValidationContainer{float:right;text-align:center}
+.dijitPopup .dijitSelect input.dijitInputField,
+.dijitPopup .dijitTextBox input.dijitInputField{padding-left:0 !important;padding-right:0 !important}
+.dijitPopup .dijitValidationTextBox .dijitValidationContainer{display:none}
+.dijitPopup .dijitTeeny{font-size:1px;line-height:1px}
+.dijitPopup .dijitOffScreen{position:absolute !important;left:50% !important;top:-10000px !important}
+.dijitPopup .dijitPositionOnly{padding:0 !important;border:0 !important;background-color:transparent !important;background-image:none !important;height:auto !important;width:auto !important}
+.dijitPopup .dijitNonPositionOnly{float:none !important;position:static !important;margin:0 0 0 0 !important;vertical-align:middle !important}
+.dijitPopup .dijitBackgroundIframe{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;border:0;padding:0;margin:0}
+.dijitPopup .dijitDisplayNone{display:none !important}
+.dijitPopup .dijitContainer{overflow:hidden;}
+
+.dijitPopup{position:absolute;background-color:transparent;margin:0;border:0;padding:0}
+.dijitPopup{-webkit-box-shadow:0 6px 6px 1px rgba(0, 0, 0, 0.1);box-shadow:0 6px 6px 1px rgba(0, 0, 0, 0.1);border-radius:6px}
+@media screen and (max-width:40em){
+    .dijitPopup{width:96% !important;left:50% !important;margin:0 auto 0 -48%}
+}
+.dijitPopup .dijitMenuTable{width:100% !important}
+
+.dijitMenu{border:1px solid #000;background-color:#fff}
+.dijitMenuTable{border-collapse:collapse;border-width:0;background-color:#fff}
+.dj_webkit .dijitMenuTable td[colspan="2"]{border-right:hidden}
+.dijitMenuItem{text-align:left;white-space:nowrap;padding:.1em .2em;cursor:pointer}
+.dijitMenuItem:focus{outline:none}
+.dijitMenuItemIcon,
+.dijitMenuExpand{background-repeat:no-repeat}
+.dijitMenuItemDisabled *{opacity:.5;cursor:default}
+.dj_ie .dj_a11y .dijitMenuItemDisabled,
+.dj_ie .dj_a11y .dijitMenuItemDisabled *,
+.dj_ie .dijitMenuItemDisabled *{color:#808080;filter:alpha(opacity=35)}
+.dijitMenuItemLabel{position:relative;vertical-align:middle}
+.dj_a11y .dijitMenuItemSelected{border:1px dotted #000 !important;}
+.dj_ff3 .dj_a11y .dijitMenuItem td{padding:0 !important;background:none !important}
+.dj_a11y .dijitMenuItemSelected .dijitMenuItemLabel{border-width:1px;border-style:solid}
+.dj_ie8 .dj_a11y .dijitMenuItemLabel{position:static}
+.dijitMenuExpandA11y{display:none}
+.dj_a11y .dijitMenuExpandA11y{display:inline}
+.dijitMenuSeparator td{border:0;padding:0}
+.dijitMenuSeparatorTop{height:50%;margin:0;margin-top:3px;font-size:1px}
+.dijitMenuSeparatorBottom{height:50%;margin:0;margin-bottom:3px;font-size:1px}
+.dijitCheckedMenuItemIconChar{vertical-align:middle;visibility:hidden}
+.dijitCheckedMenuItemChecked .dijitCheckedMenuItemIconChar{visibility:visible}
+.dj_a11y .dijitCheckedMenuItemIconChar{display:inline !important}
+.dj_a11y .dijitCheckedMenuItemIcon{display:none}
+.dj_ie .dj_a11y .dijitMenuBar .dijitMenuItem{margin:0}
+
+
+
+.dijitCalendarContainer{width:auto;}
+.dijitCalendarContainer th,
+.dijitCalendarContainer td{padding:0;vertical-align:middle}
+.dijitCalendarYearLabel{white-space:nowrap;}
+.dijitCalendarNextYear{margin:0 0 0 .55em}
+.dijitCalendarPreviousYear{margin:0 .55em 0 0}
+.dijitCalendarIncrementControl{vertical-align:middle}
+.dijitCalendarIncrementControl,
+.dijitCalendarDateTemplate,
+.dijitCalendarMonthLabel,
+.dijitCalendarPreviousYear,
+.dijitCalendarNextYear{cursor:pointer}
+.dijitCalendarDisabledDate{color:#808080;text-decoration:line-through;cursor:default}
+.dijitSpacer{position:relative;height:1px;overflow:hidden;visibility:hidden}
+.dijitCalendarMonthMenu .dijitCalendarMonthLabel{text-align:center}
+
+.dijitCalendar{border:solid 1px #cfcfcf;background-color:#fff;text-align:center;padding:18px;border-radius:6px;border-collapse:separate}
+.dijitCalendar img{border:none}
+.dijitCalendarMonthContainer th{text-align:center;vertical-align:middle}
+.dijitCalendarMonthLabel{color:#595959;font-size:.9375em;font-weight:bold;padding:6px 12px}
+.dijitA11ySideArrow{display:none}
+
+.dijitCalendarArrow{cursor:pointer;border:1px solid transparent;position:relative;}
+.dijitCalendarArrow img {display:none;}
+.dijitCalendarArrow:hover{background-color:#f2f2f2;border-color:#d0d0d0}
+.dijitCalendarArrow:after{content:" "; width:0; height:0; border:6px solid transparent; border-left:6px solid #333; display:block; position:absolute; top:25%; left:45%}
+.dijitCalendarArrow:first-child:before{content:" "; width:0; height:0; border:6px solid transparent; border-right:6px solid #333; display:block; position:absolute; top:25%; left:45%}
+.dijitCalendarArrow:first-child:after{border:none;}
+
+.dijitCalendarCurrentDate {background:#eee;}
+.dijitCalendarDayLabelTemplate{text-align:center;font-weight:bold;padding:8px 12px}
+.dijitCalendarDayLabel{font-weight:bold;font-size:.9375em;text-align:center;color:#595959}
+.dijitCalendarDateTemplate{border-bottom:0 none;font-size:.9375em;font-weight:500;letter-spacing:.05em;text-align:center;color:#595959}
+.dijitCalendarPreviousMonth,
+.dijitCalendarNextMonth{border-bottom:0 none}
+.dijitCalendarDateTemplate .dijitCalendarDateLabel{text-decoration:none;display:block;padding:6px 10px;border:1px solid transparent;-webkit-transition-property:background-color,border;-ms-transition-property:background-color,border;transition-property:background-color,border;-webkit-transition-duration:.35s;-ms-transition-duration:.35s;transition-duration:.35s}
+.dijitCalendarPreviousMonth .dijitCalendarDateLabel,
+.dijitCalendarNextMonth .dijitCalendarDateLabel{color:#ababab;border-color:#fff;}
+.dijitCalendarYearContainer{vertical-align:middle}
+.dijitCalendarYearControl{padding:1px 2px 2px 2px}
+.dijitCalendarYearLabel{padding:8px 0 0;margin:0;font-size:.9375em}
+.dijitCalendarYearLabel span{vertical-align:middle}
+.dijitCalendarSelectedYear{padding:0 6px;font-size:.9375em;color:#52bad5}
+.dijitCalendarNextYear,
+.dijitCalendarPreviousYear{font-size:.9375em;border:1px solid transparent;padding:6px 12px}
+.dijitCalendarHoveredDate .dijitCalendarDateLabel,
+.dijitCalendarEnabledDate:hover .dijitCalendarDateLabel{background-color:#b1e0ec;border:solid 1px #52bad5;color:#595959;-webkit-transition-duration:.2s;-ms-transition-duration:.2s;transition-duration:.2s}
+.dijitCalendarNextYearHover,
+.dijitCalendarNextYear:hover,
+.dijitCalendarPreviousYearHover,
+.dijitCalendarPreviousYear:hover{color:#595959;background-color:#f2f2f2;border-color:#d0d0d0}
+.dijitCalendarNextYearActive,
+.dijitCalendarNextYear:active .dijitCalendarPreviousYearActive,
+.dijitCalendarPreviousYear:active{background-color:#c7c7c7}
+.dijitCalendarActiveDate .dijitCalendarDateLabel,
+.dijitCalendarEnabledDate:active .dijitCalendarDateLabel{border:solid 1px #fff;-webkit-transition-duration:.1s;-ms-transition-duration:.1s;transition-duration:.1s}
+.dijitCalendarSelectedDate .dijitCalendarDateLabel{color:#595959;background-color:#b1e0ec;border:solid 1px #52bad5}
+.dijitCalendarDisabledDate .dijitCalendarDateLabel{color:#808080;text-decoration:line-through}
+.dijitCalendar .dijitDropDownButton{margin:0;background-color:transparent}
+.dijitCalendar .dijitDropDownButtonHover .dijitButtonNode,
+.dijitCalendar .dijitDropDownButton:hover .dijitButtonNode{background-color:transparent;border:0 none}
+.dijitCalendarMonthMenu{border-color:#ababab;background-color:#fff;text-align:center;background-image:none}
+.dijitCalendarMonthMenu .dijitCalendarMonthLabel{border-top:solid 1px transparent;border-bottom:solid 1px transparent}
+.dijitCalendarMonthMenu .dijitCalendarMonthLabelHover,
+.dijitCalendarMonthMenu .dijitCalendarMonthLabel:hover{background-color:#b1e0ec;border-color:#52bad5;border-width:1px 0}
+
+.dijitTooltip{display:none !important;}
+
+</style><style type="text/css">
+		body{
+			font:14px/20px 'Helvetica', Arial, sans-serif;
+			margin:0;
+			padding:75px 0 0 0;
+			text-align:center;
+			-webkit-text-size-adjust:none;
+			background-color:#6E6E6E;
+		}
+		p{
+			padding:0 0 10px 0;
+		}
+		h1 img{
+			max-width:100%;
+			height:auto !important;
+			vertical-align:bottom;
+		}
+		h2{
+			font-size:22px;
+			line-height:28px;
+			margin:0 0 12px 0;
+		}
+		h3{
+			margin:0 0 12px 0;
+		}
+		.headerBar{
+			background:none;
+			padding:0;
+			border:none;
+		}
+		.wrapper{
+			width:600px;
+			margin:0 auto 10px auto;
+			text-align:left;
+		}
+		input.formEmailButton{
+			border:none !important;
+		}
+		.formEmailButton{
+			display:inline-block;
+			font-weight:500;
+			font-size:16px;
+			line-height:42px;
+			font-family:'Helvetica', Arial, sans-serif;
+			width:auto;
+			white-space:nowrap;
+			height:42px;
+			margin:12px 5px 12px 0;
+			padding:0 22px;
+			text-decoration:none;
+			text-align:center;
+			cursor:pointer;
+			border:0;
+			border-radius:3px;
+			vertical-align:top;
+		}
+		.formEmailButton span{
+			display:inline;
+			font-family:'Helvetica', Arial, sans-serif;
+			text-decoration:none;
+			font-weight:500;
+			font-style:normal;
+			font-size:16px;
+			line-height:42px;
+			cursor:pointer;
+			border:none;
+		}
+		.rounded6{
+			border-radius:6px;
+		}
+		.poweredWrapper{
+			padding:20px 0;
+			width:560px;
+			margin:0 auto;
+		}
+		.poweredBy{
+			display:block;
+		}
+		span.or{
+			display:inline-block;
+			height:32px;
+			line-height:32px;
+			padding:0 5px;
+			margin:5px 5px 0 0;
+		}
+		.clear{
+			clear:both;
+		}
+		.profile-list{
+			display:block;
+			margin:15px 20px;
+			padding:0;
+			list-style:none;
+			border-top:1px solid #eee;
+		}
+		.profile-list li{
+			display:block;
+			margin:0;
+			padding:5px 0;
+			border-bottom:1px solid #eee;
+		}
+		html[dir=rtl] .wrapper,html[dir=rtl] .container,html[dir=rtl] label{
+			text-align:right !important;
+		}
+		html[dir=rtl] ul.interestgroup_field label{
+			padding:0;
+		}
+		html[dir=rtl] ul.interestgroup_field input{
+			margin-left:5px;
+		}
+		html[dir=rtl] .hidden-from-view{
+			right:-5000px;
+			left:auto;
+		}
+		body,#bodyTable{
+			background-color:#eeeeee;
+		}
+		h1{
+			font-size:28px;
+			line-height:110%;
+			margin-bottom:30px;
+			margin-top:0;
+			padding:0;
+		}
+		#templateContainer{
+			background-color:#eeeeee;
+		}
+		#templateBody{
+			background-color:#ffffff;
+		}
+		.bodyContent{
+			line-height:150%;
+			font-family:Helvetica;
+			font-size:14px;
+			color:#333333;
+			padding:20px;
+		}
+		a:link,a:active,a:visited,a{
+			color:#336699;
+		}
+		.formEmailButton:link,.formEmailButton:active,.formEmailButton:visited,.formEmailButton,.formEmailButton span{
+			background-color:#5d5d5d !important;
+			color:#ffffff !important;
+		}
+		.formEmailButton:hover{
+			background-color:#444444 !important;
+			color:#ffffff !important;
+		}
+		label{
+			line-height:150%;
+			font-family:Helvetica;
+			font-size:16px;
+			color:#5d5d5d;
+		}
+		.field-group input,select,textarea,.dijitInputField{
+			font-family:Helvetica;
+			color:#5d5d5d !important;
+		}
+		.asterisk{
+			color:#cc6600;
+			font-size:20px;
+		}
+		label .asterisk{
+			visibility:hidden;
+		}
+		.indicates-required{
+			display:none;
+		}
+		.field-help{
+			color:#777;
+		}
+		.error,.errorText{
+			color:#e85c41;
+			font-weight:bold;
+		}
+	@media (max-width: 620px){
+		body{
+			width:100%;
+			-webkit-font-smoothing:antialiased;
+			padding:10px 0 0 0 !important;
+			min-width:300px !important;
+		}
+
+}	@media (max-width: 620px){
+		.wrapper,.poweredWrapper{
+			width:auto !important;
+			max-width:600px !important;
+			padding:0 10px;
+		}
+
+}	@media (max-width: 620px){
+		#templateContainer,#templateBody,#templateContainer table{
+			width:100% !important;
+			-moz-box-sizing:border-box;
+			-webkit-box-sizing:border-box;
+			box-sizing:border-box;
+		}
+
+}	@media (max-width: 620px){
+		.addressfield span{
+			width:auto;
+			float:none;
+			padding-right:0;
+		}
+
+}	@media (max-width: 620px){
+		.captcha{
+			width:auto;
+			float:none;
+		}
+
+}		.gdpr-mergeRow{
+			margin:10px 0;
+			color:#4a4a4a;
+			font-family:Helvetica;
+		}
+		.gdpr-content{
+			margin:0 -20px 0 -20px;
+			padding:20px;
+			background:rgba(255, 255, 255, 0.8);
+		}
+		#gdpr-label{
+			margin-top:0;
+		}
+		#gdpr-description{
+			margin-top:6px;
+			margin-bottom:0;
+			padding-bottom:11px;
+		}
+		.gdpr-content p{
+			color:#4a4a4a;
+			font-size:13px;
+			line-height:1.5;
+		}
+		.gdpr-content .checkbox-group label{
+			font-weight:normal;
+			font-size:13px;
+		}
+		#gdpr-legal{
+			padding-top:20px;
+			margin:0;
+		}
+		.gdpr-footer{
+			margin:0 -20px 0 -20px;
+			padding:20px;
+			background:rgba(255, 255, 255, 0.9);
+			overflow:auto;
+			color:#6d6d6d;
+		}
+		.gdpr-footer p{
+			font-size:10px;
+			line-height:1.5;
+			margin-bottom:0;
+		}
+		.gdpr-footer a{
+			color:#206578;
+		}
+		.gdpr-footer img{
+			width:65px;
+			float:left;
+			margin-right:15px;
+		}
+</style>
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"284246",ustr:"",originlat:"0",clientrtt:"446",ghostip:"77.92.137.71",ipv6:false,pct:"10",clientip:"178.175.132.225",requestid:"214e386",region:"23875",protocol:"",blver:14,akM:"",akN:"ae",akTT:"O",akTX:"1",akTI:"214e386",ai:"198907",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    </head>
+	<body>
+
+		<div class="wrapper rounded6" id="templateContainer">
+		    <h1 class="masthead">44con-announce</h1>
+
+		    <div id="templateBody" class="bodyContent rounded6">
+	
+        
+        
+        
+        
+        <div id="subscribeFormWelcome">Welcome to 44Con-announce. Please fill in the form below and we&#39;ll send you details of announcements regarding 44Con and the goings on around it. It&#39;s easy to unsubscribe, and we promise not to sell your details on.
+</div>
+<div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+
+
+
+<form action="https://44con.us2.list-manage.com/subscribe/post" method="POST">
+    <input type="hidden" name="u" value="8aa1512f3599fc5f17e933b2a">
+    <input type="hidden" name="id" value="392dc4ffdd">
+    
+
+    <!-- people should not fill these in and expect good things -->
+    <div class="field-shift" aria-label="Please leave the following three fields empty">
+        <label for="b_name">Name: </label>
+        <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name">
+
+        <label for="b_email">Email: </label>
+        <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
+
+        <label for="b_comment">Comment: </label>
+        <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
+    </div>
+
+    <div id="mergeTable" class="mergeTable">
+        
+        
+        <div class="mergeRow dojoDndItem mergeRow-email" id="mergeRow-0">
+            <label for="MERGE0">Email Address <span class="req asterisk">*</span></label>
+            <div class="field-group">
+                <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" size="25" value="">
+                
+                
+            </div>
+            
+        </div>
+        
+        
+        
+        <div class="mergeRow dojoDndItem mergeRow-text" id="mergeRow-1">
+            <label for="MERGE1">First Name</label>
+            <div class="field-group">
+                <input type="text" name="MERGE1" id="MERGE1" size="25" value="">
+                
+                
+            </div>
+            
+        </div>
+        
+        
+        
+        <div class="mergeRow dojoDndItem mergeRow-text" id="mergeRow-2">
+            <label for="MERGE2">Last Name</label>
+            <div class="field-group">
+                <input type="text" name="MERGE2" id="MERGE2" size="25" value="">
+                
+                
+            </div>
+            
+        </div>
+        
+        
+
+
+        
+
+        
+        <div class="mergeRow-emailFormat">
+            <label>Preferred format</label>
+            <div class="field-group groups">
+                <div class="interestgroup_field radio-group">
+                    <label class="radio" for="EMAILTYPE_HTML"><input type="radio" name="EMAILTYPE" id="EMAILTYPE_HTML" value="html" checked><span>HTML</span></label>
+                    <label class="radio" for="EMAILTYPE_TEXT"><input type="radio" name="EMAILTYPE" id="EMAILTYPE_TEXT" value="text" ><span>Plain-text</span></label>
+                </div>
+            </div>
+        </div>
+        
+
+        
+    </div>
+
+    <div class="submit_container clear">
+        <input type="submit" class="formEmailButton" name="submit" value="Subscribe to list">
+    </div>
+    <input type="hidden" name="ht" value="a0369e79c411b938ac9bcefbc2594e2da4816ef1:MTU1NDI5MjY1Mi45Nzk2">
+    <input type="hidden" name="mc_signupsource" value="hosted">
+</form>
+
+
+		    </div>
+		</div>
+
+        
+		<div class="poweredWrapper">
+			<span class="poweredBy"><a href="http://www.mailchimp.com/monkey-rewards/?utm_source=freemium_newsletter&utm_medium=email&utm_campaign=monkey_rewards&aid=8aa1512f3599fc5f17e933b2a&afl=1"><img src="https://gallery.mailchimp.com/089443193dd93823f3fed78b4/images/postmark_mailchimp_red.gif" border="0" alt="Email Marketing Powered by Mailchimp" title="Mailchimp Email Marketing"></a></span>
+		</div>
+		
+    </body>
+</html>
+<script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-38639293-3', {'allowLinker': true});
+            ga('set', 'hostname', '.list-manage.com');
+            ga('send', 'pageview');
+        </script>
+
+
+#####EOF#####
+
+

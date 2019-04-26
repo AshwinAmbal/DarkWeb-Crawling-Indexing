@@ -1,0 +1,895 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8" /><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+    <meta http-equiv="cleartype" content="on" />
+    <meta name="MobileOptimized" content="width" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="apple-touch-icon"      sizes="57x57"     href="/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon"      sizes="60x60"     href="/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon"      sizes="72x72"     href="/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon"      sizes="76x76"     href="/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon"      sizes="114x114"   href="/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon"      sizes="120x120"   href="/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon"      sizes="144x144"   href="/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon"      sizes="152x152"   href="/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon"      sizes="180x180"   href="/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"   href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32"     href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96"     href="/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16"     href="/favicon/favicon-16x16.png">
+    <link rel="manifest"                                href="/manifest.json">
+    <meta name="msapplication-TileColor"                content="#ffffff">
+    <meta name="msapplication-config"                   content="/favicon/browserconfig.xml">
+    <meta name="msapplication-TileImage"                content="/favicon/ms-icon-144x144.png">
+    <meta name="theme-color"                            content="#ffffff">
+    <link rel="shortcut icon"                           href="/favicon/favicon.ico">
+    <!-- WebFontLoader - see https://github.com/typekit/webfontloader -->
+    <script>
+      WebFontConfig = {
+        typekit: { id: 'tcx2fnb' },
+        google: { families: ['Open Sans Condensed:300,300italic,700:latin,cyrillic-ext,latin-ext,cyrillic', 'Open Sans:400italic,700italic,400,700:latin,cyrillic-ext,latin-ext,cyrillic']}
+      };
+      (function(d) {
+        var wf = d.createElement('script'), s = d.scripts[0];
+        wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
+        s.parentNode.insertBefore(wf, s);
+      })(document);
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="https://www.osce.org/files/favicon.ico" type="image/x-icon" />
+<link rel="alternate" href="https://www.osce.org/node/306336" hreflang="en" />
+<link rel="alternate" href="https://www.osce.org/ru/node/330561" hreflang="ru" />
+<meta name="description" content="Harlem DÃ©sir was appointed as the OSCE Representative on Freedom of the Media on 18 July 2017. Prior to this position, DÃ©sir (France) was French Minister of State for European Affairs, attached to the French Minister of Foreign Affairs and International Development, since April 2014." />
+<link rel="canonical" href="https://www.osce.org/node/306336" />
+    <link type="text/css" rel="stylesheet" media="all" href="https://www.osce.org/files/css/css_1f65ee56c02cb97a1052ad2d71629b32.css" />
+<link type="text/css" rel="stylesheet" media="screen" href="https://www.osce.org/files/css/css_273a2828876a34aa5765591d2bbc1913.css" />
+<link type="text/css" rel="stylesheet" media="print" href="https://www.osce.org/files/css/css_3472a7024e47fa1168fec7e58a04eeed.css" />
+        <link href="/sites/default/themes/osce_tao/stylesheets/osce-tao.css?h=f0b6987bb1eb1b87f5b0eefbcc7fcc53" media="all" rel="stylesheet" type="text/css">
+    <link href="/sites/default/themes/osce_tao/stylesheets/osce-tao.print.css?h=f0b6987bb1eb1b87f5b0eefbcc7fcc53" media="print" rel="stylesheet" type="text/css">
+    <meta name="yandex-verification" content="1e978b0ff7fac12a" />
+    <script type="text/javascript" src="https://www.osce.org/files/js/js_9bde2408f850d904ddee1ae62e909a6f.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","jcarousel":{"ajaxPath":"\/jcarousel\/ajax\/views"},"extlink":{"extTarget":"_blank","extClass":0,"extSubdomains":1,"extExclude":"","extInclude":"(admin\\\/osce_help)","extCssExclude":"","extCssExplicit":"#admin-menu","extAlert":0,"extAlertText":"This link will take you to an external web site.","mailtoClass":0},"views":{"ajax_path":"\/views\/ajax","ajaxViews":[{"view_name":"taxonomy_news","view_display_id":"embed_1","view_args":"27\/","view_path":"node\/306336","view_base_path":null,"view_dom_id":"d897f26783fb49edb1fb95c915e3ebfa","pager_element":0}]},"CToolsUrlIsAjaxTrusted":{"\/node\/306336":true},"gsearch":{"gsearch_id":"016235372030844727130%3Afs_f_dbyv08"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDomainMode":"1"},"osce_click_blocker":{"selectors":".site--top a\r\n.site--header--wrapper a\r\n.site--navigation a\r\n.site--footer--wrapper a\r\nbody.page-manager-active ul.links.primary-tabs a"},"jsInit":{"misc\/jquery.js":true,"misc\/drupal.js":true,"sites\/default\/modules\/contrib\/views_slideshow_ddblock\/js\/views_slideshow_ddblock.admin.js":true,"sites\/default\/modules\/d6lts\/panels\/js\/panels.js":true,"sites\/default\/modules\/d6lts\/views_slideshow\/js\/jquery.cycle.all.min.js":true,"sites\/default\/modules\/d6lts\/views_slideshow\/contrib\/views_slideshow_singleframe\/views_slideshow.js":true,"sites\/default\/modules\/d6lts\/views_slideshow\/contrib\/views_slideshow_thumbnailhover\/views_slideshow.js":true,"sites\/default\/modules\/contrib\/extlink\/extlink.js":true,"sites\/default\/modules\/custom\/osce_panes\/social-sharing.js":true,"sites\/default\/modules\/contrib\/gmap\/js\/gmap_views_ajax.js":true,"sites\/default\/modules\/d6lts\/views\/js\/base.js":true,"sites\/default\/modules\/d6lts\/views\/js\/ajax_view.js":true,"sites\/default\/modules\/custom\/osce_panes\/gsearch.js":true,"sites\/default\/modules\/d6lts\/google_analytics\/googleanalytics.js":true,"sites\/default\/modules\/custom\/osce_click_blocker\/osce_click_blocker.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/jquery-1.10.2.min-nosourcemap.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/jquery-migrate-1.2.1.min.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/jquery-ui-1.10.3.custom.min.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/jquery.flexslider.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/underscore-min.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/media.match.min.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/enquire.min.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/jquery.matchHeight-min.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/jquery.cookie.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/jquery.magnific-popup.min.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/jquery.qtip.js":true,"sites\/default\/themes\/osce_tao\/javascript\/osce-tao.js":true,"sites\/default\/themes\/osce_tao\/javascript\/osce-celebration.js":true,"sites\/default\/themes\/osce_tao\/javascript\/libraries\/selectivizr-min.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/osce-collapsible.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/osce-collapsible-box.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/osce-accordion.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/osce-tabs.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/osce-discardable.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/osce-carousel.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/language-switch.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/slideshow.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/osce-news-ticker.js":true,"sites\/default\/themes\/osce_tao\/javascript\/components\/osce-equalize.js":true,"sites\/default\/themes\/tao\/js\/tao.js":true},"cssInit":{"node.css":true,"defaults.css":true,"system.css":true,"system-menus.css":true,"user.css":true,"content-module.css":true,"ctools.css":true,"date.css":true,"jquery-ui.css":true,"datepicker.css":true,"jquery.timeentry.css":true,"filefield.css":true,"panels.css":true,"views_slideshow.css":true,"extlink.css":true,"fieldgroup.css":true,"views.css":true,"osce_content.layout.css":true,"osce_naked.layout.css":true,"osce_figure.layout.css":true,"osce_site.layout.css":true,"admin.css":true,"block.css":true,"book.css":true,"comment.css":true,"dblog.css":true,"forum.css":true,"help.css":true,"maintenance.css":true,"openid.css":true,"poll.css":true,"profile.css":true,"search.css":true,"taxonomy.css":true,"tracker.css":true,"update.css":true,"magnific-popup.css":true,"jquery.qtip.css":true}});
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","//www.google-analytics.com/analytics.js","ga");ga("create", "UA-2170577-1", {"cookieDomain":".www.osce.org"});ga("set", "dimension1", "Employee profile");ga("set", "dimension2", "Our people");ga("set", "dimension4", "27");ga("send", "pageview");
+//--><!]]>
+</script>
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" type="text/css" href="/sites/default/themes/osce_tao/stylesheets/osce-tao-legacy.css" />
+    <![endif]-->
+    <title>Harlem DÃ©sir | OSCE</title>
+    <script type="text/javascript" src="/sites/default/themes/osce_tao/javascript/libraries/modernizr.js"></script>
+    <!--
+    <script type='text/javascript'>(function () {function loadWebreep() {var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;s.src = 'https://api.webreep.com/Feedback/Get/5c613ec6-e3c1-441f-8b98-03a1f2e6957d';var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);}if (window.attachEvent) {window.attachEvent('onload', loadWebreep);} else {window.addEventListener('load', loadWebreep, false);}})();</script>
+    -->
+  </head>
+  <body  class="not-front not-logged-in page-node node-type-employee-profile no-sidebars page-manager-active page-manager-employee-profile item-type-our_people i18n-en tao">
+  <a id='skipnav' href='#content'>Skip navigation</a>  <div class="site ">
+        <div class="site--socialmedia--wrapper">
+      <div class="site--socialmedia">
+        <div class="panel-pane pane-social-media" >
+  
+      <h2 class="pane-title"><span><a href="/osce-social-media" title="List of all official OSCE social media accounts">Follow OSCE</a></span></h2>
+  
+  
+  <div class="pane-content">
+    <ul class="osce-fixed-social-media"><li class="facebook first"><a href="http://www.facebook.com/osce.org" title="Join OSCE on Facebook"><i class="icon-facebook"></i><span>Facebook</span></a></li>
+<li class="twitter"><a href="http://www.twitter.com/osce" title="Follow OSCE on Twitter"><i class="icon-twitter"></i><span>Twitter</span></a></li>
+<li class="youtube"><a href="http://www.youtube.com/osce" title="Watch OSCE on Youtube"><i class="icon-youtube"></i><span>YouTube</span></a></li>
+<li class="linkedin"><a href="http://www.linkedin.com/company/osce" title="Connect OSCE on LinkedIn"><i class="icon-linkedin"></i><span>LinkedIn</span></a></li>
+<li class="soundcloud"><a href="http://www.soundcloud.com/osce" title="Listen to OSCE on SoundCloud"><i class="icon-soundcloud"></i><span>SoundCloud</span></a></li>
+<li class="instagram last"><a href="http://www.instagram.com/osceorg" title="Experience OSCE on Instagram"><i class="icon-instagram"></i><span>Instagram</span></a></li>
+</ul>  </div>
+
+  
+  </div>
+      </div>
+    </div>
+        <div aria-hidden="true" tabindex="-1" role="presentation" class="site--mobile">
+      <div class="site--top">
+                <div class="site--multilingual-links"></div>
+                <div class="site--ticker">
+                  </div>
+      </div>
+      <div id="multilingual-mobile" style="display: none">
+              </div>
+
+      <div class="site--header">
+        <div class="site--logo">
+          <div class="site--name-and-slogan logo--default">
+  <div class="logo media--print">
+    <img src="/sites/default/themes/osce_tao/images/logo%402x.png"/>
+  </div>
+      <p class="site--name media--screen">
+      <a href="/" title="Home" rel="home"><span>OSCE</span></a>
+    </p>
+        <div class="site--slogan">Organization for Security and Co-operation in Europe</div>
+  </div>
+        </div>
+
+        <div class="site--mobile--toggles">
+          <div class="site--navigation-toggle">
+            <a href="#navigation-mobile" title="Navigation"><i></i><span>Navigation</span></a>
+          </div>
+
+          <div class="site--search-toggle">
+            <a href="#search-mobile" title="Search"><i></i><span>Search</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="site--overlay">
+        <div id="navigation-mobile">
+          <div class="panel-pane pane-block pane-menu-menu-main-navigation main-menu" >
+  
+      <h2 class="pane-title">Navigation</h2>
+  
+  
+  <div class="pane-content">
+    <ul class="menu"><li class="leaf first"><a href="/" title="" hreflang="en">Home</a></li>
+<li class="expanded"><a href="/who-we-are" hreflang="en" class="has-children">Who we are</a><ul class="menu"><li class="leaf first"><a href="/whatistheosce" hreflang="en">What is the OSCE?</a></li>
+<li class="leaf"><a href="/participating-states" hreflang="en">Participating States</a></li>
+<li class="leaf"><a href="/partners-for-cooperation" hreflang="en">Partners for Co-operation</a></li>
+<li class="leaf"><a href="/chairmanship" hreflang="en">Chairmanship</a></li>
+<li class="leaf"><a href="/summits" hreflang="en">Summits</a></li>
+<li class="leaf"><a href="/ministerial-councils" hreflang="en">Ministerial Councils</a></li>
+<li class="leaf"><a href="/permanent-council" hreflang="en">Permanent Council</a></li>
+<li class="leaf"><a href="/forum-for-security-cooperation" hreflang="en">Forum for Security Co-operation</a></li>
+<li class="leaf"><a href="/related-bodies" hreflang="en">OSCE-related bodies</a></li>
+<li class="leaf"><a href="/funding-and-budget" hreflang="en">Funding and budget</a></li>
+<li class="leaf last"><a href="/history" hreflang="en">History</a></li>
+</ul></li>
+<li class="expanded"><a href="/what-we-do" hreflang="en" class="has-children">What we do</a><ul class="menu"><li class="leaf first"><a href="/arms-control" hreflang="en">Arms control</a></li>
+<li class="leaf"><a href="/border-management" hreflang="en">Border management</a></li>
+<li class="leaf"><a href="/combating-human-trafficking" hreflang="en">Combating human trafficking</a></li>
+<li class="leaf"><a href="/countering-terrorism" hreflang="en">Countering terrorism</a></li>
+<li class="leaf"><a href="/conflict-prevention-and-resolution" hreflang="en">Conflict prevention and resolution</a></li>
+<li class="leaf"><a href="/cyber-ict-security" hreflang="en">Cyber/ICT Security</a></li>
+<li class="leaf"><a href="/democratization" hreflang="en">Democratization</a></li>
+<li class="leaf"><a href="/economic-activities" hreflang="en">Economic activities</a></li>
+<li class="leaf"><a href="/education" hreflang="en">Education</a></li>
+<li class="leaf"><a href="/elections" hreflang="en">Elections</a></li>
+<li class="leaf"><a href="/environmental-activities" hreflang="en">Environmental activities</a></li>
+<li class="leaf"><a href="/gender-equality" hreflang="en">Gender equality</a></li>
+<li class="leaf"><a href="/good-governance" hreflang="en">Good governance</a></li>
+<li class="leaf"><a href="/human-rights" hreflang="en">Human rights</a></li>
+<li class="leaf"><a href="/media-freedom-and-development" hreflang="en">Media freedom and development</a></li>
+<li class="leaf"><a href="/migration" hreflang="en">Migration</a></li>
+<li class="leaf"><a href="/national-minority-issues" hreflang="en">National minority issues</a></li>
+<li class="leaf"><a href="/policing" hreflang="en">Policing</a></li>
+<li class="leaf"><a href="/reform-and-cooperation-in-the-security-sector" hreflang="en">Reform and co-operation in the security sector</a></li>
+<li class="leaf"><a href="/roma-and-sinti" hreflang="en">Roma and Sinti</a></li>
+<li class="leaf"><a href="/rule-of-law" hreflang="en">Rule of law</a></li>
+<li class="leaf"><a href="/tolerance-and-nondiscrimination" hreflang="en">Tolerance and non-discrimination</a></li>
+<li class="leaf"><a href="/youth" hreflang="en">Youth</a></li>
+<li class="leaf last"><a href="/sustainable-development-goals" class="menu-item-multiline" hreflang="en">#GLOBALGOALS - The OSCE and the Sustainable Development Goals</a></li>
+</ul></li>
+<li class="expanded"><a href="/where-we-are" hreflang="en" class="has-children">Where we are</a><ul class="menu"><li class="leaf first"><a href="/presence-in-albania" hreflang="en">Presence in Albania</a></li>
+<li class="leaf"><a href="/mission-to-bosnia-and-herzegovina" hreflang="en">Mission to Bosnia and Herzegovina</a></li>
+<li class="leaf"><a href="/mission-in-kosovo" hreflang="en">Mission in Kosovo</a></li>
+<li class="leaf"><a href="/mission-to-montenegro" hreflang="en">Mission to Montenegro</a></li>
+<li class="leaf"><a href="/mission-to-serbia" hreflang="en">Mission to Serbia</a></li>
+<li class="leaf"><a href="/mission-to-skopje" hreflang="en">Mission to Skopje</a></li>
+<li class="leaf"><a href="/mission-to-moldova" hreflang="en">Mission to Moldova</a></li>
+<li class="leaf"><a href="/project-coordinator-in-ukraine" hreflang="en">Project Co-ordinator in Ukraine</a></li>
+<li class="leaf"><a href="/special-monitoring-mission-to-ukraine" hreflang="en">Special Monitoring Mission to Ukraine</a></li>
+<li class="leaf"><a href="/observer-mission-at-russian-checkpoints-gukovo-and-donetsk" hreflang="en">Observer Mission at the Russian Checkpoints Gukovo and Donetsk</a></li>
+<li class="leaf"><a href="/cio/andrzej-kasprzyk" class="menu-item-multiline" hreflang="en">Personal Representative of the Chairperson-in-Office on the conflict dealt with by the OSCE Minsk Conference</a></li>
+<li class="leaf"><a href="/centre-in-ashgabat" hreflang="en">Centre in Ashgabat</a></li>
+<li class="leaf"><a href="/programme-office-in-nur-sultan" hreflang="en">Programme Office in Nur-Sultan</a></li>
+<li class="leaf"><a href="/programme-office-in-bishkek" hreflang="en">Programme Office in Bishkek</a></li>
+<li class="leaf"><a href="/programme-office-in-dushanbe" hreflang="en">Programme Office in Dushanbe</a></li>
+<li class="leaf"><a href="/project-coordinator-in-uzbekistan" hreflang="en">Project Co-ordinator in Uzbekistan</a></li>
+<li class="leaf last"><a href="/closed-field-operations" hreflang="en">Closed field operations</a></li>
+</ul></li>
+<li class="expanded"><a href="/institutions-and-structures" hreflang="en" class="has-children">Institutions &amp; structures</a><ul class="menu"><li class="leaf first"><a href="http://www.oscepa.org/" title="" hreflang="en">Parliamentary Assembly</a></li>
+<li class="leaf"><a href="/hcnm" title="" hreflang="en">High Commissioner on National Minorities</a></li>
+<li class="leaf"><a href="/odihr" title="" hreflang="en">Office for Democratic Institutions and Human Rights</a></li>
+<li class="leaf"><a href="/representative-on-freedom-of-media" title="" hreflang="en">Representative on Freedom of the Media</a></li>
+<li class="leaf"><a href="/cca" title="" hreflang="en">Court of Conciliation and Arbitration</a></li>
+<li class="leaf"><a href="/mg" title="" hreflang="en">Minsk Group</a></li>
+<li class="leaf last"><a href="/secretariat" title="" hreflang="en">Secretariat</a></li>
+</ul></li>
+<li class="expanded last"><a href="/resources" hreflang="en" class="has-children">Resources</a><ul class="menu"><li class="leaf first"><a href="/resources/csce-osce-key-documents" hreflang="en">CSCE/OSCE key documents</a></li>
+<li class="leaf"><a href="/resources/documents/decision-making-bodies" hreflang="en">Documents by the OSCE Decision-making bodies</a></li>
+<li class="leaf"><a href="/resources/documents" title="" hreflang="en">Documents library</a></li>
+<li class="leaf"><a href="/resources/publications" title="" hreflang="en">Publications</a></li>
+<li class="leaf"><a href="/press-releases" title="" hreflang="en">Press releases and news archive</a></li>
+<li class="leaf"><a href="/resources/multimedia" title="" hreflang="en">Multimedia</a></li>
+<li class="leaf"><a href="/resources/e-libraries" title="" hreflang="en">E-libraries</a></li>
+<li class="leaf"><a href="/resources/link" title="" hreflang="en">LINK newsletter</a></li>
+<li class="leaf"><a href="/resources/126378" title="" hreflang="en">Quarterly Selections</a></li>
+<li class="leaf last"><a href="/osce-social-media" hreflang="en">Social media</a></li>
+</ul></li>
+</ul>  </div>
+
+  
+  </div>
+          <div class="panel-pane pane-block pane-menu-menu-meta-navigation meta-menu" >
+  
+      <h2 class="pane-title">0Meta Navigation</h2>
+  
+  
+  <div class="pane-content">
+    <ul class="menu"><li class="leaf first"><a href="/press" hreflang="en">Newsroom</a></li>
+<li class="leaf"><a href="/magazine" hreflang="en">Magazine</a></li>
+<li class="leaf"><a href="/meetings-events" hreflang="en">Events</a></li>
+<li class="leaf"><a href="/partnerships" hreflang="en">Partnerships</a></li>
+<li class="leaf"><a href="/networks" hreflang="en">Networks</a></li>
+<li class="leaf last"><a href="/search/pages" hreflang="en">Search</a></li>
+</ul>  </div>
+
+  
+  </div>
+        </div>
+        <div id="search-mobile" class="site--search">
+          <gcse:searchbox-only></gcse:searchbox-only>        </div>
+      </div>
+    </div>
+  
+  <div class="site--desktop">
+
+    <div class="site--top">
+            <div class="site--multilingual-links"></div>
+            <div class="site--ticker">
+              </div>
+    </div>
+
+    
+
+    <div class="site--header--wrapper">
+      <div class="site--header">
+        <div class="site--logo">
+          <div class="site--name-and-slogan logo--default">
+  <div class="logo media--print">
+    <img src="/sites/default/themes/osce_tao/images/logo%402x.png"/>
+  </div>
+      <p class="site--name media--screen">
+      <a href="/" title="Home" rel="home"><span>OSCE</span></a>
+    </p>
+        <div class="site--slogan">Organization for Security and Co-operation in Europe</div>
+  </div>
+        </div>
+
+        <div class="site--meta">
+          <div class="panel-pane pane-block pane-menu-menu-meta-navigation meta-menu" >
+  
+      <h2 class="pane-title">0Meta Navigation</h2>
+  
+  
+  <div class="pane-content">
+    <ul class="menu"><li class="leaf first"><a href="/press" hreflang="en">Newsroom</a></li>
+<li class="leaf"><a href="/magazine" hreflang="en">Magazine</a></li>
+<li class="leaf"><a href="/meetings-events" hreflang="en">Events</a></li>
+<li class="leaf"><a href="/partnerships" hreflang="en">Partnerships</a></li>
+<li class="leaf"><a href="/networks" hreflang="en">Networks</a></li>
+<li class="leaf last"><a href="/search/pages" hreflang="en">Search</a></li>
+</ul>  </div>
+
+  
+  </div>
+        </div>
+
+        <div class="site--search">
+          <gcse:searchbox-only></gcse:searchbox-only>          <a id="site--search-close" href="#">&times; Close search</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="site--navigation--wrapper">
+      <div class="site--navigation">
+        <div class="panel-pane pane-block pane-menu-menu-main-navigation main-menu" >
+  
+      <h2 class="pane-title">Navigation</h2>
+  
+  
+  <div class="pane-content">
+    <ul class="menu"><li class="leaf first"><a href="/" title="" hreflang="en">Home</a></li>
+<li class="expanded"><a href="/who-we-are" hreflang="en" class="has-children">Who we are</a><ul class="menu"><li class="leaf first"><a href="/whatistheosce" hreflang="en">What is the OSCE?</a></li>
+<li class="leaf"><a href="/participating-states" hreflang="en">Participating States</a></li>
+<li class="leaf"><a href="/partners-for-cooperation" hreflang="en">Partners for Co-operation</a></li>
+<li class="leaf"><a href="/chairmanship" hreflang="en">Chairmanship</a></li>
+<li class="leaf"><a href="/summits" hreflang="en">Summits</a></li>
+<li class="leaf"><a href="/ministerial-councils" hreflang="en">Ministerial Councils</a></li>
+<li class="leaf"><a href="/permanent-council" hreflang="en">Permanent Council</a></li>
+<li class="leaf"><a href="/forum-for-security-cooperation" hreflang="en">Forum for Security Co-operation</a></li>
+<li class="leaf"><a href="/related-bodies" hreflang="en">OSCE-related bodies</a></li>
+<li class="leaf"><a href="/funding-and-budget" hreflang="en">Funding and budget</a></li>
+<li class="leaf last"><a href="/history" hreflang="en">History</a></li>
+</ul></li>
+<li class="expanded"><a href="/what-we-do" hreflang="en" class="has-children">What we do</a><ul class="menu"><li class="leaf first"><a href="/arms-control" hreflang="en">Arms control</a></li>
+<li class="leaf"><a href="/border-management" hreflang="en">Border management</a></li>
+<li class="leaf"><a href="/combating-human-trafficking" hreflang="en">Combating human trafficking</a></li>
+<li class="leaf"><a href="/countering-terrorism" hreflang="en">Countering terrorism</a></li>
+<li class="leaf"><a href="/conflict-prevention-and-resolution" hreflang="en">Conflict prevention and resolution</a></li>
+<li class="leaf"><a href="/cyber-ict-security" hreflang="en">Cyber/ICT Security</a></li>
+<li class="leaf"><a href="/democratization" hreflang="en">Democratization</a></li>
+<li class="leaf"><a href="/economic-activities" hreflang="en">Economic activities</a></li>
+<li class="leaf"><a href="/education" hreflang="en">Education</a></li>
+<li class="leaf"><a href="/elections" hreflang="en">Elections</a></li>
+<li class="leaf"><a href="/environmental-activities" hreflang="en">Environmental activities</a></li>
+<li class="leaf"><a href="/gender-equality" hreflang="en">Gender equality</a></li>
+<li class="leaf"><a href="/good-governance" hreflang="en">Good governance</a></li>
+<li class="leaf"><a href="/human-rights" hreflang="en">Human rights</a></li>
+<li class="leaf"><a href="/media-freedom-and-development" hreflang="en">Media freedom and development</a></li>
+<li class="leaf"><a href="/migration" hreflang="en">Migration</a></li>
+<li class="leaf"><a href="/national-minority-issues" hreflang="en">National minority issues</a></li>
+<li class="leaf"><a href="/policing" hreflang="en">Policing</a></li>
+<li class="leaf"><a href="/reform-and-cooperation-in-the-security-sector" hreflang="en">Reform and co-operation in the security sector</a></li>
+<li class="leaf"><a href="/roma-and-sinti" hreflang="en">Roma and Sinti</a></li>
+<li class="leaf"><a href="/rule-of-law" hreflang="en">Rule of law</a></li>
+<li class="leaf"><a href="/tolerance-and-nondiscrimination" hreflang="en">Tolerance and non-discrimination</a></li>
+<li class="leaf"><a href="/youth" hreflang="en">Youth</a></li>
+<li class="leaf last"><a href="/sustainable-development-goals" class="menu-item-multiline" hreflang="en">#GLOBALGOALS - The OSCE and the Sustainable Development Goals</a></li>
+</ul></li>
+<li class="expanded"><a href="/where-we-are" hreflang="en" class="has-children">Where we are</a><ul class="menu"><li class="leaf first"><a href="/presence-in-albania" hreflang="en">Presence in Albania</a></li>
+<li class="leaf"><a href="/mission-to-bosnia-and-herzegovina" hreflang="en">Mission to Bosnia and Herzegovina</a></li>
+<li class="leaf"><a href="/mission-in-kosovo" hreflang="en">Mission in Kosovo</a></li>
+<li class="leaf"><a href="/mission-to-montenegro" hreflang="en">Mission to Montenegro</a></li>
+<li class="leaf"><a href="/mission-to-serbia" hreflang="en">Mission to Serbia</a></li>
+<li class="leaf"><a href="/mission-to-skopje" hreflang="en">Mission to Skopje</a></li>
+<li class="leaf"><a href="/mission-to-moldova" hreflang="en">Mission to Moldova</a></li>
+<li class="leaf"><a href="/project-coordinator-in-ukraine" hreflang="en">Project Co-ordinator in Ukraine</a></li>
+<li class="leaf"><a href="/special-monitoring-mission-to-ukraine" hreflang="en">Special Monitoring Mission to Ukraine</a></li>
+<li class="leaf"><a href="/observer-mission-at-russian-checkpoints-gukovo-and-donetsk" hreflang="en">Observer Mission at the Russian Checkpoints Gukovo and Donetsk</a></li>
+<li class="leaf"><a href="/cio/andrzej-kasprzyk" class="menu-item-multiline" hreflang="en">Personal Representative of the Chairperson-in-Office on the conflict dealt with by the OSCE Minsk Conference</a></li>
+<li class="leaf"><a href="/centre-in-ashgabat" hreflang="en">Centre in Ashgabat</a></li>
+<li class="leaf"><a href="/programme-office-in-nur-sultan" hreflang="en">Programme Office in Nur-Sultan</a></li>
+<li class="leaf"><a href="/programme-office-in-bishkek" hreflang="en">Programme Office in Bishkek</a></li>
+<li class="leaf"><a href="/programme-office-in-dushanbe" hreflang="en">Programme Office in Dushanbe</a></li>
+<li class="leaf"><a href="/project-coordinator-in-uzbekistan" hreflang="en">Project Co-ordinator in Uzbekistan</a></li>
+<li class="leaf last"><a href="/closed-field-operations" hreflang="en">Closed field operations</a></li>
+</ul></li>
+<li class="expanded"><a href="/institutions-and-structures" hreflang="en" class="has-children">Institutions &amp; structures</a><ul class="menu"><li class="leaf first"><a href="http://www.oscepa.org/" title="" hreflang="en">Parliamentary Assembly</a></li>
+<li class="leaf"><a href="/hcnm" title="" hreflang="en">High Commissioner on National Minorities</a></li>
+<li class="leaf"><a href="/odihr" title="" hreflang="en">Office for Democratic Institutions and Human Rights</a></li>
+<li class="leaf"><a href="/representative-on-freedom-of-media" title="" hreflang="en">Representative on Freedom of the Media</a></li>
+<li class="leaf"><a href="/cca" title="" hreflang="en">Court of Conciliation and Arbitration</a></li>
+<li class="leaf"><a href="/mg" title="" hreflang="en">Minsk Group</a></li>
+<li class="leaf last"><a href="/secretariat" title="" hreflang="en">Secretariat</a></li>
+</ul></li>
+<li class="expanded last"><a href="/resources" hreflang="en" class="has-children">Resources</a><ul class="menu"><li class="leaf first"><a href="/resources/csce-osce-key-documents" hreflang="en">CSCE/OSCE key documents</a></li>
+<li class="leaf"><a href="/resources/documents/decision-making-bodies" hreflang="en">Documents by the OSCE Decision-making bodies</a></li>
+<li class="leaf"><a href="/resources/documents" title="" hreflang="en">Documents library</a></li>
+<li class="leaf"><a href="/resources/publications" title="" hreflang="en">Publications</a></li>
+<li class="leaf"><a href="/press-releases" title="" hreflang="en">Press releases and news archive</a></li>
+<li class="leaf"><a href="/resources/multimedia" title="" hreflang="en">Multimedia</a></li>
+<li class="leaf"><a href="/resources/e-libraries" title="" hreflang="en">E-libraries</a></li>
+<li class="leaf"><a href="/resources/link" title="" hreflang="en">LINK newsletter</a></li>
+<li class="leaf"><a href="/resources/126378" title="" hreflang="en">Quarterly Selections</a></li>
+<li class="leaf last"><a href="/osce-social-media" hreflang="en">Social media</a></li>
+</ul></li>
+</ul>  </div>
+
+  
+  </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  
+      <div class="site--breadcrumbs--wrapper">
+      <div class="site--breadcrumbs">
+        <div class="panel-pane pane-page-breadcrumb" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-seperator"></span> <a href="/institutions-and-structures">Institutions &amp; structures</a><span class="breadcrumbs-seperator"></span> <a href="/representative-on-freedom-of-media">Representative on Freedom of the Media</a><span class="breadcrumbs-seperator"></span> <a href="/representative-on-freedom-of-media/106279">Who we are</a><span class="breadcrumbs-seperator"></span> <span >Harlem DÃ©sir</span></div>  </div>
+
+  
+  </div>
+      </div>
+    </div>
+  
+  
+  
+  <div class="site--content--wrapper">
+    <div class="site--content">
+      <div class="panel-pane pane-page-content" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="layout-content sidebar content-sidebar-top">
+      <div class="content--header">
+      <aside class="osce-box  osce-box-style-bar osce-box-collapse-never osce-box-gridlayout-nogrid osce-box-panels_mini osce-box-social_sharing_and_contextual_1">
+  <header class="osce-box-header">
+              </header>
+  <div class="osce-box-content">
+    <div class="panel-pane pane-panels-mini pane-social-media-contextual-links" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="panel-pane pane-views pane-social-media-contextual" >
+  
+      <h2 class="pane-title"><span>Follow <strong>RFOM</strong></span></h2>
+  
+  
+  <div class="pane-content">
+    <div class="view view-social-media-contextual view-id-social_media_contextual view-display-id-default view-dom-id-social-media-contextual-default">
+    
+  
+  
+      <div class="view-content">
+      <div class="item-list">
+    <ul>
+          <li class="views-row views-row-1 views-row-odd views-row-first views-row-last">  
+  <div class="views-field-field-social-media-links-url">
+                <div class="field-content"><div class="field-item field-item-0"><a href="https://twitter.com/OSCE_RFoM" 0="s:13:&quot;s:6:&quot;a:0:{}&quot;;&quot;;">Twitter</a></div><div class="field-item field-item-1"><a href="https://www.facebook.com/osce.rfom" 0="s:13:&quot;s:6:&quot;a:0:{}&quot;;&quot;;">Facebook</a></div><div class="field-item field-item-2"><a href="https://www.youtube.com/user/oscerfom" 0="s:13:&quot;s:6:&quot;a:0:{}&quot;;&quot;;">YouTube</a></div><div class="field-item field-item-3"><a href="https://www.flickr.com/photos/osce_rfom" 0="s:13:&quot;s:6:&quot;a:0:{}&quot;;&quot;;">Flicr</a></div></div>
+  </div>
+</li>
+      </ul>
+</div>    </div>
+  
+  
+  
+  
+  
+  
+</div>   </div>
+
+  
+  </div>
+  </div>
+
+  
+  </div>
+<div class="panel-pane pane-social-sharing" >
+  
+      <h2 class="pane-title"><span>Share</span></h2>
+  
+  
+  <div class="pane-content">
+    <ul class="osce-sharing-links"><li class="twitter first"><a href="http://twitter.com/share?text=Harlem%20D%C3%A9sir&amp;url=http%3A%2F%2Fwww.osce.org%2Fnode%2F306336" data-tracking-label="Harlem DÃ©sir (en) [306336]" data-tracking-category="twitter"><i class="icon-twitter"></i><span>Share on Twitter</span></a></li>
+<li class="facebook"><a href="http://www.facebook.com/sharer/sharer.php?s=100&amp;p[title]=Harlem%20D%C3%A9sir&amp;p[summary]=&amp;p[url]=http%3A%2F%2Fwww.osce.org%2Fnode%2F306336" data-tracking-label="Harlem DÃ©sir (en) [306336]" data-tracking-category="facebook"><i class="icon-facebook"></i><span>Share on Facebook</span></a></li>
+<li class="linkedin"><a href="https://www.linkedin.com/shareArticle?url=http%3A%2F%2Fwww.osce.org%2Fnode%2F306336&amp;mini=1&amp;title=Harlem%20D%C3%A9sir" data-tracking-label="Harlem DÃ©sir (en) [306336]" data-tracking-category="linkedin"><i class="icon-linkedin"></i><span>Share on LinkedIn</span></a></li>
+<li class="gplus last"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.osce.org%2Fnode%2F306336" data-tracking-label="Harlem DÃ©sir (en) [306336]" data-tracking-category="gplus"><i class="icon-gplus"></i><span>Share on Google+</span></a></li>
+</ul>  </div>
+
+  
+  </div>
+<div class="panel-pane pane-lang-switch" >
+  
+  
+  
+  <div class="pane-content">
+    <ul class="osce-language-switch"><li class="node_translation_en active first active"><a href="/node/306336" title="Harlem DÃ©sir" class="translation-link active active" hreflang="en">English</a></li>
+<li class="node_translation_ru last"><a href="/ru/node/330561" title="ÐÑÐ»ÐµÐ¼ ÐÐµÐ·Ð¸Ñ" class="translation-link" hreflang="ru">Ð ÑÑÑÐºÐ¸Ð¹</a></li>
+</ul>  </div>
+
+  
+  </div>
+  </div>
+</aside>
+<aside class="osce-box  osce-box-style-bar osce-box-collapse-never osce-box-gridlayout-nogrid osce-box-panels_mini osce-box-social_sharing_and_contextual_2">
+  <header class="osce-box-header">
+              </header>
+  <div class="osce-box-content">
+    <div class="item-list"><ul class="metadata-list"><li class="first last"><span class="metadata-source metadata-source metadata-source-27"><a href="/representative-on-freedom-of-media">OSCE Representative on Freedom of the Media</a></span></li>
+</ul></div>  </div>
+</aside>
+<div class="panel-pane pane-banner" >
+  
+  
+  
+  <div class="pane-content">
+    Our people  </div>
+
+  
+  </div>
+    </div>
+          <div class="content--sidebar-top">
+      <div class="panel-pane pane-panels-mini pane-menu-institutions" >
+  
+  
+  
+  <div class="pane-content">
+    <aside class="osce-box  osce-box-style-black osce-box-collapse-never osce-box-gridlayout-nogrid osce-box-block osce-box-menu-menu-institutions-and-structures">
+  <header class="osce-box-header">
+              <h2 class="osce-box-title"><a href="/institutions-and-structures" class="" >Institutions and Structures</a></h2>
+          </header>
+  <div class="osce-box-content">
+    <ul class="menu"><li class="leaf first"><a href="http://www.oscepa.org/" title="" hreflang="en">Parliamentary Assembly</a></li>
+<li class="collapsed"><a href="/hcnm" hreflang="en" class="has-children">High Commissioner on National Minorities</a></li>
+<li class="collapsed"><a href="/odihr" title="&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+" hreflang="en" class="has-children">Office for Democratic Institutions and Human Rights</a></li>
+<li class="expanded active-trail"><a href="/representative-on-freedom-of-media" hreflang="en" class="has-children">Representative on Freedom of the Media</a><ul class="menu"><li class="expanded first active-trail"><a href="/representative-on-freedom-of-media/106279" hreflang="en" class="has-children">Who we are</a><ul class="menu"><li class="leaf first"><a href="/fom/106280" hreflang="en">Mandate</a></li>
+<li class="leaf last active-trail"><a href="/node/306336" hreflang="en" class="active">Representative</a></li>
+</ul></li>
+<li class="expanded last"><a href="/fom/106278" title="" hreflang="en" class="has-children">What we do</a><ul class="menu"><li class="leaf first"><a href="/representative-on-freedom-of-media/106287" hreflang="en">Decriminalization of defamation</a></li>
+<li class="leaf"><a href="/representative-on-freedom-of-media/106288" hreflang="en">Digital switchover</a></li>
+<li class="leaf"><a href="/representative-on-freedom-of-media/106289" hreflang="en">Hate speech</a></li>
+<li class="leaf"><a href="/representative-on-freedom-of-media/106285" hreflang="en">Media freedom on the internet</a></li>
+<li class="leaf"><a href="/representative-on-freedom-of-media/106286" hreflang="en">Media laws</a></li>
+<li class="leaf"><a href="/fom/106284" hreflang="en">Media pluralism</a></li>
+<li class="leaf"><a href="/representative-on-freedom-of-media/106290" hreflang="en">Media self-regulation</a></li>
+<li class="collapsed last"><a href="/representative-on-freedom-of-media/106283" hreflang="en" class="has-children">Safety of journalists</a></li>
+</ul></li>
+</ul></li>
+<li class="collapsed"><a href="/cca" hreflang="en" class="has-children">Court of Conciliation and Arbitration</a></li>
+<li class="collapsed"><a href="/mg" hreflang="en" class="has-children">Minsk Group</a></li>
+<li class="collapsed last"><a href="/secretariat" hreflang="en" class="has-children">Secretariat</a></li>
+</ul>  </div>
+</aside>
+  </div>
+
+  
+  </div>
+    </div>
+      <div class="content--content">
+    <h1>Harlem DÃ©sir</h1><div class="field-functional-title">OSCE Representative on Freedom of the Media</div><div class="panel-pane pane-panels-mini pane-teaser" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="panel-pane pane-panels-mini pane-teaser-photo" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="osce-figure-wrapper osce-figure-full osce-figure-captioned">
+  <div class="osce-figure">
+    <div class="osce-figure-content">
+      <div class="panel-pane pane-content-field pane-field-image-hi-res" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="field field-type-filefield field-field-image-hi-res">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <img src="https://www.osce.org/files/imagecache/10_large_gallery/f/images/hires/b/8/330281.jpg?1541070630" alt="" title="" width="940" height="508" class="imagecache imagecache-10_large_gallery imagecache-default imagecache-10_large_gallery_default"/>        </div>
+        </div>
+</div>
+  </div>
+
+  
+  </div>
+    </div>
+          <div class="osce-figure-caption">
+        <div class="panel-pane pane-content-field pane-field-description display-inline" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="field field-type-text field-field-description">
+    <div class="field-items">
+            <div class="field-item odd">
+                    Harlem DÃ©sir, OSCE Representative on Freedom of the Media.          </div>
+        </div>
+</div>
+  </div>
+
+  
+  </div>
+ (Quai d&#039;Orsay/FrÃ©dÃ©ric de La Mure ) 
+      </div>
+      </div>
+</div>
+  </div>
+
+  
+  </div>
+  </div>
+
+  
+  </div>
+<div class="panel-pane pane-node-body node-content html-formatted" >
+  
+  
+  
+  <div class="pane-content">
+    <p>Harlem DÃ©sir was appointed as the OSCE Representative on Freedom of the Media on 18 July 2017. Prior to this position, DÃ©sir (France) was French Minister of State for European Affairs, attached to the French Minister of Foreign Affairs and International Development, since April 2014.</p>
+
+<p>Harlem DÃ©sir was a Member of the European Parliament for three consecutive terms from 1999 to 2014. He was a member of the Committee on Industry, Energy and Research, the Employment and Social Affairs and the Committee on Development. He was also Vice-President of the Delegation for relations with the United States (2002-2004), member of the Joint ACP-EU Parliamentary Assembly (2002-2009) and member of the Delegation for relations with India (2009-2014). From 2012 to 2014, DÃ©sir served as First Secretary of the French Socialist Party.</p>
+
+<p>In October 1984, Harlem DÃ©sir founded the French NGO âSOS Racismeâ, whose objective is to fight against racism, anti-Semitism and all forms of discrimination.</p>
+
+<p>Harlem DÃ©sir holds a Bachelor's Degree in Philosophy from the Paris I Sorbonne University. He has been awarded the Olof Palme Prize (Sweden, 1990), the Grand Cross of the Order of the Phoenix (Greece, 2016), and the Knight Commander's Cross of the Order of Merit of the Federal Republic&nbsp;of Germany&nbsp;(Germany, 2018).</p>
+
+<h3>Mandate</h3>
+
+<p>The mandate states that the Representative on Freedom of the Media should be an eminent international personality with long-standing relevant experience from whom an impartial performance of the function would be expected. In the performance of his or her duty the OSCE Representative on Freedom of the Media will be guided by his or her independent and objective assessment.</p>
+
+<h3>Previous Representatives:</h3>
+
+<p><a href="https://www.osce.org/node/106281">Third Representative, Dunja MijatoviÄ</a>, (Bosnia and Herzegovina): 2010- 2017</p>
+
+<p><a href="https://www.osce.org/node/306341">Second Representative, MiklÃ³s Haraszti</a>, (Hungary): 2004â2010</p>
+
+<p><a href="https://www.osce.org/node/306346">First Representative, Freimut Duve</a>, (Germany): 1998â2004</p>
+  </div>
+
+  
+  </div>
+<aside class="osce-box osce-grid-wide osce-grid-bordered osce-box-borderless osce-box-style-white osce-box-collapse-never osce-box-gridlayout-nogrid osce-box-content_field osce-box-field_links osce-borderless">
+  <header class="osce-box-header">
+              <h2 class="osce-box-title"><span>Key Resources</span></h2>
+          </header>
+  <div class="osce-box-content">
+    <div class="field field-type-link field-field-links">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <div class="link-item">
+    <div class="link-item-link">
+    <a href="/fom/66081"><div class="osce-figure"><img src="https://www.osce.org/files/imagecache/50_thumb/f/images/hires/c/2/116945.png?1517407271" alt="Generic cover (OSCE)" title="Generic cover (OSCE)" width="75" height="100" class="imagecache imagecache-50_thumb"/></div></a><a href="/fom/66081" title="Generic cover (OSCE)" class="title">Speeches by the OSCE Representative on Freedom of the Media</a>  </div>
+        <div class="link-item-type">
+    <span>
+      Collection    </span>
+  </div>
+    </div>
+        </div>
+        </div>
+</div>
+  </div>
+</aside>
+                                                                            </div>
+      <div class="content--sidebar-bottom">
+      <aside class="osce-box  osce-box-style-white osce-box-collapse-never osce-box-gridlayout-nogrid osce-box-panels_mini osce-box-latest_news osce-borderless">
+  <header class="osce-box-header">
+              <h2 class="osce-box-title"><span>Latest News</span><a href="http://feeds.osce.org/OSCELatestNews" class="rss-link" ><i class="icon icon-rss"></i></a></h2>
+          </header>
+  <div class="osce-box-content">
+    <div class="panel-pane pane-views pane-taxonomy-news" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="view view-taxonomy-news view-id-taxonomy_news view-display-id-embed_1 view-dom-id-d897f26783fb49edb1fb95c915e3ebfa">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/representative-on-freedom-of-media/416147">Sentencing journalists to prison greatly damages media freedom in Turkey, says OSCE Media Freedom Representative following ÃzgÃ¼r GÃ¼ndem trial</a></span>
+  </div>
+  
+  <span class="views-field-field-location-value">
+                <span class="field-content">VIENNA</span>
+  </span>
+      <span class="views-field-field-date-location-separator">, </span>  
+  <span class="views-field-field-date-value">
+                <span class="field-content"><span class="date-display-single">3 April 2019</span></span>
+  </span>
+  </div>
+  <div class="views-row views-row-2 views-row-even">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/representative-on-freedom-of-media/415964">Safety of journalists focus of international conference  organized by OSCE media freedom representative</a></span>
+  </div>
+  
+  <span class="views-field-field-location-value">
+                <span class="field-content">VIENNA</span>
+  </span>
+      <span class="views-field-field-date-location-separator">, </span>  
+  <span class="views-field-field-date-value">
+                <span class="field-content"><span class="date-display-single">3 April 2019</span></span>
+  </span>
+  </div>
+  <div class="views-row views-row-3 views-row-odd views-row-last">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/representative-on-freedom-of-media/415565">OSCE media freedom representative denounces recent threats against N1 news channel in Serbia</a></span>
+  </div>
+  
+  <span class="views-field-field-location-value">
+                <span class="field-content">VIENNA</span>
+  </span>
+      <span class="views-field-field-date-location-separator">, </span>  
+  <span class="views-field-field-date-value">
+                <span class="field-content"><span class="date-display-single">29 March 2019</span></span>
+  </span>
+  </div>
+    </div>
+  
+  
+  
+  
+      <div class="view-footer">
+      <a href="/press-releases?filters=+im_taxonomy_vid_1:(27)">View all News</a>    </div>
+  
+  
+</div>   </div>
+
+  
+  </div>
+  </div>
+</aside>
+<aside class="osce-box  osce-box-style-white osce-box-collapse-never osce-box-gridlayout-nogrid osce-box-views_panes osce-box-taxonomy_upcoming_events-panel_pane_4 osce-borderless">
+  <header class="osce-box-header">
+              <h2 class="osce-box-title"><span>Events</span><a href="http://feeds.osce.org/OSCE-Events" class="rss-link" ><i class="icon icon-rss"></i></a></h2>
+          </header>
+  <div class="osce-box-content">
+    <div class="view view-taxonomy-upcoming-events view-id-taxonomy_upcoming_events view-display-id-panel_pane_4 view-dom-id-996714d2ae5530c95b2f7bd9a1024af1">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/representative-on-freedom-of-media/415115">Journalists Under Attack: a threat to media freedom</a></span>
+  </div>
+  
+  <span class="views-field-field-location-value">
+                <span class="field-content">Hofburg, Vienna</span>
+  </span>
+      <span class="views-field-field-date-location-separator">, </span>  
+  <span class="views-field-field-event-date-value2">
+                <span class="field-content"><span class="views-field-field-date-value"><span class="date-display-single">12 April 2019</span></span></span>
+  </span>
+  </div>
+    </div>
+  
+  
+  
+  
+      <div class="view-footer">
+      <a href="/events?filters=+im_taxonomy_vid_1:(27)+ds_field_event_date_end:([NOW/DAY-2HOUR%20TO%20*])&amp;solrsort=ds_field_event_date%20asc,ds_field_event_date_end%20asc&amp;rows=10">View all Events</a>    </div>
+  
+  
+</div>   </div>
+</aside>
+    </div>
+    </div>
+  </div>
+
+  
+  </div>
+    </div>
+  </div>
+
+  <div class="site--footer--wrapper">
+    <div class="site--footer">
+      <div class="panel-pane pane-block pane-menu-menu-footer-navigation footer--navigation" >
+  
+  
+  
+  <div class="pane-content">
+    <ul class="menu"><li class="leaf first"><a href="/" hreflang="en">Home</a></li>
+<li class="leaf"><a href="/contacts" hreflang="en">Contacts</a></li>
+<li class="leaf"><a href="/about/sitemap" hreflang="en">Sitemap</a></li>
+<li class="leaf"><a href="https://jobs.osce.org/" hreflang="en">Employment</a></li>
+<li class="leaf"><a href="/osce-social-media" hreflang="en">Social media</a></li>
+<li class="leaf"><a href="/about" hreflang="en">About this website</a></li>
+<li class="leaf"><a href="https://procurement.osce.org" hreflang="en">Procurement</a></li>
+<li class="leaf"><a href="/about/terms" hreflang="en">Terms of service</a></li>
+<li class="leaf last"><a href="/contacts/webmaster" hreflang="en">Feedback</a></li>
+</ul>  </div>
+
+  
+  </div>
+<div class="panel-pane pane-subscription footer--signup" >
+  
+      <h2 class="pane-title"><span>Subscribe to OSCE</span></h2>
+  
+  
+  <div class="pane-content">
+    <form action="/node/306336"  accept-charset="UTF-8" method="post" id="osce-panes-get-subscription-sign-up-form">
+<div><div  class="form-item form-item-labeled" id="edit-email-wrapper">
+      <label  for="edit-email">E-mail: </label>
+    <input type="text" maxlength="128" name="email" id="edit-email" size="60" value="" class="form-text" />  </div>
+<input type="submit" name="op" id="edit-submit" value="Sign Up"  class="form-submit" />
+<input type="hidden" name="form_build_id" id="form-mfNqDrNcA7XMmlCz4P9D6FT22rVLQWur5OvTAl3IAME" value="form-mfNqDrNcA7XMmlCz4P9D6FT22rVLQWur5OvTAl3IAME"  />
+<input type="hidden" name="form_id" id="edit-osce-panes-get-subscription-sign-up-form" value="osce_panes_get_subscription_sign_up_form"  />
+
+</div></form>
+  </div>
+
+  
+  </div>
+<div class="panel-pane pane-custom pane-3 footer--follow-us" >
+  
+      <h2 class="pane-title"><span>Follow Us</span></h2>
+  
+  
+  <div class="pane-content">
+    <ul class="osce-social-media">
+        <li class="facebook first">
+            <a href="http://www.facebook.com/osce.org">
+                <i class="icon-facebook"></i>
+                <span>Join us on Facebook</span>
+            </a>
+        </li>
+        <li class="twitter">
+            <a href="http://www.twitter.com/osce">
+                <i class="icon-twitter"></i>
+                <span>Follow us on Twitter</span>
+            </a>
+         </li>
+        <li class="youtube">
+            <a href="http://www.youtube.com/osce">
+                <i class="icon-youtube"></i>
+                <span>Join us on Youtube</span>
+            </a>
+         </li>
+        <li class="linkedin">
+            <a href="http://www.linkedin.com/company/osce">
+                <i class="icon-linkedin"></i>
+                <span>Join us on LinkedIn</span>
+            </a>
+         </li>
+         <li class="soundcloud">
+             <a href="https://soundcloud.com/osce">
+                 <i class="icon-soundcloud"></i>
+                 <span>Join us on SoundCloud</span>
+             </a>
+         </li>
+         <li class="instagram">
+             <a href="http://instagram.com/osceorg">
+                 <i class="icon-instagram"></i>
+                 <span>Join us on Instagram</span>
+             </a>
+         </li>
+     </ul>  </div>
+
+  
+  </div>
+<div class="panel-pane pane-cio-logo footer--chairmanship" >
+  
+      <h2 class="pane-title">Chairmanship</h2>
+  
+  
+  <div class="pane-content">
+    <a class="chairmanship-footer chairmanship-footer-2019" href="/chairmanship">Chairmanship</a>  </div>
+
+  
+  </div>
+    </div>
+  </div>
+
+</div>    <script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"ac1e88bca1","applicationID":"93306740","transactionName":"MVRWbUFTWhBSAUZcCwgedVpHW1sNHBJTUgE5XFVXUlVREWwMXVEBOUddXEQ=","queueTime":0,"applicationTime":882,"atts":"HRNBGwlJSU8RAxAPHxtM","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
+
+
+
+#####EOF#####
+
+

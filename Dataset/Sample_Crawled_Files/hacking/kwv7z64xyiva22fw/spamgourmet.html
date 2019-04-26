@@ -1,0 +1,597 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="spamgourmet provides email addresses that get created automatically the first time they are used, forward messages, and then automatically expire.">
+
+<meta name="keywords" content="auto-create email addresses, spam blocking, spam prevention">
+
+<meta http-equiv="pragma" content="no-cache">
+
+<title>spamgourmet</title>
+
+<script language="JavaScript" type="text/javascript">  winmiscw = 20;
+  winmisch = 40;
+  miscw = 0; // scrollbar affects this
+  misch = 15;
+
+function centerPopup(loc,winname,winw,winh) {
+  varx = (screen.width / 2) - (winw / 2) - (winmiscw / 2);
+  vary = (screen.height / 2) - (winh / 2) - (winmisch / 2);
+  if (varx < 0) {
+    varx = 0;
+  }
+  if (vary < 0) {
+    vary = 0;
+  }
+  varx = integer(varx);
+  vary = integer(vary);
+  var args = 'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,resizable=1,copyhistory=0,width='+winw+',height='+winh+',top='+vary+',left='+varx;
+  window.open(loc, winname, args);
+}
+
+function integer(num) {
+  return (num - (num % 1));
+}
+
+var hastyped = false;
+
+function checkPrefixForm(obj) {
+  if (obj.prefix.value.indexOf('.') > 0) {
+    alert('Your prefix cannot contain .');
+    obj.prefix.focus();
+    obj.prefix.select();
+    return false;
+  }
+  return true;
+}
+
+
+
+function checkLoginForm(obj) {
+  if (!obj.user.value && !obj.pass.value && (obj.newuser.value || obj.realemail.value)) {
+    return checkSignUpForm(obj);
+  }
+  if (!obj.user.value || !obj.pass.value) {
+    alert('Please enter a username and a password to log in.');
+    if (!obj.user.value) {
+      obj.user.focus();
+    } else {
+      obj.pass.focus();
+    }
+    return false;
+  }
+  return true;
+}
+
+function openPage(pageLocation) {
+  window.open('http://' + pageLocation);
+}
+
+function checkNewUserForm(obj) {
+  if (!obj.newuser.value) {
+    alert('Please provide a username for your new account.');
+    obj.newuser.focus();
+    return false;
+  }
+
+  if (obj.newuser.value.indexOf('.') > 0) {
+    alert('Usernames cannot contain . --Please try another besides '+obj.newuser.value+'');
+    obj.newuser.focus();
+    return false;
+  }
+
+  if (obj.newuser.value.indexOf('~') > 0) {
+    alert('Usernames cannot contain . --Please try another besides '+obj.newuser.value+'');
+    obj.newuser.focus();
+    return false;
+  }
+
+  if (obj.newuser.value.indexOf(' ') > 0) {
+    alert('Usernames cannot contain space --Please try another besides '+obj.newuser.value+'');
+    obj.newuser.focus();
+    return false;
+  }
+  if (obj.newuser.value.indexOf('@') > 0) {
+    alert('Usernames cannot contain @ --Please try another besides '+obj.newuser.value+'');
+    obj.newuser.focus();
+    return false;
+  }
+
+  if (obj.newuser.value && !obj.newpass.value) {
+    alert ('please specify a password for your account');
+    return false;
+  }
+  if ((obj.newpass.value) && (obj.newpass.value != obj.confirm.value)) {
+    alert('Your passwords did not match. Please try again.');
+    obj.newpass.focus();
+    return false;
+  }
+  if (!obj.realemail.value) {
+    alert('Please provide the protected email address where you want your email forwarded.');
+    obj.realemail.focus();
+    return false;
+  }
+
+
+  return true;
+}
+
+function checkSignUpForm(obj) {
+  if (!obj.newuser.value) {
+    alert('Please provide a username for your new account.');
+    obj.newuser.focus();
+    return false;
+  }
+
+  if (obj.newuser.value.indexOf('.') > 0) {
+    alert('Usernames cannot contain . --Please try another besides '+obj.newuser.value+'');
+    obj.newuser.focus();
+    return false;
+  }
+
+  if (obj.newuser.value.indexOf('~') > 0) {
+    alert('Usernames cannot contain . --Please try another besides '+obj.newuser.value+'');
+    obj.newuser.focus();
+    return false;
+  }
+
+  if (obj.newuser.value.indexOf(' ') > 0) {
+    alert('Usernames cannot contain space --Please try another besides '+obj.newuser.value+'');
+    obj.newuser.focus();
+    return false;
+  }
+  if (obj.newuser.value.indexOf('@') > 0) {
+    alert('Usernames cannot contain @ --Please try another besides '+obj.newuser.value+'');
+    obj.newuser.focus();
+    return false;
+  }
+
+  if (!obj.realemail.value) {
+    alert('Please provide the protected email address where you want your email forwarded.');
+    obj.realemail.focus();
+    return false;
+  }
+
+  return true;
+}
+
+
+
+
+
+function checkPassForm(obj) {
+  if (!obj.currentpassword.value) {
+    alert('Please enter your current password.');
+    obj.currentpassword.focus();
+    return false;
+  }
+  if (obj.newpassword.value != obj.newpasswordconfirm.value) {
+    alert('Your passwords did not match. Please try again.');
+    obj.newpassword.focus();
+    return false;
+  } 
+  return true;
+}
+
+
+function checkResetPasswordForm(obj) {
+
+  if (!obj.newpassword.value) {
+    alert ('please specify a password for your account');
+    obj.newpassword.focus();
+    return false;
+  }
+  if ((obj.newpassword.value) && (obj.newpassword.value != obj.newpasswordconfirm.value)) {
+    alert('Your passwords did not match. Please try again.');
+    obj.newpassword.focus();
+    return false;
+  }
+  return true;
+}
+
+
+
+</script>
+
+<style type="text/css"><!--
+
+body{margin-top:0px;margin-left:0px;margin-right:0px;margin-bottom:0px;}
+
+body,td,div,a{font-family:verdana,arial,helvetica,sans-serif; font-size:10pt }
+
+h2{font-size:13pt}
+
+h3{font-size:10pt; font-style:italic}
+
+h4{font-size:8pt}
+
+.tdlink{cursor:pointer;cursor:hand;text-decoration:none}
+
+table{border-style:none;}
+
+//-->
+
+</style>
+
+</head>
+
+<body bgcolor="#FFFFFF" onLoad="if(!hastyped){document.loginform.user.focus();}">
+
+
+<table cellspacing="0" cellpadding="0" width="100%">
+
+ <tr>
+
+  <td valign="middle" colspan="2"><h2>spamgourmet<font size="-1"> - free auto-creating email addresses, strong spam blocker, short learning curve</font></h2></td>
+
+  <td align="center" valign="top" rowspan="4" bgcolor="#FFFFCC">
+
+
+
+  </td>
+
+ </tr>
+
+ <tr>
+
+  <td valign="bottom" align="center" width="240" rowspan="2">
+
+   <h4><img src="https://www.spamgourmet.com/stuff/gourmet.png" border="0" width="207" height="200" alt="gourmet" title="gourmet">
+
+   "Bring it on!!!"</h4>
+
+  </td>
+
+  <td height="100" align="left" valign="middle">
+
+   <table width="100%">
+
+    <tr>
+
+     <td align="center" valign="middle" width=300>
+
+<div id="serverstats"><font size="1">6,769 days, 314,158 user accounts<br>8,395,386 spamgourmet addresses<br>134,485,879 msgs delivered, 2,813 today<br>1,162,700,398 msgs eaten, 10,432 today </font></div>
+
+       <!-- %weekchart% -->
+
+     </td>
+
+     <td align="center" valign="middle"><h3>Special offers? &quot;Trusted&quot; affiliates?  No problem.</h3>
+
+     </td>
+
+    </tr>
+
+   </table>
+
+  </td>
+
+ </tr> 
+
+ <tr>
+
+  <td valign="bottom" height="75">
+
+   <table width="100%" cellspacing="2">
+
+    <tr>
+
+     <td valign="bottom" align="center">
+
+      <a href="https://bbs.spamgourmet.com/index.php">discuss/support</a>
+
+     </td>
+
+     <td valign="bottom" align="center">
+
+          <a href="https://bbs.spamgourmet.com/viewforum.php?f=5">news</a>
+     </td>
+
+     <td valign="bottom" align="center">
+
+
+<a href="https://twitter.com/intent/follow?screen_name=spamgourmet">twitter</a>
+     </td>
+
+     <td valign="bottom" align="center">
+
+      <a href="index.pl?printpage=faq.html" onClick="centerPopup('index.pl?printpage=faq.html','faq',600,500);return false;">FAQ</a>
+
+     </td>
+
+     <td valign="bottom" align="center">
+
+      <a href="index.pl?printpage=team.html" onClick="centerPopup('index.pl?printpage=team.html','team',700,500);return false">team</a>
+
+     </td>
+
+     <td valign="bottom" align="center">
+
+      <a href="index.pl?printpage=donate.html" onClick="centerPopup('index.pl?printpage=donate.html','faq',600,500); return false;">donate</a>
+
+     </td>
+
+    </tr>
+
+   </table>
+
+
+
+   <table border=1 cellspacing=0 cellpadding=0>
+ <tr align=center>
+  <td valign="bottom">
+   <table border=0 cellspacing=0 cellpadding=0>
+    <tr>
+     <td valign="top" bgcolor="#FFFFCC" width=200 height=50 align="center">
+<b>no-brainer mode</b>
+<br>good protection
+<br>no maintenance
+     </td>
+     <td valign="top" bgcolor="#999999" width=200 height=50 align="center" id="advanced" onClick="location='index.pl?advanced=1';" class="tdlink">
+<a class="tdlink" href="index.pl?advanced=1">     
+<font color="#333333">
+<b>advanced mode</b>
+<br>better protection
+<br>a little maintenance</font></a>
+     </td>
+
+<td>
+<form method="get" action="https://www.duckduckgo.com" target="_top" name="sf" id="sf" onSubmit="this.q.value = this.q.value + ' site:spamgourmet.com'">
+<table border="0" bgcolor="#FFFFFF">
+<tr><td nowrap="nowrap" valign="top" align="left" height="30">
+</td>
+<td nowrap="nowrap">
+<input type="text" name="q" size="31" maxlength="255" value="" onClick="this.value=''">
+<input type="submit" value="duckduckgo">
+</td></tr></table>
+</form>
+</td>
+
+
+    </tr>
+   </table>
+  </td>
+ </tr>
+</table>
+
+
+
+
+  </td>
+
+ </tr>
+
+ <tr>
+
+  <td bgcolor="#993366" valign="top" align="center">
+
+  <b><font color="#FFFFFF"></font></b>
+
+
+
+<form name="loginform" action="https://www.spamgourmet.com/index.pl" method="post" onSubmit="return checkLoginForm(this);">
+<table border="0" cellspacing="0" cellpadding="2">
+<tr><td colspan="3"><font color="#FFFFFF">log in</font></td></tr>
+<tr><td align="right"><font color="#FFFFFF">user </font></td>
+    <td><input tabindex="1" type=text name="user" size="8" onFocus="hastyped=true"></td>
+    <td rowspan="2" valign="middle" align="center">
+<input tabindex="3" type="submit" value="go">   <input type="checkbox" name="rememberme" value="1">
+<br>remember me
+</td>
+</tr>
+<tr><td align="right"><font color="#FFFFFF">pass </font></td>
+    <td><input tabindex="2" type=password name="pass" size="8" onFocus="hastyped=true;"></td>
+</tr>
+<tr><td colspan="3" align="center"><a href="https://www.spamgourmet.com/index.pl?sendpasswordreset=1"><font color="#000000">problem with password?</font></a></td></tr>
+
+</form>
+<tr><td colspan=3 align="center"><font color="#FFFFFF">spamgourmet is currently not accepting new users</font></td></tr>
+<!-- <form name="newuserform" action="https://www.spamgourmet.com/index.pl" method="post" onSubmit="return checkLoginForm(this);">
+
+<tr><td colspan="3"><font color="#FFFFFF">or create an account</font></td></tr>
+<tr><td align="right"><font color="#FFFFFF">newuser </font></td>
+    <td><input tabindex="4" type=text name="newuser" size="8" maxlength="20"></td>
+    <td rowspan="2" valign="middle">  <input tabindex="6" type="submit" value="go"></td>
+</tr>
+<tr><td align="right"><font color="#FFFFFF">email </font></td>
+    <td><input tabindex="5" type=text name="realemail" value="" size="8" onFocus=""></td>
+</tr>
+-->
+</table>
+</form>
+
+
+  <form action='index.pl' method='post'>
+   <input type='hidden' name='advanced' value='0'>
+   <select style="font-size: 7pt; margin-top: 3px; width: 64px; height: 18px;" 
+    name='languageCode' onChange='this.form.submit()'>
+   <option value='DA' >Dansk</option>
+   <option value='DE' >Deutsch</option>
+   <option value='EN' SELECTED>English</option>
+   <option value='ES' >espaÃ±ol</option>
+   <option value='FR' >franÃ§ais</option>
+   <option value='IT' >italiano</option>
+   <option value='JA' >æ¥æ¬èª</option> 
+<!--   <option value='KO' >íêµ­ì¸ì</option> -->
+   <option value='NL' >Nederlands</option>  
+   <option value='NO' >Norsk</option>  
+   <option value='PL' >Polski</option>
+   <option value='PT' >portugues</option>
+   <option value='RO' >RomÃ¢nÃ¢</option>
+   <option value='RU' >Ð ÑÑÑÐºÐ¸Ð¹</option>  
+   <option value='SV' >Svenska</option>  
+   <option value='TR' >TÃ¼rkÃ§e</option>
+   <option value='ZH' >æ±è¯­</option>
+   </select>
+  </form>
+
+
+<map name="flagmap">
+<area shape="rect" href="index.pl?languageCode=DA" coords="0,0 30,20" alt="DA" title="DA">
+<area shape="rect" href="index.pl?languageCode=DE" coords="31,0 60,20" alt="DE" title="De">
+<area shape="rect" href="index.pl?languageCode=EN" coords="0,21 30,40" alt="EN" title="EN">
+<area shape="rect" href="index.pl?languageCode=ES" coords="31,21 60,40" alt="ES" title="ES">
+<area shape="rect" href="index.pl?languageCode=FR" coords="0,41 30,60" alt="FR" title="FR">
+<area shape="rect" href="index.pl?languageCode=IT" coords="31,41 60,60" alt="IT" title="IT">
+<area shape="rect" href="index.pl?languageCode=JA" coords="0,61 30,80" alt="JA" title="JA">
+<area shape="rect" href="index.pl?languageCode=NL" coords="31,61 60,80" alt="NL" title="NL">
+<area shape="rect" href="index.pl?languageCode=NO" coords="0,81 30,100" alt="NO" title="NO">
+<area shape="rect" href="index.pl?languageCode=PL" coords="31,81 60,100" alt="PL" title="PL">
+<area shape="rect" href="index.pl?languageCode=PT" coords="0,101 30,120" alt="PT" title="PT">
+<area shape="rect" href="index.pl?languageCode=RO" coords="31,101 60,120" alt="RO" title="RO">
+<area shape="rect" href="index.pl?languageCode=RU" coords="0,121 30,140" alt="RU" title="RU">
+<area shape="rect" href="index.pl?languageCode=SV" coords="31,121 60,140" alt="SV" title="SV">
+<area shape="rect" href="index.pl?languageCode=TR" coords="0,141 30,160" alt="TR" title="TR">
+<area shape="rect" href="index.pl?languageCode=ZH" coords="31,141 60,160" alt="ZH" title="ZH">
+</map>
+<img src="stuff/flagmap.png" alt="language flags" width=60 height=160 border=0 usemap="#flagmap">
+<br><br>
+
+<br>
+<!-- script language="JavaScript" type="text/javascript">writeMailToWithScrambledDisplayText('nsktExufrltzwrjy3htr','Aktsy%htqtwB\'(KKKKKK\'%xn jB7CnsktExufrltzwrjy3htrA4ktsyC');</script -->
+
+<!-- <a href="/contact.html">contact</a>
+-->
+
+  </td>
+
+  <td valign="top" bgcolor="#FFFFCC">
+
+    <table cellspacing="0" cellpadding="0" width="100%">
+
+     <tr>
+
+       <td width=1 bgcolor="#000000"></td>
+
+       <td valign="top"><table cellspacing=0 cellpadding=5 width="100%"><tr>
+
+       <td valign="top">
+
+<center>
+
+<b></b>
+
+<br>not logged in
+
+</center>
+
+
+
+<!--content start-->
+
+<center><form action="index.pl" method="post">
+protected address <input type="text" name="realemail" value="" onFocus="saveButton.disabled=false">
+<input type="hidden" name="saverealemail" value=1>
+<input name="saveButton" id="saveButton" type="button" value="save" onClick="alert('You need to log in first')" onKeyPress="alert('You need to log in first')"  disabled>
+</form>
+<p><i></i></p>
+</center><p><font size="+2">
+How spamgourmet works
+</font></p>
+
+<p>
+If you give your email address to everyone, you are bound to receive spam emails, and you won't know where they came from. Wouldn't it be convenient to give a different email address to every business or web site, while getting all your email as before?  Wouldn't it be easiest to <i>assume</i> the address will be given to spammers, and have it work as a spam blocker by shutting off automatically unless you decide otherwise?</p>
+
+<p>
+That's exactly what spamgourmet offers! There is nothing to install on your computer, and <i>once you're set up, it's likely you won't ever have to come back here.</i>  This is what makes spamgourmet one of the most convenient and effective anti-spam tools available.</p>
+
+<p>Protect yourself from spam in three easy steps:</p>
+
+<p><b>1.</b>
+If you haven't done it yet, create a spamgourmet account.
+<!-- CHANGE syskoll 2004-02-07 16:13:51 -->
+Enter your user name and the email address you want to be protected.  You will be asked to identify the word in a picture and pick a password.</p>
+<!-- END CHANGE syskoll 2004-02-07 16:13:51 -->
+<p><b>2.</b>
+Spamgourmet will forward to this address all the emails sent to your spamgourmet addresses -- that way you don't have to tell anyone else what it is -- this is why it's called the <i>protected address</i>. Of course, this protected address must exist. That's why you have to confirm it. You'll receive an email asking you to confirm.</p>
+
+<p><b>3.</b>
+After you have confirmed your protected address, you can give out self-destructing email addresses whenever you want. The spamgourmet addresses are like:</p>
+
+<p align="center"><b>someword.</b><i>x.</i><b>user</b>@spamgourmet.com</p>
+
+ <p>where <b>someword</b> is a word you have never used before, <i>x</i> (optional) is the number of email messages you want to receive at this address (up to 20, and the number 3 will be used if you leave it out), and <b>user</b> is your username.</p>
+
+<p>For example, if your user name is "spamcowboy", and BigCorp wants you to give them your email address (on the web, on the phone, at a store - it doesn't matter), instead of giving them your protected address, give them this one:</p>
+
+<p align="center"><b><i>frombigcorp.3.spamcowboy@spamgourmet.com</i></b><br>(and <b><i>frombigcorp.spamcowboy@spamgourmet.com</i></b> will work the same way)</p>
+
+<p>This spamgourmet email address will be created here <i>the first time BigCorp uses it</i> (you don't have to do anything to create it), and you'll receive at most 3 messages, forwarded to your protected address. The rest will be indelicately consumed.</p>
+
+<p>If you want more options, choose the "advanced mode" tab above.</p>
+<p>By the way, we *never* send email with attachments -- if you get one that appears to be from us, don't open it! It's probably a virus</p>
+
+
+<!--content stop -->
+
+       </td>
+
+      </tr></table>
+
+     </td>
+
+    </tr>
+
+   </table>
+
+  </td>
+
+ </tr>
+
+</table>
+
+
+
+<center><font size=1>
+
+
+
+<a href="javascript:centerPopup('index.pl?printpage=terms.html','terms
+
+',600,500)">
+
+
+
+terms/conditions
+
+
+
+</a>
+
+
+
+<a href="javascript:centerPopup('index.pl?printpage=privacy.html','terms
+
+',600,500)">
+
+privacy
+
+
+
+</a> 
+
+
+
+
+
+ <a href="http://bbs.spamgourmet.com">discuss/support</a>
+
+ <a href="http://bbs.spamgourmet.com/viewforum.php?f=5">news</a>
+
+ <a href="index.pl?printpage=faq.html">FAQ</a>
+
+ <a href="index.pl?printpage=team.html">team</a>
+
+</font></center>
+
+</body></html>
+
+
+
+
+#####EOF#####
+
+

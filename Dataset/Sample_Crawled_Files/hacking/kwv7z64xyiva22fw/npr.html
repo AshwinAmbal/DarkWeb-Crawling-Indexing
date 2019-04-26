@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no" />
+
+    <title>NPR Choice page</title>
+
+    <link rel="stylesheet" media="screen, print" href="https://s.npr.org/templates/css/fonts/Knockout.css"/>
+    <link rel="stylesheet" media="screen, print" href="https://s.npr.org/templates/css/fonts/GothamSSm.css"/>
+    <link rel="stylesheet" media="screen, print" href="css/choice-stylesheet.css"/>
+    <script type="text/javascript" src="./js/redirects.js"></script>
+    <script type="text/javascript" src="./js/domains.js"></script>
+</head>
+<body>
+<main class="content" id="content">
+    <header role="banner">
+        <img src="https://media.npr.org/chrome_svg/npr-logo.svg" alt="NPR logo" class="npr-logo"/>
+
+        <h1 class="header-txt">Data Protection Choices</h1>
+
+        <div id="npr-rule" role="presentation"><span></span><span></span></div>
+    </header>
+
+    <section class="main-section">
+        <p>
+            By choosing &ldquo;I agree&rdquo; below, you agree that NPR&rsquo;s sites use cookies, similar tracking and storage technologies, and information about the device you use to access our sites to enhance your viewing, listening and user experience, personalize content, personalize messages from NPR&rsquo;s sponsors, provide social media features, and analyze NPR&rsquo;s traffic. This information is shared with social media services, sponsorship, analytics and other third-party service providers.
+            <a href="https://text.npr.org/s.php?sId=609131973#cookiepolicy">See details</a>.
+        </p>
+
+        <p class="acceptance-date" id="acceptanceDate"></p>
+
+        <div class="user-actions">
+            <button class="user-action user-action--accept" id="accept">Agree and Continue</button>
+
+            <button class="user-action user-action--revoke" id="revoke">Revoke Agreement</button>
+
+            <a class="user-action user-action--text" id="textLink" href="https://text.npr.org">Decline and Visit Plain Text Site</a>
+        </div>
+
+        <footer class="footer">
+            <p>NPR&rsquo;s <a href="https://text.npr.org/s.php?sId=179876898">Terms of Use</a> and <a
+                    href="https://text.npr.org/s.php?sId=609131973">Privacy Policy</a>.</p>
+        </footer>
+    </section>
+</main>
+
+<script>
+    // self executing function here
+    (function () {
+        var choiceVersion = 1;
+
+        // Return true is the origin param is present in the URL
+        // Make sure origin starts with "https://" in order to avoid cross-site scripting attack
+        var hasOrigin = function () {
+            var searchParam = window.location.search;
+            return searchParam.substr(0, 16) === '?origin=https://';
+        };
+
+        // Append choiceRedirect=true to a destination
+        // This will tell use that a user has been already redirected by the choice page
+        // stopping a potential infinite redirect loop 
+        var addChoiceRedirectParam = function (url) {
+            var paramControl = '?';
+            if (url.includes('?')){
+                paramControl = '&';
+            }
+            return url + paramControl + 't=' + (new Date()).getTime();
+        }
+
+        // Redirect made from AKAMAI will include the original
+        // destination with the request ex:
+        // https://www.npr.org/choice.html?origin=https://www.npr.org/about-npr/178660742/public-radio-finances
+        var getDestination = function () {
+            var searchParam = window.location.search;
+            if (hasOrigin()) {
+                var destination = searchParam.substr(8);
+                if (checkOrigin(destination)) {
+                    return destination;
+                } 
+            }
+            return 'https://www.npr.org';
+        };
+
+        var getCookie = function (name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+            return false;
+        };
+
+        var delete_cookie = function (name) {
+            document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;secure;path=/;domain=npr.org;';
+        };
+
+        var create_cookie = function (name, value) {
+            // Cookies have a tendency to expire, so I arbitrarily set the max age to 10 year
+            document.cookie = name + '=' + value + ';secure;path=/;domain=npr.org;max-age=315360000;';
+        };
+
+        // True is user previously accepted the correct version of the consent page
+        var hasPreviouslyAcceptedChoiceOptions = function () {
+            return getCookie('trackingChoice') && getCookie('choiceVersion') == choiceVersion;
+        }
+
+        // Grab the thing id form the destination
+        var getThingId = function (destination) {
+            var yearMonthDateWithPreFixReg = /https:\/\/www\.npr\.org\/([a-z]+\/){0,2}\d{4}\/\d{2}\/\d{2}\/(\d+)\/.*/;
+            var match = yearMonthDateWithPreFixReg.exec(destination);
+            if (match) {
+                return match[2];
+            }
+
+            var noDateUrlRegex = /https:\/\/www\.npr\.org\/([a-z]+\/){1,2}(\d+)\/.*/;
+            match = noDateUrlRegex.exec(destination);
+            if (match) {
+                return match[2];
+            }
+
+            var thingIdByParam = /https:\/\/www\.npr\.org\/.*[iI]d=(\d{4,}).*/;
+            match = thingIdByParam.exec(destination);
+            if (match) {
+                return match[1];
+            }
+
+            // Check if we have a hard coded page url
+            //Remove https://www.npr.org from the destination
+            var location = destination.substr(19);
+            for (var key in redirectLookup) {
+                // If the first part of the location matches a
+                // hard coded url, then we have a match.
+                if (location.startsWith(key)){
+                    return redirectLookup[key];
+                }
+            }
+
+            return false;
+        }
+
+        document.getElementById('accept').addEventListener('click', function () {
+            var d = new Date();
+            var dateOfChoice = d.getTime();
+
+            create_cookie('trackingChoice', 'true');
+            create_cookie('choiceVersion', choiceVersion);
+            create_cookie('dateOfChoice', dateOfChoice);
+            window.location = addChoiceRedirectParam(getDestination());
+        });
+
+        document.getElementById('revoke').addEventListener('click', function () {
+            delete_cookie('trackingChoice');
+            delete_cookie('choiceVersion');
+            delete_cookie('dateOfChoice');
+            document.getElementById('acceptanceDate').innerText = '';
+            document.getElementById('content').classList.remove('accepted');
+        });
+
+
+        var thingId = getThingId(getDestination());
+        if (thingId) {
+            document.getElementById('textLink').href = "https://text.npr.org/r.php?id=" + thingId;
+        }
+
+        if (hasOrigin() && hasPreviouslyAcceptedChoiceOptions()) {
+            // If the user has already accepted the choice options
+            // and has an origin param in his request
+            // We will redirect him to that origin request.
+            // This will solve the issue where applications are caching 307 redirects
+            window.location = addChoiceRedirectParam(getDestination());
+        } else if (hasPreviouslyAcceptedChoiceOptions()) {
+            var lastDateOfChoice = getCookie('dateOfChoice');
+            var d = new Date(parseInt(lastDateOfChoice, 10));
+            var dateString = "On "
+                + (d.getMonth() + 1)
+                + "/"
+                + (d.getDay() + 1)
+                + "/"
+                + d.getFullYear()
+                + " you accepted to the above.";
+            document.getElementById('acceptanceDate').innerText = dateString;
+            document.getElementById('content').classList.add('accepted');
+        }
+
+    })();
+</script>
+</body>
+</html>
+
+
+#####EOF#####
+
+

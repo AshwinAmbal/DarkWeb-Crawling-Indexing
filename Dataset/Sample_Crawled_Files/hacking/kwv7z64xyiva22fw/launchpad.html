@@ -1,0 +1,4644 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+<base href="https://code.launchpad.net/mailman/+code" />
+
+    <meta charset="UTF-8" />
+    <title>Code : GNU Mailman</title>
+    <link rel="shortcut icon" href="/@@/launchpad.png" />
+    
+    
+      <link rel="alternate" type="application/atom+xml" href="http://feeds.launchpad.net/mailman/branches.atom" title="Latest Branches for GNU Mailman" />
+      <link rel="alternate" type="application/atom+xml" href="http://feeds.launchpad.net/mailman/revisions.atom" title="Latest Revisions for GNU Mailman" />
+    
+
+    
+  
+  <link type="text/css" rel="stylesheet" media="screen, print" href="/+icing/rev18920/combo.css" />
+
+
+    
+
+    
+      <meta name="description" content="Please continue to use Launchpad for all bugs, code, and merge proposals for Mailman 2.1.
+
+Please head over to Gitlab at https://gitlab.com/mailman/mailman for all bugs, code, and merge requests for Mailman 3.
+
+Please visit the main site: http://www.list.org or the wiki: http://wiki.list.org
+" />
+    
+
+    
+  
+
+  
+  
+  <script type="text/javascript">
+    var LP = {
+        cache: {},
+        links: {}
+    };
+  </script>
+
+  
+
+  <script type="text/javascript">var cookie_scope = '; Path=/; Secure; Domain=.launchpad.net';</script>
+
+   <script type="text/javascript" src="/+combo/rev18920/?yui/yui/yui-min.js&amp;lp/meta.js&amp;yui/loader/loader-min.js"></script>
+   <script type="text/javascript">
+        var raw = null;
+        if (LP.devmode) {
+           raw = 'raw';
+        }
+        YUI.GlobalConfig = {
+            combine: true,
+            comboBase: '/+combo/rev18920/?',
+            root: 'yui/',
+            filter: raw,
+            debug: false,
+            fetchCSS: false,
+            maxURLLength: 2000,
+            groups: {
+                lp: {
+                    combine: true,
+                    base: '/+combo/rev18920/?lp/',
+                    comboBase: '/+combo/rev18920/?',
+                    root: 'lp/',
+                    // comes from including lp/meta.js
+                    modules: LP_MODULES,
+                    fetchCSS: false
+                }
+            }
+        }</script>
+
+  <script type="text/javascript">
+      // we need this to create a single YUI instance all events and code
+      // talks across. All instances of YUI().use should be based off of
+      // LPJS instead.
+      var LPJS = new YUI();
+  </script>
+
+
+
+    <script id="base-layout-load-scripts" type="text/javascript">
+        //<![CDATA[
+        LPJS.use('base', 'node', 'console', 'event',
+            'oop', 'lp', 'lp.app.foldables','lp.app.sorttable',
+            'lp.app.inlinehelp', 'lp.app.links', 'lp.app.longpoll',
+            'lp.bugs.bugtask_index', 'lp.bugs.subscribers',
+            'lp.app.ellipsis', 'lp.code.branchmergeproposal.diff',
+            'lp.views.global',
+             function(Y) {
+
+            Y.on("domready", function () {
+                var global_view = new Y.lp.views.Global();
+                global_view.render();
+
+                Y.lp.app.sorttable.SortTable.init();
+                Y.lp.app.inlinehelp.init_help();
+                Y.lp.activate_collapsibles();
+                Y.lp.app.foldables.activate();
+                Y.lp.app.links.check_valid_lp_links();
+                // Longpolling will only start if
+                // LP.cache.longpoll is populated.
+                // We use Y.later to work around a Safari/Chrome 'feature':
+                // The mouse cursor stays 'busy' until all the requests started during
+                // page load are finished.  Hence we want the long poll request to start
+                // right *after* the page has loaded.
+                Y.later(0, Y.lp.app.longpoll, Y.lp.app.longpoll.setupLongPollManager);
+
+            });
+
+            Y.on('lp:context:web_link:changed', function(e) {
+                  window.location = e.new_value;
+            });
+        });
+        //]]>
+    </script>
+    <script id="base-helper-functions" type="text/javascript">
+         //<![CDATA[
+        // This code is pulled from lp.js that needs to be available on every
+        // request. Pulling here to get it outside the scope of the YUI block.
+        function setFocusByName(name) {
+            // Focus the first element matching the given name which can be focused.
+            var nodes = document.getElementsByName(name);
+            var i, node;
+            for (i = 0; i < nodes.length; i++) {
+                node = nodes[i];
+                if (node.focus) {
+                    try {
+                        // Trying to focus a hidden element throws an error in IE8.
+                        if (node.offsetHeight !== 0) {
+                            node.focus();
+                        }
+                    } catch (e) {
+                        LPJS.use('console', function(Y) {
+                            Y.log('In setFocusByName(<' +
+                                node.tagName + ' type=' + node.type + '>): ' + e);
+                        });
+                    }
+                    break;
+                }
+            }
+        }
+
+        function selectWidget(widget_name, event) {
+          if (event && (event.keyCode === 9 || event.keyCode === 13)) {
+              // Avoid firing if user is tabbing through or simply pressing
+              // enter to submit the form.
+              return;
+          }
+          document.getElementById(widget_name).checked = true;
+        }
+        //]]>
+    </script>
+
+    
+      
+    
+  
+    
+  </head>
+
+  <body id="document" itemscope="" itemtype="http://schema.org/WebPage" class="tab-branches
+      main_side
+      public
+      yui3-skin-sam">
+          
+          
+    <div class="yui-d0">
+      <div id="locationbar" class="login-logout">
+        
+
+<div id="logincontrol"><a href="https://code.launchpad.net/mailman/+login">Log in / Register</a></div>
+
+
+
+      </div><!--id="locationbar"-->
+
+      <div id="watermark" class="watermark-apps-portlet">
+        <div>
+          <a href="https://launchpad.net/mailman"><img alt="" width="64" height="64" src="https://launchpadlibrarian.net/50604890/logo2010-64x64.png" /></a>
+        </div>
+        <div class="wide">
+          <h2 id="watermark-heading"><a href="https://launchpad.net/mailman">GNU Mailman</a></h2>
+        </div>
+        
+  <!-- Application Menu -->
+  <ul class="facetmenu">
+    
+      
+      <li class="overview"><a href="https://launchpad.net/mailman">Overview</a></li>
+      
+    
+    
+      <li class="branches active"><span>Code</span></li>
+      
+      
+    
+    
+      
+      <li class="bugs"><a href="https://bugs.launchpad.net/mailman">Bugs</a></li>
+      
+    
+    
+      
+      <li class="specifications"><a href="https://blueprints.launchpad.net/mailman">Blueprints</a></li>
+      
+    
+    
+      
+      <li class="translations"><a href="https://translations.launchpad.net/mailman">Translations</a></li>
+      
+    
+    
+      
+      <li class="answers"><a href="https://answers.launchpad.net/mailman">Answers</a></li>
+      
+    
+  </ul>
+
+      </div>
+
+      <div class="yui-t4">
+        <div id="maincontent" class="yui-main">
+          <div class="yui-b" dir="ltr">
+            <div class="context-publication">
+              
+              
+
+              <div id="registration" class="registering">
+                
+              </div>
+            </div>
+
+            
+            <div id="request-notifications">
+              
+            </div>
+
+            
+              
+
+    
+
+    <div xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="branch-summary">
+
+  
+
+  
+
+  
+
+  
+    <div style="margin: 1em 0">
+      You can
+      
+        <a href="https://bazaar.launchpad.net/~mailman-coders/mailman/3.0/files">browse the source code</a> for the development focus branch or get a
+           copy of the branch
+      
+       using the command:<br />
+      <tt class="command">bzr branch lp:mailman</tt>
+    </div>
+  
+
+  
+
+  
+
+  <p>
+    <img src="/@@/download" /> There are
+    <a href="https://launchpad.net/mailman/+download">download files</a>
+    available for GNU Mailman.
+  </p>
+
+</div>
+
+
+    <div id="portlet-product-branchstatistics">
+
+    <p id="active-review-count">
+      GNU Mailman has
+      14
+      <a class="menu-link-active_reviews" href="https://code.launchpad.net/mailman/+activereviews">active reviews</a>.
+    </p>
+
+    <!--branches-->
+    <p>
+    
+    <span id="branch-count-summary">
+      GNU Mailman has
+      164
+      active branches
+        owned by
+        
+          81
+          people
+          
+            and
+          8
+          teams.
+    </span>
+
+    <!--commits-->
+    
+    <span id="commits">
+      There were
+      10
+        commits
+        
+          by
+          2
+          people
+        
+        in the last month.
+    </span>
+    
+    </p>
+</div>
+
+
+    
+      <h2>Bazaar branches</h2>
+      <div id="branches-table-listing">
+  <form method="get" name="filter" id="filter_form" style="padding-bottom: 0.5em" action="https://code.launchpad.net/mailman/+code">
+    
+    <label for="field.lifecycle">
+      Branches with status:
+    </label>
+    <select id="field.lifecycle" name="field.lifecycle" size="1" >
+<option selected="selected" value="CURRENT">Any active status</option>
+<option value="ALL">Any status</option>
+<option value="EXPERIMENTAL">Experimental</option>
+<option value="DEVELOPMENT">Development</option>
+<option value="MATURE">Mature</option>
+<option value="MERGED">Merged</option>
+<option value="ABANDONED">Abandoned</option>
+</select>
+<input name="field.lifecycle-empty-marker" type="hidden" value="1" />
+    <select id="field.sort_by" name="field.sort_by" size="1" >
+<option selected="selected" value="by most interesting">by most interesting</option>
+<option value="by status">by status</option>
+<option value="by branch name">by branch name</option>
+<option value="by owner name">by owner name</option>
+<option value="most recently changed first">most recently changed first</option>
+<option value="most neglected first">most neglected first</option>
+<option value="newest first">newest first</option>
+<option value="oldest first">oldest first</option>
+</select>
+<input name="field.sort_by-empty-marker" type="hidden" value="1" />
+    <input id="filter_form_submit" type="submit" value="Filter" />
+  </form>
+
+<script type="text/javascript">
+function show_commit(id) {
+    var div = document.getElementById('branch-log-' + id);
+    if (div) {
+        div.style.display = "block";
+    }
+}
+function hide_commit(id) {
+    var div = document.getElementById('branch-log-' + id);
+    if (div) {
+        div.style.display = "none";
+    }
+}
+
+</script>
+
+<script type="text/javascript">
+    LPJS.use("lp.code.util", function(Y) {
+      Y.on("domready", function(e) {
+          Y.lp.code.util.hookUpBranchFilterSubmission(Y);
+      }, window);
+    });
+</script>
+
+  
+
+  <table id="branchtable" class="listing sortable">
+    <thead>
+      <tr>
+        <th colspan="2">Name</th>
+        <th>Status</th>
+        
+        
+        <th>Last Modified</th>
+        <th>Last Commit</th>
+      </tr>
+    </thead>
+    <tbody>
+        
+        
+      
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mailman-coders/mailman/3.0">lp:mailman</a>
+          
+            
+            <br /><strong style="margin-left: 2.5em;">Series:</strong>
+            
+            
+            
+              <a href="https://launchpad.net/mailman/3.0">3.0</a>
+          
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-04-27 19:49:21 UTC</span>
+          <span title="2015-04-27 19:49:21 UTC">2015-04-27</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(250921)" onmouseover="show_commit(250921)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mailman-coders/mailman/3.0/revision/7341">7341</a>.
+              Be sure to use Falcon 0.3.
+
+            </div>
+            <div class="popupTitle" id="branch-log-250921" onmouseover="hide_commit(250921)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-04-27 19:49:21 UTC
+              </p>
+              <p>Be sure to use Falcon 0.3.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mailman-coders/mailman/2.1">lp:mailman/2.1</a>
+          
+            
+            <br /><strong style="margin-left: 2.5em;">Series:</strong>
+            
+            
+            
+              <a href="https://launchpad.net/mailman/2.1">2.1</a>
+          
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Linked to a blueprint)" width="14" height="14" src="/@@/blueprint" title="Linked to a blueprint"/>
+        </td>
+        <td>
+          <span class="sortkey">2</span>
+          <span class="branchstatusMATURE">Mature</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2019-03-06 17:50:34 UTC</span>
+          <span title="2019-03-06 17:50:34 UTC">2019-03-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(4329)" onmouseover="show_commit(4329)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mailman-coders/mailman/2.1/revision/1809">1809</a>.
+              Strip leading/trailing spaces from lo...
+            </div>
+            <div class="popupTitle" id="branch-log-4329" onmouseover="hide_commit(4329)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~msapiro" class="sprite person">Mark Sapiro</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2019-03-06 17:48:32 UTC
+              </p>
+              <p>Strip leading/trailing spaces from login email for private and options login.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~futatuki/mailman/2.1-japan-poem">lp:~futatuki/<wbr />mailman/<wbr />2.1-japan-<wbr />poem</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2019-03-08 09:27:32 UTC</span>
+          <span title="2019-03-08 09:27:32 UTC">2019-03-08</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(957442)" onmouseover="show_commit(957442)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~futatuki/mailman/2.1-japan-poem/revision/1636">1636</a>.
+              update ja translation of Defaults.py....
+            </div>
+            <div class="popupTitle" id="branch-log-957442" onmouseover="hide_commit(957442)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~futatuki" class="sprite person">Yasuhito FUTATSUKI at POEM</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2019-03-08 09:27:32 UTC
+              </p>
+              <p>update ja translation of Defaults.py.in for upstream rev 1807</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~msapiro/mailman/htdig_mhonarc">lp:~msapiro/<wbr />mailman/<wbr />htdig_mhonarc</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2019-03-06 17:59:47 UTC</span>
+          <span title="2019-03-06 17:59:47 UTC">2019-03-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16985391)" onmouseover="show_commit(16985391)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~msapiro/mailman/htdig_mhonarc/revision/1791">1791</a>.
+              Merged from 2.1 branch.
+            </div>
+            <div class="popupTitle" id="branch-log-16985391" onmouseover="hide_commit(16985391)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~msapiro" class="sprite person">Mark Sapiro</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2019-03-06 17:59:47 UTC
+              </p>
+              <p>Merged from 2.1 branch.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~msapiro/mailman/htdig">lp:~msapiro/<wbr />mailman/<wbr />htdig</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2019-03-06 17:58:35 UTC</span>
+          <span title="2019-03-06 17:58:35 UTC">2019-03-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16985388)" onmouseover="show_commit(16985388)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~msapiro/mailman/htdig/revision/1790">1790</a>.
+              Apply latest private.py change to htd...
+            </div>
+            <div class="popupTitle" id="branch-log-16985388" onmouseover="hide_commit(16985388)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~msapiro" class="sprite person">Mark Sapiro</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2019-03-06 17:58:35 UTC
+              </p>
+              <p>Apply latest private.py change to htdig.py</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~msapiro/mailman/vhost">lp:~msapiro/<wbr />mailman/<wbr />vhost</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2019-03-06 17:53:46 UTC</span>
+          <span title="2019-03-06 17:53:46 UTC">2019-03-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(316741)" onmouseover="show_commit(316741)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~msapiro/mailman/vhost/revision/1028">1028</a>.
+              Merged from 2.1 branch.
+            </div>
+            <div class="popupTitle" id="branch-log-316741" onmouseover="hide_commit(316741)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~msapiro" class="sprite person">Mark Sapiro</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2019-03-06 17:53:46 UTC
+              </p>
+              <p>Merged from 2.1 branch.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~pydotorg/mailman/production21">lp:~pydotorg/<wbr />mailman/<wbr />production21</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2019-03-06 17:53:44 UTC</span>
+          <span title="2019-03-06 17:53:44 UTC">2019-03-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(43705)" onmouseover="show_commit(43705)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~pydotorg/mailman/production21/revision/1389">1389</a>.
+              Merged from 2.1 branch.
+            </div>
+            <div class="popupTitle" id="branch-log-43705" onmouseover="hide_commit(43705)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~msapiro" class="sprite person">Mark Sapiro</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2019-03-06 17:53:44 UTC
+              </p>
+              <p>Merged from 2.1 branch.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~msapiro/mailman/mhonarc">lp:~msapiro/<wbr />mailman/<wbr />mhonarc</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2019-03-06 17:53:36 UTC</span>
+          <span title="2019-03-06 17:53:36 UTC">2019-03-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16985390)" onmouseover="show_commit(16985390)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~msapiro/mailman/mhonarc/revision/1784">1784</a>.
+              Merged from 2.1 branch.
+            </div>
+            <div class="popupTitle" id="branch-log-16985390" onmouseover="hide_commit(16985390)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~msapiro" class="sprite person">Mark Sapiro</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2019-03-06 17:53:36 UTC
+              </p>
+              <p>Merged from 2.1 branch.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~futatuki/mailman/2.1-ja-translation">lp:~futatuki/<wbr />mailman/<wbr />2.1-ja-<wbr />translation</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2019-03-02 22:13:50 UTC</span>
+          <span title="2019-03-02 22:13:50 UTC">2019-03-02</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16982950)" onmouseover="show_commit(16982950)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~futatuki/mailman/2.1-ja-translation/revision/1734">1734</a>.
+              update Japanese translation of Defaul...
+            </div>
+            <div class="popupTitle" id="branch-log-16982950" onmouseover="hide_commit(16982950)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~futatuki" class="sprite person">Yasuhito FUTATSUKI at POEM</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2019-03-02 22:13:50 UTC
+              </p>
+              <p>update Japanese translation of Defaults.py.in</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~jimpop/mailman/restrict-private-archives">lp:~jimpop/<wbr />mailman/<wbr />restrict-<wbr />private-<wbr />archives</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">2</span>
+          <span class="branchstatusMATURE">Mature</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-12-22 20:47:32 UTC</span>
+          <span title="2018-12-22 20:47:32 UTC">2018-12-22</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(17046354)" onmouseover="show_commit(17046354)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~jimpop/mailman/restrict-private-archives/revision/1782">1782</a>.
+              Restrict private archives to un-moder...
+            </div>
+            <div class="popupTitle" id="branch-log-17046354" onmouseover="hide_commit(17046354)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimpop" class="sprite person">Jim Popovitch</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-06-19 12:54:58 UTC
+              </p>
+              <p>Restrict private archives to un-moderated members</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mailman-administrivia/mailman/mailman-ppa-recipe">lp:~mailman-<wbr />administrivia/<wbr />mailman/<wbr />mailman-<wbr />ppa-recipe</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-10-16 23:16:26 UTC</span>
+          <span title="2018-10-16 23:16:26 UTC">2018-10-16</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(17052103)" onmouseover="show_commit(17052103)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mailman-administrivia/mailman/mailman-ppa-recipe/revision/1">1</a>.
+              Inital package recipe for Mailman
+
+            </div>
+            <div class="popupTitle" id="branch-log-17052103" onmouseover="hide_commit(17052103)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimpop" class="sprite person">Jim Popovitch</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-10-12 06:37:50 UTC
+              </p>
+              <p>Inital package recipe for Mailman</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mailman-administrivia/mailman/mailman-mhonarc-ppa-recipe">lp:~mailman-<wbr />administrivia/<wbr />mailman/<wbr />mailman-<wbr />mhonarc-<wbr />ppa-recipe</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-10-16 23:16:17 UTC</span>
+          <span title="2018-10-16 23:16:17 UTC">2018-10-16</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(17052097)" onmouseover="show_commit(17052097)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mailman-administrivia/mailman/mailman-mhonarc-ppa-recipe/revision/1">1</a>.
+              Inital package recipe for Mailman+mho...
+            </div>
+            <div class="popupTitle" id="branch-log-17052097" onmouseover="hide_commit(17052097)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimpop" class="sprite person">Jim Popovitch</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-10-12 06:39:29 UTC
+              </p>
+              <p>Inital package recipe for Mailman+mhonarc</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mailman-administrivia/mailman/mailman-htdig-mhonarc-ppa-recipe">lp:~mailman-<wbr />administrivia/<wbr />mailman/<wbr />mailman-<wbr />htdig-mhonarc-<wbr />ppa-recipe</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-10-16 23:16:08 UTC</span>
+          <span title="2018-10-16 23:16:08 UTC">2018-10-16</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(17052098)" onmouseover="show_commit(17052098)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mailman-administrivia/mailman/mailman-htdig-mhonarc-ppa-recipe/revision/1">1</a>.
+              Inital package recipe for Mailman+htd...
+            </div>
+            <div class="popupTitle" id="branch-log-17052098" onmouseover="hide_commit(17052098)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimpop" class="sprite person">Jim Popovitch</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-10-12 06:38:59 UTC
+              </p>
+              <p>Inital package recipe for Mailman+<wbr />htdig+mhonarc</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mailman-administrivia/mailman/mailman-htdig-ppa-recipe">lp:~mailman-<wbr />administrivia/<wbr />mailman/<wbr />mailman-<wbr />htdig-ppa-<wbr />recipe</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-10-16 23:15:59 UTC</span>
+          <span title="2018-10-16 23:15:59 UTC">2018-10-16</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(17052090)" onmouseover="show_commit(17052090)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mailman-administrivia/mailman/mailman-htdig-ppa-recipe/revision/1">1</a>.
+              Inital package recipe for Mailman+htdig
+
+            </div>
+            <div class="popupTitle" id="branch-log-17052090" onmouseover="hide_commit(17052090)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimpop" class="sprite person">Jim Popovitch</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-10-12 06:38:33 UTC
+              </p>
+              <p>Inital package recipe for Mailman+htdig</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mailman-administrivia/mailman/mailman-vhost-ppa-recipe">lp:~mailman-<wbr />administrivia/<wbr />mailman/<wbr />mailman-<wbr />vhost-ppa-<wbr />recipe</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-10-16 23:14:45 UTC</span>
+          <span title="2018-10-16 23:14:45 UTC">2018-10-16</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(17052099)" onmouseover="show_commit(17052099)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mailman-administrivia/mailman/mailman-vhost-ppa-recipe/revision/1">1</a>.
+              Inital package recipe for Mailman+vhost
+
+            </div>
+            <div class="popupTitle" id="branch-log-17052099" onmouseover="hide_commit(17052099)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimpop" class="sprite person">Jim Popovitch</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-10-12 06:31:01 UTC
+              </p>
+              <p>Inital package recipe for Mailman+vhost</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~futatuki/mailman/2.1-listinfo-overview-client-lang">lp:~futatuki/<wbr />mailman/<wbr />2.1-listinfo-<wbr />overview-<wbr />client-<wbr />lang</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-06-23 13:47:00 UTC</span>
+          <span title="2018-06-23 13:47:00 UTC">2018-06-23</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16996196)" onmouseover="show_commit(16996196)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~futatuki/mailman/2.1-listinfo-overview-client-lang/revision/1679">1679</a>.
+              merge lp:mailman/2.1 up to 1784 (2.1....
+            </div>
+            <div class="popupTitle" id="branch-log-16996196" onmouseover="hide_commit(16996196)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~futatuki" class="sprite person">Yasuhito FUTATSUKI at POEM</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-06-23 13:47:00 UTC
+              </p>
+              <p>merge <a href="/+code/mailman/2.1" class="branch-short-link">lp:mailman/2.1</a> up to 1784 (2.1.27 release)</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~futatuki/mailman/2.1-forbid-subscription">lp:~futatuki/<wbr />mailman/<wbr />2.1-forbid-<wbr />subscription</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-06-07 17:32:07 UTC</span>
+          <span title="2018-06-07 17:32:07 UTC">2018-06-07</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(17045818)" onmouseover="show_commit(17045818)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~futatuki/mailman/2.1-forbid-subscription/revision/1765">1765</a>.
+              Update pot file and po files
+(only Ja...
+            </div>
+            <div class="popupTitle" id="branch-log-17045818" onmouseover="hide_commit(17045818)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~futatuki" class="sprite person">Yasuhito FUTATSUKI at POEM</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-06-07 17:32:07 UTC
+              </p>
+              <p>Update pot file and po files<br />
+(only Japanese translation message supports new message strings)</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~jimpop/mailman/check_subscriber">lp:~jimpop/<wbr />mailman/<wbr />check_subscribe<wbr />r</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">2</span>
+          <span class="branchstatusMATURE">Mature</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-06-07 10:03:03 UTC</span>
+          <span title="2018-06-07 10:03:03 UTC">2018-06-07</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(913327)" onmouseover="show_commit(913327)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~jimpop/mailman/check_subscriber/revision/1453">1453</a>.
+              included check_subscriber in SCRIPTS ...
+            </div>
+            <div class="popupTitle" id="branch-log-913327" onmouseover="hide_commit(913327)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimpop" class="sprite person">Jim Popovitch</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-06-07 10:03:03 UTC
+              </p>
+              <p>included check_subscriber in SCRIPTS declaration</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~futatuki/mailman/2.1-add-smtp-timeout">lp:~futatuki/<wbr />mailman/<wbr />2.1-add-<wbr />smtp-timeout</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2018-02-08 11:51:06 UTC</span>
+          <span title="2018-02-08 11:51:06 UTC">2018-02-08</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(17037977)" onmouseover="show_commit(17037977)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~futatuki/mailman/2.1-add-smtp-timeout/revision/1745">1745</a>.
+              Add SMTP timeout feature to SMTPDirec...
+            </div>
+            <div class="popupTitle" id="branch-log-17037977" onmouseover="hide_commit(17037977)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~futatuki" class="sprite person">Yasuhito FUTATSUKI at POEM</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2018-02-08 11:42:38 UTC
+              </p>
+              <p>Add SMTP timeout feature to SMTPDirect handler</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~millimarg/mailman/german-translation">lp:~millimarg/<wbr />mailman/<wbr />german-<wbr />translation</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2016-04-26 17:25:10 UTC</span>
+          <span title="2016-04-26 17:25:10 UTC">2016-04-26</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16962029)" onmouseover="show_commit(16962029)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~millimarg/mailman/german-translation/revision/1648">1648</a>.
+              fix bad mistakes with opposite meanin...
+            </div>
+            <div class="popupTitle" id="branch-log-16962029" onmouseover="hide_commit(16962029)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~millimarg" class="sprite person">Mirian Margiani</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2016-04-26 17:25:10 UTC
+              </p>
+              <p>fix bad mistakes with opposite meaning in German and English</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~berni/mailman/fix-typo4">lp:~berni/<wbr />mailman/<wbr />fix-typo4</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2016-02-15 13:01:20 UTC</span>
+          <span title="2016-02-15 13:01:20 UTC">2016-02-15</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16983261)" onmouseover="show_commit(16983261)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~berni/mailman/fix-typo4/revision/1612">1612</a>.
+              updated German Translation
+
+            </div>
+            <div class="popupTitle" id="branch-log-16983261" onmouseover="hide_commit(16983261)">
+              <p>
+                <strong>Author:</strong>
+                Ado Haarer
+                <br />
+                <strong>Revision Date:</strong>
+                2016-02-15 12:58:37 UTC
+              </p>
+              <p>updated German Translation</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~berni/mailman/fix-typo3">lp:~berni/<wbr />mailman/<wbr />fix-typo3</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2016-02-11 15:48:18 UTC</span>
+          <span title="2016-02-11 15:48:18 UTC">2016-02-11</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16982881)" onmouseover="show_commit(16982881)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~berni/mailman/fix-typo3/revision/1612">1612</a>.
+              Minor German language changes
+
+            </div>
+            <div class="popupTitle" id="branch-log-16982881" onmouseover="hide_commit(16982881)">
+              <p>
+                <strong>Author:</strong>
+                Ado Haarer
+                <br />
+                <strong>Revision Date:</strong>
+                2016-02-11 15:46:24 UTC
+              </p>
+              <p>Minor German language changes</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~joostvb/mailman/2.1-pgp-smime">lp:~joostvb/<wbr />mailman/<wbr />2.1-pgp-<wbr />smime</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2016-02-08 12:37:10 UTC</span>
+          <span title="2016-02-08 12:37:10 UTC">2016-02-08</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(15449)" onmouseover="show_commit(15449)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~joostvb/mailman/2.1-pgp-smime/revision/543">543</a>.
+              code is obsolete, do not use.  Add li...
+            </div>
+            <div class="popupTitle" id="branch-log-15449" onmouseover="hide_commit(15449)">
+              <p>
+                <strong>Author:</strong>
+                Joost van Baal-IliÄ
+                <br />
+                <strong>Revision Date:</strong>
+                2016-02-08 12:37:10 UTC
+              </p>
+              <p>code is obsolete, do not use.  Add link to alternative.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~emin25/mailman/mailman">lp:~emin25/<wbr />mailman/<wbr />mailman</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-10-15 01:30:24 UTC</span>
+          <span title="2015-10-15 01:30:24 UTC">2015-10-15</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16968257)" onmouseover="show_commit(16968257)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~emin25/mailman/mailman/revision/1584">1584</a>.
+              Files added for translation, no templ...
+            </div>
+            <div class="popupTitle" id="branch-log-16968257" onmouseover="hide_commit(16968257)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~emin25" class="sprite person">Emin Mastizada</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-10-15 01:30:24 UTC
+              </p>
+              <p>Files added for translation, no template yet</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~bhavesh-goyal093/mailman/Tasks-Core">lp:~bhavesh-<wbr />goyal093/<wbr />mailman/<wbr />Tasks-Core</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-05-24 20:44:21 UTC</span>
+          <span title="2015-05-24 20:44:21 UTC">2015-05-24</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16917764)" onmouseover="show_commit(16917764)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~bhavesh-goyal093/mailman/Tasks-Core/revision/7344">7344</a>.
+              Add untracked tasks files
+            </div>
+            <div class="popupTitle" id="branch-log-16917764" onmouseover="hide_commit(16917764)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~bhavesh-goyal093" class="sprite person">Bhavesh Goyal</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-05-24 20:09:18 UTC
+              </p>
+              <p>Add untracked tasks files</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~barry/mailman/trunk">lp:~barry/<wbr />mailman/<wbr />trunk</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-04-28 14:06:01 UTC</span>
+          <span title="2015-04-28 14:06:01 UTC">2015-04-28</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16879774)" onmouseover="show_commit(16879774)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~barry/mailman/trunk/revision/7342">7342</a>.
+              Now that we're on Python 3.4, we don'...
+            </div>
+            <div class="popupTitle" id="branch-log-16879774" onmouseover="hide_commit(16879774)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-04-28 14:06:01 UTC
+              </p>
+              <p>Now that we&#x27;re on Python 3.4, we don&#x27;t need enum34.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~barry/mailman/lp1435941">lp:~barry/<wbr />mailman/<wbr />lp1435941</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-04-22 01:53:36 UTC</span>
+          <span title="2015-04-22 01:53:36 UTC">2015-04-22</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16879100)" onmouseover="show_commit(16879100)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~barry/mailman/lp1435941/revision/7336">7336</a>.
+              Add column ids, although this causes ...
+            </div>
+            <div class="popupTitle" id="branch-log-16879100" onmouseover="hide_commit(16879100)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-04-22 01:53:04 UTC
+              </p>
+              <p>Add column ids, although this causes other problems.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~sumanah/mailman/mailman">lp:~sumanah/<wbr />mailman/<wbr />mailman</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-04-20 01:29:41 UTC</span>
+          <span title="2015-04-20 01:29:41 UTC">2015-04-20</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16857869)" onmouseover="show_commit(16857869)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~sumanah/mailman/mailman/revision/7278">7278</a>.
+              merge
+            </div>
+            <div class="popupTitle" id="branch-log-16857869" onmouseover="hide_commit(16857869)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~sumanah" class="sprite person">Sumana Harihareswara</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-04-20 01:29:41 UTC
+              </p>
+              <p>merge</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/subpolicy">lp:~abompard/<wbr />mailman/<wbr />subpolicy</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-04-10 19:47:00 UTC</span>
+          <span title="2015-04-10 19:47:00 UTC">2015-04-10</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16874092)" onmouseover="show_commit(16874092)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/subpolicy/revision/7329">7329</a>.
+              Make sure stored state is deleted aft...
+            </div>
+            <div class="popupTitle" id="branch-log-16874092" onmouseover="hide_commit(16874092)">
+              <p>
+                <strong>Author:</strong>
+                Aurelien Bompard
+                <br />
+                <strong>Revision Date:</strong>
+                2015-04-10 19:47:00 UTC
+              </p>
+              <p>Make sure stored state is deleted after restoring</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~ulrith/mailman/russian-2.1.20">lp:~ulrith/<wbr />mailman/<wbr />russian-<wbr />2.1.20</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-31 08:04:54 UTC</span>
+          <span title="2015-03-31 08:04:54 UTC">2015-03-31</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16875675)" onmouseover="show_commit(16875675)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~ulrith/mailman/russian-2.1.20/revision/1553">1553</a>.
+              Russian translation of messages catal...
+            </div>
+            <div class="popupTitle" id="branch-log-16875675" onmouseover="hide_commit(16875675)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~ulrith" class="sprite person">Danil Smirnov</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-31 08:01:10 UTC
+              </p>
+              <p>Russian translation of messages catalog for 2.1.20</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~andrew-stuart/mailman/prototype-archivers">lp:~andrew-<wbr />stuart/<wbr />mailman/<wbr />prototype-<wbr />archivers</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-25 23:21:10 UTC</span>
+          <span title="2015-03-25 23:21:10 UTC">2015-03-25</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16874857)" onmouseover="show_commit(16874857)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~andrew-stuart/mailman/prototype-archivers/revision/7309">7309</a>.
+              Starting on prototype archivers
+            </div>
+            <div class="popupTitle" id="branch-log-16874857" onmouseover="hide_commit(16874857)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~andrew-stuart" class="sprite person">Andrew Stuart</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-25 23:21:10 UTC
+              </p>
+              <p>Starting on prototype archivers</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~prakash09/mailman/test">lp:~prakash09/<wbr />mailman/<wbr />test</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-17 04:44:45 UTC</span>
+          <span title="2015-03-17 04:44:45 UTC">2015-03-17</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16873367)" onmouseover="show_commit(16873367)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~prakash09/mailman/test/revision/7303">7303</a>.
+              test for odd email id registration is...
+            </div>
+            <div class="popupTitle" id="branch-log-16873367" onmouseover="hide_commit(16873367)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~prakash09" class="sprite person">Prakash Kumar</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-17 04:52:56 UTC
+              </p>
+              <p>test for odd email id registration is added</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~prakash09/mailman/3.0">lp:~prakash09/<wbr />mailman/<wbr />3.0</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-17 04:37:59 UTC</span>
+          <span title="2015-03-17 04:37:59 UTC">2015-03-17</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16873366)" onmouseover="show_commit(16873366)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~prakash09/mailman/3.0/revision/7302">7302</a>.
+              Path for starting mailman is corrected
+            </div>
+            <div class="popupTitle" id="branch-log-16873366" onmouseover="hide_commit(16873366)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~prakash09" class="sprite person">Prakash Kumar</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-17 04:48:56 UTC
+              </p>
+              <p>Path for starting mailman is corrected</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~rashi007/mailman/docsfix">lp:~rashi007/<wbr />mailman/<wbr />docsfix</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-16 16:30:21 UTC</span>
+          <span title="2015-03-16 16:30:21 UTC">2015-03-16</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16873265)" onmouseover="show_commit(16873265)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~rashi007/mailman/docsfix/revision/7302">7302</a>.
+              Docs fix
+            </div>
+            <div class="popupTitle" id="branch-log-16873265" onmouseover="hide_commit(16873265)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~rashi007" class="sprite person">Rashi Karanpuria</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-16 16:22:12 UTC
+              </p>
+              <p>Docs fix</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~rashi007/mailman/rashi">lp:~rashi007/<wbr />mailman/<wbr />rashi</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-16 16:27:34 UTC</span>
+          <span title="2015-03-16 16:27:34 UTC">2015-03-16</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16873259)" onmouseover="show_commit(16873259)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~rashi007/mailman/rashi/revision/7302">7302</a>.
+              Fix for bug #1165589
+            </div>
+            <div class="popupTitle" id="branch-log-16873259" onmouseover="hide_commit(16873259)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~rashi007" class="sprite person">Rashi Karanpuria</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-16 16:13:30 UTC
+              </p>
+              <p>Fix for <a href="/bugs/1165589" class="bug-link">bug #1165589</a></p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~black-perl/mailman/handling-special-chars-in-email">lp:~black-<wbr />perl/mailman/<wbr />handling-<wbr />special-<wbr />chars-in-<wbr />email</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-13 09:31:51 UTC</span>
+          <span title="2015-03-13 09:31:51 UTC">2015-03-13</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16872881)" onmouseover="show_commit(16872881)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~black-perl/mailman/handling-special-chars-in-email/revision/7304">7304</a>.
+              Added decoding support for the list i...
+            </div>
+            <div class="popupTitle" id="branch-log-16872881" onmouseover="hide_commit(16872881)">
+              <p>
+                <strong>Author:</strong>
+                &lt;email address hidden&gt;
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-13 09:19:56 UTC
+              </p>
+              <p>Added decoding support for the list identifier as per the fix for the issue #1429366.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~saprativejana/mailman/starting_guide">lp:~saprativeja<wbr />na/mailman/<wbr />starting_<wbr />guide</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-09 19:12:59 UTC</span>
+          <span title="2015-03-09 19:12:59 UTC">2015-03-09</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16872027)" onmouseover="show_commit(16872027)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~saprativejana/mailman/starting_guide/revision/7306">7306</a>.
+              install document final
+            </div>
+            <div class="popupTitle" id="branch-log-16872027" onmouseover="hide_commit(16872027)">
+              <p>
+                <strong>Author:</strong>
+                &lt;email address hidden&gt;
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-09 19:12:59 UTC
+              </p>
+              <p>install document final</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~saprativejana/mailman/installation_guide">lp:~saprativeja<wbr />na/mailman/<wbr />installation_<wbr />guide</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-09 15:48:32 UTC</span>
+          <span title="2015-03-09 15:48:32 UTC">2015-03-09</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16871864)" onmouseover="show_commit(16871864)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~saprativejana/mailman/installation_guide/revision/7304">7304</a>.
+              installation_guide
+            </div>
+            <div class="popupTitle" id="branch-log-16871864" onmouseover="hide_commit(16871864)">
+              <p>
+                <strong>Author:</strong>
+                &lt;email address hidden&gt;
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-08 22:30:43 UTC
+              </p>
+              <p>installation_guide</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~saprativejana/mailman/install_doc">lp:~saprativeja<wbr />na/mailman/<wbr />install_<wbr />doc</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-08 21:39:38 UTC</span>
+          <span title="2015-03-08 21:39:38 UTC">2015-03-08</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16871855)" onmouseover="show_commit(16871855)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~saprativejana/mailman/install_doc/revision/7303">7303</a>.
+              test
+            </div>
+            <div class="popupTitle" id="branch-log-16871855" onmouseover="hide_commit(16871855)">
+              <p>
+                <strong>Author:</strong>
+                &lt;email address hidden&gt;
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-08 21:17:37 UTC
+              </p>
+              <p>test</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~rashi007/mailman/mailman">lp:~rashi007/<wbr />mailman/<wbr />mailman</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-06 15:19:47 UTC</span>
+          <span title="2015-03-06 15:19:47 UTC">2015-03-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16871205)" onmouseover="show_commit(16871205)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~rashi007/mailman/mailman/revision/7303">7303</a>.
+              docs erre
+            </div>
+            <div class="popupTitle" id="branch-log-16871205" onmouseover="hide_commit(16871205)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~aanand0071" class="sprite person">Aanand</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-04 10:43:52 UTC
+              </p>
+              <p>docs erre</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~aanand0071/mailman/967951">lp:~aanand0071/<wbr />mailman/<wbr />967951</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-06 15:16:26 UTC</span>
+          <span title="2015-03-06 15:16:26 UTC">2015-03-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16871305)" onmouseover="show_commit(16871305)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~aanand0071/mailman/967951/revision/7302">7302</a>.
+              patch for bug #967951
+            </div>
+            <div class="popupTitle" id="branch-log-16871305" onmouseover="hide_commit(16871305)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~aanand0071" class="sprite person">Aanand</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-04 10:21:34 UTC
+              </p>
+              <p>patch for <a href="/bugs/967951" class="bug-link">bug #967951</a></p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~srimukh93/mailman/test">lp:~srimukh93/<wbr />mailman/<wbr />test</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-05 06:41:59 UTC</span>
+          <span title="2015-03-05 06:41:59 UTC">2015-03-05</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16871298)" onmouseover="show_commit(16871298)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~srimukh93/mailman/test/revision/7301">7301</a>.
+              Doc fixes given by Abhilash Raj.
+
+            </div>
+            <div class="popupTitle" id="branch-log-16871298" onmouseover="hide_commit(16871298)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-03 02:34:09 UTC
+              </p>
+              <p>Doc fixes given by Abhilash Raj.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~sambuddhabasu1/mailman/fix_mailman_run_error">lp:~sambuddhaba<wbr />su1/mailman/<wbr />fix_mailman_<wbr />run_error</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-03-03 22:23:40 UTC</span>
+          <span title="2015-03-03 22:23:40 UTC">2015-03-03</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16870996)" onmouseover="show_commit(16870996)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~sambuddhabasu1/mailman/fix_mailman_run_error/revision/7302">7302</a>.
+              Fix mailman start error
+            </div>
+            <div class="popupTitle" id="branch-log-16870996" onmouseover="hide_commit(16870996)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~sambuddhabasu1" class="sprite person">Sambuddha Basu</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-03-03 22:23:41 UTC
+              </p>
+              <p>Fix mailman start error</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/mailman-templates-utf8">lp:~abompard/<wbr />mailman/<wbr />mailman-<wbr />templates-<wbr />utf8</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-02-11 16:21:39 UTC</span>
+          <span title="2015-02-11 16:21:39 UTC">2015-02-11</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16867394)" onmouseover="show_commit(16867394)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/mailman-templates-utf8/revision/7298">7298</a>.
+              Resetting the locale broke other test...
+            </div>
+            <div class="popupTitle" id="branch-log-16867394" onmouseover="hide_commit(16867394)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~abompard" class="sprite person">AurÃ©lien Bompard</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-02-11 16:21:39 UTC
+              </p>
+              <p>Resetting the locale broke other tests which assume the &quot;C&quot; locale</p>
+<p>(because Mailman never calls locale.setlocale())</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~ulrith/mailman/russian">lp:~ulrith/<wbr />mailman/<wbr />russian</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-02-10 13:13:48 UTC</span>
+          <span title="2015-02-10 13:13:48 UTC">2015-02-10</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16861132)" onmouseover="show_commit(16861132)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~ulrith/mailman/russian/revision/1515">1515</a>.
+              Russian translations update for 2.1.19
+
+            </div>
+            <div class="popupTitle" id="branch-log-16861132" onmouseover="hide_commit(16861132)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~ulrith" class="sprite person">Danil Smirnov</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-02-10 13:13:48 UTC
+              </p>
+              <p>Russian translations update for 2.1.19</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~pierfort123/mailman/trunk">lp:~pierfort123<wbr />/mailman/<wbr />trunk</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2015-02-04 15:45:33 UTC</span>
+          <span title="2015-02-04 15:45:33 UTC">2015-02-04</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16851375)" onmouseover="show_commit(16851375)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~pierfort123/mailman/trunk/revision/566">566</a>.
+              36257
+            </div>
+            <div class="popupTitle" id="branch-log-16851375" onmouseover="hide_commit(16851375)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~pierfort123" class="sprite person">pierfort123</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2015-02-04 15:45:33 UTC
+              </p>
+              <p>36257</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~msapiro/mailman/topics">lp:~msapiro/<wbr />mailman/<wbr />topics</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-12-03 23:47:23 UTC</span>
+          <span title="2014-12-03 23:47:23 UTC">2014-12-03</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(23869)" onmouseover="show_commit(23869)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~msapiro/mailman/topics/revision/1022">1022</a>.
+              Merged the 2.2 branch.
+            </div>
+            <div class="popupTitle" id="branch-log-23869" onmouseover="hide_commit(23869)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~msapiro" class="sprite person">Mark Sapiro</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-12-03 23:47:23 UTC
+              </p>
+              <p>Merged the 2.2 branch.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~raj-abhilash1/mailman/py3">lp:~raj-<wbr />abhilash1/<wbr />mailman/<wbr />py3</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-11-26 12:21:48 UTC</span>
+          <span title="2014-11-26 12:21:48 UTC">2014-11-26</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16853551)" onmouseover="show_commit(16853551)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~raj-abhilash1/mailman/py3/revision/7264">7264</a>.
+              rebase from trunk
+            </div>
+            <div class="popupTitle" id="branch-log-16853551" onmouseover="hide_commit(16853551)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~raj-abhilash1" class="sprite person">Abhilash Raj</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-11-26 12:21:48 UTC
+              </p>
+              <p>rebase from trunk</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~pierfort123/mailman/site">lp:~pierfort123<wbr />/mailman/<wbr />site</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="" width="14" height="14" src="/@@/warning" title="Branch has errors"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-11-05 19:43:38 UTC</span>
+          <span title="2014-11-05 19:43:38 UTC">2014-11-05</span>
+        </td>
+
+        
+          <td>
+            <em>
+              
+
+  
+    
+    
+      This branch has not been mirrored yet.
+    
+    
+    
+  
+
+  
+
+
+            </em>
+          </td>
+        
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/sqlalchemy">lp:~abompard/<wbr />mailman/<wbr />sqlalchemy</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-10-31 13:23:09 UTC</span>
+          <span title="2014-10-31 13:23:09 UTC">2014-10-31</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16809910)" onmouseover="show_commit(16809910)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/sqlalchemy/revision/7289">7289</a>.
+              One more sorting issue
+            </div>
+            <div class="popupTitle" id="branch-log-16809910" onmouseover="hide_commit(16809910)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~abompard" class="sprite person">AurÃ©lien Bompard</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-10-31 13:23:09 UTC
+              </p>
+              <p>One more sorting issue</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~jmacmahon/mailman/ui">lp:~jmacmahon/<wbr />mailman/<wbr />ui</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-09-11 10:44:45 UTC</span>
+          <span title="2014-09-11 10:44:45 UTC">2014-09-11</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16805914)" onmouseover="show_commit(16805914)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~jmacmahon/mailman/ui/revision/7252">7252</a>.
+              Docs update.
+
+            </div>
+            <div class="popupTitle" id="branch-log-16805914" onmouseover="hide_commit(16805914)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-08-23 21:41:58 UTC
+              </p>
+              <p>Docs update.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/pgsql_upgrade">lp:~abompard/<wbr />mailman/<wbr />pgsql_upgrade</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-07-30 21:04:56 UTC</span>
+          <span title="2014-07-30 21:04:56 UTC">2014-07-30</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16793771)" onmouseover="show_commit(16793771)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/pgsql_upgrade/revision/7253">7253</a>.
+              Add tests for the 20140715 migration
+            </div>
+            <div class="popupTitle" id="branch-log-16793771" onmouseover="hide_commit(16793771)">
+              <p>
+                <strong>Author:</strong>
+                Aurelien Bompard
+                <br />
+                <strong>Revision Date:</strong>
+                2014-07-30 21:04:56 UTC
+              </p>
+              <p>Add tests for the 20140715 migration</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~nkarageuzian/mailman/bug-1312884">lp:~nkarageuzia<wbr />n/mailman/<wbr />bug-1312884</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-07-29 12:18:06 UTC</span>
+          <span title="2014-07-29 12:18:06 UTC">2014-07-29</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16796111)" onmouseover="show_commit(16796111)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~nkarageuzian/mailman/bug-1312884/revision/7252">7252</a>.
+              start implementation and tests for lp...
+            </div>
+            <div class="popupTitle" id="branch-log-16796111" onmouseover="hide_commit(16796111)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~nkarageuzian" class="sprite person">nicolask</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-07-29 12:17:32 UTC
+              </p>
+              <p>start implementation and tests for <a href="/bugs/1312884" class="bug-link">lp:1312884</a></p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/selinux">lp:~abompard/<wbr />mailman/<wbr />selinux</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-07-01 08:30:40 UTC</span>
+          <span title="2014-07-01 08:30:40 UTC">2014-07-01</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16789645)" onmouseover="show_commit(16789645)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/selinux/revision/7253">7253</a>.
+              Support installation in /var/lib/mailman
+            </div>
+            <div class="popupTitle" id="branch-log-16789645" onmouseover="hide_commit(16789645)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~abompard" class="sprite person">AurÃ©lien Bompard</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-07-01 08:30:40 UTC
+              </p>
+              <p>Support installation in /var/lib/mailman</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/link_on_creation">lp:~abompard/<wbr />mailman/<wbr />link_on_<wbr />creation</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-07-01 07:19:23 UTC</span>
+          <span title="2014-07-01 07:19:23 UTC">2014-07-01</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(16789639)" onmouseover="show_commit(16789639)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/link_on_creation/revision/7252">7252</a>.
+              REST: link to an existing email addre...
+            </div>
+            <div class="popupTitle" id="branch-log-16789639" onmouseover="hide_commit(16789639)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~abompard" class="sprite person">AurÃ©lien Bompard</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-07-01 07:18:49 UTC
+              </p>
+              <p>REST: link to an existing email address on user creation</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~varun/mailman/proj2">lp:~varun/<wbr />mailman/<wbr />proj2</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-06-30 14:09:45 UTC</span>
+          <span title="2014-06-30 14:09:45 UTC">2014-06-30</span>
+        </td>
+
+        
+          <td>
+            <em>
+              
+
+  
+
+  
+    
+    
+      This branch is empty.
+    
+  
+
+
+            </em>
+          </td>
+        
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~varun/mailman/proj1">lp:~varun/<wbr />mailman/<wbr />proj1</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-06-30 14:09:27 UTC</span>
+          <span title="2014-06-30 14:09:27 UTC">2014-06-30</span>
+        </td>
+
+        
+          <td>
+            <em>
+              
+
+  
+
+  
+    
+    
+      This branch is empty.
+    
+  
+
+
+            </em>
+          </td>
+        
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~follybeachris/mailman/mailman2-stable-265848">lp:~follybeachr<wbr />is/mailman/<wbr />mailman2-<wbr />stable-<wbr />265848</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-05-02 20:43:26 UTC</span>
+          <span title="2014-05-02 20:43:26 UTC">2014-05-02</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(954796)" onmouseover="show_commit(954796)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~follybeachris/mailman/mailman2-stable-265848/revision/1478">1478</a>.
+              corrected bug # 265848 - to test my f...
+            </div>
+            <div class="popupTitle" id="branch-log-954796" onmouseover="hide_commit(954796)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~follybeachris" class="sprite person">Chris Cargile</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-05-02 19:25:33 UTC
+              </p>
+              <p>corrected <a href="/bugs/265848" class="bug-link">bug # 265848</a> - to test my familiarity with Bzr</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~nkarageuzian/mailman/usermanagement">lp:~nkarageuzia<wbr />n/mailman/<wbr />usermanagement</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-04-27 17:55:51 UTC</span>
+          <span title="2014-04-27 17:55:51 UTC">2014-04-27</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(891941)" onmouseover="show_commit(891941)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~nkarageuzian/mailman/usermanagement/revision/7232">7232</a>.
+              improve usermanagement : allow create...
+            </div>
+            <div class="popupTitle" id="branch-log-891941" onmouseover="hide_commit(891941)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~nkarageuzian" class="sprite person">nicolask</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-12-28 10:13:31 UTC
+              </p>
+              <p>improve usermanagement : allow create_user method even if an address is known (mail sent to the list without subscribing).</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~jaraco/mailman/cherrypy-rest">lp:~jaraco/<wbr />mailman/<wbr />cherrypy-<wbr />rest</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-04-27 17:25:33 UTC</span>
+          <span title="2014-04-27 17:25:33 UTC">2014-04-27</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(918997)" onmouseover="show_commit(918997)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~jaraco/mailman/cherrypy-rest/revision/7247">7247</a>.
+              Update docstrings
+            </div>
+            <div class="popupTitle" id="branch-log-918997" onmouseover="hide_commit(918997)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jaraco" class="sprite person">Jason R. Coombs</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-04-27 17:25:33 UTC
+              </p>
+              <p>Update docstrings</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/default_languages">lp:~abompard/<wbr />mailman/<wbr />default_<wbr />languages</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-04-17 21:34:08 UTC</span>
+          <span title="2014-04-17 21:34:08 UTC">2014-04-17</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(920078)" onmouseover="show_commit(920078)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/default_languages/revision/7248">7248</a>.
+              Add the language charsets as imported...
+            </div>
+            <div class="popupTitle" id="branch-log-920078" onmouseover="hide_commit(920078)">
+              <p>
+                <strong>Author:</strong>
+                Aurelien Bompard
+                <br />
+                <strong>Revision Date:</strong>
+                2014-04-17 21:34:08 UTC
+              </p>
+              <p>Add the language charsets as imported from Mailman 2.1</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/moderation_reasons">lp:~abompard/<wbr />mailman/<wbr />moderation_<wbr />reasons</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-04-17 20:16:54 UTC</span>
+          <span title="2014-04-17 20:16:54 UTC">2014-04-17</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(920074)" onmouseover="show_commit(920074)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/moderation_reasons/revision/7248">7248</a>.
+              Use real reasons when a message is held
+            </div>
+            <div class="popupTitle" id="branch-log-920074" onmouseover="hide_commit(920074)">
+              <p>
+                <strong>Author:</strong>
+                Aurelien Bompard
+                <br />
+                <strong>Revision Date:</strong>
+                2014-04-17 20:16:14 UTC
+              </p>
+              <p>Use real reasons when a message is held</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~raj-abhilash1/mailman/gsoc">lp:~raj-<wbr />abhilash1/<wbr />mailman/<wbr />gsoc</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-03-30 15:22:09 UTC</span>
+          <span title="2014-03-30 15:22:09 UTC">2014-03-30</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(914550)" onmouseover="show_commit(914550)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~raj-abhilash1/mailman/gsoc/revision/7241">7241</a>.
+              fixed some previous errors
+            </div>
+            <div class="popupTitle" id="branch-log-914550" onmouseover="hide_commit(914550)">
+              <p>
+                <strong>Author:</strong>
+                &lt;email address hidden&gt;
+                <br />
+                <strong>Revision Date:</strong>
+                2014-03-30 15:22:09 UTC
+              </p>
+              <p>fixed some previous errors</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~barry/mailman/templatecache">lp:~barry/<wbr />mailman/<wbr />templatecache</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-03-15 20:06:08 UTC</span>
+          <span title="2014-03-15 20:06:08 UTC">2014-03-15</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(911989)" onmouseover="show_commit(911989)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~barry/mailman/templatecache/revision/7192">7192</a>.
+              Better text.
+
+            </div>
+            <div class="popupTitle" id="branch-log-911989" onmouseover="hide_commit(911989)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-03-15 20:05:45 UTC
+              </p>
+              <p>Better text.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~varun/mailman/mailman">lp:~varun/<wbr />mailman/<wbr />mailman</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-03-14 16:59:09 UTC</span>
+          <span title="2014-03-14 16:59:09 UTC">2014-03-14</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(911828)" onmouseover="show_commit(911828)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~varun/mailman/mailman/revision/7237">7237</a>.
+              - Configuration.style_configs(): Remo...
+            </div>
+            <div class="popupTitle" id="branch-log-911828" onmouseover="hide_commit(911828)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-03-02 22:59:30 UTC
+              </p>
+              <p>- Configuration.<wbr />style_configs(<wbr />): Removed unused code.<br />
+- mailman.cfg: Removed unused section.<br />
+- Improve the config.py test coverage to 100%.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~abompard/mailman/import21">lp:~abompard/<wbr />mailman/<wbr />import21</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-01-27 10:58:16 UTC</span>
+          <span title="2014-01-27 10:58:16 UTC">2014-01-27</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(835406)" onmouseover="show_commit(835406)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~abompard/mailman/import21/revision/7235">7235</a>.
+              Merge from the main branch
+            </div>
+            <div class="popupTitle" id="branch-log-835406" onmouseover="hide_commit(835406)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~abompard" class="sprite person">AurÃ©lien Bompard</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-01-27 10:58:16 UTC
+              </p>
+              <p>Merge from the main branch</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~barry/mailman/work1">lp:~barry/<wbr />mailman/<wbr />work1</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2014-01-05 21:21:10 UTC</span>
+          <span title="2014-01-05 21:21:10 UTC">2014-01-05</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(710039)" onmouseover="show_commit(710039)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~barry/mailman/work1/revision/7189">7189</a>.
+              checkpointing
+            </div>
+            <div class="popupTitle" id="branch-log-710039" onmouseover="hide_commit(710039)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2014-01-05 21:21:10 UTC
+              </p>
+              <p>checkpointing</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~nkarageuzian/mailman/pg_update">lp:~nkarageuzia<wbr />n/mailman/<wbr />pg_update</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-12-31 11:55:45 UTC</span>
+          <span title="2013-12-31 11:55:45 UTC">2013-12-31</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(885398)" onmouseover="show_commit(885398)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~nkarageuzian/mailman/pg_update/revision/7233">7233</a>.
+              fixing update tag
+
+            </div>
+            <div class="popupTitle" id="branch-log-885398" onmouseover="hide_commit(885398)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~nkarageuzian" class="sprite person">nicolask</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-12-31 11:56:36 UTC
+              </p>
+              <p>fixing update tag</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~nkarageuzian/mailman/hyperkitty_compliance">lp:~nkarageuzia<wbr />n/mailman/<wbr />hyperkitty_<wbr />compliance</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-12-30 11:08:13 UTC</span>
+          <span title="2013-12-30 11:08:13 UTC">2013-12-30</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(884813)" onmouseover="show_commit(884813)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~nkarageuzian/mailman/hyperkitty_compliance/revision/7238">7238</a>.
+              merging mods from dedicated branch
+            </div>
+            <div class="popupTitle" id="branch-log-884813" onmouseover="hide_commit(884813)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~nkarageuzian" class="sprite person">nicolask</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-12-30 11:08:46 UTC
+              </p>
+              <p>merging mods from dedicated branch</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~tgc/mailman/2.1-da">lp:~tgc/<wbr />mailman/<wbr />2.1-da</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-10-17 09:24:14 UTC</span>
+          <span title="2013-10-17 09:24:14 UTC">2013-10-17</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(841951)" onmouseover="show_commit(841951)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~tgc/mailman/2.1-da/revision/1428">1428</a>.
+              Small fix in danish private.html temp...
+            </div>
+            <div class="popupTitle" id="branch-log-841951" onmouseover="hide_commit(841951)">
+              <p>
+                <strong>Author:</strong>
+                Tom G. Christensen
+                <br />
+                <strong>Revision Date:</strong>
+                2013-10-17 09:24:14 UTC
+              </p>
+              <p>Small fix in danish private.html template</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~raj-abhilash1/mailman/master">lp:~raj-<wbr />abhilash1/<wbr />mailman/<wbr />master</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-10-04 03:38:05 UTC</span>
+          <span title="2013-10-04 03:38:05 UTC">2013-10-04</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(819229)" onmouseover="show_commit(819229)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~raj-abhilash1/mailman/master/revision/7253">7253</a>.
+              added option to jump message with bad...
+            </div>
+            <div class="popupTitle" id="branch-log-819229" onmouseover="hide_commit(819229)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~raj-abhilash1" class="sprite person">Abhilash Raj</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-10-04 03:38:05 UTC
+              </p>
+              <p>added option to jump message with bad signature to moderation chain<br />
+where it is appropiately handled on the basis of list&#x27;s<br />
+default_<wbr />badsignature_<wbr />action(<wbr />added new) attribute</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~jskrzeszewska/mailman/mailman">lp:~jskrzeszews<wbr />ka/mailman/<wbr />mailman</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-09-01 16:36:37 UTC</span>
+          <span title="2013-09-01 16:36:37 UTC">2013-09-01</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(821406)" onmouseover="show_commit(821406)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~jskrzeszewska/mailman/mailman/revision/7219">7219</a>.
+              Tests for rssarchive
+            </div>
+            <div class="popupTitle" id="branch-log-821406" onmouseover="hide_commit(821406)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jskrzeszewska" class="sprite person">Joanna Skrzeszewska</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-09-01 16:36:37 UTC
+              </p>
+              <p>Tests for rssarchive</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mm-farsi/mailman/farsi">lp:~mm-<wbr />farsi/mailman/<wbr />farsi</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-08-11 18:29:23 UTC</span>
+          <span title="2013-08-11 18:29:23 UTC">2013-08-11</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(816927)" onmouseover="show_commit(816927)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mm-farsi/mailman/farsi/revision/1413">1413</a>.
+              Added direction to new Farsi admlogin...
+            </div>
+            <div class="popupTitle" id="branch-log-816927" onmouseover="hide_commit(816927)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~msapiro" class="sprite person">Mark Sapiro</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-08-11 18:29:23 UTC
+              </p>
+              <p>Added direction to new Farsi admlogin.html template.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~stephen-xemacs/mailman/maxking">lp:~stephen-<wbr />xemacs/<wbr />mailman/<wbr />maxking</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-07-21 14:40:17 UTC</span>
+          <span title="2013-07-21 14:40:17 UTC">2013-07-21</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(817477)" onmouseover="show_commit(817477)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~stephen-xemacs/mailman/maxking/revision/7215">7215</a>.
+               * `bin/runner` command has been simp...
+            </div>
+            <div class="popupTitle" id="branch-log-817477" onmouseover="hide_commit(817477)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-06-17 13:36:43 UTC
+              </p>
+              <p>&nbsp;* `bin/runner` command has been simplified and its command line options<br />
+&nbsp;&nbsp;&nbsp;reduced.  Now, only one `-r/--runner` option may be provided and the<br />
+&nbsp;&nbsp;&nbsp;round-robin feature has been removed.<br />
+&nbsp;* Fixed REST server crash on `reopen` command.  Identification and test<br />
+&nbsp;&nbsp;&nbsp;provided by AurÃ©lien Bompard.  (LP: <a href="/bugs/1184376" class="bug-link">#1184376</a>)</p>
+<p>Also:</p>
+<p>&nbsp;* bin/runner now uses standard argparse instead of ScriptOptions.<br />
+&nbsp;* The entire bin/runner machinery has bee reorganized and simplified.  There<br />
+&nbsp;* is no more Loop class.  Signal setting is moved directly into the base<br />
+&nbsp;&nbsp;&nbsp;Runner class and overrided in specific subclasses (e.g. RESTRunner which<br />
+&nbsp;&nbsp;&nbsp;must cleanly shutdown its TCPServer).  The runner exit status is now set<br />
+&nbsp;&nbsp;&nbsp;directly on the Runner instance.<br />
+&nbsp;* Fixed a few minor style issues.<br />
+&nbsp;* In order to cleanly shutdown the RESTRunner&#x27;s WSGI server, we must start a<br />
+&nbsp;&nbsp;&nbsp;subthread which only watches for an Event and then calls the server&#x27;s<br />
+&nbsp;&nbsp;&nbsp;shutdown() method.  It has to be this way because the WSGI server itself<br />
+&nbsp;&nbsp;&nbsp;(due to interactions with SQLite), and the signal handlers (due to Python&#x27;s<br />
+&nbsp;&nbsp;&nbsp;signal handling semantics) must both run in the main thread.  However, the<br />
+&nbsp;&nbsp;&nbsp;shutdown() must be invoked from a subthread in order to prevent deadlock.<br />
+&nbsp;* Refactor the RESTLayer to eliminate duplication of code.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mlm-author/mailman/2.1-author">lp:~mlm-<wbr />author/<wbr />mailman/<wbr />2.1-author</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">2</span>
+          <span class="branchstatusMATURE">Mature</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-07-15 08:07:12 UTC</span>
+          <span title="2013-07-15 08:07:12 UTC">2013-07-15</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(632037)" onmouseover="show_commit(632037)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mlm-author/mailman/2.1-author/revision/1341">1341</a>.
+              fixes for better merging in main branch
+            </div>
+            <div class="popupTitle" id="branch-log-632037" onmouseover="hide_commit(632037)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~franckm" class="sprite person">Franck</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-07-15 08:07:12 UTC
+              </p>
+              <p>fixes for better merging in main branch</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~philipp-dreimann/mailman/2.1-UnixMailbox-Fix">lp:~philipp-<wbr />dreimann/<wbr />mailman/<wbr />2.1-UnixMailbox<wbr />-Fix</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-06-04 18:09:31 UTC</span>
+          <span title="2013-06-04 18:09:31 UTC">2013-06-04</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(802334)" onmouseover="show_commit(802334)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~philipp-dreimann/mailman/2.1-UnixMailbox-Fix/revision/1390">1390</a>.
+              Use UnixMailbox instead of PortableUn...
+            </div>
+            <div class="popupTitle" id="branch-log-802334" onmouseover="hide_commit(802334)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~philipp-dreimann" class="sprite person">Philipp Dreimann</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-06-04 18:03:12 UTC
+              </p>
+              <p>Use UnixMailbox instead of PortableUnixMai<wbr />lbox. PortableUnixMailbox only<br />
+expects a single &quot;From &quot; line to split messages while UnixMailbox<br />
+has some additional and sane restrictions.</p>
+<p>See <a rel="nofollow" href="http://docs.python.org/2/library/mailbox.html#mailbox.PortableUnixMailbox">http://<wbr />docs.python.<wbr />org/2/library/<wbr />mailbox.<wbr />html#mailbox.<wbr />PortableUnixMai<wbr />lbox</a><br />
+vs <a rel="nofollow" href="http://docs.python.org/2/library/mailbox.html#mailbox.UnixMailbox">http://<wbr />docs.python.<wbr />org/2/library/<wbr />mailbox.<wbr />html#mailbox.<wbr />UnixMailbox</a>:</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mbiama/mailman/trunk">lp:~mbiama/<wbr />mailman/<wbr />trunk</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-06-03 16:49:42 UTC</span>
+          <span title="2013-06-03 16:49:42 UTC">2013-06-03</span>
+        </td>
+
+        
+          <td>
+            <em>
+              
+
+  
+    
+    
+    
+    
+      This branch has not been imported yet.
+    
+  
+
+  
+
+
+            </em>
+          </td>
+        
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~mgill25/mailman/branch2">lp:~mgill25/<wbr />mailman/<wbr />branch2</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-04-11 12:48:42 UTC</span>
+          <span title="2013-04-11 12:48:42 UTC">2013-04-11</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(739117)" onmouseover="show_commit(739117)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~mgill25/mailman/branch2/revision/7211">7211</a>.
+              #1165589 fix: Log exception message f...
+            </div>
+            <div class="popupTitle" id="branch-log-739117" onmouseover="hide_commit(739117)">
+              <p>
+                <strong>Author:</strong>
+                &lt;email address hidden&gt;
+                <br />
+                <strong>Revision Date:</strong>
+                2013-04-11 12:37:57 UTC
+              </p>
+              <p>#1165589 fix: Log exception message for switchboard.<wbr />finish(<wbr />)</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~macobo/mailman/macobo-rcpt-stage-reject">lp:~macobo/<wbr />mailman/<wbr />macobo-<wbr />rcpt-stage-<wbr />reject</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/><img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-04-06 14:45:35 UTC</span>
+          <span title="2013-04-06 14:45:35 UTC">2013-04-06</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(737642)" onmouseover="show_commit(737642)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~macobo/mailman/macobo-rcpt-stage-reject/revision/7213">7213</a>.
+              Remove white-space added by mistake
+            </div>
+            <div class="popupTitle" id="branch-log-737642" onmouseover="hide_commit(737642)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~macobo" class="sprite person">Karl-Aksel Puulmann</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-04-06 14:45:35 UTC
+              </p>
+              <p>Remove white-space added by mistake</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~launchpad-pqm/mailman/2.1">lp:~launchpad-<wbr />pqm/mailman/<wbr />2.1</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-04-05 04:12:35 UTC</span>
+          <span title="2013-04-05 04:12:35 UTC">2013-04-05</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(23704)" onmouseover="show_commit(23704)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~launchpad-pqm/mailman/2.1/revision/977">977</a>.
+              [r=wgrant] Upgrade to mailman 2.1.15.
+            </div>
+            <div class="popupTitle" id="branch-log-23704" onmouseover="hide_commit(23704)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~launchpad-pqm" class="sprite person">Launchpad PQM Bot</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-04-05 04:12:35 UTC
+              </p>
+              <p>[r=wgrant] Upgrade to mailman 2.1.15.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~wgrant/mailman/lp-2.1.15">lp:~wgrant/<wbr />mailman/<wbr />lp-2.1.<wbr />15</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-04-05 03:58:31 UTC</span>
+          <span title="2013-04-05 03:58:31 UTC">2013-04-05</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(737269)" onmouseover="show_commit(737269)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~wgrant/mailman/lp-2.1.15/revision/977">977</a>.
+              Upgrade to mailman 2.1.15.
+            </div>
+            <div class="popupTitle" id="branch-log-737269" onmouseover="hide_commit(737269)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~wgrant" class="sprite person">William Grant</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2013-04-05 03:29:56 UTC
+              </p>
+              <p>Upgrade to mailman 2.1.15.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~david-soto/mailman/conf_sort-option">lp:~david-<wbr />soto/mailman/<wbr />conf_sort-<wbr />option</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-03-31 16:22:41 UTC</span>
+          <span title="2013-03-31 16:22:41 UTC">2013-03-31</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(735866)" onmouseover="show_commit(735866)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~david-soto/mailman/conf_sort-option/revision/7211">7211</a>.
+              initial commit
+
+            </div>
+            <div class="popupTitle" id="branch-log-735866" onmouseover="hide_commit(735866)">
+              <p>
+                <strong>Author:</strong>
+                &lt;email address hidden&gt;
+                <br />
+                <strong>Revision Date:</strong>
+                2013-03-31 16:21:39 UTC
+              </p>
+              <p>initial commit</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~phil.pennock/mailman/dmarc-reject">lp:~phil.<wbr />pennock/<wbr />mailman/<wbr />dmarc-reject</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-03-18 22:15:01 UTC</span>
+          <span title="2013-03-18 22:15:01 UTC">2013-03-18</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(731704)" onmouseover="show_commit(731704)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~phil.pennock/mailman/dmarc-reject/revision/1376">1376</a>.
+              Handle CNAMEs when chasing DMARC TXT ...
+            </div>
+            <div class="popupTitle" id="branch-log-731704" onmouseover="hide_commit(731704)">
+              <p>
+                <strong>Author:</strong>
+                Phil Pennock
+                <br />
+                <strong>Revision Date:</strong>
+                2013-03-18 22:07:57 UTC
+              </p>
+              <p>Handle CNAMEs when chasing DMARC TXT records.</p>
+<p>Handle TXT records missing tags, check all such records, etc.  Use \b<br />
+boundary anchors in regexp check.</p>
+<p>(Should only be one, but if there are multiple, check them all, reject if<br />
+any of them say p=reject).</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~sakuag333/mailman/my-branch2">lp:~sakuag333/<wbr />mailman/<wbr />my-branch2</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-01-11 13:48:41 UTC</span>
+          <span title="2013-01-11 13:48:41 UTC">2013-01-11</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(713102)" onmouseover="show_commit(713102)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~sakuag333/mailman/my-branch2/revision/1">1</a>.
+              First commit
+            </div>
+            <div class="popupTitle" id="branch-log-713102" onmouseover="hide_commit(713102)">
+              <p>
+                <strong>Author:</strong>
+                Sandesh Kumar Agrawal
+                <br />
+                <strong>Revision Date:</strong>
+                2013-01-11 13:47:49 UTC
+              </p>
+              <p>First commit</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~bondili-roopesh/mailman/branch">lp:~bondili-<wbr />roopesh/<wbr />mailman/<wbr />branch</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2013-01-06 20:33:38 UTC</span>
+          <span title="2013-01-06 20:33:38 UTC">2013-01-06</span>
+        </td>
+
+        
+          <td>
+            <em>
+              
+
+  
+
+  
+    
+    
+      This branch is empty.
+    
+  
+
+
+            </em>
+          </td>
+        
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~barry/mailman/work2">lp:~barry/<wbr />mailman/<wbr />work2</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-12-26 05:05:41 UTC</span>
+          <span title="2012-12-26 05:05:41 UTC">2012-12-26</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(710040)" onmouseover="show_commit(710040)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~barry/mailman/work2/revision/7185">7185</a>.
+              templates
+            </div>
+            <div class="popupTitle" id="branch-log-710040" onmouseover="hide_commit(710040)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-12-25 15:53:37 UTC
+              </p>
+              <p>templates</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~rnix/mailman/anon-subscribe">lp:~rnix/<wbr />mailman/<wbr />anon-subscribe</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="bug" width="14" height="14" src="/@@/bug" title="Linked to a bug"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-12-10 14:04:34 UTC</span>
+          <span title="2012-12-10 14:04:34 UTC">2012-12-10</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(626539)" onmouseover="show_commit(626539)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~rnix/mailman/anon-subscribe/revision/7168">7168</a>.
+              registration subject
+            </div>
+            <div class="popupTitle" id="branch-log-626539" onmouseover="hide_commit(626539)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~rnix" class="sprite person">Robert Niederreiter</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-12-10 14:04:34 UTC
+              </p>
+              <p>registration subject</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~barry/mailman/events-and-web">lp:~barry/<wbr />mailman/<wbr />events-<wbr />and-web</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-11-26 00:37:50 UTC</span>
+          <span title="2012-11-26 00:37:50 UTC">2012-11-26</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(700755)" onmouseover="show_commit(700755)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~barry/mailman/events-and-web/revision/7181">7181</a>.
+              More fixes for sending the welcome me...
+            </div>
+            <div class="popupTitle" id="branch-log-700755" onmouseover="hide_commit(700755)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-11-26 00:34:50 UTC
+              </p>
+              <p>More fixes for sending the welcome message via a SubscriptionEvent.<br />
+&nbsp;* Make sure the language is the user&#x27;s preferred *then* the list&#x27;s preferred.<br />
+&nbsp;* Only send welcome messages to MemberRole.members.<br />
+&nbsp;* Send a SubscriptionEvent when subscribing via a confirmation message.<br />
+&nbsp;* A few tests need to disable welcome messages.<br />
+&nbsp;* A few tests don&#x27;t need to send a duplicate welcome message.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~robin-jeffries/mailman/dlist-robin">lp:~robin-<wbr />jeffries/<wbr />mailman/<wbr />dlist-robin</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-11-17 23:00:23 UTC</span>
+          <span title="2012-11-17 23:00:23 UTC">2012-11-17</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(698445)" onmouseover="show_commit(698445)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~robin-jeffries/mailman/dlist-robin/revision/7177">7177</a>.
+              assorted changes and thread initializ...
+            </div>
+            <div class="popupTitle" id="branch-log-698445" onmouseover="hide_commit(698445)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~robin-jeffries" class="sprite person">Robin J</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-11-17 19:14:49 UTC
+              </p>
+              <p>assorted changes and thread initialization</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~terriko/mailman/dlist">lp:~terriko/<wbr />mailman/<wbr />dlist</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-11-17 21:48:47 UTC</span>
+          <span title="2012-11-17 21:48:47 UTC">2012-11-17</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(698425)" onmouseover="show_commit(698425)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~terriko/mailman/dlist/revision/7186">7186</a>.
+              fixing version numbers, things I didn...
+            </div>
+            <div class="popupTitle" id="branch-log-698425" onmouseover="hide_commit(698425)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~terriko" class="sprite person">Terri</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-11-17 21:48:47 UTC
+              </p>
+              <p>fixing version numbers, things I didn&#x27;t mean to change last time</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~jimmy-sigint/mailman/atomia_package_branch">lp:~jimmy-<wbr />sigint/<wbr />mailman/<wbr />atomia_<wbr />package_<wbr />branch</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-09-21 09:20:04 UTC</span>
+          <span title="2012-09-21 09:20:04 UTC">2012-09-21</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(655698)" onmouseover="show_commit(655698)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~jimmy-sigint/mailman/atomia_package_branch/revision/7176">7176</a>.
+              Merge REST API ban branch
+
+            </div>
+            <div class="popupTitle" id="branch-log-655698" onmouseover="hide_commit(655698)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimmy-sigint" class="sprite person">Jimmy Bergman</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-09-21 08:44:13 UTC
+              </p>
+              <p>Merge REST API ban branch</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~jimmy-sigint/mailman/rest_api_ban_management">lp:~jimmy-<wbr />sigint/<wbr />mailman/<wbr />rest_api_<wbr />ban_management</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-09-21 08:40:03 UTC</span>
+          <span title="2012-09-21 08:40:03 UTC">2012-09-21</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(655691)" onmouseover="show_commit(655691)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~jimmy-sigint/mailman/rest_api_ban_management/revision/7174">7174</a>.
+              Add support for handling per list ban...
+            </div>
+            <div class="popupTitle" id="branch-log-655691" onmouseover="hide_commit(655691)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~jimmy-sigint" class="sprite person">Jimmy Bergman</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-09-21 08:41:18 UTC
+              </p>
+              <p>Add support for handling per list bans in the REST API.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~danci-emanuel/mailman/messages_support">lp:~danci-<wbr />emanuel/<wbr />mailman/<wbr />messages_<wbr />support</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">0</span>
+          <span class="branchstatusEXPERIMENTAL">Experimental</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-09-17 21:08:20 UTC</span>
+          <span title="2012-09-17 21:08:20 UTC">2012-09-17</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(654339)" onmouseover="show_commit(654339)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~danci-emanuel/mailman/messages_support/revision/7165">7165</a>.
+              Added the missing part from the messa...
+            </div>
+            <div class="popupTitle" id="branch-log-654339" onmouseover="hide_commit(654339)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~danci-emanuel" class="sprite person">Emanuel Danci</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-09-17 21:07:24 UTC
+              </p>
+              <p>Added the missing part from the messages.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~danci-emanuel/mailman/dlist_runner">lp:~danci-<wbr />emanuel/<wbr />mailman/<wbr />dlist_runner</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">0</span>
+          <span class="branchstatusEXPERIMENTAL">Experimental</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-09-12 15:20:48 UTC</span>
+          <span title="2012-09-12 15:20:48 UTC">2012-09-12</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(652855)" onmouseover="show_commit(652855)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~danci-emanuel/mailman/dlist_runner/revision/7164">7164</a>.
+              The DlistRunner was added.
+            </div>
+            <div class="popupTitle" id="branch-log-652855" onmouseover="hide_commit(652855)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~danci-emanuel" class="sprite person">Emanuel Danci</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-09-11 20:11:02 UTC
+              </p>
+              <p>The DlistRunner was added.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~danci-emanuel/mailman/mm_3.0b2">lp:~danci-<wbr />emanuel/<wbr />mailman/<wbr />mm_3.0b2</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-09-11 20:33:47 UTC</span>
+          <span title="2012-09-11 20:33:47 UTC">2012-09-11</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(652857)" onmouseover="show_commit(652857)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~danci-emanuel/mailman/mm_3.0b2/revision/7173">7173</a>.
+              Bump versions and code name for 3.0b3.
+
+            </div>
+            <div class="popupTitle" id="branch-log-652857" onmouseover="hide_commit(652857)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~barry" class="sprite person">Barry Warsaw</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-09-08 23:30:06 UTC
+              </p>
+              <p>Bump versions and code name for 3.0b3.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~fmarier/mailman/mailman2-persona">lp:~fmarier/<wbr />mailman/<wbr />mailman2-<wbr />persona</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-08-24 06:45:41 UTC</span>
+          <span title="2012-08-24 06:45:41 UTC">2012-08-24</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(648573)" onmouseover="show_commit(648573)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~fmarier/mailman/mailman2-persona/revision/1360">1360</a>.
+              Basic Persona support during signup
+
+...
+            </div>
+            <div class="popupTitle" id="branch-log-648573" onmouseover="hide_commit(648573)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~fmarier" class="sprite person">FranÃ§ois Marier</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-08-21 08:44:16 UTC
+              </p>
+              <p>Basic Persona support during signup</p>
+<p>Unfortunately this doesn&#x27;t skip the email confirmation step yet.</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~alexander-sd4c/mailman/mailman">lp:~alexander-<wbr />sd4c/mailman/<wbr />mailman</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          
+        </td>
+        <td>
+          <span class="sortkey">1</span>
+          <span class="branchstatusDEVELOPMENT">Development</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-08-20 18:47:10 UTC</span>
+          <span title="2012-08-20 18:47:10 UTC">2012-08-20</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(626830)" onmouseover="show_commit(626830)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~alexander-sd4c/mailman/mailman/revision/7206">7206</a>.
+              use new archive_policy property every...
+            </div>
+            <div class="popupTitle" id="branch-log-626830" onmouseover="hide_commit(626830)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~alexander-sd4c" class="sprite person">AlexanderS</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-08-20 18:47:10 UTC
+              </p>
+              <p>use new archive_policy property everywhere</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      <tr>
+        <td>
+          <a class="sprite branch" href="/~danci-emanuel/mailman/dlists_support_added">lp:~danci-<wbr />emanuel/<wbr />mailman/<wbr />dlists_<wbr />support_<wbr />added</a>
+        </td>
+        <td align="right" style="padding-right: 5px">
+          <img alt="(Has a merge proposal)" width="14" height="14" src="/@@/merge-proposal-icon" title="Has a merge proposal"/>
+        </td>
+        <td>
+          <span class="sortkey">0</span>
+          <span class="branchstatusEXPERIMENTAL">Experimental</span>
+        </td>
+        
+        
+
+        <td>
+          <span class="sortkey">2012-07-10 12:07:53 UTC</span>
+          <span title="2012-07-10 12:07:53 UTC">2012-07-10</span>
+        </td>
+
+        
+
+        
+          <td onmouseout="hide_commit(636964)" onmouseover="show_commit(636964)">
+            <div class="lastCommit">
+              <a href="https://bazaar.launchpad.net/~danci-emanuel/mailman/dlists_support_added/revision/7160">7160</a>.
+              Contains the changes needed for suppo...
+            </div>
+            <div class="popupTitle" id="branch-log-636964" onmouseover="hide_commit(636964)">
+              <p>
+                <strong>Author:</strong>
+                <a href="https://launchpad.net/~danci-emanuel" class="sprite person">Emanuel Danci</a>
+                <br />
+                <strong>Revision Date:</strong>
+                2012-07-10 11:08:54 UTC
+              </p>
+              <p>Contains the changes needed for supporting Dynamic sublists</p>
+            </div>
+          </td>
+
+        
+      </tr>
+      
+    </tbody>
+  </table>
+
+  <table style="width: 100%;" class="lower-batch-nav">
+  <tbody>
+    <tr>
+      <td style="white-space: nowrap" class="batch-navigation-index">
+        
+            <strong>1</strong>
+            
+              &rarr;
+              <strong>98</strong>
+            
+            of
+            98
+            results
+        
+      </td>
+      <td style="text-align: right; white-space: nowrap" class="batch-navigation-links">
+        
+        <span class="first inactive">First</span>
+        &bull;
+        
+        <span class="previous inactive">Previous</span>
+        &bull;
+        
+        <span class="next inactive"><strong>Next</strong></span>
+        
+          &bull;
+          
+          <span class="last inactive">Last</span>
+        
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+  
+</div>
+
+    
+
+  
+            
+            
+          </div><!-- yui-b -->
+        </div><!-- yui-main -->
+
+        
+          <div id="side-portlets" class="yui-b side">
+            
+    <div id="branch-portlet">
+      <div id="privacy" class="first portlet public">
+        <span id="privacy-text">
+          You can't create new branches for
+          GNU Mailman.
+          
+        </span>
+
+        
+      </div>
+
+      <div id="involvement" class="portlet">
+        <ul>
+          <li><a class="menu-link-code_import sprite add" href="https://code.launchpad.net/mailman/+new-import">Import a branch</a></li>
+          
+        </ul>
+      </div>
+
+    </div>
+  
+          </div><!-- yui-b side -->
+        
+      </div><!-- yui-t4 -->
+
+      
+  <div id="footer" class="footer">
+    <div class="lp-arcana">
+        <div class="lp-branding">
+          <a href="https://launchpad.net/"><img src="/@@/launchpad-logo-and-name-hierarchy.png" alt="Launchpad" /></a>
+          &nbsp;&bull;&nbsp;
+          <a href="https://launchpad.net/+tour">Take the tour</a>
+          &nbsp;&bull;&nbsp;
+          <a href="https://help.launchpad.net/">Read the guide</a>
+          &nbsp;
+          <form id="globalsearch" method="get" accept-charset="UTF-8" action="https://launchpad.net/+search">
+            <input type="search" id="search-text" name="field.text" />
+            <input type="image" src="/@@/search" style="vertical-align:5%" alt="Search Launchpad" />
+          </form>
+        </div>
+        
+  
+
+    </div>
+
+    <div class="colophon">
+      &copy; 2004-2019
+      <a href="http://canonical.com/">Canonical&nbsp;Ltd.</a>
+      &nbsp;&bull;&nbsp;
+      <a href="https://launchpad.net/legal">Terms of use</a>
+      &nbsp;&bull;&nbsp;
+      <a href="https://www.ubuntu.com/legal/dataprivacy">Data privacy</a>
+      &nbsp;&bull;&nbsp;
+      <a href="/feedback">Contact Launchpad Support</a>
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://blog.launchpad.net/">Blog</a>
+      
+	&nbsp;&bull;&nbsp;
+	<a href="http://www.canonical.com/about-canonical/careers">Careers</a>
+      
+      &nbsp;&bull;&nbsp;
+      <a href="https://twitter.com/launchpadstatus">System status</a>
+      <span id="lp-version">
+      &nbsp;&bull;&nbsp;
+        r18920
+        
+        
+        (<a href="https://dev.launchpad.net/">Get the code!</a>)
+      </span>
+    </div>
+  </div>
+
+    </div><!-- yui-d0-->
+
+    
+  
+  
+  <script id="json-cache-script">LP.cache = {"related_features": {}, "context": {"license_info": null, "remote_product": "103\u0026100103", "recipes_collection_link": "https://code.launchpad.net/api/devel/mailman/recipes", "development_focus_link": "https://code.launchpad.net/api/devel/mailman/3.0", "bug_supervisor_link": "https://code.launchpad.net/api/devel/~mailman-coders", "private": false, "registrant_link": "https://code.launchpad.net/api/devel/~barry", "official_bug_tags": ["documentation", "easy", "mailman3", "mailman3-suite-blocker", "rest"], "active_milestones_collection_link": "https://code.launchpad.net/api/devel/mailman/active_milestones", "commercial_subscription_is_due": false, "all_specifications_collection_link": "https://code.launchpad.net/api/devel/mailman/all_specifications", "translation_focus_link": "https://code.launchpad.net/api/devel/mailman/3.0", "licenses": ["GNU GPL v2", "GNU GPL v3"], "all_milestones_collection_link": "https://code.launchpad.net/api/devel/mailman/all_milestones", "bug_reported_acknowledgement": null, "display_name": "GNU Mailman", "wiki_url": "http://wiki.list.org/", "title": "GNU Mailman", "homepage_url": "http://www.list.org/", "download_url": null, "is_permitted": "tag:launchpad.net:2008:redacted", "vcs": "Bazaar", "reviewer_whiteboard": "tag:launchpad.net:2008:redacted", "branch_sharing_policy": "Public", "self_link": "https://code.launchpad.net/api/devel/mailman", "information_type": "Public", "specification_sharing_policy": "Public", "resource_type_link": "https://code.launchpad.net/api/devel/#project", "programming_language": "Python, C", "translations_usage": "Launchpad", "description": "Please continue to use Launchpad for all bugs, code, and merge proposals for Mailman 2.1.\n\nPlease head over to Gitlab at https://gitlab.com/mailman/mailman for all bugs, code, and merge requests for Mailman 3.\n\nPlease visit the main site: http://www.list.org or the wiki: http://wiki.list.org\n", "translationpermission": "Closed", "project_reviewed": "tag:launchpad.net:2008:redacted", "valid_specifications_collection_link": "https://code.launchpad.net/api/devel/mailman/valid_specifications", "brand_link": "https://code.launchpad.net/api/devel/mailman/brand", "sourceforge_project": null, "http_etag": "\"a5966fc90cf3c8ada70084d35a77abb85fd89b10-6eb64a84e10d526831aa20480630f81627c4f8a7\"", "project_group_link": "https://code.launchpad.net/api/devel/gnumailman", "bug_reporting_guidelines": "The bug tracker for Mailman 3 has moved to Gitlab: https://gitlab.com/mailman/mailman/issues", "active": true, "bug_tracker_link": null, "name": "mailman", "license_approved": "tag:launchpad.net:2008:redacted", "driver_link": "https://code.launchpad.net/api/devel/~mailman-coders", "freshmeat_project": null, "screenshots_url": null, "web_link": "https://launchpad.net/mailman", "summary": "Powerful, web-based mailing list manager.", "logo_link": "https://code.launchpad.net/api/devel/mailman/logo", "owner_link": "https://code.launchpad.net/api/devel/~barry", "qualifies_for_free_hosting": true, "translationgroup_link": "https://code.launchpad.net/api/devel/+groups/mailman-translators", "bug_sharing_policy": "Public", "releases_collection_link": "https://code.launchpad.net/api/devel/mailman/releases", "date_created": "2005-06-23T11:39:51.243938+00:00", "series_collection_link": "https://code.launchpad.net/api/devel/mailman/series", "commercial_subscription_link": null, "icon_link": "https://code.launchpad.net/api/devel/mailman/icon"}};</script>
+
+    
+  
+
+    
+  </body>
+
+
+  <!--
+    Facet name: branches
+    Page type: main_side
+    Has global search: True
+    Has application tabs: True
+    Has side portlets: True
+
+    At least 109 queries/external actions issued in 2.09 seconds
+
+    Features: {'app.mainsite_only.canonical_url': None, 'js.yui_version': None, 'baselayout.careers_link.disabled': None, 'hard_timeout': u'5000', 'profiling.enabled': None, 'ajax.batch_navigator.enabled': None, 'visible_render_time': None}
+
+    r18920
+
+    -->
+
+</html>
+
+
+
+
+#####EOF#####
+
+

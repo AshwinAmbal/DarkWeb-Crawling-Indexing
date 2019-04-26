@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SelamSoft Amharic Dictionary</title>
+    <link href="/Content/css?v=6qq42Qn3VwLK-uhdMCVvjy_nBFLOAQ3f27TX12ilG3M1" rel="stylesheet"/>
+
+    <script src="/bundles/jquery?v=cRpZpqaBtXGD5K6oveCrw6zWYGnzQmjc9FSFuRkN9OM1"></script>
+
+    <script src="/bundles/modernizr?v=wBEWDufH_8Md-Pbioxomt90vm6tJN2Pyy9u9zHtWsPo1"></script>
+
+    <script src="/bundles/jqueryui?v="></script>
+
+
+    <link rel="stylesheet" href="/Scripts/jquery-ui.css">
+    <script src="/Scripts/jquery-2.1.3.min.js"></script>
+    <script src="/Scripts/jquery-ui.js"></script>
+    <script src="/Scripts/jquery.validate.min.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/Scripts/amharictyping.js"></script>
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="/Scripts/bootstrap.min.js"></script>
+    
+    
+    
+    
+    <link href="/Content/droidsans.css" rel="stylesheet" />
+
+    <style>
+
+     .amharicFont{
+
+        font-family: 'droid_sans_ethiopicregular', sans-serif;
+    }
+
+
+        @media (max-width:359px) {
+
+
+           .container {
+             padding-left:3px !important;
+                             padding-right: 3px;
+            }
+
+
+        }
+
+         @media (min-width:360px) and (max-width:399px) {
+            .navbar .navbar-form {
+                width: 350px;
+                padding-left: 3px;
+                padding-right: 5px;
+
+
+            }
+
+            #searchInputDiv {
+                width: 250px;
+            }
+        }
+
+             @media (min-width:400px) and (max-width:499px) {
+            .navbar .navbar-form {
+                width: 370px;
+                padding-left: 3px;
+                padding-right: 5px;
+            }
+           /*.container {
+             padding-left:7px !important;
+            }*/
+
+            #searchInputDiv {
+                width: 250px;
+            }
+        }
+        @media (min-width:500px) and (max-width:766px) {
+            .navbar .navbar-form {
+                width: 400px;
+                padding-left: 10px;
+                padding-right: 5px;
+
+            }
+
+            #searchInputDiv {
+                width: 250px;
+            }
+        }
+
+        @media (min-width:767px)  {
+            .navbar .navbar-form {
+                width: 420px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            #searchInputDiv {
+                width: 290px;
+            }
+
+            #accountLinks {
+                display:none;
+            }
+        }
+
+
+.navbar .navbar-form {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+li>a{
+    margin-left:15px;
+}
+    </style>
+    <script>
+
+        var replaceWithArray = ['á¨','á©','áª','á«','á¬','á­','á®','á', 'á', 'á¯', 'á·', 'á¿', 'á§', 'á·', 'á¿', 'á', 'á', 'á', 'á§', 'á·', 'á§', 'á¯', 'á¿', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á°', 'á²', 'á³', 'á´', 'áµ', 'á', 'á', 'á', 'á', 'á', 'á¸', 'á¹', 'áº', 'á»', 'á¼', 'á½', 'á¾', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á ', 'á¡', 'á¢', 'á£', 'á¤', 'á¥', 'á¦', 'á ', 'á¡', 'á¢', 'á£', 'á¤', 'á¥', 'á¦', 'á¸', 'á¹', 'áº', 'á»', 'á¼', 'á½', 'á¾', 'á¨', 'á©', 'áª', 'á«', 'á¬', 'á­', 'á®', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á ', 'á¡', 'á¢', 'á£', 'á¤', 'á¥', 'á¦', 'á¨', 'á©', 'áª', 'á«', 'á¬', 'á­', 'á®', 'á°', 'á±', 'á²', 'á³', 'á´', 'áµ', 'á¶', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á ', 'á¡', 'á¢', 'á£', 'á¤', 'á¥', 'á¦', 'á°', 'á±', 'á²', 'á³', 'á´', 'áµ', 'á¶', 'á¸', 'á¹', 'áº', 'á»', 'á¼', 'á½', 'á¾', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á ', 'á¡', 'á¢', 'á£', 'á¤', 'á¥', 'á¦', 'á¨', 'á©', 'áª', 'á«', 'á¬', 'á­', 'á®', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á¨', 'á©', 'áª', 'á«', 'á¬', 'á­', 'á®', 'á°', 'á±', 'á²', 'á³', 'á´', 'áµ', 'á¶', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á°', 'á±', 'á²', 'á³', 'á´', 'áµ', 'á¶', 'á¸', 'á¹', 'áº', 'á»', 'á¼', 'á½', 'á¾', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á', 'á']
+        var replaceCharArray = ['á­e','á­u','á­i','á­a','á¨e','v','á­o','áw', 'áw', 'á©w', 'á±w', 'á¹w', 'á¡w', 'á±w', 'á¹w', 'áw', 'áw', 'áw', 'á¡w', 'á±w', 'á¡w', 'á©w', 'á¹w', 'áw', 'áe', 'ái', 'áw', 'áe', 'ái', 'áe', 'ái', 'áw', 'áe', 'ái', 'á³e', 'áµi', 'á©w', 'á°e', 'á³i', 'áe', 'ái', 'áw', 'áe', 'ái', 'á½e', 'á½u', 'á½i', 'á½a', 'á¸e', 'á­h', 'á½o', 'áe', 'áu', 'ái', 'áa', 'áe', 'áh', 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', 'áh', 'áo', 'á¥e', 'á¥u', 'á¥i', 'á¥a', 'á e', 'áµt', 'á¥o', 'á¥e', 'á¥u', 'á¥i', 'á¥a', 'á e', 'áh', 'á¥o', 'á½e', 'á½u', 'á½i', 'á½a', 'á¸e', 'áµh', 'á½o', 'á­e', 'á­u', 'á­i', 'á­a', 'á¨e', 'á½c', 'á­o', 'áe', 'áu', 'ái', 'áa', 'áe', 'án', 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', 'h', 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', 'l', 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', 'm', 'áo', 'á¥e', 'á¥u', 'á¥i', 'á¥a', 'á e', 'áµs', 'á¥o', 'á­e', 'á­u', 'á­i', 'á­a', 'á¨e', 'r', 'á­o', 'áµe', 'áµu', 'áµi', 'áµa', 'á°e', 's', 'áµo', 'áe', 'áu', 'ái', 'áa', 'áe', 'q', 'áo', 'á¥e', 'á¥u', 'á¥i', 'á¥a', 'á e', 'b', 'á¥o', 'áµe', 'áµu', 'áµi', 'áµa', 'á°e', 't', 'áµo', 'á½e', 'á½u', 'á½i', 'á½a', 'á¸e', 'c', 'á½o', 'áe', 'áu', 'ái', 'áa', 'áe', 'n', 'áo', 'á¥e', 'á¥u', 'á¥i', 'á¥a', 'á e', ',', 'á¥o', 'á­e', 'á­u', 'á­i', 'á­a', 'á¨e', 'k', 'á­o', 'áe', 'áu', 'ái', 'áa', 'áe', 'w', 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', "á¥e", 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', 'z', 'áo', 'á­e', 'á­u', 'á­i', 'á­a', 'á¨e', 'y', 'á­o', 'áµe', 'áµu', 'áµi', 'áµa', 'á°e', 'd', 'áµo', 'áe', 'áu', 'ái', 'áa', 'áe', 'j', 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', 'g', 'áo', 'áµe', 'áµu', 'áµi', 'áµa', 'á°e', 'áp', 'áµo', 'á½e', 'á½u', 'á½i', 'á½a', 'á¸e', 'áx', 'á½o', 'áe', 'áu', 'ái', 'áa', 'áe', 'x', 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', 'f', 'áo', 'áe', 'áu', 'ái', 'áa', 'áe', 'p', 'áo']
+
+
+        var sadisLetters = /[á½ááá¥á¥á½á­ááááá¥á­áµáá¥áµá½áá¥á­áááá­áµáááµá½áááá­]/;
+        var lastFidelIndex = -1;
+        var disableReplacer = 0;
+        (function () {
+            $.fn.charReplacer = function (options) {
+                var defaults = {
+                    replaceChar: ' ',
+                    replaceWith: '-'
+                };
+                var settings = $.extend({}, defaults, options);
+                //alert("test");
+                this.keyup(function (evt) {
+                    //console.log(evt.keyCode);
+                    evt = evt || window.event;
+                    //console.log(evt);
+                    var charCode = evt.keyCode || evt.which;
+                    //console.log(charCode);
+                    var charString = String.fromCharCode(charCode);
+                    //console.log(charString);
+                    //alert(charString);
+                    //console.log("wordToSearch " + $("#wordToSearch").val());
+                    var indexOfLetter = $("#wordToSearch").val().indexOf(charString);
+                    //alert(indexOfLetter);
+                    //alert(e.which);
+                    if (disableReplacer == 1)
+                    {
+                        return true;
+                    }
+
+                    var currentValue = $(this).val().toLowerCase();
+
+                    // period in regex replace was catching all, so checking for it first with split/join
+                    currentValue = currentValue.split('.').join('á¢');
+                    currentValue = currentValue.split(',').join('á£');
+
+                    // alert(val);
+                    if (currentValue != "" || currentValue != null) {
+                        if (($.isArray(settings.replaceChar) && $.isArray(settings.replaceWith)) && (settings.replaceChar.length == settings.replaceWith.length)) {
+                            // alert("preval: " + currentValue);
+                            var settingsIndex = 0;
+
+                            if (currentValue.indexOf('a') > 0 || currentValue.indexOf('e') > 0 || currentValue.indexOf('i') > 0 ||
+                                currentValue.indexOf('o') > 0 || currentValue.indexOf('u') > 0) {
+                                var previousLetter = currentValue.charAt(currentValue.indexOf('e') - 1);
+                                if (!previousLetter.match(sadisLetters)) {
+                                    lastFidelIndex = 0;
+                                }
+                            }
+                            for (var i = 0; i < settings.replaceChar.length; i++) {
+                                currentValue = currentValue.replace(new RegExp(settings.replaceChar[i], "g"), settings.replaceWith[i]);
+                            }
+                        } else {
+                            currentValue = currentValue.replace(new RegExp(settings.replaceChar, "gm"), settings.replaceWith);
+                        }
+                    }
+
+                    // change this to geez letters if those become the base letter
+
+                        if (currentValue.indexOf('a') > 0)
+                        {
+                            var previousLetter = currentValue.charAt(currentValue.indexOf('a') - 1);
+                            if (!previousLetter.match(sadisLetters)) {
+                                currentValue = currentValue.replace("a", "á ");
+                            }
+
+                        } else
+                        {
+                            currentValue = currentValue.replace("a", "á ");
+                        }
+
+                        if (currentValue.indexOf('u') > 0) {
+                            var previousLetter = currentValue.charAt(currentValue.indexOf('u') - 1);
+                            if (!previousLetter.match(sadisLetters)) {
+                                currentValue = currentValue.replace("u", "á¡");
+                            }
+
+                        } else {
+                            currentValue = currentValue.replace("u", "á¡");
+                        }
+                        if (currentValue.indexOf('i') > 0) {
+                            var previousLetter = currentValue.charAt(currentValue.indexOf('i') - 1);
+                            if (!previousLetter.match(sadisLetters)) {
+                                currentValue = currentValue.replace("i", "á¢");
+                            }
+
+                        } else {
+                            currentValue = currentValue.replace("i", "á¢");
+                        }
+                        if (currentValue.indexOf('e') > 0) {
+                            var previousLetter = currentValue.charAt(currentValue.indexOf('e') - 1);
+                            if (!previousLetter.match(sadisLetters)) {
+                                currentValue = currentValue.replace("e", "á¥");
+                            }
+
+                        } else {
+                            currentValue = currentValue.replace("e", "á¥");
+                        }
+                        if (currentValue.indexOf('o') > 0) {
+                            var previousLetter = currentValue.charAt(currentValue.indexOf('o') - 1);
+                            if (!previousLetter.match(sadisLetters)) {
+                                currentValue = currentValue.replace("o", "á¦");
+                            }
+
+                        } else {
+                            currentValue = currentValue.replace("o", "á¦");
+                        }
+
+                       // alert("after: " + currentValue);
+
+                    $(this).val(currentValue);
+                    currentValue = '';
+                })
+            },
+            // Extra utilities
+            $.fn.maxChars = function (options) {
+                var defaults = {
+                    maxChars: 100
+                };
+                var settings = $.extend({}, defaults, options);
+                this.keyup(function () {
+                    var currentValue = $(this).val();
+                    var count = (currentValue != "" || currentValue != null) ? currentValue.length : 0;
+                    if (count >= settings.maxChars) {
+                        $(this).currentValue(currentValue.substring(0, settings.maxChars));
+                        //alert("Max characters allowed :" + settings.maxChars);
+                    }
+                })
+            }
+        })(jQuery);
+
+
+
+        function searchWord()
+        {
+            var word = document.getElementById('wordToSearch').value;
+
+            if (typeof updateSearch == 'function') {
+                updateSearch(word);
+                return false;
+            } else
+            {
+
+                var newLocation = '/Home/Index/' + word;
+                window.location.href = newLocation;
+                //clearSearchBox();
+               // alert(newLocation);
+                return false;
+            }
+        }
+
+
+        function clearSearchBox() {
+            $("#wordToSearch").val('');
+            $('#clearSearch').css("display", "none");
+            $("#wordToSearch").focus();
+        }
+
+        function toggleLogin() {
+            $("loginDrop").css("display", "block");
+        }
+
+        function accountLinksClick()
+        {
+            var userAuthorized = false;
+            if( userAuthorized)
+            {
+                window.location.href = '/Manage/Index';
+
+        }else
+        {
+                window.location.href = '/Account/Login';
+        }
+
+        }
+
+
+</script>
+
+</head>
+<body style="background-color:#d7d7d7">
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <style>
+
+    </style>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+
+                
+                
+                <form id="searchForm" class="navbar-form" style="margin-left:1px;width:100% ;" role="search">
+                    <div class="input-group" style="min-width:240px;  width:100%;">
+                        <div style="font-family: 'droid_sans_ethiopicregular', serif;" class="">
+                            <button id="typingToggle" style="background-color:gray;color:lightgray;font-family: 'droid_sans_ethiopicregular', serif;padding-left:3px; padding-right:5px; margin-right:-6px" class="btn btn-lg btn-default"><span style="font-family: 'droid_sans_ethiopicregular', serif;">A</span></button>
+                        </div>
+                        <div id="searchInputDiv" class="input-group-btn" style="width:100% !important;font-size:1.3em;">
+
+                            <input type="text" id="wordToSearch" onkeypress="return AmharicPhoneticKeyPress(event,this);" class="form-control input-lg" style="font-size:1.5em;font-family: 'droid_sans_ethiopicregular', serif;min-width:150px;border-top-right-radius:6px;border-bottom-right-radius:6px;padding-left:8px;padding-right:6px; padding-bottom:3px; padding-top:3px;" placeholder="Search - á" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            
+                            <span id="searchIcon" onclick="searchWord()" style="position:absolute;display:none;cursor:pointer;right:0px;top:.1em;padding-right:8px;padding-left:4px;" class="clearer glyphicon glyphicon-search form-control-feedback btn-lg"></span> 
+                       </div>
+                        <div class="input-group-btn" style="display:none">
+                            <button onclick="return false;" onmousedown="searchWord()" style="padding-left: 9px; padding-right: 9px; background-color:aliceblue" class="btn btn-default "><span style="font-size:1.6em;border-color:#000;" class="glyphicon glyphicon-search"></span></button>
+                            
+                        </div>
+                        <div class="input-group-btn" style="display:inline-block; margin-left:2px;margin-right:1px">
+                            
+                            <button id="accountLinks" onmousedown="accountLinksClick()" type="button" class="btn btn-default btn-round" style="margin-left:3px;margin-top:2px;background-color:silver; border-radius:35px;padding-top:7px;padding-left:11px;height:40px; width:40px;display:inline-block;">
+                                <span id="userGlyph" style="font-size:1.2em;color:red;" class="glyphicon glyphicon-user"></span>
+                            </button>    
+                            
+                            <button id="addWordButton" onmousedown="window.location.href = '/Home/AddWord'" type="button" class="btn btn-default btn-round" style="margin-left:1px; margin-top:2px;background-color:white; border-radius:35px;padding-top:5px;padding-left:10px;height:40px; width:40px;display:inline-block;">
+                                <span id="userGlyph" style="font-size:1.5em;color:blue;" class="glyphicon glyphicon-plus"></span>
+                            </button>    
+                        </div>
+
+                        
+                    </div>
+                </form>
+            </div>
+            
+            
+        </div>
+    </div>
+
+    <div class="container body-content" style="background-color:#EFEFEF">
+        
+
+
+<style>
+    .amharicFont { 
+        font-family: 'droid_sans_ethiopicregular', serif;
+        font-size:1.3em;
+    }
+
+    .trClass {
+
+    }
+
+    .plusMinus{
+        width: 20px;
+        cursor:pointer;
+        font-size:1.1em;
+        text-decoration: none !important;
+    }
+    
+    .evenRow{
+        background-color: #e9e9e9;
+        border-color:#EFEFEF;
+        padding:0px 0px 0px 0px;
+    }
+
+    .oddRow {
+        background-color: #DFDFDF;
+        border-color:#DFDFDF;
+        padding:0px 0px 0px 0px;
+
+    }
+
+   .oddRowAlt{
+        background-color: #EFEFEF;
+    }
+
+    .evenRowAlt {
+        background-color: #DFDFDF;
+
+    }
+
+</style>
+
+<script>
+
+    var availableTags = [""];
+    var amharicString = "";
+
+    //window.onload = alert("onload");
+
+    $(document).ready(function () {
+        // check if ajax versus link??
+        var pathArray = window.location.pathname.split('/');
+        if (pathArray)
+        {
+            var lastParam = pathArray[pathArray.length - 1];
+
+            //alert(lastParam);
+            if(lastParam == "index")
+            {
+
+            } else {
+                lastParam = decodeURIComponent(lastParam);//unicodeToChar(lastParam);
+                updateSearch(lastParam);
+            }
+        }
+
+        $("button.reveal").text('ABC');
+        $("button.reveal").css('width', $("button.reveal").width() * 2).button('option', 'label', '');
+
+        $("button.reveal").click(function () {
+            //$(this).toggleClass("active").next().slideToggle("fast");
+
+            if ($.trim($(this).text()) === 'áá') {
+                $(this).text('ABC');
+                $("#EnglishText").unbind("keypress");
+            } else {
+                $(this).text('áá');
+                $('#EnglishText').keypress(function (e) {
+                    return AmharicPhoneticKeyPress(e, this);
+                });
+
+            }
+
+            return false;
+        });
+        $("a[href='" + window.location.hash + "']").parent(".reveal").click();
+    });
+
+    function unicodeToChar(text) {
+        return text.replace(/\\u[\dA-F]{4}/gi,
+               function (match) {
+                   return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
+               });
+    }
+
+    //var xTriggered = 0;
+    //$("#query").keypress(function (event) {
+
+    //    if (xTriggered == 0) {
+    //        return AmharicPhoneticKeyPress(event, this);
+    //        xTriggered = 1;
+    //    } else {
+    //        xTriggered = 0;
+    //    }
+
+    //});
+
+    function getBaseURL()
+    {
+        var pathArray = location.href.split('/');
+        var protocol = pathArray[0];
+        var host = pathArray[2];
+
+        return protocol + '//' + host;
+    }
+
+    function getIndexLink(currentWord)
+    {
+        //console.log(currentWord);
+        return "<a href=" + getBaseURL() + "/Home/Index/" + currentWord + ">" + currentWord + "</a>";
+    }
+
+    //$('#testId').click(function () {
+    //    alert("testId");
+    //    $(this).find('span').text(function (_, value) { return value == '-' ? '+' : '-' });
+    //    $(this).nextUntil('tr').slideToggle(100, function () {
+    //    });
+    //});
+
+    function testToggle(currentToggle)
+    {
+        currentToggle.find('a.plusMinus').text(function (_, value) {
+            if (value == '-')
+            {
+                currentToggle.find('a.plusMinus').css('font-size', '1.2em');
+                return '+';
+            } else
+            {
+                currentToggle.find('a.plusMinus').css('font-size', '1.6em');
+
+                return '-';
+            }
+            //return value == '-' ? '+' : '-'
+        });
+        currentToggle.nextUntil('.trClass').slideToggle(100, function () {
+            });
+
+    }
+
+    function updateSearch(searchWord) {
+        //alert("btnSubmit");
+        //var url = 'Url.Action("RequestToFollowMe", "Home")';
+        var url = '/Home/SearchEnglish';
+        //searchWord = unescape(searchWord);
+        //alert(searchWord);
+        //var wordSearched = $('#EnglishText').val();
+        // console.log("searchWord: " + searchWord);
+        if (!searchWord || searchWord == "")
+        {
+            document.getElementById("welcomeDiv").style.display = "inline";
+            document.getElementById("wordNotFound").style.display = "none";
+
+            return false;
+        }
+
+        $.post(url, { englishText: searchWord }).done(function (msg) {
+            // console.log(msg);       
+            //document.getElementById('footerText').style.display = 'none';
+            //document.getElementById('wordNotFound2').style.display = 'none';
+
+            if (msg && !(msg == "]")) {
+
+                //alert(msg.length);
+                var currentResults = JSON.parse(msg);
+                //alert(currentResults);
+                var htmlOutput = "";//"<table style='width:100%;' >";
+                for (dataIndex = 0; dataIndex < currentResults.length; dataIndex++) {
+
+                    // htmlOutput += "<tr>";
+                    var curRes = currentResults[dataIndex];
+                    //var
+                    var currentRowStyle = "oddRow";
+                   
+                    var pStyle = "<div class='oddRow' style='border-radius: 15px;-moz-border-radius: 15px; padding:10px; margin-top:5px;'>";
+                    if (dataIndex % 2 == 0) {
+                        currentRowStyle = "evenRow";
+                        pStyle = "<div class='evenRow' style='border-radius: 15px;-moz-border-radius: 15px; padding:10px; margin-top:5px;'>";//"<tr class='trClass evenRow' onclick='testToggle($(this))'> ";//font-family: 'Noto Sans Ethiopic', sans-serif; ?
+                    }
+                    htmlOutput += pStyle + "<div class='amharicFont' style='display:inline;margin-left:5px;font-size:1.3em;'>" + getIndexLink(curRes.AmharicCorrectSpelling) + "</div>"
+                        + "<div style='display:inline;margin-left:5px'>" + curRes.PartOfSpeech + "</div>"
+                        + "<div style='display:inline;margin-left:5px;font-size:1.3em;'>"
+                        //+ unencodeURI(getIndexLink(encodeURI(curRes.English)) + "</td>";
+                        + "<a href=" + getBaseURL() + "/Home/Index/" + curRes.English + ">" + curRes.English + "</a>" + "</div>";
+
+
+                    htmlOutput += "<div style='padding-left:5px;'>";
+                    htmlOutput += "/" + curRes.AmharicPronunciation + "/";
+
+
+                    if (!(curRes.UserAdded == "") && !(curRes.UserAdded == "SelamSoft")) {
+                        htmlOutput += " by " + curRes.UserAdded + " " + curRes.TimeStamp + "";
+                    }
+                    htmlOutput += "</div>";
+
+
+                    //htmlOutput += "<div style='block'>";
+
+                    
+
+                    htmlOutput += "<div class='amharicFont' style='block'>" + curRes.AmharicExplanation + "</div>";
+                    htmlOutput += "<div style='block'>" + curRes.EnglishExplanation + "</div>";
+                    //htmlOutput += "</div>";
+
+                    htmlOutput += "<div style='block'>" + curRes.EnglishSentence + "</div>";
+                    htmlOutput += "<div class='amharicFont' style='block'>" + curRes.AmharicSentence + "</div>";
+
+                    if (!(curRes.AmharicRootAlphaNumeric == "0") && !(curRes.AmharicRootAlphaNumeric == " ") && curRes.AmharicRootAlphaNumeric.length > 0) {
+                        htmlOutput += "áµáá¥ " + curRes.AmharicRootAlphaNumeric + " ";
+
+                    }
+
+
+                    htmlOutput += "</div>";
+
+                }
+                htmlOutput += "</div>";
+
+
+                $('#SearchOutput').html(htmlOutput);
+
+                if (htmlOutput.length < 20)
+                {
+                    //document.getElementById("welcomeDiv").style.visibility = "visible";
+                    document.getElementById("welcomeDiv").style.display = "inline";
+                } else
+                {
+                    //document.getElementById("welcomeDiv").style.visibility = "hidden";
+                    document.getElementById("welcomeDiv").style.display = "none";
+                }
+
+
+                // consider replaceState?
+                if (window.history.pushState) window.history.pushState({}, searchWord, "/Home/Index/" + searchWord);
+                //else alert("no pushstate");
+                if (typeof clearSearchBox == 'function') {
+                    //var timeoutID = window.setInterval(clearSearchBox(), 500);
+                    clearSearchBox();
+                }
+
+                var addWordLink = '/Home/AddWord/' + $("#wordToSearch").val();
+
+                if (addWordLink == '/Home/AddWord/')
+                {
+                    addWordLink= '/Home/AddWord/' + window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
+                }
+                $("#addWordLink2").attr("href", addWordLink);
+
+
+                
+
+                if (typeof clearSearchBox == 'function') {
+                   // window.setTimeout(clearSearchBox(), 1200);
+                    //clearSearchBox();
+                    //return false;
+                }
+            } else{
+                document.getElementById("welcomeDiv").style.display = "inline";
+                document.getElementById("wordNotFound").style.display = "block";
+                $('#SearchOutput').html("");
+
+
+                var addWordLink = '/Home/AddWord/' + $("#wordToSearch").val();
+
+
+                if (addWordLink == '/Home/AddWord/') {
+                    addWordLink = '/Home/AddWord/' + window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
+                }
+                $("#addWordLink").attr("href", addWordLink);
+                //document.getElementById('footerText').style.display = 'block';
+               // document.getElementById('wordNotFound2').style.display = 'block';
+
+                //$("#wordNotFound").text($("#wordToSearch").val() + " is not in our dictionary. Please " + "<a>add this word</a>" + " or try again.");
+                //$("#wordToSearch").val('');
+            }
+        })
+        .fail(function (xhr, status, error) {
+            //alert("confirm err: " + error);
+        });
+
+
+        return false;
+    }
+
+    function clearAndFocus() {
+
+        // messes up search on enter key - works for button click.
+         //$("#wordToSearch").val('');
+        //$("#wordToSearch").focus();
+
+    }
+
+    $(document).on('click', '#btnSubmit', function () {
+        //alert("btnSubmit");
+        //var url = 'Url.Action("RequestToFollowMe", "Home")';
+        var url = '/Home/SearchEnglish';
+        var wordSearched = $('#EnglishText').val();
+        $.post(url, { englishText: wordSearched }).done(function (msg) {
+            //console.log(msg);
+            if (msg) {
+                var currentResults = JSON.parse(msg);
+                //alert(currentResults);
+                var htmlOutput = "";
+                for (dataIndex = 0; dataIndex < currentResults.length; dataIndex++) {
+                    var curRes = currentResults[dataIndex];
+                    //var
+                    var pStyle = "<p style=\"background-color:#ccc;\">";
+                    if (dataIndex % 2 == 0)
+                    {
+                        pStyle = "<p style=\"background-color:#eee;\">";
+                    }
+                    htmlOutput += pStyle + curRes.AmharicCorrectSpelling + " " + curRes.PartOfSpeech + " " + curRes.English + " " + curRes.UserAdded + " " + curRes.TimeStamp;
+                    htmlOutput += "</p>";
+
+                }
+                $('#SearchOutput').html(htmlOutput);
+
+                // consider replaceState?
+                if (window.history.pushState) window.history.pushState({}, wordSearched, "/Home/Index/" + wordSearched);
+            } else {
+                // alert("bad call");
+            }
+        })
+        .fail(function (xhr, status, error) {
+            // alert("confirm err: " + error);
+        });
+
+        //$('#inviteUserToFollow').val('');
+        return false;
+    });
+
+
+    //document.getElementByID('btnSubmit').
+</script>
+
+<div style=" margin-top:10px">
+    <div id="welcomeDiv" style="display:none;">
+        <div id="wordNotFound" style="display:none;margin-top:20px;font-size:1.4em; padding:7px; padding-bottom:15px;">
+            Your search was not found. Please <a id="addWordLink" href="#">add this word</a> or try again.
+        </div>
+        <div  class="fb-like" data-href="https://www.facebook.com/SelamSoft" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+
+        
+        <h1 style="font-size: 1.6em; margin-left: 5px;line-height:.6em;">
+            AmharicDictionary.com
+        </h1>
+        
+        <p style="font-size: 1em; margin-left: 15px;line-height:.6em;"> by SelamSoft</p>
+
+        <h4 style="margin-left:5px">Add a word   <a href='/Home/AddWord' style="font-size:1.5em"><span class="glyphicon glyphicon-plus"></span></a></h4>
+
+        <p style="font-size: 1.2em; margin-left: 5px; padding:0;">
+            Check out Amharic Fidel Tracing
+        </p>
+
+        <table style="margin-left:5px; margin-top:-7px" cellpadding="5">
+            <tr>
+
+                <td>
+                    iOS
+                </td>
+                <td>
+                    Android
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a style=" border:0;text-decoration:none;" href="https://itunes.apple.com/us/app/amharic-fidel-tracing/id1125639290"><img style="border:none" width="100" height="100" src="/Images/fideltracing.png" /> </a>
+                 
+                </td>
+                <td>
+                    <a style=" border:0;text-decoration:none;" href="https://play.google.com/store/apps/details?id=com.selamsoft.fidel2"><img style="border:none" width="100" height="100" src="/Images/fideltracing.png" /> </a>
+
+                </td>
+            </tr>
+        </table>
+        <p style="font-size: 1.2em; margin-left: 5px">
+
+
+        </p>
+
+        <p style="font-size: 1.2em; margin-left: 5px">
+            Chewata and Fidel for Android
+        </p>
+
+        <p style="font-size: 1.2em; margin-left: 5px">
+
+            <a style="margin-left: 0px; border:0;text-decoration:none;" href="https://play.google.com/store/apps/details?id=com.selamsoft.amharicchewata"><img width="100" height="100" src="/Images/selamsoftchewata.png" /> </a>
+            <a style="margin-left: 10px; border:0;text-decoration:none;" href="https://play.google.com/store/apps/details?id=com.selamsoft.fidel"><img style="border:none" width="100" height="100" src="/Images/selamsoftfidel.png" /> </a>
+
+
+        </p>
+
+        <p style="font-size: 1.2em; margin-left: 5px">
+            Windows Downloads
+        </p>
+        <p style="font-size: 1.2em; margin-left: 5px">
+
+            <a style="margin-left: 0px; border:0;text-decoration:none;display:block;" href="http://amharicdictionary.com/downloads/Selamsoft_Basic.exe">Basic Dictionary (Windows 30mb)</a>
+            <a style="margin-left: 0px; border:0;text-decoration:none;display:block;" href="http://amharicdictionary.com/downloads/Selamsoft_Amharic_Audio.exe">Amharic Audio (Windows 130mb) </a>
+            <a style="margin-left: 0px; border:0;text-decoration:none;display:block;" href="http://amharicdictionary.com/downloads/Selamsoft_English_Audio.exe">English Audio (Windows 86mb) </a>
+
+
+        </p>
+        <img src="/Images/AudioScreenShot.jpg" />
+
+    </div>
+
+        <div id="SearchOutput" style="margin-top:10px;font-family: 'Noto Sans Ethiopic', serif;">
+
+        </div>
+
+    <div id="wordNotFound2" style="display:block;margin-top:10px;font-size:1.4em; padding:7px; padding-bottom:5px;">
+        Don't see your definition? <a id="addWordLink2" href="#">add this word</a> or try again.
+    </div>
+
+    
+</div>
+
+        <hr />
+        <footer>
+            <p id="footerText" style="display:block">&copy; 2019 - AmharicDictionary.com by SelamSoft</p>
+        </footer>
+    </div>
+
+
+    <script src="/bundles/bootstrap?v=2Fz3B0iizV2NnnamQFrx-NbYJNTFeBJ2GM05SilbtQU1"></script>
+
+    
+
+    <script>
+    $('#wordToSearch').keydown(function (e) {
+        if (e.keyCode === 13) {
+            //alert("keydown enter");
+            searchWord();
+
+            return false;
+        }
+    });
+    $('#wordToSearch').keyup(function (e) {
+
+        if (e.keyCode === 13) {
+
+            // either search on keyup or keydown, not on both!
+            //alert("keyup enter");
+            //searchWord();
+            return false;
+        } else {
+            if (document.getElementById('wordToSearch').value.length > 0) {
+                $('#searchIcon').css("display", "inline");
+            } else {
+                $('#searchIcon').css("display", "none");
+
+            }
+        }
+
+    });
+
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+    //$(this).toggleClass("active").next().slide
+    var startingAmharic = 'áá1';
+    if (isAndroid) startingAmharic = 'áá2';
+    $("#typingToggle").text(startingAmharic);
+    $("#wordToSearch").focus();
+
+    var tempKeyPress = "return AmharicPhoneticKeyPress(event,this);";
+
+    if (isAndroid) {
+        $("#wordToSearch").val('');
+        document.getElementById("wordToSearch").removeAttribute("onkeypress");
+        $("#wordToSearch").charReplacer({
+            replaceWith: replaceWithArray,
+            replaceChar: replaceCharArray
+        });
+        $("#typingToggle").click(function () {
+            $('#clearSearch').css("display", "none");
+
+            if ($.trim($(this).text()) === 'ABC') {
+
+                $(this).text('áá2');
+                $("#wordToSearch").val('');
+                document.getElementById("wordToSearch").removeAttribute("onkeypress");
+                $("#wordToSearch").charReplacer({
+                    replaceWith: replaceWithArray,
+                    replaceChar: replaceCharArray
+                });
+                disableReplacer = 0;
+            } else {
+                $("#wordToSearch").val('');
+                $(this).text('ABC');
+                document.getElementById("wordToSearch").removeAttribute("onkeypress");
+                disableReplacer = 1;
+            }
+            $("#wordToSearch").focus();
+            return false;
+        });
+    } else {
+        $('#clearSearch').css("display", "none");
+
+        $("#typingToggle").click(function () {
+            if ($.trim($(this).text()) === 'ABC' && isAndroid == false) {
+                $(this).text('áá1');
+                $("#wordToSearch").val('');
+                document.getElementById("wordToSearch").setAttribute("onkeypress", tempKeyPress);
+                disableReplacer = 1;
+            } else if ($.trim($(this).text()) === 'áá1') {
+
+                $(this).text('áá2');
+                $("#wordToSearch").val('');
+                document.getElementById("wordToSearch").removeAttribute("onkeypress");
+                $("#wordToSearch").charReplacer({
+                    replaceWith: replaceWithArray,
+                    replaceChar: replaceCharArray
+                });
+                disableReplacer = 0;
+            } else {
+                $("#wordToSearch").val('');
+                $(this).text('ABC');
+                document.getElementById("wordToSearch").removeAttribute("onkeypress");
+                disableReplacer = 1;
+            }
+            $("#wordToSearch").focus();
+            return false;
+        });
+    }
+
+              document.getElementById("userGlyph").style.color = "red";
+
+
+    </script>
+</body>
+
+</html>
+
+
+
+#####EOF#####
+
+

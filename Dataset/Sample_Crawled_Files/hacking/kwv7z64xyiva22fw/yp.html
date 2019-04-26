@@ -1,0 +1,478 @@
+<html>
+<body>
+<title>Poly1305-AES: a state-of-the-art message-authentication code</title>
+<meta name="keywords" content="Poly1305, Poly1305-AES, Poly1305-Salsa10, securitywcs, message authentication, cryptography">
+<a href="djb.html">D. J. Bernstein</a>
+<br><a href="antiforgery.html">Authenticators and signatures</a>
+<h1>A state-of-the-art message-authentication code</h1>
+<a href="#why">Why is Poly1305-AES better than other message-authentication codes?</a>
+<br><a href="#use">How do I use Poly1305-AES in my own software?</a>
+<br><a href="#internals">How does the Poly1305-AES implementation work?</a>
+<br><a href="#papers">Where can I learn more about Poly1305-AES?</a>
+<hr><a href="mac/speed.html">Poly1305-AES speed tables</a>
+<br><a href="mac/variability1.html">AES timing variability at a glance</a>
+<br><a href="mac/variability2.html">AES timing variability graphs</a>
+<br><a href="mac/athlon.html">Poly1305-AES for the Athlon</a>
+<br><a href="mac/ppro.html">Poly1305-AES for the Pentium Pro/II/III/M</a>
+<br><a href="mac/aix.html">Poly1305-AES for the PowerPC under AIX</a>
+<br><a href="mac/macos.html">Poly1305-AES for the PowerPC under MacOS X</a>
+<br><a href="mac/sparc.html">Poly1305-AES for the UltraSPARC</a>
+<br><a href="mac/53.html">Poly1305-AES for generic computers with IEEE floating point</a>
+<br><a href="mac/8051.html">Poly1305-AES for the 8051</a>
+<br><a href="mac/test.html">Poly1305-AES using GMP and OpenSSL</a>
+<hr>
+Poly1305-AES is a state-of-the-art secret-key message-authentication code
+suitable for a wide variety of applications.
+<p>
+Poly1305-AES computes a 16-byte authenticator
+of a message of any length,
+using a 16-byte nonce (unique message number)
+and a 32-byte secret key.
+Attackers can't modify or forge messages
+if the message sender transmits an authenticator along with each message
+and the message receiver checks each authenticator.
+<p>
+There's a mailing list for Poly1305-AES discussions.
+To subscribe, send an empty message
+to <tt>poly1305-subscribe@list.cr.yp.to</tt>.
+<h2><a name="why"></a>Why is Poly1305-AES better than other message-authentication codes?</h2>
+Poly1305-AES has several useful features:
+<ul>
+<li><b>Guaranteed security if AES is secure.</b>
+There's a theorem guaranteeing that the security gap is extremely small
+(n/2^(102) per forgery attempt for 16n-byte messages)
+even for long-term keys
+(2^64 messages).
+The only way for an attacker to break Poly1305-AES is to break AES.
+<li><b>Cipher replaceability.</b>
+If anything does go wrong with AES,
+users can switch from Poly1305-AES to Poly1305-AnotherFunction,
+with an identical security guarantee.
+<li><b>Extremely high speed.</b>
+My Poly1305-AES software takes just
+3843 Athlon cycles,
+5361 Pentium III cycles,
+5464 Pentium 4 cycles,
+4611 Pentium M cycles,
+8464 PowerPC 7410 cycles,
+5905 PowerPC RS64 IV cycles,
+5118 UltraSPARC II cycles,
+or
+5601 UltraSPARC III cycles
+to verify an authenticator on a 1024-byte message.
+Poly1305-AES offers <i>consistent</i> high speed,
+not just high speed for one favored CPU.
+<li><b>Low per-message overhead.</b>
+My Poly1305-AES software takes just
+1232 Pentium 4 cycles,
+1264 PowerPC 7410 cycles,
+or
+1077 UltraSPARC III cycles
+to verify an authenticator on a 64-byte message.
+Poly1305-AES offers <i>consistent</i> high speed,
+not just high speed for long messages.
+Most competing functions are designed for long messages
+and don't pay attention to short-packet performance.
+<li><b>Key agility.</b>
+Poly1305-AES can fit thousands of simultaneous keys into cache,
+and remains fast even when keys are out of cache.
+Poly1305-AES offers <i>consistent</i> high speed,
+not just high speed for single-key benchmarks.
+Almost all competing functions use a large table for each key;
+as the number of keys grows,
+those functions miss the cache and slow down dramatically.
+<li><b>Parallelizability and incrementality.</b>
+Poly1305-AES can take advantage of additional hardware
+to reduce the latency for long messages,
+and can be recomputed at low cost for a small modification of a long message.
+<li><b>No intellectual-property claims.</b>
+I am not aware of any patents or patent applications relevant to Poly1305-AES.
+</ul>
+<p>
+Guaranteed security, cipher replaceability, and parallelizability are
+provided by the standard polynomial-evaluation-Wegman-Carter-MAC framework.
+Within that framework,
+<a href="hash127.html">hash127-AES</a>
+achieved extremely high speed at the expense of a large table for each key.
+The big advantage of Poly1305-AES is key agility:
+extremely high speed without any key expansion.
+<p>
+Other standard MACs are slower and less secure than Poly1305-AES.
+Specifically,
+HMAC-MD5 is slower and doesn't have a comparable security guarantee;
+CBC-MAC-AES is much slower and has a weaker security guarantee.
+Both HMAC-MD5 and CBC-MAC-AES are breakable within 2^64 messages.
+I'm not saying that anyone is going to carry out this attack;
+I'm saying that everyone satisfied with the standard CBC security level
+should be satisfied with the even higher security level of Poly1305-AES.
+<h2><a name="use"></a>How do I use Poly1305-AES in my own software?</h2>
+My fast <tt>poly1305aes</tt> library is in the public domain.
+You can and should include it in your own programs,
+rather than going to the effort of linking to a shared library;
+the compiled code is between 6 and 10 kilobytes, depending on the CPU.
+<p>
+To get started, download and unpack the <tt>poly1305aes</tt> library:
+<pre>
+     wget <a href="mac/poly1305aes-20050218.tar.gz">http://cr.yp.to/mac/poly1305aes-20050218.tar.gz</a>
+     gunzip &lt; poly1305aes-20050218.tar.gz | tar -xf -
+</pre>
+Compile the library
+(making sure to use appropriate compiler options for your platform,
+such as <tt>-m64</tt> for the UltraSPARC)
+to get an idea of how it's structured:
+<pre>
+     cd poly1305aes-20050218
+     env CC='gcc -O2' make
+</pre>
+Copy the library files into your project:
+<pre>
+     cp `cat FILES.lib` yourproject/
+     cat Makefile.lib &gt;&gt; yourproject/Makefile
+</pre>
+For any C program that will use Poly1305-AES,
+modify the program to include <tt>poly1305aes.h</tt>;
+also modify your <tt>Makefile</tt>
+to link the program with <tt>poly1305aes.a</tt>
+and to declare that the program depends on
+<tt>poly1305aes.a</tt> and <tt>poly1305aes.h</tt>.
+<p>
+Inside the program,
+to generate a 32-byte Poly1305-AES key,
+start by generating 32 secret random bytes
+from a cryptographically safe source:
+<tt>kr[0]</tt>, <tt>kr[1]</tt>, ..., <tt>kr[31]</tt>.
+Then call
+<pre>
+     poly1305aes_clamp(kr)
+</pre>
+to create a 32-byte Poly1305-AES secret key
+<tt>kr[0]</tt>, <tt>kr[1]</tt>, ..., <tt>kr[31]</tt>.
+<p>
+Later,
+to send a message <tt>m[0]</tt>, <tt>m[1]</tt>, ..., <tt>m[len-1]</tt>
+with a 16-byte nonce <tt>n[0]</tt>, <tt>n[1]</tt>, ..., <tt>n[15]</tt>
+(which <i>must</i> be different for every message!),
+call
+<pre>
+     poly1305aes_authenticate(a,kr,n,m,len)
+</pre>
+to compute a 16-byte authenticator
+<tt>a[0]</tt>, <tt>a[1]</tt>, ..., <tt>a[15]</tt>.
+<p>
+After receiving an authenticated message
+<tt>a[0]</tt>, <tt>a[1]</tt>, ..., <tt>a[15]</tt>,
+<tt>n[0]</tt>, <tt>n[1]</tt>, ..., <tt>n[15]</tt>,
+<tt>m[0]</tt>, <tt>m[1]</tt>, ..., <tt>m[len-1]</tt>,
+call
+<pre>
+     poly1305aes_verify(a,kr,n,m,len)
+</pre>
+to verify the authenticator.
+Accept the message if <tt>poly1305aes_verify</tt> returns nonzero;
+otherwise throw it away.
+<p>
+Do not generate or accept messages longer than a gigabyte.
+If you need to send large amounts of data,
+you are undoubtedly breaking the data into small packets anyway;
+security requires a separate authenticator for every packet.
+<p>
+Please make sure to set up a Googleable web page
+identifying your program and saying that it is ``powered by Poly1305-AES.''
+<h2><a name="internals"></a>How does the Poly1305-AES implementation work?</h2>
+Interested in writing your own Poly1305-AES implementation?
+Seeing whether Poly1305-AES can benefit from, say, AltiVec?
+Using Poly1305-AES in a language without C linkage?
+Checking Poly1305-AES test vectors?
+Building Poly1305-AES circuits?
+Adapting the Poly1305-AES computational techniques to other functions?
+<p>
+The simplest C implementation of Poly1305-AES is
+<a href="mac/test.html">poly1305aes_test</a>,
+which relies on GMP and OpenSSL.
+I suggest starting from the top:
+read <tt>poly1305aes_test_verify.c</tt> and work your way down.
+<p>
+Test implementations in other languages:
+<ul>
+<li>C++ (only the Poly1305 part):
+<a href="mac/poly1305_gmpxx.h"><tt>poly1305_gmpxx.h</tt></a>,
+<a href="mac/poly1305_gmpxx.cpp"><tt>poly1305_gmpxx.cpp</tt></a>.
+This is easier to read than the C version.
+<li>Python: Ken Raeburn has contributed some
+<a href="mac/poly1305aes.py">sample code</a>
+with my four ``Appendix A'' tests.
+<li>Perl: Tony Betts has contributed some
+<a href="mac/poly1305aes.pl">sample code</a>
+with the same tests.
+</ul>
+<p>
+You can then move on to the serious implementations:
+<ul>
+<li><a href="mac/sparc.html"><tt>poly1305aes_sparc</tt></a>,
+published 31 January 2005.
+<li><a href="mac/aix.html"><tt>poly1305aes_aix</tt></a>,
+published 6 February 2005.
+<li><a href="mac/macos.html"><tt>poly1305aes_macos</tt></a>,
+published 7 February 2005.
+<li><a href="mac/ppro.html"><tt>poly1305aes_ppro</tt></a>,
+published 14 February 2005.
+<li><a href="mac/athlon.html"><tt>poly1305aes_athlon</tt></a>,
+published 18 February 2005.
+</ul>
+<p>
+If you're trying to achieve better speed,
+make sure you understand all the different situations
+covered by my <a href="mac/speed.html">speed tables</a>.
+You might want to start with my
+<a href="mac/20050130-bestcase.txt">essay</a> on the
+difference between best-case benchmarks and the real world.
+I designed the Poly1305-AES software,
+and the underlying Poly1305-AES function,
+to provide <i>consistent</i> high speed in a broad range of applications.
+A slight speedup in some situations often means a big slowdown in others;
+a Poly1305-AES implementation making that tradeoff
+might be useful for some applications,
+but it will be at best an alternative, not a replacement.
+<h2><a name="papers"></a>Where can I learn more about Poly1305-AES?</h2>
+There are four papers:
+<ul>
+<li>
+<a name="poly1305-paper">[poly1305]</a>
+18pp.
+<a href="mac/poly1305-20050329.pdf">(PDF)</a>
+D. J. Bernstein.
+The Poly1305-AES message-authentication code.
+Proceedings of Fast Software Encryption 2005, to appear.
+Document ID: 0018d9551b5546d97c340e0dd8cb5750.
+URL: http://cr.yp.to/papers.html#poly1305.
+Date: 2005.03.29.
+Supersedes:
+<a href="mac/poly1305-20041101.pdf">(PDF)</a>
+<a href="mac/poly1305-20041101.ps">(PS)</a>
+<a href="mac/poly1305-20041101.dvi">(DVI)</a>
+2004.11.01.
+<a href="mac/poly1305-20050113.pdf">(PDF)</a>
+<a href="mac/poly1305-20050113.ps">(PS)</a>
+<a href="mac/poly1305-20050113.dvi">(DVI)</a>
+2005.01.13.
+<p>
+This paper
+gives the complete definition of Poly1305-AES,
+explains the Poly1305-AES design decisions,
+discusses the security of Poly1305-AES,
+and explains how to compute Poly1305-AES quickly.
+<p>
+<li>
+<a name="securitywcs">[securitywcs]</a>
+17pp.
+<a href="antiforgery/securitywcs-20050227.pdf">(PDF)</a>
+<a href="antiforgery/securitywcs-20050227.ps">(PS)</a>
+<a href="antiforgery/securitywcs-20050227.dvi">(DVI)</a>
+D. J. Bernstein.
+Stronger security bounds for Wegman-Carter-Shoup authenticators.
+Proceedings of Eurocrypt 2005, to appear.
+Document ID: 2d603727f69542f30f7da2832240c1ad.
+URL: http://cr.yp.to/papers.html#securitywcs.
+Date: 2005.02.27.
+Supersedes:
+<a href="antiforgery/securitywcs-20041019.pdf">(PDF)</a>
+<a href="antiforgery/securitywcs-20041019.ps">(PS)</a>
+<a href="antiforgery/securitywcs-20041019.dvi">(DVI)</a>
+2004.10.19.
+<a href="antiforgery/securitywcs-20041027.pdf">(PDF)</a>
+<a href="antiforgery/securitywcs-20041027.ps">(PS)</a>
+<a href="antiforgery/securitywcs-20041027.dvi">(DVI)</a>
+2004.10.27.
+<p>
+This paper proves security of this type of authenticator
+up to (and slightly beyond) 2^64 messages.
+Previous work by Shoup was limited to a smaller number of messages,
+often below 2^50.
+<p>
+<li>
+<a name="permutations">[permutations]</a>
+10pp.
+<a href="antiforgery/permutations-20050323.pdf">(PDF)</a>
+<a href="antiforgery/permutations-20050323.ps">(PS)</a>
+<a href="antiforgery/permutations-20050323.dvi">(DVI)</a>
+D. J. Bernstein.
+Stronger security bounds for permutations.
+Document ID: 2f843f5d86111da8df8a14ef9ae1a3fb.
+URL: http://cr.yp.to/papers.html#permutations.
+Date: 2005.03.23.
+<p>
+This paper presents a new proof of the same security bound.
+The new proof factors the previous proof into
+(1) the usual Wegman-Carter security bounds
+and (2) a general technique for replacing uniform random functions
+with uniform random permutations.
+Previous versions of the technique
+were limited to far fewer messages.
+<p>
+<li>
+<a name="cachetiming">[cachetiming]</a>
+37pp.
+<a href="antiforgery/cachetiming-20050414.pdf">(PDF)</a>
+<a href="antiforgery/cachetiming-20050414.ps">(PS)</a>
+D. J. Bernstein.
+Cache-timing attacks on AES.
+Document ID: cd9faae9bd5308c440df50fc26a517b4.
+URL: http://cr.yp.to/papers.html#cachetiming.
+Date: 2005.04.14.
+Supersedes:
+<a href="antiforgery/cachetiming-20041111.pdf">(PDF)</a>
+<a href="antiforgery/cachetiming-20041111.ps">(PS)</a>
+<a href="antiforgery/cachetiming-20041111.dvi">(DVI)</a>
+2004.11.11.
+Supersedes:
+<a href="antiforgery/cachetiming-20041121.pdf">(PDF)</a>
+<a href="antiforgery/cachetiming-20041121.ps">(PS)</a>
+<a href="antiforgery/cachetiming-20041121.dvi">(DVI)</a>
+2004.11.21.
+<p>
+This paper discusses timing leaks in AES software.
+This is an issue for all AES users, not just Poly1305-AES users.
+</ul>
+I'm also giving three talks on Poly1305-AES:
+<a href="talks.html#2005.02.15">2005.02.15</a>,
+emphasizing the structure of message-authentication codes;
+<a href="talks.html#2005.02.21">2005.02.21</a>,
+emphasizing the difference between best-case benchmarks and the real world;
+2005.05,
+emphasizing the security-bound proof.
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+<html>
+<body>
+<title>The ChaCha family of stream ciphers</title>
+<meta name="keywords" content="ChaCha, Snuffle 2008, ChaCha8, ChaCha12, ChaCha20, Salsa20, encryption, cryptography">
+<a href="djb.html">D. J. Bernstein</a>
+<br><a href="hash.html">Hash functions and ciphers</a>
+<h1>The ChaCha family of stream ciphers</h1>
+The ChaCha family of stream ciphers,
+also known as Snuffle 2008,
+is a variant of the
+<a href="snuffle.html">Salsa20</a> family of stream ciphers.
+The following paper introduces ChaCha and compares it to Salsa20:
+<ul>
+<li>
+<a name="chacha-paper">[chacha]</a>
+6pp.
+<a href="chacha/chacha-20080128.pdf">(PDF)</a>
+D. J. Bernstein.
+ChaCha, a variant of Salsa20.
+Document ID: 4027b5256e17b9796842e6d0f68b0b5e.
+URL: http://cr.yp.to/papers.html#chacha.
+Date: 2008.01.28.
+Supersedes:
+<a href="chacha/chacha-20080120.pdf">(PDF)</a>
+2008.01.20.
+</ul>
+<p>
+The Salsa20 directory in version 2008.01.20 of the eSTREAM benchmarking suite
+includes several implementations of ChaCha8 (and ChaCha12 and ChaCha20):
+<ul>
+<li>
+<tt>ref</tt>,
+a reference implementation:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/ref/chacha.c">chacha.c</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/ref/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/ref/ecrypt-sync.h">ecrypt-sync.h</a>.
+<li>
+<tt>regs</tt>:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/regs/chacha.c">chacha.c</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/regs/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/regs/ecrypt-sync.h">ecrypt-sync.h</a>.
+Similar to <tt>ref</tt>
+but uses separate temporary variables
+instead of a temporary array.
+<li>
+<tt>merged</tt>:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/merged/chacha.c">chacha.c</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/merged/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/merged/ecrypt-sync.h">ecrypt-sync.h</a>.
+Similar to <tt>regs</tt>
+but inlines the ChaCha core.
+<li>
+<tt>x86-1</tt>,
+specific to the Pentium, Athlon, and other x86 chips:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-1/chacha.q">chacha.q</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-1/chacha.s">chacha.s</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-1/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-1/ecrypt-sync.h">ecrypt-sync.h</a>.
+<li>
+<tt>x86-mmx</tt>,
+specific to the Pentium Pro and other CPUs with MMX registers:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-mmx/chacha.q">chacha.q</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-mmx/chacha.s">chacha.s</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-mmx/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-mmx/ecrypt-sync.h">ecrypt-sync.h</a>.
+Uses some MMX registers as substitutes for stack positions.
+<li>
+<tt>x86-xmm</tt>,
+specific to the Pentium 4 and other CPUs with SSE2 instructions:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm/chacha.q">chacha.q</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm/chacha.s">chacha.s</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm/ecrypt-sync.h">ecrypt-sync.h</a>.
+<li>
+<tt>x86-xmm2</tt>,
+specific to the Pentium 4 and other CPUs with SSE2 instructions:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm2/chacha.q">chacha.q</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm2/chacha.s">chacha.s</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm2/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm2/ecrypt-sync.h">ecrypt-sync.h</a>.
+Selects different SSE2 instructions.
+<li>
+<tt>x86-xmm5</tt>,
+specific to the Pentium 4 and other CPUs with SSE2 instructions:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm5/chacha.q">chacha.q</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm5/chacha.s">chacha.s</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm5/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/x86-xmm5/ecrypt-sync.h">ecrypt-sync.h</a>.
+Handles four blocks in parallel.
+Based on analogous Salsa20 code by Wei Dai.
+<li>
+<tt>amd64-3</tt>,
+specific to the Athlon 64, Core 2 Duo, and other AMD64 chips:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/amd64-3/chacha.q">chacha.q</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/amd64-3/chacha.s">chacha.s</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/amd64-3/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/amd64-3/ecrypt-sync.h">ecrypt-sync.h</a>.
+<li>
+<tt>amd64-xmm6</tt>,
+specific to the Athlon 64, Core 2 Duo, and other AMD64 chips:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/amd64-xmm6/chacha.q">chacha.q</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/amd64-xmm6/chacha.s">chacha.s</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/amd64-xmm6/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/amd64-xmm6/ecrypt-sync.h">ecrypt-sync.h</a>.
+Translation of <tt>x86-xmm5</tt>, with some additional instruction scheduling.
+<li>
+<tt>ppc-altivec</tt>,
+specific to the PowerPC G4 and other CPUs with AltiVec instructions:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/ppc-altivec/chacha.c">chacha.c</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/ppc-altivec/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/ppc-altivec/ecrypt-sync.h">ecrypt-sync.h</a>.
+Based on analogous Salsa20 code by Matthijs van Duin.
+<li>
+<tt>sparc</tt>,
+specific to the UltraSPARC and other 64-bit SPARC chips:
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/sparc/chacha.q">chacha.q</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/sparc/chacha.s">chacha.s</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/sparc/Makefile">Makefile</a>,
+<a href="streamciphers/timings/estreambench/submissions/salsa20/chacha8/sparc/ecrypt-sync.h">ecrypt-sync.h</a>.
+</ul>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

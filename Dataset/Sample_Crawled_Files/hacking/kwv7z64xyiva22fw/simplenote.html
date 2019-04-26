@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<title>Simplenote</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="https://simplenote.com/xmlrpc.php" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/wp-content/themes/a8c/simplenote/images/chrome/favicon.ico" />
+<!--[if lt IE 9]>
+<script src="https://s2.wp.com/wp-content/themes/a8c/simplenote/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,400italic' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="//use.typekit.net/bln8hqn.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+<meta name="google-site-verification" content="hRr0mQWuU8PbGwu60li1BTtcLiORR7WJcHcgjEXwCuE" />
+
+<!-- app install banners -->
+<meta name="apple-itunes-app" content="app-id=289429962">
+<link rel="manifest" href="/wp-content/themes/a8c/simplenote/inc/manifest.json">
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9zaW1wbGVub3RlLmNvbQ%3D%3D"
+		+ "&id=43752875"
+		+ "&time=1554401840";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//simplenoteblog.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel="alternate" type="application/rss+xml" title="Simplenote &raquo; Feed" href="https://simplenote.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Simplenote &raquo; Comments Feed" href="https://simplenote.com/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJx9UFtuxCAMvFBZq1Ua5afqWYC4iXcxIEy0yu3Xyb7UFz9oZpjBjOGcjU+xYqzAi8lhmSgKnLNPbIQp4PqDHbzIC/wdC3RCgSPWbP3J7Oxhp+jDMuq1CjCSVHAh7S5XbFlB6hrwwBRbA3wqqDpnWzcH40gWA7LaWjHO/T21wVl/1+xxLexcLihi9GRa2NRZB/3OXWWwgwchzgFjqnirs3sJVCG1ywO0hk+YjG7GVkrxGzFfwVJpRQvqTieF077lJ22FrN8ed7Y80X8d5w6mkJwNm+GTP17fu34Yhq5/O14ASjjbJA==?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFztEKwjAMBdAfsiu6Dp/Eb6k1jtQlrU3q0K+3A30QhkLgPtwDN3bOBjlM9QxiY7tbhfJ4RxdlY38BQzgWr9AR8geHxAqsi81JlEDEj7DSUjrhBKYKlAZY28wlrbjvl5DvCPNfFkGzD1dTQPC5rB/psB0Gt+v7vXPxBTjQW9A='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://simplenoteblog.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://simplenote.com/" />
+<link rel='shortlink' href='https://wp.me/P2XA7x-1s' />
+	<style>
+		@font-face {
+			font-family: Recoleta;
+			src: url('https://s1.wp.com/i/fonts/recoleta/400.woff2')
+		}
+	</style>
+	<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fsimplenote.com%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fsimplenote.com%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Simplenote" />
+<meta property="og:url" content="https://simplenote.com/" />
+<meta property="og:site_name" content="Simplenote" />
+<meta property="og:image" content="https://simplenoteblog.files.wordpress.com/2012/12/simplenote-featured-image.png?w=1200" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="586" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@simplenoteapp" />
+<meta name="twitter:text:title" content="Simplenote" />
+<meta name="twitter:image" content="https://simplenoteblog.files.wordpress.com/2012/12/simplenote-featured-image.png?w=640" />
+<meta name="twitter:card" content="app" />
+<meta name="twitter:description" content="The simplest way to keep notes. Light, clean, and free. Simplenote is now available for iOS, Android, Mac, and the web." />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<meta name="twitter:app:name:iphone" content="Simplenote" />
+<meta name="twitter:app:id:iphone" content="289429962" />
+<meta name="twitter:app:name:ipad" content="Simplenote" />
+<meta name="twitter:app:id:ipad" content="289429962" />
+<meta name="twitter:app:name:googleplay" content="Simplenote" />
+<meta name="twitter:app:id:googleplay" content="com.automattic.simplenote" />
+<meta name="twitter:creator" content="@simplenoteapp" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/9843ab63967c3f657639b539df0b7ac0?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/9843ab63967c3f657639b539df0b7ac0?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/9843ab63967c3f657639b539df0b7ac0?s=114" />
+<link rel='openid.server' href='https://simplenoteblog.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://simplenoteblog.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://simplenote.com/osd.xml" title="Simplenote" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Simplenote" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://simplenote.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/9843ab63967c3f657639b539df0b7ac0?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Download for iOS Download for Android Download for macOS Download for Windows Download for Linux" />
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s1.wp.com/?custom-css=1&#038;csblog=2XA7x&#038;cscache=6&#038;csrev=19" />
+		</head>
+
+<body class="home page-template page-template-templates page-template-front-page page-template-templatesfront-page-php page page-id-90 mp6 customizer-styles-applied group-blog highlander-enabled highlander-light">
+<div id="page" class="site container_12">
+		<header id="masthead" class="site-header row" role="banner">
+	<div class="site-title">
+	<a href="https://simplenote.com/" title="Simplenote" rel="home">
+		<h1><div id="logo"><span></span></div>
+		Simplenote</h1></a>
+	</div>
+
+		<nav role="navigation" class="site-navigation main-navigation">
+			<div class="menu-actions-container"><ul id="menu-actions" class="menu"><li id="menu-item-112" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-112"><a href="https://app.simplenote.com/signup/">Create an account</a></li>
+<li id="menu-item-111" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-111"><a href="https://app.simplenote.com/">Sign in</a></li>
+<li id="menu-item-310" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-310"><a href="https://simplenote.com/blog/">Blog</a></li>
+<li id="menu-item-596" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-596"><a href="https://simplenote.com/help/">Help</a></li>
+<li id="menu-item-10540" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10540"><a href="https://simplenote.com/contact-us/">Contact Us</a></li>
+</ul></div>		</nav><!-- .site-navigation .main-navigation -->
+	</header><!-- #masthead .site-header .row -->
+
+	<div id="main" class="site-main">
+		<div id="main" class="site-main-gradient">
+<div id="primary" class="content-area">
+	<div id="content" class="site-content" role="main">
+		<article id="post-90" class="post-90 page type-page status-publish hentry">
+			<div class="content entry-content">
+				<div id="homepage-baner">
+					<div class="row">
+						<div class="welcome-text">
+							<div class="col_10 push_1">
+								<h1>The simplest way to keep notes.</h1>
+							</div>
+							<div class="push_2 col_8">
+								<p>Light, clean, and free. Simplenote is now available for iOS, Android, Mac, Windows, Linux, and the web.</p>
+							</div>
+						</div>
+					</div>
+											<div id="downloads">
+<div class="row">
+<ul>
+<li><a href="https://itunes.apple.com/app/simplenote/id289429962" target="blank" rel="noopener noreferrer">
+<p class="device device-ios">Download for iOS</p>
+<p></a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.automattic.simplenote" target="blank" rel="noopener noreferrer">
+<p class="device device-android">Download for Android</p>
+<p></a></li>
+</ul></div>
+<div class="row">
+<ul>
+<li><a href="https://itunes.apple.com/us/app/simplenote/id692867256?ls=1&amp;mt=12" target="blank" rel="noopener noreferrer">
+<p class="device device-mac">Download for macOS</p>
+<p></a></li>
+<li><a href="https://github.com/Automattic/simplenote-electron/releases/download/v1.5.0/Simplenote-win-1.5.0.exe" target="blank" rel="noopener noreferrer">
+<p class="device device-mac">Download for Windows</p>
+<p></a></li>
+</ul></div>
+<div class="row">
+<ul>
+<li><a href="https://github.com/Automattic/simplenote-electron/releases/latest">
+<p class="device device-mac">Download for Linux</p>
+<p></a></li>
+</ul></div>
+</div>
+														</div>
+				<div class="row features">
+					<div class="col_10 push_1">
+						<h2>What makes Simplenote great?</h2>
+					</div>
+					<ul>
+						<li class="col_4_list feature feature-everywhere">
+							<h4>Use it everywhere</h4>
+							<p>Your notes stay updated across all your devices. No buttons to press. It just works.</p>
+						</li>
+						<li class="col_4_list feature feature-organize">
+							<h4>Stay organized</h4>
+							<p>Find notes quickly with instant searching and simple tags.</p>
+						</li>
+						<li class="col_4_list feature feature-share">
+							<h4>Work together</h4>
+							<p>Share a list, post some instructions, or publish your notes online.</p>
+						</li>
+						<li class="col_4_list feature feature-time">
+							<h4>Go back in time</h4>
+							<p>Your notes are backed up when you change them. Just drag the version slider to go back in time.</p>
+						</li>
+						<li class="col_4_list feature feature-markdown">
+							<h4>Markdown support</h4>
+							<p>Write, preview, and publish your notes in Markdown format.</p>
+						</li>
+						<li class="col_4_list feature feature-free">
+							<h4>Itâs free</h4>
+							<p>Backups, syncing, sharing â it&#8217;s all completely free.</p>
+						</li>
+					</ul>
+				</div>
+			</div><!-- .entry-content -->
+		</article><!-- #post-90 -->
+	</div><!-- #content .site-content -->
+</div><!-- #primary .content-area -->
+
+<div id="secondary" class="widget-area sidebar" role="complementary">
+		</div><!-- #secondary .widget-area -->
+<script type='text/javascript'>
+								var _gaq = _gaq || [];
+								_gaq.push(['_setAccount', 'UA-11500121-1']);
+_gaq.push(['_trackPageview']);
+
+								(function() {
+									var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+									ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+									var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+								})();
+							</script>
+
+		</div>
+	</div><!-- #main .site-main -->
+
+	<footer id="colophon" class="site-footer row" role="contentinfo">
+
+		<div class="site-info col_3">
+		&copy; 2019 <a href="http://automattic.com">Automattic</a>
+		</div><!-- .site-info -->
+
+		<nav role="navigation" class="site-navigation main-navigation col_9">
+			<div class="menu-pages-container"><ul id="menu-pages" class="menu"><li id="menu-item-17744" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17744"><a href="https://automattic.com/privacy">Privacy</a></li>
+<li id="menu-item-121" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-121"><a href="https://simplenote.com/terms/">Terms</a></li>
+<li id="menu-item-120" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-120"><a href="https://simplenote.com/developers/">Developers</a></li>
+<li id="menu-item-119" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-119"><a href="https://simplenote.com/blog/">Blog</a></li>
+<li id="menu-item-581" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-581"><a href="https://simplenote.com/help/">Help</a></li>
+</ul></div>		</nav><!-- .site-navigation .main-navigation -->
+
+	</footer><!-- #colophon .site-footer -->
+</div><!-- #page .hfeed .site -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"43752875","siteName":"Simplenote","siteURL":"https:\/\/simplenote.com","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/9843ab63967c3f657639b539df0b7ac0?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"a8c\/simplenote","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fsimplenote.com%2F&signup_flow=account&domain=simplenote.com","themeURL":"","xhrURL":"https:\/\/simplenote.com\/wp-admin\/admin-ajax.php","nonce":"27b1b17b50","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"311b6a7854\" \/>","referer":"https:\/\/simplenote.com\/","canFollow":"1","feedID":"8154999","statusMessage":"","customizeLink":"https:\/\/simplenoteblog.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fsimplenoteblog.wordpress.com%2F","postID":"90","shortlink":"https:\/\/wp.me\/P2XA7x-1s","canEditPost":"","editLink":"https:\/\/wordpress.com\/page\/simplenote.com\/90","statsLink":"https:\/\/wordpress.com\/stats\/post\/90\/simplenote.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Simplenote","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 1,167 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fsimplenote.com%2F&signup_flow=account&domain=simplenote.com\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyVjMEOAiEMRH9IrBtXowfjtyA0WhYKtrD6+eJl42kTby8z8wZexbjMFblCUPA4k8Py3gbdwE+Vmimx3YkVIk2o8GzY8GHZR5SVsfWJ2NysQLJaUTqZPKMI+X6yZH8+VLFu0jXJVcr8lRbq62u6DIfxvB/G42kXPmKkXQM='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'43752875','blog_tz':'-7','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'43752875','v':'wpcom','tz':'-7','user_id':'0','post':'90','subd':'simplenoteblog'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1lSiYrZXhzUkM5fD1uTDNLUGt6QzVbd3FKb3Q4aWxFU0VMK3ppSG1wamM0bi81JStxN2lKP1pvVnxQRHk3W0d3VEh0SklpNENJfHppaiZjVlFtdzJJS0ovSDNEaktWK35OWTRwPywlcENOQkxfWTZXT0ddNl9IVXA4dVNubXYsZ0tdZHg2NWtpJitxaVovaGtbTGcvfjNUSGR6Jix6LUdxUnFocEc9QU1ZdEkuSndXaFZoY1BUMHRZVjdCLzYsZXAwUFVxS3IwUXhwQTcrMktrMFhDQltvNXYscmNKdlNbQlp4SzJyQ3ZJJkMuUnkmOFdPVnJ0eV9sVHNhfDhzLGtNeVZTQWprVEVibyx4OGVyOENoU084QnpsLWM5R1Bjeg=='}]);
+_stq.push([ 'clickTrackerInit', '43752875', '90' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+<!--
+	generated 147 seconds ago
+	generated in 0.056 seconds
+	served from batcache in 0.001 seconds
+	expires in 153 seconds
+-->
+
+
+
+#####EOF#####
+
+

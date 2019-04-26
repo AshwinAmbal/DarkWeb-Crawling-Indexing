@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="profile" href="https://gmpg.org/xfn/11" />
+		<link rel="pingback" href="https://dronewars.net/xmlrpc.php" />
+
+		<title>Drone Wars UK &#8211; Information and comment on use of drones</title>
+<script type="text/javascript">
+  WebFontConfig = {"typekit":{"id":"enl6hwh"}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s0.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active body{font-family:"ff-dagny-web-pro-1","ff-dagny-web-pro-2",sans-serif}</style>
+<meta name="google-site-verification" content="G6lm2vzyIr1os-8RPyZ8BK4MANLeQ3vsyK1icwdAiKE" />
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9kcm9uZXdhcnMubmV0"
+		+ "&id=14117089"
+		+ "&time=1554403947";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//dronewarsuk.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Drone Wars UK &raquo; Feed" href="https://dronewars.net/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Drone Wars UK &raquo; Comments Feed" href="https://dronewars.net/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s0.wp.com/_static/??-eJx9UNsOgjAM/SHHokHCi/FbxqhQWLeFliB/74DIgzF7aU6bc2mrl6hs8AJeNM0qurlDz3qJNpBiQgfrT1dY5ov+L3M4AusBJBo7qr3L0dG/0KOsJzjJ6K2b2+SVBrpFFt24sFs2k5lWzbI6KAh9zt6GCdKcopGNQdCiAQeUaDnZgm0HckQfWAm8sxKK1Tdog326Pnv48dCmiRMwq1QJZ1LSp9123ZMe13tZ1XVdVrfhA07hnX8=?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='opti-font-merriweather-css'  href='https://fonts.googleapis.com/css?family=Merriweather&#038;ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s2.wp.com/_static/??-eJx1zUEKgDAMBMAPqbFYqR7Ex0ioEVNLkyL+Xr0J6m1hZ1nYYzltQTEo6IyMAjEhU2bYohKIHitWk0gBD8m5jGv2FAQ8Bkx0FT/xtf16uQwYY+sbjzyYtul6a50zywkxuTqZ?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-3-1' href='https://s2.wp.com/wp-content/themes/premium/opti/css/print.css?m=1438009084h&cssminify=yes' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s2.wp.com/_static/??-eJx9j9EKAiEQRX8oG4SMfYm+ZVZMjdERx6XfTymqJfDJe+GccQYiZG7RcpZPOFqRAzyK6qW53CBtqtDmY2e8Y0VssUXOu6JuhLHO1OpWYt+jh0791JmEdgxfsX7TDC8s7bUJSMA6/nq/M0vYRqR+iud9+ZNacMkJhBN44hVpANd00cboRS9nY+5PSzx9nw==?cssminify=yes' type='text/css' media='all' />
+<style>#masthead { background:#293033; }
+#masthead #logo a { color:#bfbfbf; }
+#masthead h2 { color:#ffffff; }
+#nav-primary { background:#background: #15181a;background: -moz-linear-gradient(top,  #1f2426 0%, #15181a 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1f2426), color-stop(100%,#15181a));background: -webkit-linear-gradient(top, #1f2426 0%, #15181a 100%);background: -o-linear-gradient(top, #1f2426 0%,#15181a 100%);background: -ms-linear-gradient(top, #1f2426 0%,#15181a 100%);background: linear-gradient(to bottom, #1f2426 0%,#15181a 100%);; border-color:#15181a }
+#nav-primary li:hover, #nav-primary li.current-cat { background-color: #15181a; }
+#nav-primary .current-menu-item > a, #nav-primary .current-cat > a { border-top-color:#1899cb; }
+#nav-primary li { border-right-color:#15181a; border-left-color:#23292b; }
+#nav-primary .current-menu-item { background-color:#15181a; color:#bfbfbf; }
+#nav-primary .current-menu-item > a, #nav-primary .current-cat > a { border-color:#8ccde6; color:#bfbfbf; }
+#masthead input.searchfield { background:#23292b; color:#bfbfbf; }
+#masthead input.searchfield::-webkit-input-placeholder { color:#bfbfbf; }
+#masthead input.searchfield::-moz-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:-moz-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:-ms-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:focus, #masthead input.searchfield:hover { background:#1f2426; color:#bfbfbf; }
+#masthead input.searchfield::-webkit-input-placeholder, #masthead input.searchfield::-moz-placeholder { color:#bfbfbf; }
+a, a:visited { color:#1899cb; }
+footer { color:#bfbfbf; background:#15181a; }
+footer a, footer a:visited { color:#52b3d8; }
+#footer-wrap { border-color:#0a0c0d; }
+#featured-cats h5 { background:#eaebeb; border-color:#95989a; }
+#featured-cats h5 a, #featured-cats h5 a:visited { color:#000000; }</style><script type='text/javascript'>
+/* <![CDATA[ */
+var js_i18n = {"menu":"Menu"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyNkG0OgjAMhi/kWFSIv4w38A4TKxbpNtcOoqd3Jhgk4EfSZE37tG/36s4rtGUTj8C6TnGNEG79k9W80N8ARVgFI5AR2hdcOitg5cl6x0LAbCqY6ZI7YAMqMoQEWEkyJzfDjU9C2yJ0P7EaxJvyogIw3ifqcoZ0l/YBCCNp5wWHFRk0qWvFNFnpyDubcv5zQ5JLA4wt7E2LlRF0E2M+jJIZPHw3nP18ffzfntrRdlkU+Wq93uR5/QApMLNv'></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1530132353h&cssminify=yes' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://dronewarsuk.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel='shortlink' href='https://wp.me/XeuZ' />
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Drone Wars UK" />
+<meta property="og:description" content="Information and comment on use of drones" />
+<meta property="og:url" content="https://dronewars.net/" />
+<meta property="og:site_name" content="Drone Wars UK" />
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@Drone_Wars_UK" />
+<meta name="twitter:site" content="@Drone_Wars_UK" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s2.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://dronewarsuk.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://dronewarsuk.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://dronewars.net/osd.xml" title="Drone Wars UK" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#FFFFFF" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Drone Wars UK" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Information and comment on use of drones" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://dronewars.net/feed/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Information and comment on use of drones" />
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #FFFFFF; }
+</style>
+	<style type="text/css" id="syntaxhighlighteranchor"></style>
+<style type="text/css" id="custom-colors-css">h2#description,#logo,#nav-primary a{text-shadow:0 -1px 0 rgba(0,0,0,.1)}.wp-playlist-light{color:#111}body{background-color:#fff}table caption{background-color:#fff}.wrapper{background-color:#fff}#lead-story{background-color:#e5e5e5}#recent-posts .sticky{background-color:#ebebeb}a,a:visited{border-color:#e5e5e5}a:hover,a:active{border-color:#d2d2d2}#featured-cats h5,.custom-colors #featured-cats h5{background-color:#e5e5e5}#featured-cats h5,.custom-colors #featured-cats h5,.headlines li,aside .widget li,#recent-excerpts li,#related-posts{border-color:#d2d2d2}aside .widget,aside h3.widgettitle,tr{background-color:#e5e5e5}aside .widget-wrap{background-color:#fff}.row .eightcol,aside .widget-wrap,td{border-color:#d2d2d2}h1.pagetitle,.archive article,.search article,.page-template-custom-page-blog-php article,#archive-pagination a,#archive-pagination a:visited{border-color:#d2d2d2}#archive-pagination a:hover,#archive-pagination a:active{border-color:#bfbfbf}a.post-edit-link,a.post-edit-link:visited,#sharethis a,#sharethis a:visited,#related-posts ul a,#related-posts ul a:visited{border-color:#fff}a.post-edit-link,a.post-edit-link:visited,#sharethis a,#sharethis a:visited,#related-posts ul a,#related-posts ul a:visited{background-color:#f2f2f2}a.post-edit-link:hover,a.post-edit-link:active,#sharethis a:hover,#sharethis a:active,#related-posts ul a:hover,#related-posts ul a:active{border-color:#d2d2d2}a.post-edit-link:hover,a.post-edit-link:active,#sharethis a:hover,#sharethis a:active,#related-posts ul a:hover,#related-posts ul a:active{background-color:#e5e5e5}.entry .post-taxonomies a{background-color:#f2f2f2}.entry .post-taxonomies a{border-color:#e5e5e5}.entry .post-taxonomies a{color:#d2d2d2}.entry .post-taxonomies a:hover{color:#bfbfbf}footer h4.widgettitle{color:#fff}footer h4.widgettitle{border-color:#fff}.milestone-header{color:#fff}#masthead,.custom-colors #masthead{background-color:#32525e}.milestone-header{background-color:#32525e}#nav-primary,.custom-colors #nav-primary{background:#32525e}#nav-primary,.custom-colors #nav-primary{border-color:#1f343c}#nav-primary .nav>li,.custom-colors #nav-primary .nav>li{border-right-color:#1f343c}#nav-primary .nav>li,.custom-colors #nav-primary .nav>li{border-left-color:#32525e}.custom-colors #nav-primary .nav>li.current-menu-item,.custom-colors #nav-primary .nav>li:hover,.custom-colors #nav-primary .nav>li.current-cat{background-color:#1f343c}header input.searchfield,.custom-colors header input.searchfield{background-color:#28434c}header .searchfield:focus,header .searchfield:hover,.custom-colors header .searchfield:focus,.custom-colors header .searchfield:hover{background-color:#1f343c}footer,.custom-colors footer{background-color:#28434c}#footer-wrap{border-color:#1f343c}#masthead,.custom-colors #masthead{color:#fefefe}#nav-primary .nav>li>a,.custom-colors #nav-primary .nav>li>a,#nav-primary .nav>li.current-menu-item>a,#nav-primary .nav>li.current-cat>a,.custom-colors #nav-primary .nav>li.current-menu-item>a,.custom-colors #nav-primary .nav>li.current-cat>a{color:#fefefe}#nav-primary .nav>li.current-menu-item>a,#nav-primary .nav>li.current-cat>a,.custom-colors #nav-primary .nav>li.current-menu-item>a,.custom-colors #nav-primary .nav>li.current-cat>a{border-color:#fefefe}#nav-primary .nav>li:hover,#nav-primary .nav>li.current-cat{color:#fefefe}#nav-primary .nav>li.current-menu-item{color:#fefefe}#masthead #logo a,#masthead #logo a:visited,.custom-colors #masthead #logo a,.custom-colors #masthead #logo a:visited{color:#fefefe}#masthead h2,.custom-colors #masthead h2{color:#fefefe}header input.searchfield,.custom-colors header input.searchfield{color:#fefefe}footer a,footer a:visited,.custom-colors footer a,.custom-colors footer a:visited{color:#fefefe}footer a:hover,footer a:active,.custom-colors footer a:hover,.custom-colors footer a:active{color:#fefefe}a,a:visited,.custom-colors a,.custom-colors a:visited{color:#1176a2}a:hover,a:active,.custom-colors a:hover,.custom-colors a:active{color:#083b50}body{color:#111}a.dark,a.dark:visited,aside .widget li a,aside .widget li a:visited{color:#111}#featured-cats h5 a,#featured-cats h5 a:visited,.custom-colors #featured-cats h5 a,.custom-colors #featured-cats h5 a:visited{color:#111}#featured-cats .date{color:#111}#featured-cats h3,#recent-posts h3{border-color:#111}.entry .post-taxonomies{color:#111}footer,.custom-colors footer{color:#111}</style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s0.wp.com/?custom-css=1&#038;csblog=XeuZ&#038;cscache=6&#038;csrev=19" />
+				<!--[if lt IE 9]><script src="https://s2.wp.com/wp-content/themes/premium/opti/js/html5.js" type="text/javascript"></script><![endif]-->
+	</head>
+
+	<body class="home blog custom-background mp6 customizer-styles-applied highlander-enabled highlander-light custom-colors infinite-scroll" data-breakpoint="1023">
+		<section class="container hfeed">
+			<header id="masthead" role="banner">
+			
+				<section class="row">
+									<hgroup id="branding">
+						<h1 id="logo" class="site-title">
+							<a href="https://dronewars.net/" title="Home">Drone Wars UK</a>
+						</h1>
+												<h2 id="description" class="site-description">
+							Information and comment on use of drones						</h2>
+											</hgroup>
+<form method="get" class="searchform" action="https://dronewars.net/">
+	<input type="text" value="" name="s" class="searchfield" placeholder="Search" />
+	<input type="image" src="https://s2.wp.com/wp-content/themes/premium/opti/images/magnify.png" class="searchsubmit" />
+</form>
+				</section>
+				<nav class="menu" id="nav-primary">
+					<section class="row clearfloat">
+						<div class="menu-new-top_menu-container"><ul id="menu-new-top_menu" class="nav"><li class="home menu-item current-menu-item"><a href="https://dronewars.net/"><span class="genericon genericon-home"></span><span class="screen-reader">Home</span></a></li><li id="menu-item-5904" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5904"><a href="#">About Drones</a>
+<ul class="sub-menu">
+	<li id="menu-item-6254" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6254"><a href="https://dronewars.net/aboutdrone/">What are drones?</a></li>
+	<li id="menu-item-5908" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5908"><a href="https://dronewars.net/2014/10/06/rise-of-the-reapers-a-brief-history-of-drones/">A brief history of drones</a></li>
+	<li id="menu-item-5907" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5907"><a href="https://dronewars.net/2014/03/20/whats-wrong-with-drones/">What&#8217;s wrong with drones?</a></li>
+</ul>
+</li>
+<li id="menu-item-5909" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5909"><a href="#">British Drones</a>
+<ul class="sub-menu">
+	<li id="menu-item-5910" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5910"><a href="https://dronewars.net/uk-drone-strike-list-2/">UK Drone Strike Stats</a></li>
+</ul>
+</li>
+<li id="menu-item-5917" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5917"><a href="#">Ethical &amp; Legal Issues</a>
+<ul class="sub-menu">
+	<li id="menu-item-6132" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6132"><a href="https://dronewars.net/drones-and-targeted-killing/">Drones and Targeted Killing</a></li>
+	<li id="menu-item-5919" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5919"><a href="https://dronewars.net/2013/06/08/lawyers-challenge-legal-basis-of-uk-drone-strikes/">Legality of UK Drone Strikes &#8211; An Opinion</a></li>
+	<li id="menu-item-5920" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5920"><a href="https://dronewars.net/2012/10/01/are-drones-compatible-with-the-idea-of-just-war/">Drones &amp; Just War</a></li>
+</ul>
+</li>
+<li id="menu-item-5944" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5944"><a href="http://#">Crashes</a>
+<ul class="sub-menu">
+	<li id="menu-item-5945" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5945"><a title="Drone Crash Database" href="https://dronewars.net/drone-crash-database/">Drone Crash Database</a></li>
+	<li id="menu-item-5946" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-5946"><a title="Posts on drone crashes"></a></li>
+</ul>
+</li>
+<li id="menu-item-5947" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5947"><a href="http://#">Drone Wars Library</a>
+<ul class="sub-menu">
+	<li id="menu-item-6607" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6607"><a href="https://dronewars.net/drone-wars-library/">The Drone Wars Library</a></li>
+	<li id="menu-item-8161" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8161"><a href="https://dronewars.net/drone-wars-library-archive/">Library Archive (Pre-2014)</a></li>
+	<li id="menu-item-6608" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6608"><a>Book Reviews</a></li>
+</ul>
+</li>
+<li id="menu-item-6164" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-6164"><a href="#">Take Action</a>
+<ul class="sub-menu">
+	<li id="menu-item-6165" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6165"><a href="https://dronewars.net/drone-wars-out-of-sight-out-of-mind-out-of-control/">Drone Wars: Out of Sight. Out of Mind. Out of Control.</a></li>
+	<li id="menu-item-6176" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6176"><a href="https://dronewars.net/3-talks-and-presentations-2-2/">Book a Speaker</a></li>
+	<li id="menu-item-6177" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6177"><a href="https://dronewars.net/coming-events/">Coming Events</a></li>
+	<li id="menu-item-6183" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6183"><a href="https://dronewars.net/make-a-donation-we-need-your-support-to-end-the-drone-wars/">Make a donation</a></li>
+	<li id="menu-item-6185" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6185"><a href="https://dronewars.net/drone-wars-uk-resources-and-briefings/">Resources and Briefings</a></li>
+	<li id="menu-item-6186" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6186"><a href="http://dronecampaignnetwork.wordpress.com/">Drone Campaign Network</a></li>
+</ul>
+</li>
+</ul></div>					</section>
+				</nav>
+			</header>
+
+			
+			<section class="wrapper">
+
+				<section id="main">
+<section class="row">
+	<div class="eightcol">
+	<section id="lead-story" class="lead-latest">
+	<article class="item">
+		<a class="noborder lead-image" href="https://dronewars.net/2019/03/25/will-the-uk-continue-to-launch-strikes-against-isis/" rel="bookmark" title="Permalink to Will the UK continue to launch strikes against&nbsp;ISIS?">
+			<img width="345" height="210" src="https://dronewarsuk.files.wordpress.com/2014/11/reaper-17.jpg?w=345&amp;h=210&amp;crop=1" class="attachment-opti-featured size-opti-featured wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2014/11/reaper-17.jpg?w=345&amp;h=210&amp;crop=1 345w, https://dronewarsuk.files.wordpress.com/2014/11/reaper-17.jpg?w=690&amp;h=420&amp;crop=1 690w, https://dronewarsuk.files.wordpress.com/2014/11/reaper-17.jpg?w=150&amp;h=91&amp;crop=1 150w, https://dronewarsuk.files.wordpress.com/2014/11/reaper-17.jpg?w=300&amp;h=183&amp;crop=1 300w" sizes="(max-width: 345px) 100vw, 345px" data-attachment-id="6292" data-permalink="https://dronewars.net/2014/11/11/uk-launches-drone-strikes-in-iraq-again/reaper-17/" data-orig-file="https://dronewarsuk.files.wordpress.com/2014/11/reaper-17.jpg" data-orig-size="800,450" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Reaper-17" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2014/11/reaper-17.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2014/11/reaper-17.jpg?w=700" />		</a>
+		<h2 class="posttitle">
+			<a class="dark" href="https://dronewars.net/2019/03/25/will-the-uk-continue-to-launch-strikes-against-isis/" rel="bookmark" title="Permalink to Will the UK continue to launch strikes against&nbsp;ISIS?">Will the UK continue to launch strikes against&nbsp;ISIS?</a>
+		</h2>
+<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2019/03/25/will-the-uk-continue-to-launch-strikes-against-isis/" title="1:53 pm" rel="bookmark"><time class="entry-date" datetime="2019-03-25T13:53:58+01:00">25/03/2019</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2019/03/25/will-the-uk-continue-to-launch-strikes-against-isis/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+<p>On Saturday (23 March) the Syrian Defence Force announced that ISISâ last stronghold, the small town of Baghuz on the banks of the Euphrates, had been captured. With that, ISISâ so-called Caliphate was at an end. When British MPs voted&#8230; <a href="https://dronewars.net/2019/03/25/will-the-uk-continue-to-launch-strikes-against-isis/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</article>	</section>
+		<div id="recent-posts" class="ninecol">
+			<h3>Recent Posts</h3>
+			<ul id="recent-excerpts">
+	<li class="post-9386 post type-post status-publish format-standard has-post-thumbnail hentry category-uk-drones-data odd">
+		<h4><a class="dark" href="https://dronewars.net/2019/02/11/latest-foi-release-from-mod-shows-extent-of-uk-air-and-drone-war-in-syria/" rel="bookmark" title="Permalink to Latest FoI release from MoD shows extent of UK air and drone war in&nbsp;Syria">Latest FoI release from MoD shows extent of UK air and drone war in&nbsp;Syria</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2019/02/11/latest-foi-release-from-mod-shows-extent-of-uk-air-and-drone-war-in-syria/" title="10:02 am" rel="bookmark"><time class="entry-date" datetime="2019-02-11T10:02:24+01:00">11/02/2019</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2019/02/11/latest-foi-release-from-mod-shows-extent-of-uk-air-and-drone-war-in-syria/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2019/02/11/latest-foi-release-from-mod-shows-extent-of-uk-air-and-drone-war-in-syria/" rel="bookmark" title="Latest FoI release from MoD shows extent of UK air and drone war in&nbsp;Syria"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2019/02/uk-strikes-2014-2018d.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2019/02/uk-strikes-2014-2018d.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2019/02/uk-strikes-2014-2018d.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2019/02/uk-strikes-2014-2018d.jpg?w=150&amp;h=122&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9404" data-permalink="https://dronewars.net/2019/02/11/latest-foi-release-from-mod-shows-extent-of-uk-air-and-drone-war-in-syria/uk-strikes-2014-2018d/" data-orig-file="https://dronewarsuk.files.wordpress.com/2019/02/uk-strikes-2014-2018d.jpg" data-orig-size="696,359" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="UK strikes 2014-2018d" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2019/02/uk-strikes-2014-2018d.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2019/02/uk-strikes-2014-2018d.jpg?w=696" /></a>
+<p>The rise in UK air and drone strikes in Syria since September 2018 has been laid bare in the MoD&#8217;s latest responses to a Drone Wars UK FoI request. The number of British strikes in Syria per month rose to&#8230; <a href="https://dronewars.net/2019/02/11/latest-foi-release-from-mod-shows-extent-of-uk-air-and-drone-war-in-syria/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9296 post type-post status-publish format-standard has-post-thumbnail hentry category-protector-drone tag-bae-systems tag-caa tag-protector-drone tag-uk-drones even">
+		<h4><a class="dark" href="https://dronewars.net/2019/01/28/general-atomics-bring-in-bae-systems-to-lobby-for-protector-drone-to-fly-in-uk/" rel="bookmark" title="Permalink to General Atomics bring in BAE Systems to lobby for &#8216;Protector&#8217; drone to fly in&nbsp;UK">General Atomics bring in BAE Systems to lobby for &#8216;Protector&#8217; drone to fly in&nbsp;UK</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2019/01/28/general-atomics-bring-in-bae-systems-to-lobby-for-protector-drone-to-fly-in-uk/" title="9:46 am" rel="bookmark"><time class="entry-date" datetime="2019-01-28T09:46:09+01:00">28/01/2019</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2019/01/28/general-atomics-bring-in-bae-systems-to-lobby-for-protector-drone-to-fly-in-uk/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2019/01/28/general-atomics-bring-in-bae-systems-to-lobby-for-protector-drone-to-fly-in-uk/" rel="bookmark" title="General Atomics bring in BAE Systems to lobby for &#8216;Protector&#8217; drone to fly in&nbsp;UK"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2019/01/skyguardian.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2019/01/skyguardian.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2019/01/skyguardian.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2019/01/skyguardian.jpg?w=150&amp;h=121&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9325" data-permalink="https://dronewars.net/2019/01/28/general-atomics-bring-in-bae-systems-to-lobby-for-protector-drone-to-fly-in-uk/skyguardian/" data-orig-file="https://dronewarsuk.files.wordpress.com/2019/01/skyguardian.jpg" data-orig-size="1000,611" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="skyguardian" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2019/01/skyguardian.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2019/01/skyguardian.jpg?w=700" /></a>
+<p>Drone manufacturer, General Atomics, hosted an event in London on 24 January in order &#8211; as its press release put it &#8211; âto recognize UK companies that are contributing to operational systems such as MQ-9Â ReaperÂ and MQ-1CÂ Gray Eagle, and the new&#8230; <a href="https://dronewars.net/2019/01/28/general-atomics-bring-in-bae-systems-to-lobby-for-protector-drone-to-fly-in-uk/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9285 post type-post status-publish format-standard has-post-thumbnail hentry category-editorial-comment tag-gatwick tag-hastings tag-isis tag-max tag-syria tag-yemen odd">
+		<h4><a class="dark" href="https://dronewars.net/2019/01/09/the-gatwick-drone-a-taste-of-the-technology/" rel="bookmark" title="Permalink to The Gatwick drone: A taste of the&nbsp;technology">The Gatwick drone: A taste of the&nbsp;technology</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2019/01/09/the-gatwick-drone-a-taste-of-the-technology/" title="2:06 pm" rel="bookmark"><time class="entry-date" datetime="2019-01-09T14:06:01+01:00">09/01/2019</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2019/01/09/the-gatwick-drone-a-taste-of-the-technology/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2019/01/09/the-gatwick-drone-a-taste-of-the-technology/" rel="bookmark" title="The Gatwick drone: A taste of the&nbsp;technology"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2019/01/gatwick-drone.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2019/01/gatwick-drone.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2019/01/gatwick-drone.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2019/01/gatwick-drone.jpg?w=150&amp;h=121&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9288" data-permalink="https://dronewars.net/2019/01/09/the-gatwick-drone-a-taste-of-the-technology/gatwick-drone/" data-orig-file="https://dronewarsuk.files.wordpress.com/2019/01/gatwick-drone.jpg" data-orig-size="968,681" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="gatwick-drone" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2019/01/gatwick-drone.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2019/01/gatwick-drone.jpg?w=700" /></a>
+<p>Drones dominated the headlines over the Christmas and New Year period after sightings of one or more commercially available drones closed Gatwick airport to flights for 2Â½ days, disrupting thousands of passengers. The inability of the authorities to track down&#8230; <a href="https://dronewars.net/2019/01/09/the-gatwick-drone-a-taste-of-the-technology/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9267 post type-post status-publish format-standard has-post-thumbnail hentry category-uk-drones-future-developments tag-autonomous-weapons tag-autonomy tag-drones tag-uk even">
+		<h4><a class="dark" href="https://dronewars.net/2018/11/10/off-the-leash-autonomous-drones/" rel="bookmark" title="Permalink to Off the Leash: How the UK is developing the technology to build armed autonomous&nbsp;drones">Off the Leash: How the UK is developing the technology to build armed autonomous&nbsp;drones</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/dronewars2/" title="View all posts by Peter Burt" rel="author">Peter Burt</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/11/10/off-the-leash-autonomous-drones/" title="5:25 pm" rel="bookmark"><time class="entry-date" datetime="2018-11-10T17:25:02+01:00">10/11/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/11/10/off-the-leash-autonomous-drones/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/11/10/off-the-leash-autonomous-drones/" rel="bookmark" title="Off the Leash: How the UK is developing the technology to build armed autonomous&nbsp;drones"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/11/leash-featured.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/11/leash-featured.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/11/leash-featured.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/11/leash-featured.jpg?w=150&amp;h=122&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9272" data-permalink="https://dronewars.net/2018/11/10/off-the-leash-autonomous-drones/leash-featured/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/11/leash-featured.jpg" data-orig-size="345,210" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Leash-featured" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/11/leash-featured.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/11/leash-featured.jpg?w=345" /></a>
+<p>A new report published by Drone Wars UK reveals that, despite a UK government statement that it âdoes not possess fully autonomous weapons and has no intention of developing themâ, the Ministry of Defence (MoD) is actively funding research into&#8230; <a href="https://dronewars.net/2018/11/10/off-the-leash-autonomous-drones/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9233 post type-post status-publish format-standard has-post-thumbnail hentry category-editorial-comment tag-drones tag-ethics tag-protest tag-raf-waddington tag-united-nations odd">
+		<h4><a class="dark" href="https://dronewars.net/2018/10/29/why-we-persist-in-opposing-the-growing-use-of-armed-drones/" rel="bookmark" title="Permalink to Why we persist in opposing the growing use of armed&nbsp;drones">Why we persist in opposing the growing use of armed&nbsp;drones</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/10/29/why-we-persist-in-opposing-the-growing-use-of-armed-drones/" title="12:13 pm" rel="bookmark"><time class="entry-date" datetime="2018-10-29T12:13:56+01:00">29/10/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/10/29/why-we-persist-in-opposing-the-growing-use-of-armed-drones/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/10/29/why-we-persist-in-opposing-the-growing-use-of-armed-drones/" rel="bookmark" title="Why we persist in opposing the growing use of armed&nbsp;drones"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/10/waddington-group.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/10/waddington-group.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/10/waddington-group.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/10/waddington-group.jpg?w=150&amp;h=121&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9242" data-permalink="https://dronewars.net/2018/10/29/why-we-persist-in-opposing-the-growing-use-of-armed-drones/waddington-group/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/10/waddington-group.jpg" data-orig-size="2000,1153" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;1.7&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;SM-J530F&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;1540648063&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;3.71&quot;,&quot;iso&quot;:&quot;40&quot;,&quot;shutter_speed&quot;:&quot;0.0020746887966805&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="Waddington group" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/10/waddington-group.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/10/waddington-group.jpg?w=700" /></a>
+<p>Over the past two weeks, campaigners have been in New York taking part inÂ meetings at the UN urging diplomats to control the proliferation and use of armed drones.Â  Drone Wars UK was one of the more than 50 organisations signing&#8230; <a href="https://dronewars.net/2018/10/29/why-we-persist-in-opposing-the-growing-use-of-armed-drones/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9225 post type-post status-publish format-standard has-post-thumbnail hentry category-book-reviews tag-drones tag-elke-schwarz tag-ethics tag-hannah-arendt even">
+		<h4><a class="dark" href="https://dronewars.net/2018/10/03/book-review-death-machines-the-ethics-of-violent-technologies-by-elke-schwarz/" rel="bookmark" title="Permalink to Book Review: Death Machines: The Ethics of Violent Technologies by Elke&nbsp;Schwarz">Book Review: Death Machines: The Ethics of Violent Technologies by Elke&nbsp;Schwarz</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/jofrewdrones/" title="View all posts by Joanna Frew" rel="author">Joanna Frew</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/10/03/book-review-death-machines-the-ethics-of-violent-technologies-by-elke-schwarz/" title="11:41 am" rel="bookmark"><time class="entry-date" datetime="2018-10-03T11:41:27+01:00">03/10/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/10/03/book-review-death-machines-the-ethics-of-violent-technologies-by-elke-schwarz/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/10/03/book-review-death-machines-the-ethics-of-violent-technologies-by-elke-schwarz/" rel="bookmark" title="Book Review: Death Machines: The Ethics of Violent Technologies by Elke&nbsp;Schwarz"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/10/death-machines-fd.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/10/death-machines-fd.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/10/death-machines-fd.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/10/death-machines-fd.jpg?w=150&amp;h=122&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9224" data-permalink="https://dronewars.net/death-machines-fd/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/10/death-machines-fd.jpg" data-orig-size="345,210" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="death-machines-fd" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/10/death-machines-fd.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/10/death-machines-fd.jpg?w=345" /></a>
+<p>The ethical concerns raised by Elke Schwarz in her new book, Death Machines: The Ethics of Violent Technologies, help situate the use of armed drones in a deeper discussion of our modern political landscape and point to the issues that&#8230; <a href="https://dronewars.net/2018/10/03/book-review-death-machines-the-ethics-of-violent-technologies-by-elke-schwarz/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9153 post type-post status-publish format-standard has-post-thumbnail hentry category-interviews tag-british-reapers tag-drone-pilots tag-peter-lee tag-uk-drones tag-uk-reaper-operations odd">
+		<h4><a class="dark" href="https://dronewars.net/2018/09/27/peter-lee-reaper-force/" rel="bookmark" title="Permalink to âHereâs their actual stories, make of them what you will.â Dr Peter Lee on &#8216;Britainâs Reaper&nbsp;Force&#8217;">âHereâs their actual stories, make of them what you will.â Dr Peter Lee on &#8216;Britainâs Reaper&nbsp;Force&#8217;</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/09/27/peter-lee-reaper-force/" title="10:34 am" rel="bookmark"><time class="entry-date" datetime="2018-09-27T10:34:44+01:00">27/09/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/09/27/peter-lee-reaper-force/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/09/27/peter-lee-reaper-force/" rel="bookmark" title="âHereâs their actual stories, make of them what you will.â Dr Peter Lee on &#8216;Britainâs Reaper&nbsp;Force&#8217;"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/09/frontface-small3.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/09/frontface-small3.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/09/frontface-small3.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/09/frontface-small3.jpg?w=150&amp;h=122&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9217" data-permalink="https://dronewars.net/2018/09/27/peter-lee-reaper-force/frontface-small3/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/09/frontface-small3.jpg" data-orig-size="345,210" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="frontface-small3" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/09/frontface-small3.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/09/frontface-small3.jpg?w=345" /></a>
+<p>On 4thÂ October, a ground-breaking book on the UKâs use of armed drones will be published by John Blake Ltd.Â Â &#8216;Reaper Force: The Inside Story of Britain&#8217;s Drone Wars&#8216; is the result of conversations that have taken place over several years between&#8230; <a href="https://dronewars.net/2018/09/27/peter-lee-reaper-force/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9129 post type-post status-publish format-standard has-post-thumbnail hentry category-uk-drones-future-developments tag-bae-systems tag-british-drones tag-dassault tag-france tag-funding tag-tempest even">
+		<h4><a class="dark" href="https://dronewars.net/2018/09/10/tempestuous-relations-brexit-and-uk-future-drone-developments/" rel="bookmark" title="Permalink to Tempestuous relations: Brexit and UK future drone&nbsp;developments">Tempestuous relations: Brexit and UK future drone&nbsp;developments</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/09/10/tempestuous-relations-brexit-and-uk-future-drone-developments/" title="1:19 pm" rel="bookmark"><time class="entry-date" datetime="2018-09-10T13:19:03+01:00">10/09/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/09/10/tempestuous-relations-brexit-and-uk-future-drone-developments/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/09/10/tempestuous-relations-brexit-and-uk-future-drone-developments/" rel="bookmark" title="Tempestuous relations: Brexit and UK future drone&nbsp;developments"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/09/tempest-concept1.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/09/tempest-concept1.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/09/tempest-concept1.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/09/tempest-concept1.jpg?w=150&amp;h=121&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9134" data-permalink="https://dronewars.net/2018/09/10/tempestuous-relations-brexit-and-uk-future-drone-developments/tempest-concept-2/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/09/tempest-concept1.jpg" data-orig-size="1200,675" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Tempest concept" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/09/tempest-concept1.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/09/tempest-concept1.jpg?w=700" /></a>
+<p>In May 2017, Chair of BAE Systems, Sir Roger Carr, blithely insisted at the companyâs AGM that Brexit would have no impact whatsoever on the on-going development of the new Anglo-French advanced combat drone.Â  âWe will still be working with&#8230; <a href="https://dronewars.net/2018/09/10/tempestuous-relations-brexit-and-uk-future-drone-developments/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9123 post type-post status-publish format-standard has-post-thumbnail hentry category-book-reviews tag-autonomous-weapons tag-book-review-2 tag-paul-scharre odd">
+		<h4><a class="dark" href="https://dronewars.net/2018/07/24/book-review-army-of-none-autonomous-weapons-and-the-future-of-war-by-paul-scharre/" rel="bookmark" title="Permalink to Book review: âArmy of None: Autonomous weapons and the future of warâ by Paul&nbsp;Scharre">Book review: âArmy of None: Autonomous weapons and the future of warâ by Paul&nbsp;Scharre</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/dronewars2/" title="View all posts by Peter Burt" rel="author">Peter Burt</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/07/24/book-review-army-of-none-autonomous-weapons-and-the-future-of-war-by-paul-scharre/" title="11:53 am" rel="bookmark"><time class="entry-date" datetime="2018-07-24T11:53:05+01:00">24/07/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/07/24/book-review-army-of-none-autonomous-weapons-and-the-future-of-war-by-paul-scharre/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/07/24/book-review-army-of-none-autonomous-weapons-and-the-future-of-war-by-paul-scharre/" rel="bookmark" title="Book review: âArmy of None: Autonomous weapons and the future of warâ by Paul&nbsp;Scharre"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/07/scharre-mid.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/07/scharre-mid.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/07/scharre-mid.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/07/scharre-mid.jpg?w=150&amp;h=122&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9127" data-permalink="https://dronewars.net/scharre-mid/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/07/scharre-mid.jpg" data-orig-size="1024,512" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="scharre-mid" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/07/scharre-mid.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/07/scharre-mid.jpg?w=700" /></a>
+<p>Paul Scharreâs new book on autonomous weapons begins with an account of an incident he experienced while on patrol as a US Army Ranger in Afghanistan in 2004.Â  A young girl of five or six years old herding a couple&#8230; <a href="https://dronewars.net/2018/07/24/book-review-army-of-none-autonomous-weapons-and-the-future-of-war-by-paul-scharre/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9076 post type-post status-publish format-standard has-post-thumbnail hentry category-editorial-comment tag-british-reapers tag-european-intervention-initiative tag-france tag-mali tag-niger tag-operation-barkhane tag-sahel even">
+		<h4><a class="dark" href="https://dronewars.net/2018/07/09/could-british-reaper-drones-be-deployed-to-the-sahel/" rel="bookmark" title="Permalink to Could British Reaper drones be deployed to the&nbsp;Sahel?">Could British Reaper drones be deployed to the&nbsp;Sahel?</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/07/09/could-british-reaper-drones-be-deployed-to-the-sahel/" title="9:34 am" rel="bookmark"><time class="entry-date" datetime="2018-07-09T09:34:58+01:00">09/07/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/07/09/could-british-reaper-drones-be-deployed-to-the-sahel/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/07/09/could-british-reaper-drones-be-deployed-to-the-sahel/" rel="bookmark" title="Could British Reaper drones be deployed to the&nbsp;Sahel?"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/07/sahel2.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/07/sahel2.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/07/sahel2.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/07/sahel2.jpg?w=150&amp;h=121&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9081" data-permalink="https://dronewars.net/2018/07/09/could-british-reaper-drones-be-deployed-to-the-sahel/sahel2/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/07/sahel2.jpg" data-orig-size="958,517" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Sahel2" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/07/sahel2.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/07/sahel2.jpg?w=700" /></a>
+<p>Although British Reaper drones currently continue to operate over Iraq and Syria, the real desire by British political and military leaders to prove that despite Brexit, the UK is willing, ready and able to co-operate in militarily operations with other&#8230; <a href="https://dronewars.net/2018/07/09/could-british-reaper-drones-be-deployed-to-the-sahel/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9066 post type-post status-publish format-standard has-post-thumbnail hentry category-transparency tag-international-law tag-max-brookman-byrne tag-ministry-of-defence tag-transparency tag-uk-drone-strikes odd">
+		<h4><a class="dark" href="https://dronewars.net/2018/07/09/falling-short/" rel="bookmark" title="Permalink to New report: Falling Short: An analysis of the reporting of UK drone strikes by the&nbsp;MoD">New report: Falling Short: An analysis of the reporting of UK drone strikes by the&nbsp;MoD</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/07/09/falling-short/" title="9:26 am" rel="bookmark"><time class="entry-date" datetime="2018-07-09T09:26:46+01:00">09/07/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/07/09/falling-short/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/07/09/falling-short/" rel="bookmark" title="New report: Falling Short: An analysis of the reporting of UK drone strikes by the&nbsp;MoD"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/07/fallingshort-cover-title.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/07/fallingshort-cover-title.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/07/fallingshort-cover-title.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/07/fallingshort-cover-title.jpg?w=150&amp;h=122&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9072" data-permalink="https://dronewars.net/2018/07/09/falling-short/fallingshort-cover-title/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/07/fallingshort-cover-title.jpg" data-orig-size="395,192" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="FallingShort-cover-title" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/07/fallingshort-cover-title.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/07/fallingshort-cover-title.jpg?w=395" /></a>
+<p>Drone Wars is today publishing &#8216;Falling Short: An analysis of the reporting of UK drone strikes by the MoD&#8216;. Since the beginning of air attacks against ISIS in Iraq and Syria (Operations Shader), the MoD has periodically published reports of&#8230; <a href="https://dronewars.net/2018/07/09/falling-short/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9054 post type-post status-publish format-standard has-post-thumbnail hentry category-protector-drone tag-caa tag-domestic-use tag-fairford tag-general-atomics tag-protector-drone even">
+		<h4><a class="dark" href="https://dronewars.net/2018/06/26/new-protector-drone-to-fly-into-uk-next-month/" rel="bookmark" title="Permalink to New âProtectorâ drone to fly into UK next&nbsp;month">New âProtectorâ drone to fly into UK next&nbsp;month</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/disarmingman/" title="View all posts by Chris Cole" rel="author">Chris Cole</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/06/26/new-protector-drone-to-fly-into-uk-next-month/" title="10:56 am" rel="bookmark"><time class="entry-date" datetime="2018-06-26T10:56:58+01:00">26/06/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/06/26/new-protector-drone-to-fly-into-uk-next-month/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/06/26/new-protector-drone-to-fly-into-uk-next-month/" rel="bookmark" title="New âProtectorâ drone to fly into UK next&nbsp;month"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2017/08/protector-certifiable-predator-b.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2017/08/protector-certifiable-predator-b.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2017/08/protector-certifiable-predator-b.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2017/08/protector-certifiable-predator-b.jpg?w=150&amp;h=121&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="8485" data-permalink="https://dronewars.net/2017/08/21/significant-issues-facing-mod-drone-projects-says-spending-watchdog/protector-certifiable-predator-b/" data-orig-file="https://dronewarsuk.files.wordpress.com/2017/08/protector-certifiable-predator-b.jpg" data-orig-size="640,428" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Protector-Certifiable-Predator-B" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2017/08/protector-certifiable-predator-b.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2017/08/protector-certifiable-predator-b.jpg?w=640" /></a>
+<p>US drone manufacturer General Atomics is to fly one of the updated versions of the Predator drone â dubbed SkyGuardian by the company but named as the âProtectorâ by the MoD â into the UK next month.Â  The drone will&#8230; <a href="https://dronewars.net/2018/06/26/new-protector-drone-to-fly-into-uk-next-month/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+	<li class="post-9012 post type-post status-publish format-standard has-post-thumbnail hentry category-proliferation tag-china tag-drone-proliferation tag-mtcr odd">
+		<h4><a class="dark" href="https://dronewars.net/2018/05/17/new-research-shows-rise-in-number-of-states-deploying-armed-drones/" rel="bookmark" title="Permalink to New research shows rise in number of states deploying armed&nbsp;drones">New research shows rise in number of states deploying armed&nbsp;drones</a></h4>
+		<p class="postmetadata">
+<span class="byline">By <span class="author vcard"><a class="url fn n" href="https://dronewars.net/author/jofrewdrones/" title="View all posts by Joanna Frew" rel="author">Joanna Frew</a></span></span> <em>on</em> <a href="https://dronewars.net/2018/05/17/new-research-shows-rise-in-number-of-states-deploying-armed-drones/" title="9:34 am" rel="bookmark"><time class="entry-date" datetime="2018-05-17T09:34:27+01:00">17/05/2018</time></a>	&bull; <span class="commentcount">( <a href="https://dronewars.net/2018/05/17/new-research-shows-rise-in-number-of-states-deploying-armed-drones/#respond" class="comments_link" >0</a> )</span>
+</p>
+		<div class="excerpt">
+			<a href="https://dronewars.net/2018/05/17/new-research-shows-rise-in-number-of-states-deploying-armed-drones/" rel="bookmark" title="New research shows rise in number of states deploying armed&nbsp;drones"><img width="105" height="85" src="https://dronewarsuk.files.wordpress.com/2018/05/new-generation2.jpg?w=105&amp;h=85&amp;crop=1" class="attachment-opti-post-loop size-opti-post-loop wp-post-image" alt="" srcset="https://dronewarsuk.files.wordpress.com/2018/05/new-generation2.jpg?w=105&amp;h=85&amp;crop=1 105w, https://dronewarsuk.files.wordpress.com/2018/05/new-generation2.jpg?w=210&amp;h=170&amp;crop=1 210w, https://dronewarsuk.files.wordpress.com/2018/05/new-generation2.jpg?w=150&amp;h=122&amp;crop=1 150w" sizes="(max-width: 105px) 100vw, 105px" data-attachment-id="9033" data-permalink="https://dronewars.net/2018/05/17/new-research-shows-rise-in-number-of-states-deploying-armed-drones/new-generation2/" data-orig-file="https://dronewarsuk.files.wordpress.com/2018/05/new-generation2.jpg" data-orig-size="697,380" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="New-Generation2" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2018/05/new-generation2.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2018/05/new-generation2.jpg?w=697" /></a>
+<p>A new report published by Drone Wars UK reveals that over the last five years the number of countries actively using armed drones has quadrupled. Drone Wars: The Next GenerationÂ demonstrates that from just three states (US, UK and Israel) in&#8230; <a href="https://dronewars.net/2018/05/17/new-research-shows-rise-in-number-of-states-deploying-armed-drones/" class="read-more">Read More &rsaquo;</a></p>
+		</div>
+	</li><!--/RECENT EXCERPTS-->
+			</ul>
+<ul id="pagination">
+	<li id="older">
+		<a href="https://dronewars.net/page/2/" >&lsaquo; Older Entries</a>	</li>
+	<li id="newer">
+			</li>
+</ul>
+		</div><!--END RECENT/OLDER POSTS-->
+		<section id="featured-cats" class="threecol">
+			<h3>Featured Categories</h3>
+						<h5><a class="dark" href="https://dronewars.net/category/book-reviews/">Book Reviews &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2018/10/03/book-review-death-machines-the-ethics-of-violent-technologies-by-elke-schwarz/" rel="bookmark" title="Permalink to Book Review: Death Machines: The Ethics of Violent Technologies by Elke&nbsp;Schwarz">Book Review: Death Machines: The Ethics of Violent Technologies by Elke&nbsp;Schwarz</a>
+									<div class="date">03/10/2018</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/campaigning/">Campaigning &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2016/10/03/drone-wars-out-of-sight-out-of-mind-out-of-control/" rel="bookmark" title="Permalink to Drone Wars: Out of Sight, Out of Mind, Out of&nbsp;Control">Drone Wars: Out of Sight, Out of Mind, Out of&nbsp;Control</a>
+									<div class="date">03/10/2016</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/editorial-comment/">Editorial comment &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2019/03/25/will-the-uk-continue-to-launch-strikes-against-isis/" rel="bookmark" title="Permalink to Will the UK continue to launch strikes against&nbsp;ISIS?">Will the UK continue to launch strikes against&nbsp;ISIS?</a>
+									<div class="date">25/03/2019</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/ethical-issues/">Ethical issues &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2016/05/31/reviewing-the-current-debate-on-drones/" rel="bookmark" title="Permalink to Reviewing the current debate on&nbsp;drones">Reviewing the current debate on&nbsp;drones</a>
+									<div class="date">31/05/2016</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/interviews/">Interviews &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2018/09/27/peter-lee-reaper-force/" rel="bookmark" title="Permalink to âHereâs their actual stories, make of them what you will.â Dr Peter Lee on &#8216;Britainâs Reaper&nbsp;Force&#8217;">âHereâs their actual stories, make of them what you will.â Dr Peter Lee on &#8216;Britainâs Reaper&nbsp;Force&#8217;</a>
+									<div class="date">27/09/2018</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/international-controls/">International controls &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2017/09/13/joint-civil-society-statement-on-us-led-armed-drones-control-process/" rel="bookmark" title="Permalink to Joint civil society statement on US-led armed drones control&nbsp;process">Joint civil society statement on US-led armed drones control&nbsp;process</a>
+									<div class="date">13/09/2017</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/israel-and-drones/">Israel and drones &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2016/02/14/anarchist-hacks-israeli-drones/" rel="bookmark" title="Permalink to &#8216;Anarchist&#8217; hacks Israeli&nbsp;drones">&#8216;Anarchist&#8217; hacks Israeli&nbsp;drones</a>
+									<div class="date">14/02/2016</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/proliferation/">Proliferation &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2018/05/17/new-research-shows-rise-in-number-of-states-deploying-armed-drones/" rel="bookmark" title="Permalink to New research shows rise in number of states deploying armed&nbsp;drones">New research shows rise in number of states deploying armed&nbsp;drones</a>
+									<div class="date">17/05/2018</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/protector-drone/">Protector drone &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2019/01/28/general-atomics-bring-in-bae-systems-to-lobby-for-protector-drone-to-fly-in-uk/" rel="bookmark" title="Permalink to General Atomics bring in BAE Systems to lobby for &#8216;Protector&#8217; drone to fly in&nbsp;UK">General Atomics bring in BAE Systems to lobby for &#8216;Protector&#8217; drone to fly in&nbsp;UK</a>
+									<div class="date">28/01/2019</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/tag/transparency/">Transparency &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2018/07/09/falling-short/" rel="bookmark" title="Permalink to New report: Falling Short: An analysis of the reporting of UK drone strikes by the&nbsp;MoD">New report: Falling Short: An analysis of the reporting of UK drone strikes by the&nbsp;MoD</a>
+									<div class="date">09/07/2018</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/uk-drones-data/">UK Drones - Data &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2019/02/11/latest-foi-release-from-mod-shows-extent-of-uk-air-and-drone-war-in-syria/" rel="bookmark" title="Permalink to Latest FoI release from MoD shows extent of UK air and drone war in&nbsp;Syria">Latest FoI release from MoD shows extent of UK air and drone war in&nbsp;Syria</a>
+									<div class="date">11/02/2019</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/uk-drones-future-developments/">UK Drones - Future developments &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2018/11/10/off-the-leash-autonomous-drones/" rel="bookmark" title="Permalink to Off the Leash: How the UK is developing the technology to build armed autonomous&nbsp;drones">Off the Leash: How the UK is developing the technology to build armed autonomous&nbsp;drones</a>
+									<div class="date">10/11/2018</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/uk-drones-operations/">UK Drones - Operations &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2018/05/02/mod-accidentally-reveals-british-drones-firing-thermobaric-missiles-in-syria/" rel="bookmark" title="Permalink to MoD accidentally reveals British drones firing thermobaric missiles in&nbsp;Syria">MoD accidentally reveals British drones firing thermobaric missiles in&nbsp;Syria</a>
+									<div class="date">02/05/2018</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/uk-drones-targeted-killing/">UK Drones - Targeted Killing &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2018/01/02/2018-british-armed-drone-operations-reach-a-crossroads/" rel="bookmark" title="Permalink to 2018: British armed drone operations reach a&nbsp;crossroads">2018: British armed drone operations reach a&nbsp;crossroads</a>
+									<div class="date">02/01/2018</div>
+								</li>
+						</ul>
+						<h5><a class="dark" href="https://dronewars.net/category/uk-drones-policy/">UK Drones - Policy &rsaquo;</a></h5>
+						<ul class="headlines">
+								<li>
+									<a class="dark" href="https://dronewars.net/2017/09/13/new-mod-document-on-use-of-drones-same-old-spin/" rel="bookmark" title="Permalink to New MoD document on use of drones, same old&nbsp;spin">New MoD document on use of drones, same old&nbsp;spin</a>
+									<div class="date">13/09/2017</div>
+								</li>
+						</ul>
+		</section><!--END FEATURED CATS-->
+	</div>
+	<aside class="fourcol last">
+<section id="text-3" class="widget widget_text"><div class="widget-wrap"><h3 class="widgettitle">Welcome</h3>			<div class="textwidget">Drone Wars UK provides information and comment on the growing use of armed drones.  As we are based in the UK we focus on the use of British drones but also include information about armed drones in general.
+<p>
+<a href="https://dronewars.net/role-and-aims/">More about us</a></div>
+		</div></section><section id="media_image-11" class="widget widget_media_image"><div class="widget-wrap"><h3 class="widgettitle">Data on UK air war in Iraq/Syria</h3><style>.widget.widget_media_image { overflow: hidden; }.widget.widget_media_image img { height: auto; max-width: 100%; }</style><a href="https://dronewars.net/uk-drone-strike-list-2/"><img width="468" height="319" src="https://dronewarsuk.files.wordpress.com/2016/05/front-graph.jpg" class="image wp-image-7850 alignnone attachment-full size-full" alt="" style="max-width: 100%; height: auto;" srcset="https://dronewarsuk.files.wordpress.com/2016/05/front-graph.jpg 468w, https://dronewarsuk.files.wordpress.com/2016/05/front-graph.jpg?w=150&amp;h=102 150w, https://dronewarsuk.files.wordpress.com/2016/05/front-graph.jpg?w=300&amp;h=204 300w" sizes="(max-width: 468px) 100vw, 468px" data-attachment-id="7850" data-permalink="https://dronewars.net/front-graph/" data-orig-file="https://dronewarsuk.files.wordpress.com/2016/05/front-graph.jpg" data-orig-size="468,319" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="front-graph" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2016/05/front-graph.jpg?w=300" data-large-file="https://dronewarsuk.files.wordpress.com/2016/05/front-graph.jpg?w=468" /></a></div></section><section id="media_image-12" class="widget widget_media_image"><div class="widget-wrap"><h3 class="widgettitle">NEW: Campaigners Briefing</h3><style>.widget.widget_media_image { overflow: hidden; }.widget.widget_media_image img { height: auto; max-width: 100%; }</style><a href="https://dronewars.net/2016/10/03/drone-wars-out-of-sight-out-of-mind-out-of-control/"><img width="465" height="656" src="https://dronewarsuk.files.wordpress.com/2016/10/osomoc-cover.jpg" class="image wp-image-8118 alignnone attachment-full size-full" alt="" style="max-width: 100%; height: auto;" srcset="https://dronewarsuk.files.wordpress.com/2016/10/osomoc-cover.jpg 465w, https://dronewarsuk.files.wordpress.com/2016/10/osomoc-cover.jpg?w=106&amp;h=150 106w, https://dronewarsuk.files.wordpress.com/2016/10/osomoc-cover.jpg?w=213&amp;h=300 213w" sizes="(max-width: 465px) 100vw, 465px" data-attachment-id="8118" data-permalink="https://dronewars.net/?attachment_id=8118" data-orig-file="https://dronewarsuk.files.wordpress.com/2016/10/osomoc-cover.jpg" data-orig-size="465,656" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="osomoc-cover" data-image-description="" data-medium-file="https://dronewarsuk.files.wordpress.com/2016/10/osomoc-cover.jpg?w=213" data-large-file="https://dronewarsuk.files.wordpress.com/2016/10/osomoc-cover.jpg?w=465" /></a></div></section><section id="text-22" class="widget widget_text"><div class="widget-wrap"><h3 class="widgettitle">Donate to Drone Wars UK</h3>			<div class="textwidget"><p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=95VUEGZMAFXWC&amp;source=url"><br />
+<img src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_cc_147x47.png" alt="Donate Button with Credit Cards" /><br />
+</a></p>
+</div>
+		</div></section><section id="text-21" class="widget widget_text"><div class="widget-wrap"><h3 class="widgettitle">Who has armed drones?</h3>			<div class="textwidget"><p><a href="https://dronewars.net/2018/05/17/new-research-shows-rise-in-number-of-states-deploying-armed-drones/" target="_blank" rel="noopener"><img class="aligncenter wp-image-9016 size-full" src="https://dronewarsuk.files.wordpress.com/2018/05/nextgen-cover.jpg" alt="" width="466" height="655" /></a></p>
+</div>
+		</div></section><section id="twitter_timeline-3" class="widget widget_twitter_timeline"><div class="widget-wrap"><h3 class="widgettitle">Latest Drone News via Twitter</h3><a class="twitter-timeline" data-width="280" data-theme="light" data-link-color="#f96e5b" data-border-color="#e8e8e8" data-tweet-limit="3" data-lang="EN" data-partner="jetpack" data-chrome="noheader noborders transparent" href="https://twitter.com/@Drone_Wars_UK" href="https://twitter.com/@Drone_Wars_UK">My Tweets</a></div></section><section id="blog_subscription-4" class="widget widget_blog_subscription jetpack_subscription_widget"><div class="widget-wrap"><h3 class="widgettitle"><label for="subscribe-field">Follow Blog via Email</label></h3>
+            <form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8"
+                  id="subscribe-blog">
+									<p>Enter your email address to follow this blog and receive notifications of new posts by email.</p>
+<p>Join 2,478 other followers</p>
+                    <p><input type="text" name="email" style="width: 95%; padding: 1px 2px"
+                              placeholder="Enter your email address" value=""
+                              id="subscribe-field"/></p>
+				
+                <p>
+                    <input type="hidden" name="action" value="subscribe"/>
+                    <input type="hidden" name="blog_id" value="14117089"/>
+                    <input type="hidden" name="source" value="https://dronewars.net/"/>
+                    <input type="hidden" name="sub-type" value="widget"/>
+                    <input type="hidden" name="redirect_fragment" value="blog_subscription-4"/>
+					<input type="hidden" id="_wpnonce" name="_wpnonce" value="52f81919b9" />                    <button type="submit"
+		                		                                    >
+		                Follow                    </button>
+                </p>
+            </form>
+			
+</div></section></aside>
+</section>
+		</section>
+	</section>
+</section>
+
+<footer role="contentinfo">
+	<section class="row">
+<section class="col"><section id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><div class="widget-wrap"><h4 class="widgettitle"></h4><div style="overflow:hidden"><a href="https://dronewars.net/tag/afghanistan/" class="tag-cloud-link tag-link-4338 tag-link-position-1" style="font-size: 16.635514018692pt;" aria-label="Afghanistan (31 items)">Afghanistan</a>
+<a href="https://dronewars.net/tag/autonomy/" class="tag-cloud-link tag-link-97000 tag-link-position-2" style="font-size: 12.971962616822pt;" aria-label="Autonomy (16 items)">Autonomy</a>
+<a href="https://dronewars.net/tag/bae-systems/" class="tag-cloud-link tag-link-311354 tag-link-position-3" style="font-size: 12.579439252336pt;" aria-label="BAE Systems (15 items)">BAE Systems</a>
+<a href="https://dronewars.net/tag/british-reapers/" class="tag-cloud-link tag-link-79812226 tag-link-position-4" style="font-size: 9.9626168224299pt;" aria-label="British Reapers (9 items)">British Reapers</a>
+<a href="https://dronewars.net/tag/caa/" class="tag-cloud-link tag-link-834978 tag-link-position-5" style="font-size: 9.9626168224299pt;" aria-label="CAA (9 items)">CAA</a>
+<a href="https://dronewars.net/tag/china/" class="tag-cloud-link tag-link-1470 tag-link-position-6" style="font-size: 8pt;" aria-label="China (6 items)">China</a>
+<a href="https://dronewars.net/tag/cia/" class="tag-cloud-link tag-link-29199 tag-link-position-7" style="font-size: 12.971962616822pt;" aria-label="CIA (16 items)">CIA</a>
+<a href="https://dronewars.net/tag/civil-airspace/" class="tag-cloud-link tag-link-42920002 tag-link-position-8" style="font-size: 9.3084112149533pt;" aria-label="Civil Airspace (8 items)">Civil Airspace</a>
+<a href="https://dronewars.net/tag/civilian-casualties/" class="tag-cloud-link tag-link-499518 tag-link-position-9" style="font-size: 15.196261682243pt;" aria-label="Civilian casualties (24 items)">Civilian casualties</a>
+<a href="https://dronewars.net/tag/creech-afb/" class="tag-cloud-link tag-link-5136048 tag-link-position-10" style="font-size: 8pt;" aria-label="Creech AFB (6 items)">Creech AFB</a>
+<a href="https://dronewars.net/tag/drone-lobby/" class="tag-cloud-link tag-link-78787845 tag-link-position-11" style="font-size: 9.3084112149533pt;" aria-label="Drone lobby (8 items)">Drone lobby</a>
+<a href="https://dronewars.net/tag/drone-overview-2/" class="tag-cloud-link tag-link-205552182 tag-link-position-12" style="font-size: 12.317757009346pt;" aria-label="drone overview (14 items)">drone overview</a>
+<a href="https://dronewars.net/tag/drone-proliferation/" class="tag-cloud-link tag-link-44739256 tag-link-position-13" style="font-size: 14.14953271028pt;" aria-label="Drone proliferation (20 items)">Drone proliferation</a>
+<a href="https://dronewars.net/tag/drone-protest/" class="tag-cloud-link tag-link-43873258 tag-link-position-14" style="font-size: 17.682242990654pt;" aria-label="Drone protest (38 items)">Drone protest</a>
+<a href="https://dronewars.net/tag/drone-protests/" class="tag-cloud-link tag-link-70473216 tag-link-position-15" style="font-size: 8pt;" aria-label="Drone protests (6 items)">Drone protests</a>
+<a href="https://dronewars.net/tag/drones/" class="tag-cloud-link tag-link-137903 tag-link-position-16" style="font-size: 10.485981308411pt;" aria-label="drones (10 items)">drones</a>
+<a href="https://dronewars.net/tag/ethics/" class="tag-cloud-link tag-link-8289 tag-link-position-17" style="font-size: 11.92523364486pt;" aria-label="Ethics (13 items)">Ethics</a>
+<a href="https://dronewars.net/tag/foi/" class="tag-cloud-link tag-link-206185 tag-link-position-18" style="font-size: 12.971962616822pt;" aria-label="FoI (16 items)">FoI</a>
+<a href="https://dronewars.net/tag/france/" class="tag-cloud-link tag-link-4704 tag-link-position-19" style="font-size: 13.88785046729pt;" aria-label="France (19 items)">France</a>
+<a href="https://dronewars.net/tag/freedom-of-information/" class="tag-cloud-link tag-link-30940 tag-link-position-20" style="font-size: 10.485981308411pt;" aria-label="Freedom of Information (10 items)">Freedom of Information</a>
+<a href="https://dronewars.net/tag/international-law/" class="tag-cloud-link tag-link-47413 tag-link-position-21" style="font-size: 16.242990654206pt;" aria-label="International Law (29 items)">International Law</a>
+<a href="https://dronewars.net/tag/iran/" class="tag-cloud-link tag-link-6645 tag-link-position-22" style="font-size: 8pt;" aria-label="Iran (6 items)">Iran</a>
+<a href="https://dronewars.net/tag/iraq/" class="tag-cloud-link tag-link-1147 tag-link-position-23" style="font-size: 16.897196261682pt;" aria-label="Iraq (33 items)">Iraq</a>
+<a href="https://dronewars.net/tag/isis/" class="tag-cloud-link tag-link-12871 tag-link-position-24" style="font-size: 11.92523364486pt;" aria-label="ISIS (13 items)">ISIS</a>
+<a href="https://dronewars.net/tag/israel/" class="tag-cloud-link tag-link-9937 tag-link-position-25" style="font-size: 16.897196261682pt;" aria-label="Israel (33 items)">Israel</a>
+<a href="https://dronewars.net/tag/legal-issues/" class="tag-cloud-link tag-link-7009 tag-link-position-26" style="font-size: 15.588785046729pt;" aria-label="Legal issues (26 items)">Legal issues</a>
+<a href="https://dronewars.net/tag/media/" class="tag-cloud-link tag-link-292 tag-link-position-27" style="font-size: 11.009345794393pt;" aria-label="media (11 items)">media</a>
+<a href="https://dronewars.net/tag/military-drone-crashes/" class="tag-cloud-link tag-link-221349414 tag-link-position-28" style="font-size: 14.14953271028pt;" aria-label="Military drone crashes (20 items)">Military drone crashes</a>
+<a href="https://dronewars.net/tag/mtcr/" class="tag-cloud-link tag-link-11175610 tag-link-position-29" style="font-size: 8.6542056074766pt;" aria-label="MTCR (7 items)">MTCR</a>
+<a href="https://dronewars.net/tag/pakistan/" class="tag-cloud-link tag-link-3235 tag-link-position-30" style="font-size: 18.990654205607pt;" aria-label="Pakistan (48 items)">Pakistan</a>
+<a href="https://dronewars.net/tag/parliament/" class="tag-cloud-link tag-link-31184 tag-link-position-31" style="font-size: 9.9626168224299pt;" aria-label="Parliament (9 items)">Parliament</a>
+<a href="https://dronewars.net/tag/pro-drone/" class="tag-cloud-link tag-link-43873591 tag-link-position-32" style="font-size: 12.971962616822pt;" aria-label="Pro-drone (16 items)">Pro-drone</a>
+<a href="https://dronewars.net/tag/raf-waddington/" class="tag-cloud-link tag-link-8158979 tag-link-position-33" style="font-size: 14.411214953271pt;" aria-label="RAF Waddington (21 items)">RAF Waddington</a>
+<a href="https://dronewars.net/tag/reaper/" class="tag-cloud-link tag-link-288284 tag-link-position-34" style="font-size: 14.672897196262pt;" aria-label="Reaper (22 items)">Reaper</a>
+<a href="https://dronewars.net/tag/research/" class="tag-cloud-link tag-link-668 tag-link-position-35" style="font-size: 8pt;" aria-label="research (6 items)">research</a>
+<a href="https://dronewars.net/tag/reyaad-khan/" class="tag-cloud-link tag-link-244540532 tag-link-position-36" style="font-size: 9.3084112149533pt;" aria-label="Reyaad Khan (8 items)">Reyaad Khan</a>
+<a href="https://dronewars.net/tag/secrecy/" class="tag-cloud-link tag-link-76962 tag-link-position-37" style="font-size: 14.934579439252pt;" aria-label="secrecy (23 items)">secrecy</a>
+<a href="https://dronewars.net/tag/surveillance/" class="tag-cloud-link tag-link-21053 tag-link-position-38" style="font-size: 8pt;" aria-label="Surveillance (6 items)">Surveillance</a>
+<a href="https://dronewars.net/tag/syria/" class="tag-cloud-link tag-link-18052 tag-link-position-39" style="font-size: 16.373831775701pt;" aria-label="Syria (30 items)">Syria</a>
+<a href="https://dronewars.net/tag/taranis/" class="tag-cloud-link tag-link-8582490 tag-link-position-40" style="font-size: 9.9626168224299pt;" aria-label="Taranis (9 items)">Taranis</a>
+<a href="https://dronewars.net/tag/targeted-killing/" class="tag-cloud-link tag-link-12160763 tag-link-position-41" style="font-size: 14.934579439252pt;" aria-label="Targeted Killing (23 items)">Targeted Killing</a>
+<a href="https://dronewars.net/tag/telemos/" class="tag-cloud-link tag-link-58802108 tag-link-position-42" style="font-size: 9.3084112149533pt;" aria-label="Telemos (8 items)">Telemos</a>
+<a href="https://dronewars.net/tag/transparency/" class="tag-cloud-link tag-link-636 tag-link-position-43" style="font-size: 9.9626168224299pt;" aria-label="Transparency (9 items)">Transparency</a>
+<a href="https://dronewars.net/tag/uk/" class="tag-cloud-link tag-link-8199 tag-link-position-44" style="font-size: 8pt;" aria-label="UK (6 items)">UK</a>
+<a href="https://dronewars.net/tag/uk-drones/" class="tag-cloud-link tag-link-38035253 tag-link-position-45" style="font-size: 22pt;" aria-label="UK Drones (83 items)">UK Drones</a>
+<a href="https://dronewars.net/tag/uk-reapers/" class="tag-cloud-link tag-link-127229957 tag-link-position-46" style="font-size: 15.85046728972pt;" aria-label="UK Reapers (27 items)">UK Reapers</a>
+<a href="https://dronewars.net/tag/un/" class="tag-cloud-link tag-link-700 tag-link-position-47" style="font-size: 9.3084112149533pt;" aria-label="UN (8 items)">UN</a>
+<a href="https://dronewars.net/tag/us-drones/" class="tag-cloud-link tag-link-11439680 tag-link-position-48" style="font-size: 12.317757009346pt;" aria-label="US Drones (14 items)">US Drones</a>
+<a href="https://dronewars.net/tag/watchkeeper/" class="tag-cloud-link tag-link-23801749 tag-link-position-49" style="font-size: 13.364485981308pt;" aria-label="Watchkeeper (17 items)">Watchkeeper</a>
+<a href="https://dronewars.net/tag/yemen/" class="tag-cloud-link tag-link-61496 tag-link-position-50" style="font-size: 14.672897196262pt;" aria-label="Yemen (22 items)">Yemen</a></div></div></section></section><section class="col"><section id="text-11" class="widget widget_text"><div class="widget-wrap"><h4 class="widgettitle">Video vault: News items</h4>			<div class="textwidget"><div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='300' height='169' src='https://www.youtube.com/embed/f_z0uaWTQaw?version=3&#038;rel=0&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+<p><div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='300' height='169' src='https://www.youtube.com/embed/qZsfKJc4Tgg?version=3&#038;rel=0&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+<p><div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='300' height='169' src='https://www.youtube.com/embed/t36HpU1fSz8?version=3&#038;rel=0&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+</div>
+		</div></section></section><section class="col"><section id="text-12" class="widget widget_text"><div class="widget-wrap"><h4 class="widgettitle">Video vault: Docs</h4>			<div class="textwidget"><div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='300' height='169' src='https://www.youtube.com/embed/dCDtTdUHB7k?version=3&#038;rel=0&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+<p><div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='300' height='169' src='https://www.youtube.com/embed/TyJoJUs14bc?version=3&#038;rel=0&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+<p><div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='300' height='169' src='https://www.youtube.com/embed/8hzEMUsU-WQ?version=3&#038;rel=0&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+</div>
+		</div></section></section><section class="col"><section id="text-10" class="widget widget_text"><div class="widget-wrap"><h4 class="widgettitle">Contact us:</h4>			<div class="textwidget"><p><font color="white">Drone Wars UK<br />
+Peace House<br />
+19 Paradise Street<br />
+Oxford OX1 1LD</p>
+<p>01865 243688<br />
+07960 811437<br />
+info@dronewars.net</p>
+</div>
+		</div></section><section id="text-7" class="widget widget_text"><div class="widget-wrap"><h4 class="widgettitle">Please support our work:</h4>			<div class="textwidget"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=TKAC995236L6J"><img src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" alt="" /></a></div>
+		</div></section><section id="follow_button_widget-2" class="widget widget_follow_button_widget"><div class="widget-wrap">
+		<a class="wordpress-follow-button" href="https://dronewars.net" data-blog="https://dronewars.net" data-lang="en" data-show-follower-count="true">Follow Drone Wars UK on WordPress.com</a>
+		<script type="text/javascript">(function(d){var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');p.type = 'text/javascript';p.async = true;p.src = '//widgets.wp.com/platform.js';f.parentNode.insertBefore(p,f);}(document));</script>
+
+		</div></section></section>	</section>
+	<section id="footer-wrap">
+		<section class="row">
+			<div class="left">
+				<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+				
+							</div>
+		</section>
+	</section>
+</footer>
+
+		<script type="text/javascript">
+		//<![CDATA[
+		var infiniteScroll = JSON.parse( decodeURIComponent( '%7B%22settings%22%3A%7B%22id%22%3A%22recent-excerpts%22%2C%22ajaxurl%22%3A%22https%3A%5C%2F%5C%2Fdronewars.net%5C%2F%3Finfinity%3Dscrolling%22%2C%22type%22%3A%22click%22%2C%22wrapper%22%3Atrue%2C%22wrapper_class%22%3A%22infinite-wrap%22%2C%22footer%22%3A%22main%22%2C%22click_handle%22%3A%221%22%2C%22text%22%3A%22Older%20posts%22%2C%22totop%22%3A%22Scroll%20back%20to%20top%22%2C%22currentday%22%3A%2225.03.19%22%2C%22order%22%3A%22DESC%22%2C%22scripts%22%3A%5B%5D%2C%22styles%22%3A%5B%5D%2C%22google_analytics%22%3Afalse%2C%22offset%22%3A0%2C%22history%22%3A%7B%22host%22%3A%22dronewars.net%22%2C%22path%22%3A%22%5C%2Fpage%5C%2F%25d%5C%2F%22%2C%22use_trailing_slashes%22%3Atrue%2C%22parameters%22%3A%22%22%7D%2C%22query_args%22%3A%7B%22error%22%3A%22%22%2C%22m%22%3A%22%22%2C%22p%22%3A0%2C%22post_parent%22%3A%22%22%2C%22subpost%22%3A%22%22%2C%22subpost_id%22%3A%22%22%2C%22attachment%22%3A%22%22%2C%22attachment_id%22%3A0%2C%22name%22%3A%22%22%2C%22pagename%22%3A%22%22%2C%22page_id%22%3A0%2C%22second%22%3A%22%22%2C%22minute%22%3A%22%22%2C%22hour%22%3A%22%22%2C%22day%22%3A0%2C%22monthnum%22%3A0%2C%22year%22%3A0%2C%22w%22%3A0%2C%22category_name%22%3A%22%22%2C%22tag%22%3A%22%22%2C%22cat%22%3A%22%22%2C%22tag_id%22%3A%22%22%2C%22author%22%3A%22%22%2C%22author_name%22%3A%22%22%2C%22feed%22%3A%22%22%2C%22tb%22%3A%22%22%2C%22paged%22%3A0%2C%22meta_key%22%3A%22%22%2C%22meta_value%22%3A%22%22%2C%22preview%22%3A%22%22%2C%22s%22%3A%22%22%2C%22sentence%22%3A%22%22%2C%22title%22%3A%22%22%2C%22fields%22%3A%22%22%2C%22menu_order%22%3A%22%22%2C%22embed%22%3A%22%22%2C%22category__in%22%3A%5B%5D%2C%22category__not_in%22%3A%5B%5D%2C%22category__and%22%3A%5B%5D%2C%22post__in%22%3A%5B%5D%2C%22post__not_in%22%3A%5B%5D%2C%22post_name__in%22%3A%5B%5D%2C%22tag__in%22%3A%5B%5D%2C%22tag__not_in%22%3A%5B%5D%2C%22tag__and%22%3A%5B%5D%2C%22tag_slug__in%22%3A%5B%5D%2C%22tag_slug__and%22%3A%5B%5D%2C%22post_parent__in%22%3A%5B%5D%2C%22post_parent__not_in%22%3A%5B%5D%2C%22author__in%22%3A%5B%5D%2C%22author__not_in%22%3A%5B%5D%2C%22posts_per_page%22%3A14%2C%22ignore_sticky_posts%22%3Afalse%2C%22suppress_filters%22%3Afalse%2C%22cache_results%22%3Afalse%2C%22update_post_term_cache%22%3Atrue%2C%22lazy_load_term_meta%22%3Atrue%2C%22update_post_meta_cache%22%3Atrue%2C%22post_type%22%3A%22%22%2C%22nopaging%22%3Afalse%2C%22comments_per_page%22%3A%2250%22%2C%22no_found_rows%22%3Afalse%2C%22order%22%3A%22DESC%22%7D%2C%22last_post_date%22%3A%222018-05-17%2009%3A34%3A27%22%2C%22stats%22%3A%22blog%3D14117089%26v%3Dwpcom%26tz%3D1%26user_id%3D0%26subd%3Ddronewarsuk%26x_pagetype%3Dinfinite-click%22%7D%7D' ) );
+		//]]>
+		</script>
+		<!--  -->
+<style>#masthead { background:#293033; }
+#masthead #logo a { color:#bfbfbf; }
+#masthead h2 { color:#ffffff; }
+#nav-primary { background:#background: #15181a;background: -moz-linear-gradient(top,  #1f2426 0%, #15181a 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1f2426), color-stop(100%,#15181a));background: -webkit-linear-gradient(top, #1f2426 0%, #15181a 100%);background: -o-linear-gradient(top, #1f2426 0%,#15181a 100%);background: -ms-linear-gradient(top, #1f2426 0%,#15181a 100%);background: linear-gradient(to bottom, #1f2426 0%,#15181a 100%);; border-color:#15181a }
+#nav-primary li:hover, #nav-primary li.current-cat { background-color: #15181a; }
+#nav-primary .current-menu-item > a, #nav-primary .current-cat > a { border-top-color:#1899cb; }
+#nav-primary li { border-right-color:#15181a; border-left-color:#23292b; }
+#nav-primary .current-menu-item { background-color:#15181a; color:#bfbfbf; }
+#nav-primary .current-menu-item > a, #nav-primary .current-cat > a { border-color:#8ccde6; color:#bfbfbf; }
+#masthead input.searchfield { background:#23292b; color:#bfbfbf; }
+#masthead input.searchfield::-webkit-input-placeholder { color:#bfbfbf; }
+#masthead input.searchfield::-moz-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:-moz-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:-ms-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:focus, #masthead input.searchfield:hover { background:#1f2426; color:#bfbfbf; }
+#masthead input.searchfield::-webkit-input-placeholder, #masthead input.searchfield::-moz-placeholder { color:#bfbfbf; }
+a, a:visited { color:#1899cb; }
+footer { color:#bfbfbf; background:#15181a; }
+footer a, footer a:visited { color:#52b3d8; }
+#footer-wrap { border-color:#0a0c0d; }
+#featured-cats h5 { background:#eaebeb; border-color:#95989a; }
+#featured-cats h5 a, #featured-cats h5 a:visited { color:#000000; }</style><script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+<style>#masthead { background:#293033; }
+#masthead #logo a { color:#bfbfbf; }
+#masthead h2 { color:#ffffff; }
+#nav-primary { background:#background: #15181a;background: -moz-linear-gradient(top,  #1f2426 0%, #15181a 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1f2426), color-stop(100%,#15181a));background: -webkit-linear-gradient(top, #1f2426 0%, #15181a 100%);background: -o-linear-gradient(top, #1f2426 0%,#15181a 100%);background: -ms-linear-gradient(top, #1f2426 0%,#15181a 100%);background: linear-gradient(to bottom, #1f2426 0%,#15181a 100%);; border-color:#15181a }
+#nav-primary li:hover, #nav-primary li.current-cat { background-color: #15181a; }
+#nav-primary .current-menu-item > a, #nav-primary .current-cat > a { border-top-color:#1899cb; }
+#nav-primary li { border-right-color:#15181a; border-left-color:#23292b; }
+#nav-primary .current-menu-item { background-color:#15181a; color:#bfbfbf; }
+#nav-primary .current-menu-item > a, #nav-primary .current-cat > a { border-color:#8ccde6; color:#bfbfbf; }
+#masthead input.searchfield { background:#23292b; color:#bfbfbf; }
+#masthead input.searchfield::-webkit-input-placeholder { color:#bfbfbf; }
+#masthead input.searchfield::-moz-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:-moz-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:-ms-placeholder { color:#bfbfbf; }
+#masthead input.searchfield:focus, #masthead input.searchfield:hover { background:#1f2426; color:#bfbfbf; }
+#masthead input.searchfield::-webkit-input-placeholder, #masthead input.searchfield::-moz-placeholder { color:#bfbfbf; }
+a, a:visited { color:#1899cb; }
+footer { color:#bfbfbf; background:#15181a; }
+footer a, footer a:visited { color:#52b3d8; }
+#footer-wrap { border-color:#0a0c0d; }
+#featured-cats h5 { background:#eaebeb; border-color:#95989a; }
+#featured-cats h5 a, #featured-cats h5 a:visited { color:#000000; }</style><script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/dronewarsuk.wordpress.com\/public.api\/connect\/?action=request&domain=dronewars.net","logoutURL":"https:\/\/dronewarsuk.wordpress.com\/wp-login.php?action=logout&_wpnonce=38cab5525b","homeURL":"https:\/\/dronewars.net\/","postID":"9432","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1551752381j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="14117089" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://dronewars.net" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Drone Wars UK" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="9e445bd00e" /><input type="hidden" name="_wp_http_referer" value="/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<link rel='stylesheet' id='all-css-0-3' href='https://s1.wp.com/_static/??-eJx9y00KgCAQQOELNQ39QovoLKJDWJOKo0W3jxYtgmj5Hnx4BNDeJXIJtwyB82ydoFbRZyHGhVJQeoVnlFqkwG8USYJ3YneC3RryH+ePJ8tkYFbMFM933Wzaxqqr234YuqZdLoqqROg=?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"14117089","siteName":"Drone Wars UK","siteURL":"https:\/\/dronewars.net","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"premium\/opti","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fdronewars.net%2F2019%2F03%2F25%2Fwill-the-uk-continue-to-launch-strikes-against-isis%2F&signup_flow=account&domain=dronewars.net","themeURL":"https:\/\/wordpress.com\/theme\/opti\/","xhrURL":"https:\/\/dronewars.net\/wp-admin\/admin-ajax.php","nonce":"27b1b17b50","isSingular":"","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"52f81919b9\" \/>","referer":"https:\/\/dronewars.net\/","canFollow":"1","feedID":"11233173","statusMessage":"","customizeLink":"https:\/\/dronewarsuk.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fdronewarsuk.wordpress.com%2F","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Opti","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 2,478 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fdronewars.net%2F2019%2F03%2F25%2Fwill-the-uk-continue-to-launch-strikes-against-isis%2F&signup_flow=account&domain=dronewars.net\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/dronewars.net\/wp-admin\/admin-ajax.php","nonce":"fe690db059","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/dronewarsuk.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fdronewars.net%2F2019%2F03%2F25%2Fwill-the-uk-continue-to-launch-strikes-against-isis%2F","blog_id":"14117089","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=14117089&v=wpcom&tz=1&user_id=0&subd=dronewarsuk","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyVkNFuwyAMRX9oFHVt1adpnzJRcDtTMAybZP37kUiJqilD2pux77nXRo9Z2UQCJNqzdjCghfy98/yin0axqhzqDYl1wDuw/qpQ4dOQC1A6YqQrEspjLRYtkg3VNaMWitHcgEMyDtwuIm1pouFE5fE83ojzINnYu/5oqJYRRaAowQgBCTqccc1XXUyZchrTKpUGKAWn+LX3TwcpbRfuQVYw0QStVUdtTUmVISxXqqXRYQpwTsQ4gBraLWmj89eP83hNFw9Wftsv3jOuDTPIDMzv3Pynk9/j2/50Or4ezofz3v8Aj7vnjA=='></script>
+<script type='text/javascript' src='https://platform.twitter.com/widgets.js?ver=20111117'></script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyVy0sOQEAMANALqcZnluIsmGbSUTUZRdyerZVYvsXDM8G0qpEaLjsk2QPrhnayGWUYZZjmkbOHxIRKB2VSzxrKuBX456bvx0IewiBC+XrrWf3SVc61deOquo03DQdDyw=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script type="text/javascript">
+			jQuery.extend( infiniteScroll.settings.scripts, ["jquery-core","jquery-migrate","jquery","postmessage","mobile-useragent-info","jquery_inview","jetpack_resize","opti-elemental-components","opti-script-responsive-navigation","opti-script-main","spin","jquery.spin","grofiles-cards","wpgroho","jquery.autoresize","highlander-comments","devicepx","jetpack_likes_queuehandler","the-neverending-homepage","imagesloaded","masonry","jetpack-twitter-timeline","wpcom-masterbar-js","wpcom-masterbar-tracks-js","wpcom-actionbar-bar","jetpack-carousel","jetpack-responsive-videos-min-script","swfobject","videopress","twitter-widgets","twitter-widgets-infinity","twitter-widgets-pending","tiled-gallery"] );
+			jQuery.extend( infiniteScroll.settings.styles, ["wpcom-smileys","jetpack_likes","the-neverending-homepage","wp-block-library","wpcom-core-compat-playlist-styles","wpcom-text-widget-styles","mp6hacks","wpcom-bbpress2-staff-css","opti-style","genericons","opti-style-1140","opti-style-print","noticons","geo-location-flair","reblogging","wpcom-actionbar-bar","sharedaddy","social-logos","h4-global","opti-font-merriweather","highlander-comments","highlander-comments-ie7","jetpack-carousel","jetpack-responsive-videos-style","tiled-gallery"] );
+		</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'14117089','blog_tz':'1','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'14117089','v':'wpcom','tz':'1','user_id':'0','subd':'dronewarsuk'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dkaXdvN3wlZlpxW2JvJSZFWDZdNTYvaHkwSW9iLzRFS08lYz1sK356LWw5by9OY3x+XzcraVUtRys0QWs5UkQvZGRQX0YvU1hndVR6ayx5bCVobnRfempTUXZ4M1BhfldQNk9Gd3olMG84JmkrT1h1a1NmQ3o1W1EtdyVMQz9ITy1LMTRaaDZhWUNpbVNobW9tTm5vbXxlZUwsYVBTcjNpT3AvQWtfJlNZUHVFQ10vaGRWRVUxVD0tb2JYY3RzXU40bys5YllSUU5KcEJvQno9ZjImTVElL3cmWDFlXVNmazM4Ml1fWFhvd1Q2NDBmdmZmY0M1cE8rNStLJnI='}]);
+_stq.push([ 'clickTrackerInit', '14117089', '0' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
+
+
+
+#####EOF#####
+
+

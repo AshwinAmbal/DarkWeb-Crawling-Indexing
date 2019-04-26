@@ -1,0 +1,1586 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>NetworkMiner - The NSM and Network Forensics Analysis Tool â</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta property="og:title" content="NetworkMiner - The NSM and Network Forensics Analysis Tool â" />
+    <meta content="Netresec" property="og:site_name" />
+    <meta name="description" content="Network Miner is a network forensics tool for analyzing network traffic" />
+    <meta property="og:description" content="Network Miner is a network forensics tool for analyzing network traffic" />
+    <meta name="keywords" content="networkminer, network miner, minor, netminer, net, pcap, analyzer, forensic, investigate, sniff, witness, security onion, nfat, nta, Network Traffic Analysis" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="msapplication-TileImage" content="/images/netresec_logo_144x144.png" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="viewport" content="width=850, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="NETRESEC Network Security Blog - RSS" href="https://www.netresec.com/rss.ashx" />
+    <link rel="openid.server" href="http://www.myopenid.com/server" />
+    <link rel="openid.delegate" href="http://netresec.myopenid.com/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@netresec" />
+    <meta name="twitter:title" content="NetworkMiner - The NSM and Network Forensics Analysis Tool â" />
+    <meta name="twitter:description" content="Network Miner is a network forensics tool for analyzing network traffic" />
+    <meta name="twitter:image" content="https://www.netresec.com/images/NetworkMiner_logo_313x313.png" />
+    <script type="text/javascript">
+              var _gaq = _gaq || [];
+              _gaq.push(['_setAccount', 'UA-20800390-1']);
+              _gaq.push(['_trackPageview']);
+
+              (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+              })();
+            </script>
+  </head>
+  <body>
+    <div class="middle">
+      <div id="pageHeader">
+        <span style="align: right; float: right; vertical-align: top;">Experts in network security monitoring and network forensics</span>
+        <a href="https://www.netresec.com/">
+          <img src="/images/netresec_logo_294x85.png" alt="ð½ð´ððð´ðð´ð²" />
+        </a>
+        <div class="topNavigation">
+          <a href="/?page=Home">NETRESEC</a>
+          <span>|</span>
+          <a href="/?page=Products">Products</a>
+          <span>|</span>
+          <a href="/?page=Training">Training</a>
+          <span>|</span>
+          <a href="/?page=Resources">Resources</a>
+          <span>|</span>
+          <a href="/?page=Blog">Blog</a>
+          <span>|</span>
+          <a href="/?page=AboutNetresec">About Netresec</a>
+          <span>|</span>
+        </div>
+        <span class="path">
+          <a href="/">NETRESEC</a>
+    &gt;
+    <a href="/?page=Products">Products</a>
+    &gt;
+    <a href="/?page=NetworkMiner">NetworkMiner</a></span>
+      </div>
+      <div id="pageBody">
+        <img src="/images/NetworkMiner_logo_313x313.png" alt="NetworkMiner logo" style="float: right;" />
+        <h1>NetworkMiner</h1>
+        <p>
+      NetworkMiner is an <a href="/?page=NetworkMinerSourceCode">open source</a> Network Forensic Analysis Tool (NFAT) for Windows (but also <a href="https://www.netresec.com/?page=Blog&amp;month=2014-02&amp;post=HowTo-install-NetworkMiner-in-Ubuntu-Fedora-and-Arch-Linux">works in Linux</a> / <a href="https://netresec.com/?b=146F525">Mac OS X</a> / <a href="https://netresec.com/?b=11C135E">FreeBSD</a>).
+      NetworkMiner can be used as a passive network sniffer/packet capturing tool in order to detect operating systems, sessions, hostnames, open ports etc. without putting any traffic on the network. NetworkMiner can also parse PCAP files for off-line analysis and to regenerate/reassemble transmitted files and certificates from PCAP files.
+    </p>
+        <p>
+      NetworkMiner makes it easy to perform advanced Network Traffic Analysis (NTA) by providing extracted artifacts in an intuitive user interface.
+      The way data is presented not only makes the analysis simpler, it also saves valuable time for the analyst or forensic investigator.
+    </p>
+        <p>
+      NetworkMiner has, since the first release in 2007, become a popular tool among incident response teams as well as law enforcement. NetworkMiner is today used by companies and organizations all over the world.
+    </p>
+        <table class="bordered" style="clear: both;">
+          <tr>
+            <td style="background-color: #ffffff; border: none;" />
+            <th>NetworkMiner (free edition)</th>
+            <th>NetworkMiner Professional</th>
+          </tr>
+          <tr>
+            <th>Live sniffing</th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Parse PCAP files</th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Parse <a href="http://pcapng.com">PcapNG</a> files</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>IPv6 support</th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Extract files from FTP, TFTP, HTTP, SMB, SMB2, SMTP, POP3 and IMAP traffic</th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a href="https://netresec.com/?b=17124C4">Extract X.509 certificates</a> from SSL encrypted traffic like HTTPS, SMTPS, IMAPS, POP3S, FTPS etc.</th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Decapsulation of GRE, 802.1Q, PPPoE, VXLAN, OpenFlow, SOCKS, MPLS and EoMPLS</th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>
+          Receive <a href="https://www.netresec.com/?page=Blog&amp;month=2011-09&amp;post=Pcap-over-IP-in-NetworkMiner">Pcap-over-IP</a></th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Runs in Windows and <a href="https://netresec.com/?b=142AA47">Linux</a></th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>OS Fingerprinting (*)</th>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a href="https://netresec.com/?b=1846A54">Audio extraction and playback of VoIP calls</a>
+            </th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a href="https://netresec.com/?b=1846A54">OSINT lookups of file hashes, IP addresses, domain names and URLs</a>
+            </th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Port Independent<br />Protocol Identification (PIPI)</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>
+          User Defined Port-to-Protocol Mappings (decode as)
+        </th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Export to CSV / Excel / XML / CASE / JSON-LD</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Configurable file output directory</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Configurable time zone (UTC, local or custom)</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Geo IP localization (**)</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a href="https://netresec.com/?b=13A66EB">DNS Whitelisting</a> (***)</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Advanced OS fingerprinting</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a href="https://netresec.com/?b=162EF93">Web browser tracing</a>
+          (4:10 into <a href="https://www.netresec.com/VideoPlayer.ashx?clip=network-forensics-tutorial-malware-redirects_1152x864&amp;offset=244&amp;autoplay=true">this video</a>)
+        </th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a href="https://netresec.com/?b=17124C4">Online ad and tracker detection</a>
+            </th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Host coloring support</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" />
+            </td>
+          </tr>
+          <tr>
+            <th>Command line scripting support</th>
+            <td />
+            <td>
+              <img src="/images/bock.png" alt="Yes" /> (through <a href="/?page=Blog&amp;month=2011-03&amp;post=Command-line-Network-Forensics-with-NetworkMinerCLI">NetworkMinerCLI</a>)
+        </td>
+          </tr>
+          <tr>
+            <th>PCAP parsing speed (****)</th>
+            <td>2.31 MB/s</td>
+            <td>1.49 MB/s (GUI version)<br />1.73 MB/s (<a href="/?page=Blog&amp;month=2011-03&amp;post=Command-line-Network-Forensics-with-NetworkMinerCLI">command line version</a>)</td>
+          </tr>
+          <tr>
+            <th>Price</th>
+            <td>Free</td>
+            <td>$ 900 USD</td>
+          </tr>
+          <tr>
+            <th />
+            <th>
+              <a href="https://www.netresec.com/?download=NetworkMiner" class="sfdl sfdl-lite">Download NetworkMiner <nobr>(free edition)</nobr></a>
+            </th>
+            <th>
+              <nobr>
+                <a href="/?page=BuyNetworkMiner">Buy NetworkMiner Professional</a>
+              </nobr>
+            </th>
+          </tr>
+          <tr>
+            <td colspan="3" style="background-color: #ffffff; border: none;">
+              <i>
+            * Fingerprinting of Operating Systems (OS) is performed by using databases from <a href="https://github.com/xnih/satori">Satori</a> and <a href="http://lcamtuf.coredump.cx/p0f.shtml">p0f</a><br />
+            ** This product includes GeoLite data created by MaxMind, available from <a href="http://maxmind.com/">http://maxmind.com/</a><br />
+            *** Domain names in the DNS tab are checked against the <a href="http://www.alexa.com/topsites">Alexa top 1,000,000 sites</a><br />
+            **** Measured by loading <a href="https://www.openpacket.org/capture/show/45">dump.eth0.1059726000 from Defcon 11</a> (189MB) on a standard laptop with Intel Core i7 CPU (3.1GHz).
+          </i>
+            </td>
+          </tr>
+        </table>
+        <p>
+      NetworkMiner can extract files, emails and certificates transferred over the network by parsing a PCAP file or by sniffing traffic directly from the network.
+      </p>
+        <img src="/images/NetworkMiner_2-0_Files_747x583.png" alt="NetworkMiner extracted files" style="display: block; margin-left: auto; margin-right: auto;" />
+        <p style="text-align: center;">
+          <i>NetworkMiner showing files extracted from sniffed network traffic to disk</i>
+        </p>
+        <img src="/images/NetworkMiner_2-0_Images_747x583.png" alt="NetworkMiner extracted images and pictures" style="display: block; margin-left: auto; margin-right: auto;" />
+        <p style="text-align: center;">
+          <i>NetworkMiner showing thumbnails for images extracted to disk</i>
+        </p>
+        <p>
+      User credentials (usernames and passwords) for supported protocols are extracted by NetworkMiner and displayed under the "Credentials" tab.
+      The credentials tab sometimes also show information that can be used to identify a particular person, such as user accounts for popular online services like <a href="/?page=Blog&amp;month=2011-02&amp;post=Webmail-Information-Leakage">Gmail</a> or Facebook.
+    </p>
+        <a href="/?page=BuyNetworkMiner">
+          <img src="/images/NetworkMiner_Professinoal_USB_Flash_Drive_446x200.jpg" alt="NetworkMiner Professional USB flash drive" style="float: right; padding: 10px;" border="0" />
+        </a>
+        <p>
+      Another very useful feature is that the user can search sniffed or stored data for keywords.
+      NetworkMiner allows the user to insert arbitrary string or byte-patterns that shall be searched for with the keyword search functionality.
+    </p>
+        <p>
+      NetworkMiner Professional comes installed on a specially designed USB flash drive.
+      You can run NetworkMiner directly from the USB flash drive since NetworkMiner is a portable application that doesn't require any installation.
+      We at Netresec do, however, recommend that you copy NetworkMiner to the local hard drive of your computer in order to achieve maximum performance.
+    </p>
+        <p>
+      Â»
+      <b><a href="/?page=BuyNetworkMiner">Buy NetworkMiner Professional</a></b>
+      Â«
+    </p>
+        <h2>Download NetworkMiner</h2>
+        <p>
+      The latest version of NetworkMiner can be downloaded from:<br />
+      Â» <b><a href="https://www.netresec.com/?download=NetworkMiner">https://www.netresec.com/?download=NetworkMiner</a></b> Â« (executable application)<br />
+      Â» <b><a href="https://www.netresec.com/?page=NetworkMinerSourceCode">https://www.netresec.com/?page=NetworkMinerSourceCode</a></b> Â« (source code)<br /></p>
+        <p>
+      For older releases of NetworkMiner (prior to version 2.0), please visit the NetworkMiner page on SourceForge:<br /><a href="http://sourceforge.net/projects/networkminer/files/networkminer/" rel="nofollow">http://sourceforge.net/projects/networkminer/files/networkminer/</a></p>
+        <p>
+      However, please note that we no longer release new versions of NetworkMiner on SourceForge.
+    </p>
+        <h2>Change Log</h2>
+        <table>
+          <tr>
+            <th>Version</th>
+            <th>Release Date</th>
+            <th>Major Improvements</th>
+          </tr>
+          <tr>
+            <td>
+              <nobr>NetworkMiner 2.4</nobr>
+            </td>
+            <td>
+              <nobr>2019-01-10</nobr>
+            </td>
+            <td>
+              <a href="https://netresec.com/?b=191BD02">
+            Username extraction from Kerberos traffic, ICS device fingerprinting and improved Linux support</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>
+              <nobr>NetworkMiner 2.3.2</nobr>
+            </td>
+            <td>
+              <nobr>2018-08-27</nobr>
+            </td>
+            <td>
+              <a href="https://netresec.com/?b=188EC30">Improved email and VoIP call extraction</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>
+              <nobr>NetworkMiner 2.3</nobr>
+            </td>
+            <td>
+              <nobr>2018-04-03</nobr>
+            </td>
+            <td>
+              <a href="https://netresec.com/?b=1846A54">
+            VoIP call audio extraction and playback as well as OSINT lookups of file hashes, IP addresses, domain names and URLs</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>
+              <nobr>NetworkMiner 2.2</nobr>
+            </td>
+            <td>
+              <nobr>2017-08-21</nobr>
+            </td>
+            <td>
+              <a href="https://netresec.com/?b=17888CB">Faster parsing speed (x2) and CASE export</a>.</td>
+          </tr>
+          <tr>
+            <td>
+              <nobr>NetworkMiner 2.1.1</nobr>
+            </td>
+            <td>
+              <nobr>2017-01-19</nobr>
+            </td>
+            <td>Improved HTTP parser.</td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 2.1</td>
+            <td>2017-01-11</td>
+            <td>
+              <a href="https://netresec.com/?b=17124C4">New protocols: POP3, IMAP, VXLAN, OpenFlow and SOCKS</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 2.0</td>
+            <td>2016-02-09</td>
+            <td>
+              <a href="https://netresec.com/?b=162BA65">New protocols: SMB2 and Modbus/TCP</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 1.6</td>
+            <td>2014-06-16</td>
+            <td>
+              <a href="https://netresec.com/?b=1463B56">Improved SMTP and DNS parsing</a>.</td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 1.5</td>
+            <td>2013-08-07</td>
+            <td>
+              <a href="https://netresec.com/?b=1390406">New protocols: PPPoE and LLMNR</a>, fixed <a href="https://netresec.com/?b=1386968">two vulnerabilities</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 1.4</td>
+            <td>2012-08-16</td>
+            <td>
+              <a href="https://netresec.com/?b=1287158">New protocol: IEC 60870-5-104</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 1.3</td>
+            <td>2012-04-12</td>
+            <td>
+              <a href="https://netresec.com/?b=1240207">Username and password from HTTP Digest Authentication (RFC 2617)</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 1.2</td>
+            <td>2011-11-19</td>
+            <td>
+              <a href="https://netresec.com/?b=11B629A">New protocol: GRE</a>, platform independent (works in <a href="https://netresec.com/?b=142AA47">Linux</a>, <a href="https://netresec.com/?b=146F525">Mac OSX</a> etc).
+        </td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 1.1</td>
+            <td>2011-09-15</td>
+            <td>
+              <a href="http://netresec.com/?b=119BFC1">New protocol: PPP</a>. <a href="http://netresec.com/?b=119BFC1">Screen resolution, color depth, browser language and flash version extracted from Google Analytics</a>.
+        </td>
+          </tr>
+          <tr>
+            <td>NetworkMiner 0.71</td>
+            <td>2007-02-16</td>
+            <td>
+              <a href="http://netresec.com/?b=17218C7">First public release of NetworkMiner</a>.
+        </td>
+          </tr>
+        </table>
+        <h2>NetworkMiner Videos</h2>
+        <a href="?page=Blog&amp;month=2018-02&amp;post=Zyklon-Malware-Network-Forensics-Video-Tutorial">
+          <img src="/images/network-forensics-tutorial-poster-zyklon_512x288.png" alt="Analyzing Zyklon Malware in NetworkMiner" title="Analyzing Zyklon Malware in NetworkMiner" style="border: 1px solid black; clear: both; margin: 10px;" />
+        </a>
+        <br />
+        <a href="?page=Blog&amp;month=2018-02&amp;post=Antivirus-Scanning-of-a-PCAP-File">
+          <img src="/images/network-forensics-tutorial-poster-av-scan-of-pcap_512x384.png" alt="Antivirus Scanning of a PCAP File" title="Antivirus Scanning of a PCAP File" style="border: 1px solid black; clear: both; margin: 10px;" />
+        </a>
+        <br />
+        <a href="?page=Blog&amp;month=2018-02&amp;post=Analyzing-Kelihos-SPAM-in-CapLoader-and-NetworkMiner">
+          <img src="/images/network-forensics-tutorial-poster-kelihos_512x384.png" alt="Analyzing Kelihos SPAM in CapLoader and NetworkMiner" title="Analyzing Kelihos SPAM in CapLoader and NetworkMiner" style="border: 1px solid black; clear: both; margin: 10px;" />
+        </a>
+        <br />
+        <a href="?page=Blog&amp;month=2018-02&amp;post=Examining-Malware-Redirects-with-NetworkMiner-Professional">
+          <img src="/images/network-forensics-tutorial-poster-malware-redirects_512x384.png" alt="Examining Malware Redirects with NetworkMiner Professional" title="Examining Malware Redirects with NetworkMiner Professional" style="border: 1px solid black; clear: both; margin: 10px;" />
+        </a>
+        <br />
+        <div style="float: right; font-size: 128px; color: #cccccc; margin-right: 40px;">â</div>
+        <h2>More Information</h2>
+        <p>
+      There are also several <a href="https://www.netresec.com/?page=Blog&amp;tag=NetworkMiner">blog posts about NetworkMiner</a> on the <a href="/?page=Blog">NETRESEC Network Security Blog</a>:
+      <ul><li><a href="/?page=Blog&amp;month=2016-02&amp;post=NetworkMiner-2-0-Released">NetworkMiner 2.0 Released</a></li><li><a href="/?page=Blog&amp;month=2011-09&amp;post=Pcap-over-IP-in-NetworkMiner">Pcap-over-IP in NetworkMiner</a></li><li><a href="/?page=Blog&amp;month=2011-03&amp;post=Network-Forensic-Analysis-of-SSL-MITM-Attacks">Network Forensic Analysis of SSL MITM Attacks</a></li><li><a href="/?page=Blog&amp;month=2011-03&amp;post=Command-line-Network-Forensics-with-NetworkMinerCLI">Command-line Network Forensics with NetworkMinerCLI</a></li><li><a href="/?page=Blog&amp;month=2011-02&amp;post=NetworkMiner-Video-Tutorials-on-the-Intertubes">NetworkMiner Video Tutorials on the Intertubes</a></li><li><a href="/?page=Blog&amp;month=2011-02&amp;post=Webmail-Information-Leakage">Webmail Information Leakage</a></li><li><a href="/?page=Blog&amp;month=2011-01&amp;post=Analyzing-the-TCPIP-Weapons-School-Sample-Lab">Analyzing the TCP/IP Weapons School Sample Lab</a></li></ul></p>
+      </div>
+      <div id="pageFooter">
+        <span>Â© 2010-2019 ð½ð´ððð´ðð´ð² ð°ð±</span>
+          |
+          <span><a href="/?page=AboutNetresec">Contact Us</a></span>
+          |
+          <span><a href="/?page=Privacy">Privacy</a></span>
+          |
+          <span><a href="https://www.netresec.com/rss.ashx">RSS</a></span></div>
+    </div>
+  </body>
+</html>
+
+
+#####EOF#####
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>10 Years of NetworkMiner - NETRESEC Blog</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta property="og:title" content="10 Years of NetworkMiner - NETRESEC Blog" />
+    <meta content="Netresec" property="og:site_name" />
+    <meta name="description" content="I released the first version of NetworkMiner on February 16, 2007, which is exactly 10 years ago today. One of the main uses of NetworkMiner today is to reassemble file transfers from PCAP files and save the extracted files to disk. However, as you can see in the screenshot above, the early versions[...]" />
+    <meta property="og:description" content="I released the first version of NetworkMiner on February 16, 2007, which is exactly 10 years ago today. One of the main uses of NetworkMiner today is to reassemble file transfers from PCAP files and save the extracted files to disk. However, as you can see in the screenshot above, the early versions[...]" />
+    <meta name="keywords" content="Netresec, NetworkMiner, NSM, SourceForge, Nmap, ICS" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="msapplication-TileImage" content="/images/netresec_logo_144x144.png" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="viewport" content="width=850, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="NETRESEC Network Security Blog - RSS" href="https://www.netresec.com/rss.ashx" />
+    <link rel="openid.server" href="http://www.myopenid.com/server" />
+    <link rel="openid.delegate" href="http://netresec.myopenid.com/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@netresec" />
+    <meta name="twitter:title" content="10 Years of NetworkMiner - NETRESEC Blog" />
+    <meta name="twitter:description" content="I released the first version of NetworkMiner on February 16, 2007, which is exactly 10 years ago today. One of the main uses of NetworkMiner today is to reassemble file transfers from PCAP files and save the extracted files to disk. However, as you can see in the screenshot above, the early versions[...]" />
+    <meta name="twitter:url" content="https://www.netresec.com/?page=Blog&amp;month=2017-02&amp;post=10-Years-of-NetworkMiner" />
+    <meta property="og:url" content="https://www.netresec.com/?page=Blog&amp;month=2017-02&amp;post=10-Years-of-NetworkMiner" />
+    <meta name="twitter:image" content="https://www.netresec.com/images/NetworkMiner_0-79_Hosts_WinXP.png" />
+    <meta property="og:image" content="https://www.netresec.com/images/NetworkMiner_0-79_Hosts_WinXP.png" />
+    <script type="text/javascript">
+              var _gaq = _gaq || [];
+              _gaq.push(['_setAccount', 'UA-20800390-1']);
+              _gaq.push(['_trackPageview']);
+
+              (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+              })();
+            </script>
+  </head>
+  <body>
+    <div class="middle">
+      <div id="pageHeader">
+        <span style="align: right; float: right; vertical-align: top;">Experts in network security monitoring and network forensics</span>
+        <a href="https://www.netresec.com/">
+          <img src="/images/netresec_logo_294x85.png" alt="ð½ð´ððð´ðð´ð²" />
+        </a>
+        <div class="topNavigation">
+          <a href="/?page=Home">NETRESEC</a>
+          <span>|</span>
+          <a href="/?page=Products">Products</a>
+          <span>|</span>
+          <a href="/?page=Training">Training</a>
+          <span>|</span>
+          <a href="/?page=Resources">Resources</a>
+          <span>|</span>
+          <a href="/?page=Blog">Blog</a>
+          <span>|</span>
+          <a href="/?page=AboutNetresec">About Netresec</a>
+          <span>|</span>
+        </div>
+        <span class="path">
+          <a href="/">NETRESEC</a>
+    &gt;
+    <a href="/?page=Blog">Blog</a></span>
+      </div>
+      <div id="pageBody">
+        <div class="mainpane">
+          <h3></h3>
+          <div class="blogPost">
+            <article>
+              <div class="byline-name" style="float:left;">Erik Hjelmvik</div>
+              <div style="float:left;">,Â </div>
+              <div class="dateline" style="float:left;">Thursday, 16 February 2017 09:11:00 (UTC/GMT)</div>
+              <br />
+              <h2>
+                <a class="blogPostTitle" href="/?page=Blog&amp;month=2017-02&amp;post=10-Years-of-NetworkMiner">10 Years of NetworkMiner</a>
+              </h2>
+              <p>
+        I released the first version of NetworkMiner on February 16, 2007,
+        which is exactly 10 years ago today.
+      </p>
+              <img src="https://www.netresec.com/images/NetworkMiner_0-79_Hosts_WinXP.png" alt="NetworkMiner 0.79 in Windows XP" style="clear: both;" />
+              <p>
+      One of the main uses of NetworkMiner today is to reassemble file transfers from PCAP files and save the extracted files to disk.
+      However, as you can see in the screenshot above, the early versions of NetworkMiner didnât even have a Files tab.
+      In fact, the task that NetworkMiner was originally designed for was simply to provide an inventory of the hosts communicating on a network.
+    </p>
+              <p>
+                <b>How it all started</b>
+              </p>
+              <p>
+        So, why did I start designing a passive asset detection system when I could just as well have used a port scanner like Nmap
+        to fingerprint the devices on a network?
+        Well, I was working with IT security at the R&amp;D department of a major European energy company at the time.
+        As part of my job I occasionally performed IT security audits of power plants.
+        During these audits I typically wanted to ensure that there were no rouge or unknown devices on the network.
+        The normal way of verifying this would be to perform an Nmap scan of the network,
+        but that wasnât an option for me since I was dealing with live industrial control system networks.
+        I knew from personal experience that a network scan could cause some of the industrial control system devices
+        to drop their network connections or even crash, so active scanning wasnât a viable option.
+        Instead I chose to setup a <a href="https://netresec.com/?b=113EA66">SPAN port</a> at a central point of the network, or even install a <a href="https://netresec.com/?b=113EA66">network TAP</a>,
+        and then <a href="https://netresec.com/?b=1185A14">capture network traffic</a> to a PCAP file during a few hours. I found the PCAP files being a great source,
+        not only for identifying the hosts present at a network, but also in order to discover misconfigured devices.
+        However, I wasnât really happy with the tools available for visualizing the devices on the network,
+        which is why I stated developing NetworkMiner in my spare time.
+      </p>
+              <p>
+                <b>Network Forensics</b>
+              </p>
+              <p>
+      As I continued improving NetworkMiner I pretty soon ended up writing my own TCP reassembly engine as well as parsers for HTTP
+      and the CIFS protocol (a.k.a SMB).
+      With these protocols in place I was able to extract files downloaded through HTTP or SMB to disk with NetworkMiner,
+      which turned out to be a killer feature.
+</p>
+              <a href="https://sourceforge.net/projects/networkminer/files/networkminer/stats/timeline?dates=2007-02-16+to+2015-10-27">
+                <img src="https://www.netresec.com/images/NetworkMiner_SourceForge_monthly_downloads_502x158.png" alt="Monthly downloads of NetworkMiner from SourceForge" style="clear: both; border: none;" />
+              </a>
+              <br />
+              <i>Image: Monthly downloads of NetworkMiner from SourceForge</i>
+              <p>
+  With the ability to extract file transfers from PCAP files NetworkMiner steadily gained popularity as a valuable tool
+  in the field of network forensics, which motivated me to make the tool even better.
+  Throughout these past 10 years I have single-handedly implemented over 60 protocols in NetworkMiner,
+  which has been a great learning experience for me.
+</p>
+              <p>
+                <b>NetworkMiner Milestones</b>
+              </p>
+              <ul>
+                <li>
+          2007-02-16 First release of NetworkMiner on <a href="https://sourceforge.net/projects/networkminer/" rel="nofollow">SourceForge</a></li>
+                <li>2008-08-01 NetworkMiner is featured in Russ McReeâs <a href="http://holisticinfosec.org/toolsmith/pdf/august2008.pdf">toolsmith column for August 2008</a>.</li>
+                <li>2008-09-01  Richard Bejtlich <a href="https://taosecurity.blogspot.com/2008/09/networkminer.html">blogs about NetworkMiner 0.85</a> on the TaoSecurity blog</li>
+                <li>2011-03-04 First release of <a href="https://www.netresec.com/?page=BuyNetworkMiner">NetworkMiner Professional</a> and the command line version <a href="https://netresec.com/?b=11346EC">NetworkMinerCLI</a>.</li>
+                <li>2011-11-11 NetworkMiner <a href="http://sectools.org/tool/networkminer/">ranked #85</a> among SecTools.Orgâs âTop 125 Network Security Toolsâ</li>
+                <li>2011-11-19 Cross platform support (works in <a href="https://netresec.com/?b=142AA47">Linux</a>, <a href="https://netresec.com/?b=146F525">Mac OSX</a> etc).</li>
+                <li>2011-12-16 <a href="https://zeltser.com/remnux-v3-released/">REMnux</a> Linux distro includes NetworkMiner</li>
+                <li>2011-12-27 <a href="http://blog.securityonion.net/2011/12/security-onion-20111228-now-available.html">Security Onion</a> Linux distro includes NetworkMiner</li>
+                <li>2013-09-15 Support for PcapNG capture file format in <a href="https://netresec.com/?b=1390406">NetworkMiner Professional 1.5</a></li>
+                <li>2016-02-19 Project hosting moved from SourceForge to <a href="https://www.netresec.com/?page=Networkminer">netresec.com</a></li>
+              </ul>
+              <p>
+                <b>Looking Forward</b>
+              </p>
+              <p>
+        People sometimes ask me what Iâm planning to add to the next version of NetworkMiner.
+        To be honest; I never really know.
+        In fact, Iâve realized that those with the best ideas for features or protocols to add to NetworkMiner are those
+        who use NetworkMiner as part of their jobs, such as incident responders and digital forensics experts across the globe.
+      </p>
+              <p>
+        I therefore highly value feedback from users, so if you have requests for new features to be added to the next version,
+        then please feel free to <a href="https://www.netresec.com/?page=AboutNetresec">reach out</a> and let me know!
+      </p>
+              <p class="shadyText">
+          Posted by Erik Hjelmvik on Thursday, 16 February 2017 09:11:00 (UTC/GMT)</p>
+              <p>
+          Tags: 
+    #<a href="&#xA;        /?page=Blog&amp;tag=Netresec">Netresec</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=NetworkMiner">NetworkMiner</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=NSM">NSM</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=ICS">ICS</a></p>
+            </article>
+            <p>
+              <a target="_blank" class="invisibleLink" href="https://www.addthis.com/bookmark.php?source=tbx32nj-1.0&amp;=250&amp;pubid=xa-4d7526e93a9537a7&amp;url=https%3a%2f%2fwww.netresec.com%2f%3fpage%3dBlog%26month%3d2017-02%26post%3d10-Years-of-NetworkMiner&amp;title=10%20Years%20of%20NetworkMiner">
+                <img src="/images/share/more.gif" border="0" alt="More..." style="vertical-align: top;" />
+          Share
+        </a>
+        Â |Â 
+        <a target="_blank" title="Share on Facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.netresec.com%2f%3fpage%3dBlog%26month%3d2017-02%26post%3d10-Years-of-NetworkMiner"><img src="/images/share/facebook.gif" border="0" alt="Facebook" style="vertical-align: top;" /></a>
+        Â 
+        <a target="_blank" title="Share on Twitter" href="https://twitter.com/?status=10%20Years%20of%20NetworkMiner%3a%20https%3a%2f%2fnetresec.com%2f%3fb=17218C7%20via%20%40netresec"><img src="/images/share/twitter.gif" border="0" alt="Twitter" style="vertical-align: top;" /></a>
+        Â 
+        <a target="_blank" title="Submit to reddit" href="https://www.reddit.com/r/netsec/submit?url=https%3a%2f%2fwww.netresec.com%2f%3fpage%3dBlog%26month%3d2017-02%26post%3d10-Years-of-NetworkMiner"><img src="/images/share/reddit.gif" border="0" alt="Reddit" style="vertical-align: top;" /></a>
+        Â 
+        <a target="_blank" title="Submit to Hacker News on Y Combinator" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2fwww.netresec.com%2f%3fpage%3dBlog%26month%3d2017-02%26post%3d10-Years-of-NetworkMiner&amp;t=10%20Years%20of%20NetworkMiner"><img src="/images/share/ycombinator_16x16.png" border="0" alt="Hacker News" style="vertical-align: top;" /></a><span style="float: right;">
+          Short URL: 
+          <a href="https://netresec.com/?b=17218C7">
+            https://netresec.com/?b=17218C7</a></span></p>
+          </div>
+        </div>
+        <div class="sidepane">
+          <h3>Recent Blog Posts</h3>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2019-01&amp;post=Video%3a-TrickBot-and-ETERNALCHAMPION">Video: TrickBot and ETERNALCHAMPION</a></p>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2019-01&amp;post=NetworkMiner-2-4-Released">NetworkMiner 2.4 Released</a></p>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2018-12&amp;post=TorPCAP---Tor-Network-Forensics">TorPCAP - Tor Network Forensics</a></p>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2018-11&amp;post=Remote-Packet-Dumps-from-PacketCache">Remote Packet Dumps from PacketCache</a></p>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2018-09&amp;post=Reverse-Engineering-Proprietary-ICS-Protocols">Reverse Engineering Proprietary ICS Protocols</a></p>
+          <h3>Blog Archive</h3>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2019">2019 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2018">2018 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2017">2017 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2016">2016 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2015">2015 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2014">2014 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2013">2013 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2012">2012 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2011">2011 Blog Posts
+      </a></p>
+          <p>
+            <a href="/?page=Blog&amp;blogPostList=true">List all blog posts</a>
+          </p>
+          <p>
+        Grab our
+        <a href="http://feeds.feedburner.com/Netresec-Network-Security-Blog">FeedBurner</a>
+        or
+        <a href="https://www.netresec.com/rss.ashx">RSS</a>
+        feed
+      </p>
+        </div>
+        <div class="sidepane2">
+          <img src="/images/twitter-bird_120x100.png" width="120" height="100" alt="twitter" />
+          <h3>NETRESEC on Twitter</h3>
+          <p>
+        Follow <a href="http://twitter.com/netresec">@netresec</a> on twitter:<br />
+        Â» <a href="http://twitter.com/netresec">twitter.com/netresec</a></p>
+          <p />
+          <hr />
+          <p />
+          <img src="/images/book_141x72.png" width="141" height="72" alt="book" />
+          <h3>Recommended Books</h3>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/1593275099/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1593275099">The Practice of Network Security Monitoring</a>, Richard Bejtlich (2013)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0124172083/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0124172083">Applied Network Security Monitoring</a>, Chris Sanders and Jason Smith (2013)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0132564718/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0132564718">Network Forensics</a>, Sherri Davidoff and Jonathan Ham (2012)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0321246772/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0321246772">The Tao of Network Security Monitoring</a>, Richard Bejtlich (2004)
+      </p>
+          <p>
+        Â» <a href="https://www.amazon.com/gp/product/1593278020/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1593278020">Practical Packet Analysis</a>, Chris Sanders (2017)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/1597494224/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1597494224">Windows Forensic Analysis</a>, Harlan Carvey (2009)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0321336313/ref=as_li_tf_tl?ie=UTF8amp;&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0321336313">TCP/IP Illustrated, Volume 1</a>, Kevin Fall and Richard Stevens (2011)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0124201148/ref=as_li_tf_tl?ie=UTF8amp;&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0124201148">Industrial Network Security</a>, Eric D. Knapp and Joel Langill (2014)
+      </p>
+          <p />
+        </div>
+      </div>
+      <div id="pageFooter">
+        <span>Â© 2010-2019 ð½ð´ððð´ðð´ð² ð°ð±</span>
+          |
+          <span><a href="/?page=AboutNetresec">Contact Us</a></span>
+          |
+          <span><a href="/?page=Privacy">Privacy</a></span>
+          |
+          <span><a href="https://www.netresec.com/rss.ashx">RSS</a></span></div>
+    </div>
+  </body>
+</html>
+
+
+#####EOF#####
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>CapLoader - Handles Big Data PCAP files</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta property="og:title" content="CapLoader - Handles Big Data PCAP files" />
+    <meta content="Netresec" property="og:site_name" />
+    <meta name="description" content="Cap Loader handles large PCAP files fast! CapLoader is great for quickly extracting individual flows or sessions from multiple pcap files. CapLoader can also identify the application layer protocol of a flow without relying on the port number." />
+    <meta property="og:description" content="Cap Loader handles large PCAP files fast! CapLoader is great for quickly extracting individual flows or sessions from multiple pcap files. CapLoader can also identify the application layer protocol of a flow without relying on the port number." />
+    <meta name="keywords" content="CapLoader, Cap Loader, pcap, network, traffic, big, data, flow, tcp, udp, split, carve, libpcap, slice, windows, gui, fast, quick, large, protocol identification, classification, dynamic, indexing" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="msapplication-TileImage" content="/images/netresec_logo_144x144.png" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="viewport" content="width=850, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="NETRESEC Network Security Blog - RSS" href="https://www.netresec.com/rss.ashx" />
+    <link rel="openid.server" href="http://www.myopenid.com/server" />
+    <link rel="openid.delegate" href="http://netresec.myopenid.com/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@netresec" />
+    <meta name="twitter:title" content="CapLoader - Handles Big Data PCAP files" />
+    <meta name="twitter:description" content="Cap Loader handles large PCAP files fast! CapLoader is great for quickly extracting individual flows or sessions from multiple pcap files. CapLoader can also identify the application layer protocol of a flow without relying on the port number." />
+    <meta name="twitter:image" content="https://www.netresec.com/images/CapLoader_Logo_313x313.png" />
+    <script type="text/javascript">
+              var _gaq = _gaq || [];
+              _gaq.push(['_setAccount', 'UA-20800390-1']);
+              _gaq.push(['_trackPageview']);
+
+              (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+              })();
+            </script>
+  </head>
+  <body>
+    <div class="middle">
+      <div id="pageHeader">
+        <span style="align: right; float: right; vertical-align: top;">Experts in network security monitoring and network forensics</span>
+        <a href="https://www.netresec.com/">
+          <img src="/images/netresec_logo_294x85.png" alt="ð½ð´ððð´ðð´ð²" />
+        </a>
+        <div class="topNavigation">
+          <a href="/?page=Home">NETRESEC</a>
+          <span>|</span>
+          <a href="/?page=Products">Products</a>
+          <span>|</span>
+          <a href="/?page=Training">Training</a>
+          <span>|</span>
+          <a href="/?page=Resources">Resources</a>
+          <span>|</span>
+          <a href="/?page=Blog">Blog</a>
+          <span>|</span>
+          <a href="/?page=AboutNetresec">About Netresec</a>
+          <span>|</span>
+        </div>
+        <span class="path">
+          <a href="/">NETRESEC</a>
+    &gt;
+    <a href="/?page=Products">Products</a>
+    &gt;
+    <a href="/?page=CapLoader">CapLoader</a></span>
+      </div>
+      <div id="pageBody">
+        <img src="/images/CapLoader_Logo_313x313.png" alt="CapLoader logo" style="float: right; margin: 20px;" />
+        <h1>CapLoader</h1>
+        <p>
+      CapLoader is a Windows tool designed to handle large amounts of captured network traffic.
+      CapLoader performs indexing of PCAP/PcapNG files and visualizes their contents as a list of TCP and UDP flows.
+      Users can select the flows of interest and quickly filter out those packets from the loaded PCAP files.
+      Sending the selected flows/packets to a packet analyzer tool like Wireshark or NetworkMiner is
+      then just a mouse click away.
+    </p>
+        <p>
+      CapLoader is the ideal tool to use when handling big data PCAP files in sizes up to many gigabytes (GB).
+      The contents of individual flows can be exported to tools like Wireshark and NetworkMiner in just a matter of seconds.
+    </p>
+        <p>
+      Â»
+      <b><a href="/?page=BuyCapLoader">Buy CapLoader</a></b>
+      Â«
+    </p>
+        <p>
+      Â»
+      <b><a href="#trial">Download Free Trial</a></b>
+      Â«
+    </p>
+        <video width="780" height="585" controls="true" poster="https://www.netresec.com/images/network-forensics-tutorial-poster-kelihos_512x384.png" clip="network-forensics-tutorial-kelihos-emails_1152x864">
+          <source src="https://www.netresec.com/videos/network-forensics-tutorial-kelihos-emails_1152x864.webm" type="video/webm" />
+          <source src="https://www.netresec.com/videos/network-forensics-tutorial-kelihos-emails_1152x864.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+        <p>
+          <i>
+        Video tutorial from our blog post "<a href="https://netresec.com/?b=182053B">Analyzing Kelihos SPAM in CapLoader and NetworkMiner</a>".
+      </i>
+        </p>
+        <h2 style="clear: both;">Usage</h2>
+        <p>
+      The typical process of working with CapLoader is:
+      <ol style="width: 560px;"><li style="clear: both; margin: 10px;">
+          Open one or multiple pcap files, typically by drag-and-dropping them onto the CapLoader GUI. <br /><img src="/images/CapLoader_1-0_Load_drag-and-drop_501x209.png" alt="CapLoader loading a pcap file with drag-and-drop" style="margin: 10px;" border="0" /></li><li style="clear: both; margin: 10px;">
+          Select/mark the flows of interest.<br /><img src="/images/CapLoader_1-0_Select_flows_501x209.png" alt="CapLoader selecting flows / sessions" style="margin: 10px;" border="0" /></li><li style="clear: both; margin: 10px;">
+          Double click the PCAP-icon to open the selected sessions in your default pcap parser (typically Wireshark) or better yet, do drag-and-drop from the PCAP-icon to any application you wish.<br /><img src="/images/CapLoader_1-0_Export_drag-and-drop_to_NetworkMiner_502x208.png" alt="CapLoader exporting packets to NetworkMiner" style="margin: 10px;" border="0" /></li></ol>
+      For more details on how to use CapLoader, please see our <a href="http://www.youtube.com/watch?v=n1Ir9Hedca4&amp;hd=1">CapLoader video tutorial</a>.
+      You can also have a look at our <a href="https://www.netresec.com/?page=Blog&amp;tag=CapLoader">blog posts about CapLoader</a> to learn more about
+      how to use CapLoader and what new features that are being added to this powerful tool.
+    </p>
+        <h2>Built-in Protocol Identification</h2>
+        <p>
+      CapLoader includes the ability to identify protocols without relying on port numbers (a feature often referred to as âtraffic classificationâ).
+      This feature can be enabled by checking the âIdentify protocolsâ check-box in the GUI.
+      Loading PCAP files with the âidentify protocolsâ feature enabled will cause
+      the application layer protocols of the extracted flows to be identified and displayed in the flow list.
+      Being able to identify the application layer protocol is important in order to detect what services
+      that run on non-standard ports as well as to detect if common ports are being used to
+      transport other protocols than what might be expected.
+    </p>
+        <p>
+      The dynamic protocol identification feature allows for detection of over 100 protocols and sub-protocols.
+      The identified protocols include Skype, IRC, FTP and SSH,
+      <a href="http://en.wikipedia.org/wiki/Microsoft_RPC">MS-RPC</a>, <a href="http://www.poisonivy-rat.com/" rel="nofollow">Poison Ivy RAT</a>
+      as well as several P2P and CardSharing protocols.
+    </p>
+        <p>
+      Read our
+      <a href="https://www.netresec.com/?page=Blog&amp;month=2015-10&amp;post=Port-Independent-Protocol-Detection">Port Independent Protocol Detection</a>
+      blog post for more details on the protocol detection feature built into CapLoader.
+  </p>
+        <p style="text-align: center;">
+          <img src="/images/CapLoader_1-0_Protocol_Identification_Honeynet_SOTM-28_day1-log.png" alt="CapLoader showing port independent identification of protocols" />
+          <br />
+          <i>CapLoader showing port independent identification of protocols</i>
+        </p>
+        <h2>Network Packet Carving</h2>
+        <p>
+      CapLoader has the ability to <a href="https://netresec.com/?b=143B7EE">carve network packets</a>
+      from any file and save them in the PCAP-NG format.
+      This fusion between memory forensics and network forensics makes it possible to extract sent and received IP frames,
+      with complete payload, from RAM dumps as well as from raw disk images.
+      CapLoader basically carves any TCP or UDP packet that is preceded by an IP frame (both IPv4 and IPv6 are supported).
+    </p>
+        <p style="text-align: center;">
+          <img src="/images/CapLoader_1-2_Carving_Bob-vmem_516x365.png" alt="CapLoader 1.2 Carving Packets from HoneyNet Memory Image" border="0" style="clear: both;" />
+          <br />
+          <i>CapLoader 1.2 Carving Packets from HoneyNet Memory Image</i>
+        </p>
+        <a name="trial">
+          <h2>Try or Buy CapLoader</h2>
+        </a>
+        <p>
+          <table class="bordered" style="clear: both;">
+            <tr>
+              <td style="background-color: #ffffff; border: none;" />
+              <th>CapLoader Trial</th>
+              <th>CapLoader (professional edition)</th>
+            </tr>
+            <tr>
+              <th>License Validity Period</th>
+              <td>
+            30 Days
+          </td>
+              <td>
+            3 Years
+          </td>
+            </tr>
+            <tr>
+              <th>Max PCAP Data Size</th>
+              <td>
+            500 GB
+          </td>
+              <td>
+            No limit
+          </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="http://pcapng.com">PcapNG</a> Support</th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+            IPv6 Support
+          </th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://www.netresec.com/?page=Blog&amp;month=2013-01&amp;post=Analyzing-85-GB-of-PCAP-in-2-hours">Flow Transcript View</a>
+                <br />
+            (a.k.a Follow TCP/UDP Stream)
+          </th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>DNS Parser</th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=17ABA35">Initial Round Trip Time</a> calculation</th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=15914E3">Alexa top 1M Lookup</a>
+              </th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=17ABA35">Cisco Umbrella top 1M Lookup</a>
+              </th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://www.netresec.com/?page=Blog&amp;month=2015-10&amp;post=Port-Independent-Protocol-Detection">Port Independent<br />
+            Protocol Identification (PIPI)</a>
+              </th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+            OS Fingerprinting
+          </th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+            Geo-IP Localization (*)
+          </th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=17ABA35">ASN lookup</a> (*)
+          </th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=143B7EE">Network Packet Carving</a>
+              </th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=1447A3D">Keyword String Search</a>
+              </th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=187E291">Regular Expression (regex) Search</a>
+              </th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=15B2F44">Input Filter (BPF)</a>
+              </th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>Hide Flows in GUI</th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=15B2F44">Display Filter (BPF)</a>
+              </th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>Keyword Filter</th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>Select Flows from Log file</th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>Select Flows from PCAP file</th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://netresec.com/?b=165BF7D">Service Regularity / Period Detection</a>
+              </th>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>Wireshark style Coloring</th>
+              <td />
+              <td>
+                <img src="/images/bock.png" alt="Yes" />
+              </td>
+            </tr>
+            <tr>
+              <th>Price</th>
+              <td>Free</td>
+              <td>
+            From $ 900 USD
+          </td>
+            </tr>
+            <tr>
+              <th />
+              <td>
+                <a href="https://www.netresec.com/?download=CapLoaderTrial" class="sfdl sfdl-lite">
+                  <b>Download Free Trial</b>
+                </a>
+              </td>
+              <td>
+                <a href="/?page=BuyCapLoader">
+                  <b>Buy CapLoader</b>
+                </a>
+              </td>
+            </tr>
+          </table>
+          <i>
+        * CapLoader (professional edition) includes GeoLite data created by MaxMind, available from <a href="http://maxmind.com/">http://maxmind.com/</a></i>
+        </p>
+        <h2>Dependencies</h2>
+        <p>
+      CapLoader requires <a href="http://www.microsoft.com/en-us/download/details.aspx?id=17718">Microsoft .NET Framework 4.0</a> to be installed.
+    </p>
+      </div>
+      <div id="pageFooter">
+        <span>Â© 2010-2019 ð½ð´ððð´ðð´ð² ð°ð±</span>
+          |
+          <span><a href="/?page=AboutNetresec">Contact Us</a></span>
+          |
+          <span><a href="/?page=Privacy">Privacy</a></span>
+          |
+          <span><a href="https://www.netresec.com/rss.ashx">RSS</a></span></div>
+    </div>
+  </body>
+</html>
+
+
+#####EOF#####
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Rinse-Repeat Intrusion Detection - NETRESEC Blog</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta property="og:title" content="Rinse-Repeat Intrusion Detection - NETRESEC Blog" />
+    <meta content="Netresec" property="og:site_name" />
+    <meta name="description" content="I am a long time skeptic when it comes to blacklists and other forms of signature based detection mechanisms. The information security industry has also declared the signature based anti-virus approach dead several times during the past 10 years. Yet, we still rely on anti-virus signatures, IDS rule[...]" />
+    <meta property="og:description" content="I am a long time skeptic when it comes to blacklists and other forms of signature based detection mechanisms. The information security industry has also declared the signature based anti-virus approach dead several times during the past 10 years. Yet, we still rely on anti-virus signatures, IDS rule[...]" />
+    <meta name="keywords" content="Rinse-Repeat, PCAP, NSM, Network Security Monitoring, PCAP, Intrusion Detection, IDS, whitelisting, blacklist, network forensics, hacked, hunting, threat hunting, flows, signature-free, anomaly detection" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="msapplication-TileImage" content="/images/netresec_logo_144x144.png" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="viewport" content="width=850, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="NETRESEC Network Security Blog - RSS" href="https://www.netresec.com/rss.ashx" />
+    <link rel="openid.server" href="http://www.myopenid.com/server" />
+    <link rel="openid.delegate" href="http://netresec.myopenid.com/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@netresec" />
+    <meta name="twitter:title" content="Rinse-Repeat Intrusion Detection - NETRESEC Blog" />
+    <meta name="twitter:description" content="I am a long time skeptic when it comes to blacklists and other forms of signature based detection mechanisms. The information security industry has also declared the signature based anti-virus approach dead several times during the past 10 years. Yet, we still rely on anti-virus signatures, IDS rule[...]" />
+    <meta name="twitter:url" content="https://www.netresec.com/?page=Blog&amp;month=2015-08&amp;post=Rinse-Repeat-Intrusion-Detection" />
+    <meta property="og:url" content="https://www.netresec.com/?page=Blog&amp;month=2015-08&amp;post=Rinse-Repeat-Intrusion-Detection" />
+    <meta name="twitter:image" content="https://www.netresec.com/images/Shower_7640_nevit_520x323.gif" />
+    <meta property="og:image" content="https://www.netresec.com/images/Shower_7640_nevit_520x323.gif" />
+    <script type="text/javascript">
+              var _gaq = _gaq || [];
+              _gaq.push(['_setAccount', 'UA-20800390-1']);
+              _gaq.push(['_trackPageview']);
+
+              (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+              })();
+            </script>
+  </head>
+  <body>
+    <div class="middle">
+      <div id="pageHeader">
+        <span style="align: right; float: right; vertical-align: top;">Experts in network security monitoring and network forensics</span>
+        <a href="https://www.netresec.com/">
+          <img src="/images/netresec_logo_294x85.png" alt="ð½ð´ððð´ðð´ð²" />
+        </a>
+        <div class="topNavigation">
+          <a href="/?page=Home">NETRESEC</a>
+          <span>|</span>
+          <a href="/?page=Products">Products</a>
+          <span>|</span>
+          <a href="/?page=Training">Training</a>
+          <span>|</span>
+          <a href="/?page=Resources">Resources</a>
+          <span>|</span>
+          <a href="/?page=Blog">Blog</a>
+          <span>|</span>
+          <a href="/?page=AboutNetresec">About Netresec</a>
+          <span>|</span>
+        </div>
+        <span class="path">
+          <a href="/">NETRESEC</a>
+    &gt;
+    <a href="/?page=Blog">Blog</a></span>
+      </div>
+      <div id="pageBody">
+        <div class="mainpane">
+          <h3></h3>
+          <div class="blogPost">
+            <article>
+              <div class="byline-name" style="float:left;">Erik Hjelmvik</div>
+              <div style="float:left;">,Â </div>
+              <div class="dateline" style="float:left;">Monday, 17 August 2015 08:45:00 (UTC/GMT)</div>
+              <br />
+              <h2>
+                <a class="blogPostTitle" href="/?page=Blog&amp;month=2015-08&amp;post=Rinse-Repeat-Intrusion-Detection">Rinse-Repeat Intrusion Detection</a>
+              </h2>
+              <p>
+        I am a long time skeptic when it comes to blacklists and other forms of signature based detection mechanisms.
+        The information security industry has also declared the signature based anti-virus approach
+        dead several times during the past 10 years.
+        Yet, we still rely on anti-virus signatures, IDS rules, IP blacklists, malware domain lists, YARA rules etc.
+        to detect malware infections and other forms of intrusions in our networks.
+        This outdated approach puts a high administrative burden on IT and security operations today,
+        since we need to keep all our signature databases up to date,
+        both when it comes to end point AV signatures as well as IDS rules and other signature based detection methods
+        and threat feeds. Many organizations probably spend more time and money on updating all these blacklists
+        and signature databases than actually investigating the security alerts these detection systems generate.
+        What can I say; the world is truly upside down...
+      </p>
+              <img src="https://www.netresec.com/images/Shower_7640_nevit_520x323.gif" alt="Shower image by Nevit Dilmen" style="clear: both;" />
+              <i>
+        Image: <a href="https://commons.wikimedia.org/wiki/File:Shower_7640_nevit.gif">Shower</a> by <a href="https://commons.wikimedia.org/wiki/User:Nevit">Nevit Dilmen</a>.
+      </i>
+              <p>
+        I would therefore like to use this blog post to briefly describe an effective blacklist-free approach
+        for detecting malware and intrusions just by analyzing network traffic.
+        My approach relies on a combination of whitelisting and common sense anomaly detection
+        (i.e. not the academic statistical anomaly detection algorithms that never seem to work in reality).
+        I also encourage CERT/CSIRT/SOC/SecOps units to practice Sun Tzu's old âknow yourselfâ,
+        or rather âknow your systems and networksâ approach.
+      </p>
+              <blockquote>
+        Know your enemy and know yourself and you can fight a hundred battles without disaster.
+      </blockquote>
+              <i>- Sun Tzu in The Art of War</i>
+              <br />
+              <img src="https://www.netresec.com/images/Bamboo_book_closed_300x231.jpg" alt="Art of War in Bamboo by vlasta2" style="clear: both;" />
+              <br />
+              <i>
+        Image: <a href="https://commons.wikimedia.org/wiki/File:Bamboo_book_-_closed_-_UCR.jpg">Art of War in Bamboo</a> by <a href="https://www.flickr.com/photos/bluefootedbooby/">vlasta2</a></i>
+              <br />
+              <p>
+
+        My method doesn't rely on any dark magic, it is actually just a simple
+        <a href="https://en.wikipedia.org/wiki/Lather,_rinse,_repeat">Rinse-Repeat</a> approach
+        built on the following steps:
+        <div style="border: solid 3px black"><b><ol><li>Look at network traffic</li><li>Define what's normal (whitelist)</li><li>Remove that</li><li>GOTO 1.</li></ol></b></div></p>
+              <p>
+        After looping through these steps a few times you'll be left with some odd network traffic,
+        which will have a high ratio of maliciousness.
+        The key here is, of course, to know what traffic to classify as ânormalâ.
+        This is where âknow your systems and networksâ comes in.
+      </p>
+              <br />
+              <p>
+                <b>What Traffic is Normal?</b>
+              </p>
+              <p>
+        I recently realized that <a href="https://twitter.com/Mike_Poor">Mike Poor</a> seems to be thinking
+        along the same lines, when I read his foreword to Chris Sanders' and Jason Smith's
+        <a href="http://www.amazon.com/gp/product/0124172083/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0124172083">Applied NSM</a>:
+        <blockquote>
+          The next time you are at your console, review some logs. You might think... "I don't know what to look for".
+          Start with what you know, understand, and don't care about.
+          Discard those. Everything else is of interest.
+        </blockquote></p>
+              <a href="http://www.amazon.com/gp/product/0124172083/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0124172083">
+                <img src="https://www.netresec.com/images/Applied_NSM_200x246.jpg" alt="Applied NSM" style="float: right; margin: 5px 5px 5px 5px;" border="0" />
+              </a>
+              <p>
+        Following Mike's advice we might, for example, defineânormalâ traffic as:
+        <ul><li>HTTP(S) traffic to popular web servers on the Internet on standard ports (TCP 80 and 443).</li><li>SMB traffic between client networks and file servers.</li><li>DNS queries from clients to your name server on UDP 53, where the servers successfully answers with an A, AAAA, CNAME, MX, NS or SOA record.</li><li>...any other traffic which is normal in your organization.</li></ul></p>
+              <p>
+        Whitelisting IP ranges belonging to Google, Facebook, Microsoft and Akamai as
+        âpopular web serversâ will reduce the dataset a great deal, but that's far from enough.
+        One approach we use is to perform <a href="http://netresec.com/?b=13A66EB">DNS whitelisting</a>
+        by classifying all servers with a domain name listed in Alexa's Top 1 Million list as âpopularâ.
+      </p>
+              <p>
+        You might argue that such a method just replaces the old blacklist-updating-problem with
+        a new whitelist-updating-problem. Well yes, you are right to some extent,
+        but the good part is that the whitelist changes very little over time compared to a blacklist.
+        So you don't need to update very often. Another great benefit is that the whitelist/rinse-repeat approach
+        also enables detection of 0-day exploits and C2 traffic of unknown malware,
+        since we aren't looking for known badness â just odd traffic.
+      </p>
+              <br />
+              <p>
+                <b>Threat Hunting with Rinse-Repeat</b>
+              </p>
+              <p>
+        Mike Poor isn't the only well merited incident handler who seems to have adopted a strategy
+        similar to the Rinse-Repeat method;
+        <a href="https://twitter.com/taosecurity">Richard Bejtlich</a> (former US Air Force CERT and
+        <a href="https://www.first.org/members/teams/ge-cirt">GE CIRT</a> member)
+        reveal some valuable insight in his book
+        â<a href="http://www.amazon.com/gp/product/1593275099/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1593275099">The Practice of Network Security Monitoring</a>â:
+        <blockquote>
+          I often use Argus with Racluster to quickly search a large collection of session data via the command line, especially for unexpected entries. Rather than searching for specific data, I tell Argus what to omit, and then I review whatâs left.
+        </blockquote></p>
+              <p>
+        In his book Richard also mentions that he uses a similar methodology when going on âhunting tripsâ
+        (i.e. actively looking for intrusions without having received an IDS alert):
+
+        <blockquote>
+          Sometimes I hunt for traffic by telling Wireshark what to ignore so that I can examine whatâs left behind. I start with a simple filter, review the results, add another filter, review the results, and so on until Iâm left with a small amount of traffic to analyze.
+        </blockquote></p>
+              <a href="http://www.amazon.com/gp/product/1593275099/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1593275099">
+                <img src="https://www.netresec.com/images/Practice_of_NSM_200x264.jpg" alt="The Practice of NSM" style="float: right; margin: 5px 5px 5px 5px;" border="0" />
+              </a>
+              <p>
+        I personally find Rinse-Repeat Intrusion Detection ideal for threat hunting,
+        especially in situations where you are provided with a big PCAP dataset to answer the classic question
+        âHave we been hacked?â.
+        However, unfortunately the âblacklist mentalityâ is so conditioned among incident responders
+        that they often choose to crunch these datasets through blacklists and signature databases in order to
+        then review thousands of alerts, which are full of false positives.
+        In most situations such approaches are just a huge waste of time and computing power,
+        and I'm hoping to see a change in the incident responders' mindsets in the future.
+      </p>
+              <p>
+        I teach this ârinse-repeatâ threat hunting method in our
+        <a href="http://www.netresec.com/?page=Training">Network Forensics Training</a>.
+        In this class students get hands-on experience with a dataset of 3.5 GB / 40.000 flows,
+        which is then reduced to just a fraction through a few iterations in the rinse-repeat loop.
+        The remaining part of the PCAP dataset has a very high ratio of hacking attacks as well as
+        command-and-control traffic from RAT's, backdoors and botnets.
+      </p>
+              <!--
+      <a href="http://www.netresec.com/?page=Training">
+        <img src="https://www.netresec.com/images/Stockholm_NetworkForensicsTraining_520x229.jpg" alt="Network Forensics Training in Stockholm" style="clear: both; border: none;" />
+      </a>-->
+              <br />
+              <p>
+                <b>UPDATE 2015-10-07</b>
+              </p>
+              <p>
+        We have now published a blog post detailing how to use <a href="http://netresec.com/?b=15A1776">dynamic protocol detection</a>
+        to identify services running on non-standard ports. This is a good example on how to put the Rinse-Repeat methodology into practice.
+      </p>
+              <p class="shadyText">
+          Posted by Erik Hjelmvik on Monday, 17 August 2015 08:45:00 (UTC/GMT)</p>
+              <p>
+          Tags: 
+    #<a href="&#xA;        /?page=Blog&amp;tag=Rinse-Repeat">Rinse-Repeat</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=PCAP">PCAP</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=NSM">NSM</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=PCAP">PCAP</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=Intrusion Detection">Intrusion Detection</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=IDS">IDS</a>
+    #<a href="&#xA;        /?page=Blog&amp;tag=network forensics">network forensics</a></p>
+            </article>
+            <p>
+              <a target="_blank" class="invisibleLink" href="https://www.addthis.com/bookmark.php?source=tbx32nj-1.0&amp;=250&amp;pubid=xa-4d7526e93a9537a7&amp;url=https%3a%2f%2fwww.netresec.com%2f%3fpage%3dBlog%26month%3d2015-08%26post%3dRinse-Repeat-Intrusion-Detection&amp;title=Rinse-Repeat%20Intrusion%20Detection">
+                <img src="/images/share/more.gif" border="0" alt="More..." style="vertical-align: top;" />
+          Share
+        </a>
+        Â |Â 
+        <a target="_blank" title="Share on Facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.netresec.com%2f%3fpage%3dBlog%26month%3d2015-08%26post%3dRinse-Repeat-Intrusion-Detection"><img src="/images/share/facebook.gif" border="0" alt="Facebook" style="vertical-align: top;" /></a>
+        Â 
+        <a target="_blank" title="Share on Twitter" href="https://twitter.com/?status=Rinse-Repeat%20Intrusion%20Detection%3a%20https%3a%2f%2fnetresec.com%2f%3fb=1582D1D%20via%20%40netresec"><img src="/images/share/twitter.gif" border="0" alt="Twitter" style="vertical-align: top;" /></a>
+        Â 
+        <a target="_blank" title="Submit to reddit" href="https://www.reddit.com/r/netsec/submit?url=https%3a%2f%2fwww.netresec.com%2f%3fpage%3dBlog%26month%3d2015-08%26post%3dRinse-Repeat-Intrusion-Detection"><img src="/images/share/reddit.gif" border="0" alt="Reddit" style="vertical-align: top;" /></a>
+        Â 
+        <a target="_blank" title="Submit to Hacker News on Y Combinator" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2fwww.netresec.com%2f%3fpage%3dBlog%26month%3d2015-08%26post%3dRinse-Repeat-Intrusion-Detection&amp;t=Rinse-Repeat%20Intrusion%20Detection"><img src="/images/share/ycombinator_16x16.png" border="0" alt="Hacker News" style="vertical-align: top;" /></a><span style="float: right;">
+          Short URL: 
+          <a href="https://netresec.com/?b=1582D1D">
+            https://netresec.com/?b=1582D1D</a></span></p>
+          </div>
+        </div>
+        <div class="sidepane">
+          <h3>Recent Blog Posts</h3>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2019-01&amp;post=Video%3a-TrickBot-and-ETERNALCHAMPION">Video: TrickBot and ETERNALCHAMPION</a></p>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2019-01&amp;post=NetworkMiner-2-4-Released">NetworkMiner 2.4 Released</a></p>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2018-12&amp;post=TorPCAP---Tor-Network-Forensics">TorPCAP - Tor Network Forensics</a></p>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2018-11&amp;post=Remote-Packet-Dumps-from-PacketCache">Remote Packet Dumps from PacketCache</a></p>
+          <p>
+      Â» <a href="/?page=Blog&amp;month=2018-09&amp;post=Reverse-Engineering-Proprietary-ICS-Protocols">Reverse Engineering Proprietary ICS Protocols</a></p>
+          <h3>Blog Archive</h3>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2019">2019 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2018">2018 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2017">2017 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2016">2016 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2015">2015 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2014">2014 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2013">2013 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2012">2012 Blog Posts
+      </a></p>
+          <p>
+        Â» <a href="?page=Blog&amp;year=2011">2011 Blog Posts
+      </a></p>
+          <p>
+            <a href="/?page=Blog&amp;blogPostList=true">List all blog posts</a>
+          </p>
+          <p>
+        Grab our
+        <a href="http://feeds.feedburner.com/Netresec-Network-Security-Blog">FeedBurner</a>
+        or
+        <a href="https://www.netresec.com/rss.ashx">RSS</a>
+        feed
+      </p>
+        </div>
+        <div class="sidepane2">
+          <img src="/images/twitter-bird_120x100.png" width="120" height="100" alt="twitter" />
+          <h3>NETRESEC on Twitter</h3>
+          <p>
+        Follow <a href="http://twitter.com/netresec">@netresec</a> on twitter:<br />
+        Â» <a href="http://twitter.com/netresec">twitter.com/netresec</a></p>
+          <p />
+          <hr />
+          <p />
+          <img src="/images/book_141x72.png" width="141" height="72" alt="book" />
+          <h3>Recommended Books</h3>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/1593275099/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1593275099">The Practice of Network Security Monitoring</a>, Richard Bejtlich (2013)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0124172083/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0124172083">Applied Network Security Monitoring</a>, Chris Sanders and Jason Smith (2013)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0132564718/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0132564718">Network Forensics</a>, Sherri Davidoff and Jonathan Ham (2012)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0321246772/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0321246772">The Tao of Network Security Monitoring</a>, Richard Bejtlich (2004)
+      </p>
+          <p>
+        Â» <a href="https://www.amazon.com/gp/product/1593278020/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1593278020">Practical Packet Analysis</a>, Chris Sanders (2017)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/1597494224/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1597494224">Windows Forensic Analysis</a>, Harlan Carvey (2009)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0321336313/ref=as_li_tf_tl?ie=UTF8amp;&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0321336313">TCP/IP Illustrated, Volume 1</a>, Kevin Fall and Richard Stevens (2011)
+      </p>
+          <p>
+        Â» <a href="http://www.amazon.com/gp/product/0124201148/ref=as_li_tf_tl?ie=UTF8amp;&amp;tag=netresec-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0124201148">Industrial Network Security</a>, Eric D. Knapp and Joel Langill (2014)
+      </p>
+          <p />
+        </div>
+      </div>
+      <div id="pageFooter">
+        <span>Â© 2010-2019 ð½ð´ððð´ðð´ð² ð°ð±</span>
+          |
+          <span><a href="/?page=AboutNetresec">Contact Us</a></span>
+          |
+          <span><a href="/?page=Privacy">Privacy</a></span>
+          |
+          <span><a href="https://www.netresec.com/rss.ashx">RSS</a></span></div>
+    </div>
+  </body>
+</html>
+
+
+#####EOF#####
+
+

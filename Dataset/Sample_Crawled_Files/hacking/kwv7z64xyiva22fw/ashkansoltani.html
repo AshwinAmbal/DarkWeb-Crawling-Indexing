@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Wall Street Journal&#8217;s &#8220;What They Know&#8221; Series â Ashkan Soltani</title>
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9hc2hrYW5zb2x0YW5pLm9yZw%3D%3D"
+		+ "&id=27263952"
+		+ "&time=1554366480";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//ashkansoltani.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Ashkan Soltani &raquo; Feed" href="https://ashkansoltani.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Ashkan Soltani &raquo; Comments Feed" href="https://ashkansoltani.org/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s2.wp.com/_static/??-eJx9kN0OgjAMhV/IuWiQcGN8FhgNFNax0BLk7S0/eqFmV/3Jd3q2Y+do3BAEgliaTPRTg4HtHN1Ahgk9LF/T2TGf7H+Zxx7YdiCxdL3Zph9cWiCF4giEE1nCgKSVZfHwgTE4P9WK6cLWyGIrP2wnq7Ecl4NWbeo1bhhB9xRLWQmCGkvw6h4kJZuxbkB26703As+khGL+NlrbVn+fzGkPtKo0BGZzRGH2ZFbdg+6XW5YXRZHl1+4FTDOdew==?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='googlefont-droid-serif-css'  href='https://fonts.googleapis.com/css?family=Droid+Serif&#038;ver=1.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='googlefont-oswald-css'  href='https://fonts.googleapis.com/css?family=Oswald&#038;ver=1.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s0.wp.com/_static/??-eJx9jEsKwzAMBS9UVxiSki5Kz2IbVVGRrWAr9PpxNv1QyG4G5j1gKGqctLQ3nFNrJ3gtrothMcirW2Ql7g2hOtEUjLX8iHtI4Ho0rRhFqSNBr770aBTSfh5D/dBfbjNmbDAPQKIxyB7c882P/nKdRj9Mzw06w1UE?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFztEKwjAMBdAfsiu6Dp/Eb6k1jtQlrU3q0K+3A30QhkLgPtwDN3bOBjlM9QxiY7tbhfJ4RxdlY38BQzgWr9AR8geHxAqsi81JlEDEj7DSUjrhBKYKlAZY28wlrbjvl5DvCPNfFkGzD1dTQPC5rB/psB0Gt+v7vXPxBTjQW9A='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://ashkansoltani.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://ashkansoltani.org/work/what-they-know/" />
+<link rel='shortlink' href='https://wp.me/P1QoBa-eg' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fashkansoltani.org%2Fwork%2Fwhat-they-know%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fashkansoltani.org%2Fwork%2Fwhat-they-know%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Wall Street Journal&#8217;s &#8220;What They Know&#8221; Series" />
+<meta property="og:url" content="https://ashkansoltani.org/work/what-they-know/" />
+<meta property="og:description" content="Following my work on KnowPrivacy, I was approached by Julia Angwin to conduct similar research for a Wall Street Journal article she was writing called &#8220;The Web&#8217;s New Gold Mine: Your Seâ¦" />
+<meta property="article:published_time" content="2012-12-20T15:48:30+00:00" />
+<meta property="article:modified_time" content="2014-07-29T15:00:10+00:00" />
+<meta property="og:site_name" content="Ashkan Soltani" />
+<meta property="og:image" content="https://ashkansoltani.files.wordpress.com/2013/04/wsjapplegooglemobilelocation.png?w=150" />
+<meta property="og:image:width" content="150" />
+<meta property="og:image:height" content="110" />
+<meta property="og:image:alt" content="WSJapplegooglemobilelocation" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:text:title" content="Wall Street Journal&#8217;s &#8220;What They Know&#8221;&nbsp;Series" />
+<meta name="twitter:card" content="summary" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/60593218aba8214251b5c75cb4d7cc1d?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/60593218aba8214251b5c75cb4d7cc1d?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/60593218aba8214251b5c75cb4d7cc1d?s=114" />
+<link rel='openid.server' href='https://ashkansoltani.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://ashkansoltani.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://ashkansoltani.org/osd.xml" title="Ashkan Soltani" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<style type="text/css">#header { background: url(https://ashkansoltani.files.wordpress.com/2013/04/webheaderidman960x1001.png) no-repeat !important; }</style>
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Ashkan Soltani" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Independent Researcher &amp; Consultant" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://ashkansoltani.org/feed/;icon-uri=https://secure.gravatar.com/blavatar/60593218aba8214251b5c75cb4d7cc1d?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+<body class="page-template-default page page-id-884 page-child parent-pageid-24 mp6 customizer-styles-applied custom-header header-image content-sidebar highlander-enabled highlander-light"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="https://ashkansoltani.org/" title="Ashkan Soltani">Ashkan Soltani</a></p><p id="description">Independent Researcher &amp; Consultant</p></div><div class="widget-area header-widget-area"><div id="search-3" class="widget widget_search"><div class="widget-wrap"><form method="get" class="searchform search-form" action="https://ashkansoltani.org/" role="search" ><input type="text" value="Search this website&#x2026;" name="s" class="s search-input" onfocus="if (&#039;Search this website&#x2026;&#039; === this.value) {this.value = &#039;&#039;;}" onblur="if (&#039;&#039; === this.value) {this.value = &#039;Search this website&#x2026;&#039;;}" /><input type="submit" class="searchsubmit search-submit" value="Search" /></form></div></div>
+</div></div></div><div id="nav"><div class="wrap"><ul id="menu-core-menu" class="menu genesis-nav-menu menu-primary js-superfish"><li id="menu-item-2321" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2321"><a href="https://ashkansoltani.org/about/">About</a>
+<ul class="sub-menu">
+	<li id="menu-item-2327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2327"><a href="/about/#bio">Bio</a></li>
+	<li id="menu-item-3585" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3585"><a href="https://ashkansoltani.org/about/publications/">Publications</a></li>
+	<li id="menu-item-3589" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3589"><a href="https://ashkansoltani.org/about/awards/">Awards</a></li>
+	<li id="menu-item-2323" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2323"><a href="https://ashkansoltani.org/about/disclosure/">Disclosure Statement</a></li>
+	<li id="menu-item-2322" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2322"><a href="https://ashkansoltani.org/about/pgp/">PGP Key</a></li>
+</ul>
+</li>
+<li id="menu-item-1501" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1501"><a href="https://ashkansoltani.org/blog/">Blog</a></li>
+<li id="menu-item-292" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-has-children menu-item-292"><a href="https://ashkansoltani.org/work/">Work</a>
+<ul class="sub-menu">
+	<li id="menu-item-2184" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2184"><a href="https://ashkansoltani.org/work/online-tracking/">Online Tracking</a></li>
+	<li id="menu-item-2183" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2183"><a href="https://ashkansoltani.org/work/consumer-protection/">Consumer Protection</a></li>
+	<li id="menu-item-2182" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2182"><a href="https://ashkansoltani.org/work/mobile/">Mobile Privacy and Security</a></li>
+	<li id="menu-item-2181" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2181"><a href="https://ashkansoltani.org/work/surveillance/">Surveillance</a></li>
+</ul>
+</li>
+<li id="menu-item-997" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-997"><a href="https://ashkansoltani.wordpress.com/category/talks/">Talks</a></li>
+<li id="menu-item-1701" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1701"><a href="https://ashkansoltani.org/press/">Press</a></li>
+</ul></div></div><div id="inner"><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-884 page type-page status-publish hentry entry"><h1 class="entry-title">Wall Street Journal&#8217;s &#8220;What They Know&#8221;&nbsp;Series</h1> 
+<div class="entry-content"><p>Following my work on <a href="https://ashkansoltani.org/work/knowprivacy-a-web-privacy-investigation/">KnowPrivacy</a>, I was approached by <a href="http://juliaangwin.com/">Julia Angwin</a> to conduct similar research for a Wall Street Journal article she was writing called &#8220;<a href="http://online.wsj.com/article/SB10001424052748703940904575395073512989404.html">The Web&#8217;s New Gold Mine: Your Secrets</a>.&#8221; Â For this article, I measured the prevalence of online tracking and helped enumerateÂ the various privacy concerns involved with online tracking. After the success of the first piece, this turned into two-year series investigatingÂ how individuals are tracked online and offlineÂ which was a finalist for 2012 Pulitzer Prize for Explanatory Reporting and won the <a href="http://www.anderson.ucla.edu/gerald-loeb-awards/historical-winners" target="_blank">2010 Loeb Award for âOnline Enterpriseâ</a>.</p>
+<p>I was the primary technical consultant for many of the stories in the series, most notably <a href="http://online.wsj.com/article/SB10001424052748703904304575497903523187146.html">On the Web, Children Face Intensive Tracking</a>, <a href="http://online.wsj.com/article/SB10001424052970204880404577225380456599176.html">Google&#8217;s iPhone Tracking</a>, and <a href="http://online.wsj.com/article/SB10001424052970203687504577001911398596328.html">U.S. Firm Acknowledges Syria Uses Its Gear to Block Web</a>. The technical research for these pieces involved building software to crawl the web for tracking technologies and recording their reach and frequency.IÂ worked with a other researchers, including David Campbell of <a href="http://electricalchemy.net/">Electric Alchemy</a>Â to develop a then-cutting-edge method for identifying privacy leakage on mobile devices. Most recently, I assisted the WTK team in reverse engineering the technology certain companies use to offer different prices to consumers online.</p>
+<p>Looking under the hood of the tracking technology and practices used by companies is critical to examining the role this data plays in our economy and our private lives. Â TechnicalÂ research like this can give consumers the knowledge and tools to understand how data about them is mined, transmitted, and monetized. Â Investigative journalism will increasingly require this kind of geek-intensive research.</p>
+<p>Some examples from the series:</p>
+<table>
+<tbody>
+<tr>
+<td valign="top"><a href="http://blogs.wsj.com/wtk/"><img src="https://ashkansoltani.files.wordpress.com/2011/03/circle.png?w=144&#038;h=144" alt="circle" width="144" height="144" /></a></td>
+<td><strong><a href="http://online.wsj.com/article/SB10001424052748703940904575395073512989404.html" target="_blank">The web&#8217;s new goldmine: your secrets</a>:</strong>Â TheÂ <em>Wall Street Journal</em>&#8216;s What They Know series began in July 2010 with this article, which outlined the broad array of cookies and other surveillance technology that companies are deploying on internet users. It revealed that the tracking of consumers has grown both far more pervasive and far more intrusive than is realized by all but a handful of people in the vanguard of the industry.Â <a href="http://online.wsj.com/article/SB10001424052748703940904575395073512989404.html" target="_blank">Read more</a>Â (behind paywall) orÂ <a href="http://blogs.wsj.com/wtk/" target="_blank">view interactive graphic</a></td>
+</tr>
+<tr>
+<td valign="top"><strong><br />
+<a href="http://online.wsj.com/article/SB10001424052748703904304575497903523187146.html"><img src="https://ashkansoltani.files.wordpress.com/2011/03/kids.png?w=150&#038;h=95" alt="kids" width="150" height="95" /></a></strong></td>
+<td><strong><a href="http://online.wsj.com/article/SB10001424052748703904304575497903523187146.html" target="_blank">Tracking children online</a>:</strong>Â In 2010, theÂ <em>Wall Street Journal</em>Â team examined 50 sites popular with U.S. teens and children to see what tracking tools they installed on a test computer. As a group, the sites placed 4,123 &#8220;cookies,&#8221; &#8220;beacons&#8221; and other pieces of tracking technology. We found that marketers are spyingÂ <em>more</em>Â on young Internet users than on their parents, building detailed profiles of their activities and interests.Â <a href="http://online.wsj.com/article/SB10001424052748703904304575497903523187146.html" target="_blank">Read more</a>Â orÂ <a href="http://online.wsj.com/article/SB10001424052748703904304575497903523187146.html#articleTabs%3Dinteractive" target="_blank">view interactive graphic</a>.</td>
+</tr>
+<tr>
+<td valign="top"><a href="http://online.wsj.com/article/SB10001424052970204880404577225380456599176.html#project%3DSAFARITRACKINGCODE0212%26articleTabs%3Darticle"><img src="https://ashkansoltani.files.wordpress.com/2013/04/tracking-safari.jpg?w=152&#038;h=116" alt="tracking safari" width="152" height="116" /></a></td>
+<td><strong><a href="http://online.wsj.com/article/SB10001424052970204880404577225380456599176.html" target="_blank">How Google tracked Safari users</a></strong>: In 2012, I found that Google and other advertising companies had been following iPhone and Apple users as they browse the Web, even though Appleâs Safari Web browser is set to block such tracking by default. Google was using cookies to trick the Safari web browserÂ into letting them monitor many users.Â Â <a href="http://online.wsj.com/article/SB10001424052970204880404577225380456599176.html" target="_blank">Read more</a>Â orÂ <a href="http://online.wsj.com/article/SB10001424052970204880404577225380456599176.html#articleTabs%3Dinteractive" target="_blank">view interactive graphic</a>.</td>
+</tr>
+<tr>
+<td valign="top"><a href="http://online.wsj.com/article/SB10001424127887323777204578189391813881534.html#articleTabs%3Dinteractive%26project%3DSTAPLES1212b"><img src="https://ashkansoltani.files.wordpress.com/2013/04/staples.jpg?w=152&#038;h=105" alt="staples" width="152" height="105" /></a></td>
+<td><strong><a href="http://online.wsj.com/article/SB10001424127887323777204578189391813881534.html#articleTabs%3Darticle" target="_blank">Websites Vary Prices, Deals Based on Users&#8217; Information:</a></strong>Â In December 2012, the Journal identified several companies that were consistently adjusting prices and displaying different product offers based on a range of characteristics that could be discovered about the user.Â <a href="http://online.wsj.com/article/SB10001424127887323777204578189391813881534.html#articleTabs%3Darticle" target="_blank">Read more</a>Â orÂ <a href="http://online.wsj.com/article/SB10001424127887323777204578189391813881534.html#articleTabs%3Dinteractive" target="_blank">view interactive graphic</a>.</td>
+</tr>
+<tr>
+<td valign="top"><strong><a href="http://online.wsj.com/article/SB10001424127887324784404578143144132736214.html"><img src="https://ashkansoltani.files.wordpress.com/2013/04/they-know-what-youre-shopping-for.png?w=150&#038;h=141" alt="they know what you're shopping for" width="150" height="141" /></a></strong></td>
+<td><strong><a href="http://online.wsj.com/article/SB10001424127887324784404578143144132736214.html" target="_blank">They Know What You&#8217;re Shopping For</a></strong>:Â Companies are increasingly tying peopleâs real-life identities to their online browsing habits. Â For this Journal story, IÂ found that Dataium was collecting the email addresses of individuals browsing auto websitesÂ and using that to profile people when they walked into dealerships to shop for a car.Â <a href="http://blogs.wsj.com/digits/2012/12/07/how-dataium-watches-you/">Read more</a>Â about the technical details orÂ <a href="http://online.wsj.com/article/SB10001424127887324784404578143144132736214.html#articleTabs%3Dinteractive">view interactive graphic</a>.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr>
+<td valign="top"><a href="http://online.wsj.com/article/SB10001424052748704368004576027751867039730.html#ixzz18WFHX4pP"><img src="https://ashkansoltani.files.wordpress.com/2012/12/wsjappswatchingyou1211.png?w=150&#038;h=83" alt="WSJappswatchingyou1211" width="150" height="83" /></a></td>
+<td><a href="http://online.wsj.com/article/SB10001424052748704368004576027751867039730.html#ixzz18WFHX4pP" target="_blank"><strong>Your Apps are Watching You</strong></a>Â Few devices know more personal details about people than the smartphones in their pockets: phone numbers, current location, often the ownerâs real nameâeven a unique ID number that can never be changed or turned off. These phones donât keep secrets. They are sharing this personal data widely and regularly, as a Wall Street Journal investigation found. An examination of 101 popular smartphone apps âgames and other software applications for iPhone and Android phonesâshowed that 56 transmitted the phoneâs unique device ID to other companies without usersâ awareness or consent. Forty-seven apps transmitted the phoneâs location in some way. Five sent age, gender and other personal details to outsiders.Â <a href="http://online.wsj.com/article/SB10001424052748704368004576027751867039730.html#ixzz18WFHX4pP" target="_blank">Read more</a>Â orÂ <a href="http://online.wsj.com/article/SB10001424052748704368004576027751867039730.html#ixzz18WFHX4pP" target="_blank">view interactive graphic.</a></td>
+</tr>
+<tr>
+<td valign="top"><a href="http://online.wsj.com/article/SB10001424052748703983704576277101723453610.html"><img src="https://ashkansoltani.files.wordpress.com/2013/04/wsjapplegooglemobilelocation.png?w=150&#038;h=110" alt="WSJapplegooglemobilelocation" width="150" height="110" /></a></td>
+<td><a href="http://online.wsj.com/article/SB10001424052748703983704576277101723453610.html" target="_blank"><strong>Apple, Google Collect User Data</strong></a>Â Apple&#8217;s iPhones and Google&#8217;s Android smartphones regularly transmit their locations back to Apple and Google, respectively, according to data and documents analyzed by The Wall Street Journalâintensifying concerns over privacy and the widening trade in personal data.Â <a href="http://online.wsj.com/article/SB10001424052748703983704576277101723453610.html" target="_blank">Read more</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="mobilescope"></a></p>
+<p><a name="cookies"></a></p>
+</div></div></div><div id="sidebar" class="sidebar widget-area"><div id="text-2" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget">Follow me on Twitter
+<br><br>
+
+<a href="https://twitter.com/ashk4n" class="twitter-follow-button" data-show-count="false">Follow @ashk4n</a><br><br></div>
+		</div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Upcoming events</h4>
+			<div class="textwidget"></div>
+		</div></div>
+		<div id="recent-posts-2" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+											<li>
+					<a href="https://ashkansoltani.org/2014/12/02/tech-at-ftc/">Tech at FTC</a>
+									</li>
+											<li>
+					<a href="https://ashkansoltani.org/2014/10/19/announcing-floodwatch/">Announcing Floodwatch</a>
+									</li>
+											<li>
+					<a href="https://ashkansoltani.org/2014/04/14/the-washington-posts-surveillance-coverage-won-a-pulitzer/">The Washington Post&#8217;s Surveillance Coverage Won a&nbsp;Pulitzer!</a>
+									</li>
+											<li>
+					<a href="https://ashkansoltani.org/2014/04/03/security-at-the-mercy-of-advertising/">Security at the Mercy of&nbsp;Advertising</a>
+									</li>
+											<li>
+					<a href="https://ashkansoltani.org/2014/02/27/talks-and-events/">Talks and Events</a>
+									</li>
+					</ul>
+		</div></div>
+<div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Work</h4>
+<div class="menu-projects-only-container"><ul id="menu-projects-only" class="menu"><li id="menu-item-3202" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3202"><a href="https://ashkansoltani.org/work/washpost/">The Washington Post</a></li>
+<li id="menu-item-1990" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1990"><a href="https://ashkansoltani.org/work/online-tracking/">Online Tracking</a></li>
+<li id="menu-item-1989" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1989"><a href="https://ashkansoltani.org/work/consumer-protection/">Consumer Protection</a></li>
+<li id="menu-item-2035" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2035"><a href="https://ashkansoltani.org/work/mobile/">Mobile Privacy and Security</a></li>
+<li id="menu-item-2034" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2034"><a href="https://ashkansoltani.org/work/surveillance/">Surveillance</a></li>
+<li id="menu-item-1386" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1386"><a href="https://ashkansoltani.org/work/knowprivacy-a-web-privacy-investigation/">KnowPrivacy: a web privacy investigation</a></li>
+<li id="menu-item-1481" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-884 current_page_item menu-item-1481"><a href="https://ashkansoltani.org/work/what-they-know/" aria-current="page">Wall Street Journal&#8217;s &#8220;What They Know&#8221; Series</a></li>
+</ul></div></div></div>
+<div id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><div class="widget-wrap"><h4 class="widget-title widgettitle"> </h4>
+<div style="overflow:hidden"><a href="https://ashkansoltani.org/tag/ads/" class="tag-cloud-link tag-link-2228 tag-link-position-1" style="font-size: 8pt;" aria-label="ads (1 item)">ads</a>
+<a href="https://ashkansoltani.org/tag/advertising/" class="tag-cloud-link tag-link-521 tag-link-position-2" style="font-size: 15.295774647887pt;" aria-label="advertising (10 items)">advertising</a>
+<a href="https://ashkansoltani.org/tag/android/" class="tag-cloud-link tag-link-641922 tag-link-position-3" style="font-size: 8pt;" aria-label="android (1 item)">android</a>
+<a href="https://ashkansoltani.org/tag/apple/" class="tag-cloud-link tag-link-291 tag-link-position-4" style="font-size: 11.943661971831pt;" aria-label="apple (4 items)">apple</a>
+<a href="https://ashkansoltani.org/tag/apps/" class="tag-cloud-link tag-link-4213 tag-link-position-5" style="font-size: 12.732394366197pt;" aria-label="apps (5 items)">apps</a>
+<a href="https://ashkansoltani.org/tag/berkeley/" class="tag-cloud-link tag-link-55409 tag-link-position-6" style="font-size: 8pt;" aria-label="berkeley (1 item)">berkeley</a>
+<a href="https://ashkansoltani.org/tag/big-data/" class="tag-cloud-link tag-link-2075170 tag-link-position-7" style="font-size: 14.901408450704pt;" aria-label="big data (9 items)">big data</a>
+<a href="https://ashkansoltani.org/tag/carrier-iq/" class="tag-cloud-link tag-link-20562995 tag-link-position-8" style="font-size: 8pt;" aria-label="Carrier IQ (1 item)">Carrier IQ</a>
+<a href="https://ashkansoltani.org/tag/censorship/" class="tag-cloud-link tag-link-393 tag-link-position-9" style="font-size: 10.957746478873pt;" aria-label="censorship (3 items)">censorship</a>
+<a href="https://ashkansoltani.org/tag/cfaa/" class="tag-cloud-link tag-link-9169682 tag-link-position-10" style="font-size: 8pt;" aria-label="CFAA (1 item)">CFAA</a>
+<a href="https://ashkansoltani.org/tag/circumvention/" class="tag-cloud-link tag-link-1151079 tag-link-position-11" style="font-size: 8pt;" aria-label="circumvention (1 item)">circumvention</a>
+<a href="https://ashkansoltani.org/tag/civil-liberties/" class="tag-cloud-link tag-link-1957 tag-link-position-12" style="font-size: 13.915492957746pt;" aria-label="civil liberties (7 items)">civil liberties</a>
+<a href="https://ashkansoltani.org/tag/consumer-reports/" class="tag-cloud-link tag-link-502456 tag-link-position-13" style="font-size: 8pt;" aria-label="Consumer Reports (1 item)">Consumer Reports</a>
+<a href="https://ashkansoltani.org/tag/consumers/" class="tag-cloud-link tag-link-45084 tag-link-position-14" style="font-size: 18.253521126761pt;" aria-label="consumers (21 items)">consumers</a>
+<a href="https://ashkansoltani.org/tag/cookies/" class="tag-cloud-link tag-link-18645 tag-link-position-15" style="font-size: 14.408450704225pt;" aria-label="cookies (8 items)">cookies</a>
+<a href="https://ashkansoltani.org/tag/datium/" class="tag-cloud-link tag-link-131845639 tag-link-position-16" style="font-size: 8pt;" aria-label="Datium (1 item)">Datium</a>
+<a href="https://ashkansoltani.org/tag/de-idenfication/" class="tag-cloud-link tag-link-134586667 tag-link-position-17" style="font-size: 9.7746478873239pt;" aria-label="de-idenfication (2 items)">de-idenfication</a>
+<a href="https://ashkansoltani.org/tag/delta/" class="tag-cloud-link tag-link-116369 tag-link-position-18" style="font-size: 8pt;" aria-label="delta (1 item)">delta</a>
+<a href="https://ashkansoltani.org/tag/development/" class="tag-cloud-link tag-link-780 tag-link-position-19" style="font-size: 8pt;" aria-label="development (1 item)">development</a>
+<a href="https://ashkansoltani.org/tag/digital-shadow-2/" class="tag-cloud-link tag-link-161570468 tag-link-position-20" style="font-size: 8pt;" aria-label="digital shadow (1 item)">digital shadow</a>
+<a href="https://ashkansoltani.org/tag/dnt/" class="tag-cloud-link tag-link-1357339 tag-link-position-21" style="font-size: 10.957746478873pt;" aria-label="DNT (3 items)">DNT</a>
+<a href="https://ashkansoltani.org/tag/do-not-track/" class="tag-cloud-link tag-link-2836265 tag-link-position-22" style="font-size: 16.676056338028pt;" aria-label="do not track (14 items)">do not track</a>
+<a href="https://ashkansoltani.org/tag/economics/" class="tag-cloud-link tag-link-657 tag-link-position-23" style="font-size: 8pt;" aria-label="economics (1 item)">economics</a>
+<a href="https://ashkansoltani.org/tag/email/" class="tag-cloud-link tag-link-163 tag-link-position-24" style="font-size: 9.7746478873239pt;" aria-label="email (2 items)">email</a>
+<a href="https://ashkansoltani.org/tag/encryption/" class="tag-cloud-link tag-link-6474 tag-link-position-25" style="font-size: 8pt;" aria-label="encryption (1 item)">encryption</a>
+<a href="https://ashkansoltani.org/tag/etag/" class="tag-cloud-link tag-link-15341814 tag-link-position-26" style="font-size: 8pt;" aria-label="etag (1 item)">etag</a>
+<a href="https://ashkansoltani.org/tag/facebook/" class="tag-cloud-link tag-link-81819 tag-link-position-27" style="font-size: 8pt;" aria-label="facebook (1 item)">facebook</a>
+<a href="https://ashkansoltani.org/tag/facial-recognition/" class="tag-cloud-link tag-link-64818 tag-link-position-28" style="font-size: 9.7746478873239pt;" aria-label="facial recognition (2 items)">facial recognition</a>
+<a href="https://ashkansoltani.org/tag/fair-trade-data/" class="tag-cloud-link tag-link-170046919 tag-link-position-29" style="font-size: 8pt;" aria-label="fair trade data (1 item)">fair trade data</a>
+<a href="https://ashkansoltani.org/tag/flash-cookies/" class="tag-cloud-link tag-link-2214276 tag-link-position-30" style="font-size: 12.732394366197pt;" aria-label="flash cookies (5 items)">flash cookies</a>
+<a href="https://ashkansoltani.org/tag/ford-foundation/" class="tag-cloud-link tag-link-483249 tag-link-position-31" style="font-size: 8pt;" aria-label="Ford Foundation (1 item)">Ford Foundation</a>
+<a href="https://ashkansoltani.org/tag/free-speech/" class="tag-cloud-link tag-link-39274 tag-link-position-32" style="font-size: 10.957746478873pt;" aria-label="free speech (3 items)">free speech</a>
+<a href="https://ashkansoltani.org/tag/ftc/" class="tag-cloud-link tag-link-34445 tag-link-position-33" style="font-size: 12.732394366197pt;" aria-label="FTC (5 items)">FTC</a>
+<a href="https://ashkansoltani.org/tag/government/" class="tag-cloud-link tag-link-2311 tag-link-position-34" style="font-size: 15.69014084507pt;" aria-label="government (11 items)">government</a>
+<a href="https://ashkansoltani.org/tag/guidelines/" class="tag-cloud-link tag-link-23438 tag-link-position-35" style="font-size: 8pt;" aria-label="guidelines (1 item)">guidelines</a>
+<a href="https://ashkansoltani.org/tag/harm/" class="tag-cloud-link tag-link-319361 tag-link-position-36" style="font-size: 8pt;" aria-label="harm (1 item)">harm</a>
+<a href="https://ashkansoltani.org/tag/html5/" class="tag-cloud-link tag-link-53242 tag-link-position-37" style="font-size: 8pt;" aria-label="HTML5 (1 item)">HTML5</a>
+<a href="https://ashkansoltani.org/tag/hulu/" class="tag-cloud-link tag-link-1702277 tag-link-position-38" style="font-size: 9.7746478873239pt;" aria-label="hulu (2 items)">hulu</a>
+<a href="https://ashkansoltani.org/tag/human-rights/" class="tag-cloud-link tag-link-2720 tag-link-position-39" style="font-size: 10.957746478873pt;" aria-label="human rights (3 items)">human rights</a>
+<a href="https://ashkansoltani.org/tag/internet-freedom/" class="tag-cloud-link tag-link-194373 tag-link-position-40" style="font-size: 8pt;" aria-label="internet freedom (1 item)">internet freedom</a>
+<a href="https://ashkansoltani.org/tag/journalism/" class="tag-cloud-link tag-link-316 tag-link-position-41" style="font-size: 8pt;" aria-label="journalism (1 item)">journalism</a>
+<a href="https://ashkansoltani.org/tag/kissmetrics/" class="tag-cloud-link tag-link-11837722 tag-link-position-42" style="font-size: 10.957746478873pt;" aria-label="KISSmetrics (3 items)">KISSmetrics</a>
+<a href="https://ashkansoltani.org/tag/knowprivacy-2/" class="tag-cloud-link tag-link-162840512 tag-link-position-43" style="font-size: 8pt;" aria-label="knowprivacy (1 item)">knowprivacy</a>
+<a href="https://ashkansoltani.org/tag/location/" class="tag-cloud-link tag-link-6418 tag-link-position-44" style="font-size: 12.732394366197pt;" aria-label="location (5 items)">location</a>
+<a href="https://ashkansoltani.org/tag/logging/" class="tag-cloud-link tag-link-62087 tag-link-position-45" style="font-size: 8pt;" aria-label="logging (1 item)">logging</a>
+<a href="https://ashkansoltani.org/tag/manners/" class="tag-cloud-link tag-link-54077 tag-link-position-46" style="font-size: 8pt;" aria-label="manners (1 item)">manners</a>
+<a href="https://ashkansoltani.org/tag/media-access-project/" class="tag-cloud-link tag-link-8217193 tag-link-position-47" style="font-size: 8pt;" aria-label="Media Access Project (1 item)">Media Access Project</a>
+<a href="https://ashkansoltani.org/tag/mobile/" class="tag-cloud-link tag-link-120 tag-link-position-48" style="font-size: 17.859154929577pt;" aria-label="mobile (19 items)">mobile</a>
+<a href="https://ashkansoltani.org/tag/mobilescope-2/" class="tag-cloud-link tag-link-133495363 tag-link-position-49" style="font-size: 9.7746478873239pt;" aria-label="Mobilescope (2 items)">Mobilescope</a>
+<a href="https://ashkansoltani.org/tag/nsa/" class="tag-cloud-link tag-link-29197 tag-link-position-50" style="font-size: 15.69014084507pt;" aria-label="NSA (11 items)">NSA</a>
+<a href="https://ashkansoltani.org/tag/osx/" class="tag-cloud-link tag-link-1902 tag-link-position-51" style="font-size: 8pt;" aria-label="osx (1 item)">osx</a>
+<a href="https://ashkansoltani.org/tag/owasp/" class="tag-cloud-link tag-link-1108100 tag-link-position-52" style="font-size: 8pt;" aria-label="OWASP (1 item)">OWASP</a>
+<a href="https://ashkansoltani.org/tag/pclob/" class="tag-cloud-link tag-link-53302734 tag-link-position-53" style="font-size: 9.7746478873239pt;" aria-label="PCLOB (2 items)">PCLOB</a>
+<a href="https://ashkansoltani.org/tag/persistent-tracking/" class="tag-cloud-link tag-link-89228033 tag-link-position-54" style="font-size: 15.295774647887pt;" aria-label="persistent tracking (10 items)">persistent tracking</a>
+<a href="https://ashkansoltani.org/tag/price-discrimination/" class="tag-cloud-link tag-link-301280 tag-link-position-55" style="font-size: 8pt;" aria-label="price discrimination (1 item)">price discrimination</a>
+<a href="https://ashkansoltani.org/tag/prism/" class="tag-cloud-link tag-link-1044973 tag-link-position-56" style="font-size: 13.915492957746pt;" aria-label="PRISM (7 items)">PRISM</a>
+<a href="https://ashkansoltani.org/tag/privacy-2/" class="tag-cloud-link tag-link-34930438 tag-link-position-57" style="font-size: 22pt;" aria-label="privacy (52 items)">privacy</a>
+<a href="https://ashkansoltani.org/tag/profiling/" class="tag-cloud-link tag-link-29443 tag-link-position-58" style="font-size: 8pt;" aria-label="profiling (1 item)">profiling</a>
+<a href="https://ashkansoltani.org/tag/quantcast/" class="tag-cloud-link tag-link-1075654 tag-link-position-59" style="font-size: 8pt;" aria-label="quantcast (1 item)">quantcast</a>
+<a href="https://ashkansoltani.org/tag/respawning/" class="tag-cloud-link tag-link-12217515 tag-link-position-60" style="font-size: 11.943661971831pt;" aria-label="respawning (4 items)">respawning</a>
+<a href="https://ashkansoltani.org/tag/security/" class="tag-cloud-link tag-link-801 tag-link-position-61" style="font-size: 13.422535211268pt;" aria-label="security (6 items)">security</a>
+<a href="https://ashkansoltani.org/tag/skype/" class="tag-cloud-link tag-link-812 tag-link-position-62" style="font-size: 8pt;" aria-label="skype (1 item)">skype</a>
+<a href="https://ashkansoltani.org/tag/ssl/" class="tag-cloud-link tag-link-58302 tag-link-position-63" style="font-size: 9.7746478873239pt;" aria-label="SSL (2 items)">SSL</a>
+<a href="https://ashkansoltani.org/tag/surveillance-2/" class="tag-cloud-link tag-link-35739327 tag-link-position-64" style="font-size: 18.845070422535pt;" aria-label="surveillance (24 items)">surveillance</a>
+<a href="https://ashkansoltani.org/tag/technology/" class="tag-cloud-link tag-link-6 tag-link-position-65" style="font-size: 12.732394366197pt;" aria-label="technology (5 items)">technology</a>
+<a href="https://ashkansoltani.org/tag/testimony/" class="tag-cloud-link tag-link-42716 tag-link-position-66" style="font-size: 9.7746478873239pt;" aria-label="testimony (2 items)">testimony</a>
+<a href="https://ashkansoltani.org/tag/tools/" class="tag-cloud-link tag-link-1981 tag-link-position-67" style="font-size: 8pt;" aria-label="tools (1 item)">tools</a>
+<a href="https://ashkansoltani.org/tag/tracking-2/" class="tag-cloud-link tag-link-34969050 tag-link-position-68" style="font-size: 19.633802816901pt;" aria-label="tracking (29 items)">tracking</a>
+<a href="https://ashkansoltani.org/tag/transparency/" class="tag-cloud-link tag-link-636 tag-link-position-69" style="font-size: 8pt;" aria-label="transparency (1 item)">transparency</a>
+<a href="https://ashkansoltani.org/tag/w3c/" class="tag-cloud-link tag-link-2872 tag-link-position-70" style="font-size: 8pt;" aria-label="W3C (1 item)">W3C</a>
+<a href="https://ashkansoltani.org/tag/wsj/" class="tag-cloud-link tag-link-8865 tag-link-position-71" style="font-size: 8pt;" aria-label="WSJ (1 item)">WSJ</a></div></div></div>
+<div id="text-5" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget">Please note: This site unfortunately features some Quantserve/Wordpress tracking widgets that canât be disabled. Sorry! I recommend  <a href="http://howto.cnet.com/8301-11310_39-20042703-285/disable-third-party-cookies-in-ie-firefox-and-google-chrome/">blocking third-party cookies</a>, using a privacy-friendly browser, or installing privacy add-ons like <a href="http://disconnect.me/">Disconnect</a> or <a href="http://www.ghostery.com/">Ghostery</a></div>
+		</div></div>
+<div id="rss_links-3" class="widget widget_rss_links"><div class="widget-wrap"><h4 class="widget-title widgettitle">Follow RSS</h4>
+<p class="size-small"><a class="feed-image-link" href="https://ashkansoltani.org/feed/" title="Subscribe to Posts"><img src="https://ashkansoltani.org/i/rss/red-small.png" alt="RSS Feed" /></a>&nbsp;<a href="https://ashkansoltani.org/feed/" title="Subscribe to Posts">RSS - Posts</a></p>
+</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap"><div class="gototop"><p><a href="#wrap" rel="nofollow">Return to top of page</a></p></div><div class="creds"><p><a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a></p></div></div></div></div><!--  -->
+	<div style="display:none">
+	</div>
+<script type='text/javascript' src='https://platform.twitter.com/widgets.js?ver=20111117'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"27263952","siteName":"Ashkan Soltani","siteURL":"https:\/\/ashkansoltani.org","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/60593218aba8214251b5c75cb4d7cc1d?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"premium\/minimum","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fashkansoltani.org%2Fwork%2Fwhat-they-know%2F&signup_flow=account&domain=ashkansoltani.org","themeURL":"","xhrURL":"https:\/\/ashkansoltani.org\/wp-admin\/admin-ajax.php","nonce":"7f04033116","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"d1060b8795\" \/>","referer":"https:\/\/ashkansoltani.org\/work\/what-they-know\/","canFollow":"1","feedID":"11134769","statusMessage":"","customizeLink":"https:\/\/ashkansoltani.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fashkansoltani.wordpress.com%2Fwork%2Fwhat-they-know%2F","postID":"884","shortlink":"https:\/\/wp.me\/P1QoBa-eg","canEditPost":"","editLink":"https:\/\/wordpress.com\/page\/ashkansoltani.org\/884","statsLink":"https:\/\/wordpress.com\/stats\/post\/884\/ashkansoltani.org","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Minimum","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 504 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fashkansoltani.org%2Fwork%2Fwhat-they-know%2F&signup_flow=account&domain=ashkansoltani.org\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJylj8EOgkAMRH9IqEQ0ejB+y7JUKNBlbXfRz3e5EGKMieE26cybSeHpMzu6gC5Ap1DjRBb9K+90ByuLY+aH2JBTGKhHhUfEiK1x9YDyGQ4tcop4QabI0KBDpRms5glGF0GjR7mTtjmT28QbaXRziR3Zm/CtZvW4qZOfVUaAjQaUpLJxQhGq09By+7MhiLG9/oJsoNHN0KJS+sbX4lheDkV5Ou+7N+yEql8='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'27263952','blog_tz':'-5','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'27263952','v':'wpcom','tz':'-5','user_id':'0','post':'884','subd':'ashkansoltani'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGRVYVNrSFguN3FwSmQ5RGtNX3VQcj1yVzhiflM1THQtLGFdQ2toOXYlSDV0eGt4SnRRWTlvK35xbD1rZTJkbVFoTks4a3ZQNERhLmUrN041PUdCOEJMK2tLaXR5RCxOfHRjRDhmYXJtSW92JTgmM2VlJixbflh0YytEQlBlRGR2T0JFNkdveUNrXz9rMlhybFs/WVtmYkxZZHUzOVosYS1ET1QsNGxYZU1nVGhqW0RYdkF6OGFNV189YmhOd1oxWGk0b0ZWLFhkZkJmc01zX20lRFU/YWJlT3JQWnRxV3NMczdsal1TR0RLaEExfkxrUm0r'}]);
+_stq.push([ 'clickTrackerInit', '27263952', '884' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Breaking LTE on Layer Two</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/mdb.min.css" rel="stylesheet">
+  <link href="css/style.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark elegant-color-dark">
+      <div class="smooth-scroll">
+        <a class="navbar-brand smooth-scroll" href="#title">aLTEr</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <!-- Left -->
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item active">
+              <a class="nav-link" href="#intro">Introduction</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#passive">Passive Attacks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#active">Active Attack</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#paper">Paper</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#faq">FAQ</a>
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <br>
+
+  <div class="pt-5 mx-lg-5">
+    <div class="container" id="title">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-sm-2">
+            <img src="images/blobbel.jpg" width="80%" alt="">
+          </div>
+          <div class="col-sm-10">
+            <h1 class="h1-responsive">Breaking LTE on Layer Two</h1>
+            <hr class="my-2">
+
+            <p>David Rupprecht, Katharina Kohls, Thorsten Holz, and Christina P&ouml;pper</p>
+            <p> Ruhr-Universit&auml;t Bochum &amp; New York University Abu Dhabi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="container" id="intro">
+      <h1 class="display-4">Introduction</h1>
+      <hr>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm-5">
+          <h2>Security Analysis of Layer Two</h2>
+          <p>Our security analysis of the mobile communication standard LTE (
+            <a href="https://en.wikipedia.org/wiki/LTE_(telecommunication)">Long-Term Evolution</a>, also know as 4G) on the data link layer (so called
+            <i>layer two</i>) has uncovered three novel attack vectors that enable different attacks against the protocol. On
+            the one hand, we introduce two passive attacks that demonstrate an
+            <i>identity mapping</i> attack and a method to perform
+            <i>website fingerprinting</i>. On the other hand, we present an active cryptographic attack called
+            <i>aLTEr attack</i> that allows an attacker to redirect network connections by performing DNS spoofing due to a
+            specification flaw in the LTE standard. In the following, we provide an overview of the website fingerprinting
+            and aLTE attack, and explain how we conducted them in our lab setup. Our work will appear at the
+            <a href="https://www.ieee-security.org/TC/SP2019/">2019 IEEE Symposium on Security & Privacy</a> and all details are available in a
+            <a href="#paper">pre-print version of the paper</a>.
+        </div>
+        <div class="col-sm-7">
+          <img src="images/intro.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <img src="images/cons.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="col-sm-9">
+
+          <h2>Consequences</h2>
+
+          <ul>
+            <li>
+              <strong>How practical are the attacks?</strong> We conducted the attacks in an experimental setup in our lab that depends
+              on special hardware and a controlled environment. These requirements are, at the moment, hard to meet in real LTE networks.
+              However, with some engineering effort, our attacks can also be performed in the wild.</li>
+            <li>
+              <strong>What can happen?</strong> We present three individual attacks: For mapping user identities in the radio cell
+              (see
+              <a href="#paper">paper for details</a>), for
+              <a href="#passive">learning which websites a user accessed</a>, and for performing an
+              <a href="#active">alteration attack</a> (e.g., on DNS traffic) that can be used to redirect and thus hijack network connections.
+            </li>
+            <li>
+              <strong>Can this happen to me?</strong> In theory yes,
+              <i>but expect the effort to be high</i>. The most likely victims of such targeted attacks in practice are persons
+              of special interest (e.g., politicians, journalists, etc.).</li>
+            <li>
+              <strong>Who knows about the attacks?</strong> We informed relevant institutions such as the GSM Association (<a href="https://www.gsma.com/">GSMA</a>), 
+	      3rd Generation Partnership Project (<a href="http://www.3gpp.org/">3GPP</a>) and telephone companies in a responsible disclosure process before publishing this work.</li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="background">
+      <h1 class="display-4">Background</h1>
+      <hr>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="images/lupi.jpg" width="90%" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="col-sm-6">
+          <h2>Data Link Layer (Layer Two)</h2>
+          <p>LTE is a complex collection of protocol specifications that define how the network functions. In general, there
+            are two types of traffic:
+            <i>control traffic</i> and
+            <i>user traffic</i>. Control traffic organizes how the user traffic is sent and received, whereas the user traffic is the actual
+            payload, e.g., the content of the visited website. In our analysis, we focus entirely on the second layer (layer two) of the LTE specification. This
+            <em>data link layer</em> lies on top of the physical channel, which maintains the wireless transmission of information
+            between the users and the network. Layer two organizes how multiple users can access the resources of the network,
+            helps to correct transmission errors, and protects data through encryption.</p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>Security Mechanisms</h2>
+          <p>To provide a secure transmission, LTE uses several security mechanisms. When Bob's phone connects to the network,
+            it establishes mutual authentication and derives a shared key. Mutual authentication means that the network and
+            the phone can verify the identity of the partner, respectively. In the following communication, the derived key
+            is used to encrypt the control and user traffic. Furthermore, the control traffic is integrity protected, which
+            means that the attacker is not able to manipulate the traffic during the transmission. Despite these security
+            mechanisms, we found passive and active attacks that allow to observe which websites Bob accessed and even to
+            redirect him to a fake website.</p>
+        </div>
+        <div class="col-sm-6">
+          <img src="images/integrity.jpg" width="100%" class="img-fluid" alt="Responsive image">
+        </div>
+      </div>
+      <br>
+    </div>
+
+    <br>
+
+    <div class="container" id="passive">
+      <h1 class="display-4">Passive Attacks</h1>
+      <hr>
+      <br>
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="images/passive.jpg" width="85%" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="col-sm-6">
+          <h2>What are Passive Attacks?</h2>
+          <p>In a passive attack, the adversary does not interfere with the network, but only eavesdrops on a connection. The
+            eavesdropper Eve accomplishes this by deploying a sniffing device close to Bob. As a result, she has access to
+            all information that Bob sends to the network and receives in response, e.g., the website he wants to access.
+            The data Link Layer protects transmissions through encryption. Nevertheless, an attacker can still obtain meta-information
+            about the communication process (e.g., when and how often data is transmitted).</p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm-7">
+          <h2>Website Fingerprinting</h2>
+          <p>Meta-information on the data link layer leak information about the consumption of data per time unit. For example,
+            if Bob watches a video, he uses more traffic compared to when he accesses a simple website. As a preparation
+            step of the attack, Eve records popular websites and their layer two patterns. During the attack, she eavesdrops
+            the meta-information and looks for similar patterns. In case she finds a match, she knows which website the victim
+            visited -- with a certain probability.</p>
+        </div>
+        <div class="col-sm-5">
+          <img src="images/website_fingerprinting.jpg" width="85%" class="img-fluid" alt="Responsive image">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+
+        <div class="col-sm-2">
+          <img src="images/lab.jpg" width="100%" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="col-sm-10">
+          <h2>Experiments and Results</h2>
+          <p>We conducted a website fingerprinting attack in our lab setup of an LTE network and tested different devices on
+            a selection of the 50 most popular websites on the Internet. We use this experimental evaluation to demonstrate
+            the general feasibility of website fingerprinting on encryption data link layer traffic in LTE. Our results indicate
+            that such attacks, in fact, are possible: we achieve an average success rate of about 89% &plusmn; 10. In future experiments, we plan to conduct the same experiments within
+            a commercial network, which complicates the attack due to background noise and uncontrolled network dynamics.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <br>
+
+    <div class="container" id="active">
+      <h1 class="display-4">Active Attack: aLTEr</h1>
+      <hr>
+      <div class="row">
+        <div class="col-sm-6">
+          <p>In an active attack, the adversary sends signals to the network or to the device by using a specific device that
+            is capable of simulating the legitimate network or user device. In our case, the adversary does both and intercepts
+            all transmissions between Bob and the network. Thus, Bob perceives the adversary as his usual network provider
+            and connects to the simulation device. Towards the real network, the adversary acts like she was Bob.
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <img src="images/active.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="images/malleable.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="col-sm-6">
+          <h2>User Data Redirection</h2>
+          <p>LTE uses mutual authentication on the layers above the data link layer to prevent Bob's phone from connecting to
+            a fake network. However, the layers below are unprotected and an attacker can forward high-layer messages. Bob's
+            phone still assumes that he is connected to the original network. For the user data redirection attack, we exploit
+            that the user data is not integrity protected. Thus an attacker can modify the content of a packet if she knows
+            the original plain text, even the packet is encrypted. In the case of DNS packets, we know the destination address
+            of the original DNS server. For the redirection, the attacker adds a specific offset, thus the DNS request is
+            redirected to a DNS server under the adversary's control.</br>
+	    More technical speaking: User data is encrypted in counter mode (AES-CTR), where the encryption algorithm is used as a keystream
+	    generator, and the ciphertext is computed by XORing the keystream with the plaintext. In fact, this helps us to 
+	    perform our attack given that the cipher is malleable.</p>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>DNS Spoofing</h2>
+          <p>The malicious DNS server performs DNS spoofing, meaning that the domain is resolved to a fake, malicious IP address.
+            As a result, the phone sends a requests the wrong IP address. If the application layer protocol does not detect
+            this malicious redirection, Bob gets redirected to a malicious website. DNS spoofing is a common attack on the
+            Internet and can be performed when the attacker is for example under the control of one hop to the original DNS server. Comparing
+            the user data redirection attack, the attacker only needs to be in the proximity to the victim to perform such
+            an attack.</p>
+        </div>
+        <div class="col-sm-6">
+          <img src="images/redirection.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+      </div>
+
+
+      <h2>Results</h2>
+      <p>To demonstrate the practical feasibility of the aLTEr attack, we have implemented a full end-to-end version of the
+        attack within a commercial network and commercial phone within our lab environment. We have implemented the LTE relay
+        based on the open source LTE Software Stack
+        <a href="https://github.com/srsLTE/srsLTE">srsLTE</a> by
+        <a href="http://www.softwareradiosystems.com/">Software Radio System</a>. We used a shielding box to stabilize the radio layer and prevent unintended inference
+        with the real network. In addition, we set up two servers to simulate how an attacker can redirect network connections:
+        our own DNS server that answers specific DNS queries with a malicious IP address and an HTTP server that replicates
+        a login site to act as a phishing website. The following videos demonstrates the different steps of an aLTEr attack.
+       </p>
+
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/3d6lzSRBHU8?rel=0&showinfo=0&vq=hd1080"></iframe>
+      </div>
+      <br>
+    </div>
+
+    <br>
+
+    <div class="container" id="paper">
+      <h1 class="display-4">Technical Paper</h1>
+
+      <hr>
+      <div>
+        Our work will appear at the
+        <a href="https://www.ieee-security.org/TC/SP2019/">2019 IEEE Symposium on Security & Privacy</a>. A
+        <a href="media/breaking_lte_on_layer_two.pdf">pre-print of the paper</a> that contains all details is already available 
+        (<a href="media/breaking_lte_on_layer_two.pdf">PDF file</a>).
+      </div>
+
+      <br>
+      <h4>Abstract</h4>
+      <div>
+        Long Term Evolution (LTE) is the latest mobile communication standard and has a pivotal role in our information society:
+        LTE combines performance goals with modern security mechanisms and serves casual use cases as well as critical infrastructure
+        and public safety communications. Both scenarios are demanding towards a resilient and secure specification and implementation
+        of LTE, as outages and open attack vectors potentially lead to severe risks. Previous work on LTE protocol security
+        identified crucial attack vectors for both the physical (layer one) and network (layer three) layers. Data link layer
+        (layer two) protocols, however, remain a blind spot in existing LTE security research.
+
+        <br> In this paper, we present a comprehensive layer two security analysis and identify three attack vectors. These attacks
+        impair the confidentiality and/or privacy of LTE communication. More specifically, we first present a passive identity
+        mapping attack that matches volatile radio identities to longer lasting network identities, enabling us to identify
+        users within a cell and serving as a stepping stone for follow-up attacks. Second, we demonstrate how a passive attacker
+        can abuse the resource allocation as a side channel to perform website fingerprinting that enables the attacker to
+        learn the websites a user accessed. Finally, we present the ALTER attack that exploits the fact that LTE user data
+        is encrypted in counter mode (AES-CTR) but not integrity protected, which allows us to modify the message payload.
+        As a proof-of-concept demonstration, we show how an active attacker can redirect DNS requests and then perform a
+        DNS spoofing attack. As a result, the user is redirected to a malicious website. Our experimental analysis demonstrates
+        the real-world applicability of all three attacks and emphasizes the threat of open attack vectors on LTE layer two
+        protocols.
+      </div>
+
+      <br>
+      <h4>BibTeX</h4>
+      <div>
+        If you want to cite the paper, please use the following BibTeX entry:
+      </div>
+
+      <br>
+      <pre class="code">@inproceedings{rupprecht-19-layer-two,
+    author = {Rupprecht, David and Kohls, Katharina and Holz, Thorsten and P\"{o}pper, Christina},
+    title = {Breaking {LTE} on Layer Two},
+    booktitle = {IEEE Symposium on Security \& Privacy (SP)},
+    year = {2019},
+    month = may,
+    publisher = {IEEE}
+}</pre>
+    </div>
+
+    <br>
+
+    <div class="container" id="faq">
+      <h1 class="display-4">Frequently Asked Questions</h1>
+      <hr>
+
+      <div>
+
+        <a class="black-text" data-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapse1">
+          <h5>Can this happen to me?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse1">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                Yes, but expect a
+                <i>high effort</i> for an attacker who also needs to be in
+                <i>close proximity</i> to you. We think that people of special interest such as politicians or journalists are the most likely targets of an attack.
+                Further, we emphasize that we demonstrated all of the above attacks in a controlled lab environment and it
+                is much more challenging for an attacker to be successful outside of such a test setup.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">
+          <h5>What does
+            <i>high effort</i> mean?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse2">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                To conduct such attacks, the attacker depends on specialized hardware (so called software-defined radios) and a customized implementation of the LTE protocol
+                stack. In addition, a controlled environment helps to be successful within an acceptable amount of time. In particular,
+                the use of a shielding box helps to maintain a stable and
+                <i>noise-free</i> connection to the attack setup. Especially the latter cannot be maintained in a real-world
+                situation and more engineering effort is required for real-world attacks.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapse3">
+          <h5>What does
+            <i>close proximity</i> mean?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse3">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                In our test setup, we conducted the attacks with minimal distance between the victim's phone and our LTE relay. This is not possible in a realistic
+                scenario, where the attacker needs to deploy the LTE relay without revealing herself. We can assume
+                that our attacks are comparable to so-called
+		<i><a href="https://en.wikipedia.org/wiki/IMSI-catcher">IMSI catchers / Stingrays</a></i> that are successful in ranges of up to approximately 2km.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+          <h5>What is the difference to
+            <i>IMSI catchers</i>?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse4">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+		The technical characteristics of the aLTEr attack are comparable to <a href="https://en.wikipedia.org/wiki/IMSI-catcher">IMSI catchers</a>, as in both cases the attacker simulates
+                a malicious network towards the victim. Nevertheless, we find two general differences. First, the aLTEr relay
+                <i>actively</i> sends data to the mobile network and acts as a Man-in-the-Middle attacker that modifies packet contents. Second, classical IMSI-catching
+                attacks try to identify and localize the victim. In the aLTEr attack, we redirect DNS packets to perform
+                DNS spoofing and then hijack network connections.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse5" aria-expanded="false" aria-controls="collapse5">
+          <h5> Why are these attacks possible?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse5">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                All above mentioned security issues are caused by a specification flaw within LTE. 
+		The aLTEr attack exploits the fact that LTE user data is encrypted in counter mode (AES-CTR) but not integrity protected, which allows us to modify the message payload: the encryption algorithm is <a href="https://en.wikipedia.org/wiki/Malleability_(cryptography)">malleable</a>, and an adversary can modify a ciphertext into another ciphertext which later decrypts to a related plaintext.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse6" aria-expanded="false" aria-controls="collapse6">
+          <h5>What are possible countermeasures?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse6">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                We suggest three exemplary countermeasures:
+                <ul>
+                  <li>
+                    <strong>Update the specification.</strong> A specification updates means that the implementation of all devices
+                    must be changed, which leads to a high financial and organizational effort. This is likely not feasible in practice.</li>
+
+                  <li>
+                    <strong>Correct HTTPS configuration.</strong> Using correct parameters for HTTPS (especially HTTP Strict Transport Security (HSTS)) helps to prevent the redirection
+                    to a malicious website. It can act as an additional layer of protection.</li>
+                  <li>
+                      <strong>Virtual Private Network (VPN).</strong> Using VPN tunnel with integrity protection and end point authentication helps to prevent the attack. The VPN tunnel acts similar to HTTPS as additional security layer.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse7" aria-expanded="false" aria-controls="collapse7">
+          <h5>Did you responsibly disclose the attacks?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse7">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                Yes, we have contacted the GSMA on March 1st about the issues with the
+                <a href="https://www.gsma.com/aboutus/leadership/committees-and-groups/working-groups/fraud-security-group/gsma-coordinated-vulnerability-disclosure-programme">Coordinated Vulnerability Disclosure Programme</a>. The GSMA informed the network providers and issued a
+                <a href="https://portal.3gpp.org/ngppapp/CreateTdoc.aspx?mode=view&contributionId=888662"> liaison statement</a> to inform the 3GPP specification body. The 3GPP security group evaluated possible actions
+                for LTE and the upcoming 5G specification and composed a
+                <a href="https://portal.3gpp.org/ngppapp/CreateTdoc.aspx?mode=view&contributionId=892788">statement</a> regarding the attack.
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse8" aria-expanded="false" aria-controls="collapse8">
+          <h5>What is the current status of countermeasures in 5G?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse8">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                The use of authenticated encryption would prevent the aLTEr attack, which can be achieved through the addition of message
+                authentication codes to user plane packets. However, the current 5G specification does not require this security
+                feature as mandatory, but leaves it as optional configuration parameter.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse9" aria-expanded="false" aria-controls="collapse9">
+          <h5>Is there a logo for the attacks?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse9">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                Maybe. There are no stickers, t-shirts, songs, ...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="page-footer font-small elegant-color-dark pt-4 mt-4">
+
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-md-6 mt-md-0 mt-3">
+
+          <!-- Content -->
+          <h5 class="text-uppercase">Breaking LTE on Layer Two</h5>
+            <p>David Rupprecht, Katharina Kohls, Thorsten Holz, and Christina P&ouml;pper</br>
+            Ruhr-Universit&auml;t Bochum &amp; New York University Abu Dhabi</p>
+
+        </div>
+        <!-- Grid column -->
+
+        <hr class="clearfix w-100 d-md-none pb-3">
+
+        <!-- Grid column -->
+        <div class="col-md-6 mb-md-0 mb-3">
+
+          <!-- Links -->
+          <h5 class="text-uppercase"><a href="/contact.html">Contact</a></h5>
+          <h5 class="text-uppercase"><a href="/privacy.html">Privacy</a></h5>
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </div>
+    <!-- Footer Links -->
+
+    <!-- Copyright -->
+    <!--<div class="footer-copyright text-center py-3">Â© 2018 Copyright:
+    <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+  </div>-->
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <script>
+    $('.navbar-collapse a').click(function () {
+      $(".navbar-collapse").collapse('hide');
+    });
+  </script>
+  <script>
+    $(".smooth-scroll").on('click', 'a', function (event) {
+      event.preventDefault();
+      var elAttr = $(this).attr('href');
+      var offset = ($(this).attr('data-offset') ? $(this).attr('data-offset') : 0);
+      var fixedTop = $('.navbar.fixed-top');
+      if (fixedTop && fixedTop.length) {
+        offset = fixedTop.outerHeight();
+      }
+      $('body,html').animate({
+        //scrollTop: $(elAttr).offset().top - offset
+        scrollTop: $(elAttr).offset().top - 56
+      }, 700);
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+#####EOF#####
+
+

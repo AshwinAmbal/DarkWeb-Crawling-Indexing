@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+
+<head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">
+      <title>AlgoTransparency</title>
+      <link rel="icon" type="image/png" href="favicon.png" />
+      <meta property="og:url" content="http://algotransparency.org/" />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content="YouTube recommended videos" />
+      <meta property="og:image" content="https://algotransparency.org/images/youtube-map-mini.jpg"
+      />
+      <meta property="og:image:type" content="image/jpg" />
+      <meta property="og:description" content="" />
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>                       
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"><!--
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script> -->
+
+      <!--  jQuery -->
+      <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+      <!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+      <link rel="stylesheet" href="//formden.com/static/cdn/bootstrap-iso.css" />
+
+      <!-- Bootstrap Date-Picker Plugin -->
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+      <link href="//fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+      <link rel="stylesheet" href="/app.css">
+      <script src="/app.js"></script>
+      <script>
+            require('initialize-info');
+      </script>
+
+      <script type="text/javascript">
+            (function (e, t) {
+                  var n = e.amplitude || { _q: [], _iq: {} }; var r = t.createElement("script")
+                        ; r.type = "text/javascript"; r.async = true
+                        ; r.src = "https://cdn.amplitude.com/libs/amplitude-4.1.0-min.gz.js"
+                        ; r.onload = function () {
+                              if (e.amplitude.runQueuedFunctions) {
+                                    e.amplitude.runQueuedFunctions()
+                              } else {
+                                    console.log("[Amplitude] Error: could not load SDK")
+                              }
+                        }
+                        ; var i = t.getElementsByTagName("script")[0]; i.parentNode.insertBefore(r, i)
+                        ; function s(e, t) {
+                        e.prototype[t] = function () {
+                              this._q.push([t].concat(Array.prototype.slice.call(arguments, 0))); return this
+                        }
+                        }
+                  var o = function () { this._q = []; return this }
+                        ; var a = ["add", "append", "clearAll", "prepend", "set", "setOnce", "unset"]
+                        ; for (var u = 0; u < a.length; u++) { s(o, a[u]) } n.Identify = o; var c = function () {
+                        this._q = []
+                              ; return this
+                        }
+                        ; var l = ["setProductId", "setQuantity", "setPrice", "setRevenueType", "setEventProperties"]
+                        ; for (var p = 0; p < l.length; p++) { s(c, l[p]) } n.Revenue = c
+                        ; var d = ["init", "logEvent", "logRevenue", "setUserId", "setUserProperties", "setOptOut", "setVersionName", "setDomain", "setDeviceId", "setGlobalUserProperties", "identify", "clearUserProperties", "setGroup", "logRevenueV2", "regenerateDeviceId", "logEventWithTimestamp", "logEventWithGroups", "setSessionId"]
+                        ; function v(e) {
+                              function t(t) {
+                              e[t] = function () {
+                                    e._q.push([t].concat(Array.prototype.slice.call(arguments, 0)))
+                              }
+                              }
+                              for (var n = 0; n < d.length; n++) { t(d[n]) }
+                        } v(n); n.getInstance = function (e) {
+                              e = (!e || e.length === 0 ? "$default_instance" : e).toLowerCase()
+                                    ; if (!n._iq.hasOwnProperty(e)) { n._iq[e] = { _q: [] }; v(n._iq[e]) } return n._iq[e]
+                        }
+                        ; e.amplitude = n
+            })(window, document);
+
+            amplitude.getInstance().init("ac83dc709767bb0f32724a7edff4e715");
+            amplitude.getInstance().logEvent('Index Loaded');
+      </script>
+</head>
+
+<body>
+      <section class="hero is-small">
+            <!-- Hero header: will stick at the top -->
+            <div class="hero-head">
+                  <header class="nav nav-first">
+                        <div class="nav-bar">
+                              <div class="nav-left">
+                                    <a class="nav-item" href="index.html">
+                                          <strong>AlgoTransparency</strong>
+                                    </a>
+                              </div>
+                              <span class="nav-toggle">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                              </span>
+                              <div class="nav-right nav-menu">
+                                    <a class="nav-item" href="/en/science.html">
+                                          Themes
+                                    </a>
+                                    <a class="nav-item" href="/youtube.html">
+                                          YouTube Map
+                                    </a>
+                                    <a class="nav-item showIntro">
+                                          Watch intro
+                                    </a>
+                                    <a class="nav-item" href="/methodology.html">
+                                          About
+                                    </a>
+                                    <a class="nav-item" href="/en/press.html">
+                                          Media Coverage
+                                    </a>
+                                    <div class="twitter-btn">
+                                          <a href="https://twitter.com/helloalgo?ref_src=twsrc%5Etfw" class="twitter-follow-button"
+                                                data-size="large" data-show-screen-name="false" data-lang="en" data-show-count="false">Follow @helloalgo</a>
+                                          <script async src="https://platform.twitter.com/widgets.js"
+                                                charset="utf-8"></script>
+                                    </div>
+                              </div>
+                        </div>
+                  </header>
+                  <div class="search-space">
+                              <div class="container column is-8 is-offset-2">
+                                    <div class="info-title">
+                                          <div class="info-title-in col-xs-12">
+                                                Daily YouTube Recommendations
+                                          </div>
+                                          <div class="info-title-sub col-xs-12"> From more than <a href="methodology.html" class="bold-link">1000 channels</a>. See methodology <a href="methodology.html" class="bold-link">here</a>.</div>
+                                          </div>
+                                          <div class="search-group">
+                                                <div class="col-xs-6">
+                                                      <div class="input-group">
+                                                            <div>
+                                                                  <label for="srch-term">FILTER TITLES / CHANNELS</label>
+                                                                  <input type="text" class="form-control straight-box" placeholder='Try "Trump" or "Kavanaugh"' name="srch-term" id="srch-term">
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                      <div class='input-group date' id='datetimepicker1'>
+                                                            <label class="control-label" for="date">DATE</label>
+                                                            <input class="form-control noradius" id="date" name="date" placeholder="MM/DD/YYY" type="text" data-date-end-date="0d"/>
+
+                                                            <!-- <label for="date-picker">DATE</label>
+                                                            <input type='text' class="form-control" id="date-picker"/>
+                                                            <div class="input-group-addon">
+                                                                  <span class="glyphicon glyphicon-calendar"></span>
+                                                            </div> -->
+                                                      </div>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                      <button class="btn search-btn btn-danger" name="submit" type="submit">Filter</button>
+                                          </div>
+                                    </div>
+                              </div>
+                  </div>
+            </div>
+      </section>
+      <section class="section columns">
+            <div class="container column is-8 is-offset-2">
+                  <div class="sink-wrapper sink-videos">
+                  </div>
+                  <div class="box-wrapper presentation mb1" id="presentation"></div>
+            </div>
+      </section>
+      <section class="section columns" style="padding-bottom:50px">
+            <div class="container column is-6 is-offset-2">
+                  <!-- <header class="box-wrapper video-header">
+                        <div class="box-title">Top 100 videos</div>
+                        <span class="float-right">
+                              <span class="video-date" id="video__date">
+                                    <span id="nb_video"></span> videos collected on</span>
+                              <span class="select is-small">
+                                    <select id="video-select">
+                                          <option value="ytrecos-science-2018-08-01">1st of August 2018</option>
+                                    </select>
+                              </span>
+                        </span>
+                  </header> -->
+                  <!-- <div class="box-wrapper videos">
+                  </div> -->
+            </div>
+            <!-- <div class="container column is-2">
+                  <!--<section class="sidebar-right">
+            <strong class="is-block">ReprÃ©sentation des candidats</strong>
+               <small>dans les titres de vidÃ©os mentionant un candidat</small>
+         </section>-->
+                  <!-- <section class="box-wrapper sidebar-right box-wrapper mb1">
+                        <div class="box-title mb2">Frequent terms mentioned in the titles of these videos:</div>
+                        <div id="representation"></div>
+                  </section> -->
+                  <!-- <section class="box-wrapper mb1">
+                        <div class="box-title mb2">Our project</div>
+                        <p class="mb1">AlgoTransparency is designed to inform citizens on the algorithms shaping access to information.
+                              <a href="/en/demarche.html">Find out more</a>
+                        </p>
+                        <div class="mb2">
+                              <span class="small">
+                                    <div class="twitter-btn-2">
+                                          <a href="https://twitter.com/helloalgo?ref_src=twsrc%5Etfw" class="twitter-follow-button"
+                                                data-size="large" data-show-screen-name="false" data-lang="en" data-show-count="false">Follow @helloalgo</a>
+                                          <script async src="https://platform.twitter.com/widgets.js"
+                                                charset="utf-8"></script>
+                                    </div>
+                              </span>
+                              <!-- <div class="addthis_inline_follow_toolbox"></div> -->
+                        <!-- </div>
+                        <small>Developed with help from
+                              <a href="http://www.dataforgood.fr/">Data for Good</a>
+                        </small> -->
+                  <!-- </section> -->
+            <!-- </div> -->
+            <section class="is-2 column"></section>
+      </section>
+      <section id="intro">
+            <div class="slides-container has-text-centered">
+                  <button class="btn btn__absolute btn__next btn--highlighted">Next</button>
+                  <section class="pagination"> </section>
+                  <section class="slide slide-1">
+                        <h1 class="mt4">On YouTube, there are</h1>
+                        <h1 class="mt4"></h1>
+                        <h1 class="mt4"></h1>
+                        <img class="slide-image image-small mb2" style="max-width: 500px;margin: 0 auto;" src="/images/youtube-stats.png" alt="">
+                  </section>
+                  <section class="slide slide-2">
+                        <h1>YouTubeâs recommendation algorithm</h1>
+                        <h1>generates more than <span class="redbold">70%</span> of views</h1>
+                        <h1> &nbsp; </h1>
+                        <h1> &nbsp; </h1>
+                        <h1> &nbsp; </h1>
+                        <h1> &nbsp; </h1>
+                        <h1> &nbsp; </h1>
+                        <h2 class="">That's <span class="redbold">700, 000, 000</span> human hours, every single day.</h2>
+                  </section>
+                  <section class="slide slide-3">
+                        <h1 class="">But what did YouTube recommend?</h1>
+                        <h2 class="mb4">Today, itâs impossible to tell</h2>
+                        <img class="slide-image image-large" src="/images/slide-3.jpg" alt="">
+                        <!-- <h2 class="mb4">Some people claim they are being sensored. Is that true?</h2> -->
+                  </section>
+                  <section class="slide slide-4">
+                        <h1 class="">To find out, we created a robot</h1>
+                        <h2 class="mb4">Every day, it starts from 1000 channels, follows recommendations, and save videos</h2>
+                        <img class="slide-image image-large pt4" src="/images/slide-4-uk.gif" alt="">
+                        <h2 class="mb4">What videos were recommended by the algorithm?</h2>
+                  </section>
+            </div>
+      </section>
+
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ea64fc4724e90a"></script>
+
+      <script>
+            (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                  (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                  m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-97331997-1', 'auto');
+            ga('send', 'pageview');
+
+function getUrlVar(key) {
+   const result = new RegExp(key + '=([^&]*)', 'i').exec(window.location.search);
+   return (result && unescape(result[1])) || '';
+}
+
+
+function changeUrlParam(param, value) {
+   const currentURL = window.location.href + '&';
+   const change = new RegExp('(' + param + ')=(.*)&', 'g');
+   const newURL = currentURL.replace(change, '$1=' + value + '&');
+
+   if (getURLParameter(param) !== null) {
+      try {
+         window.history.replaceState('', '', newURL.slice(0, -1));
+      } catch (err) {
+         console.err(err);
+      }
+   } else {
+      const currURL = window.location.href;
+      if (currURL.indexOf('?') !== -1) {
+         window.history.replaceState(
+        '',
+        '',
+        currentURL.slice(0, -1) + '&' + param + '=' + value
+      );
+      } else {
+         window.history.replaceState(
+        '',
+        '',
+        currentURL.slice(0, -1) + '?' + param + '=' + value
+      );
+      }
+   }
+}
+
+function getURLParameter(name) {
+   return (
+    decodeURIComponent(
+      (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(
+        location.search
+      ) || [, ''])[1]
+        .replace(/\+/g, '%20')
+    ) || null
+   );
+}
+
+let jsonLocal = {};
+const jsonThemeLocal = {};
+
+
+function updateDate(){
+      if ($('#date').val() == '') {
+            if (getUrlVar('date') && getUrlVar('date') != '') {
+                  var french_format = getUrlVar('date')
+                  $('#date').val(french_format[3]+french_format[4]+'/'+ french_format[0] + french_format[1] + '/20'+french_format[8]+french_format[9])
+            } else {
+                  console.log(' New date ')
+                  var today = new Date();
+                  today.setDate(today.getDate() - 1);
+                  if (today.getDate() == 26 && today.getMonth()+1 == 2 && today.getFullYear() == 2019) {
+                        today.setDate(today.getDate() - 1);
+                  }
+                  var dd = today.getDate();
+                  var mm = today.getMonth()+1; //January is 0!
+                  var yyyy = today.getFullYear();
+
+                  if(dd<10) {
+                        dd = '0'+dd
+                  } 
+                  if(mm<10) {
+                  mm = '0'+mm
+                  }
+                  today = mm + '/' + dd + '/' + yyyy;
+                  $('#date').val(today)
+            }
+      }
+
+
+      var d= $('#date').val()
+      var filedate = d[3]+d[4]+'-'+d[0]+d[1]+'-'+d[6]+d[7]+d[8]+d[9]
+      const lastDate = filedate;
+      console.log('Date =')
+      console.log(lastDate)
+
+      let url = lastDate; //  getUrlVar('file') || 
+      // if (getUrlVar('file')) {
+      // $('#video-select').children().each(function() {
+      //       if ($(this)[0].value === getUrlVar('file')) $(this)[0].selected = true;
+      // });
+      // }
+      $.get('/data/info/us-info-' + url + '.json', function(data) {
+            console.log('GOT DATA from file ' + url);
+            jsonLocal = data;
+            let count = 0;
+            Object.keys(jsonLocal).forEach((item) => {
+                  count += jsonLocal[item].length;
+            });
+            console.log(count)
+            $('#nb_video').append(count);
+
+            // let random = Math.floor(Math.random() * Object.keys(jsonLocal).length);
+            let key = 'info_channels';
+            changeUrlParam('date', url);
+            appendSinkHoles();
+      });
+}
+
+function number_format(number, decimals, dec_point, thousands_sep) {
+    // http://kevin.vanzonneveld.net
+    // +   original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+    // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +     bugfix by: Michael White (http://getsprink.com)
+    // +     bugfix by: Benjamin Lupton
+    // +     bugfix by: Allan Jensen (http://www.winternet.no)
+    // +    revised by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+    // +     bugfix by: Howard Yeend
+    // +    revised by: Luke Smith (http://lucassmith.name)
+    // +     bugfix by: Diogo Resende
+    // +     bugfix by: Rival
+    // +      input by: Kheang Hok Chin (http://www.distantia.ca/)
+    // +   improved by: davook
+    // +   improved by: Brett Zamir (http://brett-zamir.me)
+    // +      input by: Jay Klehr
+    // +   improved by: Brett Zamir (http://brett-zamir.me)
+    // +      input by: Amir Habibi (http://www.residence-mixte.com/)
+    // +     bugfix by: Brett Zamir (http://brett-zamir.me)
+    // +   improved by: Theriault
+    // +   improved by: Drew Noakes
+    // *     example 1: number_format(1234.56);
+    // *     returns 1: '1,235'
+    // *     example 2: number_format(1234.56, 2, ',', ' ');
+    // *     returns 2: '1 234,56'
+    // *     example 3: number_format(1234.5678, 2, '.', '');
+    // *     returns 3: '1234.57'
+    // *     example 4: number_format(67, 2, ',', '.');
+    // *     returns 4: '67,00'
+    // *     example 5: number_format(1000);
+    // *     returns 5: '1,000'
+    // *     example 6: number_format(67.311, 2);
+    // *     returns 6: '67.31'
+    // *     example 7: number_format(1000.55, 1);
+    // *     returns 7: '1,000.6'
+    // *     example 8: number_format(67000, 5, ',', '.');
+    // *     returns 8: '67.000,00000'
+    // *     example 9: number_format(0.9, 0);
+    // *     returns 9: '1'
+    // *    example 10: number_format('1.20', 2);
+    // *    returns 10: '1.20'
+    // *    example 11: number_format('1.20', 4);
+    // *    returns 11: '1.2000'
+    // *    example 12: number_format('1.2000', 3);
+    // *    returns 12: '1.200'
+    var n = !isFinite(+number) ? 0 : +number, 
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        toFixedFix = function (n, prec) {
+            // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+            var k = Math.pow(10, prec);
+            return Math.round(n * k) / k;
+        },
+        s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+}
+
+function print_item(id){
+      console.log('https://www.youtube.com/watch?v=' + id)
+}
+
+
+function appendSinkHoles() {
+  $('#panel-block-all').addClass('is-active');
+  $('.sink-videos').empty()
+  $('#presentation').hide()
+  $('.video-header').hide()
+  $('.videos').hide()
+
+  var keyword = $("#srch-term").val()
+  changeUrlParam('keyword', keyword);
+
+  console.log(keyword)
+
+  if (keyword !== '') {
+    $('.info-title').css('max-height', '0px')
+  }
+
+  $('.video-header').show()
+  $('.videos').show()
+
+  // Compute the sinkholes
+  var counts = {}
+  var videos_info = {}
+  for (var key in jsonLocal) {
+    console.log(key)
+    // check if the property/key is defined in the object itself, not in parent
+    if (jsonLocal.hasOwnProperty(key)) {
+        jsonLocal[key].filter((item) => item.likes !== -1).forEach((item, index) => {
+        counts[item.id] = (counts[item.id] || 0) + 1;
+        videos_info[item.id] = item
+      })
+    }
+  }
+  var sorted_counts = Object.keys(counts).map(function(key) {
+    return [key, counts[key]];
+  });
+
+  // Sort the array based on the second element
+  sorted_counts.sort(function(first, second) {
+      return second[1] - first[1];
+  });
+
+  var filtered_vids = jsonLocal[key].filter((item) => item.likes !== -1).filter((item) => 
+      (item.title.toLowerCase().indexOf(keyword.toLowerCase()) > -1) ||
+      (item.channel.toLowerCase().indexOf(keyword.toLowerCase()) > -1)).map(function(item) {
+    return [item.id, 0];
+  })
+
+  var extra_text = ''
+  if (keyword !== '') {
+    extra_text = '&nbsp;including<span class="redbold">&nbsp;"' + keyword + '"</span>&nbsp;in its title or channel';
+  }
+
+  if (filtered_vids.length == 0) {
+      $('.sink-videos').append(
+    `
+      <div class="sinkhole">No data available for that date and keywords. Please select a different date or keywords.<div>
+    `
+      )
+  } else {
+      $('.sink-videos').append(
+      `
+            <div class="sinkhole"><span class="redbold">` + filtered_vids.length + ` &nbsp;</span>recommended videos by YouTube on&nbsp;<span class="redbold">` + 
+            $('#date').val() + '</span>' + extra_text
+            + `<div>
+      `
+      )
+  }
+  console.log('Number of stuff')
+  console.log(filtered_vids)
+  filtered_vids.slice(0,100).forEach((elem) => {
+    console.log('Elem')
+    var item = videos_info[elem[0]];
+    const views = item.views > 0 ? `${number_format(item.views)} views` : '';
+    const multiplicator = item['nb_recommendations'];
+    const mult = multiplicator ? `
+          <div class="mult right" data-balloon-length="large" data-balloon="YouTube recommended this video from ${Math.round(multiplicator * 10) / 10} different channels"><div class="mult-text"> Number of channels recommending it: </div><div class="mult-x">${Math.round(multiplicator * 10) / 10} </div>
+          </div>`
+      : '';
+
+    if (item.views > 0 && multiplicator > 0) {
+        $('.sink-videos').append(
+      `
+          <div class="box">
+          <article class="media">
+              <figure class="media-left level">
+                <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank">
+                    <div class="is-inline-block level-item">
+                      <img class="image" width="170px" src="https://img.youtube.com/vi/${item.id}/hqdefault.jpg">
+                    </div>
+                </a>
+              </figure>
+              <div class="media-content">
+                <div class="content">
+                    <a class="video-title" href="https://www.youtube.com/watch?v=${item.id}" target="_blank">${item.title}</a>
+                    <div class="channel-title">${item.channel}</div>
+                    <div><small class="video-stats">` +
+        views +
+        `<i class="fa fa-thumbs-up" aria-hidden="true" onclick="print_item('${item.id}')"></i>
+                    ${number_format(item.likes)}
+                    <i class="fa fa-thumbs-down" aria-hidden="true"></i>${number_format(item.dislikes)}</small></div>
+                </div>
+              </div>
+              </article>` +
+        mult +
+        `</div>
+        `
+    );}
+  });
+}
+function hideIntro(){
+      $('#intro').hide();
+
+}
+            $(document).ready(function() {
+                  if (getUrlVar('keyword')) {
+                        $('#srch-term').val(getUrlVar('keyword'))
+                        $('#intro').hide();
+                        updateDate();
+                        setTimeout(hideIntro, 100)
+                  }
+
+                  $('#srch-term').on('input',function(e){
+                        appendSinkHoles();
+                  });
+
+                  $.get("../data/*", function(data) {
+                        console.log('Initialize');
+                  });
+
+                  updateDate()
+                  var date_input=$('input[name="date"]'); //our date input has the name "date"
+                  var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                  var options={
+                        format: 'mm/dd/yyyy',
+                        container: container,
+                        todayHighlight: true,
+                        startDate: '10-06-2018',
+                        autoclose: true,
+                  };
+                  date_input.datepicker(options).on('changeDate',function(event){
+                        console.log('select')
+                        updateDate()
+                  });
+            });
+      </script>
+</body>
+
+
+#####EOF#####
+
+

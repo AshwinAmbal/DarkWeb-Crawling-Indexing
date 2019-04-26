@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0' />
+<title>Wonder Woman </title>
+<!--[if IE]>
+<link href="https://s2.wp.com/wp-content/themes/a8c/longreads/style-ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+<![endif]-->
+<meta name="google-site-verification" content="XXZiHbIgLil8z0afFdsuYUUbdb02vjrSjt4_HxVqMnk" />
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9sb25ncmVhZHMuY29t"
+		+ "&id=70135762"
+		+ "&time=1554355385";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//longreadsblog.wordpress.com' />
+<link rel='dns-prefetch' href='//d1xnn692s7u6t6.cloudfront.net' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//s.pubmine.com' />
+<link rel='dns-prefetch' href='//x.bidswitch.net' />
+<link rel='dns-prefetch' href='//static.criteo.net' />
+<link rel='dns-prefetch' href='//ib.adnxs.com' />
+<link rel='dns-prefetch' href='//aax.amazon-adsystem.com' />
+<link rel='dns-prefetch' href='//bidder.criteo.com' />
+<link rel='dns-prefetch' href='//cas.criteo.com' />
+<link rel='dns-prefetch' href='//gum.criteo.com' />
+<link rel='dns-prefetch' href='//ads.pubmatic.com' />
+<link rel='dns-prefetch' href='//gads.pubmatic.com' />
+<link rel='dns-prefetch' href='//tpc.googlesyndication.com' />
+<link rel='dns-prefetch' href='//ad.doubleclick.net' />
+<link rel='dns-prefetch' href='//googleads.g.doubleclick.net' />
+<link rel='dns-prefetch' href='//www.googletagservices.com' />
+<link rel='dns-prefetch' href='//cdn.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.g.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.swid.switchadhub.com' />
+<link rel="alternate" type="application/rss+xml" title="Longreads &raquo; Feed" href="https://longreads.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Longreads &raquo; Comments Feed" href="https://longreads.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Longreads &raquo; Wonder Woman Comments Feed" href="https://longreads.com/2019/04/01/wonder-woman/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s0.wp.com/_static/??-eJyNU9FuwyAM/KEx1Gyd+jLtWxzwiFvACIiy/v0gdO3abqgvic/x+RwfyCUIxT6jz9LNItjZkE9yCYqdSI4sHm/Qs0rpSf5Ns3TAJPeYA6iDWNFd+WjZXHQ4atBJGssj2F7riBYyahE45Rt0ppFXdtZlgpKQmtIqtg4yRohHmfLR4rMj3xNSHLHkXYBcKxxqArToSlmPtpA2mJt0i0XGry7FhbcfoRpOZWfd7TYbxjFETEmUp6PZiTyV2bq8wqrTNz/WAa8yjUrSc6bCTufgrmeTkrBT0rI3Eat1bakPbCZzOLn3MAXn8pUPhMLCIjO6UG1/oIFBFsV6yMT+CohPCxT7B62e0BKadVUX2COBqs1HiJeoV17X0CaRaYJYtU7vHiuxIrDlVwxfg/+Mml5/XawP977ZboeXzW4Yhv03a3h/Dg==?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyNkdFOQyEMhl9IRnRn0Rvjs3Scij2DFmk5y3x6mdkutp2pCQmBfn/bv/X74ohDaiOqn/r5bFgPp2s16YP/DXCZYgXDVSY+w0HYkO3IFlHLqAoRF6JZtpTQNcXaAbZe5l0WuMuWiGfC/Z/YhFYg7FxFpa+b6rm5klokVl8xdQOjO/Z69bpW2Qd2N36m4s/qHo0isdsAhnQwCot/dzLBS/BJOFaE8We4AXgGdRm5/VeyFTG1CuW0g7f8+rjZDE/r9fMwTN8htrNe'></script>
+<script type='text/javascript' src='//d1xnn692s7u6t6.cloudfront.net/widget.js?ver=5.2-beta1-45048'></script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyNy1EOgyAMgOELDTsWNeNh2Vk6bBCo1NAmXn8egcc/+T+4ThelGTUD2+kgBXxHYGmpE24KRYGz/e6o1KeiDxgQRacoUjONgobpQubRndFIzZ2ipi71vN3we3z84p/hNfs1lD/vXU58'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://longreadsblog.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel='shortlink' href='https://wp.me/p4KhvY-vBA' />
+	<style>
+		@font-face {
+			font-family: Recoleta;
+			src: url('https://s1.wp.com/i/fonts/recoleta/400.woff2')
+		}
+	</style>
+	<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Flongreads.com%2F2019%2F04%2F01%2Fwonder-woman%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Flongreads.com%2F2019%2F04%2F01%2Fwonder-woman%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Wonder Woman " />
+<meta property="og:url" content="https://longreads.com/2019/04/01/wonder-woman/" />
+<meta property="og:description" content="Of all the genes parents pass down and values they instill, how does one take hold so much stronger than the others?" />
+<meta property="article:published_time" content="2019-04-01T12:00:41+00:00" />
+<meta property="article:modified_time" content="2019-04-01T02:23:23+00:00" />
+<meta property="og:site_name" content="Longreads" />
+<meta property="og:image" content="https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=1200" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="700" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@longreads" />
+<meta name="twitter:site" content="@longreads" />
+<meta name="twitter:text:title" content="Wonder Woman" />
+<meta name="twitter:image" content="https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<meta name="twitter:app:name:iphone" content="WordPress" />
+<meta name="twitter:app:id:iphone" content="335703880" />
+<meta name="twitter:app:name:ipad" content="WordPress" />
+<meta name="twitter:app:id:ipad" content="335703880" />
+<meta name="twitter:app:name:googleplay" content="WordPress" />
+<meta name="twitter:app:id:googleplay" content="org.wordpress.android" />
+<meta name="twitter:app:url:iphone" content="wordpress://viewpost?blogId=70135762&amp;postId=121494" />
+<meta name="twitter:app:url:ipad" content="wordpress://viewpost?blogId=70135762&amp;postId=121494" />
+<meta name="twitter:app:url:googleplay" content="wordpress://viewpost?blogId=70135762&amp;postId=121494" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=114" />
+<link rel='openid.server' href='https://longreadsblog.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://longreadsblog.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://longreads.com/osd.xml" title="Longreads" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+			<meta property="fb:pages" content="165460226798426" />
+			<link rel="canonical" href="https://longreads.com/2019/04/01/wonder-woman/" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Longreads" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="The best longform stories on the web" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://longreads.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Of all the genes parents pass down and values they instill, how does one take hold so much stronger than the others?" />
+		<script type="text/javascript">
+		function __ATA_CC() {var v = document.cookie.match('(^|;) ?personalized-ads-consent=([^;]*)(;|$)');return v ? 1 : 0;}
+		var __ATA_PP = { pt: 1, ht: 1, tn: 'longreads', amp: false, siteid: 70135762, consent: __ATA_CC() };
+		var __ATA = __ATA || {};
+		__ATA.cmd = __ATA.cmd || [];
+		__ATA.criteo = __ATA.criteo || {};
+		__ATA.criteo.cmd = __ATA.criteo.cmd || [];
+		</script>
+		<script type="text/javascript" src="//s.pubmine.com/head.js" async></script><link rel="amphtml" href="https://longreads.com/2019/04/01/wonder-woman/amp/"><style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s2.wp.com/?custom-css=1&#038;csblog=4KhvY&#038;cscache=6&#038;csrev=17" />
+		</head>
+
+
+<body class="post-template-default single single-post postid-121494 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light">
+
+<div id="wrapper" class="hfeed ">
+
+	<nav class="nav-off-canvas" role="navigation">
+        <svg class="menu-toggle close-icon" width="16" height="16" viewBox="0 0 16 16"><path fill="#8D8D8D" fill-rule="evenodd" d="M7.999 9.415l-5.657 5.657-1.414-1.415L6.585 8 .928 2.344 2.342.929l5.657 5.657L13.656.93l1.414 1.415L9.413 8l5.657 5.657-1.414 1.415-5.657-5.657z"/></svg>
+        <a href="https://longreads.com/" class="longreads-full-sm">Longreads</a>
+		<div class="nav-off-canvas--container">
+            <ul>
+                <li><a href="https://longreads.com/">Home</a></li>
+                <li><a href="https://longreads.com/editors-picks">Editors&rsquo; Picks</a></li>
+                <li><a href="https://longreads.com/features">Features</a></li>
+                <li><a href="https://longreads.com/topics">Topics</a></li>
+                <li><a href="https://longreads.com/best-of-2018">Best Of 2018</a></li>
+                <li><a href="https://store.longreads.com/">Store</a></li>
+                <li class="menu-divider menu-divider--lg"></li>
+                                    <li><a class="button-red" href="https://account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=menu&#038;utm_campaign=member-promo">Become a  Member</a>
+                    <li><a class="button" href="https://account.longreads.com/accounts/login/?next=https://longreads.com%2F2019%2F04%2F01%2Fwonder-woman%2F">Log In</a></li>
+                                <li class="menu-divider"></li>
+                <li><div class="ui-form header-search"><form method="get" id="searchform" action="https://longreads.com/">
+	<div>
+		<input type="text" value="" name="s" id="s" placeholder="Search" />
+		<input type="submit" id="searchsubmit" />
+	</div>
+</form></div></li>
+                <li class="menu-divider"></li>
+                <li><a href="http://eepurl.com/VEEfb">Weekly Email</a></li>
+                <li><a href="http://twitter.com/longreads">Twitter</a></li>
+                <li><a href="http://www.facebook.com/longreads">Facebook</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="header">
+			<div id="slim-header">
+                <span id="header-menu" class="menu">
+                                            <a href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=donate-button&#038;utm_campaign=member-promo" class="mobile-become-member">Support Us</a>
+                                        <div class="signup-links">
+                                                    <a href="https://account.longreads.com/accounts/login/?next=https://longreads.com%2F2019%2F04%2F01%2Fwonder-woman%2F">Log In</a>
+                            <a href="https://store.longreads.com/">Store</a>
+                            <a href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=donate-button&#038;utm_campaign=member-promo" class="signup-accounts-active become-member">Support Us</a>
+                                                <div class="ui-form header-search expanding-search"><form method="get" id="searchform" action="https://longreads.com/">
+	<div>
+		<input type="text" value="" name="s" id="s" placeholder="Search" />
+		<input type="submit" id="searchsubmit" />
+	</div>
+</form></div>
+                        <svg class="search-toggle icon-search" width="14" height="14" viewBox="0 0 14 14"><path fill="#DEDEDE" fill-rule="evenodd" d="M8.75 0C11.65 0 14 2.35 14 5.25s-2.35 5.25-5.25 5.25a5.162 5.162 0 0 1-2.803-.81l-3.954 3.97c-.227.227-.535.34-.826.34-.308 0-.6-.113-.827-.34a1.174 1.174 0 0 1 0-1.653l3.97-3.954A5.162 5.162 0 0 1 3.5 5.25C3.5 2.35 5.85 0 8.75 0zm0 8.75c1.928 0 3.5-1.572 3.5-3.5s-1.572-3.5-3.5-3.5a3.506 3.506 0 0 0-3.5 3.5c0 1.928 1.572 3.5 3.5 3.5z"/></svg>
+                        <svg class="search-toggle search-close" width="16" height="16" viewBox="0 0 16 16"><path fill="#DEDEDE" fill-rule="evenodd" d="M7.999 9.415l-5.657 5.657-1.414-1.415L6.585 8 .928 2.344 2.342.929l5.657 5.657L13.656.93l1.414 1.415L9.413 8l5.657 5.657-1.414 1.415-5.657-5.657z"/></svg>
+	                </div>
+                </span>
+                                    <svg class="menu-toggle icon-menu" width="18" height="14" viewBox="0 0 18 14"><path fill="#DEDEDE" fill-rule="evenodd" d="M0 6h18v2H0V6zm0-6h18v2H0V0zm0 12h18v2H0v-2z"/></svg>
+                                <div class="menu-items-left">
+                    <a href="https://longreads.com/editors-picks">Editors&rsquo; Picks</a>
+                    <a href="https://longreads.com/features">Features</a>
+                    <a href="https://longreads.com/topics">Topics</a>
+                    <a href="https://longreads.com/best-of-2018" class="best-of-2018">Best of 2018</a>
+                </div>
+                <a href="https://longreads.com/" class="longreads-full-sm">Longreads</a>
+            </div>
+    </header>
+
+    
+    <div class="site-content__wrapper">
+	<!-- .site-content__wrapper is required for the responsive nav to work properly. It acts as the container for everything outside of the nav. -->
+
+<div id="container">
+
+	<section id="content" role="main">
+					<article id="post-121494" class="post-121494 post type-post status-publish format-standard has-post-thumbnail hentry category-books category-editors-pick category-nonfiction-2 category-story tag-book-excerpt tag-books tag-essays tag-excerpt tag-i-miss-you-when-i-blink tag-mary-laura-philpott tag-memoir tag-motherhood tag-mothers tag-mothers-and-daughters tag-personal-essay">
+	
+	
+<header>
+
+	<div class="exclusive-meta">
+	
+		<h1 class="entry-title">
+			<a href="https://longreads.com/2019/04/01/wonder-woman/" title="Wonder Woman" rel="bookmark">Wonder Woman</a>
+		</h1>
+		
+					<span class="entry-subhead"><p>Of all the genes parents pass down and values they instill, how does one take hold so much stronger than the others?</p>
+</span>
+		
+	</div>
+
+	<div class="featured-image-container">
+	
+	<img src="https://longreadsblog.wordpress.com/wp-content/themes/vip/plugins/lazy-load/images/1x1.trans.gif?m=1322061781h" data-lazy-src="https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=1680" width="1680" height="980" class="attachment-featured-large size-featured-large wp-post-image" alt srcset="https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=1680 1680w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=150 150w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=300 300w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=768 768w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=1024 1024w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg 2400w" sizes="(max-width: 1680px) 100vw, 1680px"><noscript><img width="1680" height="980" src="https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=1680" class="attachment-featured-large size-featured-large wp-post-image" alt="" srcset="https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=1680 1680w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=150 150w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=300 300w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=768 768w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg?w=1024 1024w, https://longreadsblog.files.wordpress.com/2019/03/miss-when-blink-book.jpg 2400w" sizes="(max-width: 1680px) 100vw, 1680px" /></noscript><div class="credit">Getty / Simon &amp; Schuster</div>	
+	</div>
+	
+	
+<div class="member-promo slim">
+	<div class="member-promo-container">
+		<div class="member-logo"><a class="member-promo-link" href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=story-top&#038;utm_campaign=member-promo"></a></div>
+		<div class="member-promo-content">
+							<h2 class="member-promo-title"><a class="member-promo-link" href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=story-top&#038;utm_campaign=member-promo">This story was funded by Longreads Members</a></h3>
+				<div class="member-promo-body">
+					<a class="member-promo-link" href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=story-top&#038;utm_campaign=member-promo">Join and help support great storytelling</a>
+				</div>
+					</div>
+	</div>
+</div>
+</header>	
+	<section class="entry-content">
+<p style="text-align:center;"><em><a href="https://marylauraphilpott.com/">Mary Laura Philpott</a> | <a href="https://www.simonandschuster.com/books/I-Miss-You-When-I-Blink/Mary-Laura-Philpott/9781982102807"><em>I Miss You When I Blink</em></a> | Atria Books | April 2019 | 10 minutes (2,808 words)</em></p>
+<p>&nbsp;<br />
+People blame their parents for their flaws and eccentricities all the time. In interviews, in therapy, in memoirs, they enumerate the many ways their mothers fucked them up. It seems we canât discuss the way we are without assigning some responsibility to the generation before. Anyone can do it.<br />
+&nbsp;<br />
+&nbsp;<br />
+Chapel Hill, North Carolina. I was in first grade. My mother picked me up from school in our family Buick, as always. My dad, still in the early years of his medical career, was off working at the hospital most of the time, so the role of daily caretaker fell to her, as it did with most mothers then. She had been a schoolteacher before we were born&#8212;me, then my brother&#8212;and once she had us, she stayed home and we became her tiny class of two. When we were little, she was the one human being we saw most. She was our guide to how the world worked, not to mention our food source, our referee, our correctional officer, our chief entertainer&#8212;the de facto center of our universe.</p>
+<p>That afternoon, I unloaded my Wonder Woman book bag onto the vinyl bench seat of our car and showed my mother the stack of papers weâd all been sent home with, a list of words printed on each page. Easy ones like <em>love</em>, <em>candy</em>, <em>bike</em>, and harder ones like <em>breath</em>, <em>power</em>, and <em>understand</em>. That week there was to be a spelling contest, winnowing the class down to the best spellers, ultimately crowning a champion.</p>
+<p>Later that evening and every night that week, after my brother had been put to bed, she sat at one end of our green chenille sofa and I sat at the other as she called out two pagesâ worth of words for me to spell aloud. I flailed around on the cushions, impatient, wanting to get down and read a book. âWhy two?â I whined. âThe teacher said one page a day.â My mom&#8212;in the same matter-of-fact tone she used for important edicts such as <em>Stay out of the street</em>; <em>Eat your fruit</em>; <em>Go back and brush those teeth again, theyâre still yellow</em>&#8212;said, âAlways do more than expected. Thatâs how you win.â</p>
+<p>Thatâs how you win.</p>
+<div data-shortcode="caption" id="attachment_61136" style="width: 330px" class="wp-caption alignright"><a href="https://www.simonandschuster.com/books/I-Miss-You-When-I-Blink/Mary-Laura-Philpott/9781982102807"><img src="https://longreadsblog.wordpress.com/wp-content/themes/vip/plugins/lazy-load/images/1x1.trans.gif?m=1322061781h" data-lazy-src="https://longreadsblog.files.wordpress.com/2019/03/i-miss-you-when-i-blink.jpg?w=320&#038;h=483" aria-describedby="caption-attachment-61136" class="wp-image-61136" alt="Buy the book" width="320" height="483"><noscript><img aria-describedby="caption-attachment-61136" class="wp-image-61136" src="https://longreadsblog.files.wordpress.com/2019/03/i-miss-you-when-i-blink.jpg?w=320&#038;h=483" alt="Buy the book" width="320" height="483" /></noscript></a><p id="caption-attachment-61136" class="wp-caption-text"><a class="button-red" href="https://www.indiebound.org/book/9781982102807">Local Bookstores</a><br /><a class="button-red" style="margin-top:10px;" href="https://www.amazon.com/Miss-You-When-Blink-Essays/dp/1982102802">Amazon</a></p></div>
+<p>By the time the spelling bee started on Monday, I was ready. I moved on to the next round and did it all again on Tuesday, then Wednesday, then Thursday. When Friday came, sure enough, I clinched that spelling bee. I donât remember if I got a medal or whether the other kids high-fived me, but I can vividly remember&#8212;as if she were standing in front of me right now&#8212;my motherâs beaming face. She raised her eyebrows and nodded as she broke into a smile. She was <em>proud of me</em>, and I was the Wonder Woman of spelling.</p>
+<p>Had the term existed back then, my mom probably would have been deemed a tiger mother. She taught my brother and me to read when each of us were three, starting us out with <em>Hop on Pop</em> and <em>Go, Dog, Go!</em> In second grade, she offered me a Rubikâs Cube if I could ace my multiplication tables before the class deadline. In middle school, she woke us up every weekday at 5:45 a.m. to practice our piano. She never used cruelty&#8212;we werenât chained in a cellar practicing fractions, although our protests may have sounded like we were. But through repeated practice, she made it clear that we were not fully prepared until we were <em>overprepared</em>, and that the desired goal, the <em>only</em> goal, was an A. Nobody makes a B in this house.</p>
+<p>It was a simple rule&#8212;âwork first, play laterâ&#8212;and it taught me that the natural order of things was to study hard, achieve your goal and receive the approval of your loved ones, and then (but not a minute before) relax.</p>
+<p>We werenât a family who held hands during the blessing or told each other we loved each other out loud, but the look on my motherâs face when I showed her an A+ said, âI love you.â</p>
+<p>Good grades gave me evidence that, at least until the next test, I was secure in my place as a preferred person in my house and in my school and&#8212;probably, why not?&#8212;in the world. Naturally it stood to reason that the opposite was true as well. I remember the times I didnât make good grades. There was a decimals test in fourth grade. After we got it back, everyone had to get it signed. I held it out to my mom, searching her face for a reaction as she put her signature on the page right next to the dreaded <em>80</em>, feeling in my gut the absence of her smile. It was the absence of the ground beneath my feet. I may not have grasped decimals perfectly, but I could do this reverse calculation: If an A means <em>You are loved and you belong here</em>, then anything less than an A must mean <em>You are not and you donât</em>.</p>
+<p>When you internalize what you believe to be someone elseâs opinion of you, it becomes <em>your</em> opinion of you.</p>
+<p>I came to rely on grades for my regular jolt of self-esteem. Itâs a miracle I didnât end up with a back injury from bringing all my books home every night in case I realized I needed to complete an extra assignment in something. It became my routine, one that lasted well past middle school into high school and even college, long after the days of bringing grades home for a signature: Study my ass off, panic that my run of luck was over and Iâd fail, then get my grades back. The validation would rush to my head, a perfect high. Each hit set chaos into order. Every check mark, every gold star, confirmed it: <em>I succeed, therefore I am</em>.<br />
+&nbsp;<br />
+&nbsp;<br />
+Perhaps this is why misspelled words cause me a disproportionate amount of rage to this day. When I see <em>mischievous</em> spelled <em>mischeivious</em> I donât just think, <em>Hey, thatâs wrong</em>, I think, <em>WHERE IS THAT WRITERâS SELF-RESPECT?</em> Somewhere inside my brain, first-grade-me is also wondering, aghast, <em>Donât you want to be loved?</em></p>
+<p>I had a freelance editing client years ago, a CEO whoâd been at her job for decades. She refused to accept my edits whenever I removed the double spaces she placed after periods at the ends of sentences. Again and again, Iâd strip out the extra spaces and send her documents back with single spaces, and sheâd add the spaces back in. That was what she âd learned in school, she insisted. Iâd get purple in the face explaining that, yes, double spaces were required back in the day when everyone used typewriters but that modern word-processing programs had rendered obsolete the manual widening of the space between sentences. One space was the new rule. âDonât you want to be <em>right</em>?â Iâd say, exasperated. âI <em>am</em> right,â she âd say. Maybe we were too much alike, an impossible match.<br />
+&nbsp;<br />
+&nbsp;<br />
+I worry that my kids will inherit my worst traits, that theyâll turn out too much like me, fixated on racing to the finish line with a perfect score. So when they walk through the door in the afternoons these days, I ask them what they had for lunch. I donât actually care what they ate. I mean, I do&#8212;Iâm their mother, so of course Iâm concerned that theyâre working their way around the food pyramid or the food train or whatever it is now. The lunch question is about something else.</p>
+<blockquote class="pullquote center"><p>Weâre all a little weird thanks to our mothers. Iâm carrying that tradition on with my own children.</p></blockquote>
+<p>Iâd be thrilled if my kids made the deanâs list, and you better believe I make them learn those extra spelling words. But I also want my daughter to try a risky science experiment, and when it goes differently than expected, I want her to shrug it off and try another one. I want my son to bring home paintings and clay sculptures heâs proud of because theyâre beautiful in his own eyes, not because they got him a good grade.</p>
+<p>So I donât ask them about their grades the minute they come home. Silently, I give myself an A+ for this move. I award myself an invisible certificate of achievement for parenting excellence, with high honors in nurturing a value system that emphasizes effort and curiosity over quantification. I do that because over in a little corner of my head, six-year-old-me sits on a big green sofa, clutching her spelling pages, wanting desperately to hear, <em>Good job</em>. She never left; she âll never leave. Itâs too late for her, but not for them. They can be better than I am.</p>
+<p>Maybe theyâll grow up to have a strange obsession with lunch, and blame me.<br />
+&nbsp;<br />
+&nbsp;<br />
+So there you have it.</p>
+<p>When I was growing up, my mother was a hard-ass, and she turned me compulsive.</p>
+<p>Itâs all my motherâs fault.</p>
+<p style="text-align:center;">* * *</p>
+<p>Or:</p>
+<p>When I was growing up, my mother was my cheerleader, and she made me successful.</p>
+<p>Itâs all to my motherâs credit.<br />
+&nbsp;<br />
+&nbsp;<br />
+Chapel Hill. First grade. My mom picked me up from school. Left to my own devices, I might have crammed those spelling pages back to the bottom of my book bag with the empty, peanut-butter-smeared sandwich baggies and the balled-up sweatshirt I hadnât worn in a month.</p>
+<p>But my mother intervened and changed everything. She had seen how quickly I took to books, how Iâd sit and read, focusing until I got to the end of a story. She had noticed how naturally I recalled a word once Iâd seen it a single time. She saw potential I could not have seen in myself at that age. She reached for that stack of spelling words.</p>
+<p>And so my brother was sent to bed while I was allowed to stay up. I got to snuggle into the nubby pillows of the green sofa next to my mom as I learned tricks for training my brain to hold as much as it could. I found that if you spell a word out loud five times in a row, the sixth time is a snap.</p>
+<p>âHair. H-a-i-r. Hair,â I spelled.</p>
+<p>âYes!â she cried.</p>
+<p>I started spelling words in conversation: âIâm going o-u-t-s-i-d-e now.â âDo I have to wash my f-a-c-e tonight?â My mother showed me how to bump up against what felt like the natural limits of my mind and then keep pushing into the territory that lay beyond.</p>
+<p>When I won that spelling bee, I got a smile from my mom that no one else got. This wasnât just regular love like all kids got from their parents. This was extra love, something more, just for me. It filled me up, and I would never again settle for anything less.</p>
+<p>When I held out my math test with a B on it, she didnât reward me with a smile, because she believed I could have made an A. In time, <em>I</em> believed I could make Aâs, too. She held me to the standards she knew I could meet. As if running alongside my bike with a hand on my seat, then letting go, she guided me until I could excel on my own.</p>
+<p>My work ethic helped me earn my way into opportunities that changed my life: contests, college, jobs, assignments. I became a person other people can count on, someone they trust to do a good job. I grew to think of myself this way, as a helpful person, a reliable person.</p>
+<p>My mother the wonder woman made me a wonder woman, too.</p>
+<p style="text-align:center;">* * *</p>
+<p>Even small events can have a formative effect on our lives. Everything sinks into the soil.</p>
+<p>Thatâs how I think of that first-grade spelling bee. Did it really change me from one kind of person into another? I suspect it was less a cause of my perfectionism than simply the first manifestation of it, but I remember it as a before-and-after marker on my timeline. My best guess is that something within me, some strand of DNA, was extra susceptible to the idea of quantifiable self-worth, and school was the perfect environment for it to thrive. (Seriously: a spelling bee for <em>first graders</em>? The 1980s were hard-core.) Plenty of other kids had strict parents, too, but they didnât all become obsessive about grades. My brother grew up right alongside me, but when he got a B, he just went into his room and played his Bon Jovi tapes. Big deal.</p>
+<p>Of all the genes parents pass down and values they instill, how does one take hold so much stronger than the others? How do two kids with the same genetic ingredients and upbringing turn into such different people? My brother became a high-achieving student, too, but also a sneaky, laid-back teenager, the kid who hid beer in our backyard tree house and laughed it off when he got caught. I became uptight and anxious, the one who religiously performed all three steps of the Clinique three-step cleansing system every night because the instructions said, <em>Wash</em>, <em>tone</em>, <em>moisturize</em>. He stood right next to me when my mother said, âPractice your piano for thirty minutes each while Iâm at the grocery store.â So why did I slog through thirty minutes of Beethoven every time and then watch in fuming rage as he played video games? Does it even matter why?</p>
+<blockquote class="pullquote center"><p>It filled me up, and I would never again settle for anything less.</p></blockquote>
+<p>Thereâs not much Iâd blame any parent for, honestly, now that I am one. Cruelty, neglect, abuse&#8212;absolutely&#8212;but word-drilling on the green sofa? No. Weâre all a little weird thanks to our mothers. Iâm carrying that tradition on with my own children.</p>
+<p>What a job, to raise someone from birth to adulthood, bestowing upon them your knowledge and your values and, despite your best intentions, any number of traits youâve inherited yourself. What a loaded task, to make every move, every day, in such a way that the impressionable larva-person in your home will see your example, process it into something within themselves, and grow layers of muscle and soul over it until she is a fully developed human being. And all the while, the little person youâre nurturing is fighting you&#8212;spitting out the broccoli, not wearing the helmet, rolling her eyes at your carefully chosen words of adviceâ&#8211;and you become constantly worn down even as you pour your energies into loving her.</p>
+<p>My mom gave me all the tools she had, some of which I couldnât use. She grew up to be a plant whisperer after helping her dad tend his garden in the wild green lot behind their little house outside Birmingham, Alabama, and she tried to teach me to be one, too. I used to follow her around our backyard, watching her reach into a mass of stems and leaves with her clippers and snip this bloom or that one to toss into her basket; then Iâd sit mesmerized as she stuck them into vases and bowls, creating what looked like tabletop parade floats. She âd coach me to do the same&#8212;âHere, put some greenery in, make it look softerâ&#8212;and Iâd stab a branch into the bunch, ruining the loose beauty of her arrangement. You point to anything with roots, and she can name it, arrange it, and/or cook it, and I canât keep a pot of basil alive for longer than a week. Why didnât <em>that</em> stick?</p>
+<p>What did stick&#8212;whether she intended to pass it along or not&#8212;was her sense of humor. When it came to academics, my mom may have been a warlord zipped into the body of Sally Field, but the rest of the time, she cracked us up. Whenever a Little Richard song came on the car radio, she would bust a move at the wheel like a one-woman episode of <em>Dance Fever</em>. She let me play beauty salon and make dozens of tiny pigtails all over her head with my colorful plastic barrettes. When I was bothered by the fact that none of my Barbies had underwear, she sewed a complete trousseau of tiny lingerie. Like her, I love little visual absurdities (ah, the inherent hilarity of a teeny-weeny doll bra), dry one-liners and well-timed cracks, and perfectly executed, utterly insane mishmashes of curse words. (My mom, upon walking into a messy room: âIt looks like the ass end of destruction in here.â The ass end of destruction!)</p>
+<p>When I was seventeen, I might have told you I was a neurotic student because my mom was so tough about grades. When I was twenty-five, I might have shrugged and said, eh, maybe it was my mom who made me a control freak or maybe Iâm just me, who knows. By the time I reached my thirties and had my own children, I knew perfect parenting was a myth, and I understood that while she was responsible for making me, she couldnât have known how Iâd end up made. No one could have. Thatâs a little mystery we all unfurl on our own.</p>
+<p style="text-align:center;">* * *</p>
+<p>&nbsp;</p>
+<p style="text-align:center;">&#8220;Wonder Woman&#8221; is an excerpt from the book <em>I Miss You When I Blink</em> Â© 2019 by Mary Laura Philpott, published by Atria Books on April 2, 2019.</p>
+<p style="text-align:center;"><a class="button-red" href="https://www.simonandschuster.com/books/I-Miss-You-When-I-Blink/Mary-Laura-Philpott/9781982102807">Buy the book</a></p>
+<p>&nbsp;</p>
+<p style="text-align:center;"><em>Editor: <a href="https://cherilucasrowlands.com/">Cheri Lucas Rowlands</a></em></p>
+<div class="sponsor-double"><div class='sponsor-300'>		<style>
+		div.sponsor-300 { display:block !important; }
+		</style>
+		<div style="padding-bottom:15px;width:300px;height:250px;">
+		<div id="atatags-701357621-5636">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-701357621-5636',  {
+					collapseEmpty: 'after',
+					sectionId: '701357621',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div></div><div class='sponsor-300'>		<style>
+		div.sponsor-300 { display:block !important; }
+		</style>
+		<div style="padding-bottom:15px;width:300px;height:250px;">
+		<div id="atatags-701357621-8548">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-701357621-8548',  {
+					collapseEmpty: 'after',
+					sectionId: '701357621',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div></div></div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-121494" class="share-twitter sd-button share-icon no-text" href="https://longreads.com/2019/04/01/wonder-woman/?share=twitter" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-121494" class="share-facebook sd-button share-icon no-text" href="https://longreads.com/2019/04/01/wonder-woman/?share=facebook" target="_blank" title="Click to share on Facebook"><span></span><span class="sharing-screen-reader-text">Click to share on Facebook (Opens in new window)</span></a></li><li class="share-pocket"><a rel="nofollow noopener noreferrer" data-shared="" class="share-pocket sd-button share-icon no-text" href="https://longreads.com/2019/04/01/wonder-woman/?share=pocket" target="_blank" title="Click to share on Pocket"><span></span><span class="sharing-screen-reader-text">Click to share on Pocket (Opens in new window)</span></a></li><li class="share-custom share-custom-instapaper"><a rel="nofollow noopener noreferrer" data-shared="" class="share-custom share-custom-instapaper sd-button share-icon no-text" href="https://longreads.com/2019/04/01/wonder-woman/?share=custom-1422885119" target="_blank" title="Click to share on Instapaper"><span style="background-image:url(&quot;https://longreadsblog.files.wordpress.com/2015/02/instapaper4.png&quot;);"></span><span class="sharing-screen-reader-text">Click to share on Instapaper (Opens in new window)</span></a></li><li class="share-email"><a rel="nofollow noopener noreferrer" data-shared="" class="share-email sd-button share-icon no-text" href="https://longreads.com/2019/04/01/wonder-woman/?share=email" target="_blank" title="Click to email this to a friend"><span></span><span class="sharing-screen-reader-text">Click to email this to a friend (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-70135762-121494-5ca594b99b157' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=70135762&amp;post_id=121494&amp;origin=longreadsblog.wordpress.com&amp;obj_id=70135762-121494-5ca594b99b157&amp;domain=longreads.com' data-name='like-post-frame-70135762-121494-5ca594b99b157'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div><div class="entry-links"></div>
+</section>
+		<div class="entry-meta">
+
+	<div class="post-meta">
+		<div class="author-mini">
+							<div class="author-date">
+					Posted by 					<img alt='' src='https://1.gravatar.com/avatar/77c994c441138efdb7338403caac1014?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' /><a href="https://longreads.com/author/longreadseditors/" title="Posts by Longreads" class="author url fn" rel="author">Longreads</a>					 on <a href="https://longreads.com/2019/04/01/wonder-woman/">April 1, 2019</a>
+				</div>
+					</div>
+
+		<div class="meta-left">
+										<span class="cat-links icon-folder"></span>
+										<span class="tag-links icon-tag"></span>
+						<a href=''><span class='article-actions icon-edit'></span></a>
+		</div>
+
+		<div class="cat-links-categories"><span class="meta-title">Categories: </span><a href="https://longreads.com/category/books/" rel="category tag">Books</a>, <a href="https://longreads.com/category/editors-pick/" rel="category tag">Editor's Pick</a>, <a href="https://longreads.com/category/nonfiction-2/" rel="category tag">Nonfiction</a>, <a href="https://longreads.com/category/story/" rel="category tag">Story</a></div>
+		<div class="tag-links-tags"><span class="meta-title">Tags: </span><a href="https://longreads.com/tag/book-excerpt/" rel="tag">book excerpt</a>, <a href="https://longreads.com/tag/books/" rel="tag">Books</a>, <a href="https://longreads.com/tag/essays/" rel="tag">essays</a>, <a href="https://longreads.com/tag/excerpt/" rel="tag">excerpt</a>, <a href="https://longreads.com/tag/i-miss-you-when-i-blink/" rel="tag">I Miss You When I Blink</a>, <a href="https://longreads.com/tag/mary-laura-philpott/" rel="tag">Mary Laura Philpott</a>, <a href="https://longreads.com/tag/memoir/" rel="tag">memoir</a>, <a href="https://longreads.com/tag/motherhood/" rel="tag">motherhood</a>, <a href="https://longreads.com/tag/mothers/" rel="tag">mothers</a>, <a href="https://longreads.com/tag/mothers-and-daughters/" rel="tag">mothers and daughters</a>, <a href="https://longreads.com/tag/personal-essay/" rel="tag">Personal Essay</a></div>
+	</div>
+
+</div>
+
+				<footer class="entry-footer">
+
+	<div class="entry-email-signup">
+	<div class="icon-email"></div>
+	<div class="email-signup-content">
+	    <h2 class="email-promo-title">Get the Longreads Weekly Email</h2>
+		<form action="//longreads.us2.list-manage.com/subscribe/post?u=1854296747731744c923a33ef&amp;id=bd2ad42066&SIGNUP=article" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate ui-form" target="_blank" novalidate>
+			<div class="email-promo-body">
+				Sign up to get the week&rsquo;s best Longreads delivered to your inbox every Friday afternoon.			</div>
+			<div class="mc-field-group ui-form">
+				<input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address">
+				<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="sm-button">
+			</div>
+			<div id="mce-responses" class="clear">
+				<div class="response" id="mce-error-response" style="display:none"></div>
+				<div class="response" id="mce-success-response" style="display:none"></div>
+			</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+			<div style="position: absolute; left: -5000px;"><input type="text" name="b_1854296747731744c923a33ef_bd2ad42066" tabindex="-1" value=""></div>
+	   </form>
+	</div>
+</div>
+
+<div class="member-promo">
+	<div class="member-logo"><a class="member-promo-link" href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=story-bottom&#038;utm_campaign=member-promo"></a></div>
+	<div class="member-promo-content">
+		<h2 class="member-promo-title"><a class="member-promo-link" href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=story-bottom&#038;utm_campaign=member-promo">Friends: We Need Your Help to Fund More Stories</a></h2>
+		<div class="member-promo-body">
+			We want to dramatically increase our story fund this year, but we can't do it without your support. Every dollar you contribute goes to writers and publishers who spend hours, weeks, and months reporting and writing outstanding stories. Now is the time to join us.		</div>
+		<a class="sm-button-red member-promo-link" href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=story-bottom&#038;utm_campaign=member-promo">Become a Member</a>
+	</div>
+</div>
+
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div><div class='sponsor-728'>		<style>
+		div.sponsor-300 { display:block !important; }
+		</style>
+		<div style="padding-bottom:15px;width:728px;height:90px;">
+		<div id="atatags-701357621-6091">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-701357621-6091',  {
+					collapseEmpty: 'after',
+					sectionId: '701357621',
+					width: 728,
+					height: 90
+				});
+			});
+			</script>
+		</div></div></div>
+<div class="support-footer">
+  <div class="section-header">
+     <h3 class="h-three">Support Longreads</h3>
+  </div>
+    <ul class="big_links">
+                  <li>
+              <a href="//account.longreads.com/membership/signup/?utm_source=wonder-woman&#038;utm_medium=banner&#038;utm_content=page-footer&#038;utm_campaign=member-promo">
+                  <div class="support-longreads support-link">
+                      Become a Longreads Member for just $3 per month                      <span class="icon-longreads-color support-icon"></span>
+                  </div>
+              </a>
+          </li>
+                <li>
+            <a href="http://www.twitter.com/longreads/" target="_blank">
+                <div class="support-twitter support-link">
+                   Follow us on Twitter                   <span class="icon-twitter-color support-icon"></span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="https://longreads.com/follow">
+                <div class="support-WordPress support-link">
+                    Follow us on WordPress.com                    <span class="icon-wordpress-color support-icon"></span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="http://www.facebook.com/longreads/"
+            target="_blank">
+                <div class="support-facebook support-link">
+                    Follow us on Facebook                    <span class="icon-facebook-color support-icon"></span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href='https://instagram.com/longreads/' target='_blank'>
+                <div class='support-link'>
+                    Follow us on Instagram                    <span class='icon-instagram support-icon'></span>
+                </div>
+            </a>
+        </li>
+        <li class="email">
+            <div class="support-email support-link">Get the Longreads Weekly Email                <span class="icon-email support-icon"></span>
+            </div>
+            <div class="support-mailchimp">
+               <form action="//longreads.us2.list-manage.com/subscribe/post?u=1854296747731744c923a33ef&amp;id=bd2ad42066&SIGNUP=footer" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate ui-form" target="_blank" novalidate>
+                   <div class="mc-field-group ui-form">
+                       <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address">
+                       <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="sm-button">
+                   </div>
+                   <div id="mce-responses" class="clear">
+                       <div class="response" id="mce-error-response" style="display:none"></div>
+                       <div class="response" id="mce-success-response" style="display:none"></div>
+                   </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                   <div style="position: absolute; left: -5000px;"><input type="text" name="b_1854296747731744c923a33ef_bd2ad42066" tabindex="-1" value=""></div>
+               </form>
+            </div>
+        </li>
+    </ul>
+</div><div class="wp-footer">
+	<div class="wp-footer__container">
+		<svg class="wp-footer__logo" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><title>wordpress-logo</title><path d="M18 0c-9.925 0-18 8.075-18 17.999 0 9.926 8.075 18.001 18 18.001s18-8.075 18-18.001c0-9.925-8.075-17.999-18-17.999zm-16.183 17.999c0-2.346.503-4.574 1.401-6.587l7.72 21.151c-5.399-2.623-9.121-8.158-9.121-14.564zm16.183 16.185c-1.589 0-3.122-.234-4.572-.659l4.856-14.11 4.974 13.629.116.222c-1.682.592-3.489.918-5.374.918zm2.23-23.772c.974-.051 1.852-.154 1.852-.154.872-.103.77-1.385-.103-1.334 0 0-2.621.206-4.314.206-1.59 0-4.262-.206-4.262-.206-.873-.051-.975 1.282-.102 1.334 0 0 .825.103 1.697.154l2.521 6.908-3.542 10.621-5.893-17.529c.975-.051 1.852-.154 1.852-.154.872-.103.769-1.385-.104-1.334 0 0-2.621.206-4.313.206-.303 0-.661-.008-1.042-.02 2.894-4.393 7.868-7.294 13.522-7.294 4.213 0 8.049 1.611 10.928 4.249l-.209-.013c-1.59 0-2.718 1.385-2.718 2.873 0 1.334.769 2.462 1.59 3.795.615 1.078 1.334 2.462 1.334 4.463 0 1.386-.411 3.129-1.231 5.232l-1.614 5.393-5.848-17.396zm5.906 21.575l4.943-14.291c.924-2.309 1.231-4.155 1.231-5.796 0-.596-.039-1.149-.109-1.664 1.263 2.305 1.982 4.95 1.982 7.764 0 5.97-3.236 11.183-8.047 13.988z" fill="#0087BE"/></svg>
+		<div class="wp-footer__text">
+			<a href="https://wordpress.com/?aff=2669" class="wp-footer__link">
+				<h2 class="wp-footer__headline">Proudly powered by WordPress</h2>
+				<p class="wp-footer__body">
+					Create your own site at WordPress.com					<svg class="wp-footer__arrow" width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg"><title>arrow-right</title><path d="M1.502 16l8.498-8-8.498-8-1.502 1.414 6.996 6.586-6.996 6.586z" fill="#555"/></svg>
+				</p>
+			</a>
+		</div>
+	</div>
+</div>
+</footer>
+
+						<a class="kindleWidget kindle-bottom"><span class="icon-amazon"></span></a>
+			<script type="text/javascript">
+			jQuery( document ).ready( function( $ ) {
+				jQuery( ".kindle-bottom").prependTo("li.share-end");
+			} );
+			</script>
+	
+</article>
+					</section>
+
+
+<script type='text/javascript'>
+								var _gaq = _gaq || [];
+								_gaq.push(['_setAccount', 'UA-19317901-1']);
+_gaq.push(['_trackPageview']);
+
+								(function() {
+									var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+									ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+									var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+								})();
+							</script>
+</div>
+
+<footer id="footer" class="h-small" role="contentinfo">
+	<div class="footer-links">
+		<a href="https://longreadsblog.wordpress.com/">Home</a>
+		<a href="https://longreadsblog.wordpress.com/about/">About</a>
+		<a href="https://longreads.com/member/">Membership</a>
+		<a href="https://longreadsblog.wordpress.com/faq/">FAQ</a>
+		<a href="https://longreadsblog.wordpress.com/submissions/">Submissions</a>
+		<a href="http://automattic.com/privacy">Privacy Policy</a>
+		<a href="https://longreadsblog.wordpress.com/press/">Press</a>
+		<a id="rss-link" class="icon-rss" href="https://longreads.com/feed/">RSS Feed</a>
+		<div id="footer-automattic">
+			Part of the <a href="http://www.automattic.com" id="automattic-logo">Automattic</a> family.
+		</div>
+		<div id="copyright">
+			&copy; 2019 Longreads		</div>
+	</div>
+	<div style='display: none'>
+		get_longreads_user_info:
+		false	</div>
+</footer>
+</div> <!-- Closing .site-content__wrapper -->
+</div>
+<script type="text/javascript">
+	// Tracks functions
+	window._tkq = window._tkq || []; window._tkq.push( [ 'recordEvent', 'wpcom_longreads_page_view', {
+		utm_campaign: 'wonder-woman'
+	} ] );
+	jQuery( function($) {
+		$( '.become-member' ).on( 'click', function() {
+			_tkq.push( ['recordEvent', 'wpcom_longreads_membership_click',{
+				utm_campaign: 'donate-button'
+			} ] );
+		});
+	});
+			_tkq.push( [ 'recordEvent', 'wpcom_longreads_exclusive_view', {
+			utm_campaign: 'wonder-woman'
+		} ] );
+
+		// Membership button clicks
+		jQuery( function($) {
+			$( '.member-promo-link' ).on( 'click', function() {
+				_tkq.push( ['recordEvent', 'wpcom_longreads_membership_click',{
+					utm_campaign: 'wonder-woman'
+				} ] );
+			});
+		});
+	 </script>
+<!--  -->
+<script type="text/javascript">(function k(){window.$SendToKindle&&window.$SendToKindle.Widget?$SendToKindle.Widget.init({"content":"entry-content","title":"entry-title","author":"author-name","published":"entry-date"}):setTimeout(k,500);})();</script><script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-77c994c441138efdb7338403caac1014">
+	</div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/longreads.com\/2019\/04\/01\/wonder-woman\/":121494};
+	</script>
+					<div id="sharing_email" style="display: none;">
+		<form action="/2019/04/01/wonder-woman/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="" />
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="" />
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="" />
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" title="This field is for validation and should not be changed" />
+			
+			<div
+				class="g-recaptcha"
+				data-sitekey="6LcmyE0UAAAAALID28yVNg7pFCodGaArJzHitez_"
+				data-theme="light"
+				data-type="image"
+				data-tabindex="0"></div>
+			<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en" async></script>
+			
+			<img style="float: right; display: none" class="loading" src="https://s2.wp.com/wp-content/mu-plugins/post-flair/sharing/images/loading.gif" alt="loading" width="16" height="16" />
+			<input type="submit" value="Send Email" class="sharing_send" />
+			<a rel="nofollow" href="#cancel" class="sharing_cancel" role="button">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"70135762","siteName":"Longreads","siteURL":"https:\/\/longreads.com","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/e68667ec6ee7cdd0c6b5416a84c52a9c?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"a8c\/longreads","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Flongreads.com%2F2019%2F04%2F01%2Fwonder-woman%2F&signup_flow=account&domain=longreads.com","themeURL":"","xhrURL":"https:\/\/longreads.com\/wp-admin\/admin-ajax.php","nonce":"7f04033116","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"fabaafa4df\" \/>","referer":"https:\/\/longreads.com\/2019\/04\/01\/wonder-woman\/","canFollow":"1","feedID":"22973954","statusMessage":"","customizeLink":"https:\/\/longreadsblog.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Flongreadsblog.wordpress.com%2F2019%2F04%2F01%2Fwonder-woman%2F","postID":"121494","shortlink":"https:\/\/wp.me\/p4KhvY-vBA","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/longreads.com\/121494","statsLink":"https:\/\/wordpress.com\/stats\/post\/121494\/longreads.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Longreads","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 39,578,807 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Flongreads.com%2F2019%2F04%2F01%2Fwonder-woman%2F&signup_flow=account&domain=longreads.com\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyVkM1uxCAMhF+oxMoh1V5WfRYveBMT/opJ0u3TL1HVqN0DUk6Y8XwjBtiS0jEUCgWsgKGVNaWvzsob/Fn5RSW3jBwEHM8k8LnQQhMG4yg3zDp6XyX1A9mdvoFsnOgM9E9ogBubkYoALXUbZyblcINCPjks9KK/5pSJfPWsnOCoit8P5SKa/RG2Vs6PTmLA3HkOZ/nj0iiApgarG2bwKIVynVRcKWc2NfrQTiaUjHpu/RvqwjHs0DE13ClKUXeHnEEmzBzG37NCH/7aD0N/6S/vw2CfRTHjQQ=='></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-pocket', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcompocket', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20190321#ver=20190321' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'70135762','blog_tz':'-4','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'70135762','v':'wpcom','tz':'-4','user_id':'0','post':'121494','subd':'longreadsblog'}]);
+_stq.push(['extra', {'crypt':'UE5tW3cvZGRkOFF6NmFWW245RUxZPXRYY2RWLGJYd3dqRWRERHoseDlnUmduLjhuOXE/flVPOW0rOSVTNXo5c3xneC9YNmstK1BDdStqdzNdRTFIQzJKSC8vW1lRN09bR2g5W3UtemFTLmxNN3p+Z0VGSHElOWN5RWt3RG1uLHBZNDdhLEJ6UGhBJmszSkIrZS9hb0FmP2NmP3hsb1E5MCtQRU1wVlAreVVyYVk5QkpHV2ZILWklfEhiWGxBTGh5byVmWG0tLGstT3A0cnorOHxHMHB2X1lrcGtCeEdCaTZva18mU3NWLmFBNjElTmsuemJuZlQ/'}]);
+_stq.push([ 'clickTrackerInit', '70135762', '121494' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0' />
+<title>Longreads : The best longform stories on the web</title>
+<!--[if IE]>
+<link href="https://s2.wp.com/wp-content/themes/a8c/longreads/style-ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+<![endif]-->
+<meta name="google-site-verification" content="XXZiHbIgLil8z0afFdsuYUUbdb02vjrSjt4_HxVqMnk" />
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9sb25ncmVhZHMuY29t"
+		+ "&id=70135762"
+		+ "&time=1554409284";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//longreadsblog.wordpress.com' />
+<link rel='dns-prefetch' href='//d1xnn692s7u6t6.cloudfront.net' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//s.pubmine.com' />
+<link rel='dns-prefetch' href='//x.bidswitch.net' />
+<link rel='dns-prefetch' href='//static.criteo.net' />
+<link rel='dns-prefetch' href='//ib.adnxs.com' />
+<link rel='dns-prefetch' href='//aax.amazon-adsystem.com' />
+<link rel='dns-prefetch' href='//bidder.criteo.com' />
+<link rel='dns-prefetch' href='//cas.criteo.com' />
+<link rel='dns-prefetch' href='//gum.criteo.com' />
+<link rel='dns-prefetch' href='//ads.pubmatic.com' />
+<link rel='dns-prefetch' href='//gads.pubmatic.com' />
+<link rel='dns-prefetch' href='//tpc.googlesyndication.com' />
+<link rel='dns-prefetch' href='//ad.doubleclick.net' />
+<link rel='dns-prefetch' href='//googleads.g.doubleclick.net' />
+<link rel='dns-prefetch' href='//www.googletagservices.com' />
+<link rel='dns-prefetch' href='//cdn.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.g.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.swid.switchadhub.com' />
+<link rel="alternate" type="application/rss+xml" title="Longreads &raquo; Feed" href="https://longreads.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Longreads &raquo; Comments Feed" href="https://longreads.com/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJyVk+FSwyAMx19Ixq06b188nyWlkWYDwgG9urcXiq7WKTe/tEmaXxL+KXL2QrFL6JK0k/Bm0uSinL1iK6Ilg5cf3k7F+CB/xwydMcoTJg/qLBbvJr03rNc+HAYYotSGezDXXHLKTEMulQNyoLhQS8U+QLjImC4Gd5ZcaxjFAXPcekglw+JAgAZtTmthMw0aU21dbZHwvYlY//zVqJhjPnxTpqpn3/uAMYr8tDRZkcY8W5PLVJm+CrsMuIlUlKTjRJmOV+OmZm0l4aikYacDlh1UUe9QJrEXnmP6B4JT/spnQmFglgmtN5DwjgIaWeTVQyJ2G0e8GaDQQgOWXy2bepFqdVsQqFK8h7BarfQiQ51ExhFC6fX5blGRFYHJR9G8df5a1Pj07Ya82pf94dA97o9d150+ACRVagE=?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyNkFFOAzEMRC9EGtHuCn5Qz+KmJnib2CF2ttqenhSVD8RCkSxZ8jzbo/Hn4ohDakdUP/V6b1iXW9tM+uD/AlymWMFwk4m/4CBsyHZli6hlVIWIK2qWAyV0TbF2gK2/eZUV7rsl4pnwfBeb0AqEk6uodPnx3d6w+/IzFV9Si8R6VaNI7IaAIS1GYXX2yyV4Dj4Jx4pw/IwpAM+gLiO3/64cREytQrmluc8vj+M4bHe7p2GYPgDRgp69'></script>
+<script type='text/javascript' src='//d1xnn692s7u6t6.cloudfront.net/widget.js?ver=5.2-beta1-45048'></script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyNzUEOgzAMRNELNZhUbQULxFlMcNMEE6PYEtdvjpDlSP9p4L5ckGJUDOxHJyngFIClxEq4K2QFTra1cVAdsj6gQ2QdgsiRqBcUjDcy9+bf2gJ3Yew+YDTSRkRNXaxpb3A9F//24/x8+c+c/2OJYO0='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://longreadsblog.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel='shortlink' href='https://wp.me/P4KhvY-eot' />
+	<style>
+		@font-face {
+			font-family: Recoleta;
+			src: url('https://s1.wp.com/i/fonts/recoleta/400.woff2')
+		}
+	</style>
+	<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Flongreads.com%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Flongreads.com%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Longreads : The best longform stories on the web" />
+<meta property="og:description" content="Longreads features the best storytelling on the web from hundreds of publishers. Story picks include longform journalism, short stories, in-depth interviews, and even historical documents." />
+<meta property="og:url" content="https://longreads.com/" />
+<meta property="og:site_name" content="Longreads" />
+<meta property="og:image" content="https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=200&amp;ts=1554409284" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@longreads" />
+<meta name="twitter:site" content="@longreads" />
+<meta name="twitter:text:title" content="Home" />
+<meta name="twitter:image" content="https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=240" />
+<meta name="twitter:card" content="summary" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<meta name="twitter:app:name:iphone" content="WordPress" />
+<meta name="twitter:app:id:iphone" content="335703880" />
+<meta name="twitter:app:name:ipad" content="WordPress" />
+<meta name="twitter:app:id:ipad" content="335703880" />
+<meta name="twitter:app:name:googleplay" content="WordPress" />
+<meta name="twitter:app:id:googleplay" content="org.wordpress.android" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=114" />
+<link rel='openid.server' href='https://longreadsblog.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://longreadsblog.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://longreads.com/osd.xml" title="Longreads" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+			<meta property="fb:pages" content="165460226798426" />
+			<link rel="canonical" href="https://longreads.com/" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Longreads" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="The best longform stories on the web" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://longreads.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/e68667ec6ee7cdd0c6b5416a84c52a9c?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Longreads features the best storytelling on the web from hundreds of publishers. Story picks include longform journalism, short stories, in-depth interviews, and even historical documents." />
+		<script type="text/javascript">
+		function __ATA_CC() {var v = document.cookie.match('(^|;) ?personalized-ads-consent=([^;]*)(;|$)');return v ? 1 : 0;}
+		var __ATA_PP = { pt: 0, ht: 1, tn: 'longreads', amp: false, siteid: 70135762, consent: __ATA_CC() };
+		var __ATA = __ATA || {};
+		__ATA.cmd = __ATA.cmd || [];
+		__ATA.criteo = __ATA.criteo || {};
+		__ATA.criteo.cmd = __ATA.criteo.cmd || [];
+		</script>
+		<script type="text/javascript" src="//s.pubmine.com/head.js" async></script><style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s2.wp.com/?custom-css=1&#038;csblog=4KhvY&#038;cscache=6&#038;csrev=17" />
+		</head>
+
+
+<body class="home page-template page-template-page-templates page-template-home page-template-page-templateshome-php page page-id-55333 mp6 customizer-styles-applied highlander-enabled highlander-light">
+
+<div id="wrapper" class="hfeed ">
+
+	<nav class="nav-off-canvas" role="navigation">
+        <svg class="menu-toggle close-icon" width="16" height="16" viewBox="0 0 16 16"><path fill="#8D8D8D" fill-rule="evenodd" d="M7.999 9.415l-5.657 5.657-1.414-1.415L6.585 8 .928 2.344 2.342.929l5.657 5.657L13.656.93l1.414 1.415L9.413 8l5.657 5.657-1.414 1.415-5.657-5.657z"/></svg>
+        <a href="https://longreads.com/" class="longreads-full-sm">Longreads</a>
+		<div class="nav-off-canvas--container">
+            <ul>
+                <li><a href="https://longreads.com/">Home</a></li>
+                <li><a href="https://longreads.com/editors-picks">Editors&rsquo; Picks</a></li>
+                <li><a href="https://longreads.com/features">Features</a></li>
+                <li><a href="https://longreads.com/topics">Topics</a></li>
+                <li><a href="https://longreads.com/best-of-2018">Best Of 2018</a></li>
+                <li><a href="https://store.longreads.com/">Store</a></li>
+                <li class="menu-divider menu-divider--lg"></li>
+                                    <li><a class="button-red" href="https://account.longreads.com/membership/signup/?utm_source=homepage&#038;utm_medium=banner&#038;utm_content=menu&#038;utm_campaign=member-promo">Become a  Member</a>
+                    <li><a class="button" href="https://account.longreads.com/accounts/login/?next=https://longreads.com%2F">Log In</a></li>
+                                <li class="menu-divider"></li>
+                <li><div class="ui-form header-search"><form method="get" id="searchform" action="https://longreads.com/">
+	<div>
+		<input type="text" value="" name="s" id="s" placeholder="Search" />
+		<input type="submit" id="searchsubmit" />
+	</div>
+</form></div></li>
+                <li class="menu-divider"></li>
+                <li><a href="http://eepurl.com/VEEfb">Weekly Email</a></li>
+                <li><a href="http://twitter.com/longreads">Twitter</a></li>
+                <li><a href="http://www.facebook.com/longreads">Facebook</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="header">
+			<div id="slim-header">
+                <span id="header-menu" class="menu">
+                                            <a href="//account.longreads.com/membership/signup/?utm_source=homepage&#038;utm_medium=banner&#038;utm_content=donate-button&#038;utm_campaign=member-promo" class="mobile-become-member">Support Us</a>
+                                        <div class="signup-links">
+                                                    <a href="https://account.longreads.com/accounts/login/?next=https://longreads.com%2F">Log In</a>
+                            <a href="https://store.longreads.com/">Store</a>
+                            <a href="//account.longreads.com/membership/signup/?utm_source=homepage&#038;utm_medium=banner&#038;utm_content=donate-button&#038;utm_campaign=member-promo" class="signup-accounts-active become-member">Support Us</a>
+                                                <div class="ui-form header-search expanding-search"><form method="get" id="searchform" action="https://longreads.com/">
+	<div>
+		<input type="text" value="" name="s" id="s" placeholder="Search" />
+		<input type="submit" id="searchsubmit" />
+	</div>
+</form></div>
+                        <svg class="search-toggle icon-search" width="14" height="14" viewBox="0 0 14 14"><path fill="#DEDEDE" fill-rule="evenodd" d="M8.75 0C11.65 0 14 2.35 14 5.25s-2.35 5.25-5.25 5.25a5.162 5.162 0 0 1-2.803-.81l-3.954 3.97c-.227.227-.535.34-.826.34-.308 0-.6-.113-.827-.34a1.174 1.174 0 0 1 0-1.653l3.97-3.954A5.162 5.162 0 0 1 3.5 5.25C3.5 2.35 5.85 0 8.75 0zm0 8.75c1.928 0 3.5-1.572 3.5-3.5s-1.572-3.5-3.5-3.5a3.506 3.506 0 0 0-3.5 3.5c0 1.928 1.572 3.5 3.5 3.5z"/></svg>
+                        <svg class="search-toggle search-close" width="16" height="16" viewBox="0 0 16 16"><path fill="#DEDEDE" fill-rule="evenodd" d="M7.999 9.415l-5.657 5.657-1.414-1.415L6.585 8 .928 2.344 2.342.929l5.657 5.657L13.656.93l1.414 1.415L9.413 8l5.657 5.657-1.414 1.415-5.657-5.657z"/></svg>
+	                </div>
+                </span>
+                                    <svg class="menu-toggle icon-menu" width="18" height="14" viewBox="0 0 18 14"><path fill="#DEDEDE" fill-rule="evenodd" d="M0 6h18v2H0V6zm0-6h18v2H0V0zm0 12h18v2H0v-2z"/></svg>
+                                <div class="menu-items-left">
+                    <a href="https://longreads.com/editors-picks">Editors&rsquo; Picks</a>
+                    <a href="https://longreads.com/features">Features</a>
+                    <a href="https://longreads.com/topics">Topics</a>
+                    <a href="https://longreads.com/best-of-2018" class="best-of-2018">Best of 2018</a>
+                </div>
+                <a href="https://longreads.com/" class="longreads-full-sm">Longreads</a>
+            </div>
+    </header>
+
+    
+    <div class="site-content__wrapper">
+	<!-- .site-content__wrapper is required for the responsive nav to work properly. It acts as the container for everything outside of the nav. -->
+
+<div id="container">
+<section class="home" role="main">
+	<div class="home-top">
+				<!-- Start Featured Story -->
+									<article class="grid-article home-banner">
+					<div class="banner-left">
+						<div class="grid-title">
+							<a href="https://longreads.com/2019/04/04/queens-of-infamy-josephine-bonaparte-part-two/">
+							Queens of Infamy: Josephine Bonaparte, from Malmaison to More-Than-Monarch							</a>
+						</div>
+						<div class="grid-meta">
+							By 							<a href="https://longreads.com/author/bellejarblog/" title="Posts by Anne ThÃ©riault" class="author url fn" rel="author">Anne ThÃ©riault</a>							<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>						</div>
+						<div class="grid-excerpt">
+							<a href="https://longreads.com/2019/04/04/queens-of-infamy-josephine-bonaparte-part-two/">
+							<p>In fraught games of power politics, sometimes the best revenge is not being exiled to die alone on an island in the South Atlantic. </p>
+							</a>
+						</div>
+													<a class="member-banner member-promo-link" href="//account.longreads.com/membership/signup/?utm_source=homepage&#038;utm_medium=banner&#038;utm_content=homepage&#038;utm_campaign=member-promo">
+								<div class="member-logo"></div>
+								<div class="member-promo-title">Friends: We Need Your Help<br /> to Fund More Stories</div>
+							</a>
+											</div>
+					<div class="thumbnail-image" style="background-image: url('https://longreadsblog.files.wordpress.com/2019/04/queens-of-infamy-josephine-2_.jpg?w=1200');">
+						<a href="https://longreads.com/2019/04/04/queens-of-infamy-josephine-bonaparte-part-two/"></a>
+					</div>
+				</article>
+								<!-- End Featured Story -->
+
+	</div>
+
+	<!-- Start Featured Story Grid -->
+	<div class="featured-grid">
+		<div class="article-grid">
+											<article class="grid-article">
+					<div class="banner-left">
+						<div class="grid-title">
+							<a href="https://longreads.com/2019/04/04/how-does-a-person-lose-track-of-their-diary/">
+							How Does a Person Lose Track of Their&nbsp;Diary?							</a>
+						</div>
+						<div class="grid-meta">
+							By 							<a href="https://longreads.com/author/sophielucidojohnson/" title="Posts by Sophie Lucido Johnson" class="author url fn" rel="author">Sophie Lucido Johnson</a>							<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>						</div>
+						<div class="grid-excerpt">
+							<a href="https://longreads.com/2019/04/04/how-does-a-person-lose-track-of-their-diary/">
+							<p>Stumbling upon someone&#8217;s lost journal in a used book store leads Sophie Lucido Johnson down a path she couldn&#8217;t have expected. </p>
+							</a>
+						</div>
+											</div>
+					<div class="thumbnail-image" style="background-image: url('https://longreadsblog.files.wordpress.com/2019/03/sophie-johnson-header.jpg?w=1024');">
+						<a href="https://longreads.com/2019/04/04/how-does-a-person-lose-track-of-their-diary/"></a>
+					</div>
+				</article>
+								<article class="grid-article">
+					<div class="banner-left">
+						<div class="grid-title">
+							<a href="https://longreads.com/2019/04/04/the-unreliable-reader/">
+							The Unreliable Reader							</a>
+						</div>
+						<div class="grid-meta">
+							By 							<a href="https://longreads.com/author/weitchou/" title="Posts by Wei Tchou" class="author url fn" rel="author">Wei Tchou</a>							<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>						</div>
+						<div class="grid-excerpt">
+							<a href="https://longreads.com/2019/04/04/the-unreliable-reader/">
+							<p>In EsmÃ© Weijun Wangâs book of personal essays, âThe Collected Schizophrenias,â itâs the reader, not the writer, who is an unreliable narrator.</p>
+							</a>
+						</div>
+											</div>
+					<div class="thumbnail-image" style="background-image: url('https://longreadsblog.files.wordpress.com/2019/04/woman-disappearing-cardbeige.jpg?w=1024');">
+						<a href="https://longreads.com/2019/04/04/the-unreliable-reader/"></a>
+					</div>
+				</article>
+								<article class="grid-article">
+					<div class="banner-left">
+						<div class="grid-title">
+							<a href="https://longreads.com/2019/04/03/unleashed-in-paris/">
+							Unleashed in Paris							</a>
+						</div>
+						<div class="grid-meta">
+							By 							<a href="https://longreads.com/author/kgavino/" title="Posts by Kate Gavino" class="author url fn" rel="author">Kate Gavino</a>							<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>						</div>
+						<div class="grid-excerpt">
+							<a href="https://longreads.com/2019/04/03/unleashed-in-paris/">
+							<p>As a semi-professional dog walker in Paris, expat Kate Gavino has found a comfortable way to learn French.</p>
+							</a>
+						</div>
+											</div>
+					<div class="thumbnail-image" style="background-image: url('https://longreadsblog.files.wordpress.com/2019/03/cover-1.jpg?w=1024');">
+						<a href="https://longreads.com/2019/04/03/unleashed-in-paris/"></a>
+					</div>
+				</article>
+									</div>
+	</div>
+	<!-- End Featured Story Grid -->
+</section>
+
+<div class="slim-promo-best-of">
+	<a href="https://longreads.com/best-of-2018" class="slim-promo-link">
+		<div class="slim-promo-background"></div>
+		<div class="slim-promo-text">
+			<h2>Longreads Best of 2018</h2>
+			<span>A collection of our favorite stories this year</span>
+			<div class="sm-button">Read Our Favorites</div>
+		</div>
+	</a>
+</div><div class="slim-promo-homepage">
+	<div class="slim-promo-homepage--left">
+		<a href="https://store.longreads.com/" class="slim-promo-link">
+			<div class="slim-promo-text">
+				<h2 class="h-two">Wear your Longreads love on your sleeve. Literally.</h2>
+				<div class="sm-button">Visit the Store</div>
+			</div>
+		</a>
+	</div>
+	<div class="slim-promo-homepage--right">
+		<a href="https://longreads.com/podcast/?utm_source=homepage&#038;utm_medium=banner" class="slim-promo-link">
+			<div class="slim-promo-text">
+				<h2>The Longreads Podcast</h2>
+				<span>Our new weekly podcast, dedicated to helping people find and share the best storytelling in the world.</span>
+			</div>
+		</a>
+	</div>
+</div>
+
+<section id="content" class="home-middle">
+	<!-- Start Picks -->
+	<div class="picks">
+		<h3 class="h-three homepage-section-title"><a href="https://longreads.com/picks">Latest Picks</a></h3>
+		
+<div class="article">
+		<div class="article-title"><a href="https://www.theguardian.com/books/2019/apr/04/fifty-shades-of-white-romance-novels-racism-ritas-rwa">Fifty Shades of White: The Long Fight Against Racism in Romance&nbsp;Novels</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/lois-beckett/">
+						Lois Beckett					</a>																		<a href="https://longreads.com/picks/publishers/the-guardian/">&nbsp;/&nbsp;The Guardian</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="https://www.washingtonpost.com/national/an-overdose-and-a-mothers-search-for-truth/2019/03/31/9f3d8a44-4a6f-11e9-9663-00ac73f49662_story.html?utm_term=.c40fec2d4052">An overdose and a mother&#8217;s search for&nbsp;truth</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/eli-saslow/">
+						Eli Saslow					</a>																		<a href="https://longreads.com/picks/publishers/washington-post/">&nbsp;/&nbsp;Washington Post</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="https://yalereview.yale.edu/philip-roth-landlord?src=longreads">Philip Roth, Landlord</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/terena-elizabeth-bell/">
+						Terena Elizabeth Bell					</a>																		<a href="https://longreads.com/picks/publishers/the-yale-review/">&nbsp;/&nbsp;The Yale Review</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="https://www.vox.com/the-goods/2019/4/4/18292466/ball-pit-history-playground-plyplce-soft-play">A brief history of the ball&nbsp;pit</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/elena-goukassian/">
+						Elena Goukassian					</a>																		<a href="https://longreads.com/picks/publishers/vox-the-goods/">&nbsp;/&nbsp;Vox â The&nbsp;Goods</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="http://nymag.com/tags/marriage:%20an%20investigation">Marriage: An Investigation</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+													<a href="https://longreads.com/picks/publishers/new-york-magazine/">&nbsp;/&nbsp;New York Magazine</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="https://longreads.com/2019/04/04/how-does-a-person-lose-track-of-their-diary/">How Does a Person Lose Track of Their&nbsp;Diary?</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/sophie-lucido-johnson/">
+						Sophie Lucido Johnson					</a>																		<a href="https://longreads.com/picks/publishers/longreads/">&nbsp;/&nbsp;Longreads</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="https://longreads.com/2019/04/04/queens-of-infamy-josephine-bonaparte-part-two/">Queens of Infamy: Josephine Bonaparte, from Malmaison to More-Than-Monarch</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/anne-theriault/">
+						Anne ThÃ©riault					</a>																		<a href="https://longreads.com/picks/publishers/longreads/">&nbsp;/&nbsp;Longreads</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="https://www.buzzfeednews.com/article/josephbernstein/baraboo-nazi-prom-photo">A Sand County&nbsp;Photograph</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/joe-bernstein/">
+						Joe Bernstein					</a>																		<a href="https://longreads.com/picks/publishers/buzzfeed/">&nbsp;/&nbsp;BuzzFeed</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="https://www.guernicamag.com/here-we-abandon-all-destinations/">Here We Abandon All&nbsp;Destinations</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/amanda-feinman/">
+						Amanda Feinman					</a>																		<a href="https://longreads.com/picks/publishers/guernica-magazine/">&nbsp;/&nbsp;Guernica Magazine</a>
+							</div>
+		</div>
+		    </div>
+</div>
+
+<div class="article">
+		<div class="article-title"><a href="https://www.lrb.co.uk/v41/n03/mckenzie-funk/smoked-out?src=longreads">Smoked Out</a></div>
+	<div class="article_details">
+		<div class="article_details_left">
+			<div class="detail">
+									By 										<a href="https://longreads.com/picks/authors/mckenzie-funk/">
+						McKenzie Funk					</a>																		<a href="https://longreads.com/picks/publishers/london-review-of-books/">&nbsp;/&nbsp;London Review of&nbsp;Books</a>
+							</div>
+		</div>
+		    </div>
+</div>
+		<a class='more-picks h-small' href='/picks/page/2/'>View more</a>
+	</div>
+	<!-- End Picks -->
+
+	<!-- Start Latest Story mini-grid -->
+	<div class="latest-grid-mini">
+		<h3 class="h-three homepage-section-title"><a href="https://longreads.com/blog">Latest Posts</a></h3>
+		<div class="article-grid">
+			<article id="post-123181" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/the-suprising-history-of-the-ball-pit/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/gettyimages-89272285.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/the-suprising-history-of-the-ball-pit/">The Suprising History of the Ball&nbsp;Pit</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/kristastevens/" title="Posts by Krista Stevens" class="author url fn" rel="author">Krista Stevens</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/the-suprising-history-of-the-ball-pit/"><p>Enjoy the ball pit! I&#8217;ll be over here not swimming in pee. </p>
+</a></span>
+		</div>
+</article><article id="post-123169" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/if-following-mcmillan-cottom-and-gay-on-twitter-isnt-enough-here-you-go/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/tressie_mcmillan_cottom_author_photo_2016-1-1.png?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/if-following-mcmillan-cottom-and-gay-on-twitter-isnt-enough-here-you-go/">If Following McMillan Cottom and Gay on Twitter Isn&#8217;t Enough, Here You&nbsp;Go</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/michelleweber/" title="Posts by Michelle Weber" class="author url fn" rel="author">Michelle Weber</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/if-following-mcmillan-cottom-and-gay-on-twitter-isnt-enough-here-you-go/"><p>More of this sort of thing, thanks. </p>
+</a></span>
+		</div>
+</article><article id="post-123130" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/this-is-the-glittering-fringe-on-drag-inclusivity-at-the-rosemont/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/3cd75b9f-17ce-4dc6-9c80-ee9afeccc996-1-1-1-1200x800.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/this-is-the-glittering-fringe-on-drag-inclusivity-at-the-rosemont/">&#8220;This Is the Glittering Fringe&#8221;: On Drag Inclusivity at the&nbsp;Rosemont</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/kristastevens/" title="Posts by Krista Stevens" class="author url fn" rel="author">Krista Stevens</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/this-is-the-glittering-fringe-on-drag-inclusivity-at-the-rosemont/"><p>&#8216;âThe drag here is messy, not vanilla,&#8217; one regular tells me over the din. He sips his drink and settles on a word. &#8216;Genuine.'&#8221;</p>
+</a></span>
+		</div>
+</article><article id="post-123162" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/im-always-writing-against-this-idea-that-denvers-a-white-space/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/kali-fajardo.anstine-c-tyler-everett-3.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/im-always-writing-against-this-idea-that-denvers-a-white-space/">âIâm Always Writing Against This Idea That Denverâs a White&nbsp;Space.â</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/earthmorgan/" title="Posts by Adam Morgan" class="author url fn" rel="author">Adam Morgan</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/im-always-writing-against-this-idea-that-denvers-a-white-space/"><p>Kali Fajardo-Anstine talks about her new short story collection âSabrina &amp; Corina,â her obsession with dualities, and Chicano and Indigenous history in Denver. </p>
+</a></span>
+		</div>
+</article><article id="post-123092" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/03/when-zora-and-langston-took-a-road-trip/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/langston-and-zora5.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/03/when-zora-and-langston-took-a-road-trip/">When Zora and Langston Took a Road&nbsp;Trip</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/longreadseditors/" title="Posts by Longreads" class="author url fn" rel="author">Longreads</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/03/when-zora-and-langston-took-a-road-trip/"><p>In 1927, Zora Neale Hurston gave Langston Hughes a lift to Tuskegee in her Nash coupe, nicknamed âSassy Susie.â It was one of most fortuitous hangouts in literary history.</p>
+</a></span>
+		</div>
+</article>		</div>
+		
+	</div>
+	<!-- End Latest Story mini-grid -->
+
+	<!-- Start Email / Social -->
+	<div class="email-social">
+		<div class="entry-email-signup">
+	<div class="icon-email"></div>
+	<div class="email-signup-content">
+	    <h2 class="email-promo-title">Get the Longreads Weekly Email</h2>
+		<form action="//longreads.us2.list-manage.com/subscribe/post?u=1854296747731744c923a33ef&amp;id=bd2ad42066&SIGNUP=homepage" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate ui-form" target="_blank" novalidate>
+			<div class="email-promo-body">
+				Sign up to get the week&rsquo;s best Longreads delivered to your inbox every Friday afternoon.			</div>
+			<div class="mc-field-group ui-form">
+				<input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address">
+				<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="sm-button">
+			</div>
+			<div id="mce-responses" class="clear">
+				<div class="response" id="mce-error-response" style="display:none"></div>
+				<div class="response" id="mce-success-response" style="display:none"></div>
+			</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+			<div style="position: absolute; left: -5000px;"><input type="text" name="b_1854296747731744c923a33ef_bd2ad42066" tabindex="-1" value=""></div>
+	   </form>
+	</div>
+</div>
+
+					<div class="blog-sidebar-widget widget_links"><h3 class="widget-title">Follow Longreads</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="https://twitter.com/longreads/" title="Follow Longreads on Twitter">Twitter</a></li>
+<li><a href="https://longreads.com/blog/" title="Follow Longreads at WordPress.com">WordPress.com</a></li>
+<li><a href="https://facebook.com/longreads" title="Follow Longreads on Facebook">Facebook</a></li>
+<li><a href="https://instagram.com/longreads/">Instagram</a></li>
+
+	</ul>
+</div>
+			</div>
+	<!-- Start Email / Social -->
+
+	<!-- Start Latest Story grid -->
+	<div class="latest-grid">
+		<div class="article-grid non-scrolling">
+			<article id="post-122953" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/03/dancing-backup-puerto-ricans-in-the-american-muchedumbre/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/puerto-rico-dancers.jpeg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/03/dancing-backup-puerto-ricans-in-the-american-muchedumbre/">Dancing Backup: Puerto Ricans in the American&nbsp;Muchedumbre</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/carina428/" title="Posts by Carina del Valle Schorske" class="author url fn" rel="author">Carina del Valle Schorske</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/03/dancing-backup-puerto-ricans-in-the-american-muchedumbre/"><p>Carina del Valle Schorske traces a lineage of Puerto Rican backup dancers in American entertainment from Rita Moreno to JLo. </p>
+</a></span>
+		</div>
+</article><article id="post-123038" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/02/recalling-the-making-of-go-20-years-later/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/columbia-pictures-go.png?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/02/recalling-the-making-of-go-20-years-later/">Recalling the Making of &#8216;Go,&#8217; 20 Years&nbsp;Later</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/cherilucas/" title="Posts by Cheri Lucas Rowlands" class="author url fn" rel="author">Cheri Lucas Rowlands</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/02/recalling-the-making-of-go-20-years-later/"><p>Director Doug Liman and screenwriter John August look back on the production of their indie film <em>Go</em>, 20 years after its release.</p>
+</a></span>
+		</div>
+</article><article id="post-123032" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/02/but-you-look-fine-a-reading-list-about-disabilities-accommodations/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/gettyimages-1135348874-2.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/02/but-you-look-fine-a-reading-list-about-disabilities-accommodations/">But You Look Fine: A Reading List About Disabilities, Accommodations, and&nbsp;School</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/jalnesrun/" title="Posts by Jacqueline Alnes" class="author url fn" rel="author">Jacqueline Alnes</a>				<span class="grid-type"><a href="https://longreads.com/reading-lists">Reading List</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/02/but-you-look-fine-a-reading-list-about-disabilities-accommodations/"><p>Jacqueline Alnes brings us six stories on disability and discrimination in higher education. </p>
+</a></span>
+		</div>
+</article><article id="post-123012" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/02/confessions-of-a-clinical-therapy-trainee/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/gettyimages-184988200.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/02/confessions-of-a-clinical-therapy-trainee/">Confessions of a Clinical Therapy&nbsp;Trainee</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/kristastevens/" title="Posts by Krista Stevens" class="author url fn" rel="author">Krista Stevens</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/02/confessions-of-a-clinical-therapy-trainee/"><p>What do you do when it&#8217;s your first day on the job and the patient can&#8217;t stop crying?</p>
+</a></span>
+		</div>
+</article><article id="post-122966" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/02/busting-broncos-and-the-patriarchy/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/ap_111014143767.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/02/busting-broncos-and-the-patriarchy/">Busting Broncos and the&nbsp;Patriarchy</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/aarongilbreath/" title="Posts by Aaron Gilbreath" class="author url fn" rel="author">Aaron Gilbreath</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/02/busting-broncos-and-the-patriarchy/"><p>After nearly a century of being denied the opportunity, women are riding bucking broncos in American rodeo once again, and regaining the respect they deserve.</p>
+</a></span>
+		</div>
+</article>		</div>
+	</div>
+	<!-- End Latest Story grid -->
+</section>
+
+<div class="orn-banner more-posts">
+	<div class="orn-banner-inner">
+		<div class="left-orn orn"></div>
+			<a class="sm-button" href="#" data-do-not-duplicate='[122913,122582,123117,122302]'>View more posts</a>
+		<div class="right-orn orn"></div>
+	</div>
+</div>
+
+<!-- Start Popular Posts grid -->
+<div class="popular-grid">
+	<h3 class="h-three homepage-section-title">Popular Posts</h3>
+	<div class="article-grid non-scrolling">
+	<article id="post-122225" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/19/is-it-ever-too-late-to-pursue-a-dream/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/stoddard-header.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/19/is-it-ever-too-late-to-pursue-a-dream/">Is It Ever Too Late to Pursue a&nbsp;Dream?</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/hudsongiles/" title="Posts by Matt Giles" class="author url fn" rel="author">Matt Giles</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/19/is-it-ever-too-late-to-pursue-a-dream/"><p>Dan Stoddard believes there is room in the NBA for a 42-year-old rookie.</p>
+</a></span>
+		</div>
+</article><article id="post-121913" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/13/a-three-day-expedition-to-walk-across-paris-entirely-underground/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/gettyimages-463974171.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/13/a-three-day-expedition-to-walk-across-paris-entirely-underground/">A Three-Day Expedition To Walk Across Paris Entirely&nbsp;Underground</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/longreadseditors/" title="Posts by Longreads" class="author url fn" rel="author">Longreads</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/13/a-three-day-expedition-to-walk-across-paris-entirely-underground/"><p>Journalist Will Hunt, who made the crossing with a group of urban explorers, recounts being menaced by rainwater and rats â and meeting fellow subterranean wanderers along the way.</p>
+</a></span>
+		</div>
+</article><article id="post-122869" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/29/on-flooding-drowning-the-culture-in-sameness/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/ap_19086107810062.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/29/on-flooding-drowning-the-culture-in-sameness/">On Flooding: Drowning the Culture in&nbsp;Sameness</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/sorayanroberts/" title="Posts by Soraya Roberts" class="author url fn" rel="author">Soraya Roberts</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/29/on-flooding-drowning-the-culture-in-sameness/"><p>Flooding (v.): Unleashing a mass torrent of the same stories by the same storytellers at the same time, making it almost impossible for anyone but the same select few to rise to the surface.</p>
+</a></span>
+		</div>
+</article><article id="post-121089" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/05/the-problem-with-nostalgia/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/02/rose-glasses-musto-new-york-1.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/05/the-problem-with-nostalgia/">The Problem With&nbsp;Nostalgia</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/mmusto677/" title="Posts by Michael Musto" class="author url fn" rel="author">Michael Musto</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/05/the-problem-with-nostalgia/"><p>Michael Musto argues that wearing rose-colored glasses always leads to an unfair distortion â looking back on the best of the past while comparing it to the worst of the present. </p>
+</a></span>
+		</div>
+</article><article id="post-101522" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2018/01/09/10-outstanding-short-stories-to-read-in-2018/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2018/01/null.jpeg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2018/01/09/10-outstanding-short-stories-to-read-in-2018/">10 Outstanding Short Stories to Read in&nbsp;2018</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/longreadseditors/" title="Posts by Longreads" class="author url fn" rel="author">Longreads</a>				<span class="grid-type"><a href="https://longreads.com/reading-lists">Reading List</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2018/01/09/10-outstanding-short-stories-to-read-in-2018/"><p>Must-read stories from Han Kang, Porochista Khakpour, and Min Jin Lee. </p>
+</a></span>
+		</div>
+</article><article id="post-121705" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/11/after-the-tsunami/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/japan-tsunami.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/11/after-the-tsunami/">After the Tsunami</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/indiesummit/" title="Posts by Matthew Komatsu" class="author url fn" rel="author">Matthew Komatsu</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/11/after-the-tsunami/"><p>After the 2011 disaster, which killed his grandmother and laid waste to his ancestral home, an American journeys to Japan to search for what the tsunami left in its wake.</p>
+</a></span>
+		</div>
+</article>	</div>
+</div>
+<!-- End Popular Posts grid -->
+ 
+<section class="home-bottom">
+	<!-- Start featured categories -->
+					<div class="latest-grid-category">
+			<h3 class="h-three homepage-section-title"><a class="icon-next" href="https://longreads.com/category/books/">Books</a></h3>
+			<div class="article-grid">
+			   <article id="post-123169" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/if-following-mcmillan-cottom-and-gay-on-twitter-isnt-enough-here-you-go/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/tressie_mcmillan_cottom_author_photo_2016-1-1.png?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/if-following-mcmillan-cottom-and-gay-on-twitter-isnt-enough-here-you-go/">If Following McMillan Cottom and Gay on Twitter Isn&#8217;t Enough, Here You&nbsp;Go</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/michelleweber/" title="Posts by Michelle Weber" class="author url fn" rel="author">Michelle Weber</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/if-following-mcmillan-cottom-and-gay-on-twitter-isnt-enough-here-you-go/"><p>More of this sort of thing, thanks. </p>
+</a></span>
+		</div>
+</article><article id="post-123162" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/im-always-writing-against-this-idea-that-denvers-a-white-space/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/kali-fajardo.anstine-c-tyler-everett-3.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/im-always-writing-against-this-idea-that-denvers-a-white-space/">âIâm Always Writing Against This Idea That Denverâs a White&nbsp;Space.â</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/earthmorgan/" title="Posts by Adam Morgan" class="author url fn" rel="author">Adam Morgan</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/im-always-writing-against-this-idea-that-denvers-a-white-space/"><p>Kali Fajardo-Anstine talks about her new short story collection âSabrina &amp; Corina,â her obsession with dualities, and Chicano and Indigenous history in Denver. </p>
+</a></span>
+		</div>
+</article><article id="post-123117" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/the-unreliable-reader/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/woman-disappearing-cardbeige.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/the-unreliable-reader/">The Unreliable Reader</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/weitchou/" title="Posts by Wei Tchou" class="author url fn" rel="author">Wei Tchou</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/the-unreliable-reader/"><p>In EsmÃ© Weijun Wangâs book of personal essays, âThe Collected Schizophrenias,â itâs the reader, not the writer, who is an unreliable narrator.</p>
+</a></span>
+		</div>
+</article><article id="post-123092" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/03/when-zora-and-langston-took-a-road-trip/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/langston-and-zora5.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/03/when-zora-and-langston-took-a-road-trip/">When Zora and Langston Took a Road&nbsp;Trip</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/longreadseditors/" title="Posts by Longreads" class="author url fn" rel="author">Longreads</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/03/when-zora-and-langston-took-a-road-trip/"><p>In 1927, Zora Neale Hurston gave Langston Hughes a lift to Tuskegee in her Nash coupe, nicknamed âSassy Susie.â It was one of most fortuitous hangouts in literary history.</p>
+</a></span>
+		</div>
+</article><article id="post-122957" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/02/theres-virtually-no-conversation-in-chicago-about-the-aftershocks-of-the-violence/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/gettyimages-630729260-4.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/02/theres-virtually-no-conversation-in-chicago-about-the-aftershocks-of-the-violence/">âThereâs Virtually No Conversation In Chicago â¦ About the Aftershocks of the&nbsp;Violence.â</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/hopereese/" title="Posts by Hope Reese" class="author url fn" rel="author">Hope Reese</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/02/theres-virtually-no-conversation-in-chicago-about-the-aftershocks-of-the-violence/"><p>In &#8220;An American Summer,&#8221; journalist Alex Kotlowitz tries to report on gun deaths on Chicago&#8217;s South Side with the same attention to survivors, anniversaries, and aftershocks that is paid to mass shootings.</p>
+</a></span>
+		</div>
+</article>			</div>
+			<a class="h-small" href="https://longreads.com/category/books/">View all</a>
+		</div> 		<div class="latest-grid-category">
+			<h3 class="h-three homepage-section-title"><a class="icon-next" href="https://longreads.com/category/current-events/">Current Events</a></h3>
+			<div class="article-grid">
+			   <article id="post-122957" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/02/theres-virtually-no-conversation-in-chicago-about-the-aftershocks-of-the-violence/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/gettyimages-630729260-4.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/02/theres-virtually-no-conversation-in-chicago-about-the-aftershocks-of-the-violence/">âThereâs Virtually No Conversation In Chicago â¦ About the Aftershocks of the&nbsp;Violence.â</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/hopereese/" title="Posts by Hope Reese" class="author url fn" rel="author">Hope Reese</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/02/theres-virtually-no-conversation-in-chicago-about-the-aftershocks-of-the-violence/"><p>In &#8220;An American Summer,&#8221; journalist Alex Kotlowitz tries to report on gun deaths on Chicago&#8217;s South Side with the same attention to survivors, anniversaries, and aftershocks that is paid to mass shootings.</p>
+</a></span>
+		</div>
+</article><article id="post-122656" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/29/the-manhandling-of-rock-n-roll-history/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/gettyimages-665561004.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/29/the-manhandling-of-rock-n-roll-history/">The Manhandling of Rock &#8216;N&#8217; Roll&nbsp;History</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/journalismandnewmedia/" title="Posts by Evelyn McDonnell" class="author url fn" rel="author">Evelyn McDonnell</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/29/the-manhandling-of-rock-n-roll-history/"><p>Less than 8 percent of the Rock &amp; Roll Hall of Fameâs inductees are women. Time for it to step up and induct an all-female class in 2020.</p>
+</a></span>
+		</div>
+</article><article id="post-122255" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/19/an-american-city-inhabited-yet-abandoned/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/ap_143848525673.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/19/an-american-city-inhabited-yet-abandoned/">An American City, Inhabited Yet&nbsp;Abandoned</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/michelleweber/" title="Posts by Michelle Weber" class="author url fn" rel="author">Michelle Weber</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/19/an-american-city-inhabited-yet-abandoned/"><p>&#8220;Not a single person was killed on the day of the rioting. But the following month, May, would conclude with 41 homicides â the most the city had experienced in a month since the 1970s.&#8221;</p>
+</a></span>
+		</div>
+</article><article id="post-122176" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/18/the-power-of-a-neighborhoods-name/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/ap_18352565650220.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/18/the-power-of-a-neighborhoods-name/">The Power of a Neighborhood&#8217;s Name</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/aarongilbreath/" title="Posts by Aaron Gilbreath" class="author url fn" rel="author">Aaron Gilbreath</a>				<span class="grid-type"><a href="https://longreads.com/highlights">Highlight</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/18/the-power-of-a-neighborhoods-name/"><p>When Google Maps&#8217; data renamed an African American neighborhood, it opened up residents to the looming forces of gentrification.</p>
+</a></span>
+		</div>
+</article><article id="post-122084" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/03/15/how-the-shock-jock-became-the-outrage-jock/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/soraya-shock-jocks-1.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/03/15/how-the-shock-jock-became-the-outrage-jock/">How the Shock Jock Became the Outrage&nbsp;Jock</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/sorayanroberts/" title="Posts by Soraya Roberts" class="author url fn" rel="author">Soraya Roberts</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/03/15/how-the-shock-jock-became-the-outrage-jock/"><p>What&#8217;s the difference between Howard Stern and Tucker Carlson? There isn&#8217;t really one.</p>
+</a></span>
+		</div>
+</article>			</div>
+			<a class="h-small" href="https://longreads.com/category/current-events/">View all</a>
+		</div> 		<div class="latest-grid-category">
+			<h3 class="h-three homepage-section-title"><a class="icon-next" href="https://longreads.com/category/essays-criticism/">Essays &amp; Criticism</a></h3>
+			<div class="article-grid">
+			   <article id="post-123117" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/the-unreliable-reader/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/04/woman-disappearing-cardbeige.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/the-unreliable-reader/">The Unreliable Reader</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/weitchou/" title="Posts by Wei Tchou" class="author url fn" rel="author">Wei Tchou</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/the-unreliable-reader/"><p>In EsmÃ© Weijun Wangâs book of personal essays, âThe Collected Schizophrenias,â itâs the reader, not the writer, who is an unreliable narrator.</p>
+</a></span>
+		</div>
+</article><article id="post-122582" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/04/how-does-a-person-lose-track-of-their-diary/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/sophie-johnson-header.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/04/how-does-a-person-lose-track-of-their-diary/">How Does a Person Lose Track of Their&nbsp;Diary?</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/sophielucidojohnson/" title="Posts by Sophie Lucido Johnson" class="author url fn" rel="author">Sophie Lucido Johnson</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/04/how-does-a-person-lose-track-of-their-diary/"><p>Stumbling upon someone&#8217;s lost journal in a used book store leads Sophie Lucido Johnson down a path she couldn&#8217;t have expected. </p>
+</a></span>
+		</div>
+</article><article id="post-122953" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/03/dancing-backup-puerto-ricans-in-the-american-muchedumbre/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/puerto-rico-dancers.jpeg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/03/dancing-backup-puerto-ricans-in-the-american-muchedumbre/">Dancing Backup: Puerto Ricans in the American&nbsp;Muchedumbre</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/carina428/" title="Posts by Carina del Valle Schorske" class="author url fn" rel="author">Carina del Valle Schorske</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/03/dancing-backup-puerto-ricans-in-the-american-muchedumbre/"><p>Carina del Valle Schorske traces a lineage of Puerto Rican backup dancers in American entertainment from Rita Moreno to JLo. </p>
+</a></span>
+		</div>
+</article><article id="post-122973" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/02/they-call-her-la-primera-jai-alais-last-hope/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/women-jai-alai.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/02/they-call-her-la-primera-jai-alais-last-hope/">They Call Her La Primera, Jai Alai&#8217;s Last&nbsp;Hope</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/britnidlc/" title="Posts by Britni de la Cretaz" class="author url fn" rel="author">Britni de la Cretaz</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/02/they-call-her-la-primera-jai-alais-last-hope/"><p>Three decades ago, Becky Smith wanted to become jai alai&#8217;s first woman pro. Now the sport can&#8217;t make a comeback without her.</p>
+</a></span>
+		</div>
+</article><article id="post-122559" class="grid-article">
+					<a class="grid-thumbnail" href="https://longreads.com/2019/04/01/honey-bees-worker-bees-and-the-economic-violence-of-land-grabs/">
+				<div class="thumbnail-image" style="background-image:url( https://longreadsblog.files.wordpress.com/2019/03/honeybee-environment.jpg?w=1024 )">
+				</div>
+			</a>
+				<div class="grid-text">
+			<span class="grid-title"><a href="https://longreads.com/2019/04/01/honey-bees-worker-bees-and-the-economic-violence-of-land-grabs/">Honey Bees, Worker Bees, and the Economic Violence of Land&nbsp;Grabs</a></span>
+			<div class="grid-meta">
+				By 				<a href="https://longreads.com/author/melissachadburn/" title="Posts by Melissa Chadburn" class="author url fn" rel="author">Melissa Chadburn</a>				<span class="grid-type"><a href="https://longreads.com/features">Feature</a></span>			</div>
+			<span class="grid-excerpt"><a href="https://longreads.com/2019/04/01/honey-bees-worker-bees-and-the-economic-violence-of-land-grabs/"><p>Melissa Chadburn challenges her own belief that environmental justice issues are reserved for people of privilege.</p>
+</a></span>
+		</div>
+</article>			</div>
+			<a class="h-small" href="https://longreads.com/category/essays-criticism/">View all</a>
+		</div> 		<!-- End featured categories -->
+</section>
+ 
+<div class="orn-banner single-line">
+	<div class="orn-banner-inner">
+		<div class="left-orn orn"></div>
+		<div class="right-orn orn"></div>
+	</div>
+</div>
+
+<div class='sponsor-728'>		<style>
+		div.sponsor-300 { display:block !important; }
+		</style>
+		<div style="padding-bottom:15px;width:728px;height:90px;">
+		<div id="atatags-701357621-3189">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-701357621-3189',  {
+					collapseEmpty: 'after',
+					sectionId: '701357621',
+					width: 728,
+					height: 90
+				});
+			});
+			</script>
+		</div></div></div><div class="wp-footer">
+	<div class="wp-footer__container">
+		<svg class="wp-footer__logo" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><title>wordpress-logo</title><path d="M18 0c-9.925 0-18 8.075-18 17.999 0 9.926 8.075 18.001 18 18.001s18-8.075 18-18.001c0-9.925-8.075-17.999-18-17.999zm-16.183 17.999c0-2.346.503-4.574 1.401-6.587l7.72 21.151c-5.399-2.623-9.121-8.158-9.121-14.564zm16.183 16.185c-1.589 0-3.122-.234-4.572-.659l4.856-14.11 4.974 13.629.116.222c-1.682.592-3.489.918-5.374.918zm2.23-23.772c.974-.051 1.852-.154 1.852-.154.872-.103.77-1.385-.103-1.334 0 0-2.621.206-4.314.206-1.59 0-4.262-.206-4.262-.206-.873-.051-.975 1.282-.102 1.334 0 0 .825.103 1.697.154l2.521 6.908-3.542 10.621-5.893-17.529c.975-.051 1.852-.154 1.852-.154.872-.103.769-1.385-.104-1.334 0 0-2.621.206-4.313.206-.303 0-.661-.008-1.042-.02 2.894-4.393 7.868-7.294 13.522-7.294 4.213 0 8.049 1.611 10.928 4.249l-.209-.013c-1.59 0-2.718 1.385-2.718 2.873 0 1.334.769 2.462 1.59 3.795.615 1.078 1.334 2.462 1.334 4.463 0 1.386-.411 3.129-1.231 5.232l-1.614 5.393-5.848-17.396zm5.906 21.575l4.943-14.291c.924-2.309 1.231-4.155 1.231-5.796 0-.596-.039-1.149-.109-1.664 1.263 2.305 1.982 4.95 1.982 7.764 0 5.97-3.236 11.183-8.047 13.988z" fill="#0087BE"/></svg>
+		<div class="wp-footer__text">
+			<a href="https://wordpress.com/?aff=2669" class="wp-footer__link">
+				<h2 class="wp-footer__headline">Proudly powered by WordPress</h2>
+				<p class="wp-footer__body">
+					Create your own site at WordPress.com					<svg class="wp-footer__arrow" width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg"><title>arrow-right</title><path d="M1.502 16l8.498-8-8.498-8-1.502 1.414 6.996 6.586-6.996 6.586z" fill="#555"/></svg>
+				</p>
+			</a>
+		</div>
+	</div>
+</div><script type='text/javascript'>
+								var _gaq = _gaq || [];
+								_gaq.push(['_setAccount', 'UA-19317901-1']);
+_gaq.push(['_trackPageview']);
+
+								(function() {
+									var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+									ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+									var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+								})();
+							</script>
+</div>
+
+<footer id="footer" class="h-small" role="contentinfo">
+	<div class="footer-links">
+		<a href="https://longreadsblog.wordpress.com/">Home</a>
+		<a href="https://longreadsblog.wordpress.com/about/">About</a>
+		<a href="https://longreads.com/member/">Membership</a>
+		<a href="https://longreadsblog.wordpress.com/faq/">FAQ</a>
+		<a href="https://longreadsblog.wordpress.com/submissions/">Submissions</a>
+		<a href="http://automattic.com/privacy">Privacy Policy</a>
+		<a href="https://longreadsblog.wordpress.com/press/">Press</a>
+		<a id="rss-link" class="icon-rss" href="https://longreads.com/feed/">RSS Feed</a>
+		<div id="footer-automattic">
+			Part of the <a href="http://www.automattic.com" id="automattic-logo">Automattic</a> family.
+		</div>
+		<div id="copyright">
+			&copy; 2019 Longreads		</div>
+	</div>
+	<div style='display: none'>
+		get_longreads_user_info:
+		false	</div>
+</footer>
+</div> <!-- Closing .site-content__wrapper -->
+</div>
+<script type="text/javascript">
+	// Tracks functions
+	window._tkq = window._tkq || []; window._tkq.push( [ 'recordEvent', 'wpcom_longreads_page_view', {
+		utm_campaign: 'longreads.com'
+	} ] );
+	jQuery( function($) {
+		$( '.become-member' ).on( 'click', function() {
+			_tkq.push( ['recordEvent', 'wpcom_longreads_membership_click',{
+				utm_campaign: 'donate-button'
+			} ] );
+		});
+	});
+	 </script>
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"70135762","siteName":"Longreads","siteURL":"https:\/\/longreads.com","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/e68667ec6ee7cdd0c6b5416a84c52a9c?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"a8c\/longreads","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Flongreads.com%2F&signup_flow=account&domain=longreads.com","themeURL":"","xhrURL":"https:\/\/longreads.com\/wp-admin\/admin-ajax.php","nonce":"27b1b17b50","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"1c7238d9da\" \/>","referer":"https:\/\/longreads.com\/","canFollow":"1","feedID":"22973954","statusMessage":"","customizeLink":"https:\/\/longreadsblog.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Flongreadsblog.wordpress.com%2F","postID":"55333","shortlink":"https:\/\/wp.me\/P4KhvY-eot","canEditPost":"","editLink":"https:\/\/wordpress.com\/page\/longreads.com\/55333","statsLink":"https:\/\/wordpress.com\/stats\/post\/55333\/longreads.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Longreads","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 39,602,722 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Flongreads.com%2F&signup_flow=account&domain=longreads.com\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyVkN1uwjAMhV9oqUEDxC6mPYubWOA0f0ucFnh6UiFVGxeVeuccn+/IJzAlpWMQCgK2gKGRNaVbZ8sH/Fn5qpKrFw4FHA9U4LdSpSsG4yivmHX0vknqBdmZ7qFMnGgL9E9YASc2F5ICVNs2DkzK4QRCPjkUetPfc+RKvnlGTrBUxcdduYhmPsK2yvnelRgwd57DVn55rBRA04JVjxk8FqHcJhVHyplNi160jQmSUQ9r/4ZaOIYZWqbm/vHf++Ph63N/OJ139gnjZM8i'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'70135762','blog_tz':'-4','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'70135762','v':'wpcom','tz':'-4','user_id':'0','post':'55333','subd':'longreadsblog'}]);
+_stq.push(['extra', {'crypt':'UE5tW3cvZGRkOFF6NmFWW245RUxZPXRYY2RWLGJYd3dqRWRERHoseDlnUmduLjhuOXE/flVPOW0rOSVTNXo5c3xnLGx0Y2RYQ1hRbVhlVllidW1XTTNMNm1kPV1zb1B4RTZJUURYOThBP0xNRUNIaDRpJi8wSGstflVPbzEvYzQwJWVBckNSV04/Rl1qRVF1cG1wM2suU3pXQ1R0U05sWl8uQ1AzRE00bVpkcnBiLS0yMCU5MkRScmNEUGRoLnlrakVJZGRGT2k3Qnc='}]);
+_stq.push([ 'clickTrackerInit', '70135762', '55333' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
+<!--
+	generated 245 seconds ago
+	generated in 0.316 seconds
+	served from batcache in 0.002 seconds
+	expires in 55 seconds
+-->
+
+
+
+#####EOF#####
+
+

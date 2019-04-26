@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8"><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://thinkprogress.org/xmlrpc.php">
+<link rel="canonical" href="https://thinkprogress.org/fema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37/" /><meta property="fb:pages" content="200137333331078" />
+<meta property="fb:pages" content="187005858017014" />
+
+<title>FEMA exposed more than 2 million wildfire and hurricane survivors to identity theft and fraud &#8211; ThinkProgress</title>
+		<script>
+			var trackingData = {"accounts":{"google_analytics":"UA-246439-51","google_optimize":"GTM-5BNQ673","omniture":null},"dimensions":{"context":"post","taxonomy":"Climate, News","meta":"FEMA exposed more than 2 million wildfire and hurricane survivors to identity theft and fraud","date":"March 23, 2019","authors":"E.A. Crunden"},"dimension_map":["context","taxonomy","meta","date","authors"]};
+		</script>
+		<link rel='dns-prefetch' href='//use.typekit.net' />
+<link rel='dns-prefetch' href='//embedmaker.com' />
+<link rel='dns-prefetch' href='//www.google-analytics.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="ThinkProgress &raquo; Feed" href="https://thinkprogress.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="ThinkProgress &raquo; Comments Feed" href="https://thinkprogress.org/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/thinkprogress.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.1.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0' href='https://thinkprogress.org/_static/??-eJxtjDkOwjAQAD+EszlsORSIt/hKYuJL3o1Qfo+JKOmmmBl4F+aTCYd1CAYRrEcCHbLZWfC6qnoC0hlcF33qmnCDVpicyCUC2lxsHW0+7aXmtTpENvaDbI0ib67jGrJWoeOLlYuwfJnvyohe36dR/p3Gg5VwrD4hvBwVZfZr8+Ov/oyPQQg+jXyW4wf3j0Sl' type='text/css' media='all' />
+<script type='text/javascript' src='https://thinkprogress.org/_static/??-eJzTLy/QzcxLzilNSS3WzwKiwtLUokoopZdVrKOPT4FubmZ6UWJJql5uZh5QsX2uraGpqZGJiZGhhUEWACVeIKY='></script>
+<script type='text/javascript' src='https://use.typekit.net/gzl3ldg.js?ver=5.1.1'></script>
+<script type='text/javascript' src='https://embedmaker.com/front/resize.js?ver=5.1.1'></script>
+<script type='text/javascript' src='//www.google-analytics.com/analytics.js?ver=1.0.0'></script>
+<link rel='https://api.w.org/' href='https://thinkprogress.org/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://thinkprogress.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://thinkprogress.org/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.1.1" />
+<link rel='shortlink' href='https://wp.me/p92reE-4JJc' />
+<link rel="alternate" type="application/json+oembed" href="https://thinkprogress.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fthinkprogress.org%2Ffema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://thinkprogress.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fthinkprogress.org%2Ffema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37%2F&#038;format=xml" />
+
+<link rel='dns-prefetch' href='//v0.wordpress.com'/>
+<style type='text/css'>img#wpstats{display:none}</style>			<meta property="fb:pages" content="200137333331078" />
+							<meta property="ia:markup_url" content="https://thinkprogress.org/fema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37/?ia_markup=1" />
+						<style>
+		.getty.aligncenter {
+			text-align: center;
+		}
+		.getty.alignleft {
+			float: none;
+			margin-right: 0;
+		}
+		.getty.alignleft > div {
+			float: left;
+			margin-right: 5px;
+		}
+		.getty.alignright {
+			float: none;
+			margin-left: 0;
+		}
+		.getty.alignright > div {
+			float: right;
+			margin-left: 5px;
+		}
+		</style>
+		<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+<script async type="text/javascript" src="https://cdn.connatix.com/min/connatix.renderer.infeed.min.js" data-connatix-token="7494cbdc-89f9-404e-84d1-150bef69abfc"></script>
+<script>window._izq = window._izq || []; window._izq.push(["init"]); </script>
+<script async src="https://cdn.izooto.com/scripts/471264bb5807e3505e1013efd4e2261e98d8c7a1.js"></script>
+<script type="text/javascript">
+	/* CONFIG SCRIPT */
+	var _sf_async_config = _sf_async_config || {};
+	_sf_async_config.uid = 65363;
+	_sf_async_config.domain = "thinkprogress.org";
+	_sf_async_config.useCanonical = true;
+			_sf_async_config.sections = "Climate,Fema,Hurricane Harvey,Hurricane Maria,Politics,Puerto Rico,Texas,The South";
+		_sf_async_config.authors = "E.A. Crunden";
+	</script>
+<meta property="og:title" content="FEMA exposed more than 2 million wildfire and hurricane survivors to identity theft and fraud"/><meta property="og:url" content="https://thinkprogress.org/fema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37/"/><meta property="og:type" content="article"/><meta property="og:description" content="The agency has struggled with chronic understaffing and a dearth of leadership amid an uptick in deadly disasters."/><meta property="og:image" content="https://thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=1920&amp;h=1080&amp;crop=1"/><meta property="og:image:url" content="https://thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=1920&amp;h=1080&amp;crop=1"/><meta property="og:image:width" content="1920"/><meta property="og:image:height" content="1080"/><meta property="twitter:card" content="summary_large_image"/><meta property="twitter:title" content="FEMA exposed more than 2 million wildfire and hurricane survivors to identity theft and fraud"/><meta property="twitter:site" content="@thinkprogress"/><meta property="twitter:description" content="The agency has struggled with chronic understaffing and a dearth of leadership amid an uptick in deadly disasters."/><meta property="twitter:image" content="https://thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=1920&amp;h=1080&amp;crop=1"/><meta property="twitter:creator" content="@@eacrunden"/><meta property="article:publisher" content="https://www.facebook.com/ThinkProgress"/><meta property="article:author" content="https://facebook.com/eacrunden"/><meta property="fb:smart_publish:robots" content="auto"/>			<script>
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({
+					'trackingData' : window.trackingData
+				});
+			</script>
+		<link rel="amphtml" href="https://thinkprogress.org/fema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37/amp/" />			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-TQH7NW9');</script>
+		<link rel="icon" href="https://thinkprogress.org/wp-content/uploads/2018/04/cropped-favicon-512.png?w=32" sizes="32x32" />
+<link rel="icon" href="https://thinkprogress.org/wp-content/uploads/2018/04/cropped-favicon-512.png?w=192" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://thinkprogress.org/wp-content/uploads/2018/04/cropped-favicon-512.png?w=180" />
+<meta name="msapplication-TileImage" content="https://thinkprogress.org/wp-content/uploads/2018/04/cropped-favicon-512.png?w=270" />
+<script>
+	window.adthrive = window.adthrive || {};
+	window.adthrive.cmd = window.adthrive.cmd || [];
+	window.adthrive.host = 'ads.adthrive.com';
+	window.adthrive.plugin = 'adthrive-ads-1.0.31';
+	window.adthrive.threshold = Math.floor(Math.random() * 100 + 1);
+	window.adthrive.cmd.push(function() {
+		window.adthrive.disableAds(['/partner/*']);
+	});
+	(function() {
+		var script = document.createElement('script');
+		script.async = true;
+		script.type = 'text/javascript';
+		script.src = document.location.protocol +
+		'//ads.adthrive.com/sites/5c80465ca73f8d32e809e19d/ads.min.js?threshold=' +
+		window.adthrive.threshold;
+		var node = document.getElementsByTagName('script')[0];
+		node.parentNode.insertBefore(script, node);
+	})();
+</script>
+</head>
+
+<body class="post-template-default single single-post postid-1129094 single-format-standard sidebar-off sticky-share">
+	
+		<div id="wrap-site" class="wrap-site">
+		
+<nav class="mobile-nav">
+	<div class="mobile-nav__content">
+		<div class="main-menu">
+			<ul id="menu-mobile-menu" class="menu"><li id="menu-item-1016149" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1016149"><a href="https://thinkprogress.org/latest/">Latest Stories</a></li>
+<li id="menu-item-1093457" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093457"><a href="https://thinkprogress.org/newsletter/">Newsletter</a></li>
+<li id="menu-item-1103967" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1103967"><a href="https://thinkprogress.org/masthead/">MASTHEAD</a></li>
+<li id="menu-item-1105561" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1105561"><a href="https://thinkprogress.org/donate/">Donate</a></li>
+<li id="menu-item-1093891" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093891"><a href="https://thinkprogress.org/membership/">Membership</a></li>
+<li id="menu-item-1093459" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093459"><a href="https://thinkprogress.org/contact-us/">Contact Us</a></li>
+<li id="menu-item-1016151" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1016151"><a href="https://thinkprogress.org/about/">ABOUT</a></li>
+<li id="menu-item-1103969" class="color-climate-green menu-item menu-item-type-custom menu-item-object-custom menu-item-1103969"><a href="https://thinkprogress.org/climate">ClimateProgress</a></li>
+</ul>			<footer class="mobile-nav__footer">
+				<div class="mobile-nav__search">
+					<span class="header-search">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="-95 85 32 32"><title>Search icon</title><path d="M-63.7 112.1l-7.7-7.7c1.2-1.9 1.8-4.1 1.8-6.5 0-6.9-6-12.9-12.9-12.9S-95 90.6-95 97.5s6 12.9 12.9 12.9c2.3 0 4.5-.6 6.3-1.7l7.7 7.7c.8.8 2 .8 2.7 0l1.9-1.9c.8-.7.5-1.7-.2-2.4zm-27.4-14.6c0-4.8 3.9-8.7 8.7-8.7s9.1 4.3 9.1 9.1-3.9 8.7-8.7 8.7-9.1-4.3-9.1-9.1z"/></svg>
+					</span>
+					
+<form role="search" method="get" class="search-form search-form--context-mobile" action="https://thinkprogress.org/">
+	<button class="search-form__button">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="-95 85 32 32"><title>Search icon</title><path d="M-63.7 112.1l-7.7-7.7c1.2-1.9 1.8-4.1 1.8-6.5 0-6.9-6-12.9-12.9-12.9S-95 90.6-95 97.5s6 12.9 12.9 12.9c2.3 0 4.5-.6 6.3-1.7l7.7 7.7c.8.8 2 .8 2.7 0l1.9-1.9c.8-.7.5-1.7-.2-2.4zm-27.4-14.6c0-4.8 3.9-8.7 8.7-8.7s9.1 4.3 9.1 9.1-3.9 8.7-8.7 8.7-9.1-4.3-9.1-9.1z"/></svg>
+	</button>
+	<input type="search" class="search-form__field" placeholder="Search" value="" name="s" />
+	<div class="search-form__close">
+		<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	<title>Close icon</title>
+	<path d="M24 2.4L21.6 0 12 9.6 2.4 0 0 2.4 9.6 12 0 21.6 2.4 24l9.6-9.6 9.6 9.6 2.4-2.4-9.6-9.6z" fill="#FFF" fill-rule="nonzero"/>
+</svg>
+	</div>
+</form>
+				</div>
+				<div class="mobile-nav__social">
+						<ul class="social-nav social-nav--context-mobile">
+									<li>
+					<a class="icon icon-facebook" target="_blank" href="https://www.facebook.com/thinkprogress">
+						<span class="label">Facebook</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-twitter" target="_blank" href="https://twitter.com/thinkprogress">
+						<span class="label">Twitter</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-youtube" target="_blank" href="https://www.youtube.com/thinkprogress">
+						<span class="label">Youtube</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-instagram" target="_blank" href="https://www.instagram.com/thinkprogress">
+						<span class="label">Instagram</span>
+					</a>
+				</li>
+						</ul>
+				</div>
+			</footer>
+		</div>
+	</div>
+</nav>
+		<div id="page" class="hfeed site pushable">
+
+			<header id="masthead" class="header-site" role="banner">
+				<div class="header-site__container">
+					<div class="header-site__items">
+						<div class="header-site__nav-left">
+							<div class="header-site__nav">
+								
+<form role="search" method="get" class="search-form search-form--context-header" action="https://thinkprogress.org/">
+	<button class="search-form__button">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="-95 85 32 32"><title>Search icon</title><path d="M-63.7 112.1l-7.7-7.7c1.2-1.9 1.8-4.1 1.8-6.5 0-6.9-6-12.9-12.9-12.9S-95 90.6-95 97.5s6 12.9 12.9 12.9c2.3 0 4.5-.6 6.3-1.7l7.7 7.7c.8.8 2 .8 2.7 0l1.9-1.9c.8-.7.5-1.7-.2-2.4zm-27.4-14.6c0-4.8 3.9-8.7 8.7-8.7s9.1 4.3 9.1 9.1-3.9 8.7-8.7 8.7-9.1-4.3-9.1-9.1z"/></svg>
+	</button>
+	<input type="search" class="search-form__field" placeholder="Search" value="" name="s" />
+	<div class="search-form__close">
+		<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	<title>Close icon</title>
+	<path d="M24 2.4L21.6 0 12 9.6 2.4 0 0 2.4 9.6 12 0 21.6 2.4 24l9.6-9.6 9.6 9.6 2.4-2.4-9.6-9.6z" fill="#FFF" fill-rule="nonzero"/>
+</svg>
+	</div>
+</form>
+								<span class="header-search">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-95 85 32 32"><title>Search icon</title><path d="M-63.7 112.1l-7.7-7.7c1.2-1.9 1.8-4.1 1.8-6.5 0-6.9-6-12.9-12.9-12.9S-95 90.6-95 97.5s6 12.9 12.9 12.9c2.3 0 4.5-.6 6.3-1.7l7.7 7.7c.8.8 2 .8 2.7 0l1.9-1.9c.8-.7.5-1.7-.2-2.4zm-27.4-14.6c0-4.8 3.9-8.7 8.7-8.7s9.1 4.3 9.1 9.1-3.9 8.7-8.7 8.7-9.1-4.3-9.1-9.1z"/></svg>
+								</span>
+																	<ul id="header-primary-menu" class="items-header-primary-nav "><li id="menu-item-1016055" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1016055"><a href="https://thinkprogress.org/latest">Latest Stories</a></li>
+</ul>															</div>
+						</div>
+
+						<div class="header-site__branding">
+														<div class="header-site__title">
+																	<a href="https://thinkprogress.org/" class="header-site__logo" rel="home">
+										<svg viewBox="0 0 271 24" xmlns="http://www.w3.org/2000/svg">
+	<title>Think Progress Header Logo</title>
+	<g fill-rule="nonzero" fill="none">
+		<path fill="#FFF" d="M0 5.721V.748h18.428V5.72h-6.286v16.812H6.285V5.721zM27.61.748V8.65h7.088V.748h5.858v21.785h-5.858V13.93h-7.08v8.604h-5.864V.748zM51.05.748v21.785h-5.865V.748zM60.805.748l7.84 12.479V.747H74.2v21.786h-5.065l-7.9-12.449v12.45H55.68V.747zM98.485 22.533h-6.407l-5.216-9.428-2.168 2.411v7.017h-5.857V.748h5.859V8.65l6.62-7.902h6.382l-6.932 8.237z"/>
+		<path d="M109.437.748c1.708 0 3.127.193 4.255.58a6.88 6.88 0 0 1 2.684 1.571c.651.64 1.131 1.431 1.396 2.304a9.65 9.65 0 0 1 .4 2.807 9.88 9.88 0 0 1-.414 2.884 5.71 5.71 0 0 1-1.417 2.379 6.836 6.836 0 0 1-2.67 1.595c-1.11.387-2.497.58-4.164.58h-2.533v7.085h-5.673V.748h8.136zm.04 10.038c1.22 0 2.07-.228 2.548-.686.479-.457.718-1.144.716-2.06 0-.916-.244-1.587-.732-2.014-.488-.427-1.345-.64-2.572-.642h-2.47v5.402h2.51zM138.27 11.29a6.182 6.182 0 0 1-2.441 2.55l4.455 8.693h-6.194l-3.57-7.505h-3.172v7.505h-5.583V.748h8.604c1.688 0 3.092.193 4.21.58a7.109 7.109 0 0 1 2.67 1.542 5.4 5.4 0 0 1 1.396 2.211c.273.827.413 1.692.412 2.562a7.988 7.988 0 0 1-.787 3.648zm-8.054-.809c1.179 0 2.008-.229 2.486-.686.479-.457.718-1.113.718-1.968 0-.814-.254-1.445-.764-1.893-.509-.448-1.384-.67-2.624-.67h-2.684v5.217h2.868zM157.43.997a9.081 9.081 0 0 1 3.341 2.253 9.661 9.661 0 0 1 2.06 3.57c.487 1.528.724 3.124.702 4.728a15 15 0 0 1-.718 4.786 9.989 9.989 0 0 1-2.09 3.637 9.151 9.151 0 0 1-3.39 2.303c-1.47.562-3.033.836-4.606.808a12.164 12.164 0 0 1-4.546-.798 9.08 9.08 0 0 1-3.34-2.257 9.661 9.661 0 0 1-2.064-3.566 14.902 14.902 0 0 1-.702-4.73c-.022-1.623.22-3.24.717-4.786a9.987 9.987 0 0 1 2.09-3.63 9.153 9.153 0 0 1 3.39-2.304 13.476 13.476 0 0 1 9.155-.014zm-8.117 15.423c.773 1.087 1.942 1.63 3.51 1.63 1.567 0 2.732-.543 3.494-1.63.763-1.09 1.144-2.68 1.144-4.774s-.381-3.685-1.144-4.774c-.764-1.09-1.928-1.633-3.494-1.633-1.566 0-2.736.544-3.51 1.633-.767 1.085-1.15 2.674-1.15 4.77 0 2.095.384 3.686 1.152 4.774l-.002.004zM186.902 10.084v9.917a13.995 13.995 0 0 1-4.028 2.193c-1.703.607-3.5.907-5.308.886-1.81 0-3.382-.27-4.714-.808a8.842 8.842 0 0 1-3.326-2.287 9.546 9.546 0 0 1-1.983-3.57 15.49 15.49 0 0 1-.656-4.65c-.023-1.65.219-3.293.718-4.865a10.056 10.056 0 0 1 2.06-3.632 8.878 8.878 0 0 1 3.31-2.27 11.965 11.965 0 0 1 4.501-.799c1.296-.026 2.586.17 3.815.58a8.575 8.575 0 0 1 2.746 1.556 7.063 7.063 0 0 1 1.753 2.251c.412.853.701 1.759.859 2.693l-5.849.578c-.223-.93-.6-1.617-1.128-2.06-.53-.443-1.282-.661-2.258-.656-1.526 0-2.65.539-3.372 1.617-.722 1.078-1.083 2.695-1.083 4.852 0 2.176.392 3.808 1.175 4.897.783 1.09 2.1 1.635 3.952 1.64a7.067 7.067 0 0 0 3.418-.798v-2.535h-3.48v-4.73h8.878zM207.557 11.29a6.182 6.182 0 0 1-2.44 2.55l4.464 8.693h-6.193l-3.578-7.505h-3.174v7.505h-5.584V.748h8.605c1.688 0 3.091.193 4.21.58a7.109 7.109 0 0 1 2.67 1.542 5.4 5.4 0 0 1 1.395 2.211c.274.827.413 1.692.413 2.562a7.988 7.988 0 0 1-.788 3.648zm-8.054-.807c1.18 0 2.008-.229 2.487-.686.478-.457.718-1.113.718-1.968 0-.814-.255-1.445-.764-1.893-.51-.448-1.384-.672-2.624-.672h-2.684v5.217l2.867.002zM228.03.748V5.57h-9.884v3.477h9.275v4.82h-9.275v3.845h10.527l-.49 4.821h-15.744V.748zM237.824 17.636c.63.498 1.555.748 2.776.748 1.037 0 1.815-.183 2.335-.549.51-.35.804-.937.778-1.555a1.691 1.691 0 0 0-.519-1.266c-.346-.337-.976-.596-1.892-.778l-2.9-.548c-2.42-.447-4.21-1.2-5.37-2.258-1.16-1.058-1.739-2.52-1.739-4.387 0-2.26.778-3.963 2.333-5.11C235.182.784 237.323.206 240.05.198c1.373-.03 2.743.155 4.058.549 1.003.303 1.936.8 2.746 1.463a6.116 6.116 0 0 1 1.614 2.122c.364.797.6 1.646.701 2.517l-5.675.58c-.183-.875-.534-1.525-1.053-1.952-.518-.427-1.326-.64-2.425-.64-.997 0-1.734.167-2.211.502-.458.298-.73.812-.718 1.358-.015.477.201.931.58 1.22.387.306 1.007.54 1.86.703l2.958.58c2.563.508 4.384 1.327 5.462 2.457 1.078 1.13 1.617 2.559 1.617 4.287.015 1.003-.172 2-.548 2.93a5.749 5.749 0 0 1-1.68 2.243 8.088 8.088 0 0 1-2.867 1.45c-1.33.368-2.707.542-4.088.518-6.042-.044-9.213-2.621-9.514-7.731h5.835c.117 1.022.491 1.782 1.123 2.28zM259.235 17.636c.63.498 1.555.748 2.776.748 1.036 0 1.815-.183 2.335-.549.51-.35.803-.937.777-1.555a1.691 1.691 0 0 0-.518-1.266c-.346-.337-.977-.596-1.893-.778l-2.899-.548c-2.416-.45-4.204-1.204-5.364-2.262-1.16-1.058-1.74-2.52-1.739-4.387 0-2.26.778-3.963 2.333-5.11C256.6.78 258.74.204 261.468.198c1.373-.03 2.742.155 4.058.549 1.003.303 1.936.8 2.746 1.463a6.116 6.116 0 0 1 1.617 2.12c.365.797.602 1.646.702 2.517l-5.675.58c-.183-.875-.534-1.525-1.053-1.952-.518-.427-1.33-.64-2.435-.638-.997 0-1.734.167-2.211.502-.459.298-.73.812-.718 1.358-.015.477.2.931.58 1.22.387.306 1.007.54 1.86.703l2.96.58c2.563.508 4.384 1.327 5.462 2.457 1.078 1.13 1.617 2.559 1.617 4.287.015 1.003-.172 2-.548 2.93a5.749 5.749 0 0 1-1.68 2.243 8.088 8.088 0 0 1-2.867 1.45c-1.33.368-2.707.542-4.088.518-6.04-.041-9.214-2.614-9.52-7.72h5.827c.129 1.015.507 1.771 1.133 2.27z" fill="#8E8BFF"/>
+	</g>
+</svg>
+									</a>
+															</div>
+						</div>
+						<div class="header-site__nav-right">
+							<div class="header-site__right">
+									<ul class="social-nav social-nav--context-header">
+									<li>
+					<a class="icon icon-facebook" target="_blank" href="https://www.facebook.com/thinkprogress">
+						<span class="label">Facebook</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-twitter" target="_blank" href="https://twitter.com/thinkprogress">
+						<span class="label">Twitter</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-youtube" target="_blank" href="https://www.youtube.com/thinkprogress">
+						<span class="label">Youtube</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-instagram" target="_blank" href="https://www.instagram.com/thinkprogress">
+						<span class="label">Instagram</span>
+					</a>
+				</li>
+						</ul>
+							</div>
+						</div>
+						<div class="menu-toggle-container">
+							<button class="header-site__menu-toggle menu-toggle">
+								<svg viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+	<title>Hamburger icon</title>
+	<path d="M0 23.3h32v-3.6H0v3.6zm0-9.8h32V9.9H0v3.6zM0 0v3.6h32V0H0z" />
+</svg>
+							</button>
+						</div>
+						<button type="button" name="button" class="mobile-nav__close">
+							<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	<title>Close icon</title>
+	<path d="M24 2.4L21.6 0 12 9.6 2.4 0 0 2.4 9.6 12 0 21.6 2.4 24l9.6-9.6 9.6 9.6 2.4-2.4-9.6-9.6z" fill="#FFF" fill-rule="nonzero"/>
+</svg>
+						</button>
+					</div>
+											<div class="header-site__secondary-menus">
+							<div class="header-site__secondary-menus-inner">
+																	<div class="header-site__topics-menu header-site__topics-menu--loading">
+										<h3 class="screen-reader-text">Topics Menu</h3>
+										<nav>
+											<ul id="menu-header-topics" class="menu"><li id="menu-item-1119435" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1119435"><a href="https://thinkprogress.org/videos/">Video</a></li>
+<li id="menu-item-1093451" class="color-climate-green menu-item menu-item-type-custom menu-item-object-custom menu-item-1093451"><a href="/climate">ClimateProgress</a></li>
+<li id="menu-item-1093449" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1093449"><a href="https://thinkprogress.org/tag/politics/">Politics</a></li>
+<li id="menu-item-1093441" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1093441"><a href="https://thinkprogress.org/tag/supreme-court/">SCOTUS</a></li>
+<li id="menu-item-1093450" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1093450"><a href="https://thinkprogress.org/tag/health/">Health Care</a></li>
+<li id="menu-item-1093444" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1093444"><a href="https://thinkprogress.org/tag/world/">World</a></li>
+</ul>										</nav>
+									</div>
+																									<div class="header-site__more-menu">
+										<h3 class="screen-reader-text">More Menu</h3>
+										<button>
+											<span class="screen-reader-text">Open More Menu</span>
+											<span class="icon icon-plus"></span>
+										</button>
+										<nav>
+											<ul id="menu-header-more" class="menu"><li id="menu-item-1093435" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093435"><a href="https://thinkprogress.org/about/">ABOUT</a></li>
+<li id="menu-item-1093436" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093436"><a href="https://thinkprogress.org/masthead/">MASTHEAD</a></li>
+<li id="menu-item-1117575" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1117575"><a href="https://thinkprogress.org/tips/">Tips</a></li>
+<li id="menu-item-1093430" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093430"><a href="https://thinkprogress.org/newsletter/">Newsletter</a></li>
+<li id="menu-item-1093432" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093432"><a href="https://thinkprogress.org/membership/">Membership</a></li>
+<li id="menu-item-1093434" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093434"><a href="https://thinkprogress.org/donate/">DONATE</a></li>
+<li id="menu-item-1093431" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093431"><a href="https://thinkprogress.org/advertise/">ADVERTISE</a></li>
+<li id="menu-item-1093433" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093433"><a href="https://thinkprogress.org/contact-us/">Contact Us</a></li>
+</ul>										</nav>
+									</div>
+															</div>
+						</div>
+								</header><!-- #masthead -->
+
+			
+			<div id="content" class="content-site">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+<article id="post-1129094" class="post-1129094 post type-post status-publish format-standard has-post-thumbnail hentry category-climate category-news tag-climate tag-fema tag-hurricane-harvey tag-hurricane-maria tag-politics tag-puerto-rico tag-texas tag-the-south hashtags-climate hashtags-fema hashtags-harvey hashtags-maria hashtags-politics hashtags-wildfires">
+
+	<div class="post__header">
+			<div class="ad-wrapper" data-slot="0"><div class="ad-label">Advertisement</div><div class="ad-container ad-container--placeholder desktop leaderboard" id="div-gpt-ad-1499467661362-16"></div><div class="ad-container ad-container--placeholder mobile box" id="div-gpt-ad-1499467661362-17"></div></div>		<h1 class="post__title">FEMA exposed more than 2 million wildfire and hurricane survivors to identity theft and fraud</h1>
+
+			<h2 class="post__dek">The agency has struggled with chronic understaffing and a dearth of leadership amid an uptick in deadly disasters.</h2>
+	</div>
+
+<div class="post__metashare--wrapper">
+	<header class="post__meta">
+		<span class="post__byline"><span class="post__byline__author"><a href="https://thinkprogress.org/author/e-a-crunden/">E.A. Crunden</a> <a class="icon icon-twitter" target="_blank" href="https://twitter.com/@eacrunden"><span class="label">Twitter</span></a></span></span> <span class="post__timestamp"><time class="post__date" datetime="2019-03-23T10:43:14-04:00">Mar 23, 2019, 10:43 am</time></span>	</header><!-- .post__meta -->
+</div>
+
+<ul id="share" class="share">
+	<div class="share__inner">
+		<span class="share__tool--label">SHARE</span>
+					<li class="share__tool share__tool--type-facebook"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://thinkprogress.org/fema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37/" class="icon icon-facebook"><span class="label">Facebook</span></a></li>
+							<li class="share__tool share__tool--type-twitter"><a target="_blank" href="https://twitter.com/intent/tweet/?text=FEMA+exposed+more+than+2+million+wildfire+and+hurricane+survivors+to+identity+theft+and+fraud&#038;url=https://thinkprogress.org/fema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37/&#038;via=thinkprogress" class="icon icon-twitter"><span class="label">Twitter</span></a></li>
+							<li class="share__tool share__tool--type-email"><a href="mailto:?body=FEMA%20exposed%20more%20than%202%20million%20wildfire%20and%20hurricane%20survivors%20to%20identity%20theft%20and%20fraud%0A%0Ahttps%3A%2F%2Fthinkprogress.org%2Ffema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37%2F" class="icon icon-email"><span class="label">Email</span></a></li>
+							<li class="share__tool share__tool--type-sms"><a href="sms:?body=FEMA%20exposed%20more%20than%202%20million%20wildfire%20and%20hurricane%20survivors%20to%20identity%20theft%20and%20fraud%20https%3A%2F%2Fthinkprogress.org%2Ffema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37%2F" class="icon icon-sms"><span class="label">SMS</span></a></li>
+							<li class="share__tool share__tool--type-whatsapp"><a href="whatsapp://send?text=FEMA%20exposed%20more%20than%202%20million%20wildfire%20and%20hurricane%20survivors%20to%20identity%20theft%20and%20fraud%20https%3A%2F%2Fthinkprogress.org%2Ffema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37%2F" class="icon icon-whatsapp"><span class="label">WhatsApp</span></a></li>
+			</div>
+	<li class="share__trigger"><a href="#" class="icon-share"><span class="label">Share</span></a></li>
+</ul>
+	<figure class="post__figure post__figure--format-article-width">
+		<div class="post__thumbnail">
+			
+			<picture id="picture-1129106" class="size-feature-large " data-id=1129106"><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=1920&#038;ssl=1" media="(min-width: 1920px)" /><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=1920&#038;ssl=1" media="(min-width: 1024px) and (max-width: 1920px)" /><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=1280&#038;ssl=1" media="(min-width: 768px) and (max-width: 1024px)" /><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=800&#038;ssl=1" media="(min-width: 512px) and (max-width: 768px)" /><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=480&#038;ssl=1" media="(max-width: 512px)" /><img srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2019/03/GettyImages-858810700.jpg?w=1920&amp;ssl=1" alt="Carmen Cintron Torres takes a break from cleaning debris in front of her home more than two weeks after Hurricane Maria hit the island, on October 7, 2017 in Barranquitas, Puerto Rico. CREDIT: Mario Tama/Getty Images" ></picture>
+			
+					</div>
+					<figcaption>Carmen Cintron Torres takes a break from cleaning debris in front of her home more than two weeks after Hurricane Maria hit the island, on October 7, 2017 in Barranquitas, Puerto Rico. CREDIT: Mario Tama/Getty Images</figcaption>
+			</figure>
+
+	<div class="article-content__wrapper">
+		<!-- 
+<ul id="share" class="share">
+	<div class="share__inner">
+		<span class="share__tool--label">SHARE</span>
+					<li class="share__tool share__tool--type-facebook"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://thinkprogress.org/fema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37/" class="icon icon-facebook"><span class="label">Facebook</span></a></li>
+							<li class="share__tool share__tool--type-twitter"><a target="_blank" href="https://twitter.com/intent/tweet/?text=FEMA+exposed+more+than+2+million+wildfire+and+hurricane+survivors+to+identity+theft+and+fraud&#038;url=https://thinkprogress.org/fema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37/&#038;via=thinkprogress" class="icon icon-twitter"><span class="label">Twitter</span></a></li>
+							<li class="share__tool share__tool--type-email"><a href="mailto:?body=FEMA%20exposed%20more%20than%202%20million%20wildfire%20and%20hurricane%20survivors%20to%20identity%20theft%20and%20fraud%0A%0Ahttps%3A%2F%2Fthinkprogress.org%2Ffema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37%2F" class="icon icon-email"><span class="label">Email</span></a></li>
+							<li class="share__tool share__tool--type-sms"><a href="sms:?body=FEMA%20exposed%20more%20than%202%20million%20wildfire%20and%20hurricane%20survivors%20to%20identity%20theft%20and%20fraud%20https%3A%2F%2Fthinkprogress.org%2Ffema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37%2F" class="icon icon-sms"><span class="label">SMS</span></a></li>
+							<li class="share__tool share__tool--type-whatsapp"><a href="whatsapp://send?text=FEMA%20exposed%20more%20than%202%20million%20wildfire%20and%20hurricane%20survivors%20to%20identity%20theft%20and%20fraud%20https%3A%2F%2Fthinkprogress.org%2Ffema-wildfires-hurricane-disaster-survivors-id-theft-d3f5654fdc37%2F" class="icon icon-whatsapp"><span class="label">WhatsApp</span></a></li>
+			</div>
+	<li class="share__trigger"><a href="#" class="icon-share"><span class="label">Share</span></a></li>
+</ul>
+ -->
+		<div class="article-content">
+
+			<div class="post__content">
+				<p>In a dramatic Friday evening news dump, a government watchdog report revealed that the Federal Emergency Management Agency (FEMA), tasked with safeguarding the personal information of disaster survivors, may have left the data of millions of individuals exposed to possible identity theft and fraud.</p>
+<p>The news comes at a time when FEMA is facing a shortage in staff and operating without an administrator &mdash; all while disasters like hurricanes and wildfires exacerbated by climate change become more common and more severe.</p>
+<p>In <a href="https://www.oig.dhs.gov/sites/default/files/assets/2019-03/OIG-19-32-Mar19.pdf" target="_blank" rel="noopener noreferrer">a report dated March 15</a>, the Department of Homeland Security&rsquo;s Office of Inspector General (DHS OIG) found that FEMA failed to properly secure the personal addresses and banking information of more than 2 million disaster survivors, part of what FEMA called a &ldquo;major privacy incident.&rdquo;</p>
+<p>The report states that FEMA violated DHS policy by accidentally releasing too much information when transferring data to a contractor, who is so far unnamed. Among the more than 2 million people impacted are survivors of Hurricanes Irma, Harvey, and Maria, along with those recovering from the California wildfires.</p>
+<div class="ad-wrapper" data-slot="1"><div class="ad-label">Advertisement</div><div class="ad-container ad-container--placeholder desktop box" id="div-gpt-ad-1499467661362-6"></div><div class="ad-container ad-container--placeholder mobile box" id="div-gpt-ad-1499467661362-14"></div></div><p>The information left unguarded by FEMA includes the full names and the final four digits of Social Security numbers, in addition to bank account information and addresses. Birthdays and the number of occupants per household were also included. Some of that information was reportedly required in an earlier version of the Transitional Sheltering Assistance program, although it is not required by a newer version. FEMA nevertheless sent the information to the contractor anyway, thereby exposing those seeking disaster aid to potential exploitation.</p>
+<div class="related-content__wrapper">
+	<a href="https://thinkprogress.org/fema-wont-enact-a-major-housing-program-that-would-help-california-wildfire-survivors-1a7710260a7b/">
+<div class="related-content__image">
+<figure class="post__figure post__figure--format-thumbnail"><div class="post__thumbnail">
+<picture id="picture-1103725" class="wp-image-1103725 size-full " data-id='1103725"'><source srcset="https://i1.wp.com/thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=1920&amp;crop=0%2C0px%2C100%2C1280px&amp;ssl=1" media="(min-width: 1920px)"></source><source srcset="https://i1.wp.com/thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=1920&amp;crop=0%2C0px%2C100%2C1280px&amp;ssl=1" media="(min-width: 1024px) and (max-width: 1920px)"></source><source srcset="https://i1.wp.com/thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=1024&amp;crop=0%2C0px%2C100%2C683px&amp;ssl=1" media="(min-width: 768px) and (max-width: 1024px)"></source><source srcset="https://i1.wp.com/thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=1024&amp;crop=0%2C0px%2C100%2C683px&amp;ssl=1" media="(min-width: 512px) and (max-width: 1024px)"></source><source srcset="https://i1.wp.com/thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=768&amp;crop=0%2C0px%2C100%2C512px&amp;ssl=1" media="(min-width: 512px) and (max-width: 768px)"></source><source srcset="https://i1.wp.com/thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=512&amp;crop=0%2C0px%2C100%2C341px&amp;ssl=1" media="(max-width: 512px)"></source><source srcset="https://i1.wp.com/thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=768&amp;crop=0%2C0px%2C100%2C512px&amp;ssl=1" media="(max-width: 768px)"></source><source srcset="https://i1.wp.com/thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=3000&amp;crop=0%2C0px%2C100%2C2000px&amp;ssl=1" media="all"></source><img srcset="https://thinkprogress.org/wp-content/uploads/2018/11/GettyImages-1062537366.jpg?w=3000&amp;h=2000&amp;crop=1" alt="CHICO, CA - NOVEMBER 16: Tents are seen pitched in a field next to a Walmart parking lot where Camp Fire evacuees have been staying on November 16, 2018 in Chico, California. Fueled by high winds and low humidity the Camp Fire ripped through the town of Paradise charring over 140,000 acres, killed at least 63 people and has destroyed over 11,000 homes and businesses. The fire is currently at 45 percent containment and 631 people still remain missing.  (Photo by Justin Sullivan/Getty Images)"></picture></div>
+</figure></div>
+<div class="related-content__body">
+<h3 class="related-content__title">FEMA won&rsquo;t enact a major housing program that would help California wildfire survivors</h3>
+</div>
+<p>	</p></a>
+</div>
+<p>&ldquo;Without corrective action, the disaster survivors involved in the privacy incident are at increased risk of identity theft and fraud,&rdquo; the report notes.</p>
+<p>While the report states that 2.3 million people are impacted by the breach, <a href="https://www.washingtonpost.com/national/health-science/fema-data-breach-hits-25-million-disaster-survivors/2019/03/22/3e2c6232-4cec-11e9-93d0-64dbcf38ba41_story.html?utm_term=.d2ee94452426" target="_blank" rel="noopener noreferrer">in a separate statement</a> a DHS official said the agency believes the incident &ldquo;has impacted approximately 2.5 million disaster survivors.&rdquo;</p>
+<p>Spokespersons for FEMA asserted that there is no reason to believe that the data has been compromised and that the information has been removed from the contractor&rsquo;s systems. However, according to the internal review, the contractor only maintains records from the prior 30 days &mdash; making it hard to ascertain whether the data may have been compromised before that point.</p>
+<p>The disaster agency moreover told OIG that the problem won&rsquo;t be fully resolved until June 30.</p>
+<p>That incident comes in the midst of larger issues for FEMA, as hurricanes, wildfires, and other disasters grow more devastating, all while the agency struggles with leadership and staffing.</p>
+<div class="ad-wrapper" data-slot="2"><div class="ad-label">Advertisement</div><div class="ad-container ad-container--placeholder desktop box" id="div-gpt-ad-1499467661362-7"></div><div class="ad-container ad-container--placeholder mobile box" id="div-gpt-ad-1499467661362-15"></div></div><p>Brock Long, the agency&rsquo;s former administrator, resigned in February after leading FEMA through more than 220 declared disasters in two years alone. His tenure was peppered with controversy, some of which was personal. In September 2018, the OIG found that Long had improperly used government vehicles and funds to travel home to North Carolina. Jeffrey Byard has been nominated to replace Long.</p>
+<p>Other issues have also plagued FEMA. No one disaster can be connected to climate change, but experts have repeatedly noted a correlation between global warming and the uptick in more severe wildfires and hurricanes. Beyond these challenges, FEMA has also had to contend with their own unforced errors: when Hurricane Maria devastated Puerto Rico in 2017, the agency&rsquo;s fumbling response sparked outcry on the island. The storm ultimately led to the longest blackout in U.S. history along with an estimated 2,975 deaths.</p>
+<p>According to <a href="https://www.gao.gov/products/GAO-18-472" target="_blank" rel="noopener noreferrer">a Government Accountability Office (GAO) report</a> released in September 2018, FEMA was unprepared for the onslaught of disasters that struck in 2017, with Hurricanes Harvey and Irma both occurring around the same time as Maria. At the time, the agency was severely understaffed by around 30 percent. Moreover, the agency&rsquo;s own internal tracking found that some 54 percent of deployed FEMA employees were not qualified for the jobs they were sent to do.</p>
+<div class="related-content__wrapper">
+	<a href="https://thinkprogress.org/democrats-ice-fema-florence-36985e69d37d/">
+<div class="related-content__image">
+<figure class="post__figure post__figure--format-thumbnail"><div class="post__thumbnail">
+<picture id="picture-1086082" class="wp-image-1086082 size-full " data-id='1086082"'><source srcset="https://i0.wp.com/thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=1920&amp;crop=0%2C0px%2C100%2C1280px&amp;ssl=1" media="(min-width: 1920px)"></source><source srcset="https://i0.wp.com/thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=1920&amp;crop=0%2C0px%2C100%2C1280px&amp;ssl=1" media="(min-width: 1024px) and (max-width: 1920px)"></source><source srcset="https://i0.wp.com/thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=1024&amp;crop=0%2C0px%2C100%2C683px&amp;ssl=1" media="(min-width: 768px) and (max-width: 1024px)"></source><source srcset="https://i0.wp.com/thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=1024&amp;crop=0%2C0px%2C100%2C683px&amp;ssl=1" media="(min-width: 512px) and (max-width: 1024px)"></source><source srcset="https://i0.wp.com/thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=768&amp;crop=0%2C0px%2C100%2C512px&amp;ssl=1" media="(min-width: 512px) and (max-width: 768px)"></source><source srcset="https://i0.wp.com/thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=512&amp;crop=0%2C0px%2C100%2C341px&amp;ssl=1" media="(max-width: 512px)"></source><source srcset="https://i0.wp.com/thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=768&amp;crop=0%2C0px%2C100%2C512px&amp;ssl=1" media="(max-width: 768px)"></source><source srcset="https://i0.wp.com/thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=3600&amp;crop=0%2C0px%2C100%2C2400px&amp;ssl=1" media="all"></source><img srcset="https://thinkprogress.org/wp-content/uploads/2018/09/GettyImages-1035316674.jpg?w=3600&amp;h=2400&amp;crop=1" alt="Troops work to pull a truck out of flood waters that washed away on Chicken Road outside of Lumberton, North Carolina, Monday, September 17, 2018. CREDIT: Eamon Queeney/For The Washington Post via Getty Images"></picture></div>
+</figure></div>
+<div class="related-content__body">
+<h3 class="related-content__title">FEMA to ICE fund transfer draws Democratic fire as Florence death toll rises</h3>
+<p class="related-content__dek">Nearly $10 million has been shifted from the disaster relief agency over to the agency responsible for detaining and deporting immigrants.</p>
+</div>
+<p>	</p></a>
+</div>
+<p>And FEMA has also been at the mercy of President Donald Trump, who has repeatedly downplayed the link between climate change and disasters. In January, Trump <a href="https://thinkprogress.org/trump-west-coast-fema-california-wildfire-aid-25b9e5cd2926/" target="_blank" rel="noopener noreferrer">threatened to end FEMA aid</a> to wildfire-ravaged California after West Coast governors wrote to the president requesting that he double federal financial investment in regional wildfire management. At the time, FEMA&rsquo;s staffing and website were both severely curtailed due to the partial government shutdown.</p>
+<p>The agency is likely to remain in the spotlight, with historic flooding currently threatening large swathes of the Midwest, including the states of Nebraska and Missouri. But fewer and fewer areas trust the agency tasked with protecting them from disasters and emergencies. According to a report published this week, many cities and states <a href="https://insideclimatenews.org/news/19032019/fema-flood-maps-risk-zones-cities-climate-change-mexico-beach-houston-outer-banks" target="_blank" rel="noopener noreferrer">have lost confidence in FEMA&rsquo;s flood maps</a> and are increasingly generating their own alternatives in order to account for climate change.	</p>
+<div class="promo amp-wp-article-promo">
+<figure class="post__figure post__figure--format-full"><div class="post__thumbnail">
+							<a href="https://thinkprogress.org/membership/?c=cr042018-7-00-wp">
+<picture id="picture-1054735" class="wp-image-1054735 size-full " data-id='1054735"'><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=1051&amp;crop=0%2C0px%2C100%2C973px&amp;ssl=1" media="(min-width: 1920px)"></source><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=1051&amp;crop=0%2C0px%2C100%2C973px&amp;ssl=1" media="(min-width: 1024px) and (max-width: 1920px)"></source><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=1024&amp;crop=0%2C0px%2C100%2C948px&amp;ssl=1" media="(min-width: 768px) and (max-width: 1024px)"></source><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=1024&amp;crop=0%2C0px%2C100%2C948px&amp;ssl=1" media="(min-width: 512px) and (max-width: 1024px)"></source><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=768&amp;crop=0%2C0px%2C100%2C711px&amp;ssl=1" media="(min-width: 512px) and (max-width: 768px)"></source><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=512&amp;crop=0%2C0px%2C100%2C474px&amp;ssl=1" media="(max-width: 512px)"></source><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=768&amp;crop=0%2C0px%2C100%2C711px&amp;ssl=1" media="(max-width: 768px)"></source><source srcset="https://i2.wp.com/thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=1051&amp;crop=0%2C0px%2C100%2C973px&amp;ssl=1" media="all"></source><img srcset="https://thinkprogress.org/wp-content/uploads/2018/05/cr042018_7-00.png?w=1051&amp;h=973&amp;crop=1" alt=""></picture></a>
+					</div>
+</figure></div>
+
+
+							</div><!-- .post__content -->
+
+			
+							<footer class="post__tags">
+					<span class="tags-list">
+						<span><a href="https://thinkprogress.org/tag/climate/">#Climate</a>,</span> <span><a href="https://thinkprogress.org/tag/fema/">#Fema</a>,</span> <span><a href="https://thinkprogress.org/tag/hurricane-harvey/">#Hurricane Harvey</a>,</span> <span><a href="https://thinkprogress.org/tag/hurricane-maria/">#Hurricane Maria</a>,</span> <span><a href="https://thinkprogress.org/tag/politics/">#Politics</a>,</span> <span><a href="https://thinkprogress.org/tag/puerto-rico/">#Puerto Rico</a>,</span> <span><a href="https://thinkprogress.org/tag/texas/">#Texas</a>,</span> <span><a href="https://thinkprogress.org/tag/the-south/">#The South</a></span>
+					</span>
+				</footer>
+			
+			<div id="sponsored-content">
+				<!-- START TABOOLA HTML -->
+				<div id="taboola-below-article-thumbnails"></div>
+				<div id="taboola-below-article-organic-thumbnails"></div>
+				<!-- END TABOOLA HTML -->
+			</div>
+
+		</div>
+	</div>
+
+</article><!-- #post-## -->
+
+			
+		
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+			</div><!-- #content -->
+
+			
+			
+			<footer id="colophon" class="footer-site" role="contentinfo">
+				<div class="footer-site__row footer-site__row--position-middle">
+					<div class="footer-site__wrapper">
+						<div class="footer-site__nav">
+							<ul id="footer-primary-menu" class="items-footer-primary-nav "><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="https://thinkprogress.org/about/">About</a></li>
+<li id="menu-item-675245" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-675245"><a href="https://thinkprogress.org/masthead/">Masthead</a></li>
+<li id="menu-item-1105567" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1105567"><a href="https://thinkprogress.org/careers/">Careers</a></li>
+<li id="menu-item-1117574" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1117574"><a href="https://thinkprogress.org/pitches/">Pitch Us</a></li>
+<li id="menu-item-1117573" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1117573"><a href="https://thinkprogress.org/tips/">Tips</a></li>
+<li id="menu-item-1007160" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1007160"><a href="https://thinkprogress.org/contact-us/">Contact Us</a></li>
+<li id="menu-item-1077807" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1077807"><a href="https://thinkprogress.org/newsletter/">Newsletter</a></li>
+<li id="menu-item-1007165" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1007165"><a href="https://thinkprogress.org/membership/">Membership</a></li>
+<li id="menu-item-1077790" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1077790"><a href="https://thinkprogress.org/donate/">Donate</a></li>
+<li id="menu-item-1077791" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1077791"><a href="https://thinkprogress.org/advertise/">Advertise</a></li>
+</ul>						</div>
+						<a href="https://thinkprogress.org/" class="footer-site__logo">
+							<svg width="271" height="24" viewBox="0 0 271 24" xmlns="http://www.w3.org/2000/svg">
+	<title>Think Progress Footer Logo</title>
+	<g fill-rule="nonzero" fill="none">
+		<path fill="#FFF" d="M0 5.721V.748h18.428V5.72h-6.286v16.812H6.285V5.721zM27.61.748V8.65h7.088V.748h5.858v21.785h-5.858V13.93h-7.08v8.604h-5.864V.748zM51.05.748v21.785h-5.865V.748zM60.805.748l7.84 12.479V.747H74.2v21.786h-5.065l-7.9-12.449v12.45H55.68V.747zM98.485 22.533h-6.407l-5.216-9.428-2.168 2.411v7.017h-5.857V.748h5.859V8.65l6.62-7.902h6.382l-6.932 8.237z"/>
+		<path d="M109.437.748c1.708 0 3.127.193 4.255.58a6.88 6.88 0 0 1 2.684 1.571c.651.64 1.131 1.431 1.396 2.304a9.65 9.65 0 0 1 .4 2.807 9.88 9.88 0 0 1-.414 2.884 5.71 5.71 0 0 1-1.417 2.379 6.836 6.836 0 0 1-2.67 1.595c-1.11.387-2.497.58-4.164.58h-2.533v7.085h-5.673V.748h8.136zm.04 10.038c1.22 0 2.07-.228 2.548-.686.479-.457.718-1.144.716-2.06 0-.916-.244-1.587-.732-2.014-.488-.427-1.345-.64-2.572-.642h-2.47v5.402h2.51zM138.27 11.29a6.182 6.182 0 0 1-2.441 2.55l4.455 8.693h-6.194l-3.57-7.505h-3.172v7.505h-5.583V.748h8.604c1.688 0 3.092.193 4.21.58a7.109 7.109 0 0 1 2.67 1.542 5.4 5.4 0 0 1 1.396 2.211c.273.827.413 1.692.412 2.562a7.988 7.988 0 0 1-.787 3.648zm-8.054-.809c1.179 0 2.008-.229 2.486-.686.479-.457.718-1.113.718-1.968 0-.814-.254-1.445-.764-1.893-.509-.448-1.384-.67-2.624-.67h-2.684v5.217h2.868zM157.43.997a9.081 9.081 0 0 1 3.341 2.253 9.661 9.661 0 0 1 2.06 3.57c.487 1.528.724 3.124.702 4.728a15 15 0 0 1-.718 4.786 9.989 9.989 0 0 1-2.09 3.637 9.151 9.151 0 0 1-3.39 2.303c-1.47.562-3.033.836-4.606.808a12.164 12.164 0 0 1-4.546-.798 9.08 9.08 0 0 1-3.34-2.257 9.661 9.661 0 0 1-2.064-3.566 14.902 14.902 0 0 1-.702-4.73c-.022-1.623.22-3.24.717-4.786a9.987 9.987 0 0 1 2.09-3.63 9.153 9.153 0 0 1 3.39-2.304 13.476 13.476 0 0 1 9.155-.014zm-8.117 15.423c.773 1.087 1.942 1.63 3.51 1.63 1.567 0 2.732-.543 3.494-1.63.763-1.09 1.144-2.68 1.144-4.774s-.381-3.685-1.144-4.774c-.764-1.09-1.928-1.633-3.494-1.633-1.566 0-2.736.544-3.51 1.633-.767 1.085-1.15 2.674-1.15 4.77 0 2.095.384 3.686 1.152 4.774l-.002.004zM186.902 10.084v9.917a13.995 13.995 0 0 1-4.028 2.193c-1.703.607-3.5.907-5.308.886-1.81 0-3.382-.27-4.714-.808a8.842 8.842 0 0 1-3.326-2.287 9.546 9.546 0 0 1-1.983-3.57 15.49 15.49 0 0 1-.656-4.65c-.023-1.65.219-3.293.718-4.865a10.056 10.056 0 0 1 2.06-3.632 8.878 8.878 0 0 1 3.31-2.27 11.965 11.965 0 0 1 4.501-.799c1.296-.026 2.586.17 3.815.58a8.575 8.575 0 0 1 2.746 1.556 7.063 7.063 0 0 1 1.753 2.251c.412.853.701 1.759.859 2.693l-5.849.578c-.223-.93-.6-1.617-1.128-2.06-.53-.443-1.282-.661-2.258-.656-1.526 0-2.65.539-3.372 1.617-.722 1.078-1.083 2.695-1.083 4.852 0 2.176.392 3.808 1.175 4.897.783 1.09 2.1 1.635 3.952 1.64a7.067 7.067 0 0 0 3.418-.798v-2.535h-3.48v-4.73h8.878zM207.557 11.29a6.182 6.182 0 0 1-2.44 2.55l4.464 8.693h-6.193l-3.578-7.505h-3.174v7.505h-5.584V.748h8.605c1.688 0 3.091.193 4.21.58a7.109 7.109 0 0 1 2.67 1.542 5.4 5.4 0 0 1 1.395 2.211c.274.827.413 1.692.413 2.562a7.988 7.988 0 0 1-.788 3.648zm-8.054-.807c1.18 0 2.008-.229 2.487-.686.478-.457.718-1.113.718-1.968 0-.814-.255-1.445-.764-1.893-.51-.448-1.384-.672-2.624-.672h-2.684v5.217l2.867.002zM228.03.748V5.57h-9.884v3.477h9.275v4.82h-9.275v3.845h10.527l-.49 4.821h-15.744V.748zM237.824 17.636c.63.498 1.555.748 2.776.748 1.037 0 1.815-.183 2.335-.549.51-.35.804-.937.778-1.555a1.691 1.691 0 0 0-.519-1.266c-.346-.337-.976-.596-1.892-.778l-2.9-.548c-2.42-.447-4.21-1.2-5.37-2.258-1.16-1.058-1.739-2.52-1.739-4.387 0-2.26.778-3.963 2.333-5.11C235.182.784 237.323.206 240.05.198c1.373-.03 2.743.155 4.058.549 1.003.303 1.936.8 2.746 1.463a6.116 6.116 0 0 1 1.614 2.122c.364.797.6 1.646.701 2.517l-5.675.58c-.183-.875-.534-1.525-1.053-1.952-.518-.427-1.326-.64-2.425-.64-.997 0-1.734.167-2.211.502-.458.298-.73.812-.718 1.358-.015.477.201.931.58 1.22.387.306 1.007.54 1.86.703l2.958.58c2.563.508 4.384 1.327 5.462 2.457 1.078 1.13 1.617 2.559 1.617 4.287.015 1.003-.172 2-.548 2.93a5.749 5.749 0 0 1-1.68 2.243 8.088 8.088 0 0 1-2.867 1.45c-1.33.368-2.707.542-4.088.518-6.042-.044-9.213-2.621-9.514-7.731h5.835c.117 1.022.491 1.782 1.123 2.28zM259.235 17.636c.63.498 1.555.748 2.776.748 1.036 0 1.815-.183 2.335-.549.51-.35.803-.937.777-1.555a1.691 1.691 0 0 0-.518-1.266c-.346-.337-.977-.596-1.893-.778l-2.899-.548c-2.416-.45-4.204-1.204-5.364-2.262-1.16-1.058-1.74-2.52-1.739-4.387 0-2.26.778-3.963 2.333-5.11C256.6.78 258.74.204 261.468.198c1.373-.03 2.742.155 4.058.549 1.003.303 1.936.8 2.746 1.463a6.116 6.116 0 0 1 1.617 2.12c.365.797.602 1.646.702 2.517l-5.675.58c-.183-.875-.534-1.525-1.053-1.952-.518-.427-1.33-.64-2.435-.638-.997 0-1.734.167-2.211.502-.459.298-.73.812-.718 1.358-.015.477.2.931.58 1.22.387.306 1.007.54 1.86.703l2.96.58c2.563.508 4.384 1.327 5.462 2.457 1.078 1.13 1.617 2.559 1.617 4.287.015 1.003-.172 2-.548 2.93a5.749 5.749 0 0 1-1.68 2.243 8.088 8.088 0 0 1-2.867 1.45c-1.33.368-2.707.542-4.088.518-6.04-.041-9.214-2.614-9.52-7.72h5.827c.129 1.015.507 1.771 1.133 2.27z" fill="#8E8BFF"/>
+	</g>
+</svg>
+						</a>
+						<div class="footer-site__social">
+								<ul class="social-nav social-nav--context-footer">
+									<li>
+					<a class="icon icon-facebook" target="_blank" href="https://www.facebook.com/thinkprogress">
+						<span class="label">Facebook</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-twitter" target="_blank" href="https://twitter.com/thinkprogress">
+						<span class="label">Twitter</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-youtube" target="_blank" href="https://www.youtube.com/thinkprogress">
+						<span class="label">Youtube</span>
+					</a>
+				</li>
+												<li>
+					<a class="icon icon-instagram" target="_blank" href="https://www.instagram.com/thinkprogress">
+						<span class="label">Instagram</span>
+					</a>
+				</li>
+						</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="footer-site__row footer-site__row--position-bottom">
+					<div class="footer-site__wrapper">
+						&copy; 2019 ThinkProgress											</div>
+					<div class="footer-site__vip">
+						Powered by <a href="https://vip.wordpress.com/?utm_source=vip_powered_wpcom&#038;utm_medium=web&#038;utm_campaign=VIP%20Footer%20Credit&#038;utm_term=thinkprogress.org" rel="generator nofollow" class="powered-by-wpcom">WordPress.com VIP</a>					</div>
+				</div>
+
+			</footer><!-- #colophon -->
+
+		</div><!-- #page -->
+
+		
+		<script type="text/javascript">
+
+  // Create taboola object
+  window._taboola=window._taboola||[];
+  _taboola.push({article:"auto"});
+
+  // Load script
+  !function(a,b,d,c){document.getElementById(c)||(a.async=1,a.src=d,a.id=c,b.parentNode.insertBefore(a,b))}(document.createElement("script"),document.getElementsByTagName("script")[0],"//cdn.taboola.com/libtrc/thinkprogress-thinkprogress1/loader.js","tb_loader_script");window.performance&&"function"==typeof window.performance.mark&&window.performance.mark("tbl_ic");
+
+  // Start ad requets
+  _taboola.push({mode:"thumbnails-a",container:"taboola-below-article-thumbnails",placement:"Below Article Thumbnails",target_type:"mix"});
+  _taboola.push({mode:"thumbnails-b",container:"taboola-below-article-organic-thumbnails",placement:"Below Article Organic Thumbnails",target_type:"mix"});
+
+  // Flush
+  _taboola.push({flush: true});
+</script>
+<script type="text/javascript">
+	/* ANALYTICS SCRIPT */
+	(function() {
+		function loadChartbeat() {
+			var e = document.createElement('script');
+			e.setAttribute('language', 'javascript');
+			e.setAttribute('type', 'text/javascript');
+			e.setAttribute('src', '//static.chartbeat.com/js/chartbeat.js');
+			document.body.appendChild(e);
+		}
+		var oldonload = window.onload;
+		window.onload = (typeof window.onload != 'function') ?
+		loadChartbeat : function() {
+			oldonload();
+			loadChartbeat();
+		};
+	})();
+</script>
+			<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQH7NW9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<div id="div-gpt-ad-1499467661362-0" style="display: none;"></div><script type='text/javascript'>
+/* <![CDATA[ */
+var aftBreakpoints = {"xl":"1920","l":"1024","m":"768","s-m":"512","s":"512"};
+var siteComponents = {"sticky_header":{"component_class":"StickyHeader","selector":"#masthead","additional_selectors":{"wrapper":"#sticky-header-wrapper","stickyHeader":".sticky-header","mobileNav":".mobile-nav"}},"fix_footer":{"component_class":"FixFooter","selector":".footer-site","additional_selectors":{"container":"#page"}},"mobile_nav":{"component_class":"Toggle","selector":".mobile-nav","additional_selectors":{"openIcon":"#page .menu-toggle","closeIcon":".header-site__items .mobile-nav__close","classToToggle":"push","additionalToggleSelectors":["#page"]}},"header_searchInput":{"component_class":"Toggle","selector":".search-form--context-header","additional_selectors":{"openIcon":"#page .header-search","closeIcon":"#page .search-form__close","classToToggle":"push"}},"header_search":{"component_class":"Search","selector":".search-form__button","additional_selectors":{"header":"#masthead","searchField":".search-form__field"}},"article_share":{"component_class":"Share","conditional":"is_singular","selector":".share","additional_selectors":{"sms":".share__tool--type-sms a","mobileTrigger":".share__trigger","container":"#share"}},"newsletter":{"component_class":"Newsletter","selector":".newsletter-signup","additional_selectors":{"signup":".newsletter-signup","mobileContainer":"#signup-sticky","mobileOpenBtn":".signup-button","mobileCloseBtn":".icon-cross","mobileOverlay":".signup-overlay"}},"video_player":{"component_class":"VideoPlayer","conditional":"is_singular","selector":".video-player"},"adblock_test":{"component_class":"AdBlockerTest","location":"client","selector":"body"},"more_menu":{"component_class":"MoreMenu","selector":".header-site__more-menu","location":"client","additional_selectors":{"button":"button","nav":"nav"}},"topics_menu":{"component_class":"TopicsMenu","selector":".header-site__topics-menu","location":"client","additional_selectors":{"nav":"nav"}}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var autoPositionVars = [];
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://thinkprogress.org/_static/??-eJydjE0OwiAQhS9kmWKtXRnP0sKUToWBMFCvLyYu3Lhx9fL+PnimzkQuyAWSr45YIG2xRF7JeziQbcyQyJSa8R2pQKx2OcHXsWwYUJoQP1KOLqNId+71BFLmQgZ2AefjMnu1Dutse6OWytbjvzAhdu39G0ZsfLUN08bNYljQfvp7uOlxvAz9pK96fwEGWFyo'></script>
+<script type='text/javascript' src='https://stats.wp.com/e-201914.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:7.2',blog:'133568376',post:'1129094',tz:'-4',srv:'thinkprogress.org'} ]);
+	_stq.push([ 'clickTrackerInit', '133568376', '1129094' ]);
+</script>
+	</div><!-- #wrap-site -->
+
+<!-- /17107625/tp/lightbox -->
+<div id='div-gpt-ad-1543254961132-0'><script type='text/javascript'>adthrive.cmd.push(function() {googletag.cmd.push(function() { googletag.display('div-gpt-ad-1543254961132-0');});});</script></div>
+
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"26c12fc0bd","applicationID":"171425656","transactionName":"MQQBMUZTD0tWUkFQCwhOIgZAWw5WGEJcVwMKBA==","queueTime":0,"applicationTime":140,"atts":"HUMWRw5JHBQVUBcDHxsc","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:fb="http://ogp.me/ns/fb#">
+
+
+<HEAD>
+<TITLE>PIN number analysis</TITLE>
+<META name="Description" content="A detailed analysis of four character PIN codes">
+<META name="keywords" content="PIN, password, analysis, hacker, distribution, common, predictable">
+
+
+<!--   Style Sheet -->
+<link rel="stylesheet" type="text/css" href="/DG.CSS" />
+</HEAD>
+
+<body>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1112649215446595";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div id="wrap">
+<div ID="dgheader">
+<IMG src='/images/toplogo.png' border=0>
+
+<!-- Menu -->
+<TABLE width='800' cellspacing='0'><TR><TD width=100 bgcolor='white' bordercolor='black' align='center'><a href='/index.html' class='l_title'><B>Home</B></a></TD><TD width=100 bordercolor='black' align='center' bgcolor='red'><a href='/blog.html' class='l_title'><font color='white'><B>Blog</B></font></a></TD><TD width=100 bgcolor='white' bordercolor='black' align='center'><a href='/about.html' class='l_title'><B>About Us</B></a></TD><TD width=100 bgcolor='white' bordercolor='black' align='center'><a href='/example.html' class='l_title'><B>Work</B></a></TD><TD width=100 bgcolor='white' bordercolor='black' align='center'><a href='/content.html' class='l_title'><B>Content</B></a></TD><TD width=100 bgcolor='white' bordercolor='black' align='center'><a href='/contact.html' class='l_title'><B>Contact Us</B></a></TD><TD width=200 align=right><div class="fb-save" data-size="small"></div></TD></TR></TABLE>
+
+
+</div>
+
+<div id="dgsidebar">
+<table>
+<tr height=1200><td>&nbsp;</td><td></td></tr>
+<tr>
+<td width=30></td>
+<td><font color=darkgray size=1>&nbsp;Advertisment&nbsp;</font></td>
+</tr>
+<tr>
+<td width=30></td>
+<td width=120 align=right>
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-3216488037305489";
+/* DataGenetics First Advert */
+google_ad_slot = "3837849356";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</td>
+</tr>
+</table>
+</div>
+
+
+<div ID="dgmain">
+<p class=main>&nbsp;</p>
+<fb:like send="true" width="450" show_faces="true" colorscheme="dark" font="arial"></fb:like>
+<h1>PIN analysis</h1>
+
+
+
+<table width=800>
+<tr>
+<td>
+<p class=main>A good friend of mine, <a href='http://blog.abodit.com/'>Ian</a>, recently forwarded me an internet joke.   The headline was something like:</p>
+<p><font size=6 face=timesroman><i>&ldquo;All credit card PIN numbers in the World leaked&rdquo;</i></font></p>
+<p class=main>The body of the message simply said <font color=gold><b>0000 0001 0002 0003 0004 </b></font> &hellip;</p>
+</td>
+<td width=360 align=right><img src='p.png'></td>
+</tr>
+</table>
+
+<p class=main>Ian&rsquo;s messages made me chuckle.  Then, later the same day, I read this <a href=http://xkcd.com/1105/>XKCD cartoon</a>.  The merging of these two humorous topics created the seed for this article.</p>
+<p class=main></p>
+
+
+<table width=800>
+<tr>
+<td rowspan=3 width=520 align=left><img src='xkcd.png'></td>
+<td><td><p class=main>&nbsp;</p></td>
+<tr>
+<td bgcolor=#808080>
+<p style="margin-right: 15px; margin-left: 15px" class=main><font size=2>I love Randall&rsquo;s work.  My favorite, to date, is this <a href='http://xkcd.com/327/'>one</a>.  I have a signed copy of it on my office wall.</p>
+
+<p style="margin-right: 15px; margin-left: 15px" class=main><font size=2>Like many of his creations, this cartoon is excellent at bifurcating readers;  people read it, then either smile and chuckle, or stare blankly at it followed by a <i>&ldquo;Huh? I don&rsquo;t get it!&rdquo;</i> comment. Then you explain it, and get a reply <i>&ldquo;Yeeaaaaaa&hellip;no, I still don&rsquo;t get it!&rdquo;</i></p>
+<p style="margin-right: 15px; margin-left: 15px" class=main><font size=2>Esoteric humor in action.</font></p>
+<p style="margin-right: 15px; margin-left: 15px" class=main><font size=2>You can be cool and buy his <a href='http://store.xkcd.com/xkcd/#SignedPrints'>signed artwork</a> too.</p>
+</td>
+</tr>
+<td><p class=main>&nbsp;</p></td>
+</table>
+
+<h3>What is the least common PIN number?</h3>
+<table width=800>
+<tr>
+<td>
+<p class=main>There are 10,000 possible combinations that the digits 0-9 can be arranged to form a 4-digit pin code.  Out of these ten thousand codes, which is the least commonly used? </p>
+<p class=main>Which of these pin codes is the <font color=gold>least</font> predictable?</p>
+<p class=main>Which of these pin codes is the <font color=gold>most</font> predictable?</p>
+<p class=main>If you were given the task of trying to crack a random credit card by repeatedly trying PIN codes, what order should you try guessing to maximize your chances of selecting the correct number in the shortest time?</p>
+</td>
+<td width=160 align=right><img src='q.png' ></td>
+</tr>
+</table>
+
+<p class=main>If you had to make predication about what the least commonly used 4-digit PIN is, what would be your guess?</p>
+
+<p class=main>This tangentially relates to the XKCD cartoon.  In Randall&rsquo;s cartoon, the perpetrator&rsquo;s plan backfired because his selected license plate was so unique that it was very memorable.  What is the least memorable license plate?  Ask any spy you know (snigger) what the best way to blend into a crowd is.  Their answer will be not stand out, to appear &ldquo;normal&rdquo;, and not be notable in any way.</p>
+
+<table width=800>
+<tr>
+<td align=left width=260><img src='h.png'></td>
+<td>
+<p class=main>People are notoriously bad at generating random passwords.  I hope this article will scare you into being a little more careful in how you select your next PIN number.</p>
+
+<p class=main>Are you curious about what the least commonly used PIN number might be?</p>
+<p class=main>How about the most popular?</p>
+<p class=main>Read on &hellip;</p>
+</td>
+</tr>
+</table>
+
+<h1>DISCLAIMER</h1>
+
+<p class=main>This article is <b>not</b> intended to be a hacker bible, or to be used as a utility, resource, or tool to help would-be thieves perform nefarious actions.  I will only disclose data sufficient to make my points, and will try to avoid giving specific data outside of the obvious examples.  I do not want to be an enabler for script-kiddies.   Please do not email me asking for the database I used; if you do, you will be wasting your time as I&rsquo;m not going to respond.  I&rsquo;m not going to sell, donate or release the source data &ndash; don&rsquo;t ask!</p>
+
+<h3>Source</h3>
+
+<p class=main>Obviously, I don&rsquo;t have access to a credit card PIN number database.  Instead I&rsquo;m going to use a proxy.  I&rsquo;m going to use data condensed from released/exposed/discovered password tables and security breaches.</p>
+
+<h3>Soap Box &ndash; Password Database Exposures</h3>
+<table width=800>
+<tr>
+<td>
+<p class=main>Over the years, there have been numerous password table security breaches:  Some very high profile, some low profile, but all embarrassing (and many exceedingly expensive; both in direct fines and indirect loss of business through erosion of trust and reputation). </p>
+<p class=main>Fool me once, well, no, even that&rsquo;s not really acceptable, but fool me twice &hellip;  I&rsquo;ll go even further: <b>Any</b> developer who stores the password table of their database in clear text  should be so mortified by this lack of security that they should not be sleeping at night until they fix it.  Ignoring the fact that you should never have ever coded it this way, you have an <u>obligation</u> to learn from these past breaches.</p>
+<p class=main>If you work for a company and are knowledgeable that your customer database is <i>&ldquo;protected&rdquo;</i> by such lightweight security then run, don&rsquo;t walk, to your CEO/Presidents office, pound on the door and insist (s)he puts out a mandate to fix the matter with extreme prejudice.  Don&rsquo;t leave until you get an affirmative response. Badger, badger then badger them again. Make yourself a proverbial thorn in their side.</p>
+</td>
+<td width=260 align=right><img src='s.png'></td>
+</tr>
+</table>
+
+<p class=main>I&rsquo;m not trying to sell my services as a consultant here (though if you are interested, my rates are very reasonable compared to the cost of legal defense, potential FTC sanctions, class action suits, shareholder backlash,  fines, loss of reputation and business &hellip;)  There are plenty of security experts in the industry who can help you (if you need help filtering them and don&rsquo;t have referrals, someone who has CISSP qualifications is a good place to start).</p>
+<p class=main><SPAN STYLE="background-color: gold;"><font color=black>&nbsp;<b>Bottom line</b>&nbsp;</font></span> Security strengthens with layers, and the simple application of encryption on your database table can help protect your customer&rsquo;s data if this table is exposed.  It does not defend against all possible attacks, but it does nothing but good things.  What possible reason is there store things in clear-text? </p>
+
+<h3>Back to the data</h3>
+
+<table width=800>
+<tr>
+<td align=left width=440><img src='l.png'></td>
+<td>
+<p class=main>By combining the exposed password databases I&rsquo;ve encountered, and filtering the results to just those rows that are exactly four digits long <font color=gold>[0-9]</font> the output is a database of all the four digit character combinations that people have used as their account passwords.</p>
+</td>
+</tr>
+</table>
+<p class=main>Given that users have a free choice for their password, if users select a four digit password to their online account, it&rsquo;s not a stretch to use this as a proxy for four digit PIN codes.</p>
+
+<h1>The Data</h1>
+
+<p class=main>I was able to find almost <i>3.4 million</i> four digit passwords.   Every single one of the of the 10,000 combinations of digits from <font color=gold>0000</font> through to <font color=gold>9999</font> were represented in the dataset.</p>
+
+<table width=800>
+<tr><td width=400><p>The most popular password is <span style="background-color: black">&nbsp;1234&nbsp;</span> &hellip;</p></td><td width=300></td><td width=250></td></tr>
+</table>
+
+<table width=800>
+<tr><td width=100></td><td width=600><p>&hellip; it&rsquo;s <i>staggering</i> how popular this password appears to be.  Utterly <i>staggering</i> at the lack of imagination &hellip;</p></td><td width=100></td></tr>
+</table>
+
+<table width=800>
+<tr><td width=300></td><td width=500 align=right><p>&hellip; nearly 11% of the 3.4 million passwords are <span style="background-color: black">&nbsp;1234&nbsp;</span> <i>!!!</i></p></td></tr>
+</table>
+
+<table width=800>
+<tr>
+<td width=575>
+<p class=main>The next most popular 4-digit PIN in use is <span style="background-color: black">&nbsp;1111&nbsp;</span>  with over 6% of passwords being this.</p>
+<p class=main>In third place is <span style="background-color: black">&nbsp;0000&nbsp;</span> with almost 2%.</p>
+<p class=main>A table of the top 20 found passwords in shown at the right.  A staggering <font color=gold>26.83%</font> of all passwords could be guessed by attempting these 20 combinations!</p>
+
+<p class=main>(Statistically, with 10,000 possible combination, if passwords were uniformly randomly distributed, we would expect the these twenty passwords to account for just 0.2% of the total, not the 26.83% encountered)</p>
+
+<p class=main>Looking more closely at the top few records, all the usual suspects are present <span style="background-color: black">&nbsp;1111&nbsp;</span> <span style="background-color: black">&nbsp;2222&nbsp;</span> <span style="background-color: black">&nbsp;3333&nbsp;</span> &hellip; <span style="background-color: black">&nbsp;9999&nbsp;</span> as well as <span style="background-color: black">&nbsp;1212&nbsp;</span> and (snigger) <span style="background-color: black">&nbsp;6969&nbsp;</span>.</p>
+<p class=main>It&rsquo;s not a surprise to see patterns like <span style="background-color: black">&nbsp;1122&nbsp;</span> and <span style="background-color: black">&nbsp;1313&nbsp;</span> occurring high up in the list, nor <span style="background-color: black">&nbsp;4321&nbsp;</span> or <span style="background-color: black">&nbsp;1010&nbsp;</span>.</p>
+
+<p class=main><span style="background-color: black">&nbsp;2001&nbsp;</span> makes an appearance at #19. <span style="background-color: black">&nbsp;1984&nbsp;</span> follows not far behind in position #26, and James Bond fans may be interested to know <span style="background-color: black">&nbsp;0007&nbsp;</span> is found between the two of them in position #23 (another variant <span style="background-color: black">&nbsp;0070&nbsp;</span> follows not much further behind at #28).</p>
+</td>
+<td align=right>
+
+<table class=blog width=200>
+<thead><th></th><th>PIN</th><th>Freq</th></thead>
+<tr><td align=center>#1</td><td align=center>1234</td><td align=right>10.713%</td></tr>
+<tr><td align=center>#2</td><td align=center>1111</td><td align=right>6.016%</td></tr>
+<tr><td align=center>#3</td><td align=center>0000</td><td align=right>1.881%</td></tr>
+<tr><td align=center>#4</td><td align=center>1212</td><td align=right>1.197%</td></tr>
+<tr><td align=center>#5</td><td align=center>7777</td><td align=right>0.745%</td></tr>
+<tr><td align=center>#6</td><td align=center>1004</td><td align=right>0.616%</td></tr>
+<tr><td align=center>#7</td><td align=center>2000</td><td align=right>0.613%</td></tr>
+<tr><td align=center>#8</td><td align=center>4444</td><td align=right>0.526%</td></tr>
+<tr><td align=center>#9</td><td align=center>2222</td><td align=right>0.516%</td></tr>
+<tr><td align=center>#10</td><td align=center>6969</td><td align=right>0.512%</td></tr>
+<tr><td align=center>#11</td><td align=center>9999</td><td align=right>0.451%</td></tr>
+<tr><td align=center>#12</td><td align=center>3333</td><td align=right>0.419%</td></tr>
+<tr><td align=center>#13</td><td align=center>5555</td><td align=right>0.395%</td></tr>
+<tr><td align=center>#14</td><td align=center>6666</td><td align=right>0.391%</td></tr>
+<tr><td align=center>#15</td><td align=center>1122</td><td align=right>0.366%</td></tr>
+<tr><td align=center>#16</td><td align=center>1313</td><td align=right>0.304%</td></tr>
+<tr><td align=center>#17</td><td align=center>8888</td><td align=right>0.303%</td></tr>
+<tr><td align=center>#18</td><td align=center>4321</td><td align=right>0.293%</td></tr>
+<tr><td align=center>#19</td><td align=center>2001</td><td align=right>0.290%</td></tr>
+<tr><td align=center>#20</td><td align=center>1010</td><td align=right>0.285%</td></tr>
+</table>
+</td>
+</tr>
+</table>
+
+
+<p class=main>The first &ldquo;puzzling&rdquo; password I encountered was <span style="background-color: black">&nbsp;2580&nbsp;</span> in position #22.   What is the significance of these digits? Why should so many people select this code to make it appear so high up the list?</p>
+
+<table width=800>
+<tr>
+<td width=320 align=left rowspan=2><img src='keypad.png'></td>
+<td colspan=2>
+<p class=main>Then I realized that <span style="background-color: black">&nbsp;2580&nbsp;</span>is a straight down the middle of a telephone keypad!</p></td></tr>
+<tr><td>
+<p class=main> (Interestingly, this is very compelling evidence confirming the hypothesis that a 4-digit password list is a great proxy for a PIN number database.  If you look at the numeric keypad on a PC-keyboard you&rsquo;ll see that 2580 is slightly more awkward to type on the PC than a phone because the order of keys on a keyboard is the inverted.  Cash machines and other terminals that take credit cards use a phone style numeric pads.  It appears that many people have an easy to type/remember PIN number for their credit card and are re-using the same four digits for their online passwords, where the <i>"straight down the middle"</i> mnemonic no longer applies).</p></td>
+<td width=145 align=right><img src='kp.png'></td>
+</tr>
+</table>
+
+<p class=main>(Another fascinating piece of trivia is that people seem to prefer even numbers over odd, and codes like <span style="background-color: black">&nbsp;2468&nbsp;</span> occur higher than a odd number equivalent, such as <span style="background-color: black">&nbsp;1357&nbsp;</span>).</p>
+
+<h1>Cumulative Frequency</h1>
+
+<p class=main>As noted above, the more popular password selections dominate the frequency tables.  The most popular PIN code of <span style="background-color: black">&nbsp;1234&nbsp;</span> is more popular than the <i>lowest 4,200 codes combined!</i></p>
+<p class=main>That's right, you might be able to crack over 10% of all codes with one guess!  Expanding this, you could get 20% by using just five numbers!</p>
+<p class=main>Below is a cumulative frequency graph:</p>
+
+<img src='c.png'>
+
+<p class=main>Statistically, <i>one third</i> of all codes can be guessed by trying just 61 distinct combinations!</p>
+<p class=main>The 50% cumulative chance threshold is passed at just 426 codes (far less than the 5,000 that a random uniformly distribution would predict).  Paranoid yet?</p>
+
+<h1>Bottom of the pile</h1>
+
+<table width=800>
+<tr>
+<td width=530>
+
+<p class=main>OK, we've investigated most frequently used PINS and found they tend to be predictable and easy to remember, let's turn for a second to the bottom of the pile.</p>
+<p class=main> What are the least "interesting" (least used) PINS?</p>
+<p class=main>In my dataset the answer is <span style="background-color: black">&nbsp;8068&nbsp;</span> with just 25 occurrences in 3.4 million (this equates to 0.000744%, far, far fewer than random distribution would predict, and five orders of magnitude behind the most popular choice).</p>
+<p class=main>To the right are the twenty least popular 4-digit passwords encountered.</p>
+<table width=530>
+<tr><td width=220 align=left><img src='k.png' width=200></td>
+<td>
+<p class=main><SPAN STYLE="background-color: gold;"><font color=black>&nbsp;<b>Warning</b>&nbsp;</font></span> Now that we&rsquo;ve learned that, historically, <span style="background-color: black">&nbsp;8068&nbsp;</span> is (was?) the least commonly used password 4-digit PIN, please don&rsquo;t go out and change yours to this!  Hackers can read too!  They will also be promoting 8068 up their attempt trees in order to catch people who read this (or similar) articles.</p>
+<p class=main>Check out about the <a href='http://en.wikipedia.org/wiki/Nash_equilibrium'>Nash Equilibrium</a></p>
+</td>
+</tr></table>
+
+</td>
+
+<td align=right>
+<table class=blog width=250>
+<thead><th></th><th>PIN</th><th>Freq</th></thead>
+<tr><td align=center>#9980</td><td align=center>8557</td><td align=right>0.001191%</td></tr>
+<tr><td align=center>#9981</td><td align=center>9047</td><td align=right>0.001161%</td></tr>
+<tr><td align=center>#9982</td><td align=center>8438</td><td align=right>0.001161%</td></tr>
+<tr><td align=center>#9983</td><td align=center>0439</td><td align=right>0.001161%</td></tr>
+<tr><td align=center>#9984</td><td align=center>9539</td><td align=right>0.001161%</td></tr>
+<tr><td align=center>#9985</td><td align=center>8196</td><td align=right>0.001131%</td></tr>
+<tr><td align=center>#9986</td><td align=center>7063</td><td align=right>0.001131%</td></tr>
+<tr><td align=center>#9987</td><td align=center>6093</td><td align=right>0.001131%</td></tr>
+<tr><td align=center>#9988</td><td align=center>6827</td><td align=right>0.001101%</td></tr>
+<tr><td align=center>#9989</td><td align=center>7394</td><td align=right>0.001101%</td></tr>
+<tr><td align=center>#9990</td><td align=center>0859</td><td align=right>0.001072%</td></tr>
+<tr><td align=center>#9991</td><td align=center>8957</td><td align=right>0.001042%</td></tr>
+<tr><td align=center>#9992</td><td align=center>9480</td><td align=right>0.001042%</td></tr>
+<tr><td align=center>#9993</td><td align=center>6793</td><td align=right>0.001012%</td></tr>
+<tr><td align=center>#9994</td><td align=center>8398</td><td align=right>0.000982%</td></tr>
+<tr><td align=center>#9995</td><td align=center>0738</td><td align=right>0.000982%</td></tr>
+<tr><td align=center>#9996</td><td align=center>7637</td><td align=right>0.000953%</td></tr>
+<tr><td align=center>#9997</td><td align=center>6835</td><td align=right>0.000953%</td></tr>
+<tr><td align=center>#9998</td><td align=center>9629</td><td align=right>0.000953%</td></tr>
+<tr><td align=center>#9999</td><td align=center>8093</td><td align=right>0.000893%</td></tr>
+<tr><td align=center>#10000</td><td align=center>8068</td><td align=right>0.000744%</td></tr>
+</table>
+
+</td>
+</tr>
+</table>
+
+<h1>Memorable Years</h1>
+
+<p class=main>Many of the high frequency PIN numbers can be interpreted as years, <i>e.g.</i>  <span style="background-color: black">&nbsp;1967&nbsp;</span> <span style="background-color: black">&nbsp;1956&nbsp;</span> <span style="background-color: black">&nbsp;1937&nbsp;</span> &hellip; It appears that many people use a year of birth (or possibly an anniversary) as their PIN. This will certainly help them remember their code, but it greatly increases its predictability.</p>
+
+<p class=main>Just look at the stats: Every single <span style="background-color: black">&nbsp;19??&nbsp;</span> combination can be found in the <i>top fifth</i> of the dataset!</p>
+<p class=main>Below is a plot of this in graphical format.  In this chart, each <font color=yellow>yellow</font> line represents a PIN number that starts <span style="background-color: black">&nbsp;19??&nbsp;</span> </p>
+<img src='c2.png'>
+
+<p class=main>If all the passwords were uniformly distributed, there should be no significant difference between the frequency of occurrence of, <i>for instance</i>, <span style="background-color: black">&nbsp;1972&nbsp;</span> and any other PIN ending in seventy two <span style="background-color: black">&nbsp;??72&nbsp;</span>.  However, as we shall see, this is not the case at all.</p>
+<p class=main><span style="background-color: black">&nbsp;1972&nbsp;</span> occurs in ordinal position #76 (with a frequency 0.099363%).  Here&rsquo;s a histogram for the occurrences of all <span style="background-color: black">&nbsp;??72&nbsp;</span> probabilities.</p>
+<img src='r.png'>
+<p class=main>You can clearly see the spike at <span style="background-color: black">&nbsp;1972&nbsp;</span> (with smaller spikes at <span style="background-color: black">&nbsp;7272&nbsp;</span>  and <span style="background-color: black">&nbsp;1472&nbsp;</span>)</p>
+<p class=main>If you calculate the ratio of the peak of <span style="background-color: black">&nbsp;1972&nbsp;</span> to the average of all the other <span style="background-color: black">&nbsp;??72&nbsp;</span> PINS you get the ratio of <font color=gold>&nbsp;<b>22:1</b></font></p>
+<p class=main>PINS starting with <span style="background-color: black">&nbsp;19??&nbsp;</span> are much more likley to occur. Of course, it&rsquo;s not just 1972.  Here is plot of the ratio of <font color=gold>19</font> to <font color=gold>non-19</font> for all hundred combinations.  Along the x-axis are all the combinations of last two digits XX, and for each of these the ratio of the 19XX to average of all the other ??XX occurrences has been calculated.  Here&rsquo;s the chart:</p>
+<img src='r2.png'>
+<p class=main>It's a pretty good approximation for a demographic chart! (suggested by the red-dashed trend line) which would probably allow a fair estimation of the ages (years of birth) of the people using the various websites. (Of course, hackers invert this strategy and use the age of a target to try and give information to guess a user's PIN.  Looking at this graph, this might give them up to a <i>40x</i> advantage!)</p>
+<p class=main>Just about all the ratios are above <font color=gold>1.0</font>.  The noteable exceptions are <span style="background-color: black">&nbsp;??34&nbsp;</span> and <span style="background-color: black">&nbsp;??00&nbsp;</span> (which are easy to explain, since the massive popularity of <span style="background-color: black">&nbsp;1234&nbsp;</span> and <span style="background-color: black">&nbsp;0000&nbsp;</span> dwarf <span style="background-color: black">&nbsp;1934&nbsp;</span> and <span style="background-color: black">&nbsp;1900&nbsp;</span>respectively).  Simiarly <span style="background-color: black">&nbsp;33&nbsp;</span> <span style="background-color: black">&nbsp;44&nbsp;</span> <span style="background-color: black">&nbsp;55&nbsp;</span> <span style="background-color: black">&nbsp;66&nbsp;</span> &hellip; are lower than expected as the quad codes like <span style="background-color: black">&nbsp;3333&nbsp;</span> mask out even the <span style="background-color: black">&nbsp;1933&nbsp;</span> boost.</p>
+<p class=main>There are also spikes in the graph corresponding to the popular PINS of <span style="background-color: black">&nbsp;1919&nbsp;</span> <span style="background-color: black">&nbsp;1984&nbsp;</span> and <span style="background-color: black">&nbsp;1999&nbsp;</span></p>
+<h1>Patterns in data</h1>
+
+<table width=800>
+<tr>
+<td width=200 align=left><img src='g2.png'></td>
+<td>
+<p class=main>I love pretty ways to graphically vizualize data.  Pictures really do paint thousands of words.</p>
+<p class=main>Another interesting way to visualize the PIN data is in this grid plot of the distribution.  In this heatmap, the x-axis depicts the left two digits from <font color=gold>[00]</font> to <font color=gold>[99]</font> and the y-axis depicts the right two digits from <font color=gold>[00]</font> to <font color=gold>[99]</font>.  The bottom left is <span style="background-color: black">&nbsp;0000&nbsp;</span> and the top right is <span style="background-color: black">&nbsp;9999&nbsp;</span>.</p>
+<p class=main>Color is used to represent frequency.  The higher frequency occurences are yellow to white hot, and the lower frequency occurences are red, through dark red to black.</p>
+<p class=main><SPAN STYLE="background-color: gold;"><font color=black>&nbsp;<b>Geek Note</b>&nbsp;</font></span> The scaling is logarithmic.</p>
+</td>
+</tr>
+</table>
+<p class=main>You could look at this plot all day!</p>
+<p class=main>The bright line for the leading diagonal shows the repeated couplets that people love to use for their PIN numbers <span style="background-color: black">&nbsp;0000&nbsp;</span> <span style="background-color: black">&nbsp;0101&nbsp;</span> <span style="background-color: black">&nbsp;0202&nbsp;</span> &hellip;
+<span style="background-color: black">&nbsp;5454&nbsp;</span> <span style="background-color: black">&nbsp;5555&nbsp;</span> <span style="background-color: black">&nbsp;5656&nbsp;</span>
+&hellip;
+<span style="background-color: black">&nbsp;9898&nbsp;</span>
+<span style="background-color: black">&nbsp;9999&nbsp;</span>.</p>
+<p class=main>Every eleventh dot on the leading diagonal is brighter corresponding to the quad numbers
+<i>e.g.</i> <span style="background-color: black">&nbsp;4444&nbsp;</span> <span style="background-color: black">&nbsp;5555&nbsp;</span>.  Here is a larger scale version:</p>
+
+
+<img src='grid.png' width=800>
+<h3>Interesting things</h3>
+
+<p class=main>There are so many interesting things to learn from this heatmap.  Here are just a couple:</p>
+
+<table width=800>
+
+<tr>
+<td width=210 align=left><img src='m1.png'>
+<td colspan=2>
+<p class=main>The first is the interesting harmonics of shading (seen here more easily in a gray scale plot).</p>
+<p class=main>You can make out a <i>&ldquo;grid pattern&rdquo;</i> in the plot.</p>
+<p class=main>The lighter areas corresponding to couplets of numbers that are close to each other.  For some reason, people don't like to select pairs of numbers that have larger numerical gaps between them.  Combinations like <span style="background-color: black">&nbsp;45&nbsp;</span> and <span style="background-color: black">&nbsp;67&nbsp;</span> occur much more frequently than things like <span style="background-color: black">&nbsp;29&nbsp;</span> and <span style="background-color: black">&nbsp;37&nbsp;</span> </p>
+</td>
+</tr>
+
+<tr><td colspan=3>&nbsp;</td></tr>
+
+<tr>
+<td width=210 align=left><img src='m2.png'>
+<td>
+<p class=main>Here we see the line corresponding to <span style="background-color: black">&nbsp;19XX&nbsp;</span>.  The intensity the dots relates to the chart we plotted earlier</p>
+<p class=main>There are a large number of codes starting with 19, especially towards the higher end.</span>
+</td>
+<td width=365 align=right><img src='by.jpg'></td>
+</tr>
+
+<tr><td colspan=3>&nbsp;</td></tr>
+
+<tr>
+<td width=210 align=left><img src='m3.png'>
+<td>
+<p class=main>There is a strong bias towards the lower left quadrant.  People love to start their PIN numbers with <font color=gold>0</font>, and even more so with the digit <font color=gold>1</font>.</p>
+<p class=main>The chart on the right shows the relative frequency of the first digit of 4-digit pin codes.</p>
+<p class=main>As you can see, the digit <font color=gold>1</font> dominates (and it's not all down to the <span style="background-color: black">&nbsp;19XX&nbsp;</span> phenomenon.)</p>
+</td>
+<td width=365 align=right><img src='ld.png'></td>
+</tr>
+
+<tr><td colspan=3>&nbsp;</td></tr>
+
+<tr>
+<td width=210 align=left><img src='m4.png'>
+<td colspan=2>
+<p class=main>Little bright specs dot the plot in places corresponding to numerical runs (both ascending and descending) such as <span style="background-color: black">&nbsp;2345&nbsp;</span> , <span style="background-color: black">&nbsp;4321&nbsp;</span> and <span style="background-color: black">&nbsp;5678&nbsp;</span>.</p>
+<p class=main>I've highlighted just a couple on the plot to the left.</p>
+<p class=main>Jumps in steps of two are also visible <i>e.g.</i> <span style="background-color: black">&nbsp;2468&nbsp;</span></p>
+</td>
+
+</tr>
+
+<tr><td colspan=3>&nbsp;</td></tr>
+
+
+</table>
+
+<table width=800>
+<tr>
+<td>
+<p class=main><i>Repeated-pair</i> couplets of numbers are very common, such as <span style="background-color: black">&nbsp;XYXY&nbsp;</span></p>  <p class=main>The hundred sets of repeating couplet pairs represent a staggering <font color=gold>17.8%</font> of all observed PIN numbers.</p>
+</td>
+<td width=160 align=right><img src='dd.jpg'></td>
+</tr>
+</table>
+
+<h1>More than four</h1>
+
+<p class=main>The purpose of this posting was to investigate patterns and frequency of four digit PIN numbers.  However, the database I collected also has <i>all-numeric</i> password of different lengths.  It's worth taking a quick look at these too.</p>
+
+<img src='pl.png'>
+
+<p class=main>I found close to 7 million all-numeric passwords.  Approximately half of these were the four-digit codes we've just examined.</p>
+<p class=main>Six digit codes are the next most popular length, followed eight.</p>
+<p class=main>I hope, hope that the people who have passwords of nine digits long are <u>not</u> using their Social Security Numbers!</p></p>
+<p class=main>Below are the top 20 passwords for the various lengths, along with their share of their same-size namespace.</p>
+
+
+<table width=800 class=blog>
+<thead><th>#</th><th colspan=2>5</th><th colspan=2>6</th><th colspan=2>7</th><th colspan=2>8</th><th colspan=2>9</th><th colspan=2>10</th></thead>
+<thead><th></th><th>PSWD</th><th>%</th><th>PSWD</th><th>%</th><th>PSWD</th><th>%</th><th>PSWD</th><th>%</th><th>PSWD</th><th>%</th><th>PSWD</th><th>%</th></thead>
+<tr><td align=center>#1</td><td align=right>12345</td><td align=right>22.802%</td><td align=right>123456</td><td align=right>11.684%</td><td align=right>1234567</td><td align=right>3.440%</td><td align=right>12345678</td><td align=right>11.825%</td><td align=right>123456789</td><td align=right>35.259%</td><td align=right>1234567890</td><td align=right>20.431%</td></tr>
+<tr><td align=center>#2</td><td align=right>11111</td><td align=right>4.484%</td><td align=right>123123</td><td align=right>1.370%</td><td align=right>7777777</td><td align=right>1.721%</td><td align=right>11111111</td><td align=right>1.326%</td><td align=right>987654321</td><td align=right>3.661%</td><td align=right>0123456789</td><td align=right>2.323%</td></tr>
+<tr><td align=center>#3</td><td align=right>55555</td><td align=right>1.769%</td><td align=right>111111</td><td align=right>1.296%</td><td align=right>1111111</td><td align=right>0.637%</td><td align=right>88888888</td><td align=right>0.959%</td><td align=right>123123123</td><td align=right>1.587%</td><td align=right>0987654321</td><td align=right>2.271%</td></tr>
+<tr><td align=center>#4</td><td align=right>00000</td><td align=right>1.258%</td><td align=right>121212</td><td align=right>0.623%</td><td align=right>8675309</td><td align=right>0.465%</td><td align=right>87654321</td><td align=right>0.815%</td><td align=right>789456123</td><td align=right>1.183%</td><td align=right>1111111111</td><td align=right>2.087%</td></tr>
+<tr><td align=center>#5</td><td align=right>54321</td><td align=right>1.196%</td><td align=right>123321</td><td align=right>0.591%</td><td align=right>1234321</td><td align=right>0.220%</td><td align=right>00000000</td><td align=right>0.675%</td><td align=right>999999999</td><td align=right>0.825%</td><td align=right>1029384756</td><td align=right>1.293%</td></tr>
+<tr><td align=center>#6</td><td align=right>13579</td><td align=right>1.112%</td><td align=right>666666</td><td align=right>0.577%</td><td align=right>0000000</td><td align=right>0.188%</td><td align=right>12341234</td><td align=right>0.569%</td><td align=right>147258369</td><td align=right>0.591%</td><td align=right>9876543210</td><td align=right>0.971%</td></tr>
+<tr><td align=center>#7</td><td align=right>77777</td><td align=right>0.618%</td><td align=right>000000</td><td align=right>0.521%</td><td align=right>4830033</td><td align=right>0.158%</td><td align=right>69696969</td><td align=right>0.348%</td><td align=right>741852963</td><td align=right>0.455%</td><td align=right>0000000000</td><td align=right>0.942%</td></tr>
+<tr><td align=center>#8</td><td align=right>22222</td><td align=right>0.454%</td><td align=right>654321</td><td align=right>0.506%</td><td align=right>7654321</td><td align=right>0.154%</td><td align=right>12121212</td><td align=right>0.320%</td><td align=right>111111111</td><td align=right>0.425%</td><td align=right>1357924680</td><td align=right>0.479%</td></tr>
+<tr><td align=center>#9</td><td align=right>12321</td><td align=right>0.412%</td><td align=right>696969</td><td align=right>0.454%</td><td align=right>5201314</td><td align=right>0.128%</td><td align=right>11223344</td><td align=right>0.293%</td><td align=right>123454321</td><td align=right>0.413%</td><td align=right>1122334455</td><td align=right>0.441%</td></tr>
+<tr><td align=center>#10</td><td align=right>99999</td><td align=right>0.397%</td><td align=right>112233</td><td align=right>0.417%</td><td align=right>0123456</td><td align=right>0.124%</td><td align=right>12344321</td><td align=right>0.275%</td><td align=right>123654789</td><td align=right>0.378%</td><td align=right>1234512345</td><td align=right>0.402%</td></tr>
+<tr><td align=center>#11</td><td align=right>33333</td><td align=right>0.338%</td><td align=right>159753</td><td align=right>0.283%</td><td align=right>2848048</td><td align=right>0.124%</td><td align=right>77777777</td><td align=right>0.262%</td><td align=right>147852369</td><td align=right>0.356%</td><td align=right>1234554321</td><td align=right>0.380%</td></tr>
+<tr><td align=center>#12</td><td align=right>00700</td><td align=right>0.261%</td><td align=right>292513</td><td align=right>0.250%</td><td align=right>7005425</td><td align=right>0.120%</td><td align=right>99999999</td><td align=right>0.223%</td><td align=right>111222333</td><td align=right>0.304%</td><td align=right>5555555555</td><td align=right>0.259%</td></tr>
+<tr><td align=center>#13</td><td align=right>90210</td><td align=right>0.244%</td><td align=right>131313</td><td align=right>0.235%</td><td align=right>1080413</td><td align=right>0.111%</td><td align=right>22222222</td><td align=right>0.219%</td><td align=right>963852741</td><td align=right>0.255%</td><td align=right>1212121212</td><td align=right>0.244%</td></tr>
+<tr><td align=center>#14</td><td align=right>88888</td><td align=right>0.217%</td><td align=right>123654</td><td align=right>0.228%</td><td align=right>7895123</td><td align=right>0.107%</td><td align=right>55555555</td><td align=right>0.205%</td><td align=right>321654987</td><td align=right>0.253%</td><td align=right>9999999999</td><td align=right>0.231%</td></tr>
+<tr><td align=center>#15</td><td align=right>38317</td><td align=right>0.216%</td><td align=right>222222</td><td align=right>0.212%</td><td align=right>1869510</td><td align=right>0.102%</td><td align=right>33333333</td><td align=right>0.176%</td><td align=right>420420420</td><td align=right>0.241%</td><td align=right>2222222222</td><td align=right>0.219%</td></tr>
+<tr><td align=center>#16</td><td align=right>09876</td><td align=right>0.185%</td><td align=right>789456</td><td align=right>0.209%</td><td align=right>3223326</td><td align=right>0.100%</td><td align=right>44444444</td><td align=right>0.165%</td><td align=right>007007007</td><td align=right>0.227%</td><td align=right>7777777777</td><td align=right>0.206%</td></tr>
+<tr><td align=center>#17</td><td align=right>44444</td><td align=right>0.179%</td><td align=right>999999</td><td align=right>0.194%</td><td align=right>1212123</td><td align=right>0.096%</td><td align=right>66666666</td><td align=right>0.160%</td><td align=right>135792468</td><td align=right>0.164%</td><td align=right>3141592654</td><td align=right>0.195%</td></tr>
+<tr><td align=center>#18</td><td align=right>98765</td><td align=right>0.169%</td><td align=right>101010</td><td align=right>0.190%</td><td align=right>1478963</td><td align=right>0.088%</td><td align=right>11112222</td><td align=right>0.140%</td><td align=right>397029049</td><td align=right>0.158%</td><td align=right>3333333333</td><td align=right>0.186%</td></tr>
+<tr><td align=center>#19</td><td align=right>01234</td><td align=right>0.160%</td><td align=right>777777</td><td align=right>0.188%</td><td align=right>2222222</td><td align=right>0.085%</td><td align=right>13131313</td><td align=right>0.131%</td><td align=right>012345678</td><td align=right>0.154%</td><td align=right>7894561230</td><td align=right>0.165%</td></tr>
+<tr><td align=center>#20</td><td align=right>42069</td><td align=right>0.154%</td><td align=right>007007</td><td align=right>0.186%</td><td align=right>5555555</td><td align=right>0.082%</td><td align=right>10041004</td><td align=right>0.127%</td><td align=right>123698745</td><td align=right>0.152%</td><td align=right>1234567891</td><td align=right>0.161%</td></tr></td></tr>
+</table>
+
+<h3>Some interesting observations (and a little speculation)</h3>
+<p class=main><img src='key.gif'>&nbsp;For five digit passwords, users appear to have <i>even less</i> imagination in selecting their codes (22.8% select 12345).  All the usual suspects occur, but a new addition is the puerile addition in position #20 of the concatenation of 420 and 69.</p>
+<p class=main><img src='key.gif'>&nbsp;For six digit password, again 696969 appears highly.  Also of note is 159753 (a "X" mark over the numeric keypad).  James Bond returns with 007007.</p>
+<p class=main><img src='key.gif'>&nbsp;For seven digits, the standby of 1234567 is a much lower frequency (though still the top).  I speculate that this is because many people may be using their telephone number (without area code) as a seven digit password.  Telephone numbers are fairly distinct, and already memorized, so when a seven digit code is needed, they spring to mind easily.  The higher frequency of usage of telephone numbers reduces the need to use imagination (or lack thereof) and select something else.</p>
+<p class=main><img src='key.gif'>&nbsp;Is Jenny there?  The fouth most popular seven digit password is <a href='http://en.wikipedia.org/wiki/867-5309/Jenny'>8675309</a> (It's a popular 80's song).</p>
+<p class=main><img src='key.gif'>&nbsp;Eight digit passwords are just as expected.  Lots of pattern, and lots of repetition.</p>
+<p class=main><img src='key.gif'>&nbsp;Common nine digit passwords also follow patterns and repetition. 789456123 appears as an easy <i>"Along the top, middle and bottom of the keypad"</i> 147258369 is related in the vertical direction (and other variants appear high up). Again we get a 420 moment with 420420420, and also the shaken, not stirred, but repeated 007007007 returns.</p>
+<p class=main><img src='key.gif'>&nbsp;Interestingly for ten digits 1029384756 appears (alternating ascending/descending digits), as well as the odd/even 1357924680.</p>
+<p class=main><img src='key.gif'>&nbsp;Hurrah for math!  In position #17 of the ten digit password list we get 3141592654 (The first few digits of <i>Pi</i>)</p>
+
+<h1>Conclusions</h1>
+
+<table width=800>
+<tr>
+<td width=150 align=left><img src='d.png'>
+</td>
+
+<td><p class=main>If you are a <SPAN STYLE="background-color: gold;"><font color=black>&nbsp;<b>developer</b>&nbsp;</font></span>, <SPAN STYLE="background-color: gold;"><font color=black>&nbsp;<b>tester</b>&nbsp;</font></span> or <SPAN STYLE="background-color: gold;"><font color=black>&nbsp;<b>executive</b>&nbsp;</font></span>  I hope you are sufficiently paranoid that you will <i>immediately</i> check to see that your systems do not store sensitive information, like passwords, unencrypted.  The entire reason I was able to perform this analysis is because <del>dumb</del> stupid and lazy coders stored information in clear text.  Your lazyness has the potential to impact millions.</p>
+<p class=main>If you are a <SPAN STYLE="background-color: gold;"><font color=black>&nbsp;<b>consumer</b>&nbsp;</font></span> and your recognize any of the numbers I've used in this article to be your passwords/pins I hope you apply common sense and immediately change them to something a little less predictable.  Alternatively, you could be lazy and not change things (In that case, at least the only person you are harming with this apathy is yourself.)</p>
+</td>
+</tr>
+</table>
+
+<h1>Updates</h1>
+<p class=main>Since publishing this article, it's been brought to my attention that, of course, in addition to anniversary years, many people encapsulate dates in the format MMDD (such as birthdays &hellip;) for their PIN codes.</p>
+<p class=main>This clearly explains the lower left corner where, if you look at the heatmap, there is a huge contrast change at the height of around 30-31 (the number of days in a month), extending to 12 on the x-axis. (Thanks to <b>zero79</b> for first pointing this out).</p>
+<img src='mmdd.png'>
+<p class=main>Many people also asked the significance of 1004 in the four character PIN table.  This comes from Korean speakers.  When spoken, "1004" is <I>cheonsa</i> (cheon = 1000, sa=4).</p>
+<p class=main>"Cheonsa" also happens to be the Korean word for <i>Angel</i>.</p>
+
+
+<h1>Another XKCD cartoon</h1>
+
+<p class=main>It only seems appropriate to end with another XKCD cartoon.  This one is <a href='http://xkcd.com/936/'>Password Strength</a></p>
+
+
+
+<img src='xkcd936.png'>
+
+<iframe src="http://DataGenetics.com/feed/foot.php" width=840 height=400 style="border:none" scrolling="no" seamless></iframe>
+
+<p class=main>You can find a complete list of all the articles <a href='/blog.html'>here</a>.<sup><img src='/images/n.gif'></sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Click <a href='http://datagenetics.com/newsletter/subscribe.html'>here</a> to receive email alerts on new articles.</p>
+
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-435375-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</div>
+
+<div id="dgfooter">
+<img src='/images/backgroundwb.jpg'>
+<p>&copy; 2009-2013 DataGenetics</p>
+</div>
+
+</div>
+</body>
+
+</html>
+
+
+#####EOF#####
+
+

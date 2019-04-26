@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  Copyright (c) 2000-2009  Josh Coalson, 2011-2014 Xiph.Org Foundation -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the GNU Free Documentation License, Version 1.1 -->
+<!-- or any later version published by the Free Software Foundation; -->
+<!-- with no invariant sections. -->
+<!-- A copy of the license can be found at http://www.gnu.org/copyleft/fdl.html -->
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta name="author" content="Josh Coalson" />
+	<meta name="description" content="A free, open source codec for lossless audio compression and decompression" />
+	<meta name="keywords" content="free,lossless,audio,codec,encoder,decoder,compression,compressor,archival,archive,archiving,backup,music" />
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="flac.css" />
+	<link rel="alternate" type="application/rss+xml" title="FLAC News" href="feeds/feed.xml"/>
+	<title>FLAC - Free Lossless Audio Codec</title>
+	<script type="text/javascript">
+	function loadXMLDoc(dname) {
+	  var xhttp;
+	  if (window.ActiveXObject) {
+	    xhttp=new ActiveXObject("Msxml2.XMLHTTP.3.0");
+	  } else {
+	    xhttp=new XMLHttpRequest();
+	  }
+	  xhttp.open("POST",dname,false);
+	  xhttp.send("");
+	  return xhttp.responseXML;
+	}
+
+	function displayResult() {
+	  var xml, xsl, xsl_sidebar, xsltProcessor, resultDocument;
+
+	  document.getElementById("newsbox").innerHTML='';
+	  document.getElementById("newssmallbox").innerHTML='';
+
+	  xml=loadXMLDoc("feeds/feed.xml");
+	  xsl=loadXMLDoc("feeds/rss_transform_home.xsl");
+	  xsl_sidebar=loadXMLDoc("feeds/rss_transform_sidebar.xsl");
+
+	  // Proces newssection
+	  if (window.ActiveXObject) {
+	    // code for IE
+	    ex=xml.transformNode(xsl);
+	    document.getElementById("newsbox").innerHTML=ex;
+	  } else if (document.implementation && document.implementation.createDocument) {
+	    // code for Mozilla, Firefox, Opera, etc.
+	    xsltProcessor=new XSLTProcessor();
+	    xsltProcessor.importStylesheet(xsl);
+	    resultDocument = xsltProcessor.transformToFragment(xml,document);
+	    document.getElementById("newsbox").appendChild(resultDocument);
+	  }
+
+	  // Proces sidebar
+	  if (window.ActiveXObject) {
+	    // code for IE
+	    ex=xml.transformNode(xsl_sidebar);
+	    document.getElementById("newssmallbox").innerHTML=ex;
+	  } else if (document.implementation && document.implementation.createDocument) {
+	    // code for Mozilla, Firefox, Opera, etc.
+	    xsltProcessor=new XSLTProcessor();
+	    xsltProcessor.importStylesheet(xsl_sidebar);
+	    resultDocument = xsltProcessor.transformToFragment(xml,document);
+	    document.getElementById("newssmallbox").appendChild(resultDocument);
+	  }
+	}
+	</script>
+</head>
+
+<body onload="displayResult()">
+
+<div class="logo">
+	<a href="index.html"><img src="images/logo130.gif" alt="FLAC Logo" align="middle" border="0" hspace="0" /></a>
+</div>
+
+<div class="above_nav"></div>
+
+<div class="navbar">
+	&nbsp;home&nbsp;&nbsp;|
+	&nbsp;<a href="faq.html">faq</a>&nbsp;&nbsp;|
+	&nbsp;<a href="news.html">news</a>&nbsp;&nbsp;|
+	&nbsp;<a href="download.html">download</a>&nbsp;&nbsp;|
+	&nbsp;<a href="documentation.html">documentation</a>&nbsp;&nbsp;|
+	&nbsp;<a href="comparison.html">comparison</a>&nbsp;&nbsp;|
+	&nbsp;<a href="changelog.html">changelog</a>&nbsp;&nbsp;|
+	&nbsp;<a href="links.html">links</a>&nbsp;&nbsp;|
+	&nbsp;<a href="developers.html">developers</a>&nbsp;
+</div>
+
+<div class="below_nav"></div>
+
+<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td width="65%" align="center" valign="top">
+
+			<div class="box">
+				<div class="box_title">
+					<a name="what_is_flac">what is FLAC?</a>
+				</div>
+				<div class="box_header"></div>
+				<div class="box_body">
+					<b>FLAC</b> stands for <b>Free Lossless Audio Codec</b>, an audio format similar to MP3, but lossless, meaning that audio is compressed in FLAC without any loss in quality.  This is similar to how Zip works, except with FLAC you will get much better compression because it is designed specifically for audio, and you can play back compressed FLAC files in your favorite player (or your car or home stereo, see <a href="links.html#hardware">supported devices</a>) just like you would an MP3 file.<br />
+					<br />
+					FLAC stands out as the <a href="comparison.html">fastest and most widely supported lossless audio codec</a>, and the only one that at once is non-proprietary, is unencumbered by patents, has an open-source reference implementation, has a well documented format and API, and has several other independent implementations.<br />
+					<br />
+					See <a href="features.html">About FLAC</a> for more, or <a href="documentation_tasks.html">Using FLAC</a> for how to play FLAC files, rip CDs to FLAC, etc.
+				</div>
+				<div class="box_footer"></div>
+			</div>
+
+			<br />
+
+			<div class="box">
+				<div class="box_title">
+					<a name="latest">latest news&nbsp;&nbsp;</a><a href="feeds/feed.xml"><img src="images/feed-icon-16x16.png" border="0" hspace="0" style="text-align: center" alt="logo"/></a>
+				</div>
+				<div class="box_header"></div>
+				<div class="box_body" id="newsbox">
+					It seems you've disables Javascript. This news feed requires it. Sorry
+				</div>
+				<div class="box_footer"></div>
+			</div>
+
+		</td>
+
+
+		<td width="35%" align="center" valign="top">
+
+			<div class="smallbox">
+				<div class="smallbox_title">
+					news
+				</div>
+				<div class="smallbox_header"></div>
+				<div class="smallbox_body" id="newssmallbox">
+					It seems you've disables Javascript. This news feed requires it. Sorry
+				</div>
+				<div class="smallbox_footer"></div>
+			</div>
+
+		</td>
+	</tr>
+</table>
+
+
+<div class="copyright">
+	<!-- @@@ oh so hacky -->
+	<table>
+		<tr>
+			<td align="left">
+				 Copyright (c) 2000-2009  Josh Coalson, 2011-2014 Xiph.Org Foundation
+			</td>
+			<td width="1%" align="right">
+				<a href="http://validator.w3.org/check?uri=referer"><img src="images/valid-xhtml10.png" alt="Valid XHTML 1.0!" height="31" width="88" border="0" hspace="0" /></a>
+			</td>
+		</tr>
+	</table>
+</div>
+
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

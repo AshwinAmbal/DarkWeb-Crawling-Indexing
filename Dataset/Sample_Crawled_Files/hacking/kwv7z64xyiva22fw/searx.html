@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="searx - a privacy-respecting, hackable metasearch engine" />
+    <meta name="keywords" content="searx, search, search engine, metasearch, meta search" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="searx/0.15.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , maximum-scale=1.0, user-scalable=1" />
+    <title>searx.me</title>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="/static/themes/oscar/css/logicodev.min.css" type="text/css" />
+    <link rel="stylesheet" href="/static/themes/oscar/css/leaflet.min.css" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="/static/js/html5shiv.min.js"></script>
+      <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/static/themes/oscar/img/favicon.png" />
+
+
+    <link title="searx.me" type="application/opensearchdescription+xml" rel="search" href="/opensearch.xml"/>
+
+    <script type="text/javascript">
+        searx = {};
+        searx.method = "POST";
+        searx.autocompleter = false;
+    </script>
+    <noscript>
+        <style type="text/css">
+            .tab-content > .active_if_nojs, .active_if_nojs {display: block !important; visibility: visible !important;}
+            .margin_top_if_nojs {margin-top: 20px;}
+            .hide_if_nojs {display: none !important;overflow:none !important;}
+            .disabled_if_nojs {pointer-events: none; cursor: default; text-decoration: line-through;}
+        </style>
+    </noscript>
+</head>
+<body>
+<div class="searx-navbar">
+    <span class="instance pull-left">
+        <a href="/">searx.me</a>
+    </span>
+    <span class="pull-right">
+        <a href="/about">about</a>
+        <a href="/preferences">preferences</a>
+    </span>
+</div>    <div class="container">
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="text-center col-sm-12 col-md-12">
+                <h1 class="text-hide center-block" id="main-logo">
+                    <img class="center-block img-responsive" src="/static/themes/oscar/img/logo_searx_a.png" alt="searx logo" />
+                    searx
+                </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-center col-sm-12 col-md-12">
+
+<form method="POST" action="/" id="search_form" role="search">
+    <div class="input-group col-md-8 col-md-offset-2">
+        <input type="search" name="q" class="form-control input-lg autofocus" id="q" placeholder="Search for..." autocomplete="off" value="">
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-default input-lg"><span class="hide_if_nojs"><span class="glyphicon glyphicon-search"></span></span><span class="hidden active_if_nojs">Start search</span></button>
+        </span>
+    </div>
+    <div class="col-md-8 col-md-offset-2  advanced">
+<input type="checkbox" name="advanced_search" id="check-advanced" >
+<label for="check-advanced">
+    <span class="glyphicon glyphicon-cog"></span>
+    Advanced settings
+</label>
+<div id="advanced-search-container">
+<div id="categories">
+        <input class="hidden" type="checkbox" id="checkbox_general" name="category_general" checked="checked" />
+        <label for="checkbox_general">general</label>
+        <input class="hidden" type="checkbox" id="checkbox_files" name="category_files"  />
+        <label for="checkbox_files">files</label>
+        <input class="hidden" type="checkbox" id="checkbox_images" name="category_images"  />
+        <label for="checkbox_images">images</label>
+        <input class="hidden" type="checkbox" id="checkbox_it" name="category_it"  />
+        <label for="checkbox_it">it</label>
+        <input class="hidden" type="checkbox" id="checkbox_map" name="category_map"  />
+        <label for="checkbox_map">map</label>
+        <input class="hidden" type="checkbox" id="checkbox_music" name="category_music"  />
+        <label for="checkbox_music">music</label>
+        <input class="hidden" type="checkbox" id="checkbox_news" name="category_news"  />
+        <label for="checkbox_news">news</label>
+        <input class="hidden" type="checkbox" id="checkbox_science" name="category_science"  />
+        <label for="checkbox_science">science</label>
+        <input class="hidden" type="checkbox" id="checkbox_social_media" name="category_social media"  />
+        <label for="checkbox_social_media">social media</label>
+        <input class="hidden" type="checkbox" id="checkbox_videos" name="category_videos"  />
+        <label for="checkbox_videos">videos</label>
+</div>  <div class="row">
+    <div class="col-xs-6">
+<select name="time_range" id="time-range" class="custom-select form-control">
+    <option id="time-range-anytime" value="" selected>
+        Anytime
+    </option>
+    <option id="time-range-day" value="day" >
+        Last day
+    </option>
+    <option id="time-range-week" value="week" >
+        Last week
+    </option>
+    <option id="time-range-month" value="month" >
+        Last month
+    </option>
+    <option id="time-range-year" value="year" >
+        Last year
+    </option>
+</select>    </div>
+    <div class="col-xs-6">
+<select class="custom-select form-control" name='language'>
+	<option value="all" >Default language</option>
+		<option value="ms-MY" >
+			Bahasa Melayu - ms-MY
+		</option>
+		<option value="ca-ES" >
+			CatalÃ  - ca-ES
+		</option>
+		<option value="da-DK" >
+			Dansk - da-DK
+		</option>
+		<option value="de" >
+			Deutsch - de
+		</option>
+		<option value="de-AT" >
+			Deutsch (Ãsterreich) - de-AT
+		</option>
+		<option value="de-CH" >
+			Deutsch (Schweiz) - de-CH
+		</option>
+		<option value="de-DE" >
+			Deutsch (Deutschland) - de-DE
+		</option>
+		<option value="et-EE" >
+			Eesti - et-EE
+		</option>
+		<option value="en" >
+			English - en
+		</option>
+		<option value="en-AU" >
+			English (Australia) - en-AU
+		</option>
+		<option value="en-CA" >
+			English (Canada) - en-CA
+		</option>
+		<option value="en-GB" >
+			English (United Kingdom) - en-GB
+		</option>
+		<option value="en-IN" >
+			English (India) - en-IN
+		</option>
+		<option value="en-MY" >
+			English (Malaysia) - en-MY
+		</option>
+		<option value="en-US" selected="selected">
+			English (United States) - en-US
+		</option>
+		<option value="es" >
+			EspaÃ±ol - es
+		</option>
+		<option value="es-AR" >
+			EspaÃ±ol (Argentina) - es-AR
+		</option>
+		<option value="es-ES" >
+			EspaÃ±ol (EspaÃ±a) - es-ES
+		</option>
+		<option value="es-MX" >
+			EspaÃ±ol (MÃ©xico) - es-MX
+		</option>
+		<option value="fr" >
+			FranÃ§ais - fr
+		</option>
+		<option value="fr-BE" >
+			FranÃ§ais (Belgique) - fr-BE
+		</option>
+		<option value="fr-CA" >
+			FranÃ§ais (Canada) - fr-CA
+		</option>
+		<option value="fr-CH" >
+			FranÃ§ais (Suisse) - fr-CH
+		</option>
+		<option value="fr-FR" >
+			FranÃ§ais (France) - fr-FR
+		</option>
+		<option value="hr-HR" >
+			Hrvatski - hr-HR
+		</option>
+		<option value="id-ID" >
+			Indonesia - id-ID
+		</option>
+		<option value="it-IT" >
+			Italiano - it-IT
+		</option>
+		<option value="lv-LV" >
+			LatvieÅ¡u - lv-LV
+		</option>
+		<option value="lt-LT" >
+			LietuviÅ³ - lt-LT
+		</option>
+		<option value="hu-HU" >
+			Magyar - hu-HU
+		</option>
+		<option value="nl" >
+			Nederlands - nl
+		</option>
+		<option value="nl-BE" >
+			Nederlands (BelgiÃ«) - nl-BE
+		</option>
+		<option value="nl-NL" >
+			Nederlands (Nederland) - nl-NL
+		</option>
+		<option value="nb-NO" >
+			Norsk BokmÃ¥l - nb-NO
+		</option>
+		<option value="pl-PL" >
+			Polski - pl-PL
+		</option>
+		<option value="pt" >
+			PortuguÃªs - pt
+		</option>
+		<option value="pt-BR" >
+			PortuguÃªs (Brasil) - pt-BR
+		</option>
+		<option value="pt-PT" >
+			PortuguÃªs (Portugal) - pt-PT
+		</option>
+		<option value="ro-RO" >
+			RomÃ¢nÄ - ro-RO
+		</option>
+		<option value="sk-SK" >
+			SlovenÄina - sk-SK
+		</option>
+		<option value="sl-SI" >
+			SlovenÅ¡Äina - sl-SI
+		</option>
+		<option value="fi-FI" >
+			Suomi - fi-FI
+		</option>
+		<option value="sv-SE" >
+			Svenska - sv-SE
+		</option>
+		<option value="vi-VN" >
+			Tiáº¿ng Viá»t - vi-VN
+		</option>
+		<option value="tr-TR" >
+			TÃ¼rkÃ§e - tr-TR
+		</option>
+		<option value="is-IS" >
+			Ãslenska - is-IS
+		</option>
+		<option value="cs-CZ" >
+			ÄeÅ¡tina - cs-CZ
+		</option>
+		<option value="el-GR" >
+			ÎÎ»Î»Î·Î½Î¹ÎºÎ¬ - el-GR
+		</option>
+		<option value="bg-BG" >
+			ÐÑÐ»Ð³Ð°ÑÑÐºÐ¸ - bg-BG
+		</option>
+		<option value="ru-RU" >
+			Ð ÑÑÑÐºÐ¸Ð¹ - ru-RU
+		</option>
+		<option value="sr-RS" >
+			Ð¡ÑÐ¿ÑÐºÐ¸ - sr-RS
+		</option>
+		<option value="uk-UA" >
+			Ð£ÐºÑÐ°ÑÐ½ÑÑÐºÐ° - uk-UA
+		</option>
+		<option value="he-IL" >
+			×¢××¨××ª - he-IL
+		</option>
+		<option value="ar-SA" >
+			Ø§ÙØ¹Ø±Ø¨ÙØ© - ar-SA
+		</option>
+		<option value="fa-IR" >
+			ÙØ§Ø±Ø³Û - fa-IR
+		</option>
+		<option value="th-TH" >
+			à¹à¸à¸¢ - th-TH
+		</option>
+		<option value="zh" >
+			ä¸­æ - zh
+		</option>
+		<option value="zh-CN" >
+			ä¸­æ (ä¸­å½) - zh-CN
+		</option>
+		<option value="zh-TW" >
+			ä¸­æ (å°ç£) - zh-TW
+		</option>
+		<option value="ja-JP" >
+			æ¥æ¬èª - ja-JP
+		</option>
+		<option value="ko-KR" >
+			íêµ­ì´ - ko-KR
+		</option>
+</select>    </div>
+  </div>
+</div>    </div>
+
+</form><!-- / #search_form_full -->        </div>
+    </div>
+</div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+            <p class="text-muted">
+                <small>
+                    Powered by <a href="https://asciimoo.github.io/searx/">searx</a> - 0.15.0 - a privacy-respecting, hackable metasearch engine<br/>
+                    <a href="https://github.com/asciimoo/searx">Source code</a> |
+                    <a href="https://github.com/asciimoo/searx/issues">Issue tracker</a> |
+                    <a href="https://github.com/asciimoo/searx/wiki/Searx-instances">Public instances</a>
+                    <br /><a href="/static/donate.html">Support</a> the development and maintenance of searx</small>
+                </small>
+            </p>
+        </div>
+    </div>
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/require-2.1.15.min.js"></script>
+    <script src="/static/themes/oscar/js/searx.min.js"></script>
+        <script src="/static/plugins/js/search_on_category_select.js"></script>
+    <noscript>
+      <style>
+        .glyphicon { display: none; }
+      </style>
+    </noscript>
+</body>
+</html>
+
+
+#####EOF#####
+
+

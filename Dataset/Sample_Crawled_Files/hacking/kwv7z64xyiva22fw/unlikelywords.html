@@ -1,0 +1,3306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://unlikelywords.com/xmlrpc.php">
+
+<title>A year of haiku about my kids.</title>
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly91bmxpa2VseXdvcmRzLmNvbQ%3D%3D"
+		+ "&id=80026281"
+		+ "&time=1554357673";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//cohenaaron.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title=" &raquo; Feed" href="https://unlikelywords.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title=" &raquo; Comments Feed" href="https://unlikelywords.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title=" &raquo; A year of haiku about my&nbsp;kids. Comments Feed" href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s0.wp.com/_static/??-eJx9kd1uwzAIhV9oLtu0n/Zi2rMkDkppjW0ZoixvPxKvldpVvrEO6HxwhGHOzqeoGBV4cjlMI0WBOfvETpgCLnfVzos8wWMs0BkFTqi582e3VS17wdApDi4n0bvqilH0YRpsqjVgIFHoQ9qG96UrC4guAXdMsbXIp4LW59zp6mAcqMOAbLYWNtMwotbVVTvFnybC+eOyaJVHu0PzBPW0fZ8Lijh7mSZ2erRsTc6oNX298RbwplNRgpiUjJaraM0cMWKp9ofyH1tjQp56sA+Iaf77DfN989fL+9vhsP983T+ffgENEOd8?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='minnow-opensans-css'  href='https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C700%2C700italic%2C400italic%2C300italic%7COpen+Sans+Condensed%3A700%2C700italic&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s1.wp.com/_static/??-eJx9y0EKAjEMheELGcNARV2IZ5kJsUaapExaird33I0bd++H9+GoQG6NrWF7snJg7QuqmPlAMcJo78IwKrkeKeKAO6EdaulZLDCzQ3Gam7j9BDzKLOs/uvJSPG8z4/ba5Rfd9Tal0zWly3lKrw+9x0CZ?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-3-1' href='https://s2.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h&cssminify=yes' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s1.wp.com/_static/??-eJx9i0EKAjEMRS9kDQUrsxHPkim1jaRJaTJ4fZmFiCiu/vvwHjxGyCpexKFvYfBWSQwwO6msON90zGYH+K0PNQ83RppgDSdJfe2/yjQTcmCt+nm+Im+lF4N2gsq6Iu/CtV9iSnGJyzml+xPFaUm5?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyFj+EKwjAMhF/Irug6/CU+S+1iSW3T2rQb+vR2oD/UoRAIR77jLnJOAsn4OgJL1+ZaId+eq3O8kb8AEdBmXaALSC/YRCpAZWFT5BKAWVtYuYZ4Qg+iMuQGUGkx57jCvVdCmhDmv5iDkrS5iAyM96/0UEXy1SKxzODbA6NYun6o5jqGw3YY1K7v90q5BzAxcHE='></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1530132353h&cssminify=yes' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://cohenaaron.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='The books I read this&nbsp;year' href='https://unlikelywords.com/2016/12/30/the-books-i-read-this-year/' />
+<link rel='next' title='Another year of Haiku about my&nbsp;kids' href='https://unlikelywords.com/2019/03/26/another-year-of-haiku-about-my-kids/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/" />
+<link rel='shortlink' href='https://wp.me/p5pMut-2T9' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Funlikelywords.com%2F2017%2F02%2F10%2Fa-year-of-haiku-about-my-kids%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Funlikelywords.com%2F2017%2F02%2F10%2Fa-year-of-haiku-about-my-kids%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="A year of haiku about my kids." />
+<meta property="og:url" content="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/" />
+<meta property="og:description" content="In the months before my son was born last year, I worried having two kids would reduce my time for creativity even moreÂ than one had. To combat what I felt was a loss of creativity, I decided to wrâ¦" />
+<meta property="article:published_time" content="2017-02-10T19:35:18+00:00" />
+<meta property="article:modified_time" content="2017-02-10T19:36:15+00:00" />
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@unlikelywords" />
+<meta name="twitter:site" content="@unlikelywords" />
+<meta name="twitter:text:title" content="A year of haiku about my&nbsp;kids." />
+<meta name="twitter:image" content="https://cohenaaron.files.wordpress.com/2015/03/unlikelylogo32.png" />
+<meta name="twitter:card" content="summary" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s2.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://cohenaaron.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://cohenaaron.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://unlikelywords.com/osd.xml" title="" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#ffffff" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="WordPress.com" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://unlikelywords.com/feed/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="In the months before my son was born last year, I worried having two kids would reduce my time for creativity even moreÂ than one had. To combat what I felt was a loss of creativity, I decided to write a haiku every night. In my mind, it was Minimum Viable Creativity. Before we went from&hellip;" />
+<link rel="amphtml" href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/amp/"><style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s0.wp.com/?custom-css=1&#038;csblog=5pMut&#038;cscache=6&#038;csrev=7" />
+		</head>
+
+<body class="post-template-default single single-post postid-11107 single-format-standard mp6 customizer-styles-applied widgets-hidden has-site-logo highlander-enabled highlander-light">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<header id="masthead" class="site-header" role="banner">
+
+		<div class="site-branding">
+							<a href="https://unlikelywords.com/" class="site-logo-link" rel="home"><img width="300" height="35" src="https://cohenaaron.files.wordpress.com/2015/03/unlikelylogo32.png?w=300" class="site-logo attachment-minnow-site-logo" alt="" data-size="minnow-site-logo" srcset="https://cohenaaron.files.wordpress.com/2015/03/unlikelylogo32.png?w=300 300w, https://cohenaaron.files.wordpress.com/2015/03/unlikelylogo32.png?w=600 600w, https://cohenaaron.files.wordpress.com/2015/03/unlikelylogo32.png?w=150 150w" sizes="(max-width: 300px) 100vw, 300px" data-attachment-id="10846" data-permalink="https://unlikelywords.com/unlikelylogo3-3/" data-orig-file="https://cohenaaron.files.wordpress.com/2015/03/unlikelylogo32.png" data-orig-size="960,111" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="UnlikelyLogo3" data-image-description="" data-medium-file="https://cohenaaron.files.wordpress.com/2015/03/unlikelylogo32.png?w=300" data-large-file="https://cohenaaron.files.wordpress.com/2015/03/unlikelylogo32.png?w=660" /></a>						<h1 class="site-title"><a href="https://unlikelywords.com/" rel="home"></a></h1>
+			<h2 class="site-description"></h2>
+		</div>
+
+		
+					<button class="menu-toggle" title="Sidebar"><span class="screen-reader-text">Sidebar</span></button>
+				<div class="slide-menu">
+			
+			
+<div id="secondary" class="widget-area clear" role="complementary">
+	<aside id="text-2" class="widget widget_text"><h1 class="widget-title">Statcounter</h1>			<div class="textwidget"><div id="statcounter_image" style="display:inline;"><a title="stats for wordpress" href="http://statcounter.com/wordpress.org/" class="statcounter"><img src="https://c.statcounter.com/742532/0/9cc46670/1/" alt="stats for wordpress" style="border:none;" /></a></div></div>
+		</aside></div><!-- #secondary -->
+
+		</div>
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+<article id="post-11107" class="post-11107 post type-post status-publish format-standard hentry category-blog tag-kids tag-parenting tag-this-is-who-i-am">
+	<header class="entry-header">
+		<h1 class="entry-title">A year of haiku about my&nbsp;kids.</h1>
+		<div class="entry-meta">
+			<span class="posted-on"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/" rel="bookmark"><time class="entry-date published" datetime="2017-02-10T19:35:18+00:00">February 10, 2017</time><time class="updated" datetime="2017-02-10T19:36:15+00:00">February 10, 2017</time></a></span><span class="byline"> <span class="author vcard"><a class="url fn n" href="https://unlikelywords.com/author/cohenaaron/">cohenaaron</a></span></span><span class="tags-links"><a href="https://unlikelywords.com/tag/kids/" rel="tag">kids</a>, <a href="https://unlikelywords.com/tag/parenting/" rel="tag">parenting</a>, <a href="https://unlikelywords.com/tag/this-is-who-i-am/" rel="tag">this is who i am</a></span>		</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>In the months before my son was born last year, I worried having two kids would reduce my time for creativity even moreÂ than one had. To combat what I felt was a loss of creativity, I decided to write a haiku every night. In my mind, it was Minimum Viable Creativity. Before we went from a family of three to a family of four, the haiku were about TV or food or the like, but when my son was born, he was the subject the first night, and the second, and before I knew it, the nightly haiku was now a nightly parenting haiku &#8211; or a <em>haidad</em>. It turns out the nightly parenting haiku is not only Minimum Viable Creativity, but also an opportunity to journal milestones every night without having to figure out what to say. Journaling is easier when it&#8217;s 17 syllables a day.</p>
+<p>Here is the first year ofÂ <em>haidad</em>, all in one place. Some of these were originally posted with an accompanying picture, but, um, I took the pictures off for publication here.</p>
+<p>2/2<br />
+This is my baby<br />
+Callum, born today at 2.<br />
+Mom and babe are good</p>
+<p>2/3<br />
+Totally forgot<br />
+How to care for a newborn.<br />
+Swaddle game rusty.</p>
+<p>2/4<br />
+If you need a day<br />
+Bed in a pinch, you can use<br />
+A laundry basket.</p>
+<p>Grace taught us that one<br />
+When we needed one for her,<br />
+But she fit better.</p>
+<p>2/5<br />
+Only 3 days old<br />
+Already louder than his<br />
+Sister ever was.</p>
+<p>2/6<br />
+Not even a week<br />
+And Iâve already gotten<br />
+His poop on my clothes.</p>
+<p>2/7<br />
+This little dude has<br />
+Now woken up my daughter<br />
+Four times in three days.</p>
+<p>2/8<br />
+I hope I never<br />
+Forget the faces this kid<br />
+Makes at six days old</p>
+<p>2/9<br />
+We made it a week<br />
+The last seven days a blur<br />
+Time marked by diapers.</p>
+<p>2/10<br />
+A once beloved<br />
+Toy jettisoned for something<br />
+New is heartbreaking.</p>
+<p>2/11<br />
+My sleepy little<br />
+Boy is starting to wake up.<br />
+Itâs gonna get late.</p>
+<p>2/12<br />
+He gained weight back so<br />
+Fast, we donât have to go back<br />
+For his two week check.</p>
+<p>2/13<br />
+I asked, âHey, bud, can<br />
+You stop kicking the seat?â âBut<br />
+My feet want to dance.&#8221;</p>
+<p>2/14<br />
+Zero degrees and<br />
+My nutso daughter wanted<br />
+To go to the park.</p>
+<p><span id="more-11107"></span></p>
+<p>2/15<br />
+It began tonight.<br />
+Proper foundation building<br />
+Via tummy time.</p>
+<p>2/16<br />
+I donât think I have<br />
+It in me to take my girl<br />
+For her first haircut.</p>
+<p>2/17<br />
+A three quart a week<br />
+Yogurt habit and now she<br />
+Wonât eat it at all.</p>
+<p>2/18<br />
+I have to figure<br />
+Out how to rock him in the<br />
+Rocker while I sleep.<br />
+2/19<br />
+By giving me a<br />
+Hug, she can make the knot in<br />
+My chest disappear.</p>
+<p>2/20<br />
+When heâs asleep and<br />
+His arms fly out wide because<br />
+He startled himself.</p>
+<p>2/21<br />
+Daughter hardly eats<br />
+Lunch or dinner but itâs cool.<br />
+She eats four breakfasts.</p>
+<p>2/22<br />
+Said &#8216;cranberry juice&#8217;<br />
+Instead of &#8216;hamburger juice.&#8217;<br />
+Guess she&#8217;s growing up.</p>
+<p>2/23<br />
+Dudeâs only been here<br />
+Three weeks, but heâs already<br />
+Totally exhausted.</p>
+<p>2/24<br />
+For such a little<br />
+Girl, she talks about nipples<br />
+More than youâd expect.</p>
+<p>2/25<br />
+Crossing my fingers<br />
+For no kid waking thunder.<br />
+Last night was too loud.</p>
+<p>2/26<br />
+A newbornâs clothes are<br />
+Totally pointless, but theyâre<br />
+Also cute as hell.</p>
+<p>2/27<br />
+Housed two hot dogs at<br />
+The bar. So it&#8217;s pretty clear<br />
+That she&#8217;s my best girl.</p>
+<p>2/28<br />
+Every day, she runs<br />
+A master class in subtle<br />
+Manipulation.</p>
+<p>2/29<br />
+Something weird about<br />
+Watching Walking Dead with a<br />
+Newborn on your lap.</p>
+<p>3/1<br />
+Right before a nap<br />
+She said, âI like ice cream. Itâs<br />
+Good, right?â Thatâs my girl.</p>
+<p>3/2<br />
+One month old today.<br />
+Time is not a flat circle,<br />
+But it does go fast.</p>
+<p>3/3<br />
+Little dude&#8217;s had a<br />
+Cold for his entire life.<br />
+Babies get stuffy.</p>
+<p>3/4<br />
+These kids are wearing<br />
+Me down and soon there will be<br />
+Nothing of me left.</p>
+<p>3/5<br />
+Used to be smarter,<br />
+But then I had two kids and<br />
+Now Iâm pretty dumb.</p>
+<p>3/6<br />
+Big girl sleeping in<br />
+A big girl bed can get up<br />
+Whenever she wants.</p>
+<p>3/7<br />
+He took a bottle,<br />
+So he&#8217;ll be graduating<br />
+High school pretty soon.</p>
+<p>3/8<br />
+Her morning cuddles<br />
+Are a good reason to go<br />
+To bed earlier.</p>
+<p>3/9<br />
+Itâs such a sweet look<br />
+She gives while not doing what<br />
+You told her to do.</p>
+<p>3/10<br />
+Sheâll stop dancing while<br />
+I brush her hair someday and<br />
+Itâll go smoother.</p>
+<p>3/11<br />
+As a baby she<br />
+Didnât laugh for 10 months but<br />
+Now she loves tickles.</p>
+<p>3/12<br />
+A Haiku about<br />
+Missing my family, but<br />
+I&#8217;m not saying &#8220;fam.&#8221;</p>
+<p>3/13<br />
+Only gone two days<br />
+But I bet both of them will<br />
+Have aged immensely.</p>
+<p>3/14<br />
+He doesnât cry, if<br />
+You hold him. He sleeps pretty<br />
+Well, if you hold him.</p>
+<p>3/15<br />
+Why is he crying?<br />
+Is he sick? Dirty? Hungry?<br />
+Oh, guess heâs tired?</p>
+<p>3/16<br />
+We had pulled chicken<br />
+On rolls tonight. Of course she<br />
+Only ate the roll.</p>
+<p>3/17<br />
+&#8220;Yesterday I threw<br />
+Up in my crib when I was<br />
+A little girl, right?&#8221;</p>
+<p>3/18<br />
+When going to bed<br />
+She wraps her bangs around her<br />
+Finger for comfort</p>
+<p>So I assume weâll<br />
+Never cut her hair until<br />
+Itâs Rapunzel-length.</p>
+<p>3/19<br />
+Swim class, big walk, nap,<br />
+Shampoo, dance party, dinner.<br />
+It was a big day.</p>
+<p>3/20<br />
+Snack, Potty, Nap is<br />
+The toddler set version of<br />
+a Gym, Tan, Laundry.</p>
+<p>3/21<br />
+All Iâm saying is<br />
+The kid better really like<br />
+His new Rock n Play.</p>
+<p>3/22<br />
+Formerly sweet kid<br />
+Now learning insults. First one?<br />
+âIâm not your best friend.&#8221;</p>
+<p>3/23<br />
+If you are what you<br />
+Eat, my daughter is Peking<br />
+Ravioli now.</p>
+<p>3/24<br />
+She eats hummus by<br />
+The literal spoonful, but<br />
+chick peas, oh no!</p>
+<p>3/25<br />
+Still doesnât know there&#8217;s<br />
+An ice cream shop named for her,<br />
+But sheâs getting close.</p>
+<p>3/26<br />
+&#8220;Two more minutes.&#8221; âNo!<br />
+FIVE more minutes.&#8221; She counts now,<br />
+Which will be trouble.</p>
+<p>3/27<br />
+After waking she<br />
+Said, âIâm awake now.â And then,<br />
+âYouâre a good jumper.&#8221;</p>
+<p>3/28<br />
+She said âPizza Catâ<br />
+All night. Not sure why, but Iâm<br />
+Certainly intrigued.</p>
+<p>3/29<br />
+&#8220;*Your* son just peed in<br />
+His ear.&#8221; Sure, heâs *my* son when<br />
+He pees in his ear.</p>
+<p>3/30<br />
+Parentingâs hard when<br />
+You have to make rules like, âno<br />
+Bare butts on the couch.&#8221;</p>
+<p>3/31<br />
+My children took my<br />
+Short-term memory and theyâre<br />
+Not giving it back.</p>
+<p>4/1<br />
+She tried to skip her<br />
+Nap today, like a goon, but<br />
+I wouldnât let her.</p>
+<p>4/2<br />
+Getting kids to sleep<br />
+At night always feels like a<br />
+Minor miracle.</p>
+<p>4/3<br />
+She was holding a<br />
+Bag of popcorn kernels when<br />
+They spilled on the floor.</p>
+<p>4/4<br />
+Take my word for it,<br />
+She keeps doing cute things that<br />
+Are hard to describe.</p>
+<p>4/5<br />
+She likes to try things<br />
+Like trying one bite from five<br />
+Different doughnuts.</p>
+<p>cc Blackbird Doughnuts<br />
+4/6<br />
+The kid doesnât nap,<br />
+And when heâs tired he cries<br />
+Just like a baby.</p>
+<p>4/7<br />
+He wants to go to<br />
+Bed earlier, but he canât.<br />
+Weâre still eating then.</p>
+<p>4/8<br />
+Fell asleep doing<br />
+Bedtime. Itâs a wonder it<br />
+Hasnât happened more.</p>
+<p>4/9<br />
+The kids always end<br />
+Up with devil locks in their<br />
+Hair when I do bath</p>
+<p>4/10<br />
+Treats rule everything<br />
+Around her. Get the candy!<br />
+Sugar, sugar, ya&#8217;ll!</p>
+<p>4/11<br />
+All of a sudden<br />
+She does whatever she wants.<br />
+There are no more rules.</p>
+<p>4/12<br />
+Goldfish for breakfast<br />
+Apple juice for lunch. Dinner?<br />
+Cheese puffs, broccoli.</p>
+<p>4/13<br />
+He came to kick ass<br />
+And spit up a lot, but heâs<br />
+Not done spitting up.</p>
+<p>4/14<br />
+For someone who claims<br />
+To be potty trained she pees<br />
+On the floor a lot.</p>
+<p>4/15<br />
+&#8220;You&#8217;re not my best friend<br />
+Anymore because you keep<br />
+Saying &#8216;go to sleep&#8217;.&#8221;</p>
+<p>4/16<br />
+She&#8217;s a BernieBro<br />
+About after dinner treats.<br />
+I kind of am, too.</p>
+<p>4/17<br />
+I asked for a bite<br />
+Of her dumpling. She said, &#8220;It&#8217;s<br />
+Not gonna happen.&#8221;</p>
+<p>4/18<br />
+She actually<br />
+Ate three distinct meals today<br />
+And plenty of snacks.</p>
+<p>4/19<br />
+First dentist vist<br />
+Today. The toothpaste flavor?<br />
+&#8220;Vanilla Cupcake.&#8221;</p>
+<p>4/20<br />
+Tonight she didnât<br />
+Eat more than she did eat. Her<br />
+Plate was very full.</p>
+<p>4/21<br />
+A few years ago,<br />
+I dressed my daughter like Prince.<br />
+Who wore it better?</p>
+<p>RIP, Prince.</p>
+<p>4/22<br />
+She didn&#8217;t want a<br />
+Piece of karpas on her plate.<br />
+&#8220;But, it&#8217;s symbolic!&#8221;</p>
+<p>4/23<br />
+She always closes<br />
+Her door behind her when she<br />
+Wakes up in the night.</p>
+<p>4/24<br />
+She turned three today.<br />
+Iâm already nostalgic<br />
+For my little girl.</p>
+<p>4/25<br />
+She said, &#8220;Pooping is<br />
+More important than Peppa<br />
+Pig,&#8221; which is correct.</p>
+<p>4/26<br />
+I had to go out<br />
+Before bed so she stayed up<br />
+Until I got back.</p>
+<p>4/27<br />
+She forgot how to<br />
+Fall asleep and now it&#8217;s all<br />
+Very terrible.</p>
+<p>4/28<br />
+Tonightâs bedtime has<br />
+Gone one million times better<br />
+Than last night. So far.</p>
+<p>4/29<br />
+It was almost two<br />
+Hours before she came out<br />
+Of her room tonight.</p>
+<p>4/30<br />
+In swim class she swam<br />
+With nothing but a floatie.<br />
+Sheâs come a long way!</p>
+<p>5/1<br />
+She said she couldnât<br />
+Taste the broccoli if she<br />
+Shut her eyes tightly.</p>
+<p>5/2<br />
+Imagination<br />
+Is fine, but I donât support<br />
+Pretending to poop.</p>
+<p>5/3<br />
+So mad about how<br />
+Bedtime went tonight, thereâs no<br />
+Joke in this haiku.</p>
+<p>5/4<br />
+Bedtime was delayed<br />
+Tonight when Pacifier<br />
+Fell in the toilet.</p>
+<p>5/5<br />
+Children conspire<br />
+To destroy any semblance<br />
+Of a peaceful night.</p>
+<p>5/6<br />
+He smiles all the<br />
+Time, and heâs a giant. But<br />
+Heâs a shrieker, too.</p>
+<p>5/7<br />
+Having fruit leather<br />
+Around is one of the great<br />
+Parts of raising kids.</p>
+<p>5/8<br />
+Today, both my kids<br />
+Pooped on mom for Mother&#8217;s Day.<br />
+Shout out to the moms!</p>
+<p>5/9<br />
+Itâs just a phase. Itâs<br />
+Just a phase. Itâs just a phase.<br />
+Itâs just a dang phase.</p>
+<p>5/10<br />
+I thought sheâd be shy<br />
+And scared at her check up, but<br />
+She handled it fine.</p>
+<p>5/11<br />
+She told her first joke<br />
+Tonight. I was just as proud<br />
+As I thought Iâd be.</p>
+<p>5/12<br />
+Little kids have no<br />
+Sense of personal space. They<br />
+Always stand so close.</p>
+<p>5/13<br />
+Takes an hour to<br />
+Get a five minute nap which<br />
+Seems reasonable.</p>
+<p>5/14<br />
+She says &#8216;showentell&#8217;<br />
+Instead of &#8216;hotel,&#8217; and I&#8217;m<br />
+Not correcting her.</p>
+<p>5/15<br />
+She tried beef tartare<br />
+Last night and liked it because<br />
+It was on Saltines.</p>
+<p>5/16<br />
+I read books with her<br />
+Every night, but I hide the<br />
+Really awful ones.</p>
+<p>5/17<br />
+Sheâs not so great at<br />
+Cleaning up after herself<br />
+So we know sheâs ours.</p>
+<p>5/18<br />
+The simplest thing;<br />
+Now she alternates feet when<br />
+Going up the stairs.</p>
+<p>5/19<br />
+Iâm told heâs started<br />
+Laughing, but Iâm not so sure.<br />
+She only laughed once.</p>
+<p>5/20<br />
+He rolled over for<br />
+The first time right before I<br />
+Headed out to work.</p>
+<p>5/21<br />
+First parentless swim<br />
+Class today. She did fine and<br />
+I was super proud.</p>
+<p>5/22<br />
+Little babies don&#8217;t<br />
+Need cargo pants and barely<br />
+Have a use for hoods.</p>
+<p>5/23<br />
+Son celebrated<br />
+Wifeâs first day back at work by<br />
+Pooping on her skirt.</p>
+<p>5/24<br />
+I donât judge, but a<br />
+Kid at the park today wore<br />
+An old dog jacket.</p>
+<p>5/25<br />
+My rotten kids have<br />
+Gotten up at 5 AM<br />
+3 days in a row.</p>
+<p>5/26<br />
+As a baby, my<br />
+Daughter had a lot of chill,<br />
+But my son does not.</p>
+<p>5/27<br />
+I got a clip of<br />
+Him laughing which proves heâs not<br />
+Totally mirthless.</p>
+<p>5/28<br />
+It was hot today,<br />
+But they didn&#8217;t melt, which would<br />
+Have been pretty weird</p>
+<p>5/29<br />
+Grabbing sweets at the<br />
+Memorial Day Parade,<br />
+Smiling widely.</p>
+<p>5/30<br />
+Add cocoa to a<br />
+Smoothie to turn your daughter<br />
+Into the Joker.</p>
+<p>5/31<br />
+I skipped sunscreen for<br />
+Her because it was shady<br />
+And now sheâs sunburned.</p>
+<p>6/1<br />
+Turns out, you canât stop<br />
+Laughing when your kid says, âNo!<br />
+Stop laughing at me!&#8221;</p>
+<p>6/2<br />
+Something I didn&#8217;t<br />
+Expect my daughter to like<br />
+Is calamari.</p>
+<p>6/3<br />
+The kids sat in an<br />
+Ant patch and got bit. &#8220;There were<br />
+Hundreds and hundreds!&#8221;</p>
+<p>6/4<br />
+To her itâs normal<br />
+Eating dumplings along with<br />
+Tikka Masala.</p>
+<p>6/5<br />
+âDo you know who is<br />
+My best friend? Cake.â She is young,<br />
+But her heartâs open.</p>
+<p>6/6<br />
+Heâs so happy when<br />
+He wakes up while youâre trying<br />
+To put him to sleep.</p>
+<p>6/7<br />
+She just came out of<br />
+Her room because, âThere are two<br />
+Scaries in my bed.&#8221;</p>
+<p>6/8<br />
+Malapropisms<br />
+Like âarbow&#8221; for âelbowâ make<br />
+Great haikus always.</p>
+<p>6/9<br />
+I get crankier<br />
+Than her on the days when she<br />
+Gets up too early.</p>
+<p>6/10<br />
+Sheâs asleep on the<br />
+Edge of the bed with her face<br />
+Pressed into the wall.</p>
+<p>6/11<br />
+She took out all the<br />
+Little shrimps from the House Fried<br />
+Rice, and she ate them.</p>
+<p>6/12<br />
+So far, one of my<br />
+Best dad-moves is getting her<br />
+to call âshortsâ âshort pants.&#8221;</p>
+<p>6/13<br />
+The infant version<br />
+Of âStay Wokeâ involves missing<br />
+Naps and things like that.</p>
+<p>6/14<br />
+I call her Baba,<br />
+I call him Baba, and I<br />
+Call the cats Baba.</p>
+<p>6/15<br />
+One reason he canât<br />
+Sit up is because his head<br />
+Is so gigantic.</p>
+<p>6/16<br />
+I had the chance to<br />
+Say, âcan you stop licking your<br />
+Baby please?â today.</p>
+<p>6/17<br />
+For wifeâs birthday she<br />
+Said she was getting a train,<br />
+And a ladybug.</p>
+<p>6/18<br />
+Found a nip at the<br />
+Field and spilled it on herself.<br />
+Strawberry vodka.</p>
+<p>6/19<br />
+Made him laugh twice this<br />
+Week, which is twice as much as<br />
+She laughed when little.</p>
+<p>6/20<br />
+To make him cry, put<br />
+Watermelon in his mouth<br />
+And then take it out.</p>
+<p>6/21<br />
+She said, âOK, Iâm<br />
+Not going to step on his<br />
+Eyes or anything.&#8221;</p>
+<p>6/22<br />
+She has so many<br />
+Toys and books she never sees.<br />
+I hope he likes them</p>
+<p>6/23<br />
+She lost her Special<br />
+Treat when she went into the<br />
+Pool with her shoes on.</p>
+<p>6/24<br />
+As she ran around<br />
+In circles in the driveway<br />
+She yelled, âYeah, magic!&#8221;</p>
+<p>6/25<br />
+I donât know how long<br />
+The morning snuggles will last,<br />
+But theyâre pretty great.</p>
+<p>6/26<br />
+She got it in her<br />
+Head giraffes roar and Iâm not<br />
+Saying anything.</p>
+<p>6/27<br />
+At his first day of<br />
+Day care, they said he was &#8220;a<br />
+Very good baby.&#8221;</p>
+<p>6/28<br />
+Another Haiku<br />
+About my kid not going<br />
+To sleep on her own.</p>
+<p>6/29<br />
+Watching her eat pasta<br />
+One spaghetti piece at a<br />
+Time is annoying.</p>
+<p>6/30<br />
+I hold her hand tight<br />
+Because maybe she wonât let<br />
+Me when sheâs older.</p>
+<p>7/1<br />
+He uses up all<br />
+His naps at day care, so he<br />
+Doesnât nap at home.</p>
+<p>7/2<br />
+She couldnât have been<br />
+Happier when she smiled<br />
+And said, âI ate rocks!&#8221;</p>
+<p>7/3<br />
+You can imagine<br />
+What I said when fireworks<br />
+Startled her awake.</p>
+<p>You know, because she<br />
+Falls asleep so easily<br />
+Every single night.<br />
+7/4<br />
+&#8220;Don&#8217;t swallow the pit.<br />
+Don&#8217;t swallow the pit, honey!&#8221;<br />
+&#8220;Swallowed it.&#8221; Oh well.</p>
+<p>7/5<br />
+We stopped reading the<br />
+Wonder Woman book when she<br />
+Asked, âWhere are her clothes?&#8221;</p>
+<p>7/6<br />
+The heat doesnât make<br />
+Her melt and I donât think she<br />
+Feels temperature.</p>
+<p>7/7<br />
+I donât know how Iâll<br />
+Explain weeks like these to my<br />
+Kids when theyâre older.</p>
+<p>7/8<br />
+The last few weeks she<br />
+Expresses opinions more;<br />
+Mostly about clothes.</p>
+<p>7/9<br />
+I&#8217;m consistent in<br />
+My routine, she&#8217;s consistent<br />
+In opposition.</p>
+<p>7/10<br />
+Pick songs you love for<br />
+Lullabies because youâll sing<br />
+Them millions of times.</p>
+<p>7/11<br />
+On vacation one<br />
+Of them inevitably<br />
+Will get pretty sick.</p>
+<p>7/12<br />
+She used to be scared<br />
+Of water, but now she runs<br />
+Into freezing ponds.</p>
+<p>7/13<br />
+âToilet paper!â &#8211; From<br />
+The other side of the house<br />
+I heard a holler.</p>
+<p>7/14<br />
+Future me won&#8217;t wish<br />
+To have read fewer books with<br />
+Her during bedtime.</p>
+<p>7/15<br />
+Negative eight or<br />
+Ninety degrees, itâs the same.<br />
+âDad, letâs go outside.&#8221;</p>
+<p>7/16<br />
+He used to have no<br />
+Chill at all, but now heâs got<br />
+Quite a bit of chill.</p>
+<p>7/17<br />
+This week, she started<br />
+To realize we own the ice<br />
+Cream store we go to.</p>
+<p>7/18<br />
+Heâs enthralled with his<br />
+Big sister already, and<br />
+Sheâs sweet on him, too.</p>
+<p>7/19<br />
+Today he had his<br />
+First bites of solid food. He&#8217;s<br />
+Gonna eat so much.</p>
+<p>7/20<br />
+âIâll be the mommy<br />
+Wonder Woman Elsa. You<br />
+Be Elsa baby.&#8221;</p>
+<p>7/21<br />
+Iâm glad they&#8217;re asleep<br />
+And not watching this garbage.<br />
+They deserve better.</p>
+<p>7/22<br />
+I lose my mind when<br />
+She comes out of her room 10<br />
+Times after bedtime.</p>
+<p>7/23<br />
+Seems like everyone<br />
+Would be happier with a<br />
+New bedtime routine.</p>
+<p>7/24<br />
+Put them both to sleep<br />
+By myself. I never want<br />
+To do that again.</p>
+<p>7/25<br />
+She glances at meals,<br />
+But snacks are when she gets a<br />
+Chance to really shine.</p>
+<p>7/26<br />
+Theyâll never believe<br />
+Me that watermelons used<br />
+To have seeds in them.</p>
+<p>7/27<br />
+Her first baseball game<br />
+Today was the Red Sox vs<br />
+The Daniel Tigers.</p>
+<p>7/28<br />
+One day weâll all sleep<br />
+Through the night again and it<br />
+Will be magical.</p>
+<p>7/29<br />
+The kids were still up<br />
+After dinner for our 10th<br />
+Anniversary.</p>
+<p>7/30<br />
+Now heâs jabbering<br />
+Constantly. I expect the<br />
+House will get louder.</p>
+<p>7/31<br />
+Heâs so delighted<br />
+To see her in the morning.<br />
+Giant baby grins.</p>
+<p>8/1<br />
+He sits up all by<br />
+Himself now, one step closer<br />
+To independence.<br />
+8/2<br />
+She likes the sound of<br />
+Tooting in the tub. I&#8217;ll read<br />
+This at her wedding.</p>
+<p>8/3<br />
+Toothpaste isnât a<br />
+Thing she eats anymore. Now<br />
+She just spits it out.</p>
+<p>8/4<br />
+I was going to<br />
+Mention on Tuesday that heâs<br />
+Now been here 6 months.</p>
+<p>8/5<br />
+He got poop in his<br />
+Hair because heâs a baby.<br />
+Thatâs what babies do.</p>
+<p>8/6<br />
+If we get tired<br />
+Of his name, we can call him<br />
+Avocado lips.</p>
+<p>8/7<br />
+âDid you poop in your<br />
+Pants?â Unabashedly and<br />
+With conviction: âYes.&#8221;</p>
+<p>8/8<br />
+He stays pretty calm<br />
+As long as we keep giving<br />
+Him cherries to eat.</p>
+<p>8/9<br />
+This morning was the<br />
+First time she told me about<br />
+A dream that she had.</p>
+<p>8/10<br />
+I donât want to shame<br />
+This kid, but his thighs are too<br />
+Big for the Bumbo.</p>
+<p>8/11<br />
+Putting tortilla<br />
+Chips in her sandwich blew her<br />
+Tiny little mind.</p>
+<p>8/12<br />
+Itâs that time of the<br />
+Summer when her whole body<br />
+Is a giant scab.</p>
+<p>8/13<br />
+She skipped nap today<br />
+And yesterday which I hope<br />
+Isnât a new trend.</p>
+<p>8/14<br />
+Two front teeth starting<br />
+To burst through his gums. He bit<br />
+Me with them today.</p>
+<p>8/15<br />
+It is possible<br />
+To love your child, but hate<br />
+One of their dumb toys.</p>
+<p>8/16<br />
+Tried to sneak some kale<br />
+Into her âsmoodieâ but she<br />
+Wasnât to be fooled.</p>
+<p>8/17<br />
+Theyâll be different<br />
+Growing up in the city,<br />
+And not the suburbs.</p>
+<p>8/18<br />
+She said, âPopsicleâ<br />
+Two hundred times in the ten<br />
+Minutes before bed.</p>
+<p>8/19<br />
+We finally cut<br />
+Off her baby curls today.<br />
+Now her hair is straight.</p>
+<p>8/20<br />
+âYou were very brave<br />
+When I was putting stickers<br />
+On your face, daddy.â</p>
+<p>8/21<br />
+We all think this, but<br />
+For real, my kid sounds like a<br />
+Velociraptor.</p>
+<p>8/22<br />
+Nobody tell her<br />
+The Olympics are over.<br />
+Itâll break her heart.</p>
+<p>She liked diving and<br />
+Gymnastics and we have those<br />
+On the DVR.</p>
+<p>8/23<br />
+She dropped her ice cream<br />
+Cone on the ground today so<br />
+I let her eat mine.</p>
+<p>8/24<br />
+She wants training wheels<br />
+For her balance bike and it<br />
+Doesnât work that way.</p>
+<p>8/25<br />
+I don&#8217;t want to jinx<br />
+Myself, but we might have solved<br />
+The bedtime issue.</p>
+<p>8/26<br />
+Postage stamps are not<br />
+The same as stickers is an<br />
+Expensive lesson.</p>
+<p>8/27<br />
+He doesnât sleep with<br />
+His bum way up in the air.<br />
+Thatâs something I miss.</p>
+<p>8/28<br />
+There&#8217;s nothing cuter<br />
+Than a tubby baby dressed<br />
+Up in his dadâs suit.</p>
+<p>8/29<br />
+Itâs amazing how<br />
+Much kids wiggle right before<br />
+They finally sleep.</p>
+<p>8/30<br />
+On the potty, she<br />
+âWorksâ on her phone. No idea<br />
+Where she got that from.</p>
+<p>8/31<br />
+Some nights the only<br />
+One whoâs not melting down is<br />
+The seven month old.</p>
+<p>9/1<br />
+His version of âfeed<br />
+a coldâ is &#8216;wake up every<br />
+forty five minutes.&#8217;</p>
+<p>9/2<br />
+I try not to laugh<br />
+When she calls me a âPoopy<br />
+head,â but itâs so hard.</p>
+<p>9/3<br />
+âMy tummy hurts.â âWell,<br />
+Do you think drinking water<br />
+From the bath is why?&#8221;</p>
+<p>9/4<br />
+I hate when she takes<br />
+Off her shoes at the park, but<br />
+Kids should be barefoot.</p>
+<p>9/5<br />
+If the snack bar at<br />
+The Museum of Science<br />
+Was good, weâd go broke.</p>
+<p>9/6<br />
+At the park today<br />
+She met a dog named Trixie<br />
+She wasnât scared of.</p>
+<p>9/7<br />
+It keeps happening<br />
+Where I find myself thinking<br />
+About minivans.</p>
+<p>9/8<br />
+She knows the word âsneeze,â<br />
+But I like, âHe bless youâd on<br />
+His shirtâ much better.</p>
+<p>9/9<br />
+When sheâs finished, she<br />
+Rushes to throw out food her<br />
+Hungry dad would eat.</p>
+<p>9/10<br />
+Itâs cliche, but sheâs<br />
+Actually afraid of<br />
+The clown in her book.</p>
+<p>9/11<br />
+She decided that<br />
+Ferdinand the Bullâs middle<br />
+Name should be Aaron.</p>
+<p>9/12<br />
+He had a sick day<br />
+Today; the first where we both<br />
+Had somewhere to be.</p>
+<p>9/13<br />
+She eats more slowly<br />
+Than the slowest eater I<br />
+Know, who is her mom.</p>
+<p>9/14<br />
+A really bad name<br />
+For a thing kids catch is Hand,<br />
+Foot, and Mouth Disease.</p>
+<p>9/15<br />
+She kind of sleep walked<br />
+To the potty, then knocked her<br />
+Brush in the toilet.</p>
+<p>9/16<br />
+She played Miss Cathy,<br />
+The librarian, while she<br />
+Read to her brother.</p>
+<p>9/17<br />
+Two things about my<br />
+Son: Heâs got great hair and he<br />
+Drools like a faucet.</p>
+<p>9/18<br />
+âIf I donât go to<br />
+Sleep, they canât wake me upâ is<br />
+A bad strategy.</p>
+<p>9/19<br />
+Who knew all children<br />
+Turned into tiny monsters<br />
+In mid-September.</p>
+<p>9/20<br />
+She takes pictures and<br />
+Says, âSay, âI like tacosâ,â which<br />
+I didnât teach her.</p>
+<p>9/21<br />
+Each day at the park<br />
+A new parent gets to ask,<br />
+âWhere did your pants go?â</p>
+<p>9/22<br />
+A day alone with<br />
+The kid goes fast when he takes<br />
+A three hour nap.</p>
+<p>9/23<br />
+When you donât know what<br />
+To do while your kid takes a<br />
+Long nap, itâs stressful.</p>
+<p>9/24<br />
+She asked, âWho tooted?â<br />
+I didnât know, so I said,<br />
+âWell, was it you?â âYeah!â</p>
+<p>9/25<br />
+She laughed hard when I<br />
+Gave her a piggy back ride<br />
+Running down the street.</p>
+<p>9/26<br />
+Itâs hilarious<br />
+To babies when dad is shocked<br />
+By poopy diapers</p>
+<p>9/27<br />
+All of a sudden,<br />
+Weâre giggling our heads off,<br />
+But we donât know why.</p>
+<p>9/28<br />
+It feels judgy when<br />
+He comes home from daycare with<br />
+His hair brushed down flat.</p>
+<p>9/29<br />
+You never finish<br />
+Sleep training, it finishes<br />
+You before youâre done.</p>
+<p>9/30<br />
+I caught her in the<br />
+Bathroom giving a drink to<br />
+The cat from the sink.</p>
+<p>10/1<br />
+I let her watch more<br />
+Peppa Pig than I should since<br />
+The voices are cute.</p>
+<p>10/2<br />
+Our jolly baby<br />
+Boy is eight months old today.<br />
+Heâs pretty mellow.</p>
+<p>10/3<br />
+She walks through the house<br />
+Filling random bags with all<br />
+The stuff she can find.</p>
+<p>10/4<br />
+If I could teach her<br />
+Dikembeâs finger wag Iâd<br />
+Be really happy.</p>
+<p>10/5<br />
+He&#8217;s more excited<br />
+About food than his sister,<br />
+She has gotten bored.</p>
+<p>10/6<br />
+Tonight we figured<br />
+Out how much tickling is<br />
+Too much tickling.</p>
+<p>10/7<br />
+They donât tell you in<br />
+Books, but it seems wrong to hold<br />
+Your kid upside down.</p>
+<p>10/8<br />
+In swim class, Denise<br />
+Said, âGrace and Hazel, please donât<br />
+Hold hands in the pool.â</p>
+<p>10/9<br />
+My kid doesnât eat<br />
+Dinner, and then complains sheâs<br />
+Hungry. Like all kids.</p>
+<p>10/10<br />
+Hand-wash only clothes<br />
+For infants are created<br />
+By awful monsters.</p>
+<p>10/11<br />
+A cat that throws up<br />
+Tons is really good practice<br />
+For gross baby stuff.</p>
+<p>10/12<br />
+She went in for a<br />
+Kiss before bed and he sneezed<br />
+Right into her mouth.</p>
+<p>10/13<br />
+âAll the colors mixed<br />
+Togetherâ is what she said<br />
+Was her favorite.</p>
+<p>10/14<br />
+Is three and a half<br />
+Year sleep regression a thing?<br />
+Asking for a kid.</p>
+<p>10/15<br />
+The best haikus come<br />
+To me at 3am when<br />
+Heâs woken us up.</p>
+<p>10/16<br />
+Today I won an<br />
+Epic power struggle with<br />
+My awesome daughter.</p>
+<p>10/17<br />
+The sleep trouble from<br />
+This summer came back and is<br />
+Causing more trouble.</p>
+<p>10/18<br />
+âDante told a joke.<br />
+The cow had a chicken on<br />
+his head&#8230; Now laugh guys.â</p>
+<p>10/19<br />
+He was so scared when<br />
+Daycare carved a pumpkin he<br />
+Cried for an hour.</p>
+<p>10/20<br />
+âYour daughterâs wash-cloth<br />
+Is stuck in the elephant.<br />
+She put it in there.â</p>
+<p>10/21<br />
+She called the doctor:<br />
+âAaron was broken by a<br />
+Monster and a shark.â</p>
+<p>10/22<br />
+Daddy Paci is<br />
+The male paci fairy and<br />
+He came by last night.</p>
+<p>10/23<br />
+âWhat are you dressed as?â<br />
+âA runner. And a mommy.<br />
+Iâm also married.â</p>
+<p>10/24<br />
+Today sheâs three and<br />
+A half, which is a haiku<br />
+Worthy milestone.</p>
+<p>10/25<br />
+They say kids clothing<br />
+Is junk that falls apart fast,<br />
+But this shirt was mine.</p>
+<p>10/26<br />
+Heâs trying to crawl<br />
+But so far heâs managed to<br />
+Only scoot backwards.</p>
+<p>10/27<br />
+She learned these words the<br />
+Same week and mixes them up:<br />
+âTuna,â âVagina.â</p>
+<p>10/28<br />
+I had to tell the<br />
+Small goon not to put her feet<br />
+In her brotherâs mouth.</p>
+<p>10/29<br />
+She got a bloody<br />
+Nose after flipping off the<br />
+Couch onto her face.</p>
+<p>10/30<br />
+The next time she turns<br />
+Down a drink of bathwater<br />
+Will be the first time.</p>
+<p>10/31<br />
+I think she needs one<br />
+More year for peak Halloween<br />
+Craziness to show.</p>
+<p>11/1<br />
+He picks up food by<br />
+The fistfull and sometimes gets<br />
+A bit in his mouth.</p>
+<p>11/2<br />
+The cats will convince<br />
+Her at some point soon to let<br />
+Them sleep in her bed.</p>
+<p>11/3<br />
+She eats two dinners<br />
+Sometimes, and sometimes she eats<br />
+No dinner at all.</p>
+<p>11/4<br />
+On a hike today,<br />
+She hugged a rock, so I think<br />
+She needs more nature.</p>
+<p>11/5<br />
+A baby bundled<br />
+Against the chill, laughing in<br />
+A swing is calming.</p>
+<p>11/6<br />
+She wants to know when<br />
+It&#8217;s finally going to<br />
+Start snowing this year.</p>
+<p>11/7<br />
+Itâs when they both get<br />
+Cranky at the same time that<br />
+Things become hairy.</p>
+<p>11/8<br />
+I donât know yet what<br />
+Iâll be able to tell them<br />
+About tonightâs vote.</p>
+<p>11/9<br />
+The future is less<br />
+Scary for him than her, but<br />
+Iâm worried for both.</p>
+<p>11/10<br />
+A cold has made her<br />
+Voice hoarse right now and she sounds like<br />
+Like a teenager.</p>
+<p>11/11<br />
+She turns every bag<br />
+With handles into a purse,<br />
+We have to hide them.</p>
+<p>11/12<br />
+Immediately<br />
+After entering a house,<br />
+She takes off her socks.</p>
+<p>11/13<br />
+Tried to convince my<br />
+Daughter she liked lasagna,<br />
+But it didnât work.</p>
+<p>11/14<br />
+âI didnât be goodâ<br />
+Is why she missed getting<br />
+A check mark at school.</p>
+<p>11/15<br />
+They were both asleep<br />
+By seven thirty, which feels<br />
+Like a vacation.</p>
+<p>11/16<br />
+I like when I can<br />
+Make the Haiku just one word:<br />
+Amoxicillin.</p>
+<p>11/17<br />
+His favorite thing<br />
+Is to scoot backwards under<br />
+The table and cry.</p>
+<p>11/18<br />
+Doc McStuffins has<br />
+Replaced Peppa Pig and itâs<br />
+Good, but no Peppa.</p>
+<p>11/19<br />
+The messiest thing<br />
+You can give a baby to<br />
+Eat is corn muffins.</p>
+<p>11/20<br />
+Invariably,<br />
+One gets up early, while the<br />
+other sleeps in late.</p>
+<p>11/21<br />
+The popcorn maker<br />
+Is just about the best thing<br />
+Sheâs seen in her life.</p>
+<p>11/22<br />
+He wouldnât sleep at<br />
+4 AM. Then he crawled for<br />
+The very first time.</p>
+<p>11/23<br />
+She listed the friends<br />
+She likes, and then said, âI donât<br />
+Like Curious George.â</p>
+<p>11/24<br />
+This morning she ate<br />
+Peking Ravioli for<br />
+Thanksgiving breakfast.</p>
+<p>11/25<br />
+Yesterday he ate<br />
+Everything at dinner. She<br />
+Ate only a roll.</p>
+<p>11/26<br />
+He hates having his<br />
+Nose blown more than anyoneâs<br />
+Hated anything.</p>
+<p>11/27<br />
+To get her to eat<br />
+Them, I said cucumbers were<br />
+âSalad Marshmallows.â</p>
+<p>11/28<br />
+She can make a mess<br />
+Faster than I can clean and<br />
+I just have to deal.</p>
+<p>11/29<br />
+A crazy thing to<br />
+Do with kids is make dinner<br />
+An hour early.</p>
+<p>11/30<br />
+He canât hug or talk,<br />
+But when he headbutts you heâs<br />
+Saying, âI love you.â</p>
+<p>12/1<br />
+Bad bedtimes would be<br />
+Good if we had different<br />
+Personalities.</p>
+<p>12/2<br />
+Today she asked for<br />
+Help and said, âThis is too hard<br />
+For little mommies.â</p>
+<p>12/3<br />
+Usually when we<br />
+Have a sitter, they put the<br />
+Diaper on backwards.</p>
+<p>12/4<br />
+Weekend mornings we<br />
+Wake early, bake, and listen<br />
+To country music.</p>
+<p>12/5<br />
+James the cat meows<br />
+Loudly when the baby cries<br />
+In his crib at night.</p>
+<p>12/6<br />
+Her âcomputerâ is<br />
+A Bluetooth keyboard with a<br />
+Blue yoga block screen.</p>
+<p>12/7<br />
+When he woke at 2,<br />
+I made a reservation<br />
+And wrote this haiku.</p>
+<p>12/8<br />
+Our enemy at<br />
+Night is a cute little boy<br />
+With puppy PJs.</p>
+<p>12/9<br />
+Have a 10 month old<br />
+To find all the things a 10<br />
+Month old canât play with.</p>
+<p>12/10<br />
+Giants scare her, but<br />
+Good thing giants are scared of<br />
+Cats and weâve got two.</p>
+<p>12/11<br />
+âDaddy!â âYeah?â âNo, I<br />
+Wasnât calling you, I just<br />
+said the word, âDaddyâ!â</p>
+<p>12/12<br />
+When she was younger<br />
+Her poop smelled like yogurt. His<br />
+Smells like Cheerios.</p>
+<p>12/13<br />
+She started blowing<br />
+Her nose by herself and itâs<br />
+Pretty impressive.</p>
+<p>12/14<br />
+We finally found<br />
+Some foods he wonât eat. The dude<br />
+Hates eggs and pancakes.</p>
+<p>12/15<br />
+I find Cheerios<br />
+In my shoes when I keep them<br />
+Under the high chair.</p>
+<p>12/16<br />
+She got a troll from<br />
+The cereal box and called<br />
+It âRemote Control.â</p>
+<p>12/17<br />
+Today we kicked snow,<br />
+Walked in slush, built snowmen, and<br />
+Ran in a rock club.</p>
+<p>12/18<br />
+She forgot we ate<br />
+Dinner and asked right before<br />
+Bed why we hadnât.</p>
+<p>12/19<br />
+She got really mad<br />
+When the band-aid didnât take<br />
+Away her booboo.</p>
+<p>12/20<br />
+Birthday dinners are<br />
+Fun, but chaotic when you<br />
+Bring a ton of kids.</p>
+<p>12/21<br />
+âIron supplements<br />
+Taste lousy,â the doctor said<br />
+But our kids love(d) it.</p>
+<p>12/22<br />
+She wouldnât complain<br />
+About being so hungry<br />
+If she ate her lunch.</p>
+<p>12/23<br />
+They say donât go to<br />
+The store when your 3-year-old<br />
+Is very hungry.</p>
+<p>12/24<br />
+âWhen Iâm 4 can I<br />
+Zac all the candles?â Zac is<br />
+The sound a match makes.</p>
+<p>12/25<br />
+Holidays are so<br />
+Exhausting, but then again<br />
+So is every day.</p>
+<p>12/26<br />
+Got both kids to sleep<br />
+In a hotel room weâre in.<br />
+I&#8217;m a magician.</p>
+<p>12/27<br />
+She has a charming,<br />
+Enthusiastic affect<br />
+When opening gifts.</p>
+<p>12/28<br />
+Now he drinks through a<br />
+Straw, pulls up, and claps. Heâs full<br />
+Of developments.</p>
+<p>12/29<br />
+We moved the crib out<br />
+Of our room, so now they share<br />
+A room. Fingers crossed.</p>
+<p>12/30<br />
+No one loved their gift<br />
+More than the baby loves his<br />
+Brand new xylophone.</p>
+<p>12/31<br />
+Shout out to all the<br />
+Parents who wonât make it close<br />
+To midnight tonight.</p>
+<p>1/1/17<br />
+She spent most of the<br />
+Day saying âRabbit rabbit!<br />
+And Happy New Year!â</p>
+<p>1/2/17<br />
+He threw up. Then two<br />
+Nights later, she threw up, too,<br />
+Then they were both fine.</p>
+<p>1/3/17<br />
+She sat quietly<br />
+For 10 minutes with a friend<br />
+Popping bubble wrap.</p>
+<p>1/4/17<br />
+She repeats herself<br />
+For as long as I ignore<br />
+Her. Itâs endearing.</p>
+<p>1/5/17<br />
+I realized I spend<br />
+A lot of time watching him<br />
+And smiling dumbly.</p>
+<p>1/6/17<br />
+Several months ago<br />
+She fell on her buttcheek and<br />
+Said her âface bumâ hurt.</p>
+<p>1/7<br />
+Tonight we had an<br />
+Old fashioned âpoop-in-the-tub<br />
+And-on-mom party.â</p>
+<p>1/8/17<br />
+Most sleep issues for<br />
+Kids would be solved if they learned<br />
+To breath through their mouth.</p>
+<p>1/9/17<br />
+She whispered, âFunkyâ<br />
+Into my ear like fifteen<br />
+Times this afternoon.</p>
+<p>1/10/17<br />
+She doesnât eat meals<br />
+But she has the gall to say,<br />
+âMy face is hungry.â</p>
+<p>1/11/17<br />
+In the car, she said,<br />
+âThe moonâs following us. The<br />
+Light will help us see.â</p>
+<p>1/12/17<br />
+The daycare said his<br />
+Hair was bothering him and<br />
+Getting in his eyes.</p>
+<p>1/13/17<br />
+Two days ago, they<br />
+Both had colds, and today the<br />
+Two of us have colds.</p>
+<p>1/14/17<br />
+It seems like city<br />
+Babies donât love riding in<br />
+Cars. At least not ours.</p>
+<p>1/15/17<br />
+She said her âbum burpedâ<br />
+Which is something I bet all<br />
+Kids say at some point.</p>
+<p>1/16/17<br />
+I dreamt they had slept<br />
+Until 8:10, but it was<br />
+5 when they woke us.</p>
+<p>1/17/17<br />
+He rolled on the floor<br />
+For 10 minutes trying to<br />
+Bite my socks today.</p>
+<p>1/18/17<br />
+In the last few weeks<br />
+She started coloring in<br />
+The lines and itâs great.</p>
+<p>1/19/17<br />
+She sticks out her bum<br />
+When I dry her hair so it<br />
+Can get blow-dried, too.</p>
+<p>1/20/17<br />
+I never thought Iâd<br />
+Beg a baby to just sleep<br />
+Until six thirty.</p>
+<p>1/21/17<br />
+She got a doctorâs<br />
+Kit and coat and calls herself<br />
+Doctor McCohen.</p>
+<p>1/22/17<br />
+Having a baby<br />
+In the house means someone will<br />
+Eat all the bread ends.</p>
+<p>1/23/17<br />
+It&#8217;s kind of funny<br />
+How often kids randomly<br />
+Fall out of their chairs.</p>
+<p>1/24/17<br />
+The stories she tells<br />
+Feature made up places and<br />
+People, even words.</p>
+<p>1/25/17<br />
+âYou know what I can<br />
+Lick? My neck.â And yet, she canât.<br />
+She still tried to, though.</p>
+<p>1/26/17<br />
+Routines on routines.<br />
+With children, itâs the only<br />
+Way to not go nuts.</p>
+<p>1/27<br />
+They knew I had to<br />
+Go away so they thought they&#8217;d<br />
+Get in bed with us.</p>
+<p>1/28/17<br />
+She&#8217;s started dropping<br />
+F Bombs here and there and it&#8217;s<br />
+So disconcerting.</p>
+<p>1/29/17<br />
+I got a âWelcome<br />
+Homeâ hug at around 6 this<br />
+Morning. It was nice.</p>
+<p>1/30/17<br />
+He doesnât have words.<br />
+If he did, heâd be talking<br />
+In his sleep tonight.</p>
+<p>1/31/17<br />
+âI&#8217;m upstairs looking<br />
+At myself in the mirror<br />
+Doing jumping jacks.â</p>
+<p>2/1/17<br />
+Pretty ready for<br />
+His string of winter colds to<br />
+Be done forever.</p>
+<p>2/2/17<br />
+Now the big boy is<br />
+One year old. Happy birthday,<br />
+Buddy, I love you.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-11107" class="share-twitter sd-button share-icon" href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-11107" class="share-facebook sd-button share-icon" href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?share=facebook" target="_blank" title="Click to share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-80026281-11107-5ca59da92eac0' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=80026281&amp;post_id=11107&amp;origin=cohenaaron.wordpress.com&amp;obj_id=80026281-11107-5ca59da92eac0&amp;domain=unlikelywords.com' data-name='like-post-frame-80026281-11107-5ca59da92eac0'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>			</div><!-- .entry-content -->
+
+	<div class="entry-format">
+		<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/"><span class="screen-reader-text">A year of haiku about my&nbsp;kids.</span></a>	</div>
+</article><!-- #post-## -->
+
+				<nav class="navigation post-navigation" role="navigation">
+		<h1 class="screen-reader-text">Post navigation</h1>
+		<div class="nav-links">
+			<div class="nav-previous"><a href="https://unlikelywords.com/2016/12/30/the-books-i-read-this-year/" rel="prev"><span class="meta-nav">&larr;</span>&nbsp;The books I read this&nbsp;year</a></div><div class="nav-next"><a href="https://unlikelywords.com/2019/03/26/another-year-of-haiku-about-my-kids/" rel="next">Another year of Haiku about my&nbsp;kids&nbsp;<span class="meta-nav">&rarr;</span></a></div>		</div><!-- .nav-links -->
+	</nav><!-- .navigation -->
+	
+			
+<div id="comments" class="comments-area">
+
+	
+			<h2 class="comments-title">
+			44 thoughts on &ldquo;<span>A year of haiku about my&nbsp;kids.</span>&rdquo;		</h2>
+
+		
+		<ol class="comment-list">
+				<li id="comment-15419" class="comment byuser comment-author-keebslac1234 even thread-even depth-1 highlander-comment">
+		<article id="div-comment-15419" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/9b96aa584e934a4ae618ca5f0855b564?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://eyesfeetears.wordpress.com' rel='external nofollow' class='url'>keebslac1234</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Read all the way through, grinning madly. Parenthood is such a trip. High. Lows. Giggles. Cries. Poop. Surprises. Ancient history in this household, with both our charges out of the house. But, boy, did your haikus bring back memories.<br />
+He stood on the trunk.<br />
+Grinned wide at his mom, and then<br />
+Intentionally peed. Damn.</p>
+<p id="comment-like-15419" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=15419&#038;_wpnonce=ed113727de" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-15419" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="5">5 people</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-15419">
+					<time datetime="2017-02-11T00:59:59+00:00">
+						February 11, 2017 at 12:59 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=15419#respond' data-commentid="15419" data-postid="11107" data-belowelement="comment-15419" data-respondelement="respond" aria-label='Reply to keebslac1234'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+<ol class="children">
+	<li id="comment-15420" class="comment byuser comment-author-cohenaaron bypostauthor odd alt depth-2 highlander-comment">
+		<article id="div-comment-15420" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/efa65df87195e30e517b63a6049c2d48?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='https://cohenaaron.wordpress.com' rel='external nofollow' class='url'>cohenaaron</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Ha. All of the experiences seem pretty universal, especially in haiku form. Thanks for reading.</p>
+<p id="comment-like-15420" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=15420&#038;_wpnonce=89d80835d0" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-15420" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="1">1 person</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-15420">
+					<time datetime="2017-02-11T03:29:16+00:00">
+						February 11, 2017 at 3:29 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=15420#respond' data-commentid="15420" data-postid="11107" data-belowelement="comment-15420" data-respondelement="respond" aria-label='Reply to cohenaaron'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-21316" class="comment even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21316" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/24cf77c9473cce04393aeaa08851c068?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='https://annearthur.blog/' rel='external nofollow' class='url'>Anne ArthurA</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Love it.<br />
+Nice journal your kids, too, will love to read when they are parents.</p>
+<p id="comment-like-21316" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21316&#038;_wpnonce=39937a6fda" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21316" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="2">2 people</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21316">
+					<time datetime="2019-03-22T13:57:18+00:00">
+						March 22, 2019 at 1:57 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21316#respond' data-commentid="21316" data-postid="11107" data-belowelement="comment-21316" data-respondelement="respond" aria-label='Reply to Anne ArthurA'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21318" class="comment byuser comment-author-giri12311 odd alt thread-even depth-1 highlander-comment">
+		<article id="div-comment-21318" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/3d0f65b2cae45f2167b782831b62ad93?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://vijayagiriviews.wordpress.com' rel='external nofollow' class='url'>udayagiri giridharaprasad</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Reblogged this on <a href="https://vijayagiriviews.wordpress.com/2019/03/22/a-year-of-haiku-about-my-kids/" rel="nofollow">Vijayagiri views</a>.</p>
+<p id="comment-like-21318" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21318&#038;_wpnonce=07700fdade" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21318" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="2">2 people</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21318">
+					<time datetime="2019-03-22T15:25:51+00:00">
+						March 22, 2019 at 3:25 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21318#respond' data-commentid="21318" data-postid="11107" data-belowelement="comment-21318" data-respondelement="respond" aria-label='Reply to udayagiri giridharaprasad'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21319" class="pingback even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21319" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+												<b class="fn"><a href='https://vijayagiriviews.wordpress.com/2019/03/22/a-year-of-haiku-about-my-kids-2/' rel='external nofollow' class='url'>A year of haiku about my kids. &#8211; Vijayagiri views</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>[&#8230;] via A year of haiku about my kids. [&#8230;]</p>
+<p id="comment-like-21319" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21319&#038;_wpnonce=05df3fa4a0" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21319" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="1">1 person</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21319">
+					<time datetime="2019-03-22T15:26:15+00:00">
+						March 22, 2019 at 3:26 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21319#respond' data-commentid="21319" data-postid="11107" data-belowelement="comment-21319" data-respondelement="respond" aria-label='Reply to A year of haiku about my kids. &#8211; Vijayagiri views'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21320" class="comment byuser comment-author-bewelladvocate odd alt thread-even depth-1 highlander-comment">
+		<article id="div-comment-21320" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/abfb070945feecb1163d767f099a18c7?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://bewell922786820.wordpress.com' rel='external nofollow' class='url'>Be Well Advocate</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>This is an awesome idea! I also used a laundry basket as a bed in a pinch.</p>
+<p id="comment-like-21320" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21320&#038;_wpnonce=7901e2f49d" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21320" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="1">1 person</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21320">
+					<time datetime="2019-03-22T15:41:17+00:00">
+						March 22, 2019 at 3:41 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21320#respond' data-commentid="21320" data-postid="11107" data-belowelement="comment-21320" data-respondelement="respond" aria-label='Reply to Be Well Advocate'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21321" class="comment byuser comment-author-elizabethvaradan even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21321" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/2a3b84436fedbf98d6f6c9906a6ab564?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://elizabethvaradan.wordpress.com' rel='external nofollow' class='url'>Elizabeth Varadan</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>I absolutely loved this. It was wonderful. And I was smiling all through the accounts. This is a treasure.</p>
+<p id="comment-like-21321" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21321&#038;_wpnonce=511a503ff2" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21321" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="1">1 person</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21321">
+					<time datetime="2019-03-22T15:49:54+00:00">
+						March 22, 2019 at 3:49 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21321#respond' data-commentid="21321" data-postid="11107" data-belowelement="comment-21321" data-respondelement="respond" aria-label='Reply to Elizabeth Varadan'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21322" class="comment byuser comment-author-evangelina07 odd alt thread-even depth-1 highlander-comment">
+		<article id="div-comment-21322" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/3471328d17539d8b869d649b57abb57f?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://www.frozen-shoulder.blog' rel='external nofollow' class='url'>Undine</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Cool read, thanks.</p>
+<p id="comment-like-21322" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21322&#038;_wpnonce=98cb2325a8" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21322" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="3">3 people</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21322">
+					<time datetime="2019-03-22T16:46:07+00:00">
+						March 22, 2019 at 4:46 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21322#respond' data-commentid="21322" data-postid="11107" data-belowelement="comment-21322" data-respondelement="respond" aria-label='Reply to Undine'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21324" class="comment byuser comment-author-evo4soul even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21324" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/3a25454fb8758958cad5adb7794f69cf?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://evo4soul.com' rel='external nofollow' class='url'>Piyush Kumar Nahata</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Awesome, touching, great&#8230;..<br />
+I don&#8217;t have words for it.</p>
+<p id="comment-like-21324" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21324&#038;_wpnonce=5d14c343ad" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21324" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="2">2 people</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21324">
+					<time datetime="2019-03-23T01:02:01+00:00">
+						March 23, 2019 at 1:02 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21324#respond' data-commentid="21324" data-postid="11107" data-belowelement="comment-21324" data-respondelement="respond" aria-label='Reply to Piyush Kumar Nahata'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21330" class="comment byuser comment-author-classynatalie1 odd alt thread-even depth-1 highlander-comment">
+		<article id="div-comment-21330" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/c5aed48c872e6e01e58435d7d780f208?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn">â¤ï¸Rosieâ¤ï¸</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Wow that&#8217;s amazing !!!!!</p>
+<p id="comment-like-21330" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21330&#038;_wpnonce=4fd9d95b34" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21330" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="2">2 people</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21330">
+					<time datetime="2019-03-23T05:42:39+00:00">
+						March 23, 2019 at 5:42 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21330#respond' data-commentid="21330" data-postid="11107" data-belowelement="comment-21330" data-respondelement="respond" aria-label='Reply to â¤ï¸Rosieâ¤ï¸'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21340" class="comment byuser comment-author-smperkins62 even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21340" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/a9303d81dd5bd08f9975d802f6bb6dd0?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://storyshucker.wordpress.com' rel='external nofollow' class='url'>Stuart M. Perkins</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>So fun!</p>
+<p id="comment-like-21340" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21340&#038;_wpnonce=73d1c2b61c" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21340" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21340">
+					<time datetime="2019-03-24T07:04:22+00:00">
+						March 24, 2019 at 7:04 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21340#respond' data-commentid="21340" data-postid="11107" data-belowelement="comment-21340" data-respondelement="respond" aria-label='Reply to Stuart M. Perkins'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21341" class="comment byuser comment-author-sneha7march odd alt thread-even depth-1 highlander-comment">
+		<article id="div-comment-21341" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/7bb060d2867b5240d69793a9161a8257?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://snehaexpression.com' rel='external nofollow' class='url'>Sneha</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Haha&#8230; All this sounds pretty universal ð</p>
+<p id="comment-like-21341" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21341&#038;_wpnonce=4ac807f0b4" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21341" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21341">
+					<time datetime="2019-03-24T09:42:12+00:00">
+						March 24, 2019 at 9:42 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21341#respond' data-commentid="21341" data-postid="11107" data-belowelement="comment-21341" data-respondelement="respond" aria-label='Reply to Sneha'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21344" class="comment byuser comment-author-wolfgangweiland even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21344" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/7827729f41ed5b9ee750a12c5328fcf9?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn">manchmal_Lyrik Wolfgang Weiland</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>so schÃ¶n&#8230;</p>
+<p id="comment-like-21344" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21344&#038;_wpnonce=84a3acdbff" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21344" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21344">
+					<time datetime="2019-03-24T10:05:57+00:00">
+						March 24, 2019 at 10:05 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21344#respond' data-commentid="21344" data-postid="11107" data-belowelement="comment-21344" data-respondelement="respond" aria-label='Reply to manchmal_Lyrik Wolfgang Weiland'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21347" class="comment byuser comment-author-layinatulafidahnuzul odd alt thread-even depth-1 highlander-comment">
+		<article id="div-comment-21347" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/e2e0dd29799ce1a95d83d86564ff2226?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn">Nuzul Layinatul afidah</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Thank you</p>
+<p id="comment-like-21347" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21347&#038;_wpnonce=3f0189416c" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21347" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21347">
+					<time datetime="2019-03-24T11:38:41+00:00">
+						March 24, 2019 at 11:38 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21347#respond' data-commentid="21347" data-postid="11107" data-belowelement="comment-21347" data-respondelement="respond" aria-label='Reply to Nuzul Layinatul afidah'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21348" class="comment byuser comment-author-ogaziestheory even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21348" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/651bf1892aa2bb7939bb00514cb18968?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='https://ogaziestheory.wordpress.com/' rel='external nofollow' class='url'>Michael Ogazie</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Reblogged this on <a href="https://ogaziestheory.wordpress.com/2019/03/24/a-year-of-haiku-about-my-kids/" rel="nofollow">michael&#039;s blog</a> and commented:<br />
+For children!</p>
+<p id="comment-like-21348" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21348&#038;_wpnonce=907d0b37e7" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21348" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21348">
+					<time datetime="2019-03-24T12:37:23+00:00">
+						March 24, 2019 at 12:37 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21348#respond' data-commentid="21348" data-postid="11107" data-belowelement="comment-21348" data-respondelement="respond" aria-label='Reply to Michael Ogazie'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21352" class="comment byuser comment-author-princesspeaach odd alt thread-even depth-1 highlander-comment">
+		<article id="div-comment-21352" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/1a81d12ad897828dcb1a3cc9a11a1b5f?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://Seashellley.wordpress.com' rel='external nofollow' class='url'>seashellley</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>This is the cutest thing ever I read every one </p>
+<p id="comment-like-21352" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21352&#038;_wpnonce=cdcfcaf33f" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21352" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21352">
+					<time datetime="2019-03-24T20:54:22+00:00">
+						March 24, 2019 at 8:54 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21352#respond' data-commentid="21352" data-postid="11107" data-belowelement="comment-21352" data-respondelement="respond" aria-label='Reply to seashellley'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21360" class="comment byuser comment-author-dsbhat even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21360" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/5660388813ba85235aaa114407dbf90f?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://dsbhat.wordpress.com' rel='external nofollow' class='url'>dsbhat</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Reblogged this on <a href="https://dsbhat.wordpress.com/2019/03/25/a-year-of-haiku-about-my-kids/" rel="nofollow">Strands in the Weave of My Thoughts</a> and commented:<br />
+What a creative way to express yourself through those sleepless nights!  Wish I&#8217;d thought of it.</p>
+<p id="comment-like-21360" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21360&#038;_wpnonce=63b7d1f5d4" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21360" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21360">
+					<time datetime="2019-03-25T01:52:22+00:00">
+						March 25, 2019 at 1:52 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21360#respond' data-commentid="21360" data-postid="11107" data-belowelement="comment-21360" data-respondelement="respond" aria-label='Reply to dsbhat'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21365" class="comment byuser comment-author-floatinggold odd alt thread-even depth-1 highlander-comment">
+		<article id="div-comment-21365" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/310aa8fc685abf350bbee35a8c8e0c94?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://dailyflabbergast.wordpress.com' rel='external nofollow' class='url'>floatinggold</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p><b>What an amazing idea. Kudos to you for sticking to it.</b></p>
+<p id="comment-like-21365" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21365&#038;_wpnonce=0c29056e65" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21365" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21365">
+					<time datetime="2019-03-25T17:40:29+00:00">
+						March 25, 2019 at 5:40 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21365#respond' data-commentid="21365" data-postid="11107" data-belowelement="comment-21365" data-respondelement="respond" aria-label='Reply to floatinggold'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21366" class="comment byuser comment-author-kmcorby even thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21366" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/e2d0fb979d6257fa7809bdde36d6eb00?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://crashyourstash.wordpress.com' rel='external nofollow' class='url'>kmcorby</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>I&#8217;m intrigued by this idea of Minimum Viable Creativity.  Have you written about it elsewhere?</p>
+<p id="comment-like-21366" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21366&#038;_wpnonce=fd64c7500d" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21366" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21366">
+					<time datetime="2019-03-25T18:34:32+00:00">
+						March 25, 2019 at 6:34 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21366#respond' data-commentid="21366" data-postid="11107" data-belowelement="comment-21366" data-respondelement="respond" aria-label='Reply to kmcorby'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+<ol class="children">
+	<li id="comment-21375" class="comment byuser comment-author-cohenaaron bypostauthor odd alt depth-2 highlander-comment">
+		<article id="div-comment-21375" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/efa65df87195e30e517b63a6049c2d48?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='https://cohenaaron.wordpress.com' rel='external nofollow' class='url'>cohenaaron</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>I haven&#8217;t written more about it. My thinking was that if I could do at least a little bit every day, it would keep me connected to creativity, and would hopefully spread into other parts of my life. I have friends who do a drawing or illustration every day, which is what inspired this. </p>
+<p id="comment-like-21375" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21375&#038;_wpnonce=9a40d7e189" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21375" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21375">
+					<time datetime="2019-03-26T01:49:10+00:00">
+						March 26, 2019 at 1:49 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21375#respond' data-commentid="21375" data-postid="11107" data-belowelement="comment-21375" data-respondelement="respond" aria-label='Reply to cohenaaron'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+<ol class="children">
+	<li id="comment-21376" class="comment byuser comment-author-kmcorby even depth-3 highlander-comment">
+		<article id="div-comment-21376" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/e2d0fb979d6257fa7809bdde36d6eb00?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://crashyourstash.wordpress.com' rel='external nofollow' class='url'>kmcorby</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>I see. I like it too. I should come up with something. </p>
+<p id="comment-like-21376" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21376&#038;_wpnonce=b29508d0f3" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21376" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21376">
+					<time datetime="2019-03-26T02:42:24+00:00">
+						March 26, 2019 at 2:42 am					</time>
+				</a>
+								<span class="reply">
+									</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21386" class="comment byuser comment-author-cohenaaron bypostauthor odd alt depth-3 highlander-comment">
+		<article id="div-comment-21386" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/efa65df87195e30e517b63a6049c2d48?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='https://cohenaaron.wordpress.com' rel='external nofollow' class='url'>cohenaaron</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Can be anything you know you can do everyday. Eventually it becomes a habit. </p>
+<p id="comment-like-21386" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21386&#038;_wpnonce=a8291472e7" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21386" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21386">
+					<time datetime="2019-03-26T17:20:34+00:00">
+						March 26, 2019 at 5:20 pm					</time>
+				</a>
+								<span class="reply">
+									</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-21372" class="comment byuser comment-author-marsaje even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21372" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/97d8d6ab63a1113765b5475748d7c1d3?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://writersblockwordhome.wordpress.com' rel='external nofollow' class='url'>marsaje</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Amazing ! Ideas for my future !</p>
+<p id="comment-like-21372" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21372&#038;_wpnonce=9b3df99882" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21372" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21372">
+					<time datetime="2019-03-25T23:11:36+00:00">
+						March 25, 2019 at 11:11 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21372#respond' data-commentid="21372" data-postid="11107" data-belowelement="comment-21372" data-respondelement="respond" aria-label='Reply to marsaje'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21374" class="pingback odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21374" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+												<b class="fn"><a href='https://unlikelywords.com/2019/03/26/another-year-of-haiku-about-my-kids/' rel='external nofollow' class='url'>Another year of Haiku about my kids</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>[&#8230;] night, since before my son was born, I write a haiku about my kids. I posted a collection of the first year of haiku in 2017 and was remiss in not having posted the collection of the second and third years. Here&#8217;s the [&#8230;]</p>
+<p id="comment-like-21374" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21374&#038;_wpnonce=53419bf17d" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21374" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21374">
+					<time datetime="2019-03-26T01:45:51+00:00">
+						March 26, 2019 at 1:45 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21374#respond' data-commentid="21374" data-postid="11107" data-belowelement="comment-21374" data-respondelement="respond" aria-label='Reply to Another year of Haiku about my kids'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21377" class="comment even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21377" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/c8a003828b62967e10b2ea74ae2edc70?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://annalieseaman.com' rel='external nofollow' class='url'>Annalie</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>I think that haikus<br />
+Kept you sane through the nights when<br />
+Sleep was just a dream. </p>
+<p>I wish I had known<br />
+The power of haikus when<br />
+My children were small. </p>
+<p>At least I know now.<br />
+All hail haikus and daddy<br />
+Poets.  Thanks Aaron.</p>
+<p id="comment-like-21377" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21377&#038;_wpnonce=42c170ca6e" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21377" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="2">2 people</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21377">
+					<time datetime="2019-03-26T03:17:50+00:00">
+						March 26, 2019 at 3:17 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21377#respond' data-commentid="21377" data-postid="11107" data-belowelement="comment-21377" data-respondelement="respond" aria-label='Reply to Annalie'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21384" class="comment byuser comment-author-cktrinh odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21384" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/43d827dc59ba524837c45c20d18aea7f?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://heartofnovocainehome.wordpress.com' rel='external nofollow' class='url'>cktrinh</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>This is really cute</p>
+<p id="comment-like-21384" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21384&#038;_wpnonce=e8fd83d6bb" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21384" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21384">
+					<time datetime="2019-03-26T11:58:46+00:00">
+						March 26, 2019 at 11:58 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21384#respond' data-commentid="21384" data-postid="11107" data-belowelement="comment-21384" data-respondelement="respond" aria-label='Reply to cktrinh'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21387" class="comment byuser comment-author-thekeenfeminist even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21387" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/bf360ac19eea352204689dc4e4e02a8d?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://thekeenfeminist.wordpress.com' rel='external nofollow' class='url'>georgiaâ¤</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Wow! So creative and original! I love it!!</p>
+<p id="comment-like-21387" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21387&#038;_wpnonce=b9ad386593" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21387" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21387">
+					<time datetime="2019-03-26T17:26:31+00:00">
+						March 26, 2019 at 5:26 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21387#respond' data-commentid="21387" data-postid="11107" data-belowelement="comment-21387" data-respondelement="respond" aria-label='Reply to georgiaâ¤'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21388" class="comment byuser comment-author-amethystsaw odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21388" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/d193151c6b1218d45b933be14fe87239?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://amethystsaw.wordpress.com' rel='external nofollow' class='url'>Adaeze Feyisayo</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Fantastic journal I laughed, grinned and frowned at some because the meanings were lost to me. Thank you for sharing. It made me reflect on my childhood.  I wish you the best with your sweet kids, marriage and ice cream shop. </p>
+<p id="comment-like-21388" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21388&#038;_wpnonce=1a1abcc3c3" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21388" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21388">
+					<time datetime="2019-03-26T17:58:33+00:00">
+						March 26, 2019 at 5:58 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21388#respond' data-commentid="21388" data-postid="11107" data-belowelement="comment-21388" data-respondelement="respond" aria-label='Reply to Adaeze Feyisayo'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21394" class="comment byuser comment-author-rothpoetry even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21394" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/d685efa44e3fbf9c3bbdaa4ec42ab7d5?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://rothpoetry.wordpress.com' rel='external nofollow' class='url'>rothpoetry</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Love your kid haikus!</p>
+<p id="comment-like-21394" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21394&#038;_wpnonce=b96bcef097" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21394" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21394">
+					<time datetime="2019-03-27T01:56:30+00:00">
+						March 27, 2019 at 1:56 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21394#respond' data-commentid="21394" data-postid="11107" data-belowelement="comment-21394" data-respondelement="respond" aria-label='Reply to rothpoetry'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21399" class="comment byuser comment-author-vidishagupta odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21399" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/24c4b9fbc4f04a481ff1da7e0a49bbdd?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://weirdervagaries.wordpress.com' rel='external nofollow' class='url'>vidishagupta</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>It was so mesmerizing to read. Being at teenage, the stupid age when we hardly show any affection or appreciation to our parents, it was almost enlightening to know how they&#8217;ve got through bringing us up. It&#8217;s hard. Obviously. But it&#8217;s the parents who make it beautiful for both the parties.<br />
+Great idea. </p>
+<p id="comment-like-21399" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21399&#038;_wpnonce=72f8658ebe" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21399" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21399">
+					<time datetime="2019-03-27T04:11:11+00:00">
+						March 27, 2019 at 4:11 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21399#respond' data-commentid="21399" data-postid="11107" data-belowelement="comment-21399" data-respondelement="respond" aria-label='Reply to vidishagupta'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21406" class="comment byuser comment-author-doroklein even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21406" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/2c6606e98c0a9bd153e6b73c7b3401b3?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://doroklein.wordpress.com' rel='external nofollow' class='url'>doroklein</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Reblogged this on <a href="https://doroklein.wordpress.com/2019/03/27/a-year-of-haiku-about-my-kids/" rel="nofollow">doroklein</a> and commented:<br />
+I think this is genius, so I have to share it. </p>
+<p id="comment-like-21406" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21406&#038;_wpnonce=809aa1820b" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21406" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21406">
+					<time datetime="2019-03-27T07:28:04+00:00">
+						March 27, 2019 at 7:28 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21406#respond' data-commentid="21406" data-postid="11107" data-belowelement="comment-21406" data-respondelement="respond" aria-label='Reply to doroklein'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21412" class="comment byuser comment-author-laur3966 odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21412" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/ab57175c02557fe1c4ded4904837a510?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://inspiredbyhisdesign.wordpress.com' rel='external nofollow' class='url'>lauren.lantz</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>What a neat concept. Made me smile &amp; reflect. Definitely gonna have to do something like this ..minimal viable creativity.. pretty cool. I agree with comment above, good job sticking to it! </p>
+<p id="comment-like-21412" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21412&#038;_wpnonce=db51df88cd" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21412" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21412">
+					<time datetime="2019-03-27T17:45:57+00:00">
+						March 27, 2019 at 5:45 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21412#respond' data-commentid="21412" data-postid="11107" data-belowelement="comment-21412" data-respondelement="respond" aria-label='Reply to lauren.lantz'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21431" class="comment byuser comment-author-kemwriting even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21431" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/a9f766da7de20b5dc4860e74896312ae?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://kemwritingfromhome.wordpress.com' rel='external nofollow' class='url'>KEMwriting</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>What a wonderful and truthful tale of parenthood. Worth the trip, though. ð</p>
+<p id="comment-like-21431" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21431&#038;_wpnonce=6bbe242713" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21431" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21431">
+					<time datetime="2019-03-28T11:24:34+00:00">
+						March 28, 2019 at 11:24 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21431#respond' data-commentid="21431" data-postid="11107" data-belowelement="comment-21431" data-respondelement="respond" aria-label='Reply to KEMwriting'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21441" class="comment byuser comment-author-syedmuhammadjawad odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21441" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/95cf614eda4452889b1bdcd6a75fa1cf?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='https://www.worldeyewatch.com/' rel='external nofollow' class='url'>J.S - WEW</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Nice idea, liked your creativity.</p>
+<p id="comment-like-21441" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21441&#038;_wpnonce=91082030f7" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21441" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21441">
+					<time datetime="2019-03-28T20:22:04+00:00">
+						March 28, 2019 at 8:22 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21441#respond' data-commentid="21441" data-postid="11107" data-belowelement="comment-21441" data-respondelement="respond" aria-label='Reply to J.S - WEW'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21442" class="comment byuser comment-author-darknightsandfairylights even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21442" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/d5e6f55b257b893e8f89a6d0ef61c687?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://darknightsandfairylightshome.com' rel='external nofollow' class='url'>m.m.jan</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>This was so much fun to read! </p>
+<p id="comment-like-21442" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21442&#038;_wpnonce=96e5905bac" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21442" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21442">
+					<time datetime="2019-03-28T20:56:00+00:00">
+						March 28, 2019 at 8:56 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21442#respond' data-commentid="21442" data-postid="11107" data-belowelement="comment-21442" data-respondelement="respond" aria-label='Reply to m.m.jan'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21453" class="comment byuser comment-author-crazydolllady333 odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21453" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/e8e9f2eab210bda5fa6aa966cccb45b5?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://foreverbabieshome.wordpress.com' rel='external nofollow' class='url'>crazydolllady333</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Fantastic post, and interesting too. Loving your Haikus!</p>
+<p id="comment-like-21453" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21453&#038;_wpnonce=a674af1eae" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21453" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="1">1 person</a></span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21453">
+					<time datetime="2019-03-29T13:43:43+00:00">
+						March 29, 2019 at 1:43 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21453#respond' data-commentid="21453" data-postid="11107" data-belowelement="comment-21453" data-respondelement="respond" aria-label='Reply to crazydolllady333'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21477" class="comment byuser comment-author-lulz4dayzz even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21477" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/075a1a1e0d4078e07cd807a35f0e296b?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://lightslinesstability.wordpress.com' rel='external nofollow' class='url'>lulz4dayzz</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Reblogged this on <a href="https://lightslinesstability.wordpress.com/2019/03/30/a-year-of-haiku-about-my-kids/" rel="nofollow"></a> and commented:<br />
+Love this</p>
+<p id="comment-like-21477" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21477&#038;_wpnonce=975d16009e" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21477" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21477">
+					<time datetime="2019-03-30T22:09:49+00:00">
+						March 30, 2019 at 10:09 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21477#respond' data-commentid="21477" data-postid="11107" data-belowelement="comment-21477" data-respondelement="respond" aria-label='Reply to lulz4dayzz'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21481" class="comment byuser comment-author-evecrabapple odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21481" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/fff8c450f96ca1ea00506d1cd5acdb56?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://www.theminimalistmuslim.com' rel='external nofollow' class='url'>Eve Crabapple</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>What a cool concept! My little one is 4 months old and I think Iâm going to start this today. I love May 2nd . Pretending to poop ð</p>
+<p id="comment-like-21481" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21481&#038;_wpnonce=58b24c36cc" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21481" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21481">
+					<time datetime="2019-03-31T01:50:54+00:00">
+						March 31, 2019 at 1:50 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21481#respond' data-commentid="21481" data-postid="11107" data-belowelement="comment-21481" data-respondelement="respond" aria-label='Reply to Eve Crabapple'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21484" class="comment byuser comment-author-dreamingatmydesk even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21484" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/1409a3abdb5a56345d2bedc222b02c43?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://dreamingatmydesk.wordpress.com' rel='external nofollow' class='url'>DreamingAtMyDesk</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>This made my day!! ð¥°</p>
+<p id="comment-like-21484" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21484&#038;_wpnonce=27391cf59b" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21484" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21484">
+					<time datetime="2019-03-31T07:22:09+00:00">
+						March 31, 2019 at 7:22 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21484#respond' data-commentid="21484" data-postid="11107" data-belowelement="comment-21484" data-respondelement="respond" aria-label='Reply to DreamingAtMyDesk'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21495" class="comment byuser comment-author-qwertylindsay odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21495" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/1a86decf84983f58c85649dce30a1589?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://mycrappymonthhome.wordpress.com' rel='external nofollow' class='url'>Lindsay</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Such a brilliant way to keep in touch with your creativity and now you have wonderful memories to share. Really inspiring, thank you for sharing! </p>
+<p id="comment-like-21495" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21495&#038;_wpnonce=2ea8666197" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21495" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21495">
+					<time datetime="2019-04-01T01:00:50+00:00">
+						April 1, 2019 at 1:00 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21495#respond' data-commentid="21495" data-postid="11107" data-belowelement="comment-21495" data-respondelement="respond" aria-label='Reply to Lindsay'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21499" class="comment byuser comment-author-momlifeoverit even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21499" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/2d8ba7dc26fd9f574f6ac782b1cf6bfb?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn">momlifeoverit</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>This was awesome!</p>
+<p id="comment-like-21499" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21499&#038;_wpnonce=8e41b9fdef" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21499" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21499">
+					<time datetime="2019-04-01T02:01:44+00:00">
+						April 1, 2019 at 2:01 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21499#respond' data-commentid="21499" data-postid="11107" data-belowelement="comment-21499" data-respondelement="respond" aria-label='Reply to momlifeoverit'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21520" class="comment byuser comment-author-janettebendle odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-21520" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/5ef4d1714f2621b4aa01491c6a934f50?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://janettebendlelivingherdreams' rel='external nofollow' class='url'>Janette Bendle</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>Wow. So sweet. A diarized haiku of your kids. Thank you ð</p>
+<p id="comment-like-21520" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21520&#038;_wpnonce=f8372a6f9d" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21520" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21520">
+					<time datetime="2019-04-02T02:57:56+00:00">
+						April 2, 2019 at 2:57 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21520#respond' data-commentid="21520" data-postid="11107" data-belowelement="comment-21520" data-respondelement="respond" aria-label='Reply to Janette Bendle'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+	<li id="comment-21533" class="comment byuser comment-author-paigeeg even thread-even depth-1 highlander-comment">
+		<article id="div-comment-21533" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/e06777214668a0ace98e47a6efde55b8?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='http://askingwhyblog.wordpress.com' rel='external nofollow' class='url'>paigeeg</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>My second baby is now 1-month old, and I&#8217;m definitely relating to these haiku.</p>
+<p id="comment-like-21533" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21533&#038;_wpnonce=31bc8899c6" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21533" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21533">
+					<time datetime="2019-04-02T15:42:24+00:00">
+						April 2, 2019 at 3:42 pm					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21533#respond' data-commentid="21533" data-postid="11107" data-belowelement="comment-21533" data-respondelement="respond" aria-label='Reply to paigeeg'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+<ol class="children">
+	<li id="comment-21540" class="comment byuser comment-author-cohenaaron bypostauthor odd alt depth-2 highlander-comment">
+		<article id="div-comment-21540" class="comment-body">
+
+			<div class="comment-content">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://2.gravatar.com/avatar/efa65df87195e30e517b63a6049c2d48?s=50&#038;d=identicon&#038;r=G' class='avatar avatar-50' height='50' width='50' />						<b class="fn"><a href='https://cohenaaron.wordpress.com' rel='external nofollow' class='url'>cohenaaron</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+				</footer><!-- .comment-meta -->
+								<p>They&#8217;ll be especially relevant to you, since you&#8217;ve got two. ð</p>
+<p id="comment-like-21540" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/?like_comment=21540&#038;_wpnonce=e6566e09e1" class="comment-like-link needs-login" rel="nofollow" data-blog="80026281"><span>Like</span></a><span id="comment-like-count-21540" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+
+			<div class="comment-metadata">
+				<a href="https://unlikelywords.com/2017/02/10/a-year-of-haiku-about-my-kids/#comment-21540">
+					<time datetime="2019-04-03T01:15:45+00:00">
+						April 3, 2019 at 1:15 am					</time>
+				</a>
+								<span class="reply">
+					<a rel='nofollow' class='comment-reply-link' href='/2017/02/10/a-year-of-haiku-about-my-kids/?replytocom=21540#respond' data-commentid="21540" data-postid="11107" data-belowelement="comment-21540" data-respondelement="respond" aria-label='Reply to cohenaaron'>Reply</a>				</span><!-- .reply -->
+			</div><!-- .comment-metadata -->
+
+		</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2017/02/10/a-year-of-haiku-about-my-kids/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://unlikelywords.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+				<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="e31d01d62a" /><input type="hidden" name="_wp_http_referer" value="/2017/02/10/a-year-of-haiku-about-my-kids/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" class="nascar-signin-link"
+                   title="Login via Guest">
+									</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" class="nascar-signin-link"
+                   title="Login via WordPress.com">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></g></svg>				</a>
+			</li>
+			<li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" class="nascar-signin-link"
+                   title="Login via Twitter">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"/></g></svg>				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" class="nascar-signin-link"
+                   title="Login via Facebook">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"/></g></svg>				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+						<p class="comment-form-posting-as pa-wordpress">
+			<strong></strong>
+			You are commenting using your WordPress.com account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+						<p class="comment-form-posting-as pa-googleplus">
+			<strong></strong>
+			You are commenting using your Google account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" x="0px" y="0px" viewBox="0 0 60 60" ><path fill="#519bf7" d="M56.3,30c0,-1.6 -0.2,-3.4 -0.6,-5h-3.1H42.2H30v10.6h14.8C44,39.3 42,42 39.1,43.9l8.8,6.8C53,46 56.3,39 56.3,30z" /><path fill="#3db366" d="M30,57.5c6.7,0 13.1,-2.4 17.9,-6.8l-8.8,-6.8c-2.5,1.6 -5.6,2.4 -9.1,2.4c-7.2,0 -13.3,-4.7 -15.4,-11.2l-9.3,7.1C9.8,51.3 19.1,57.5 30,57.5z" /><path fill="#fdc600" d="M5.3,42.2l9.3,-7.1c-0.5,-1.6 -0.8,-3.3 -0.8,-5.1s0.3,-3.5 0.8,-5.1l-9.3,-7.1C3.5,21.5 2.5,25.6 2.5,30S3.5,38.5 5.3,42.2z" /><path fill="#f15b44" d="M40.1,17.4l8,-8C43.3,5.1 37,2.5 30,2.5C19.1,2.5 9.8,8.7 5.3,17.8l9.3,7.1c2.1,-6.5 8.2,-11.1 15.4,-11.1C33.9,13.7 37.4,15.1 40.1,17.4z" /></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+						<p class="comment-form-posting-as pa-twitter">
+			<strong></strong>
+			You are commenting using your Twitter account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+						<p class="comment-form-posting-as pa-facebook">
+			<strong></strong>
+			You are commenting using your Facebook account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='11107' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c115e60c10" /></p>
+<input type="hidden" name="genseq" value="1554357673" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="199"/></p>			</form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+</div><!-- #comments -->
+
+		
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+	</div><!-- #content -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+			<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+			
+					</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-9b96aa584e934a4ae618ca5f0855b564">
+	</div>
+	<div class="grofile-hash-map-efa65df87195e30e517b63a6049c2d48">
+	</div>
+	<div class="grofile-hash-map-24cf77c9473cce04393aeaa08851c068">
+	</div>
+	<div class="grofile-hash-map-3d0f65b2cae45f2167b782831b62ad93">
+	</div>
+	<div class="grofile-hash-map-abfb070945feecb1163d767f099a18c7">
+	</div>
+	<div class="grofile-hash-map-2a3b84436fedbf98d6f6c9906a6ab564">
+	</div>
+	<div class="grofile-hash-map-3471328d17539d8b869d649b57abb57f">
+	</div>
+	<div class="grofile-hash-map-3a25454fb8758958cad5adb7794f69cf">
+	</div>
+	<div class="grofile-hash-map-c5aed48c872e6e01e58435d7d780f208">
+	</div>
+	<div class="grofile-hash-map-a9303d81dd5bd08f9975d802f6bb6dd0">
+	</div>
+	<div class="grofile-hash-map-7bb060d2867b5240d69793a9161a8257">
+	</div>
+	<div class="grofile-hash-map-7827729f41ed5b9ee750a12c5328fcf9">
+	</div>
+	<div class="grofile-hash-map-e2e0dd29799ce1a95d83d86564ff2226">
+	</div>
+	<div class="grofile-hash-map-651bf1892aa2bb7939bb00514cb18968">
+	</div>
+	<div class="grofile-hash-map-1a81d12ad897828dcb1a3cc9a11a1b5f">
+	</div>
+	<div class="grofile-hash-map-5660388813ba85235aaa114407dbf90f">
+	</div>
+	<div class="grofile-hash-map-310aa8fc685abf350bbee35a8c8e0c94">
+	</div>
+	<div class="grofile-hash-map-e2d0fb979d6257fa7809bdde36d6eb00">
+	</div>
+	<div class="grofile-hash-map-97d8d6ab63a1113765b5475748d7c1d3">
+	</div>
+	<div class="grofile-hash-map-c8a003828b62967e10b2ea74ae2edc70">
+	</div>
+	<div class="grofile-hash-map-43d827dc59ba524837c45c20d18aea7f">
+	</div>
+	<div class="grofile-hash-map-bf360ac19eea352204689dc4e4e02a8d">
+	</div>
+	<div class="grofile-hash-map-d193151c6b1218d45b933be14fe87239">
+	</div>
+	<div class="grofile-hash-map-d685efa44e3fbf9c3bbdaa4ec42ab7d5">
+	</div>
+	<div class="grofile-hash-map-24c4b9fbc4f04a481ff1da7e0a49bbdd">
+	</div>
+	<div class="grofile-hash-map-2c6606e98c0a9bd153e6b73c7b3401b3">
+	</div>
+	<div class="grofile-hash-map-ab57175c02557fe1c4ded4904837a510">
+	</div>
+	<div class="grofile-hash-map-a9f766da7de20b5dc4860e74896312ae">
+	</div>
+	<div class="grofile-hash-map-95cf614eda4452889b1bdcd6a75fa1cf">
+	</div>
+	<div class="grofile-hash-map-d5e6f55b257b893e8f89a6d0ef61c687">
+	</div>
+	<div class="grofile-hash-map-e8e9f2eab210bda5fa6aa966cccb45b5">
+	</div>
+	<div class="grofile-hash-map-075a1a1e0d4078e07cd807a35f0e296b">
+	</div>
+	<div class="grofile-hash-map-fff8c450f96ca1ea00506d1cd5acdb56">
+	</div>
+	<div class="grofile-hash-map-1409a3abdb5a56345d2bedc222b02c43">
+	</div>
+	<div class="grofile-hash-map-1a86decf84983f58c85649dce30a1589">
+	</div>
+	<div class="grofile-hash-map-2d8ba7dc26fd9f574f6ac782b1cf6bfb">
+	</div>
+	<div class="grofile-hash-map-5ef4d1714f2621b4aa01491c6a934f50">
+	</div>
+	<div class="grofile-hash-map-e06777214668a0ace98e47a6efde55b8">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/cohenaaron.wordpress.com\/public.api\/connect\/?action=request&domain=unlikelywords.com","logoutURL":"https:\/\/cohenaaron.wordpress.com\/wp-login.php?action=logout&_wpnonce=fc4b2879eb","homeURL":"https:\/\/unlikelywords.com\/","postID":"11107","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1551752381j'></script>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/unlikelywords.com\/2017\/02\/10\/a-year-of-haiku-about-my-kids\/":11107};
+	</script>
+				<script type='text/javascript'>
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"80026281","siteName":"unlikelywords.com","siteURL":"https:\/\/unlikelywords.com","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/minnow","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Funlikelywords.com%2F2017%2F02%2F10%2Fa-year-of-haiku-about-my-kids%2F&signup_flow=account&domain=unlikelywords.com","themeURL":"","xhrURL":"https:\/\/unlikelywords.com\/wp-admin\/admin-ajax.php","nonce":"7f04033116","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"b0b83d29d1\" \/>","referer":"https:\/\/unlikelywords.com\/2017\/02\/10\/a-year-of-haiku-about-my-kids\/","canFollow":"1","feedID":"34178976","statusMessage":"","customizeLink":"https:\/\/cohenaaron.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fcohenaaron.wordpress.com%2F2017%2F02%2F10%2Fa-year-of-haiku-about-my-kids%2F","postID":"11107","shortlink":"https:\/\/wp.me\/p5pMut-2T9","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/unlikelywords.com\/11107","statsLink":"https:\/\/wordpress.com\/stats\/post\/11107\/unlikelywords.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Minnow","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 323 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Funlikelywords.com%2F2017%2F02%2F10%2Fa-year-of-haiku-about-my-kids%2F&signup_flow=account&domain=unlikelywords.com\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyVkNFugzAMRX9owWxdJV6mfcoUggFD4mRxAtvfL6gaajcJtU++su+xfA1rUMZzQk4wCXS4kMHwVU3yBFcjl1WweSAWsDSjwGfGjKPmzmI8MBvvXGmpCzRtdAuyUsBHoJvGXzCN6Iot5BYcMft1Iy7qLivrhQadyPNddpkplEN4Vr03WVRP+7OIjc3d7ckRg/2uCn6QV3dlrlodwWlJGItSfsEYaVu29x7ckKI2879vXUNmC71BuzpyzyQOkzpVNXyUpND76A78wUtSvdUUQUYdiYffWqB39/Z8Pr/Ur03dNNMP7sHwmA=='></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20190321#ver=20190321' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'80026281','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'80026281','v':'wpcom','tz':'0','user_id':'0','post':'11107','subd':'cohenaaron'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGRVYVNrSFguN3FwSmQ5RGtNX3VQcj1yVzhiflM1THQtLGFdQ2toOXYlSDV0SVBCLy9pNVlbb1p6SlB4QzYvLHNiOTVDVXZZV3puU3AyViVJZVszPUklSzEvcDROX3RbOWR6ND9HSWUybS1+Q1Q2cyVdPU90T2c3M0hwbkp1b2FrTHxUaXp3b19IbWhnXy5SQ1ImV1VCMy1SJmRQMWguck9zUWt6ckxdak5aTTRxUU9JZ0VEK3QlcnVIcUItRHksdW1DS29iZVZdJVJbNDklY2JQM0NUVXMwXThYSmMzZnl4eWR1S1EsRm1+X2hxeGx6YktBTnpYSnIuV3Uwcy4vYjMzR0U/JmlzOCZfMA=='}]);
+_stq.push([ 'clickTrackerInit', '80026281', '11107' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+<!--
+	generated in 0.305 seconds
+	174431 bytes batcached for 300 seconds
+-->
+
+
+
+#####EOF#####
+
+

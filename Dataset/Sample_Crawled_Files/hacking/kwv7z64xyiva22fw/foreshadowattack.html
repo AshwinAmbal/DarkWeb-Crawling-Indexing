@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Foreshadow: Breaking the Virtual Memory Abstraction with Transient
+Out-of-Order Execution</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/png" href="favicon.png"/>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+    <div class = "logos_container">
+        <img class="img-responsive" width=220px style="display:inline" src="foreshadow.svg" />
+    </div>
+    <h1><span class="fs-em">Foreshadow</span></h1>
+    <h3>Breaking the Virtual Memory Abstraction with Transient
+Out-of-Order Execution</h3> 
+
+    <br/>
+    <p><a href="#paper" class="btn btn-default fs-btn" role="button">
+            Read the paper <i class="fa fa-download" aria-hidden="true"></i></a>
+
+       <a href="#bibtex" class="btn btn-default fs-btn" data-toggle="collapse" role="button">
+            Cite <i class="fa fa-quote-right" aria-hidden="true"></i></a>
+
+       <a href="#demo" class="btn btn-default fs-btn" role="button">
+            Watch a demo <i class="fa fa-video-camera" aria-hidden="true"></i></a>
+    </p>
+
+    <div id="bibtex" class="container collapse">
+<pre style="white-space: pre">
+@inproceedings{vanbulck2018foreshadow,
+    author = {Van Bulck, Jo and Minkin, Marina and Weisse, Ofir and Genkin, Daniel and Kasikci, Baris and
+              Piessens, Frank and Silberstein, Mark and Wenisch, Thomas F. and Yarom, Yuval and Strackx, Raoul},
+    title = {Foreshadow: Extracting the Keys to the {Intel SGX} Kingdom with Transient Out-of-Order Execution},
+    booktitle = {Proceedings of the 27th {USENIX} Security Symposium},
+    year = {2018},
+    month = {August},
+    publisher = {{USENIX} Association},
+    note={See also technical report Foreshadow-NG~\cite{weisse2018foreshadowNG}}
+}
+
+@article{weisse2018foreshadowNG,
+  title={{Foreshadow-NG}: Breaking the Virtual Memory Abstraction with Transient Out-of-Order Execution},
+  author={Weisse, Ofir and Van Bulck, Jo and Minkin, Marina and  Genkin, Daniel and Kasikci, Baris and
+              Piessens, Frank and Silberstein, Mark and Strackx, Raoul and Wenisch, Thomas F. and Yarom, Yuval},
+  journal={Technical report},
+  year={2018},
+  note={See also {USENIX} Security paper Foreshadow~\cite{vanbulck2018foreshadow}}
+}
+</pre>
+    </div> 
+</div>
+  
+<div class="container">
+
+    <div class="page-header">
+        <h2 class="fs-title">Introduction</h2>
+    </div>
+
+    <p class="fs-intro">
+    Foreshadow is a speculative execution attack on Intel processors
+    which allows an attacker to steal sensitive information stored inside personal computers or third party
+    clouds. Foreshadow has two versions, the original attack designed to extract data from <abbr title="Software Guard eXtensions">SGX</abbr> enclaves and a Next-Generation version which affects 
+	Virtual Machines (VMs), hypervisors (VMM), operating system (OS) kernel memory, and System Management Mode (SMM) memory.
+</p>
+
+<div id="paper" class = "double_col">
+	<div class="mywell">
+		<h3 class="fs-title">Foreshadow</h2>
+	</div>
+	<div class="mywell">
+		<p>
+			At a high level, <a href="https://en.wikipedia.org/wiki/Software_Guard_Extensions">SGX</a>
+			is a new  feature in modern Intel CPUs which
+			allows computers to protect usersâ data even if the entire system falls under
+			the attackerâs control. While it was previously believed that SGX is resilient
+			to speculative execution attacks (such as <a href="https://meltdownattack.com/">Meltdown</a> and <a href="https://spectreattack.com/">Spectre</a>), Foreshadow
+			demonstrates how speculative execution can be exploited for reading the
+			contents of SGX-protected memory as well as extracting the machineâs private attestation key.
+			Making things worse, due to SGXâs privacy features, an attestation report cannot be linked to the identity of its signer.
+			Thus, it only takes a single compromised SGX machine to erode trust in the
+			entire SGX ecosystem.
+		</p>
+
+	</div>
+	<div class ="mywell">
+		<p style = "text-align:center;"><a href="foreshadow.pdf" class="btn btn-default fs-btn mid-btn" role="button">
+	            Read the USENIX paper <i class="fa fa-download" aria-hidden="true"></i></a>
+		</p>
+	</div>
+	<div class="mywell">
+		<h3 class="fs-title">Foreshadow &ndash; Next Generation (NG)</h2>
+	</div>
+	<div class="mywell">
+		<p>
+	            	While investigating the vulnerability that causes Foreshadow, which
+	            	Intel refers to as "L1 Terminal Fault",
+	            	Intel identified two related
+	            	attacks, which we call Foreshadow-NG.
+			These attacks can potentially be used to read <b> any
+			</b> information residing in the L1 cache, including
+			information belonging to the System Management Mode (SMM), the 
+			<a href="https://en.wikipedia.org/wiki/Kernel_(operating_system)">Operating System's Kernel</a>, or <a href="https://en.wikipedia.org/wiki/Hypervisor">Hypervisor</a>. Perhaps most devastating, Foreshadow-NG might also be used to read information stored in other virtual machines running on the same third-party cloud, presenting a risk to cloud infrastructure. Finally, in some cases, Foreshadow-NG might bypass previous mitigations against speculative execution attacks, including countermeasures for <a href="https://meltdownattack.com/">Meltdown</a> and <a href="https://spectreattack.com/">Spectre</a>.
+		</p>
+	</div>
+	<div class = mywell>
+            	<p style = "text-align:center;"><a href="foreshadow-NG.pdf" class="btn btn-default fs-btn mid-btn" role="button">
+    		Read the technical report <i class="fa fa-download" aria-hidden="true"></i></a>
+		</p>
+	</div>
+</div>
+  
+    <div id="demo" class="page-header">
+        <h2 class="fs-title">Foreshadow in Action (Attacking SGX)</h2>
+    </div>
+    <div style="text-align:center">
+        <iframe class = "youtubevid" width="560" height="315" src="https://www.youtube.com/embed/ynB1inl4G3c?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe class = "youtubevid" width="560" height="315" src="https://www.youtube.com/embed/8ZF6kX6z7pM?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <div class="page-header">
+        <h2 class="fs-title">Questions and Answers</h2>
+    </div>
+
+	<p class = "question">Who reported this vulnerability?</p>
+    <p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+        Foreshadow was independently and concurrently discovered by two teams:
+    <ul>
+        <li>
+        <a href="https://distrinet.cs.kuleuven.be/people/jo">Jo Van Bulck</a>,
+        <a href="https://distrinet.cs.kuleuven.be/people/frank">Frank Piessens</a>,
+        <a href="https://distrinet.cs.kuleuven.be/people/raoul">Raoul Strackx</a>
+        (<a href="https://distrinet.cs.kuleuven.be/" class="institute-link">imec-DistriNet, KU Leuven</a>).
+        </li>
+
+        <li>
+        <a href="https://themarina.github.io/">Marina Minkin</a>,
+        <a href="https://sites.google.com/site/silbersteinmark/">Mark Silberstein</a>
+        (<a href="https://www.technion.ac.il/en" class="institute-link">Technion</a>),
+        <a href="http://www.ofirweisse.com/">Ofir Weisse</a>,
+        <a href="http://web.eecs.umich.edu/~genkin/">Daniel Genkin</a>,
+        <a href="https://web.eecs.umich.edu/~barisk/">Baris Kasikci</a>,
+        <a href="https://web.eecs.umich.edu/~twenisch/">Thomas F. Wenisch</a>
+        (<a href="https://www.umich.edu/" class="institute-link">University of Michigan</a>),
+        <a href="https://www.adelaide.edu.au/directory/yuval.yarom">Yuval Yarom</a>
+        (<a href="https://www.adelaide.edu.au/" class="institute-link">University of Adelaide</a> and
+        <a href="https://data61.csiro.au" class="institute-link">CSIRO's Data61</a>).
+        </li>
+    </ul>
+
+    <p>
+        The KU Leuven authors discovered the vulnerability, independently
+        developed the attack, and first notified Intel on January 3, 2018.
+        Their work was done independently from and concurrently to other recent
+        x86 speculative execution vulnerabilities, notably Meltdown and
+        Spectre.
+    </p>
+    <p>
+        The authors from Technion, University of Michigan, the
+        University of Adelaide and CSIRO's Data61 independently discovered and reported the
+        vulnerability and associated attack to Intel during the embargo period on
+        January 23, 2018.
+    <p> 
+    Following our discovery of Foreshadow (CVE-2018-3615), Intel identified two closely related variants, <!-- which we call Foreshadow-NG (Next Generation, CVE-2018-3620 and CVE-2018-3646),  -->potentially affecting additional microprocessors, SMM code, Operating system and Hypervisor software.  We collectively refer to these Intel-discovered variants as Foreshadow-NG (Next Generation, CVE-2018-3620 and CVE-2018-3646), whereas Intel refers to this entire class of speculative execution side channel vulnerabilities  as âL1 Terminal Fault" (L1TF). More information on L1TF can be found <a href="https://software.intel.com/security-software-guidance/software-guidance/l1-terminal-fault">here</a>. 
+    </p>
+    
+    </p>
+
+    <p class = "question">
+	What technologies are affected by Foreshadow?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    The researchers who discovered Foreshadow demonstrated the
+    vulnerability on <a href="https://en.wikipedia.org/wiki/Software_Guard_Extensions">SGX</a>
+  enclaves, extracting any data protected via SGX secure memory. 
+  
+    <p class = "question">
+	What technologies are affected by Foreshadow-NG?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+  
+  Foreshadow-NG can be used for extracting <b> any </b> information
+  residing in the L1 cache, including information belonging to the <a
+  href="https://en.wikipedia.org/wiki/System_Management_Mode">System Management
+Mode (SMM)</a>, the 
+		<a href="https://en.wikipedia.org/wiki/Kernel_(operating_system)">Operating System's (OS) Kernel</a>, or other <a href="https://en.wikipedia.org/wiki/Virtual_machine"> Virtual Machines (VMs) </a> running on third-party clouds. More technically, Foreshadow-NG allows the following:
+    <ul>
+		<li>A user processes can potentially read kernel memory belonging to the OS.</li>
+		<li>A malicious guest VM (running on the cloud) can potentially read memory belonging to the VM's hypervisor or memory belonging to another guest VM running on the cloud.</li>
+		<li>A malicious OS to read memory protected by the SMM.</li>
+    </ul>
+	</p>
+
+		    <p class = "question">
+    Where can I find more information about Foreshadow and Foreshadow-NG? 
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    For more information about how the attack works see our <a href="foreshadow.pdf">academic paper</a>.
+	<a href="https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00161.html">Intel's security advisory</a> and <a href="https://software.intel.com/security-software-guidance/software-guidance/l1-terminal-fault">whitepaper</a>, describing Foreshadow as 'L1 Terminal Fault', are also available. The Foreshadow / L1-terminal-fault attack were assigned the following CVE numbers: 
+    <ul>
+	<li> CVE-2018-3615 for attacking SGX. </li>
+	<li> CVE-2018-3620 for attacking the OS Kernel and SMM mode.</li>
+	<li> CVE-2018-3646 for attacking virtual machines. </li>
+    </ul>
+	</p>
+	
+	<p class = "question">
+	What is a virtual machine?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    A
+	<a href="https://en.wikipedia.org/wiki/Virtual_machine"> Virtual Machine</a> is a software emulator of a physical computer. Virtual machines are often used in compute clouds (such as <a href="https://en.wikipedia.org/wiki/Amazon_Web_Services">Amazon's AWS</a> or <a href="https://en.wikipedia.org/wiki/Microsoft_Azure">Microsoft's Azure</a>) where, instead of maintaining their own infrastructure, customers can pay for the time the cloud infrastructure spends on running the customer's machine (and the computations within it). As clouds typically run more than one virtual machine on the same physical hardware, it is important that the cloud's Virtual Machine Manager (VMM) or hypervisor prevents information leakage across VM boundaries by ensuring complete isolation between two virtual machines and between the virtual machines and the hypervisor.
+	</p>
+	
+	<p class = "question">
+	So how does Foreshadow-NG affect VMs?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    Foreshadow-NG breaks the above mentioned isolation. Thus, a malicious virtual machine running inside the cloud can potentially read data belonging to other virtual machines as well as data belonging to the cloud's hypervisor. 
+	</p>
+	</p>
+	
+		<p class = "question">
+	What is an operating system kernel?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    The <a
+      href="https://en.wikipedia.org/wiki/Kernel_(operating_system)">operating
+      system kernel</a> is the core of the operating system, and is
+    responsible for managing most of the operations that a computer performs.
+    In particular, the kernel manages the computer's memory and CPU time as
+    well as ensures isolation between two programs running on the same
+    computer. Given its important role, the kernel has access to all the data
+    stored in the computer's memory, including data belonging to other
+    programs.
+	</p>
+	
+	<p class = "question">
+	So how does Foreshadow-NG affect the kernel?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+	Using Foreshadow-NG, a malicious program running on the computer might be able to read some parts of the kernel's data. As the kernel has access to data stored by other programs, a malicious program might be able
+	to exploit Foreshadow-NG to access data belonging to other programs. 
+	</p>
+	
+    <p class = "question">
+	What is Intel SGX?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+	<a href="https://en.wikipedia.org/wiki/Software_Guard_Extensions">Intel Software Guard eXtensions (SGX)</a>
+    is a Trusted Execution Environment
+    (TEE) that enables secure program execution in untrusted environments. The program
+    and the data it operates on, are placed inside a secure enclave. There they are protected from modification or inspection, even
+    in the presence of a highly-privileged adversary corrupting the operating system, hypervisor, or firmware (BIOS). SGX also provides a remote attestation protocol that allows software to prove to a remote party that it is running on a genuine SGX-enabled Intel processor, as opposed to a (potentially malicious) simulator.
+	</p>
+
+    <p class = "question">
+	Was the confidentiality of SGX enclaves affected by Foreshadow?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    Yes. Foreshadow enables an attacker to read the entire SGX enclave's memory contents.
+    This includes architectural enclaves provided
+    by Intel such as the Quoting and Launch Enclaves. 
+	</p>
+	
+	<p class = "question">
+	Was the remote attestation protocol affected by Foreshadow?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    Yes. Using Foreshadow we have successfully extracted the attestation keys, used by the Intel
+    Quoting Enclave to vouch for the authenticity of enclaves. As a result, we 
+    were able to generate "valid" attestation quotes. Using these counterfeit quotes, 
+    successfully "proved" to a remote party that a "genuine" enclave was running while, in fact, 
+    the code was running outside of SGX, under our complete control. </p>
+	
+	<p class = "question">
+	Is SGX long-term storage affected by Foreshadow?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    Yes. As Foreshadow enables an attacker to extract SGX sealing keys, previously sealed data can be modified and re-sealed. With the extracted sealing key, an attacker can trivially calculate a valid Message Authentication Code (MAC), thus depriving the data owner from the ability to detect the modification. 
+	</p>
+
+	<p class = "question">
+    Can I detect if someone has exploited Foreshadow to read my data?
+    </p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    Not likely. Foreshadow does not leave traces in typical log files.
+    While installing a new (malicious) driver may leave traces in the system log,
+    the attacker can probably alter the log buffer, since she has root privileges. 
+<br/>
+    A kernel-level attacker using a Foreshadow attack may apply tricks to significantly increase her chances of success.
+    While installing a new (malicious) driver may leave traces in the system log,
+    such a privileged attacker can probably alter the log afterwards.
+    </p>
+
+
+    <p class = "question">
+    What about other processors (AMD/ARM)?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+	The original Foreshadow attack affects most SGX-enabled Intel processors. As SGX is currently
+    present only in Intel CPUs, we are unaware of Foreshadow affecting other CPU
+    vendors. To the best of our understanding, Foreshadow-NG only affects Intel processors. However, we are still working to better understand the implications of Foreshadow-NG and this answer might change as the situation develops. 
+    </ul>
+	</p>
+	
+    <p class = "question">
+    Did you release the source code of your exploits?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    For educational purposes, we integrated basic support for Foreshadow-type
+    transient execution attacks into the open-source SGX-Step enclave
+    side-channel attack framework available on
+    <a href="https://github.com/jovanbulck/sgx-step/tree/master/app/foreshadow">GitHub</a>.
+	</p>
+
+
+	<p class = "question">
+	Are there mitigations against Foreshadow?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    Foreshadow and Foreshadow-NG require mitigations at the both software and microcode level. This includes updates to most operating systems, hypervisors as well as CPU microcode updates. See 
+	<a href="https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00161.html">Intel's security advisory</a> and our <a href="foreshadow-NG.pdf">technical report</a> for additional details.
+	</p>
+
+	<p class = "question">
+	Have you evaluated any software or microcode updates?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+	We are currently still evaluating microcode and software patches but have not discovered any vulnerabilities. For technical experts, our technical report discusses our view on these mitigations in more detail.
+	</p>
+	
+	<p class = "question">
+	Do Spectre and Meltdown mitigations such as Retpoline,
+        <abbr title="Kernel Page Table Isolation">KPTI</abbr>,
+        <abbr title="Indirect Branch Restricted Speculation">IBRS</abbr>,
+        <abbr title="Single Thread Indirect Branch Predictors">STIBP</abbr>, or
+        <abbr title="Indirect Branch Predictor Barrier">IBPB</abbr>
+        mitigate Foreshadow?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    No. The mitigations against Meltdown and Spectre are not effective against Foreshadow and Foreshadow-NG.
+	</p>
+	
+    
+	<p class = "question">
+	How is Foreshadow different from Meltdown?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+	Foreshadow is different from Meltdown as it targets virtual machines and SGX in addition to data stored in the operating system's kernel (which was targeted by Meltdown). While harder to exploit, Foreshadow is effective against systems deploying Kernel Page Table Isolation (KPTI), which stops Meltdown attacks. 
+	</p>
+	
+	<p class = "question">
+	How is Foreshadow different from prior Spectre-like attacks on SGX? 
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+	Concurrent speculative execution attacks on SGX, e.g., <a href="https://arxiv.org/abs/1802.09085">SGXPectre</a>,
+    rely on the code of the affected enclave to contain gadgets vulnerable to
+    Spectre. Thus, such attacks can be theoretically mitigated 
+    by removing these gadgets from the affected enclave. In contrast, Foreshadow
+    extracts enclave memory without relying on <em>any</em> code vulnerability in
+    the victim enclave or even without requiring the affected enclave to execute.
+    As such, Foreshadow can be used even in the case where the code of the affected
+    enclave is "perfect", i.e., does not contain any side-channel vulnerability. 
+	</p>
+	
+
+	<p class = "question">
+	What CPUs are affected by Foreshadow and Foreshadow-NG? 
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+    Intel confirmed that Foreshadow affects all SGX-enabled Core processors
+    (Skylake and Kaby Lake), while Atom family processors with SGX support
+    remain unaffected. Intel confirmed that Foreshadow-NG affects the following processes: 
+    <ul>
+	<li>Intel Coreâ¢ i3/i5/i7/M processor (45nm and 32nm)</li>
+	<li>2nd/3rd/4th/5th/6th/7th/8th generation Intel Core processors</li>
+	<li>Intel Core X-series Processor Family for Intel X99 and X299 platforms</li>
+	<li>Intel Xeon processor 3400/3600/5500/5600/6500/7500 series</li>
+	<li>Intel Xeon Processor E3 v1/v2/v3/v4/v5/v6 Family</li>
+	<li>IntelÂ® XeonÂ® Processor E5 v1/v2/v3/v4 Family</li>
+	<li>IntelÂ® XeonÂ® Processor E7 v1/v2/v3/v4 Family</li>
+	<li>IntelÂ® XeonÂ® Processor Scalable Family</li>
+	<li>IntelÂ® XeonÂ® Processor D (1500, 2100)</li>
+    </ul>
+	</p>
+	<p>
+	See 
+	<a href="https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00161.html">Intel's security advisory</a> for additional details.
+	</p>
+	
+	<p class = "question">
+	Why is it called Foreshadow?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+
+    In literature, <a href="https://en.wikipedia.org/wiki/Foreshadowing">"foreshadowing"</a>
+    is used to indicate a trick where a writer provides a subtle hint of
+    what is to come later in the story. Analogous to how a good story teller
+    tries to keep the outcome of the story (mostly) secret, the speculative
+    execution mechanisms found in modern processors, do not <em>directly</em>
+    leak secrets. In the storytelling analogy,
+    the Foreshadow attack shows, however, that
+    clever adversaries can abuse subtle hints in the present to reconstruct
+    secrets from future instructions.
+	</p>
+	
+	<p class = "question">
+	Can I use the logo?
+	</p>
+	<p class = "answer">
+    <i class="fa fa-chevron-right answer-chevron" aria-hidden="true"></i>
+	
+	The logo is free to use, rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+    Logos are designed by <a href="https://vividfox.me/">Natascha Eibl</a>.
+	</p>
+
+    <table class="table">
+       <thead>
+         <tr>
+           <th>Logo</th>
+           <th>Logo with narrow text</th>
+           <th>Logo with wide text</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td><a href="foreshadow.png"><i class="fa fa-download" aria-hidden="true"></i> PNG</a> /
+               <a href="foreshadow.svg"><i class="fa fa-download" aria-hidden="true"></i> SVG</a></td>
+
+           <td><a href="foreshadow-text-small.png"><i class="fa fa-download" aria-hidden="true"></i> PNG</a> /
+               <a href="foreshadow-text-small.svg"><i class="fa fa-download" aria-hidden="true"></i> SVG</a></td>
+
+           <td><a href="foreshadow-text-wide.png"><i class="fa fa-download" aria-hidden="true"></i> PNG</a> /
+               <a href="foreshadow-text-wide.svg"><i class="fa fa-download" aria-hidden="true"></i> SVG</a></td>
+         </tr>
+        <tr><td/><td/><td/></tr>
+       </tbody>
+     </table>
+
+	<div class="page-header">
+		<h2 class="fs-title">Foreshadow in the News</h2>
+	</div>
+	<div class = "pressgrid">
+		<div>
+			<a href = "https://www.wired.com/story/foreshadow-intel-secure-enclave-vulnerability">Spectre-like Flaw Undermines Intel Processors' Most Secure Element</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/wired.png">
+		</div>
+       	<div>
+			<a href = "https://arstechnica.com/gadgets/2018/08/intels-sgx-blown-wide-open-by-you-guessed-it-a-speculative-execution-attack/">Intelâs SGX blown wide open by, you guessed it, a speculative execution attack</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/arstechnica.png">
+		</div>
+        <div>
+			<a href = "https://thehackernews.com/2018/08/foreshadow-intel-processor-vulnerability.html">Foreshadow Attacks â 3 New Intel CPU Side-Channel Flaws Discovered</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/thn.png">
+		</div>
+        <div>
+			<a href = "https://www.digitaltrends.com/computing/what-is-foreshadow/">Is your PC safe? Foreshadow is the security flaw Intel should have predicted</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/digitaltrends.png">
+		</div>
+    	<div>
+			<a href = "https://www.theregister.co.uk/2018/08/15/foreshadow_sgx_software_attestations_collateral_damage/">Foreshadow and Intel SGX software attestation: 'The whole trust model collapses'</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/The-Register-logo.jpg">
+		</div>
+         <div>
+			<a href = "https://www.redhat.com/en/blog/understanding-l1-terminal-fault-aka-foreshadow-what-you-need-know">Understanding L1 Terminal Fault aka Foreshadow: What you need to know</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/Red_Hat_logo_RedHat.png">
+		</div>
+        <div>
+			<a href = "https://en.wikipedia.org/wiki/Foreshadow_(security_vulnerability)">Foreshadow (security vulnerability)</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/wikipedialogo.jpeg">
+		</div>
+		<div>
+			<a href = "https://www.ciodive.com/news/intel-chip-saga-continues-foreshadow-vulnerabilities-disclosed/530152/">Intel chip saga continues: 'Foreshadow' vulnerabilities disclosed</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/ciodive.png">
+		</div>
+		<div>
+			<a href = "https://www.technologyreview.com/the-download/611879/intels-foreshadow-flaws-are-the-latest-sign-of-the-chipocalypse/">Intelâs âForeshadowâ flaws are the latest sign of the chipocalypse</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/MITtecc.svg">
+		</div>
+		<div>
+			<a href = "https://www.coindesk.com/what-intels-foreshadow-flaw-means-for-the-future-of-cryptocurrency/">What Intel's Foreshadow Flaw Means for the Future of Cryptocurrency</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/coindesk.png">
+		</div>
+		<div>
+			<a href = "https://www.pcworld.com/article/3297419/security/foreshadow-l1tf-is-a-speculative-execution-exploit-targeting-intel-core-chips.html">Foreshadow attacks Intel CPUs with Spectre-like tactics (but you're probably safe)</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/pcworld.png">
+		</div>
+		<div>
+			<a href = "https://www.tomshardware.com/news/intel-chips-foreshadow-security-flaws,37608.html">Intel Chips' List of Security Flaws Grows (Updated)</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/tomsS.png">
+		</div>
+		<div>
+			<a href = "https://www.zdnet.com/article/microsoft-heres-how-to-limit-foreshadow-attack-impact/">Microsoft: Here's how to limit 'Foreshadow' attack impact</a>
+			<br><br>
+			<a href = "https://www.zdnet.com/article/beyond-spectre-foreshadow-a-new-intel-security-problem/">Beyond Spectre: Foreshadow, a new Intel security problem</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/zdnet-logo.png">
+		</div>
+		<div>
+			<a href = "https://www.bbc.com/news/technology-45191697">'Foreshadow' attack affects Intel chips</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/bbc.png">
+		</div>
+		<div>
+			<a href = "https://bgr.com/2018/08/14/intel-security-flaw-vulnerability-affects-cpus/">This new vulnerability affecting Intel processors sounds pretty scary</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/bgr-logo.png">
+		</div>
+		<div>
+			<a href = "https://www.bleepingcomputer.com/news/security/researchers-disclose-new-foreshadow-l1tf-vulnerabilities-affecting-intel-cpus/">Researchers Disclose New Foreshadow (L1TF) Vulnerabilities Affecting Intel CPUs</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/bleepingcomputer.png">
+		</div>
+		<div>
+			<a href = "https://www.securityweek.com/foreshadowl1tf-what-you-need-know">Foreshadow/L1TF: What You Need to Know</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/securityweek.jpeg">
+		</div>
+		<div>
+			<a href = "https://www.cyberscoop.com/foreshadow-intel-chips-sgx/">Foreshadow, the new data-stealing vulnerabilities impacting Intel chips</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/CyberScoop-RGB-Trans.png">
+		</div>
+		<div>
+			<a href = "https://www.techrepublic.com/article/intel-foreshadow-exploit-how-to-protect-yourself-from-latest-chip-vulnerability/">Intel Foreshadow exploits: How to protect yourself from latest chip vulnerability</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/tr-logo-large.png">
+		</div>
+		<div>
+			<a href = "https://www.trendmicro.com/vinfo/us/security/news/vulnerabilities-and-exploits/foreshadow-l1tf-intel-processor-vulnerabilities-what-you-need-to-know">Foreshadow/L1TF Intel Processor Vulnerabilities: What You Need to Know</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/Trend-Micro-Logo.svg.png">
+		</div>
+		<div>
+			<a href = "https://news.ycombinator.com/item?id=17759762">Understanding L1 Terminal Fault aka Foreshadow: What You Need to Know</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/hackernews.jpeg">
+		</div>
+		<div>
+			<a href ="https://www.pcmag.com/news/363105/new-foreshadow-flaw-exploits-intel-chips-to-steal-protecte">New 'Foreshadow' Flaw Exploits Intel Chips To Steal Protected Data</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/PCMag_logo.png">
+		</div>
+		<div>
+			<a href = "https://www.siliconrepublic.com/enterprise/foreshadow-intel-vulnerabilities-chips-sgx">A Foreshadow of security: What you need to know about new Intel chip flaws</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/testimonialSiliconRepublicLogo.png">
+		</div>
+		<div>
+			<a href = "https://www.hostingadvice.com/blog/what-you-need-to-know-about-the-intel-foreshadow-vulnerability/">Threat Researchers Disclose the Risks Inherent in Foreshadow, an Intel Vulnerability That Could Affect Millions â Hereâs What You Need to Know</a>
+		</div>
+		<div>
+			<img class = "presslogo" src = "press/ha-logo-stacked-full.png">
+		</div>
+
+
+	</div>
+
+   <div class="page-header">
+       <h2 class="fs-title">Acknowledgements</h2>
+   </div>
+
+   <p>
+    This research was partially supported by the
+    Research Fund KU Leuven, the Technion Hiroshi
+    Fujiwara cyber security research center, the Israel cyber bureau, by
+    NSF awards #1514261 and #1652259, the financial assistance award
+    70NANB15H328 from the U.S. Department of Commerce, National
+    Institute of Standards and Technology, the 2017-2018 Rothschild
+    Postdoctoral Fellowship, and the Defense Advanced Research
+    Project Agency (DARPA) under Contract #FA8650-16-C-7622.
+    Jo Van Bulck and Raoul Strackx are supported by
+    a grant of the Research Foundation - Flanders (FWO).
+   </p>
+
+  <br/>
+
+</div>
+
+<!-- <div class="container-fluid text-center footer"> -->
+<!--     <p>&#169; 2018 <a href="https://distrinet.cs.kuleuven.be/">imec-DistriNet</a>, Dept. of Computer Science, KU Leuven. All Rights Reserved.</p> -->
+<!-- </div> -->
+
+</body>
+</html>
+
+
+
+
+#####EOF#####
+
+

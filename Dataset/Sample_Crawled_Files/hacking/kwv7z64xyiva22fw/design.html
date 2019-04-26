@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="https://design.blog/xmlrpc.php">
+
+	<title>Design.blog &#8211; Design, Inclusion, +/- Tech via Automattic Design</title>
+<meta name="google-site-verification" content="VRSBk-2zBuglgeeAmTwfjvI3kPmlDZVEui321TpwUQc" />
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9kZXNpZ24uYmxvZw%3D%3D"
+		+ "&id=114798305"
+		+ "&time=1554410745";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//designdotblog.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Design.blog &raquo; Feed" href="https://design.blog/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Design.blog &raquo; Comments Feed" href="https://design.blog/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s2.wp.com/_static/??-eJx9kNEOgjAMRX/I0WiQ8GL8ljGqFNZtWUcIf+8A5UENL0t7c+5t7mAKyniX0CXgUQU7PskJTMF4VsJkcf7aCiNygv82SwMK9JiCNoNatyOc3IMcpXkfdpicsWObs7IALUmCxvo1sok6ziBptlgwuaN44yNmnYNOC8HYkkaLnLEjG4fq41rGLlc5bLH9TtOEiCIqv0wjq9TlQ7++TYY3BQEj+ZaMtu9Kmb/z7Xwtq7quy+rSvwBdG5yK?cssminify=yes' type='text/css' media='all' />
+<style id='periodical-style-inline-css' type='text/css'>
+
+	.single .hero-posts .post.with-featured-image {
+	      padding-top: %;
+	}
+	.site-identity {
+	      padding: 5% 0;
+	}
+</style>
+<link rel='stylesheet' id='periodical-fonts-css'  href='//fonts.googleapis.com/css?family=Lato%3A400%2C700%2C400italic%2C700italic%7COpen%2BSans%3A400%2C700%2C400italic%2C700italic&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='screen-css-3-1' href='https://s0.wp.com/wp-content/themes/premium/periodical/inc/fontawesome/css/font-awesome.css?m=1466017596h&cssminify=yes' type='text/css' media='screen' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s0.wp.com/_static/??-eJx9jEsKwzAMBS9UVxiSki5Kz2IbVVGRrWAr9PpxNv1QyG4G5j1gKGqctLQ3nFNrJ3gtrothMcirW2Ql7g2hOtEUjLX8iHtI4Ho0rRhFqSNBr770aBTSfh5D/dBfbjNmbDAPQKIxyB7c882P/nKdRj9Mzw06w1UE?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyF0FEKwjAMBuAL2RVdh0/iWWqNI3VNa5M69PRWmIhQFQJ5yAf5Ez0nheSmcgTWvtalQL4trfO80r+ACjhmK9AFpBd2kQRInjZFlgDMdoTGNMQDTqAKQ66ApK45xYb7jIR0RZj/Mg+SrDurDIx3aB3C6Z35+wcWtQ+79TCYTd9vjfEPs3xy+Q=='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://designdotblog.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel='shortlink' href='https://wp.me/7LGhz' />
+	<style>
+		@font-face {
+			font-family: Recoleta;
+			src: url('https://s1.wp.com/i/fonts/recoleta/400.woff2')
+		}
+	</style>
+	
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Design.blog" />
+<meta property="og:description" content="A curated blog brought to you by the designers and design lovers at Automattic." />
+<meta property="og:url" content="https://design.blog/" />
+<meta property="og:site_name" content="Design.blog" />
+<meta property="og:image" content="https://designdotblog.files.wordpress.com/2018/09/desdotblog2.png" />
+<meta property="og:image:width" content="900" />
+<meta property="og:image:height" content="212" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:app:name:iphone" content="WordPress" />
+<meta name="twitter:app:id:iphone" content="335703880" />
+<meta name="twitter:app:name:ipad" content="WordPress" />
+<meta name="twitter:app:id:ipad" content="335703880" />
+<meta name="twitter:app:name:googleplay" content="WordPress" />
+<meta name="twitter:app:id:googleplay" content="org.wordpress.android" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s2.wp.com/i/webclip.png" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://design.blog/osd.xml" title="Design.blog" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="Design.blog" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Design, Inclusion, +/- Tech via Automattic Design" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://design.blog/feed/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="A curated blog brought to you by the designers and design lovers at Automattic." />
+			<!-- Site Logo: hide header text -->
+			<style type="text/css">
+			.titles-wrap {
+				position: absolute;
+				clip: rect(1px, 1px, 1px, 1px);
+			}
+			</style>
+			<style type="text/css" id="syntaxhighlighteranchor"></style>
+<style type="text/css" id="custom-colors-css">body{color:#343e47}.hero-cats a,.entry-cats a,.page-numbers.current,.page-numbers:hover,.post-navigation .nav-label{color:#fff}button:hover,input[type=button]:hover,input[type=reset]:hover,input[type=submit]:hover,.button:hover,.comment-navigation a:hover,.drawer .tax-widget a:hover{color:#fff}.drawer .secondary-navigation ul li a:hover{color:#6d6d6d}.top-navigation nav a,.drawer-toggle,.main-navigation li ul a,.main-navigation li ul li a{color:#fff}button,input[type=button],input[type=reset],input[type=submit],.button,.comment-navigation a,.drawer .tax-widget a,.su-button,.site-footer,.site-footer a,.top-navigation nav a:hover,#wp-calendar tr th,.secondary-navigation ul.sub-menu li a:hover,.drawer-toggle:hover{color:#fff}.widget-area aside li,.mini-bar .mini-menu li a,.jetpack-recipe,.entry-content a:not(.button),.byline a:hover,hr,input[type=text],input[type=email],input[type=url],input[type=password],input[type=search],input[type=number],input[type=date],input[type=datetime],input[type=datetime-local],input[type=week],input[type=tel],input[type=time],input[type=month],input[type=tel],textarea,select,#infinite-footer .container{border-color:#c7d6e4}.widget-area aside li,.mini-bar .mini-menu li a,.jetpack-recipe,.entry-content a:not(.button),.byline a:hover,hr,input[type=text],input[type=email],input[type=url],input[type=password],input[type=search],input[type=number],input[type=date],input[type=datetime],input[type=datetime-local],input[type=week],input[type=tel],input[type=time],input[type=month],input[type=tel],textarea,select,#infinite-footer .container{border-color:rgba(199,214,228,.3)}.meta-list a{color:#696f7b}body,.mini-bar,.featured-posts,#infinite-footer .container{background-color:#fff}.site-identity,.drawer,.author-profile,aside.widget_blog_subscription,.page-navigation a,.page-navigation span,.comment-content,table tr:nth-child(even){background-color:#f8f8f8}.author-profile:before{border-top-color:#f2f2f2}.author-profile:before{border-left-color:#f2f2f2}.comment-list .children{border-left-color:#fff}.author-profile:before{border-right-color:#fff}.author-profile:before,.comment-content:after{border-bottom-color:#fff}.hero-cats a,.entry-cats a,.page-numbers.current,.page-numbers:hover,.post-navigation .nav-label{background-color:#d10404}.main-navigation:not(.secondary-navigation) ul.menu>li.current-menu-item>a{border-color:#d10404}.top-navigation,.site-footer,.secondary-navigation ul.sub-menu,#wp-calendar tr th{background-color:#403d34}button,input[type=button],input[type=reset],input[type=submit],.button,.comment-navigation a,.drawer .tax-widget a,.su-button{background-color:#39362f}button:hover,input[type=button]:hover,input[type=reset]:hover,input[type=submit]:hover,.button:hover,.comment-navigation a:hover,.drawer .tax-widget a:hover{background-color:#2b2923}.full-post-header .entry-title a,h1,h2,h3,h4,h5,h6,.site-description,.main-navigation a,.fixed-post-text a,.mini-bar .mini-menu li a,.site-title a,.view-all,.featured-posts .grid-text .entry-title a,.entry-content a:not(.button),blockquote,#main .entry-content .page-links a:hover,.meta-list span{color:#403d34}blockquote{border-top-color:#403d34}a,.widget-area a,.byline,.byline a,.main-navigation a:hover,.fixed-post-text span,.mini-bar .mini-menu li a:hover,.grid-date,.full-post-header .entry-title a:hover,.fixed-post-text a:hover,.featured-posts .grid-text .entry-title a:hover,.grid-thumb .entry-title a,.grid-thumb .entry-title a:hover,.page-navigation a,.page-navigation span,#main .entry-content .page-links a,.comment-cite a,.comment-time,.comment-edit-link,.drawer .secondary-navigation ul li a{color:#62707c}.entry-content a:not(.button):hover{border-color:#62707c}</style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s2.wp.com/?custom-css=1&#038;csblog=7LGhz&#038;cscache=6&#038;csrev=1074" />
+		</head>
+
+<body class="home blog mp6 customizer-styles-applied three-column group-blog has-site-logo highlander-enabled highlander-light custom-colors infinite-scroll">
+
+<header id="masthead" class="site-header" role="banner">
+
+		<div class="top-navigation">
+			<div class="container">
+
+				<nav id="secondary-navigation" class="main-navigation secondary-navigation" role="navigation">
+					<div class="menu-primary-container"><ul id="menu-primary" class="menu"><li id="menu-item-6398" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6398"><a href="https://automattic.design">Automattic Design</a></li>
+<li id="menu-item-6259" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6259"><a href="https://design.blog/toc">50 Stories</a></li>
+<li id="menu-item-6502" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6502"><a href="https://automattic.design/2018/12/22/13429/">âï¸Inclusive Design</a></li>
+<li id="menu-item-6366" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6366"><a href="https://wordpress.com/start/subdomain?vertical=a8c.34">Start Your .design.blog</a></li>
+</ul></div>				</nav><!-- .secondary-navigation -->
+
+				<div class="top-navigation-right">
+											<nav class="social-navigation" role="navigation">
+							<div class="menu-social-links-container"><ul id="menu-social-links" class="menu"><li id="menu-item-11" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11"><a href="https://twitter.com/automattic">Twitter</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-15"><a href="http://wordpress.com">WordPress.com</a></li>
+</ul></div>						</nav><!-- .social-navigation -->
+					
+					<div class="overlay-toggle drawer-toggle drawer-open-toggle">
+						<span class="toggle-visible">
+							<i class="fa fa-search"></i>
+							Explore						</span>
+						<span>
+							<i class="fa fa-times"></i>
+							Close						</span>
+					</div><!-- .overlay-toggle-->
+
+					<div class="overlay-toggle drawer-toggle drawer-menu-toggle">
+						<span class="toggle-visible">
+							<i class="fa fa-bars"></i>
+							Menu						</span>
+						<span>
+							<i class="fa fa-times"></i>
+							Close						</span>
+					</div><!-- .overlay-toggle-->
+				</div><!-- .top-navigation-right -->
+			</div><!-- .container -->
+		</div><!-- .top-navigation -->
+
+		<div class="drawer-wrap">
+			<div class="drawer drawer-explore">
+	<div class="container">
+		<div class="drawer-search">
+			
+	<div class="big-search">
+		<form method="get" id="searchform" action="https://design.blog/" role="search">
+			<label class="screen-reader-text" for="s">Search for:</label>
+
+			<input type="text" name="s" id="big-search" placeholder="Search here..." value="" onfocus="if(this.value==this.getAttribute('placeholder'))this.value='';" onblur="if(this.value=='')this.value=this.getAttribute('placeholder');"/><br />
+
+			<div class="search-controls">
+			
+				<div class="search-select-wrap">
+					<select class="search-select" name="category_name">
+
+						<option value="">Entire Site</option>
+
+						<option value="a12s">A12s</option><option value="community">Community</option><option value="creativity">Creativity</option><option value="culture">Culture</option><option value="design-blog-founding-team">Design.blog Founding Team</option><option value="design-blog-young-guns-team">Design.blog Young Guns Team</option><option value="exclusion">Exclusion</option><option value="health">Health</option><option value="leadership">Leadership</option><option value="learning">Learning</option><option value="life">Life</option><option value="new">New</option><option value="of-note">Of Note</option><option value="product">Product</option><option value="stories">Stories</option><option value="types">Types</option><option value="viewpoint">Viewpoint</option><option value="work">Work</option><option value="writing">Writing</option>					</select>
+				</div>
+
+			
+				<input type="submit" class="submit button" name="submit" id="big-search-submit" value="Search" />
+			</div><!-- .search-controls -->
+		</form><!-- #big-searchform -->
+
+	</div><!-- .big-search -->
+
+<form role="search" method="get" id="searchform" class="searchform" action="https://design.blog/">
+	<div>
+		<label class="screen-reader-text" for="s">Search for:</label>
+
+		<input type="text" value="" name="s" id="s" class="search-input" placeholder="Search here..." />
+
+		<button type="submit" id="searchsubmit">
+			<i class="fa fa-search"></i> <span>Search</span>
+		</button>
+	</div>
+</form>		</div>
+
+					<div class="widget tax-widget">
+				<h2 class="widget-title">Categories</h2>
+
+				<a href="https://design.blog/category/stories/" title="View all posts in Stories" >Stories</a><a href="https://design.blog/category/a12s/" title="View all posts in A12s" >A12s</a><a href="https://design.blog/category/stories/viewpoint/" title="View all posts in Viewpoint" >Viewpoint</a><a href="https://design.blog/category/a12s/design-blog-young-guns-team/" title="View all posts in Design.blog Young Guns Team" >Design.blog Young Guns Team</a><a href="https://design.blog/category/a12s/design-blog-founding-team/" title="View all posts in Design.blog Founding Team" >Design.blog Founding Team</a><a href="https://design.blog/category/types/creativity/" title="View all posts in Creativity" >Creativity</a><a href="https://design.blog/category/types/leadership/" title="View all posts in Leadership" >Leadership</a><a href="https://design.blog/category/types/product/" title="View all posts in Product" >Product</a><a href="https://design.blog/category/types/community/" title="View all posts in Community" >Community</a><a href="https://design.blog/category/types/new/" title="View all posts in New" >New</a><a href="https://design.blog/category/types/work/" title="View all posts in Work" >Work</a><a href="https://design.blog/category/types/culture/" title="View all posts in Culture" >Culture</a><a href="https://design.blog/category/types/exclusion/" title="View all posts in Exclusion" >Exclusion</a><a href="https://design.blog/category/types/learning/" title="View all posts in Learning" >Learning</a><a href="https://design.blog/category/types/health/" title="View all posts in Health" >Health</a><a href="https://design.blog/category/types/writing/" title="View all posts in Writing" >Writing</a><a href="https://design.blog/category/stories/of-note/" title="View all posts in Of Note" >Of Note</a><a href="https://design.blog/category/types/life/" title="View all posts in Life" >Life</a><a href="https://design.blog/category/types/" title="View all posts in Types" >Types</a>			</div>
+		
+					<div class="widget tax-widget">
+				<h2 class="widget-title">Tags</h2>
+
+				<a href="https://design.blog/tag/design/" title="View all posts in design" >design</a><a href="https://design.blog/tag/featured/" title="View all posts in featured" >featured</a><a href="https://design.blog/tag/business/" title="View all posts in business" >business</a><a href="https://design.blog/tag/mit-media-lab/" title="View all posts in MIT Media Lab" >MIT Media Lab</a><a href="https://design.blog/tag/ti-chang/" title="View all posts in ti chang" >ti chang</a><a href="https://design.blog/tag/technology/" title="View all posts in technology" >technology</a><a href="https://design.blog/tag/play/" title="View all posts in play" >play</a><a href="https://design.blog/category/types/writing/" title="View all posts in Writing" >Writing</a><a href="https://design.blog/tag/tech/" title="View all posts in tech" >tech</a><a href="https://design.blog/tag/rebrand-detroit/" title="View all posts in rebrand detroit" >rebrand detroit</a><a href="https://design.blog/tag/scratch/" title="View all posts in Scratch" >Scratch</a><a href="https://design.blog/tag/children/" title="View all posts in children" >children</a><a href="https://design.blog/tag/education/" title="View all posts in education" >education</a><a href="https://design.blog/tag/wide-walls/" title="View all posts in wide walls" >wide walls</a><a href="https://design.blog/tag/seymour-papert/" title="View all posts in Seymour Papert" >Seymour Papert</a><a href="https://design.blog/tag/logo/" title="View all posts in Logo" >Logo</a><a href="https://design.blog/tag/mitchel-resnick/" title="View all posts in mitchel resnick" >mitchel resnick</a><a href="https://design.blog/tag/julie-zhuo/" title="View all posts in Julie Zhuo" >Julie Zhuo</a><a href="https://design.blog/category/types/product/" title="View all posts in Product" >Product</a><a href="https://design.blog/tag/lessons/" title="View all posts in lessons" >lessons</a>				</ul>
+			</div>
+		
+		<div class="widget tax-widget">
+			<h2 class="widget-title">Archives</h2>
+
+				<a href='https://design.blog/2018/11/'>November 2018</a>
+	<a href='https://design.blog/2017/07/'>July 2017</a>
+	<a href='https://design.blog/2017/06/'>June 2017</a>
+	<a href='https://design.blog/2017/05/'>May 2017</a>
+	<a href='https://design.blog/2017/04/'>April 2017</a>
+	<a href='https://design.blog/2017/03/'>March 2017</a>
+		</div>
+	</div><!-- .container -->
+</div><!-- .drawer -->
+<div class="drawer drawer-menu-explore">
+	<div class="container">
+					<nav id="drawer-navigation" class="main-navigation drawer-navigation" role="navigation">
+				<div class="menu-primary-container"><ul id="menu-primary-1" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6398"><a href="https://automattic.design">Automattic Design</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6259"><a href="https://design.blog/toc">50 Stories</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6502"><a href="https://automattic.design/2018/12/22/13429/">âï¸Inclusive Design</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6366"><a href="https://wordpress.com/start/subdomain?vertical=a8c.34">Start Your .design.blog</a></li>
+</ul></div>			</nav><!-- #site-navigation -->
+		
+					<nav id="secondary-navigation" class="main-navigation secondary-navigation" role="navigation">
+				<div class="menu-featured-categories-container"><ul id="menu-featured-categories" class="menu"><li id="menu-item-6376" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6376"><a href="https://design.blog/category/types/leadership/" data-object-id="7885">Leadership</a></li>
+<li id="menu-item-6377" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6377"><a href="https://design.blog/category/types/community/" data-object-id="2528">Community</a></li>
+<li id="menu-item-6378" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6378"><a href="https://design.blog/category/types/culture/" data-object-id="1098">Culture</a></li>
+<li id="menu-item-6379" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6379"><a href="https://design.blog/category/types/exclusion/" data-object-id="44621">Exclusion</a></li>
+<li id="menu-item-6380" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6380"><a href="https://design.blog/category/types/life/" data-object-id="124">Life</a></li>
+</ul></div>			</nav><!-- .secondary-navigation -->
+		
+					<nav class="social-navigation" role="navigation">
+				<div class="menu-social-links-container"><ul id="menu-social-links-1" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11"><a href="https://twitter.com/automattic">Twitter</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-15"><a href="http://wordpress.com">WordPress.com</a></li>
+</ul></div>			</nav><!-- .footer-navigation -->
+			</div><!-- .container -->
+</div><!-- .drawer -->
+		</div><!-- .drawer-wrap -->
+
+		<div class="site-identity clear">
+			<div class="container">
+				<!-- Site title and logo -->
+					<div class="site-title-wrap">
+		<!-- Use the Site Logo feature, if supported -->
+		<a href="https://design.blog/" class="site-logo-link" rel="home"><img width="300" height="71" src="https://designdotblog.files.wordpress.com/2018/09/desdotblog2.png?w=300" class="site-logo attachment-periodical-logo" alt="" data-size="periodical-logo" srcset="https://designdotblog.files.wordpress.com/2018/09/desdotblog2.png?w=300 300w, https://designdotblog.files.wordpress.com/2018/09/desdotblog2.png?w=600 600w, https://designdotblog.files.wordpress.com/2018/09/desdotblog2.png?w=150 150w" sizes="(max-width: 300px) 100vw, 300px" data-attachment-id="6411" data-permalink="https://design.blog/desdotblog2/" data-orig-file="https://designdotblog.files.wordpress.com/2018/09/desdotblog2.png" data-orig-size="1320,311" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="desdotblog2" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2018/09/desdotblog2.png?w=300" data-large-file="https://designdotblog.files.wordpress.com/2018/09/desdotblog2.png?w=900" /></a>
+		<div class="titles-wrap">
+							<h1 class="site-title"><a href="https://design.blog/" rel="home">Design.blog</a></h1>
+ 			
+							<p class="site-description">Design, Inclusion, +/- Tech via Automattic Design</p>
+					</div>
+	</div><!-- .site-title-wrap -->
+
+				<!-- Main navigation -->
+				<nav id="site-navigation" class="main-navigation" role="navigation">
+					<div class="menu-featured-categories-container"><ul id="menu-featured-categories-1" class="menu"><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6376"><a href="https://design.blog/category/types/leadership/" data-object-id="7885">Leadership</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6377"><a href="https://design.blog/category/types/community/" data-object-id="2528">Community</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6378"><a href="https://design.blog/category/types/culture/" data-object-id="1098">Culture</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6379"><a href="https://design.blog/category/types/exclusion/" data-object-id="44621">Exclusion</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-6380"><a href="https://design.blog/category/types/life/" data-object-id="124">Life</a></li>
+</ul></div>				</nav><!-- .main-navigation -->
+
+			</div><!-- .container -->
+		</div><!-- .site-identity-->
+
+		<div class="featured-posts-wrap clear">
+			<div class="featured-posts clear">
+				<div class="featured-header">
+					<span class="featured-header-category"></span>
+					<span class="featured-header-close"><i class="fa fa-times"></i> Close</span>
+				</div>
+
+				<div class="post-container clear"></div>
+			</div>
+		</div><!-- .featured-posts -->
+</header><!-- .site-header -->
+
+
+<div class="mini-bar">
+					<div class="fixed-nav">
+					<!-- Grab the featured post thumbnail -->
+											<a class="fixed-image" href="https://design.blog/2018/11/12/designing-the-opportunity-the-deep-layer-of-product-design/" rel="bookmark"><img width="65" height="65" src="https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=65&amp;h=65&amp;crop=1" class="attachment-periodical-fixed-thumb size-periodical-fixed-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=65&amp;h=65&amp;crop=1 65w, https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=130&amp;h=130&amp;crop=1 130w" sizes="(max-width: 65px) 100vw, 65px" data-attachment-id="6481" data-permalink="https://design.blog/deep-design/" data-orig-file="https://designdotblog.files.wordpress.com/2018/11/deep-design.png" data-orig-size="1920,1080" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="deep-design" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=300" data-large-file="https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=900" /></a>
+					
+					<div class="fixed-post-text">
+						<span>Featured</span>
+						<a href="https://design.blog/2018/11/12/designing-the-opportunity-the-deep-layer-of-product-design/" rel="bookmark">Designing the opportunity: the deep layer of product&nbsp;design</a>
+					</div>
+				</div><!-- .fixed-nav -->
+							<div class="fixed-nav">
+					<!-- Grab the featured post thumbnail -->
+											<a class="fixed-image" href="https://design.blog/2017/07/03/rebrand-cities-art-in-motion-and-more/" rel="bookmark"><img width="65" height="65" src="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=65&amp;h=65&amp;crop=1" class="attachment-periodical-fixed-thumb size-periodical-fixed-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=65&amp;h=65&amp;crop=1 65w, https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=130&amp;h=130&amp;crop=1 130w" sizes="(max-width: 65px) 100vw, 65px" data-attachment-id="5963" data-permalink="https://design.blog/2017/07/03/rebrand-cities-art-in-motion-and-more/ballio/" data-orig-file="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg" data-orig-size="1576,1182" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="ballio" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=900" /></a>
+					
+					<div class="fixed-post-text">
+						<span>Featured</span>
+						<a href="https://design.blog/2017/07/03/rebrand-cities-art-in-motion-and-more/" rel="bookmark">Rebrand Cities: Art in Motion, and&nbsp;More</a>
+					</div>
+				</div><!-- .fixed-nav -->
+							<div class="fixed-nav">
+					<!-- Grab the featured post thumbnail -->
+											<a class="fixed-image" href="https://design.blog/2017/04/17/samantha-hankins-but-wait-is-your-last-name-filipino/" rel="bookmark"><img width="65" height="65" src="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=65&amp;h=65&amp;crop=1" class="attachment-periodical-fixed-thumb size-periodical-fixed-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=65&amp;h=65&amp;crop=1 65w, https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=130&amp;h=130&amp;crop=1 130w" sizes="(max-width: 65px) 100vw, 65px" data-attachment-id="5800" data-permalink="https://design.blog/2017/04/17/samantha-hankins-but-wait-is-your-last-name-filipino/dcim100gopro/" data-orig-file="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg" data-orig-size="2277,2276" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;2.8&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;HERO4 Session&quot;,&quot;caption&quot;:&quot;DCIM100GOPRO&quot;,&quot;created_timestamp&quot;:&quot;1479206524&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;2.77&quot;,&quot;iso&quot;:&quot;100&quot;,&quot;shutter_speed&quot;:&quot;0.0031456432840516&quot;,&quot;title&quot;:&quot;DCIM100GOPRO&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="DCIM100GOPRO" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=900" /></a>
+					
+					<div class="fixed-post-text">
+						<span>Featured</span>
+						<a href="https://design.blog/2017/04/17/samantha-hankins-but-wait-is-your-last-name-filipino/" rel="bookmark">Samantha Hankins: âBut Wait, Is Your Last Name&nbsp;Filipino?â</a>
+					</div>
+				</div><!-- .fixed-nav -->
+							<div class="fixed-nav">
+					<!-- Grab the featured post thumbnail -->
+											<a class="fixed-image" href="https://design.blog/2017/03/23/catt-small-on-designing-an-inclusive-workplace-culture/" rel="bookmark"><img width="65" height="65" src="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=65&amp;h=65&amp;crop=1" class="attachment-periodical-fixed-thumb size-periodical-fixed-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=65&amp;h=65&amp;crop=1 65w, https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=130&amp;h=130&amp;crop=1 130w" sizes="(max-width: 65px) 100vw, 65px" data-attachment-id="5655" data-permalink="https://design.blog/2017/03/23/catt-small-on-designing-an-inclusive-workplace-culture/catt/" data-orig-file="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg" data-orig-size="1200,1200" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;4&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;Canon EOS 6D&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;1481619006&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;24&quot;,&quot;iso&quot;:&quot;500&quot;,&quot;shutter_speed&quot;:&quot;0.0125&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="catt" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=900" /></a>
+					
+					<div class="fixed-post-text">
+						<span>Featured</span>
+						<a href="https://design.blog/2017/03/23/catt-small-on-designing-an-inclusive-workplace-culture/" rel="bookmark">Catt Small on Designing an Inclusive Workplace&nbsp;Culture</a>
+					</div>
+				</div><!-- .fixed-nav -->
+			
+	<ul class="mini-menu">
+		<li class="back-to-top">
+			<a href="#">
+				<span><i class="fa fa-angle-up"></i> Back to top</span>
+			</a>
+		</li>
+		<li class="back-to-menu">
+			<a href="#">
+				<span><i class="fa fa-angle-up"></i> Top</span>
+			</a>
+		</li>
+	</ul>
+</div><!-- .mini-bar-->
+		<div class="hero-wrapper multi-hero">
+
+			<div class="hero-posts">
+				
+	<div id="post-6480" class="post-6480 post type-post status-publish format-standard has-post-thumbnail hentry category-stories tag-featured with-featured-image">
+
+		<!-- Get the hero background image -->
+		
+			<div class="site-header-bg-wrap">
+				<div class="header-opacity">
+					<div class="header-gradient"></div>
+					<div class="site-header-bg background-effect" style="background-image: url(https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=1600); opacity: 0.5;"></div>
+				</div>
+			</div><!-- .site-header-bg-wrap -->
+
+		
+		<div class="container hero-container">
+			<div class=" hero-cats"><a href="https://design.blog/category/stories/">Stories</a></div>
+			<!-- Hero title -->
+			<div class="hero-text">
+									<h2 class="entry-title"><a href="https://design.blog/2018/11/12/designing-the-opportunity-the-deep-layer-of-product-design/" rel="bookmark">Designing the opportunity: the deep layer of product&nbsp;design</a></h2>
+				<p>Design innovation is actually the deepest layer of the product design process, not some act of creation or &#8220;disruption&#8221; that happens apart from it.</p>
+
+				<div class="hero-date">
+										<!-- Create an avatar link -->
+					<a href="https://design.blog/author/alexislloyd/" title="Posts by Alexis Lloyd">
+						<img alt='' src='https://1.gravatar.com/avatar/41261ee7861fe1331bf1cd32bb24f4ea?s=44&#038;d=https%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D44&#038;r=G' class='avatar avatar-44' height='44' width='44' />					</a>
+					<!-- Create an author post link -->
+					<a href="https://design.blog/author/alexislloyd/">
+						Alexis Lloyd					</a>
+					<span class="hero-on-span">on November 12, 2018</span>
+				</div>
+			</div><!-- .photo-overlay -->
+		</div><!-- .container -->
+	</div>
+
+	<div id="post-5946" class="post-5946 post type-post status-publish format-standard has-post-thumbnail hentry category-creativity category-new category-stories tag-featured with-featured-image">
+
+		<!-- Get the hero background image -->
+		
+			<div class="site-header-bg-wrap">
+				<div class="header-opacity">
+					<div class="header-gradient"></div>
+					<div class="site-header-bg background-effect" style="background-image: url(https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=1576); opacity: 0.5;"></div>
+				</div>
+			</div><!-- .site-header-bg-wrap -->
+
+		
+		<div class="container hero-container">
+			<div class=" hero-cats"><a href="https://design.blog/category/types/creativity/">Creativity</a><a href="https://design.blog/category/types/new/">New</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<!-- Hero title -->
+			<div class="hero-text">
+									<h2 class="entry-title"><a href="https://design.blog/2017/07/03/rebrand-cities-art-in-motion-and-more/" rel="bookmark">Rebrand Cities: Art in Motion, and&nbsp;More</a></h2>
+				
+				<div class="hero-date">
+										<!-- Create an avatar link -->
+					<a href="https://design.blog/author/ballio2000/" title="Posts by Ballio Chan">
+						<img alt='' src='https://2.gravatar.com/avatar/ec8ee628ee51ae70ce9b7ccb0a514765?s=44&#038;d=https%3A%2F%2F2.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D44&#038;r=G' class='avatar avatar-44' height='44' width='44' />					</a>
+					<!-- Create an author post link -->
+					<a href="https://design.blog/author/ballio2000/">
+						Ballio Chan					</a>
+					<span class="hero-on-span">on July 3, 2017</span>
+				</div>
+			</div><!-- .photo-overlay -->
+		</div><!-- .container -->
+	</div>
+
+	<div id="post-5797" class="post-5797 post type-post status-publish format-standard has-post-thumbnail hentry category-exclusion category-new category-stories category-viewpoint tag-featured tag-samantha-hankins with-featured-image">
+
+		<!-- Get the hero background image -->
+		
+			<div class="site-header-bg-wrap">
+				<div class="header-opacity">
+					<div class="header-gradient"></div>
+					<div class="site-header-bg background-effect" style="background-image: url(https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=1600); opacity: 0.5;"></div>
+				</div>
+			</div><!-- .site-header-bg-wrap -->
+
+		
+		<div class="container hero-container">
+			<div class=" hero-cats"><a href="https://design.blog/category/types/exclusion/">Exclusion</a><a href="https://design.blog/category/types/new/">New</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<!-- Hero title -->
+			<div class="hero-text">
+									<h2 class="entry-title"><a href="https://design.blog/2017/04/17/samantha-hankins-but-wait-is-your-last-name-filipino/" rel="bookmark">Samantha Hankins: âBut Wait, Is Your Last Name&nbsp;Filipino?â</a></h2>
+				
+				<div class="hero-date">
+										<!-- Create an avatar link -->
+					<a href="https://design.blog/author/a8cdesigners/" title="Posts by Design.blog">
+						<img alt='' src='https://1.gravatar.com/avatar/1e73c859454d83cd71a1af6258f77e1e?s=44&#038;d=https%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D44&#038;r=G' class='avatar avatar-44' height='44' width='44' />					</a>
+					<!-- Create an author post link -->
+					<a href="https://design.blog/author/a8cdesigners/">
+						Design.blog					</a>
+					<span class="hero-on-span">on April 17, 2017</span>
+				</div>
+			</div><!-- .photo-overlay -->
+		</div><!-- .container -->
+	</div>
+
+	<div id="post-5646" class="post-5646 post type-post status-publish format-standard has-post-thumbnail hentry category-stories category-work tag-featured with-featured-image">
+
+		<!-- Get the hero background image -->
+		
+			<div class="site-header-bg-wrap">
+				<div class="header-opacity">
+					<div class="header-gradient"></div>
+					<div class="site-header-bg background-effect" style="background-image: url(https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=1200); opacity: 0.5;"></div>
+				</div>
+			</div><!-- .site-header-bg-wrap -->
+
+		
+		<div class="container hero-container">
+			<div class=" hero-cats"><a href="https://design.blog/category/stories/">Stories</a><a href="https://design.blog/category/types/work/">Work</a></div>
+			<!-- Hero title -->
+			<div class="hero-text">
+									<h2 class="entry-title"><a href="https://design.blog/2017/03/23/catt-small-on-designing-an-inclusive-workplace-culture/" rel="bookmark">Catt Small on Designing an Inclusive Workplace&nbsp;Culture</a></h2>
+				<p>What three words would you use to describe the company?</p>
+
+				<div class="hero-date">
+										<!-- Create an avatar link -->
+					<a href="https://design.blog/author/a8cdesigners/" title="Posts by Design.blog">
+						<img alt='' src='https://1.gravatar.com/avatar/1e73c859454d83cd71a1af6258f77e1e?s=44&#038;d=https%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D44&#038;r=G' class='avatar avatar-44' height='44' width='44' />					</a>
+					<!-- Create an author post link -->
+					<a href="https://design.blog/author/a8cdesigners/">
+						Design.blog					</a>
+					<span class="hero-on-span">on March 23, 2017</span>
+				</div>
+			</div><!-- .photo-overlay -->
+		</div><!-- .container -->
+	</div>
+			</div><!-- .hero-posts -->
+
+						<div class="hero-pager-wrap">
+				<div class="container">
+					<div class="pager-navs"></div>
+					<ul id="hero-pager">
+													<li>
+								<a>
+																			<div class="paging-thumb">
+											<img width="50" height="50" src="https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=50&amp;h=50&amp;crop=1" class="attachment-periodical-hero-thumb size-periodical-hero-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=50&amp;h=50&amp;crop=1 50w, https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=100&amp;h=100&amp;crop=1 100w" sizes="(max-width: 50px) 100vw, 50px" data-attachment-id="6481" data-permalink="https://design.blog/deep-design/" data-orig-file="https://designdotblog.files.wordpress.com/2018/11/deep-design.png" data-orig-size="1920,1080" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="deep-design" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=300" data-large-file="https://designdotblog.files.wordpress.com/2018/11/deep-design.png?w=900" />										</div>
+									
+									<div class="paging-text">
+										<div class="entry-title">
+											Designing the opportunity: the deep layer of product&nbsp;design										</div>
+
+										<div class="paging-date">
+											November 12, 2018										</div>
+									</div>
+								</a>
+							</li>
+													<li>
+								<a>
+																			<div class="paging-thumb">
+											<img width="50" height="50" src="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=50&amp;h=50&amp;crop=1" class="attachment-periodical-hero-thumb size-periodical-hero-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=50&amp;h=50&amp;crop=1 50w, https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=100&amp;h=100&amp;crop=1 100w" sizes="(max-width: 50px) 100vw, 50px" data-attachment-id="5963" data-permalink="https://design.blog/2017/07/03/rebrand-cities-art-in-motion-and-more/ballio/" data-orig-file="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg" data-orig-size="1576,1182" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="ballio" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/07/ballio.jpg?w=900" />										</div>
+									
+									<div class="paging-text">
+										<div class="entry-title">
+											Rebrand Cities: Art in Motion, and&nbsp;More										</div>
+
+										<div class="paging-date">
+											July 3, 2017										</div>
+									</div>
+								</a>
+							</li>
+													<li>
+								<a>
+																			<div class="paging-thumb">
+											<img width="50" height="50" src="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=50&amp;h=50&amp;crop=1" class="attachment-periodical-hero-thumb size-periodical-hero-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=50&amp;h=50&amp;crop=1 50w, https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=100&amp;h=100&amp;crop=1 100w" sizes="(max-width: 50px) 100vw, 50px" data-attachment-id="5800" data-permalink="https://design.blog/2017/04/17/samantha-hankins-but-wait-is-your-last-name-filipino/dcim100gopro/" data-orig-file="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg" data-orig-size="2277,2276" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;2.8&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;HERO4 Session&quot;,&quot;caption&quot;:&quot;DCIM100GOPRO&quot;,&quot;created_timestamp&quot;:&quot;1479206524&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;2.77&quot;,&quot;iso&quot;:&quot;100&quot;,&quot;shutter_speed&quot;:&quot;0.0031456432840516&quot;,&quot;title&quot;:&quot;DCIM100GOPRO&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="DCIM100GOPRO" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/04/fullsizerender-2-1.jpg?w=900" />										</div>
+									
+									<div class="paging-text">
+										<div class="entry-title">
+											Samantha Hankins: âBut Wait, Is Your Last Name&nbsp;Filipino?â										</div>
+
+										<div class="paging-date">
+											April 17, 2017										</div>
+									</div>
+								</a>
+							</li>
+													<li>
+								<a>
+																			<div class="paging-thumb">
+											<img width="50" height="50" src="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=50&amp;h=50&amp;crop=1" class="attachment-periodical-hero-thumb size-periodical-hero-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=50&amp;h=50&amp;crop=1 50w, https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=100&amp;h=100&amp;crop=1 100w" sizes="(max-width: 50px) 100vw, 50px" data-attachment-id="5655" data-permalink="https://design.blog/2017/03/23/catt-small-on-designing-an-inclusive-workplace-culture/catt/" data-orig-file="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg" data-orig-size="1200,1200" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;4&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;Canon EOS 6D&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;1481619006&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;24&quot;,&quot;iso&quot;:&quot;500&quot;,&quot;shutter_speed&quot;:&quot;0.0125&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="catt" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/03/catt-1.jpg?w=900" />										</div>
+									
+									<div class="paging-text">
+										<div class="entry-title">
+											Catt Small on Designing an Inclusive Workplace&nbsp;Culture										</div>
+
+										<div class="paging-date">
+											March 23, 2017										</div>
+									</div>
+								</a>
+							</li>
+											</ul><!-- .hero-pager -->
+				</div>
+			</div>
+					</div><!-- .hero-wrapper -->
+		
+
+<div id="page" class="hfeed site container">
+	<div id="content" class="site-content">
+
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+			
+				<div id="post-wrapper">
+					<div class="grid-wrapper">
+						<div id="post-5883" class="post-5883 post type-post status-publish format-standard has-post-thumbnail hentry category-community category-new category-stories with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/06/12/carl-and-elena-schronez-spotlight-on-detroit-small-businesses/" title="Carl and Elena SchrÃ³nez: Spotlight on Detroit Small&nbsp;Businesses">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/06/img_5872-e1497232356908.jpg?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/06/img_5872-e1497232356908.jpg?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/06/img_5872-e1497232356908.jpg?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2017/06/img_5872-e1497232356908.jpg?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/06/img_5872-e1497232356908.jpg?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="5901" data-permalink="https://design.blog/2017/06/12/carl-and-elena-schronez-spotlight-on-detroit-small-businesses/img_5872/" data-orig-file="https://designdotblog.files.wordpress.com/2017/06/img_5872-e1497232356908.jpg" data-orig-size="2945,2708" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="IMG_5872" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/06/img_5872-e1497232356908.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/06/img_5872-e1497232356908.jpg?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/types/community/">Community</a><a href="https://design.blog/category/types/new/">New</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/06/12/carl-and-elena-schronez-spotlight-on-detroit-small-businesses/" rel="bookmark">Carl and Elena SchrÃ³nez: Spotlight on Detroit Small&nbsp;Businesses</a></h3>
+
+			<p>&#8220;Donât be limited by what others say or think, or by what others believe is possible.&#8221;</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/johnmaeda/" title="Posts by John Maeda" rel="author">John Maeda</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/06/12/carl-and-elena-schronez-spotlight-on-detroit-small-businesses/" title="Carl and Elena SchrÃ³nez: Spotlight on Detroit Small&nbsp;Businesses">June 12, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5855" class="post-5855 post type-post status-publish format-standard has-post-thumbnail hentry category-creativity category-new category-stories category-viewpoint tag-data-visualization tag-samantha-zhang with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/05/26/samantha-zhang-on-crafting-design-systems-for-big-data/" title="Samantha Zhang on Crafting Design Systems for Big&nbsp;Data">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2018/09/untitled.jpg?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2018/09/untitled.jpg?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2018/09/untitled.jpg?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2018/09/untitled.jpg?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2018/09/untitled.jpg?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="6401" data-permalink="https://design.blog/untitled/" data-orig-file="https://designdotblog.files.wordpress.com/2018/09/untitled.jpg" data-orig-size="900,500" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="Untitled" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2018/09/untitled.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2018/09/untitled.jpg?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/types/creativity/">Creativity</a><a href="https://design.blog/category/types/new/">New</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/05/26/samantha-zhang-on-crafting-design-systems-for-big-data/" rel="bookmark">Samantha Zhang on Crafting Design Systems for Big&nbsp;Data</a></h3>
+
+			<p>Tailoring design for one dataset is easy &#8212; designing a system that works for all datasets is much more difficult.</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/heymarkarms/" title="Posts by Mark Armstrong" rel="author">Mark Armstrong</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/05/26/samantha-zhang-on-crafting-design-systems-for-big-data/" title="Samantha Zhang on Crafting Design Systems for Big&nbsp;Data">May 26, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5829" class="post-5829 post type-post status-publish format-standard has-post-thumbnail hentry category-stories tag-news tag-rebrand-detroit tag-wordpressdotcom with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/05/18/how-a-detroit-hackathon-turned-into-wordpress-coms-first-ever-tv-spots/" title="How a Detroit Hackathon Turned into WordPress.com&#8217;s First-Ever TV&nbsp;Spots">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/05/hajj-rebrand-detroit1.png?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/05/hajj-rebrand-detroit1.png?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/05/hajj-rebrand-detroit1.png?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2017/05/hajj-rebrand-detroit1.png?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/05/hajj-rebrand-detroit1.png?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="6386" data-permalink="https://design.blog/2017/05/18/how-a-detroit-hackathon-turned-into-wordpress-coms-first-ever-tv-spots/hajj-rebrand-detroit-2/" data-orig-file="https://designdotblog.files.wordpress.com/2017/05/hajj-rebrand-detroit1.png" data-orig-size="1636,858" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="hajj-rebrand-detroit" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/05/hajj-rebrand-detroit1.png?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/05/hajj-rebrand-detroit1.png?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/05/18/how-a-detroit-hackathon-turned-into-wordpress-coms-first-ever-tv-spots/" rel="bookmark">How a Detroit Hackathon Turned into WordPress.com&#8217;s First-Ever TV&nbsp;Spots</a></h3>
+
+			<p>In February, a volunteer team of WordPress developers spent 48 hours launching new websites for nine small businesses in Detroit to help add visibility to the cityâs rising economy.</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/margafret/" title="Posts by Margarita Noriega" rel="author">Margarita Noriega</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/05/18/how-a-detroit-hackathon-turned-into-wordpress-coms-first-ever-tv-spots/" title="How a Detroit Hackathon Turned into WordPress.com&#8217;s First-Ever TV&nbsp;Spots">May 18, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5804" class="post-5804 post type-post status-publish format-standard has-post-thumbnail hentry category-life category-new category-stories category-viewpoint with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/04/17/lisa-katayama-the-power-of-stories-in-a-complex-world/" title="Lisa Katayama: The Power of Stories in a Complex&nbsp;World">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/04/img_9570.jpg?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/04/img_9570.jpg?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/04/img_9570.jpg?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2017/04/img_9570.jpg?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/04/img_9570.jpg?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="5805" data-permalink="https://design.blog/2017/04/17/lisa-katayama-the-power-of-stories-in-a-complex-world/img_9570/" data-orig-file="https://designdotblog.files.wordpress.com/2017/04/img_9570.jpg" data-orig-size="1280,1365" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="IMG_9570" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/04/img_9570.jpg?w=281" data-large-file="https://designdotblog.files.wordpress.com/2017/04/img_9570.jpg?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/types/life/">Life</a><a href="https://design.blog/category/types/new/">New</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/04/17/lisa-katayama-the-power-of-stories-in-a-complex-world/" rel="bookmark">Lisa Katayama: The Power of Stories in a Complex&nbsp;World</a></h3>
+
+			<p>Stories connect us to ourselves and to each other.</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/a8cdesigners/" title="Posts by Design.blog" rel="author">Design.blog</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/04/17/lisa-katayama-the-power-of-stories-in-a-complex-world/" title="Lisa Katayama: The Power of Stories in a Complex&nbsp;World">April 17, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5773" class="post-5773 post type-post status-publish format-standard has-post-thumbnail hentry category-leadership category-new category-stories category-viewpoint tag-business tag-web with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/04/17/hajj-flemings-what-is-human-brand-design/" title="Hajj Flemings: What Is Human Brand&nbsp;Design?">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/04/hack20detroit20day20220tours-9343-01201.jpg?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/04/hack20detroit20day20220tours-9343-01201.jpg?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/04/hack20detroit20day20220tours-9343-01201.jpg?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2017/04/hack20detroit20day20220tours-9343-01201.jpg?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/04/hack20detroit20day20220tours-9343-01201.jpg?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="5774" data-permalink="https://design.blog/2017/04/17/hajj-flemings-what-is-human-brand-design/hackdetroitday2tours-9343-011/" data-orig-file="https://designdotblog.files.wordpress.com/2017/04/hack20detroit20day20220tours-9343-01201.jpg" data-orig-size="2500,1667" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="HackDetroitDay2Tours-9343-01(1)" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/04/hack20detroit20day20220tours-9343-01201.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/04/hack20detroit20day20220tours-9343-01201.jpg?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/types/leadership/">Leadership</a><a href="https://design.blog/category/types/new/">New</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/04/17/hajj-flemings-what-is-human-brand-design/" rel="bookmark">Hajj Flemings: What Is Human Brand&nbsp;Design?</a></h3>
+
+			<p>The connection between the physical and digital worlds requires a human element.</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/hajjflemings/" title="Posts by hajjflemings" rel="author">hajjflemings</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/04/17/hajj-flemings-what-is-human-brand-design/" title="Hajj Flemings: What Is Human Brand&nbsp;Design?">April 17, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5637" class="post-5637 post type-post status-publish format-standard has-post-thumbnail hentry category-exclusion category-stories with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/03/23/caroline-sinders-on-ethical-product-design-for-machine-learning/" title="Caroline Sinders on Ethical Product Design for Machine&nbsp;Learning">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/03/caroline-7056_crop.png?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/03/caroline-7056_crop.png?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/03/caroline-7056_crop.png?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2017/03/caroline-7056_crop.png?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/03/caroline-7056_crop.png?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="5638" data-permalink="https://design.blog/2017/03/23/caroline-sinders-on-ethical-product-design-for-machine-learning/caroline-7056_crop/" data-orig-file="https://designdotblog.files.wordpress.com/2017/03/caroline-7056_crop.png" data-orig-size="1002,1000" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Caroline-7056_Crop" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/03/caroline-7056_crop.png?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/03/caroline-7056_crop.png?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/types/exclusion/">Exclusion</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/03/23/caroline-sinders-on-ethical-product-design-for-machine-learning/" rel="bookmark">Caroline Sinders on Ethical Product Design for Machine&nbsp;Learning</a></h3>
+
+			<p>Whatâs needed and necessary right now is for designers to have a technical understanding of machine learning.</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/a8cdesigners/" title="Posts by Design.blog" rel="author">Design.blog</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/03/23/caroline-sinders-on-ethical-product-design-for-machine-learning/" title="Caroline Sinders on Ethical Product Design for Machine&nbsp;Learning">March 23, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5604" class="post-5604 post type-post status-publish format-standard has-post-thumbnail hentry category-stories category-writing tag-fatimah-kabba tag-writing with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/03/16/fatimah-kabba-on-the-other-unicorn-skill-writing/" title="Fatimah Kabba on The Other Unicorn Skill:&nbsp;Writing">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/03/snap011.jpg?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/03/snap011.jpg?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/03/snap011.jpg?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2017/03/snap011.jpg?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/03/snap011.jpg?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="6389" data-permalink="https://design.blog/2017/03/16/fatimah-kabba-on-the-other-unicorn-skill-writing/snap011/" data-orig-file="https://designdotblog.files.wordpress.com/2017/03/snap011.jpg" data-orig-size="1396,784" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Snap011" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/03/snap011.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/03/snap011.jpg?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/stories/">Stories</a><a href="https://design.blog/category/types/writing/">Writing</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/03/16/fatimah-kabba-on-the-other-unicorn-skill-writing/" rel="bookmark">Fatimah Kabba on The Other Unicorn Skill:&nbsp;Writing</a></h3>
+
+			<p>In a world fascinated by the unicorn designer that is a coding savant, I want to call on designers to pay closer attention to something else: words.</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/a8cdesigners/" title="Posts by Design.blog" rel="author">Design.blog</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/03/16/fatimah-kabba-on-the-other-unicorn-skill-writing/" title="Fatimah Kabba on The Other Unicorn Skill:&nbsp;Writing">March 16, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5584" class="post-5584 post type-post status-publish format-standard has-post-thumbnail hentry category-exclusion category-stories tag-ash-huang tag-technology with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/03/16/ash-huang-how-much-poison-is-acceptable-in-our-technology/" title="Ash Huang: How Much Poison Is Acceptable in Our&nbsp;Technology?">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/03/image-e1536792788868.jpeg?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="Ash Huang" srcset="https://designdotblog.files.wordpress.com/2017/03/image-e1536792788868.jpeg?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/03/image-e1536792788868.jpeg?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2017/03/image-e1536792788868.jpeg?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/03/image-e1536792788868.jpeg?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="5583" data-permalink="https://design.blog/image-3/" data-orig-file="https://designdotblog.files.wordpress.com/2017/03/image-e1536792788868.jpeg" data-orig-size="1520,1140" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Ash Huang" data-image-description="&lt;p&gt;Ash Huang&lt;/p&gt;
+" data-medium-file="https://designdotblog.files.wordpress.com/2017/03/image-e1536792788868.jpeg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/03/image-e1536792788868.jpeg?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/types/exclusion/">Exclusion</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/03/16/ash-huang-how-much-poison-is-acceptable-in-our-technology/" rel="bookmark">Ash Huang: How Much Poison Is Acceptable in Our&nbsp;Technology?</a></h3>
+
+			<p>Ash Huang on How Much Poison Is Acceptable in Our Technology?</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/a8cdesigners/" title="Posts by Design.blog" rel="author">Design.blog</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/03/16/ash-huang-how-much-poison-is-acceptable-in-our-technology/" title="Ash Huang: How Much Poison Is Acceptable in Our&nbsp;Technology?">March 16, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5576" class="post-5576 post type-post status-publish format-standard has-post-thumbnail hentry category-health category-stories tag-megs-fulton with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/03/09/megs-fulton-on-designing-for-doctors-and-health-technology/" title="Megs Fulton on Designing for Doctors and Health&nbsp;Technology">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/03/megsfulton-2.jpg?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/03/megsfulton-2.jpg?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/03/megsfulton-2.jpg?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/03/megsfulton-2.jpg?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="5578" data-permalink="https://design.blog/2017/03/09/megs-fulton-on-designing-for-doctors-and-health-technology/megsfulton-2/" data-orig-file="https://designdotblog.files.wordpress.com/2017/03/megsfulton-2.jpg" data-orig-size="700,700" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="megsfulton 2" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/03/megsfulton-2.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/03/megsfulton-2.jpg?w=700" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/types/health/">Health</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/03/09/megs-fulton-on-designing-for-doctors-and-health-technology/" rel="bookmark">Megs Fulton on Designing for Doctors and Health&nbsp;Technology</a></h3>
+
+			<p>Last year I gave a short talk about designing for both physicians and patients at a Design + Healthcare event hosted by John Maeda and Kleiner Perkins Caufield Byers. Prior to this, most of my [&hellip;]</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/a8cdesigners/" title="Posts by Design.blog" rel="author">Design.blog</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/03/09/megs-fulton-on-designing-for-doctors-and-health-technology/" title="Megs Fulton on Designing for Doctors and Health&nbsp;Technology">March 9, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+	<div id="post-5563" class="post-5563 post type-post status-publish format-standard has-post-thumbnail hentry category-learning category-stories tag-wendy-johansson with-featured-image grid-thumb">
+					<a class="grid-thumb-image" href="https://design.blog/2017/03/09/wendy-johansson-on-designing-a-ux-academy-in-mexico/" title="Wendy Johansson on Designing a UX Academy in&nbsp;Mexico">
+				<!-- Grab the image -->
+				<img width="375" height="250" src="https://designdotblog.files.wordpress.com/2017/03/wendyjohansson.jpg?w=375&amp;h=250&amp;crop=1" class="attachment-periodical-grid-thumb size-periodical-grid-thumb wp-post-image" alt="" srcset="https://designdotblog.files.wordpress.com/2017/03/wendyjohansson.jpg?w=375&amp;h=250&amp;crop=1 375w, https://designdotblog.files.wordpress.com/2017/03/wendyjohansson.jpg?w=750&amp;h=500&amp;crop=1 750w, https://designdotblog.files.wordpress.com/2017/03/wendyjohansson.jpg?w=150&amp;h=100&amp;crop=1 150w, https://designdotblog.files.wordpress.com/2017/03/wendyjohansson.jpg?w=300&amp;h=200&amp;crop=1 300w" sizes="(max-width: 375px) 100vw, 375px" data-attachment-id="5566" data-permalink="https://design.blog/2017/03/09/wendy-johansson-on-designing-a-ux-academy-in-mexico/wendyjohansson/" data-orig-file="https://designdotblog.files.wordpress.com/2017/03/wendyjohansson.jpg" data-orig-size="2042,2042" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="wendyjohansson" data-image-description="" data-medium-file="https://designdotblog.files.wordpress.com/2017/03/wendyjohansson.jpg?w=300" data-large-file="https://designdotblog.files.wordpress.com/2017/03/wendyjohansson.jpg?w=900" />			</a>
+		
+		<!-- Post title and categories -->
+		<div class="grid-text">
+			<div class=" grid-cats"><a href="https://design.blog/category/types/learning/">Learning</a><a href="https://design.blog/category/stories/">Stories</a></div>
+			<h3 class="entry-title"><a href="https://design.blog/2017/03/09/wendy-johansson-on-designing-a-ux-academy-in-mexico/" rel="bookmark">Wendy Johansson on Designing a UX Academy in&nbsp;Mexico</a></h3>
+
+			<p>Hiring UX designers remains a huge challenge ï¼ inside and outside of Silicon Valley. How do you solve that problem?</p>
+
+			<div class="grid-date">
+				<a href="https://design.blog/author/a8cdesigners/" title="Posts by Design.blog" rel="author">Design.blog</a> <span class="date-slash">/</span>
+				<span class="date"><a href="https://design.blog/2017/03/09/wendy-johansson-on-designing-a-ux-academy-in-mexico/" title="Wendy Johansson on Designing a UX Academy in&nbsp;Mexico">March 9, 2017</a></span>
+			</div>
+		</div><!-- .grid-text -->
+	</div><!-- .post -->
+					</div><!-- .grid-wrapper -->
+
+						<div class="page-navigation">
+		<span aria-current='page' class='page-numbers current'>1</span>
+<a class='page-numbers' href='https://design.blog/page/2/'>2</a>
+<a class='page-numbers' href='https://design.blog/page/3/'>3</a>
+<span class="page-numbers dots">&hellip;</span>
+<a class='page-numbers' href='https://design.blog/page/10/'>10</a>
+<a class="next page-numbers" href="https://design.blog/page/2/">&rarr;</a>	</div>
+					</div><!-- #post-wrapper -->
+
+						</main><!-- #main -->
+	</section><!-- #primary -->
+
+	
+<script type='text/javascript'>
+								var _gaq = _gaq || [];
+								_gaq.push(['_setAccount', 'UA-10673494-27']);
+_gaq.push(['_trackPageview']);
+
+								(function() {
+									var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+									ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+									var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+								})();
+							</script>
+
+	</div><!-- #content -->
+</div><!-- #page -->
+
+
+<footer id="colophon" class="site-footer" role="contentinfo">
+	<div class="container">
+
+					<div class="footer-widgets">
+				
+				
+									<div class="footer-column">
+						
+
+<script type="text/javascript" data-dojo-config="usePlainJson: true, isDebug: false">jQuery.getScript( "//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js", function( data, textStatus, jqxhr ) { window.dojoRequire(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us20.list-manage.com","uuid":"a94d100cf28b41d9bef7e635b","lid":"3e93238308","uniqueMethods":true}) });} );</script>
+
+					</div>
+							</div>
+		
+		<div class="footer-bottom">
+			
+			<div class="footer-tagline">
+				<div class="site-info">
+					<a href="https://wordpress.com/?ref=footer_custom_svg" title="Create a website or blog at WordPress.com"><svg style="fill: currentColor; position: relative; top: 1px;" width="14px" height="15px" viewBox="0 0 14 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="title" role="img">
+				<desc id="title">Create a website or blog at WordPress.com</desc>
+				<path d="M12.5225848,4.97949746 C13.0138466,5.87586309 13.2934037,6.90452431 13.2934037,7.99874074 C13.2934037,10.3205803 12.0351007,12.3476807 10.1640538,13.4385638 L12.0862862,7.88081544 C12.4453251,6.98296834 12.5648813,6.26504621 12.5648813,5.62667922 C12.5648813,5.39497674 12.549622,5.17994084 12.5225848,4.97949746 L12.5225848,4.97949746 Z M7.86730089,5.04801561 C8.24619178,5.02808979 8.58760099,4.98823815 8.58760099,4.98823815 C8.9267139,4.94809022 8.88671369,4.44972248 8.54745263,4.46957423 C8.54745263,4.46957423 7.52803983,4.54957381 6.86996227,4.54957381 C6.25158863,4.54957381 5.21247202,4.46957423 5.21247202,4.46957423 C4.87306282,4.44972248 4.83328483,4.96816418 5.17254589,4.98823815 C5.17254589,4.98823815 5.49358462,5.02808979 5.83269753,5.04801561 L6.81314716,7.73459399 L5.43565839,11.8651647 L3.14394256,5.04801561 C3.52312975,5.02808979 3.86416859,4.98823815 3.86416859,4.98823815 C4.20305928,4.94809022 4.16305906,4.44972248 3.82394616,4.46957423 C3.82394616,4.46957423 2.80475558,4.54957381 2.14660395,4.54957381 C2.02852925,4.54957381 1.88934333,4.54668493 1.74156477,4.54194422 C2.86690406,2.83350881 4.80113651,1.70529256 6.99996296,1.70529256 C8.638342,1.70529256 10.1302017,2.33173369 11.2498373,3.35765419 C11.222726,3.35602457 11.1962815,3.35261718 11.1683554,3.35261718 C10.5501299,3.35261718 10.1114609,3.89113285 10.1114609,4.46957423 C10.1114609,4.98823815 10.4107217,5.42705065 10.7296864,5.94564049 C10.969021,6.36482346 11.248578,6.90326506 11.248578,7.68133501 C11.248578,8.21992476 11.0413918,8.84503256 10.7696866,9.71584277 L10.1417574,11.8132391 L7.86730089,5.04801561 Z M6.99996296,14.2927074 C6.38218192,14.2927074 5.78595654,14.2021153 5.22195356,14.0362644 L7.11048207,8.54925635 L9.04486267,13.8491542 C9.05760348,13.8802652 9.07323319,13.9089317 9.08989995,13.9358945 C8.43574834,14.1661896 7.73285573,14.2927074 6.99996296,14.2927074 L6.99996296,14.2927074 Z M0.706448182,7.99874074 C0.706448182,7.08630113 0.902152921,6.22015756 1.25141403,5.43749503 L4.25357806,13.6627848 C2.15393732,12.6427902 0.706448182,10.4898387 0.706448182,7.99874074 L0.706448182,7.99874074 Z M6.99996296,0.999 C3.14016476,0.999 0,4.13905746 0,7.99874074 C0,11.8585722 3.14016476,14.999 6.99996296,14.999 C10.8596871,14.999 14,11.8585722 14,7.99874074 C14,4.13905746 10.8596871,0.999 6.99996296,0.999 L6.99996296,0.999 Z" id="wordpress-logo-simplified-cmyk" stroke="none" fill=âcurrentColorâ fill-rule="evenodd"></path>
+			</svg></a>
+					
+									</div>
+			</div><!-- .footer-tagline -->
+		</div><!-- .footer-bottom -->
+	</div><!-- .container -->
+</footer><!-- #colophon -->
+
+		<script type="text/javascript">
+		//<![CDATA[
+		var infiniteScroll = JSON.parse( decodeURIComponent( '%7B%22settings%22%3A%7B%22id%22%3A%22post-wrapper%22%2C%22ajaxurl%22%3A%22https%3A%5C%2F%5C%2Fdesign.blog%5C%2F%3Finfinity%3Dscrolling%22%2C%22type%22%3A%22click%22%2C%22wrapper%22%3Atrue%2C%22wrapper_class%22%3A%22new-infinite-posts%22%2C%22footer%22%3A%22page%22%2C%22click_handle%22%3A%221%22%2C%22text%22%3A%22Load%20more%22%2C%22totop%22%3A%22Scroll%20back%20to%20top%22%2C%22currentday%22%3A%2209.03.17%22%2C%22order%22%3A%22DESC%22%2C%22scripts%22%3A%5B%5D%2C%22styles%22%3A%5B%5D%2C%22google_analytics%22%3Afalse%2C%22offset%22%3A0%2C%22history%22%3A%7B%22host%22%3A%22design.blog%22%2C%22path%22%3A%22%5C%2Fpage%5C%2F%25d%5C%2F%22%2C%22use_trailing_slashes%22%3Atrue%2C%22parameters%22%3A%22%22%7D%2C%22query_args%22%3A%7B%22error%22%3A%22%22%2C%22m%22%3A%22%22%2C%22p%22%3A0%2C%22post_parent%22%3A%22%22%2C%22subpost%22%3A%22%22%2C%22subpost_id%22%3A%22%22%2C%22attachment%22%3A%22%22%2C%22attachment_id%22%3A0%2C%22name%22%3A%22%22%2C%22pagename%22%3A%22%22%2C%22page_id%22%3A0%2C%22second%22%3A%22%22%2C%22minute%22%3A%22%22%2C%22hour%22%3A%22%22%2C%22day%22%3A0%2C%22monthnum%22%3A0%2C%22year%22%3A0%2C%22w%22%3A0%2C%22category_name%22%3A%22%22%2C%22tag%22%3A%22%22%2C%22cat%22%3A%22%22%2C%22tag_id%22%3A%22%22%2C%22author%22%3A%22%22%2C%22author_name%22%3A%22%22%2C%22feed%22%3A%22%22%2C%22tb%22%3A%22%22%2C%22paged%22%3A0%2C%22meta_key%22%3A%22%22%2C%22meta_value%22%3A%22%22%2C%22preview%22%3A%22%22%2C%22s%22%3A%22%22%2C%22sentence%22%3A%22%22%2C%22title%22%3A%22%22%2C%22fields%22%3A%22%22%2C%22menu_order%22%3A%22%22%2C%22embed%22%3A%22%22%2C%22category__in%22%3A%5B%5D%2C%22category__not_in%22%3A%5B%5D%2C%22category__and%22%3A%5B%5D%2C%22post__in%22%3A%5B%5D%2C%22post__not_in%22%3A%5B6480%2C5946%2C5797%2C5646%5D%2C%22post_name__in%22%3A%5B%5D%2C%22tag__in%22%3A%5B%5D%2C%22tag__not_in%22%3A%5B%5D%2C%22tag__and%22%3A%5B%5D%2C%22tag_slug__in%22%3A%5B%5D%2C%22tag_slug__and%22%3A%5B%5D%2C%22post_parent__in%22%3A%5B%5D%2C%22post_parent__not_in%22%3A%5B%5D%2C%22author__in%22%3A%5B%5D%2C%22author__not_in%22%3A%5B%5D%2C%22posts_per_page%22%3A10%2C%22ignore_sticky_posts%22%3Afalse%2C%22suppress_filters%22%3Afalse%2C%22cache_results%22%3Afalse%2C%22update_post_term_cache%22%3Atrue%2C%22lazy_load_term_meta%22%3Atrue%2C%22update_post_meta_cache%22%3Atrue%2C%22post_type%22%3A%22%22%2C%22nopaging%22%3Afalse%2C%22comments_per_page%22%3A%2250%22%2C%22no_found_rows%22%3Afalse%2C%22order%22%3A%22DESC%22%7D%2C%22last_post_date%22%3A%222017-03-09%2012%3A24%3A53%22%2C%22stats%22%3A%22blog%3D114798305%26v%3Dwpcom%26tz%3D-4%26user_id%3D0%26subd%3Ddesigndotblog%26x_pagetype%3Dinfinite-click%22%7D%7D' ) );
+		//]]>
+		</script>
+		<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-41261ee7861fe1331bf1cd32bb24f4ea">
+	</div>
+	<div class="grofile-hash-map-ec8ee628ee51ae70ce9b7ccb0a514765">
+	</div>
+	<div class="grofile-hash-map-1e73c859454d83cd71a1af6258f77e1e">
+	</div>
+	</div>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="114798305" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://design.blog" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Design.blog" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="9e445bd00e" /><input type="hidden" name="_wp_http_referer" value="/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/_static/??/wp-content/mu-plugins/carousel/jetpack-carousel.css,/wp-content/mu-plugins/tiled-gallery/tiled-gallery.css?m=1524699534j&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var periodical_js_vars = {"ajaxurl":"https:\/\/designdotblog.wordpress.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"114798305","siteName":"Design.blog","siteURL":"https:\/\/design.blog","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"premium\/periodical","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fdesign.blog%2F2017%2F06%2F12%2Fcarl-and-elena-schronez-spotlight-on-detroit-small-businesses%2F&signup_flow=account&domain=design.blog","themeURL":"","xhrURL":"https:\/\/design.blog\/wp-admin\/admin-ajax.php","nonce":"27b1b17b50","isSingular":"","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"b6f7973a7e\" \/>","referer":"https:\/\/design.blog\/","canFollow":"1","feedID":"52282073","statusMessage":"","customizeLink":"https:\/\/designdotblog.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fdesigndotblog.wordpress.com%2F","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Periodical","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 6,075 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fdesign.blog%2F2017%2F06%2F12%2Fcarl-and-elena-schronez-spotlight-on-detroit-small-businesses%2F&signup_flow=account&domain=design.blog\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/design.blog\/wp-admin\/admin-ajax.php","nonce":"fe690db059","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/designdotblog.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fdesign.blog%2F2017%2F03%2F09%2Fwendy-johansson-on-designing-a-ux-academy-in-mexico%2F","blog_id":"114798305","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=114798305&v=wpcom&tz=-4&user_id=0&subd=designdotblog","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJydkc9OwzAMxl+ILjCtBw6IK1fEE2SJt7jLv9lOy96etFK3iolJ5WYn/vn7bKshNyZFgSiqY2WhRwP5e9Pxk1p8hdJkX44YWXk8AatzgQJOR+uBHhRjPGBEuVyD37XiINR2mSBgCSoDYbJotB/d3LJVWFfN0WUTtBj3AXh0sgon4JwiYw/s0QL/R1tSMe5rwAyraAfaUkphneTnJPkXu7iGtgFjs9ekgmYBqlGTeiAax7y9rewgpM3pbktLyAimOELXaK7GaHwZxescPBzSvgNzd625T19tJqWZQSZgyutO+JG40ZQKQ90USK5Gm/mhMu/h7aVtd7vn1+227X4ALqUnbg=='></script>
+<script type='text/javascript' src='https://platform.twitter.com/widgets.js?ver=20111117'></script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyVy0sOQEAMANALqcZnluIsmGbSUTUZRdyerZVYvsXDM8G0qpEaLjsk2QPrhnayGWUYZZjmkbOHxIRKB2VSzxrKuBX456bvx0IewiBC+XrrWf3SVc61deOquo03DQdDyw=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script type="text/javascript">
+			jQuery.extend( infiniteScroll.settings.scripts, ["jquery-core","jquery-migrate","jquery","postmessage","mobile-useragent-info","jquery_inview","jetpack_resize","spin","jquery.spin","grofiles-cards","wpgroho","devicepx","jetpack_likes_queuehandler","the-neverending-homepage","periodical-js","matchHeight","responsive-slides","touchSwipe","headroom","headroom-jquery","wpcom-masterbar-js","wpcom-masterbar-tracks-js","wpcom-actionbar-bar","swfobject","videopress","jetpack-carousel","twitter-widgets","twitter-widgets-infinity","twitter-widgets-pending","tiled-gallery"] );
+			jQuery.extend( infiniteScroll.settings.styles, ["wpcom-smileys","jetpack_likes","the-neverending-homepage","wp-block-library","wpcom-core-compat-playlist-styles","mp6hacks","wpcom-bbpress2-staff-css","periodical-style","font-awesome","noticons","geo-location-flair","reblogging","wpcom-actionbar-bar","h4-global","periodical-fonts","jetpack-carousel","tiled-gallery"] );
+		</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'114798305','blog_tz':'-4','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'114798305','v':'wpcom','tz':'-4','user_id':'0','subd':'designdotblog'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1lSiYrZXhzUkM5fD1uTDNLUGt6QzVbd3FKb3Q4aWxFU0VMK3ppSG1wamM0bi81JStxN2lKP1pvVnxQRHk3W0d3VEh0SklpNENJfHppaiZjVlFtdzJJS0ovSDNENERVd3NYbiYvTnxdSCYxL2ZJdDB0NWRTQVg1MWd+RSs1b01+Y0dzJjN4ZTZ2Yi8/bURpeDM4W3BRQUF5UTNBazFCaDZvdmxdcm1oV003RTRCdD9ZWFZ4WWE2TDI/bm4xJnNEOFBnbjloTGRWYltdZWR5T3ZrR1E3fEVaaUdMUnRqX2RpMm5obHAlZF1hTi1CT11ibXl1cFBRX2ZmLyZ+dEpaRUYzdmtIZTdQUXFBW01fTGstbjdLLHdycGs/cG5IM090fjIwb3AlLGl1UkJEaT9FY2k2OUg/MGk4Wys0SGk3WkwsLjQuRj01MitEL3M/SjFbNzI3UXw9TmlTMw=='}]);
+_stq.push([ 'clickTrackerInit', '114798305', '0' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+<!--
+	generated 52 seconds ago
+	generated in 0.169 seconds
+	served from batcache in 0.002 seconds
+	expires in 248 seconds
+-->
+
+
+
+#####EOF#####
+
+

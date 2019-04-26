@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gasthaus Wolf</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<script language="JavaScript" src="spamless.js" type=""></script>
+	<link rel="stylesheet" type="text/css" href="smooth_slider_new.css">
+	<style>
+
+		.slideshowwrapper{ /* dimensions of outermost slideshow container */
+			width: 80%;
+			height: 600px;
+			position: relative;
+			overflow: hidden;
+			}
+
+		html,body { /* For full page slideshow that spans entire page (with no other content), the below CSS is needed */
+			height:100%;
+			padding:0px;
+			margin:0px;
+			}
+
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="jquery-slider.js">
+
+		/***********************************************
+		* Full Page Slideshow- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+		* Please keep this notice intact
+		* Visit Dynamic Drive at http://www.dynamicdrive.com/ for this script and 100s more
+		***********************************************/
+
+	</script>
+	<script>
+		$(function() {
+			$('#resume').on('click', function(){ // set up resume button behavior
+				$("#pan_area").smoothslider("resume") // resume playing of this slideshow. Pass in "pause" to pause it instead
+				$(this).hide() // hide resume button
+			})
+		
+		
+			$("#pan_area").smoothslider("install", {
+				"playlist_url":"playlist.json", // get the playlist and some config from the server
+
+				// this function gets called whenever there's an image change
+				"on_image_change":function(caption, image_url) { 
+						var area= $("#img_msg_area").find("span");
+						area.animate({"opacity": 0}, 500, "swing", function() {
+							area.text(caption);
+							area.animate({"opacity": 1}, 500); // fade in & out take 500ms each
+						});
+					},
+				"loops": 2, // number of loops before stopping. Remove thisoption to run continuously
+				"throbber":$("#throbber"), // an image to show when waiting for images to load
+				on_pause:function(){
+					$('#resume').show()
+				}
+
+			});
+		});
+	</script>
+</head>
+
+<body>
+
+<div id="throbber"><img src="img/throbber.gif" alt=""></div>
+<div id="resume" style="display:none">Replay</div>
+<div id="pan_area" style="height:100%"></div>
+<div id="img_msg_area"><span></span></div>
+<div id="static_text_area">
+	<p><img src="pics/w.jpg" width="60" height="60" alt="Logo"/></p>
+    <p>
+		Mo 18:00h - 23:00h (KÃ¼che: 18:00h - 22:00h)<br>    	
+		Di - Fr 12:00h - 14:00h Mittagstisch<br>
+		Di - Sa 17:00h - 01:00h (KÃ¼che: 18:00h - 22:00h)
+    </p>
+	<p><a id="buch" href="/kochbuch"><img src="pics/buchlink2.png" width="80" height="80" alt="speisen" /></a></p>
+   	<p>
+        1040 Wien<br />
+        <a class="pink" href="https://www.google.at/maps/place/Gro%C3%9Fe+Neugasse+20,+1040+Wien/@48.1928831,16.3624902,17z/data=!3m1!4b1!4m5!3m4!1s0x476d0780e58261bd:0xf16ab06095cc4b8b!8m2!3d48.1928795!4d16.3646842" target="_blank">Grosse Neugasse 20</a> 
+    </p>
+  	
+   	<p>
+        Reservierungsanfragen unter:<br />
+        <a href="javascript:spamless('tisch','gasthauswolf','at',0)">tisch@gasthauswolf.at</a><br />
+        telefonisch:<br />
+        <a href="tel:+4315811544">+43 (0)1 58 11 544</a>
+    </p>
+	<p>
+        Kontakt:<br />
+        <a href="javascript:spamless('office','gasthauswolf','at',0)">office@gasthauswolf.at</a>
+    </p>
+	<p><a href="http://www.facebook.com/gasthauswolf?ref=ts" target="_blank"><img src="pics/fb_grey.png" width="30" height="30" alt="facebooklogo" /></a></p>
+	<p><br>Impressum</p>
+	<p class="small">Medieninhaber und fÃ¼r den Inhalt verantwortlich:<br>
+		Wolf &amp; WÃ¶hrnschimmel OG<br>RienÃ¶Ãlgasse 17<br>1040 Wien<br>Tel: +43 (0)1 58 11 544</p>
+	<p class="small">UID: ATU66729766<br>Handelsgericht Wien</p>
+	<p class="small">FÃ¼r die Richtigkeit, VollstÃ¤ndigkeit und AktualitÃ¤t der Inhalte dieser Website sowie fÃ¼r die Inhalte von externen Links Ã¼bernehmen wir keine GewÃ¤hr.</p>
+
+</div>
+  
+  
+  </body>
+</html>
+
+
+#####EOF#####
+
+

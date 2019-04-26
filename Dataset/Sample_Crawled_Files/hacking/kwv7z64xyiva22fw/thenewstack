@@ -1,0 +1,3005 @@
+
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Innersource: Building Open Source Projects Behind Company Firewalls - The New Stack</title>
+		<link rel="profile" href="//gmpg.org/xfn/11">
+		<link rel="pingback" href="https://thenewstack.io/xmlrpc.php">
+		<link rel="icon" href="https://thenewstack.io/favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="https://thenewstack.io/favicon.ico" type="image/x-icon" />
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,700italic,600,600italic,400italic,300italic,300,800,800italic' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Merriweather+Sans" rel="stylesheet">
+		<link rel='stylesheet' id='dashicons-css' href='https://thenewstack.io/wp-includes/css/dashicons.min.css?ver=4.8.2' type='text/css' media='all' />
+
+		<script src="https://storage.googleapis.com/cdn.thenewstack.io/static/js/async.min.js"/>
+
+		<script>(function(d, s, id){
+				 var js, fjs = d.getElementsByTagName(s)[0];
+				 if (d.getElementById(id)) {return;}
+				 js = d.createElement(s); js.id = id;
+				 js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+				 fjs.parentNode.insertBefore(js, fjs);
+			   }(document, 'script', 'facebook-jssdk'));</script>
+<!-- This site is optimized with the Yoast SEO plugin v10.0.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/" />
+<link rel="publisher" href="https://plus.google.com/u/0/100040585732637649813"/>
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Innersource: Building Open Source Projects Behind Company Firewalls - The New Stack" />
+<meta property="og:description" content="With the explosion of open source code sharing in recent years, engineers, developers, and maintainers have embraced this new way of having the community engaged to make the code better for all. Projects are built, software is written, documented and maintained, lives are made easier, the gods of coding are appeased until you get behind &hellip;" />
+<meta property="og:url" content="https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/" />
+<meta property="og:site_name" content="The New Stack" />
+<meta property="article:publisher" content="https://www.facebook.com/thenewstack" />
+<meta property="article:author" content="https://www.facebook.com/profile.php?id=100004497947359" />
+<meta property="article:tag" content="Analysis" />
+<meta property="article:tag" content="Open Source" />
+<meta property="article:section" content="Programming Languages" />
+<meta property="article:published_time" content="2016-08-01T20:49:33+00:00" />
+<meta property="article:modified_time" content="2017-05-24T18:18:04+00:00" />
+<meta property="og:updated_time" content="2017-05-24T18:18:04+00:00" />
+<meta property="og:image" content="https://cdn.thenewstack.io/media/2016/07/photo-1467321638755-7246fd0dc1f3.jpg" />
+<meta property="og:image:secure_url" content="https://cdn.thenewstack.io/media/2016/07/photo-1467321638755-7246fd0dc1f3.jpg" />
+<meta property="og:image:width" content="643" />
+<meta property="og:image:height" content="482" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="With the explosion of open source code sharing in recent years, engineers, developers, and maintainers have embraced this new way of having the community engaged to make the code better for all. Projects are built, software is written, documented and maintained, lives are made easier, the gods of coding are appeased until you get behind [&hellip;]" />
+<meta name="twitter:title" content="Innersource: Building Open Source Projects Behind Company Firewalls - The New Stack" />
+<meta name="twitter:site" content="@thenewstack" />
+<meta name="twitter:image" content="https://cdn.thenewstack.io/media/2016/07/photo-1467321638755-7246fd0dc1f3.jpg" />
+<meta name="twitter:creator" content="@tccurrie" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//ws.sharethis.com' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel='dns-prefetch' href='//cdn.thenewstack.io' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//maxcdn.bootstrapcdn.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="The New Stack &raquo; Feed" href="https://thenewstack.io/feed/" />
+<link rel="alternate" type="application/rss+xml" title="The New Stack &raquo; Comments Feed" href="https://thenewstack.io/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/thenewstack.io\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.1.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='stripe-checkout-button-css'  href='https://checkout.stripe.com/v3/checkout/button.css?ver=2.3.7' type='text/css' media='all' />
+<link rel='stylesheet' id='pikaday-css'  href='https://thenewstack.io/wp-content/plugins/stripe-checkout-pro/assets/css/vendor/pikaday.min.css?ver=2.3.7' type='text/css' media='all' />
+<link rel='stylesheet' id='stripe-checkout-pro-public-css'  href='https://thenewstack.io/wp-content/plugins/stripe-checkout-pro/assets/css/public-pro.min.css?ver=2.3.7' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-css'  href='https://thenewstack.io/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-block-library-css'  href='https://thenewstack.io/wp-includes/css/dist/block-library/style.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='cforms2-css'  href='https://thenewstack.io/wp-content/plugins/cforms2/styling/cforms.css?ver=15.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='simple-share-buttons-adder-indie-css'  href='//fonts.googleapis.com/css?family=Indie+Flower&#038;ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='simple-share-buttons-adder-font-awesome-css'  href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bodhi-svgs-attachment-css'  href='https://thenewstack.io/wp-content/plugins/svg-support/css/svgs-attachment.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='wprssmi_template_styles-css'  href='https://thenewstack.io/wp-content/plugins/wp-rss-multi-importer/templates/templates.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='thenewstack-style-css'  href='https://thenewstack.io/wp-content/themes/thenewstack/style.css?ver=1551928178' type='text/css' media='all' />
+<link rel='stylesheet' id='responsive-tables-style-css'  href='https://thenewstack.io/wp-content/themes/thenewstack/inc/responsive-tables/responsive-tables.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='Fontawesome-css'  href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='algolia-autocomplete-css'  href='https://thenewstack.io/wp-content/plugins/search-by-algolia-instant-relevant-results/includes/../css/algolia-autocomplete.css?ver=2.11.3' type='text/css' media='screen' />
+<link rel='stylesheet' id='cyclone-template-style-dark-css'  href='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/templates/dark/style.css?ver=2.10.0' type='text/css' media='all' />
+<link rel='stylesheet' id='cyclone-template-style-default-css'  href='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/templates/default/style.css?ver=2.10.0' type='text/css' media='all' />
+<link rel='stylesheet' id='cyclone-template-style-ebook-sponsors-css'  href='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/templates/ebook-sponsors/style.css?ver=2.10.0' type='text/css' media='all' />
+<link rel='stylesheet' id='cyclone-template-style-standard-css'  href='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/templates/standard/style.css?ver=2.10.0' type='text/css' media='all' />
+<link rel='stylesheet' id='cyclone-template-style-thumbnails-css'  href='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/templates/thumbnails/style.css?ver=2.10.0' type='text/css' media='all' />
+<script type='text/javascript' src='https://thenewstack.io/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/thenewstack.io\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var cforms2_ajax = {"url":"https:\/\/thenewstack.io\/wp-admin\/admin-ajax.php","nonces":{"submitcform":"cc70c51685"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cforms2/js/cforms.js?ver=15.0.1'></script>
+<script id='st_insights_js' type='text/javascript' src='https://ws.sharethis.com/button/st_insights.js?publisher=4d48b7c5-0ae3-43d4-bfbe-3ff8c17a8ae6&#038;product=simpleshare'></script>
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/validator/4.0.5/validator.min.js?ver=5.1.1'></script>
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js?ver=5.1.1'></script>
+<script type='text/javascript' src='//cdn.thenewstack.io/static/js/jquery.mobile-events.min.js?ver=5.1.1'></script>
+<script type='text/javascript' src='//cdn.thenewstack.io/static/js/date-format.js?ver=5.1.1'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-includes/js/underscore.min.js?ver=1.8.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpUtilSettings = {"ajax":{"url":"\/wp-admin\/admin-ajax.php"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://thenewstack.io/wp-includes/js/wp-util.min.js?ver=5.1.1'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/search-by-algolia-instant-relevant-results/includes/../js/algoliasearch/algoliasearch.jquery.min.js?ver=2.11.3'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/search-by-algolia-instant-relevant-results/includes/../js/autocomplete.js/autocomplete.min.js?ver=2.11.3'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/search-by-algolia-instant-relevant-results/includes/../js/autocomplete-noconflict.js?ver=2.11.3'></script>
+<link rel='https://api.w.org/' href='https://thenewstack.io/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://thenewstack.io/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://thenewstack.io/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.1.1" />
+<link rel='shortlink' href='https://thenewstack.io/?p=1355679' />
+<link rel="alternate" type="application/json+oembed" href="https://thenewstack.io/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fthenewstack.io%2Fgithub-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://thenewstack.io/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fthenewstack.io%2Fgithub-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls%2F&#038;format=xml" />
+<script type="text/javascript">
+	window._se_plugin_version = '8.1.9';
+</script>
+<script type="text/javascript">var algolia = {"debug":true,"application_id":"TR8Q1WH2YG","search_api_key":"4eb191af6de81c46c3e14fde0d594bf3","powered_by_enabled":true,"query":"","autocomplete":{"sources":[{"index_id":"posts_post","index_name":"wp_posts_post","label":"Posts","admin_name":"Posts","position":10,"max_suggestions":5,"tmpl_suggestion":"autocomplete-post-suggestion","enabled":true},{"index_id":"terms_post_tag","index_name":"wp_terms_post_tag","label":"Tags","admin_name":"Tags","position":20,"max_suggestions":3,"tmpl_suggestion":"autocomplete-term-suggestion","enabled":true},{"index_id":"users","index_name":"wp_users","label":"Users","admin_name":"Users","position":30,"max_suggestions":3,"tmpl_suggestion":"autocomplete-user-suggestion","enabled":true}],"input_selector":"input[name='s']:not('.no-autocomplete')"},"indices":{"posts_post":{"name":"wp_posts_post","id":"posts_post","enabled":true,"replicas":[]},"terms_post_tag":{"name":"wp_terms_post_tag","id":"terms_post_tag","enabled":true,"replicas":[]},"users":{"name":"wp_users","id":"users","enabled":true,"replicas":[]}}};</script><meta name="twitter:widgets:link-color" content="#000000"><meta name="twitter:widgets:border-color" content="#000000"><meta name="twitter:partner" content="tfwp"><style type="text/css" id="syntaxhighlighteranchor"></style>
+
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Innersource: Building Open Source Projects Behind Company Firewalls"><meta name="twitter:site" content="@thenewstack"><meta name="twitter:description" content="With the explosion of open source code sharing in recent years, engineers, developers, and maintainers have embraced this new way of having the community engaged to make the code better for all. Projects are built, software is written, documented and maintained, lives are made easier, the gods of coding are appeased until you get behind&hellip;"><meta name="twitter:image" content="https://cdn.thenewstack.io/media/2016/07/photo-1467321638755-7246fd0dc1f3.jpg"><meta name="twitter:creator" content="@tccurrie">
+<script type="text/html" id="tmpl-autocomplete-header">
+  <div class="autocomplete-header">
+	<div class="autocomplete-header-title">{{{ data.label }}}</div>
+	<div class="clear"></div>
+  </div>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-post-suggestion">
+  <a class="suggestion-link" href="{{ data.permalink }}" title="{{ data.post_title }}">
+	<# if ( data.images.thumbnail ) { #>
+	  <img class="suggestion-post-thumbnail" src="{{ data.images.thumbnail.url }}" alt="{{ data.post_title }}">
+	  <# } #>
+		<div class="suggestion-post-attributes">
+		  <span class="suggestion-post-title">{{{ data._highlightResult.post_title.value }}}</span>
+		  <# if ( data._snippetResult['content'] ) { #>
+			<span class="suggestion-post-content">{{{ data._snippetResult['content'].value }}}</span>
+			<# } #>
+		</div>
+  </a>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-term-suggestion">
+  <a class="suggestion-link" href="{{ data.permalink }}" title="{{ data.name }}">
+	<svg viewBox="0 0 21 21" width="21" height="21">
+	  <svg width="21" height="21" viewBox="0 0 21 21">
+		<path
+			d="M4.662 8.72l-1.23 1.23c-.682.682-.68 1.792.004 2.477l5.135 5.135c.7.693 1.8.688 2.48.005l1.23-1.23 5.35-5.346c.31-.31.54-.92.51-1.36l-.32-4.29c-.09-1.09-1.05-2.06-2.15-2.14l-4.3-.33c-.43-.03-1.05.2-1.36.51l-.79.8-2.27 2.28-2.28 2.27zm9.826-.98c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25-1.25.56-1.25 1.25.56 1.25 1.25 1.25z"
+			fill-rule="evenodd"></path>
+	  </svg>
+	</svg>
+	<span class="suggestion-post-title">{{{ data._highlightResult.name.value }}}</span>
+  </a>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-user-suggestion">
+  <a class="suggestion-link user-suggestion-link" href="{{ data.posts_url }}" title="{{ data.display_name }}">
+	<# if ( data.avatar_url ) { #>
+	  <img class="suggestion-user-thumbnail" src="{{ data.avatar_url }}" alt="{{ data.display_name }}">
+	  <# } #>
+
+		<span class="suggestion-post-title">{{{ data._highlightResult.display_name.value }}}</span>
+  </a>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-footer">
+  <div class="autocomplete-footer">
+	<div class="autocomplete-footer-branding">
+	  <a href="#" class="algolia-powered-by-link" title="Algolia">
+		<svg width="130" viewBox="0 0 130 18" xmlns="http://www.w3.org/2000/svg">
+		  <title>Search by Algolia</title>
+		  <defs>
+			<linearGradient x1="-36.868%" y1="134.936%" x2="129.432%" y2="-27.7%" id="a">
+			  <stop stop-color="#00AEFF" offset="0%"/>
+			  <stop stop-color="#3369E7" offset="100%"/>
+			</linearGradient>
+		  </defs>
+		  <g fill="none" fill-rule="evenodd">
+			<path
+				d="M59.399.022h13.299a2.372 2.372 0 0 1 2.377 2.364V15.62a2.372 2.372 0 0 1-2.377 2.364H59.399a2.372 2.372 0 0 1-2.377-2.364V2.381A2.368 2.368 0 0 1 59.399.022z"
+				fill="url(#a)"/>
+			<path
+				d="M66.257 4.56c-2.815 0-5.1 2.272-5.1 5.078 0 2.806 2.284 5.072 5.1 5.072 2.815 0 5.1-2.272 5.1-5.078 0-2.806-2.279-5.072-5.1-5.072zm0 8.652c-1.983 0-3.593-1.602-3.593-3.574 0-1.972 1.61-3.574 3.593-3.574 1.983 0 3.593 1.602 3.593 3.574a3.582 3.582 0 0 1-3.593 3.574zm0-6.418v2.664c0 .076.082.131.153.093l2.377-1.226c.055-.027.071-.093.044-.147a2.96 2.96 0 0 0-2.465-1.487c-.055 0-.11.044-.11.104l.001-.001zm-3.33-1.956l-.312-.311a.783.783 0 0 0-1.106 0l-.372.37a.773.773 0 0 0 0 1.101l.307.305c.049.049.121.038.164-.011.181-.245.378-.479.597-.697.225-.223.455-.42.707-.599.055-.033.06-.109.016-.158h-.001zm5.001-.806v-.616a.781.781 0 0 0-.783-.779h-1.824a.78.78 0 0 0-.783.779v.632c0 .071.066.12.137.104a5.736 5.736 0 0 1 1.588-.223c.52 0 1.035.071 1.534.207a.106.106 0 0 0 .131-.104z"
+				fill="#FFF"/>
+			<path
+				d="M102.162 13.762c0 1.455-.372 2.517-1.123 3.193-.75.676-1.895 1.013-3.44 1.013-.564 0-1.736-.109-2.673-.316l.345-1.689c.783.163 1.819.207 2.361.207.86 0 1.473-.174 1.84-.523.367-.349.548-.866.548-1.553v-.349a6.374 6.374 0 0 1-.838.316 4.151 4.151 0 0 1-1.194.158 4.515 4.515 0 0 1-1.616-.278 3.385 3.385 0 0 1-1.254-.817 3.744 3.744 0 0 1-.811-1.351c-.192-.539-.29-1.504-.29-2.212 0-.665.104-1.498.307-2.054a3.925 3.925 0 0 1 .904-1.433 4.124 4.124 0 0 1 1.441-.926 5.31 5.31 0 0 1 1.945-.365c.696 0 1.337.087 1.961.191a15.86 15.86 0 0 1 1.588.332v8.456h-.001zm-5.954-4.206c0 .893.197 1.885.592 2.299.394.414.904.621 1.528.621.34 0 .663-.049.964-.142a2.75 2.75 0 0 0 .734-.332v-5.29a8.531 8.531 0 0 0-1.413-.18c-.778-.022-1.369.294-1.786.801-.411.507-.619 1.395-.619 2.223zm16.12 0c0 .719-.104 1.264-.318 1.858a4.389 4.389 0 0 1-.904 1.52c-.389.42-.854.746-1.402.975-.548.229-1.391.36-1.813.36-.422-.005-1.26-.125-1.802-.36a4.088 4.088 0 0 1-1.397-.975 4.486 4.486 0 0 1-.909-1.52 5.037 5.037 0 0 1-.329-1.858c0-.719.099-1.411.318-1.999.219-.588.526-1.09.92-1.509.394-.42.865-.741 1.402-.97a4.547 4.547 0 0 1 1.786-.338 4.69 4.69 0 0 1 1.791.338c.548.229 1.019.55 1.402.97.389.42.69.921.909 1.509.23.588.345 1.28.345 1.999h.001zm-2.191.005c0-.921-.203-1.689-.597-2.223-.394-.539-.948-.806-1.654-.806-.707 0-1.26.267-1.654.806-.394.539-.586 1.302-.586 2.223 0 .932.197 1.558.592 2.098.394.545.948.812 1.654.812.707 0 1.26-.272 1.654-.812.394-.545.592-1.166.592-2.098h-.001zm6.962 4.707c-3.511.016-3.511-2.822-3.511-3.274L113.583.926l2.142-.338v10.003c0 .256 0 1.88 1.375 1.885v1.792h-.001zm3.774 0h-2.153V5.072l2.153-.338v9.534zm-1.079-10.542c.718 0 1.304-.578 1.304-1.291 0-.714-.581-1.291-1.304-1.291-.723 0-1.304.578-1.304 1.291 0 .714.586 1.291 1.304 1.291zm6.431 1.013c.707 0 1.304.087 1.786.262.482.174.871.42 1.156.73.285.311.488.735.608 1.182.126.447.186.937.186 1.476v5.481a25.24 25.24 0 0 1-1.495.251c-.668.098-1.419.147-2.251.147a6.829 6.829 0 0 1-1.517-.158 3.213 3.213 0 0 1-1.178-.507 2.455 2.455 0 0 1-.761-.904c-.181-.37-.274-.893-.274-1.438 0-.523.104-.855.307-1.215.208-.36.487-.654.838-.883a3.609 3.609 0 0 1 1.227-.49 7.073 7.073 0 0 1 2.202-.103c.263.027.537.076.833.147v-.349c0-.245-.027-.479-.088-.697a1.486 1.486 0 0 0-.307-.583c-.148-.169-.34-.3-.581-.392a2.536 2.536 0 0 0-.915-.163c-.493 0-.942.06-1.353.131-.411.071-.75.153-1.008.245l-.257-1.749c.268-.093.668-.185 1.183-.278a9.335 9.335 0 0 1 1.66-.142l-.001-.001zm.181 7.731c.657 0 1.145-.038 1.484-.104v-2.168a5.097 5.097 0 0 0-1.978-.104c-.241.033-.46.098-.652.191a1.167 1.167 0 0 0-.466.392c-.121.169-.175.267-.175.523 0 .501.175.79.493.981.323.196.75.289 1.293.289h.001zM84.109 4.794c.707 0 1.304.087 1.786.262.482.174.871.42 1.156.73.29.316.487.735.608 1.182.126.447.186.937.186 1.476v5.481a25.24 25.24 0 0 1-1.495.251c-.668.098-1.419.147-2.251.147a6.829 6.829 0 0 1-1.517-.158 3.213 3.213 0 0 1-1.178-.507 2.455 2.455 0 0 1-.761-.904c-.181-.37-.274-.893-.274-1.438 0-.523.104-.855.307-1.215.208-.36.487-.654.838-.883a3.609 3.609 0 0 1 1.227-.49 7.073 7.073 0 0 1 2.202-.103c.257.027.537.076.833.147v-.349c0-.245-.027-.479-.088-.697a1.486 1.486 0 0 0-.307-.583c-.148-.169-.34-.3-.581-.392a2.536 2.536 0 0 0-.915-.163c-.493 0-.942.06-1.353.131-.411.071-.75.153-1.008.245l-.257-1.749c.268-.093.668-.185 1.183-.278a8.89 8.89 0 0 1 1.66-.142l-.001-.001zm.186 7.736c.657 0 1.145-.038 1.484-.104v-2.168a5.097 5.097 0 0 0-1.978-.104c-.241.033-.46.098-.652.191a1.167 1.167 0 0 0-.466.392c-.121.169-.175.267-.175.523 0 .501.175.79.493.981.318.191.75.289 1.293.289h.001zm8.682 1.738c-3.511.016-3.511-2.822-3.511-3.274L89.461.926l2.142-.338v10.003c0 .256 0 1.88 1.375 1.885v1.792h-.001z"
+				fill="#182359"/>
+			<path
+				d="M5.027 11.025c0 .698-.252 1.246-.757 1.644-.505.397-1.201.596-2.089.596-.888 0-1.615-.138-2.181-.414v-1.214c.358.168.739.301 1.141.397.403.097.778.145 1.125.145.508 0 .884-.097 1.125-.29a.945.945 0 0 0 .363-.779.978.978 0 0 0-.333-.747c-.222-.204-.68-.446-1.375-.725-.716-.29-1.221-.621-1.515-.994-.294-.372-.44-.82-.44-1.343 0-.655.233-1.171.698-1.547.466-.376 1.09-.564 1.875-.564.752 0 1.5.165 2.245.494l-.408 1.047c-.698-.294-1.321-.44-1.869-.44-.415 0-.73.09-.945.271a.89.89 0 0 0-.322.717c0 .204.043.379.129.524.086.145.227.282.424.411.197.129.551.299 1.063.51.577.24.999.464 1.268.671.269.208.466.442.591.704.125.261.188.569.188.924l-.001.002zm3.98 2.24c-.924 0-1.646-.269-2.167-.808-.521-.539-.782-1.281-.782-2.226 0-.97.242-1.733.725-2.288.483-.555 1.148-.833 1.993-.833.784 0 1.404.238 1.858.714.455.476.682 1.132.682 1.966v.682H7.357c.018.577.174 1.02.467 1.329.294.31.707.465 1.241.465.351 0 .678-.033.98-.099a5.1 5.1 0 0 0 .975-.33v1.026a3.865 3.865 0 0 1-.935.312 5.723 5.723 0 0 1-1.08.091l.002-.001zm-.231-5.199c-.401 0-.722.127-.964.381s-.386.625-.432 1.112h2.696c-.007-.491-.125-.862-.354-1.115-.229-.252-.544-.379-.945-.379l-.001.001zm7.692 5.092l-.252-.827h-.043c-.286.362-.575.608-.865.739-.29.131-.662.196-1.117.196-.584 0-1.039-.158-1.367-.473-.328-.315-.491-.761-.491-1.337 0-.612.227-1.074.682-1.386.455-.312 1.148-.482 2.079-.51l1.026-.032v-.317c0-.38-.089-.663-.266-.851-.177-.188-.452-.282-.824-.282-.304 0-.596.045-.876.134a6.68 6.68 0 0 0-.806.317l-.408-.902a4.414 4.414 0 0 1 1.058-.384 4.856 4.856 0 0 1 1.085-.132c.756 0 1.326.165 1.711.494.385.329.577.847.577 1.552v4.002h-.902l-.001-.001zm-1.88-.859c.458 0 .826-.128 1.104-.384.278-.256.416-.615.416-1.077v-.516l-.763.032c-.594.021-1.027.121-1.297.298s-.406.448-.406.814c0 .265.079.47.236.615.158.145.394.218.709.218h.001zm7.557-5.189c.254 0 .464.018.628.054l-.124 1.176a2.383 2.383 0 0 0-.559-.064c-.505 0-.914.165-1.227.494-.313.329-.47.757-.47 1.284v3.105h-1.262V7.218h.988l.167 1.047h.064c.197-.354.454-.636.771-.843a1.83 1.83 0 0 1 1.023-.312h.001zm4.125 6.155c-.899 0-1.582-.262-2.049-.787-.467-.525-.701-1.277-.701-2.259 0-.999.244-1.767.733-2.304.489-.537 1.195-.806 2.119-.806.627 0 1.191.116 1.692.349l-.381 1.015c-.534-.208-.974-.312-1.321-.312-1.028 0-1.542.682-1.542 2.046 0 .666.128 1.166.384 1.501.256.335.631.502 1.125.502a3.23 3.23 0 0 0 1.595-.419v1.101a2.53 2.53 0 0 1-.722.285 4.356 4.356 0 0 1-.932.086v.002zm8.277-.107h-1.268V9.506c0-.458-.092-.8-.277-1.026-.184-.226-.477-.338-.878-.338-.53 0-.919.158-1.168.475-.249.317-.373.848-.373 1.593v2.949h-1.262V4.801h1.262v2.122c0 .34-.021.704-.064 1.09h.081a1.76 1.76 0 0 1 .717-.666c.306-.158.663-.236 1.072-.236 1.439 0 2.159.725 2.159 2.175v3.873l-.001-.001zm7.649-6.048c.741 0 1.319.269 1.732.806.414.537.62 1.291.62 2.261 0 .974-.209 1.732-.628 2.275-.419.542-1.001.814-1.746.814-.752 0-1.336-.27-1.751-.811h-.086l-.231.704h-.945V4.801h1.262v1.987l-.021.655-.032.553h.054c.401-.591.992-.886 1.772-.886zm-.328 1.031c-.508 0-.875.149-1.098.448-.224.299-.339.799-.346 1.501v.086c0 .723.115 1.247.344 1.571.229.324.603.486 1.123.486.448 0 .787-.177 1.018-.532.231-.354.346-.867.346-1.536 0-1.35-.462-2.025-1.386-2.025l-.001.001zm3.244-.924h1.375l1.209 3.368c.183.48.304.931.365 1.354h.043c.032-.197.091-.436.177-.717.086-.281.541-1.616 1.364-4.004h1.364l-2.541 6.73c-.462 1.235-1.232 1.853-2.31 1.853-.279 0-.551-.03-.816-.091v-.999c.19.043.406.064.65.064.609 0 1.037-.353 1.284-1.058l.22-.559-2.385-5.941h.001z"
+				fill="#1D3657"/>
+		  </g>
+		</svg>
+	  </a>
+	</div>
+  </div>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-empty">
+  <div class="autocomplete-empty">
+	  No results matched your query 	<span class="empty-query">"{{ data.query }}"</span>
+  </div>
+</script>
+
+<script type="text/javascript">
+  jQuery(function () {
+	/* init Algolia client */
+	var client = algoliasearch(algolia.application_id, algolia.search_api_key);
+
+	/* setup default sources */
+	var sources = [];
+	jQuery.each(algolia.autocomplete.sources, function (i, config) {
+	  var suggestion_template = wp.template(config['tmpl_suggestion']);
+	  sources.push({
+		source: algoliaAutocomplete.sources.hits(client.initIndex(config['index_name']), {
+		  hitsPerPage: config['max_suggestions'],
+		  attributesToSnippet: [
+			'content:10'
+		  ],
+		  highlightPreTag: '__ais-highlight__',
+		  highlightPostTag: '__/ais-highlight__'
+		}),
+		templates: {
+		  header: function () {
+			return wp.template('autocomplete-header')({
+			  label: _.escape(config['label'])
+			});
+		  },
+		  suggestion: function (hit) {
+      if(hit.escaped === true) {
+        return suggestion_template(hit);
+      }
+      hit.escaped = true;
+
+			for (var key in hit._highlightResult) {
+			  /* We do not deal with arrays. */
+			  if (typeof hit._highlightResult[key].value !== 'string') {
+				continue;
+			  }
+			  hit._highlightResult[key].value = _.escape(hit._highlightResult[key].value);
+			  hit._highlightResult[key].value = hit._highlightResult[key].value.replace(/__ais-highlight__/g, '<em>').replace(/__\/ais-highlight__/g, '</em>');
+			}
+
+			for (var key in hit._snippetResult) {
+			  /* We do not deal with arrays. */
+			  if (typeof hit._snippetResult[key].value !== 'string') {
+				continue;
+			  }
+
+			  hit._snippetResult[key].value = _.escape(hit._snippetResult[key].value);
+			  hit._snippetResult[key].value = hit._snippetResult[key].value.replace(/__ais-highlight__/g, '<em>').replace(/__\/ais-highlight__/g, '</em>');
+			}
+
+			return suggestion_template(hit);
+		  }
+		}
+	  });
+
+	});
+
+	/* Setup dropdown menus */
+	jQuery(algolia.autocomplete.input_selector).each(function (i) {
+	  var $searchInput = jQuery(this);
+
+	  var config = {
+		debug: algolia.debug,
+		hint: false,
+		openOnFocus: true,
+		appendTo: 'body',
+		templates: {
+		  empty: wp.template('autocomplete-empty')
+		}
+	  };
+
+	  if (algolia.powered_by_enabled) {
+		config.templates.footer = wp.template('autocomplete-footer');
+	  }
+
+	  /* Instantiate autocomplete.js */
+	  var autocomplete = algoliaAutocomplete($searchInput[0], config, sources)
+	  .on('autocomplete:selected', function (e, suggestion) {
+		/* Redirect the user when we detect a suggestion selection. */
+		window.location.href = suggestion.permalink;
+	  });
+
+	  /* Force the dropdown to be re-drawn on scroll to handle fixed containers. */
+	  jQuery(window).scroll(function() {
+		if(autocomplete.autocomplete.getWrapper().style.display === "block") {
+		  autocomplete.autocomplete.close();
+		  autocomplete.autocomplete.open();
+		}
+	  });
+	});
+
+	jQuery(document).on("click", ".algolia-powered-by-link", function (e) {
+	  e.preventDefault();
+	  window.location = "https://www.algolia.com/?utm_source=WordPress&utm_medium=extension&utm_content=" + window.location.hostname + "&utm_campaign=poweredby";
+	});
+  });
+</script>
+
+		<script type="text/javascript">
+
+			/// GA Install
+			var analyticsFileTypes = [''];
+		    var analyticsSnippet = 'disabled';
+		    var analyticsEventTracking = 'enabled';
+
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+
+			/// Determine GA site ID
+			var host = window.location.hostname;
+
+			if (host === 'dev.thenewstack.io' || host === 'test01.thenewstack.io') {
+				ga('create', 'UA-20797087-4', 'auto'); /// Dev
+			}else{
+				ga('create', 'UA-50424056-1', 'auto'); /// Live
+			}
+
+
+
+						ga('set','dimension1','TC Currie');
+			
+			
+			ga('send','pageview');
+
+		</script>
+
+		<script type="text/javascript">
+			/// Heap Install
+			window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};
+			var n=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");
+			a.type="text/javascript",a.async=!0,a.src=(n?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";
+			var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(a,o);
+			for(var r=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},
+			p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],
+			c=0;c<p.length;c++)heap[p[c]]=r(p[c])};
+
+			heap.load("609441517");
+
+		</script>
+
+		<!-- Facebook Pixel Code -->
+		<script>
+			!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+			n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+			n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+			t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+			document,'script','https://connect.facebook.net/en_US/fbevents.js');
+			fbq('init', '1824226617806384');
+			fbq('track', "PageView");</script>
+			<noscript><img height="1" width="1" style="display:none"
+			src="https://www.facebook.com/tr?id=1824226617806384&ev=PageView&noscript=1"
+		/></noscript>
+		<!-- End Facebook Pixel Code -->
+
+	</head>
+
+	<body class="post-template-default single single-post postid-1355679 single-format-standard group-blog">
+
+		<div class="fake-scrollbar"></div>
+
+		<div id="navsearchform" class="search-pane search-pane-2017">
+			
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+
+<div class="search-2017 search-input-block">
+	<div class="search-2017-content">
+
+		<H2 class="search-instructions">SEARCH (ENTER TO SEE ALL RESULTS)</H2>
+
+		<div class="menu-close"></div>
+
+		<div class="search-input-wrap">
+
+			<img class="search-cancel" src="https://cdn.thenewstack.io/static/img/search-cancel-icon.png">
+			<input
+				type="text"
+				class="search-input"
+				placeholder="Keyword, author, tag, etc."
+				autocomplete="off"
+				autocorrect="off"
+				spellcheck="false"
+			>
+
+			<div class="search-preview">
+
+				<H2 class="search-preview-header search-preview-stories-header" data-dataset="wp_posts_post">
+					STORIES <i class="fa fa-arrow-right"></i>
+				</H2>
+				<div class="search-preview-stories"></div>
+
+				<H2 class="search-preview-header search-preview-tags-header" data-dataset="wp_terms_post_tag">
+					TAGS <i class="fa fa-arrow-right"></i>
+				</H2>
+				<div class="search-preview-tags"></div>
+
+				<H2 class="search-preview-header search-preview-authors-header" data-dataset="wp_users">
+					AUTHORS <i class="fa fa-arrow-right"></i>
+				</H2>
+				<div class="search-preview-authors"></div>
+
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+
+
+<div class="search-filter-nav">
+	<a href="#" class="search-filter-option search-filter-option-stories search-filter-option-active" data-dataset="wp_posts_post">STORIES</a>
+	<a href="#" class="search-filter-option search-filter-option-tags" data-dataset="wp_terms_post_tag">TAGS</a>
+	<a href="#" class="search-filter-option search-filter-option-authors" data-dataset="wp_users">AUTHORS</a>
+</div>
+
+
+
+<div class="search-2017 search-popular">
+	<div class="search-2017-content padding-top-0">
+
+		<div class="search-default">
+			<H2>POPULAR TOPICS</H2>
+			<div class="search-default-list">
+			<a href="/tag/analysis">Analysis</a><br><a href="/tag/podcasts">Podcasts</a><br><a href="/tag/events">Events</a><br><a href="/tag/news">News</a><br><a href="/tag/the-new-stack-makers">The New Stack Makers</a><br><a href="/tag/interviews">Interviews</a><br><a href="/tag/open-source">Open Source</a><br><a href="/tag/contributed">Contributed</a><br><a href="/tag/tutorials">Tutorials</a><br><a href="/tag/research">Research</a><br>			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<div class="search-2017 search-2017-light">
+	<div class="search-2017-content">
+
+		<div class="search-results">
+			<div class="search-results-list clearfix"></div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<script id="search-result-story-card" type="x-template">
+	<div class="normalstory-box">
+
+		<div class="commentcloud">
+			<h5 class="links">
+				<a href="***permalink***/#disqus_thread">+</a>
+			</h5>
+		</div>
+
+		<a href="***permalink***" class="athumbnail">
+			<div class="normalstory-overlay" style="display: none;">
+				<img src="https://cdn.thenewstack.io/dev/media/2016/01/Podcasts-Overlay-Context.svg">
+			</div>
+			<img width="290" height="120" src="***thumbnail***" class="attachment-normal size-normal wp-post-image wp-stateless-item" alt="" data-image-size="normal">
+		</a>
+
+		<header class="title-row">
+
+			<h4>
+				***cats***
+			</h4>
+
+			<h2 class="small">
+				<a href="***permalink***">***title***</a>
+			</h2>
+
+			<h4 class="timestamp">
+				***date***, by
+				<span class="links">
+					***bylines***
+				</span>
+			</h4>
+
+		</header>
+
+	</div>
+</script>
+
+<script type="text/javascript">
+
+	var $ = jQuery;
+
+	/// dev.thenewstack.io
+	//var client = algoliasearch('TBTLJDRAYW', 'b272d37c85243e2e30ac4867e9dbcd58');
+	/// thenewstack.io
+	var client = algoliasearch('TR8Q1WH2YG', '4eb191af6de81c46c3e14fde0d594bf3');
+
+	function debounce(func, wait, immediate) {
+		var timeout;
+		return function() {
+			var context = this, args = arguments;
+			var later = function() {
+				timeout = null;
+				if (!immediate) func.apply(context, args);
+			};
+			var callNow = immediate && !timeout;
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+			if (callNow) func.apply(context, args);
+		};
+	};
+
+	function searchPreview(query) {
+
+		if (!query) return;
+
+		$('.search-preview').animate({
+			scrollTop : 0
+		}, 0);
+
+		$('.search-preview-stories').empty();
+		$('.search-preview-tags').empty();
+		$('.search-preview-authors').empty();
+
+		$('.search-popular').hide();
+
+		client.initIndex('wp_posts_post').search({
+			query : query,
+			hitsPerPage : 3
+		}, function(error, content) {
+
+			if (error) console.log(error);
+
+			$.each(content.hits, function(index, hit) {
+				var result = '<a href="' + hit.permalink + '" class="search-preview-result">' + hit.post_title + '</a>';
+				$('.search-preview-stories').append(result);
+			});
+
+			$('.search-preview').show();
+
+		});
+
+		client.initIndex('wp_terms_post_tag').search({
+			query : query,
+			hitsPerPage : 3
+		}, function(error, content) {
+
+			if (error) console.log(error);
+
+			$.each(content.hits, function(index, hit) {
+				var result = '<a href="' + hit.permalink + '" class="search-preview-result">' + hit.name + '</a>';
+				$('.search-preview-tags').append(result);
+			});
+
+			$('.search-preview').show();
+
+		});
+
+		client.initIndex('wp_users').search({
+			query : query,
+			hitsPerPage : 3
+		}, function(error, content) {
+
+			if (error) console.log(error);
+
+			$.each(content.hits, function(index, hit) {
+				var result = '<a href="' + hit.posts_url + '" class="search-preview-result">' + hit.display_name + '</a>';
+				$('.search-preview-authors').append(result);
+			});
+
+			$('.search-preview').show();
+
+		});
+
+	}
+
+	function searchResults(dataset, query) {
+
+		if (!query) return;
+
+		//if (!dataset) dataset = 'wp_posts_post_by_date';
+		if (!dataset) dataset = 'wp_posts_post';
+		index = client.initIndex(dataset);
+
+		$('.search-preview-stories').empty();
+		$('.search-preview-tags').empty();
+		$('.search-preview-authors').empty();
+		$('.search-results-list').empty();
+
+		$('.search-popular').hide();
+		$('.search-preview').hide();
+
+		$('.search-filter-option').removeClass('search-filter-option-active');
+
+		var filterTarget = 'stories';
+		if (dataset === 'wp_posts_post') filterTarget = 'stories';
+		if (dataset === 'wp_terms_post_tag') filterTarget = 'tags';
+		if (dataset === 'wp_users') filterTarget = 'authors';
+		$('.search-filter-option-' + filterTarget).addClass('search-filter-option-active');
+
+		index.search(query, function(error, content) {
+
+			if (error) console.log(error);
+
+			$.each(content.hits, function(i, hit) {
+
+				if (dataset === 'wp_posts_post') {
+
+					var categories = hit.taxonomies.category;
+
+					$(categories).each(function(index,cat) {
+
+						if (cat === 'eBook Series Article') {
+							categories.splice(index, 1);
+						}
+
+						if (cat === 'Top Stories') {
+							categories.splice(index, 1);
+						}
+
+					});
+
+					var numCats = categories.length;
+					var cats = '';
+
+					$(hit.taxonomies.category).each(function(index, cat) {
+
+						if (index == (numCats - 1)) {
+							var endString = '</a>';
+						} else {
+							var endString = ' / </a>';
+						}
+
+						cats = cats + '<a href="/category/' + cat + '/" alt="View all posts in ' + cat + '">'+ cat + endString;
+
+					});
+
+					var tags = hit.taxonomies.post_tag;
+					if (tags && tags.indexOf('Sponsored') !== -1) {
+						cats = cats + ' / <a href="/tag/sponsored">Sponsored</a>';
+					}
+
+					var result = $('#search-result-story-card').html();
+					result = result.split('***permalink***').join(hit.permalink);
+					result = result.split('***cats***').join(cats);
+					result = result.split('***title***').join(hit.post_title);
+					result = result.split('***thumbnail***').join(hit.images.thumbnail.url.replace('150x150','290x120'));
+
+					var date = new Date(hit.post_date * 1000);
+					var formattedDate = date.format('d M Y h:ia');
+					result = result.split('***date***').join(formattedDate);
+
+					var authors = hit.taxonomies.author;
+					var authorsHTML = '';
+
+					$.each(authors, function(i, authorSlug) {
+
+						authorSlug = authorSlug.toLowerCase().replace(' ', '-');
+						var authorURL = 'https://thenewstack.io/author/' + authorSlug + '/';
+
+						var userIndex = client.initIndex('wp_users');
+						userIndex.search('', {
+							facetFilters : 'posts_url:' + authorURL
+						}, function(error, doc) {
+
+							var authorDisplayName = doc.hits[0].display_name;
+
+							if (authorsHTML === '') {
+								authorsHTML += '<a href="' + authorURL + '" class="author url fn" rel="author">' + authorDisplayName + '</a> '
+							} else {
+								authorsHTML += ' and <a href="' + authorURL + '" class="author url fn" rel="author">' + authorDisplayName + '</a> '
+							}
+
+							if (i + 1 === authors.length) {
+								result = result.split('***bylines***').join(authorsHTML);
+								$('.search-results-list').append(result);
+						    }
+
+						});
+
+					});
+
+				}
+
+				if (dataset === 'wp_terms_post_tag') {
+					var result = '<a href="' + hit.permalink + '" class="search-result-tag">' + hit.name + '</a>';
+					$('.search-results-list').append(result);
+				}
+
+				if (dataset === 'wp_users') {
+					var result = '<a href="' + hit.posts_url + '">' + hit.display_name + '</a><br>';
+					$('.search-results-list').append(result);
+				}
+
+			});
+
+			$('.search-results-list').show();
+			$('.search-filter-nav').show();
+			$('.search-results').show();
+
+		});
+
+	}
+
+	function clearCancel() {
+
+		var query = $('.search-input').val();
+		$('.search-input').focus();
+
+		if (query) {
+
+			$('.search-cancel').css({ opacity : 0.5 });
+
+		} else {
+
+			$('.search-cancel').css({ opacity : 0 });
+
+			$('.search-popular').show();
+			$('.search-preview').hide();
+			$('.search-results').hide();
+			$('.search-filter-nav').hide();
+
+			$('.search-preview-stories').empty();
+			$('.search-preview-tags').empty();
+			$('.search-preview-authors').empty();
+			$('.search-results-list').empty();
+
+		}
+
+	}
+
+
+
+	$(document).ready(function() {
+
+
+
+		//$('.search-input').focus();
+		var currentPreviewHighlightItem = -1;
+
+		var existingQuery = $('.search-input').val();
+		if (existingQuery)  {
+			$('.search-popular').show();
+			$('.search-cancel').css({ opacity : 0.5 });
+			currentPreviewHighlightItem = -1;
+			searchPreview(existingQuery);
+		}
+
+
+
+		$('.search-input').on('click', function() {
+			var query = $(this).val();
+			return searchPreview(query);
+		});
+
+		$('.search-input').on('keyup', function() {
+			if (event.which == 40 || event.which == 38) return;
+			clearCancel();
+		});
+
+		$('.search-input').on('keyup', debounce(function(event) {
+
+			if (event.which == 40 || event.which == 38) return;
+
+			var query = $(this).val();
+
+			currentPreviewHighlightItem = -1;
+
+			if (event.which == 13) {
+
+				var $activePreviewResult = $('.search-preview-highlight');
+
+				if ($activePreviewResult.length > 0) {
+
+					var url = $activePreviewResult.attr('href');
+					var dataSet = $activePreviewResult.attr('data-dataset');
+
+					if (dataSet) {
+						return searchResults(dataSet, query);
+					}
+
+					location.href = url;
+
+					return;
+
+				} else {
+
+					return searchResults(null, query);
+
+				}
+
+			} else {
+
+				return searchPreview(query);
+
+			}
+
+		}, 500));
+
+
+
+		$('.search-cancel').on('click', function() {
+			$('.search-input').val('');
+			$('.search-results-list').empty();
+			clearCancel();
+		});
+
+
+
+		$('.search-filter-option').on('click', function(event) {
+			event.preventDefault();
+			var dataset = $(this).attr('data-dataset');
+			var query = $('.search-input').val();
+			searchResults(dataset, query);
+		});
+
+
+
+		$(document).on('keydown', function(event) {
+
+			if (event.which != 40 && event.which != 38) return;
+
+			$('.search-preview-header').removeClass('search-preview-highlight');
+			$('.search-preview-result').removeClass('search-preview-highlight');
+
+			var targets = [];
+
+			targets.push($('.search-preview-stories-header'));
+			$('.search-preview-stories').children().each(function(){
+				targets.push($(this));
+			});
+
+			targets.push($('.search-preview-tags-header'));
+			$('.search-preview-tags').children().each(function(){
+				targets.push($(this));
+			});
+
+			targets.push($('.search-preview-authors-header'));
+			$('.search-preview-authors').children().each(function(){
+				targets.push($(this));
+			});
+
+			if (event.which == 40) currentPreviewHighlightItem++;
+			if (event.which == 38) currentPreviewHighlightItem--;
+
+			if (currentPreviewHighlightItem >= targets.length) {
+				currentPreviewHighlightItem = targets.length - 1;
+			}
+
+			if (currentPreviewHighlightItem < 0) {
+				currentPreviewHighlightItem = 0;
+			}
+
+			targets[currentPreviewHighlightItem].addClass('search-preview-highlight');
+
+		});
+
+		$('.search-preview-header').on('click', function(event) {
+			event.preventDefault();
+			var dataset = $(this).attr('data-dataset');
+			var query = $('.search-input').val();
+			searchResults(dataset, query);
+		});
+
+
+
+	});
+
+</script>
+		</div>
+
+		<div class="overlay"></div>
+
+		
+
+
+<div class="nav-2018">
+	<div class="nav-2018-block">
+		
+
+
+<div class="nav-2018-channels clearfix">
+
+	<a class="nav-2018-logo" href="https://thenewstack.io/" rel="home">
+		<img src="https://cdn.thenewstack.io/static/img/The-New-Stack-Logo.svg">
+	</a>
+
+	<nav class="nav-2018-channels-navigation" role="navigation">
+
+		<a class="skip-link screen-reader-text" href="#content">
+			Skip to content		</a>
+
+		<div class="menu-tns-nav-2018-primary-channels-container"><ul id="menu-tns-nav-2018-primary-channels" class="menu"><li id="menu-item-5771428" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5771428"><a href="https://thenewstack.io/ebooks/">Ebooks</a>
+<ul class="sub-menu">
+	<li id="menu-item-6575230" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6575230"><a href="https://thenewstack.io/ebooks/machine-learning/">Machine Learning</a></li>
+	<li id="menu-item-5895510" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5895510"><a href="https://thenewstack.io/ebooks/devops/">DevOps</a></li>
+	<li id="menu-item-5771432" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771432"><a href="https://thenewstack.io/ebooks/serverless/">Serverless</a></li>
+	<li id="menu-item-5771431" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771431"><a href="https://thenewstack.io/ebooks/microservices/">Microservices</a></li>
+	<li id="menu-item-5771430" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771430"><a href="https://thenewstack.io/ebooks/kubernetes/">Kubernetes Ecosystem</a></li>
+	<li id="menu-item-5771429" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771429"><a href="https://thenewstack.io/ebooks/docker-and-containers/">Docker Ecosystem</a></li>
+	<li id="menu-item-5771433" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771433"><a href="https://thenewstack.io/ebooks/">All Ebooks</a></li>
+</ul>
+</li>
+<li id="menu-item-5771434" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5771434"><a href="https://thenewstack.io/podcasts/">Podcasts</a>
+<ul class="sub-menu">
+	<li id="menu-item-5771435" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771435"><a href="https://thenewstack.io/podcasts/at-scale/">TNS @Scale Series</a></li>
+	<li id="menu-item-5771436" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771436"><a href="https://thenewstack.io/podcasts/analysts/">TNS Analysts Round Table</a></li>
+	<li id="menu-item-5771437" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771437"><a href="https://thenewstack.io/podcasts/context/">TNS Context Weekly News</a></li>
+	<li id="menu-item-5771438" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771438"><a href="https://thenewstack.io/podcasts/makers/">TNS Makers Interviews</a></li>
+	<li id="menu-item-5771439" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771439"><a href="https://thenewstack.io/podcasts/">All Podcasts</a></li>
+</ul>
+</li>
+<li id="menu-item-5771440" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771440"><a href="https://thenewstack.io/events/">Events</a></li>
+<li id="menu-item-5771441" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771441"><a href="https://thenewstack.io/newsletter/">Newsletter</a></li>
+</ul></div>
+	</nav>
+
+	
+
+<nav class="nav-2018-overflow-navigation" role="navigation">
+	<div class="menu-tns-nav-2018-primary-overflow-container"><ul id="menu-tns-nav-2018-primary-overflow" class="menu"><li id="menu-item-5771463" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-5771463"><a href="https://thenewstack.io/">â¢ â¢ â¢</a>
+<ul class="sub-menu">
+	<li id="menu-item-5771464" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5771464"><a href="https://thenewstack.io/ebooks/">Ebooks</a>
+	<ul class="sub-menu">
+		<li id="menu-item-6995401" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6995401"><a href="https://thenewstack.io/ebooks/machine-learning/">Machine Learning</a></li>
+		<li id="menu-item-6995402" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6995402"><a href="https://thenewstack.io/ebooks/devops/">DevOps</a></li>
+		<li id="menu-item-5771468" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771468"><a href="https://thenewstack.io/ebooks/serverless/">Serverless</a></li>
+		<li id="menu-item-5771467" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771467"><a href="https://thenewstack.io/ebooks/microservices/">Microservices</a></li>
+		<li id="menu-item-5771466" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771466"><a href="https://thenewstack.io/ebooks/kubernetes/">Kubernetes Ecosystem</a></li>
+		<li id="menu-item-5771465" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771465"><a href="https://thenewstack.io/ebooks/docker-and-containers/">Docker Ecosystem</a></li>
+		<li id="menu-item-5771469" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771469"><a href="https://thenewstack.io/ebooks/">All Ebooks</a></li>
+	</ul>
+</li>
+	<li id="menu-item-5771470" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5771470"><a href="https://thenewstack.io/podcasts/">Podcasts</a>
+	<ul class="sub-menu">
+		<li id="menu-item-5771471" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771471"><a href="https://thenewstack.io/podcasts/at-scale/">TNS @Scale Series</a></li>
+		<li id="menu-item-5771472" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771472"><a href="https://thenewstack.io/podcasts/analysts/">TNS Analysts Round Table</a></li>
+		<li id="menu-item-5771473" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771473"><a href="https://thenewstack.io/podcasts/context/">TNS Context Weekly News</a></li>
+		<li id="menu-item-5771474" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771474"><a href="https://thenewstack.io/podcasts/makers/">TNS Makers Interviews</a></li>
+		<li id="menu-item-5771475" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771475"><a href="https://thenewstack.io/podcasts/">All Podcasts</a></li>
+	</ul>
+</li>
+	<li id="menu-item-5771476" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771476"><a href="https://thenewstack.io/events/">Events</a></li>
+	<li id="menu-item-5771477" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771477"><a href="https://thenewstack.io/newsletter/">Newsletter</a></li>
+</ul>
+</li>
+</ul></div></nav>
+
+
+<script>
+
+	$(document).ready(function() {
+
+		function bindOverflowNavMobile() {
+
+			///
+			/// Primary Option
+			///
+
+			var $option = $('#menu-tns-nav-2018-primary-overflow > li.menu-item-has-children');
+
+			$option.unbind();
+
+			$option.children('a').on('click', function(event) {
+				event.preventDefault();
+			});
+
+			$option.on('click', function(event) {
+
+				if (window.navIsHidden) return;
+
+				$('.sub-menu').scrollTop(0);
+				$(this).scrollTop(0);
+
+				var windowWidth = $(window).width();
+				var $subnav = $(this).find('> ul.sub-menu');
+				var left = $(this).offset().left;
+
+				if ($subnav.is(':visible')) {
+
+					$(this).children('a').css({ color : '#00AFF4' });
+
+					/// Hide
+					window.navopen = false
+
+					$subnav.css({ display : 'none' });
+
+					$('body').css({
+						position : 'relative',
+						height : 'auto',
+						overflow : 'auto'
+					});
+
+					var bodyScrollTop = $('body').attr('data-scrolltop');
+					$('body').scrollTop(bodyScrollTop);
+
+					window.hideNav = true;
+
+					return;
+
+				} else {
+
+					$('.sub-menu').hide();
+					$('#menu-tns-nav-2018-primary-channels li.menu-item-has-children > a')
+					.css({ color : '#00AFF4' });
+
+					$(this).children('a').css({ color : '#367499' });
+					$subnav.show();
+
+					/// Show all the sub-subs ...
+					$option.find('.sub-menu').show();
+
+					/// Hide any sub-subs that are on the "closed" list in localStorage ...
+					var closed = localStorage.getItem('nav-2018-overflow-closed');
+					if (closed) {
+						closed = JSON.parse(closed);
+						$.each(closed, function(index, value) {
+							var $subOption = $('#' + value);
+							var $subSub = $subOption.find('> .sub-menu');
+							$subSub.hide();
+							$subOption.find('> a').addClass('nav-2018-overflow-navigation-closed');
+						});
+					}
+
+					/// Show
+					window.navopen = true
+
+					var css = {
+						display : 'block'
+					};
+
+					css.width = windowWidth;
+					css.height = $(window).height() - 45;
+					css.left = left * -1;
+					css.right = 'auto';
+					css.textAlign = 'left';
+					$subnav.css(css);
+
+					var bodyScrollTop = $(window).scrollTop();
+					$('body').attr('data-scrolltop', bodyScrollTop);
+
+					$('body').css({
+						position : 'fixed',
+						height : '100%',
+						overflow : 'hidden'
+					});
+
+					window.hideNav = false;
+
+				}
+
+			});
+
+
+
+			///
+			/// Sub Option
+			///
+
+			var $subOption = $option.children('.sub-menu').children('.menu-item-has-children');
+
+			$subOption.on('click', function(event) {
+
+				if (window.navIsHidden) return;
+
+				event.preventDefault();
+				event.stopPropagation();
+
+				var $subSub = $(this).find('> .sub-menu');
+				var closedID = $(this).attr('id');
+				var closed = localStorage.getItem('nav-2018-overflow-closed');
+
+				if (closed) {
+					closed = JSON.parse(closed);
+				} else {
+					closed = [];
+				}
+
+				if (closed.indexOf(closedID) === -1) {
+					closed.push(closedID);
+					$subSub.hide();
+					$(this).find('> a').addClass('nav-2018-overflow-navigation-closed');
+				} else {
+					closed.splice(closed.indexOf(closedID), 1);
+					$subSub.show();
+					$(this).find('> a').removeClass('nav-2018-overflow-navigation-closed');
+				}
+
+				if (closed.length) {
+					localStorage.setItem('nav-2018-overflow-closed', JSON.stringify(closed));
+				} else {
+					localStorage.setItem('nav-2018-overflow-closed', '');
+				}
+
+			});
+
+
+
+		}
+
+		bindOverflowNavMobile();
+
+	});
+
+</script>
+
+</div>
+
+
+
+<script>
+
+	$(document).ready(function() {
+
+		function bindChannelsNavDesktop() {
+
+			$('body').css({
+				position : 'relative',
+				height : 'auto',
+				overflow : 'auto'
+			});
+
+			var $option = $('#menu-tns-nav-2018-primary-channels li.menu-item-has-children');
+
+			$option.unbind();
+
+			$option.on('mouseenter', function() {
+
+				if (window.navIsHidden) return;
+
+				window.navopen = true;
+
+				$(this).children('a').css({ color : '#367499' });
+
+				var $subnav = $(this).children('.sub-menu');
+				var left = $(this).offset().left;
+
+				var css = {
+					display : 'block'
+				};
+
+				if ((left + $subnav.width()) > $(window).width()) {
+					css.width = 240;
+					css.height = 'auto';
+					css.left = 'auto';
+					css.right = 20;
+					css.textAlign = 'right';
+					$subnav.css(css);
+				} else {
+					css.width = 240;
+					css.height = 'auto';
+					css.left = 0;
+					css.right = 'auto';
+					css.textAlign = 'left';
+					$subnav.css(css);
+				}
+
+				if (($subnav.height() + 46) >= $(window).height()) {
+					$subnav.css({ overflowY : 'auto' });
+				} else {
+					$subnav.css({ overflowY : 'hidden' });
+				}
+
+				$subnav.scrollTop(0);
+
+				/// ScrollBar hack
+				var scrollBarWidth = (window.innerWidth - $(window).width());
+
+				$('html').css({
+					paddingRight : scrollBarWidth + 'px',
+					overflow : 'hidden',
+				});
+
+				if (scrollBarWidth > 0) {
+					$('.nav-2018').css({ paddingRight : scrollBarWidth + 'px' });
+					$('.fake-scrollbar').show();
+				}
+
+			});
+
+			$option.on('mouseleave', function() {
+				$(this).children('a').css({ color : '#00AFF4' });
+				$(this).children('.sub-menu').css({ display : 'none' });
+				$('html').css({
+					paddingRight : 0,
+					overflow : 'auto'
+				});
+				$('.nav-2018').css({ paddingRight : 0 });
+				$('.fake-scrollbar').hide();
+				window.navopen = false
+			});
+
+			$option.on('click', function() {
+				if (window.navopen) {
+					$(this).trigger('mouseleave');
+				} else {
+					$(this).trigger('mouseenter');
+				}
+			});
+
+			$option.children('a').on('click', function(event) {
+				event.preventDefault();
+			});
+
+		}
+
+		function bindChannelsNavMobile() {
+
+			var $option = $('#menu-tns-nav-2018-primary-channels li.menu-item-has-children');
+
+			$option.unbind();
+
+			$option.children('a').on('click', function(event) {
+				event.preventDefault();
+			});
+			
+			$option.on('click', function(event) {
+
+				if (window.navIsHidden) return;
+
+				$('.sub-menu').scrollTop(0);
+				$(this).scrollTop(0);
+
+				var windowWidth = $(window).width();
+				var $subnav = $(this).children('.sub-menu');
+				var left = $(this).offset().left;
+
+				if ($subnav.is(':visible')) {
+
+					/// Hide
+					$subnav.css({
+						overflowY: 'hidden',
+						display : 'none'
+					});
+
+					$('#menu-tns-nav-2018-primary-channels li.menu-item-has-children > a')
+					.css({ color : '#00AFF4' });
+
+					$(this).children('a').css({ color : '#00AFF4' });
+
+					$('body').css({
+						position : 'relative',
+						height : 'auto',
+						overflow : 'auto'
+					});
+
+					var bodyScrollTop = $('body').attr('data-scrolltop');
+					$('body').scrollTop(bodyScrollTop);
+
+					window.hideNav = true;
+
+					return;
+
+				} else {
+
+					$('.sub-menu').hide();
+
+					/// Show
+					$('#menu-tns-nav-2018-primary-channels li.menu-item-has-children > a')
+					.css({ color : '#00AFF4' });
+
+					$('#menu-tns-nav-2018-primary-overflow > li.menu-item-has-children > a')
+					.css({ color : '#00AFF4' });
+
+					$(this).children('a').css({ color : '#367499' });
+
+					var css = {};
+					css.display = 'block';
+					css.width = windowWidth;
+					css.height = $(window).height() - 45;
+					css.left = left * -1;
+					css.right = 'auto';
+					css.textAlign = 'left';
+					css.overflowY = 'scroll';
+					$subnav.css(css);
+
+					var bodyScrollTop = $(window).scrollTop();
+					$('body').attr('data-scrolltop', bodyScrollTop);
+
+					$('body').css({
+						position : 'fixed',
+						height : '100%',
+						overflow : 'hidden'
+					});
+
+					window.hideNav = false;
+
+				}
+
+			});
+
+		}
+
+		function bindChannelsNav() {
+			if ($(window).width() < 639) {
+				bindChannelsNavMobile();
+			} else {
+				bindChannelsNavDesktop();
+			}
+		}
+
+		$(window).on('resize', bindChannelsNav);
+
+		bindChannelsNav();
+
+	});
+
+</script>
+
+
+
+<style>
+
+	.nav-2018-channels {
+		width: 100%;
+		height: 45px;
+	}
+
+	.nav-2018-logo {
+		float: left;
+		margin: 10px 20px 0px 20px;
+	}
+
+	.nav-2018-logo img {
+		height: 16px;
+	}
+
+</style>
+		
+
+
+<div class="nav-2018-topics clearfix">
+
+	<div class="nav-2018-topics-block">
+
+		<nav class="nav-2018-topics-navigation" role="navigation">
+
+			<a class="skip-link screen-reader-text" href="#content">
+				Skip to content			</a>
+
+			<div class="menu-tns-nav-2018-primary-topics-container"><ul id="menu-tns-nav-2018-primary-topics" class="menu"><li id="menu-item-5771442" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-5771442"><a href="https://thenewstack.io/">Architecture</a>
+<ul class="sub-menu">
+	<li id="menu-item-5771443" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771443"><a href="https://thenewstack.io/category/cloud-native/">Cloud Native</a></li>
+	<li id="menu-item-5771444" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771444"><a href="https://thenewstack.io/category/containers/">Containers</a></li>
+	<li id="menu-item-5771445" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771445"><a href="https://thenewstack.io/category/edge-iot/">Edge/IoT</a></li>
+	<li id="menu-item-5771446" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771446"><a href="https://thenewstack.io/category/microservices/">Microservices</a></li>
+	<li id="menu-item-5771447" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771447"><a href="https://thenewstack.io/category/networking/">Networking</a></li>
+	<li id="menu-item-5771448" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771448"><a href="https://thenewstack.io/category/serverless/">Serverless</a></li>
+	<li id="menu-item-5771449" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771449"><a href="https://thenewstack.io/category/storage/">Storage</a></li>
+</ul>
+</li>
+<li id="menu-item-5771450" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-5771450"><a href="https://thenewstack.io/">Development</a>
+<ul class="sub-menu">
+	<li id="menu-item-5771451" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771451"><a href="https://thenewstack.io/category/application-security/">Application Security</a></li>
+	<li id="menu-item-5771452" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771452"><a href="https://thenewstack.io/category/cloud-services/">Cloud Services</a></li>
+	<li id="menu-item-5771453" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771453"><a href="https://thenewstack.io/category/data/">Data</a></li>
+	<li id="menu-item-5771454" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771454"><a href="https://thenewstack.io/category/machine-learning/">Machine Learning</a></li>
+	<li id="menu-item-5771455" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771455"><a href="https://thenewstack.io/category/programming-languages/">Programming Languages</a></li>
+</ul>
+</li>
+<li id="menu-item-5771456" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-5771456"><a href="https://thenewstack.io/">Operations</a>
+<ul class="sub-menu">
+	<li id="menu-item-5771457" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771457"><a href="https://thenewstack.io/category/ci-cd/">CI/CD</a></li>
+	<li id="menu-item-5771458" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771458"><a href="https://thenewstack.io/category/culture/">Culture</a></li>
+	<li id="menu-item-5771459" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771459"><a href="https://thenewstack.io/category/devops/">DevOps</a></li>
+	<li id="menu-item-5771460" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771460"><a href="https://thenewstack.io/category/kubernetes/">Kubernetes</a></li>
+	<li id="menu-item-5771461" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771461"><a href="https://thenewstack.io/category/monitoring/">Monitoring</a></li>
+	<li id="menu-item-5771462" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771462"><a href="https://thenewstack.io/category/tools/">Tools</a></li>
+</ul>
+</li>
+</ul></div>
+		</nav>
+
+	</div>
+
+	<div class="nav-2018-search-icon">
+		<img src="https://storage.googleapis.com/cdn.thenewstack.io/static/img/Icons/search-icon.svg">
+	</div>
+
+</div>
+
+
+
+<script>
+
+	$(document).ready(function() {
+
+		function bindTopicsNavDesktop() {
+
+			$('body').css({
+				position : 'relative',
+				height : 'auto',
+				overflow : 'auto'
+			});
+
+			var $option = $('#menu-tns-nav-2018-primary-topics li.menu-item-has-children');
+
+			$option.unbind();
+
+			$option.on('mouseenter', function() {
+
+				if (window.navIsHidden) return;
+
+				window.navopen = true;
+
+				$(this).children('a').css({ color : '#FFFFFF' });
+
+				var $subnav = $(this).children('.sub-menu');
+				var left = $(this).offset().left;
+
+				var css = {
+					display : 'block'
+				};
+
+				if ((left + $subnav.width()) > $(window).width()) {
+					css.width = 285;
+					css.height = 'auto';
+					css.left = 'auto';
+					css.right = 0;
+					css.textAlign = 'right';
+					$subnav.css(css);
+				} else {
+					css.width = 285;
+					css.height = 'auto';
+					css.left = 0;
+					css.right = 'auto';
+					css.textAlign = 'left';
+					$subnav.css(css);
+				}
+
+				if (($subnav.height() + 91) >= $(window).height()) {
+					$subnav.css({ overflowY : 'auto' });
+				} else {
+					$subnav.css({ overflowY : 'hidden' });
+				}
+
+				$subnav.scrollTop(0);
+
+
+				/// ScrollBar hack
+				var scrollBarWidth = (window.innerWidth - $(window).width());
+
+				$('html').css({
+					paddingRight : scrollBarWidth + 'px',
+					overflow : 'hidden',
+				});
+
+				if (scrollBarWidth > 0) {
+					$('.nav-2018').css({ paddingRight : scrollBarWidth + 'px' });
+					$('.fake-scrollbar').show();
+				}
+
+
+			});
+
+			$option.on('mouseleave', function() {
+				$(this).children('a').css({ color : '#FFFFFF' });
+				$(this).children('.sub-menu').css({ display : 'none' });
+				$('html').css({
+					paddingRight : 0,
+					overflow : 'auto'
+				});
+				$('.nav-2018').css({ paddingRight : 0 });
+				$('.fake-scrollbar').hide();
+				window.navopen = false
+			});
+
+			$option.on('click', function() {
+				if (window.navopen) {
+					$(this).trigger('mouseleave');
+				} else {
+					$(this).trigger('mouseenter');
+				}
+			});
+
+			$option.children('a').on('click', function(event) {
+				event.preventDefault();
+			});
+
+		}
+
+		function bindTopicsNavMobile() {
+
+			var $option = $('#menu-tns-nav-2018-primary-topics li.menu-item-has-children');
+
+			$option.unbind();
+
+			$option.children('a').on('click', function(event) {
+				event.preventDefault();
+			});
+
+			$option.on('click', function(event) {
+
+				if (window.navIsHidden) return;
+
+				$('.sub-menu').scrollTop(0);
+				$(this).scrollTop(0);
+
+				var windowWidth = $(window).width();
+				var $subnav = $(this).children('.sub-menu');
+				var left = $(this).offset().left;
+
+				if ($subnav.is(':visible')) {
+
+					/// Hide
+					window.navopen = false
+
+					$subnav.css({
+						overflowY: 'hidden',
+						display : 'none'
+					});
+
+					$('#menu-tns-nav-2018-primary-topics li.menu-item-has-children > a')
+					.css({ color : '#FFFFFF' });
+
+					$(this).children('a').css({ color : '#FFFFFF' });
+
+					$('body').css({
+						position : 'relative',
+						height : 'auto',
+						overflow : 'auto'
+					});
+
+					var bodyScrollTop = $('body').attr('data-scrolltop');
+					$('body').scrollTop(bodyScrollTop);
+
+					window.hideNav = true;
+
+					return;
+
+				} else {
+
+					$('.sub-menu').hide();
+
+					/// Show
+					window.navopen = true
+
+					$('#menu-tns-nav-2018-primary-topics li.menu-item-has-children > a')
+					.css({ color : '#FFFFFF' });
+
+					$(this).children('a').css({ color : '#FFFFFF' });
+
+					var css = {};
+					css.display = 'block';
+					css.width = windowWidth;
+					css.height = $(window).height() - 45;
+					css.left = left * -1;
+					css.right = 'auto';
+					css.textAlign = 'left';
+					css.overflowY = 'auto';
+					$subnav.css(css);
+
+					var bodyScrollTop = $(window).scrollTop();
+					$('body').attr('data-scrolltop', bodyScrollTop);
+
+					$('body').css({
+						position : 'fixed',
+						height : '100%',
+						overflow : 'hidden'
+					});
+
+					window.hideNav = false;
+
+				}
+
+			});
+
+		}
+
+		function bindTopicsNav() {
+			if ($(window).width() < 639) {
+				bindTopicsNavMobile();
+			} else {
+				bindTopicsNavDesktop();
+			}
+		}
+
+		$(window).on('resize', bindTopicsNav);
+
+		bindTopicsNav();
+
+	});
+
+</script>
+
+
+
+<style>
+
+	.nav-2018-topics {
+		position: relative;
+		width: 100%;
+		height: 45px;
+	}
+
+	.nav-2018-topics-block {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 45px;
+		bottom: 0px;
+		background: #337ACF;
+	}
+
+	.nav-2018-search-icon {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		width: 45px;
+		height: 45px;
+		padding: 10px;
+		background: #337ACF;
+		cursor: pointer;
+	}
+
+	.nav-2018-search-icon img {
+		width: 25px;
+		height: 25px;
+	}
+
+</style>
+	</div>
+	<div class="nav-2018-bg">
+		<div class="nav-2018-bg-left"></div>
+		<div class="nav-2018-bg-right"></div>
+	</div>
+</div>
+
+<div class="nav-2018-placeholder">&nbsp;</div>
+
+
+
+<script>
+
+	$(document).ready(function() {
+
+		var previousBodyWidth = $('body').width();
+
+		window.scrollBarFix = function() {
+
+			var $body = $('body');
+			var currentBodyWidth = $body.width();
+	        if (currentBodyWidth != previousBodyWidth) {
+	            previousBodyWidth = currentBodyWidth;
+	            $body.css("overflow", "hidden");
+	            var scrollBarWidth = $body.width() - currentBodyWidth;
+	            $body.css("overflow", "auto");
+	            $body.css("margin-left", scrollBarWidth + "px");
+	        }
+
+		}
+
+		var $nav = $('.nav-2018');
+		var lastScrollTop = 0;
+		var scrolled = false;
+		window.hideNav = true;
+		window.navIsHidden = false;
+
+		$(window).scroll(function(event) {
+
+			var scrollTop = $(window).scrollTop();
+			if (scrollTop <= 90) return;
+
+			/// Down
+			if (scrollTop > lastScrollTop) {
+				window.navIsHidden = true;
+				$nav.css({ transform : 'translate(0px, -85px)' });
+				scrolled = true;
+			}
+
+			/// Up
+			if (scrollTop < lastScrollTop) {
+				window.navIsHidden = false;
+				$nav.css({ transform : 'translate(0px, 0px)' });
+				scrolled = false;
+			}
+
+			lastScrollTop = scrollTop;
+
+		});
+
+		/// GA For Nav Usage
+		$('.nav-2018 a').on('click', function($event) {
+			ga('send', 'event', 'nav-click', $event.target.pathname);
+		});
+
+	});
+
+</script>
+
+
+
+<style>
+
+	.overlay-noscroll {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+		background: #000000;
+		opacity: 0.5;
+		z-index: 9996;
+		display: none;
+	}
+
+	.nav-2018 {
+		position: fixed;
+		width: 100%;
+		top: 0px;
+		background: #E5ECF3;
+		z-index: 9997;
+		transition: transform 333ms;
+	}
+
+	.nav-2018-hide {
+		-webkit-transform: translate(0px, -85px);
+		-moz-transform: translate(0px, -85px);
+		-ms-transform: translate(0px, -85px);
+		transform: translate(0px, -85px);
+	}
+
+	.nav-2018-placeholder {
+		width: 100%;
+		height: 90px;
+	}
+
+	.nav-2018-block {
+		width: 100%;
+		max-width: 900px;
+		height: 90px;
+		margin: 0px auto 0px auto;
+		background: #FFFFFF;
+	}
+
+	.nav-2018-bg {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		z-index: -1;
+		background: #D0D0D0;
+		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a8c1d8+0,6d89a6+100 */
+		background: #FFFFFF; /* Old browsers */
+		background: -moz-linear-gradient(top, #FFFFFF 0%, #6d89a6 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top, #FFFFFF 0%,#6d89a6 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom, #FFFFFF 0%,#6d89a6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#6d89a6',GradientType=0 ); /* IE6-9 */
+		background: #7F9CB5;
+	}
+
+	.nav-2018-bg-left {
+		position: absolute;
+		top: 50%;
+		left: 0px;
+		right: 50%;
+		bottom: 0px;
+		background: #A72259;
+	}
+
+	.nav-2018-bg-right {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		right: 0px;
+		bottom: 0px;
+		background: #2251A2;
+	}
+
+</style>
+
+	<!-- <a class="home-survey-banner" href="https://www.surveymonkey.com/r/TNS-ReaderSurvey2019-Banner" target="_blank">
+		<img class="home-survey-image-top" src="https://storage.googleapis.com/cdn.thenewstack.io/static/img/reader-survey-2019/2019ReaderSurvey-Graphic%402x.png">
+		<img class="home-survey-image-bottom" src="https://storage.googleapis.com/cdn.thenewstack.io/static/img/reader-survey-2019/2019ReaderSurvey-GiftCard%402x.png">
+	</a> -->
+
+	<div id="primary" class="content-area">
+
+		<main id="main" class="site-main" role="main">
+
+		
+<article id="1355679" class="post-1355679 post type-post status-publish format-standard has-post-thumbnail hentry category-programming-languages tag-analysis tag-open-source region-global">
+
+	<div id="post-date" style="display: none;">
+		2016-08-01 13:49:33	</div>
+
+	<div id="post-title" style="display: none;">
+		Innersource: Building Open Source Projects Behind Company Firewalls	</div>
+
+	<div id="post-tags" style="display: none;">
+		analysis,open-source,	</div>
+
+	<header class="entry-header">
+
+		<h4>
+	        <a href="https://thenewstack.io/category/programming-languages/" alt="View all posts in Programming Languages">Programming Languages</a>	    </h4>
+
+		<h1>Innersource: Building Open Source Projects Behind Company Firewalls</h1>
+
+		<h4 class="timestamp">
+		1 Aug 2016 1:49pm,
+
+		by <span class="links">
+			<a href="https://thenewstack.io/author/tc/" title="Posts by TC Currie" class="author url fn" rel="author">TC Currie</a>	 		</span>
+
+	    </h4>
+
+	</header>
+
+
+	<div class="postfeat">
+		<img width="640" height="480" src="https://cdn.thenewstack.io/media/2016/07/photo-1467321638755-7246fd0dc1f3.jpg" class="attachment-large size-large wp-post-image wp-stateless-item" alt="" data-image-size="large" data-stateless-media-bucket="cdn.thenewstack.io" data-stateless-media-name="media/2016/07/photo-1467321638755-7246fd0dc1f3.jpg" />	</div>
+
+
+	<div class="resp-container">
+
+		<div class="postshare">
+
+			<div class="social-header">
+
+				<!-- Simple Share Buttons Adder (7.5.19) simplesharebuttons.com --><div class="ssba-classic-2 ssba ssbp-wrap left ssbp--theme-1"><div style="text-align:left"><a data-site="" class="ssba_twitter_share" href="http://twitter.com/share?url=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/&amp;text=Innersource%3A%20Building%20Open%20Source%20Projects%20Behind%20Company%20Firewalls%20"  target=&quot;_blank&quot; ><img src="https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/buttons/somacro/twitter.png" style="width: 35px;" title="Twitter" class="ssba ssba-img" alt="Tweet about this on Twitter" /><div title="Twitter" class="ssbp-text">Twitter</div></a><a data-site="reddit" class="ssba_reddit_share" href="http://reddit.com/submit?url=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/&amp;title=Innersource: Building Open Source Projects Behind Company Firewalls"  target=&quot;_blank&quot; ><img src="https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/buttons/somacro/reddit.png" style="width: 35px;" title="Reddit" class="ssba ssba-img" alt="Share on Reddit" /><div title="Reddit" class="ssbp-text">Reddit</div></a><a data-site="" class="ssba_facebook_share" href="http://www.facebook.com/sharer.php?u=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/"  target="_blank" ><img src="https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/buttons/somacro/facebook.png" style="width: 35px;" title="Facebook" class="ssba ssba-img" alt="Share on Facebook" /><div title="Facebook" class="ssbp-text">Facebook</div></a><a data-site="linkedin" class="ssba_linkedin_share ssba_share_link" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/"  target=&quot;_blank&quot; ><img src="https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/buttons/somacro/linkedin.png" style="width: 35px;" title="LinkedIn" class="ssba ssba-img" alt="Share on LinkedIn" /><div title="Linkedin" class="ssbp-text">Linkedin</div></a></div></div>
+				<a data-site="hackernews" class="ssba_hackernews_share" href="https://news.ycombinator.com/submitlink?u=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/&t=Innersource: Building Open Source Projects Behind Company Firewalls" target="_blank">
+					<img src="" title="Hacker News" class="ssba ssba-img" alt="Share on Hacker News">
+				</a>
+
+				<script>
+					var $ = jQuery;
+					$(document).ready(function() {
+						var $element = $('.ssba_hackernews_share');
+						$('.ssbp-wrap div').append($element);
+						$element.remove();
+					});
+				</script>
+
+				<div class="commentcloud">
+
+					
+	                <a id="showbox" href="//thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/#disqus_thread">+</a>
+
+	        	</div>
+
+			</div>
+
+		</div>
+
+
+		<div class="entry-content">
+
+			
+			<div class="post-content">
+				<p>With the explosion of open source code sharing in recent years, engineers, developers, and maintainers have embraced this new way of having the community engaged to make the code better for all. Projects are built, software is written, documented and maintained, lives are made easier, the gods of coding are appeased until you get behind the firewall of a corporation.</p>
+<p>Behind firewalls, the old guard holds the power. Practices long held to be true are strictly upheld, even if they are no longer working. But those who have seen the power of open source are beginning to change things. For the better.</p>
+<p>Enter &#8220;innersource,&#8221;Â <a href="http://archive.oreilly.com/pub/a/oreilly/ask_tim/2000/opengl_1200.html" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">defined way back in 2000</a> by the Tim OâReilly of OâReilly Publishing, calling itÂ âthe use of open source development techniques within the corporation.â</p>
+<p>Back in 2012, when innersourcing was beginning to gain traction, <a href="http://servicesblog.redhat.com/2012/10/02/keep-calm-and-innersource-on/" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">Red Hat expanded the definition</a>:</p>
+<p><em>âProperly implemented, the results can be dramatic â harnessing the energy and passion of your developers while helping drive software reuse and increased ROI in your organizationâ¦It also gives your developers freedom to show you what they can do when they are free to innovate.â</em></p>
+<h2>Innersource? So how does this work, exactly?</h2>
+<p>Speaking in a recent interview, <a href="https://twitter.com/kakuls" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">Kakul Srivastava</a>, vice president of product at <a href="https://github.com" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">GitHub,</a>Â  said managing innersource boils down to two basic tenants: Whatâs the process for people coming in and out of this project? Â And anyone on the project can find any information about any piece of the project.</p>
+<p>âWith the old model of enterprise, the focus is âwe just want to get things working, get it done and get it out the door.â Whereas with innersource you are thinking about âwhat will the experience be with other people you are interacting with during this project,ââ saidÂ <a href="https://github.com/bkeepers" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">Brandon Keepers</a>, GitHub&#8217;s open source lead, in the same interview.</p>
+<p>He explained with an example of GitHubâs innersource process for opening up a new project. The process has a big checklist for opening a new project, including the &#8220;At Mention&#8221; feature where everyone on the team gets notified with a list of tasks to complete immediately when the project is open. He recently opened a project, filling in the description and proposed name. Within two minutes, someone from legal swung by to let him know that he did a search for trademarks and other conflicts, and this name looks clean. With that approval, the public relations team then launched into motion. In less than five minutes, logos were being created.</p>
+<h2>The Gifts Keep Coming</h2>
+<p>The efficiencies of innersource are the gifts that keep on giving. For example, at GitHub, all blog posts go through GitHub software. Someone writes a first draft, adds a pull request on the blog post repository. Other team members can come by and contribute, and the final draft triggers algorithms that check for culturally insensitive language and other internal criteria.</p>
+<p>As the repository started filling up, patterns start to build up. The repository maintainer can observe patterns, then put rules in place that will run every time a new blog post is created. For example, the phrase âToday we are excited to announceâ¦â goes stale in one day and will generate an automated message stating why the post was not approved.</p>
+<p>All feedback is automated. âWe have found that people are more receptive to feedback from pedantic robots than from pedantic humans,â said Keepers. âAnd robots tend to be a little bit more reliable.â</p>
+<p>So why has the uptake been so slow?Â There are a couple of reasons, accordingÂ to Srivastava. The first is that the GitHub product, used by most members of the open source community, is easily adapted to software development behind the firewall. GitHub has been using their software for internal projects for a long time. âGitHub has been doing innersource before innersource was cool,â said Srivastava.</p>
+<p>The second is the huge conceptual shift is often hard for upper management to grasp. But with so many engineers using GitHub to manage their open source projects, it makes sense that they want to bring those efficiencies into their day jobs, sharing code with other developers.</p>
+<p>When companies look to GitHub for innersource, they are looking for a software tool that helps their engineering teams, including open collaboration on code, open transparency between teams, company collaboration across divisions and departments and integration with automated testing.</p>
+<h2>Cultural Transformation Necessary</h2>
+<p>âWhat theyâre really coming to us for a cultural transformation,â saidÂ Srivastava. âThere are a lot of benefits to open source that companies may not realize. Itâs cheaper, and the software is âaliveâ hundreds of people working on the same project.â</p>
+<p>Keepers said that many developers are already using open source for personal projects, or a younger hire comes on board who grew up used to working across the world, across time zones, across cultures and starts putting pieces into place. âOften times, by the time management is ready to embrace this, they find their developers are already well on the way,â he said.</p>
+<p>Heâs found executive management understands the concepts. âThey are thinking a lot about how to do things faster better cheaper.â The challenge for GitHub is to train middle management, who are use to old ways of productivity, to embrace the ideas behind open source.</p>
+<p>One of the beauties of running innersource is that you do not have to have any open source projects, said Srivastava. For example, large financial institutions have been embracing innersource source as a way of managing projects and contacting internally but are restricted to their use of open source by regulatory compliance.</p>
+<p>So how does this work in the real world?</p>
+<h2>Bloomberg and PayPal</h2>
+<p>Take <a href="https://twitter.com/pannasingh" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">Panna Pavangadkar</a>, Global Head of Engineering Developer Experience at <a href="http://www.bloomberg.com/company/" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">Bloomberg</a>, who fast-tracked innersource at Bloomberg. Taking up her position in late 2014 she started by listening to her engineers. It was obvious, she said, that the 4,000+ developers globally wanted more code sharing. Bloombergâs corporate motto is âBe bold, take risksâ so she decided to take the company at their word, she said in a recent phone interview.</p>
+<p>Pavangadkar declared that all new projects would be run using innersource techniques. She figured sheâd tell management about it later.</p>
+<p>The <a href="http://www.bloomberg.com/professional/?utm_source=bloomberg-menu&amp;utm_medium=blp&amp;bbgsum=DG-WS-CORE-bbgmenu" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">Bloomberg Terminal</a>, the company&#8217;s flagshipÂ product, has been around for about 30 years and was developed by a close team working with code sharing and other techniques we now see as open source. But in recent years, Bloomberg has expanded and servicing multiple sectors, are expanding and everything is not in a shared code base. This gave rise to the traditional approach, said Pavangadkar, where everything was siloed. Code was attributed to one person, and those persons became very possessive of their work.</p>
+<h2>Adopting Innersource</h2>
+<p>&nbsp;</p>
+<p>The 2015 InfoQÂ <a href="http://t.umblr.com/redirect?z=http%3A%2F%2Fwww.infoq.com%2Fnews%2F2015%2F10%2Finnersource-at-paypal&amp;t=ODk0ZmUyMzRjMTM2NjM0YTc0NzllOWNjMDJkMGFiNGI0YTEwMWI4OSx3M1NCbTBKMQ%3D%3D" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">Innersource: Internal Open Source at PayPal</a>, describes introducing open source practices into their engineering culture, and the results are exciting:</p>
+<p><em>âThe results were visible after six months. The Checkout Platform team spends 0% of its time rewriting code and just 10% reviewing submissions. The team was able to do a major refactoring and a 4x increase in performance without planning for it. The mindset moved from blocking change to mentoring and coaching.â</em></p>
+<h2>Breaking Down Silos</h2>
+<p>At Bloomberg, Pavangadkar said it took a lot of effort to break down silos from a pure entitlement perspective. By simply talking to her developers and listening to their concerns, she found a strong proprietary feeling toward their code and fear. Fear that their work wasnât good enough for other people to see, and fear that some other developer would muck up their personal work.</p>
+<p>She started with open up code repositories for viewing for all new projects, then developed rules of engagements to combat the developerâs concerns.</p>
+<blockquote><p>By creating a roadmap, every new engineer who is added to Bloomberg will be able to come up to speed on the culture and code of the Bloomberg Terminal and other Bloomberg products.</p></blockquote>
+<p>First rule: Youâre not allowed to dish out dirt on any piece of code you see. Her two biggest messages: âMake sure your code does not introduce any riskâ and âYouâre not going to be judged.â</p>
+<p>Not only did this combat these worries, but it also made the projects stronger internally.</p>
+<p>Gradually, the developerâs sense of sole ownership shifted and they developed confidence in sharing their work.</p>
+<h2>Securing Success</h2>
+<p>Pavangadkar created a two-pronged approach. To senior management her message âYes, this is worth exploringâ and to development engineers, âCreate new rules and get champions.â</p>
+<p>Over the last 18 months, developers working with her have started coming to her saying, âHey, Iâm working on this project, and I canât see the code base.â Pavangadkar explores the reasons for the silo. Sometimes itâs as trivial as getting passwords or security, sometimes more complicated, needing to educate managers in areas outside IT why code sharing is important.</p>
+<p>An important part of the success of the project is documenting the process, Fleming said.Â âYou donât only put up code, you put up a document that says if you want to contribute, hereâs how to do it,&#8221; he explained. Â By creating a roadmap, every new engineer who is added to Bloomberg will be able to come up to speed on the culture and code of the Bloomberg Terminal and other Bloomberg products.</p>
+<p>Itâs important, said Fleming, to provide mentoring to new developers to maintain high quality.</p>
+<p>But how does this go down with management? Pavangadkar brought a lot of qualitative metrics to sell innersource to management, bringing lessons learned from her projects.</p>
+<h2>Next up at Bloomberg</h2>
+<p>Build upon the best practices so that it becomes easier to collaborate, said Pavangadkar. Everyone has lessons learned, and as more projects come online, with the data they can define patterns, lessons learned, and which becomes beneficial for everybody.</p>
+<p>Challenges around ownership, commitment, time spent are being addressed now, she said. Upcoming are plans to expand the Innersource mindset to sales and other non-tech staff so they understand how to use it and how it will benefit them.</p>
+<h2>Front Row Seat to Exciting Times</h2>
+<p>Back at GitHub, Keeper said, âThis is all really exciting. We feel like we have a front row seat to all these amazing changes happening â every company is becoming a software company, and they are all starting to adopt open source and figuring out what that looks like. There are lots of exciting times ahead.â</p>
+<p>Intrigued and want to find out how to get started? Check out <a href="https://github.com/paypal/InnerSourceCommons/wiki" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">this article</a> on the Github wiki, or <a href="https://github.com/blog/1939-how-github-uses-github-to-document-github" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">this one</a>Â on how GitHub uses GitHub to document projects. Go forth and share.</p>
+<p class="attribution">Feature Image <a href="https://unsplash.com/?photo=gvLRWYcPEs4" class="ext-link" rel="external " onclick="this.target=&#039;_blank&#039;;">via</a> Unsplash.</p>
+			</div>
+
+			
+		</div>
+
+
+		<footer class="entry-footer">
+
+			<div class="newtags">
+				<a href="https://thenewstack.io/tag/analysis/" class="taglinks">Analysis</a><a href="https://thenewstack.io/tag/open-source/" class="taglinks">Open Source</a>			</div>
+
+			<div class="social-footer">
+				<div class="postshare">
+					<div class="social-header">
+						<!-- Simple Share Buttons Adder (7.5.19) simplesharebuttons.com --><div class="ssba-classic-2 ssba ssbp-wrap left ssbp--theme-1"><div style="text-align:left"><a data-site="" class="ssba_twitter_share" href="http://twitter.com/share?url=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/&amp;text=Innersource%3A%20Building%20Open%20Source%20Projects%20Behind%20Company%20Firewalls%20"  target=&quot;_blank&quot; ><img src="https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/buttons/somacro/twitter.png" style="width: 35px;" title="Twitter" class="ssba ssba-img" alt="Tweet about this on Twitter" /><div title="Twitter" class="ssbp-text">Twitter</div></a><a data-site="reddit" class="ssba_reddit_share" href="http://reddit.com/submit?url=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/&amp;title=Innersource: Building Open Source Projects Behind Company Firewalls"  target=&quot;_blank&quot; ><img src="https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/buttons/somacro/reddit.png" style="width: 35px;" title="Reddit" class="ssba ssba-img" alt="Share on Reddit" /><div title="Reddit" class="ssbp-text">Reddit</div></a><a data-site="" class="ssba_facebook_share" href="http://www.facebook.com/sharer.php?u=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/"  target="_blank" ><img src="https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/buttons/somacro/facebook.png" style="width: 35px;" title="Facebook" class="ssba ssba-img" alt="Share on Facebook" /><div title="Facebook" class="ssbp-text">Facebook</div></a><a data-site="linkedin" class="ssba_linkedin_share ssba_share_link" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/"  target=&quot;_blank&quot; ><img src="https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/buttons/somacro/linkedin.png" style="width: 35px;" title="LinkedIn" class="ssba ssba-img" alt="Share on LinkedIn" /><div title="Linkedin" class="ssbp-text">Linkedin</div></a></div></div>						<div class="commentcloud">
+
+							
+	            			<a id="showbox" href="//thenewstack.io/github-bloomberg-talk-using-innersource-build-open-source-project-development-behind-company-firewalls/#disqus_thread" >+</a>
+
+	    				</div>
+					</div>
+				</div>
+			</div>
+
+		</footer>
+
+
+	</div>
+
+</article>
+
+</main>
+
+</div>
+
+
+<div style="background: #ace4fa; height: 30px"></div>
+<div style="background: #ace4fa;">
+	
+
+
+<div class="newsletter-sign-up-block">
+
+	<img
+		class="newsletter-sign-up-logo"
+		src="https://cdn.thenewstack.io/dev/static/img/The-New-Stack-Updates-Logo.svg"
+	>
+
+	<H3>A newsletter digest of the weekâs most important stories & analyses.</H3>
+
+	<div class="newsletter-sign-up-form">
+
+		<input class="newsletter-sign-up-input" type="email" placeholder="Email Address">
+
+		<div class="newsletter-sign-up-subscriptions">
+
+			<div class="ebooks-2017-settings-header">
+				Do you also want to be notified of the following?
+			</div>
+
+			<div>
+				<label class="no-select">
+					<input
+						id="nl-subs-all"
+						type="checkbox"
+						name="nl-subs-all"
+						value="all"
+					>
+					<strong>Send me everything :-D</strong>
+				</label>
+			</div>
+			<div style="padding-left: 35px; margin-bottom: 5px;">
+				<label class="no-select nl-subs-upcoming">
+					<input
+						id="nl-subs-upcoming"
+						class="nl-subs-option"
+						type="checkbox"
+						name="nl-subs"
+						value="576c2bf774"
+					>
+					Upcoming ebook notifications
+				</label>
+
+				<label class="no-select nl-subs-surveys">
+					<input
+						id="nl-subs-surveys"
+						class="nl-subs-option"
+						type="checkbox"
+						name="nl-subs"
+						value="847abf7002"
+					>
+					Research surveys
+				</label>
+
+				<label class="no-select nl-subs-events">
+					<input
+						id="nl-subs-events"
+						class="nl-subs-option"
+						type="checkbox"
+						name="nl-subs"
+						value="83fcab22d0"
+					>
+					Upcoming event notifications
+				</label>
+
+				<label class="no-select nl-subs-services">
+					<input
+						id="nl-subs-services"
+						class="nl-subs-option"
+						type="checkbox"
+						name="nl-subs"
+						value="2eccd0f9ad"
+					>
+					New product & service notifications
+				</label>
+			</div>
+
+		</div>
+
+		<button class="newsletter-sign-up-button">
+			<span class="newsletter-sign-up-button-text">
+				Subscribe
+			</span>
+			<img
+				class="newsletter-sign-up-button-loading"
+				src="//cdn.thenewstack.io/static/img/tns-button-loading.svg"
+				style="width: 45px; height: 45px; margin-top: 7px;"
+			>
+		</button>
+
+		<div class="newsletter-sign-up-no-spam">
+			We donât sell or share your email. By continuing, you agree
+			to our <a href="/terms-of-use">Terms of Use</a>.
+		</div>
+
+	</div>
+
+</div>
+
+
+
+<script>
+
+	jQuery(document).ready(function($) {
+
+
+
+		var ctx = {
+			email : null,
+			subscriptions : []
+		};
+
+		var groupSubscriptionsViews = 0;
+
+
+
+		var $NLinput = $('.newsletter-sign-up-input');
+		var $NLbutton = $('.newsletter-sign-up-button');
+
+
+
+		///
+		/// Validate onKeyUp Handler
+		///
+
+		var triggerValidation = null;
+
+		$NLinput.unbind('keyup');
+		$NLinput.on('keyup', function(event) {
+
+			clearTimeout(triggerValidation);
+
+			if (event.which === 13) {
+				$NLbutton.click();
+				return false;
+			}
+
+			triggerValidation = setTimeout(function() {
+				$NLbutton.click();
+			}, 500);
+
+		});
+
+
+
+		///
+		/// Subscribe Button click Handler
+		///
+
+		$NLbutton.unbind();
+		$NLbutton.on('click', function(event) {
+
+			ctx.email = $NLinput.val();
+
+			/// Run async series
+			async.series([
+				nlValidateEmail,
+				nlGetMemberInfo,
+				nlTestUnsub,
+				nlGroupSubscriptions,
+				nlAnalyticsTracking,
+				nlSaveSubscriptions
+			], function(result) {
+				console.log(result);
+			});
+
+			function nlValidateEmail(next) {
+
+				clearTimeout(triggerValidation);
+
+				if (!ctx.email || !validator.isEmail(ctx.email)) {
+					$NLinput.addClass('newsletter-sign-up-input-error');
+					return next({
+						error : 'NL: Invalid Email'
+					});
+				}
+
+				$NLinput.removeClass('newsletter-sign-up-input-error');
+
+				console.log('NL: Valid Email');
+				return next();
+
+			}
+
+			function nlGetMemberInfo(next) {
+
+				$('.newsletter-sign-up-button-text').hide();
+				$('.newsletter-sign-up-button-loading').show();
+
+				$.post('/newsletter-member-info', {
+					email : ctx.email
+				}, function(member) {
+
+					$('.newsletter-sign-up-button-text').show();
+					$('.newsletter-sign-up-button-loading').hide();
+
+					ctx.member = JSON.parse(member);
+
+					if (!ctx.member) {
+						return next('NL: Error Getting Member Info');
+					}
+
+					if (ctx.member.status === 404) {
+						console.log('NL: Member Info Not Found')
+					} else {
+						console.log('NL: Member Info Found');
+					}
+
+					return next();
+
+				});
+
+			}
+
+			function nlTestUnsub(next) {
+
+				/// They're a new member, skip this step
+				/// because we have no info on them.
+				if (ctx.member.status === 404) {
+					console.log('NL: Skipping Unsub Test For Non-Member');
+					return next();
+				}
+
+				var nonSubStatus = [
+					'unsubscribed',
+					'cleaned',
+					'pending',
+					'transactional'
+				];
+
+				if (nonSubStatus.indexOf(ctx.member.status) !== -1) {
+
+					var msg = "It looks like you've signed up for content from us before GDPR rules came into effect.";
+						msg += " Please click 'OK' to review and re-confirm your subscriptions.";
+
+					var resub = confirm(msg);
+
+					if (resub) {
+						window.open('https://eepurl.com/bMg5kH', '_blank');
+						//location.href = 'https://eepurl.com/bMg5kH';
+					}
+
+					return next('NL: Unsub Test Failed. Redirecting to MC form ...');
+
+				} else {
+
+					console.log('NL: Unsub Test OK');
+					return next();
+
+				}
+
+			}
+
+			function nlGroupSubscriptions(next) {
+
+				$NLbutton.removeAttr('disabled');
+
+				groupSubscriptionsViews++;
+
+				var upcomingID = '576c2bf774';
+				var surveysID = '847abf7002';
+				var weeklyID = 'd60fc24015';
+				var eventsID = '83fcab22d0';
+				var servicesID = '2eccd0f9ad';
+
+				/// Check if they're already subscribed
+				/// to all of the groups.
+				if (ctx.member.interests) {
+					if (
+						ctx.member.interests[upcomingID] &&
+						ctx.member.interests[surveysID] &&
+						ctx.member.interests[weeklyID] &&
+						ctx.member.interests[eventsID] &&
+						ctx.member.interests[servicesID]
+					) {
+						if (groupSubscriptionsViews === 1) {
+							return next('NL: Member already subscribed to all groups.');
+						} else {
+							groupSubscriptionsViews = 0;
+							return next();
+						}
+					}
+				}
+
+				$('.newsletter-sign-up-subscriptions').show();
+
+				/// Hide groups already subscribed
+				if (ctx.member.interests) {
+
+					console.log(ctx.member.interests);
+
+					if (ctx.member.interests[upcomingID]) {
+						console.log('NL: Already Subscribed To Upcoming Ebooks');
+						$('.nl-subs-upcoming').remove();
+					}
+
+					if (ctx.member.interests[surveysID]) {
+						console.log('NL: Already Subscribed To Surveys');
+						$('.nl-subs-surveys').remove();
+					}
+
+					if (ctx.member.interests[weeklyID]) {
+						console.log('NL: Already Subscribed To Weekly');
+						$('.nl-subs-weekly').remove();
+					}
+
+					if (ctx.member.interests[eventsID]) {
+						console.log('NL: Already Subscribed To Events');
+						$('.nl-subs-events').remove();
+					}
+
+					if (ctx.member.interests[servicesID]) {
+						console.log('NL: Already Subscribed To Services');
+						$('.nl-subs-services').remove();
+					}
+
+				}
+
+				$('#nl-subs-all').click(function() {
+					var c = this.checked;
+					$(':checkbox').prop('checked',c);
+				});
+
+				/// Bork-out if this is the first time this screen
+				/// has been displayed.
+				if (groupSubscriptionsViews === 1) {
+					return next('NL: Pausing For Subscriptions Choices');
+				}
+
+				/// This is the second pass on this screen so
+				/// tally up any subscriptions ...
+				$('input[name=nl-subs]:checked').each(function(){
+					ctx.subscriptions.push($(this).val());
+				});
+
+				/// Subscription Results
+				console.log('NL: Group Subscriptions Done');
+				console.log(ctx.subscriptions);
+
+				groupSubscriptionsViews = 0;
+				return next();
+
+			}
+
+			function nlAnalyticsTracking(next) {
+
+				/// GA Tracking
+				// ga('send', 'pageview', '/ebooks/download/' + seriesSlug + '/' + bookSlug + '/' + ctx.format);
+				// ga('send', 'event', seriesSlug, 'Download', bookSlug);
+				// ga('send', 'pageview', '/ebookseries/series-' + ctx.seriesNum + '/book-' + ctx.bookNum + '/downloads/');
+
+				/// Facebook Tracking
+				// fbq('track', 'Lead', {
+				// 	content_name: 'eBook Pre-Order',
+				// 	content_category: 'Series: ' + seriesSlug + ', Book: ' + bookSlug,
+				// 	value: 1,
+				// 	currency: 'n/a'
+				// });
+
+				/// Adroll Tracking
+				// try {
+				// 	__adroll.record_user({ 'adroll_segments' : 'd03cbef2' });
+				// } catch(error) {
+				// 	console.log(error);
+				// }
+
+				console.log('NL: Analytics Not Implemented');
+
+				return next();
+
+			}
+
+			function nlSaveSubscriptions(next) {
+
+				$.post('/newsletter-sign-up-submit', {
+					email : ctx.email,
+					subscriptions : ctx.subscriptions
+				}, function(result) {
+
+					console.log(result);
+
+					if (result === 'ERROR') {
+						alert('An error occurred, please try again shortly.');
+						return next('NL: Error Saving Subscriptions');
+					}
+
+					$('.newsletter-sign-up-input').val('');
+					alert('Thank you for subscribing.');
+
+					$('.nl-subs-option').prop('checked', false);
+					$NLinput.val('');
+					$('.newsletter-sign-up-subscriptions').hide();
+
+					return next('NL: Subscriptions Saved');
+
+				});
+
+			}
+
+		});
+
+		/// Uncheck 'Send me everything' when sub-choice is uncheked.
+		$('.nl-subs-option').on('change', function(event) {
+			if (!this.checked) {
+				$('#nl-subs-all').prop('checked', false);
+			}
+		});
+
+	});
+
+</script>
+</div>
+<div style="background: #ace4fa; height: 30px"></div>
+
+
+<div class="related-posts">
+	<div class="related-posts-wrapper">
+
+		<div class="sectionheader">Related Stories</div>
+
+		
+<div class="normalstory-box">
+
+	<div class="commentcloud">
+		<h5 class="links">
+	        	        <a href="//thenewstack.io/cncf-incubates-open-policy-agent-a-policy-as-code-project/#disqus_thread">+</a>
+	    </h5>
+	</div>
+
+	<a href="https://thenewstack.io/cncf-incubates-open-policy-agent-a-policy-as-code-project/" class="athumbnail">
+
+		
+		<div class="normalstory-overlay" style="display: none;">
+			<img src="">
+		</div>
+
+
+		<img width="290" height="120" src="https://cdn.thenewstack.io/media/2019/04/e9f88007-screen-shot-2019-04-03-at-1-290x120.png" class="attachment-normal size-normal wp-post-image wp-stateless-item" alt="" data-image-size="normal" data-stateless-media-bucket="cdn.thenewstack.io" data-stateless-media-name="media/2019/04/e9f88007-screen-shot-2019-04-03-at-1.png" />
+	</a>
+
+	<header class="title-row">
+
+		<h4>
+	        <a href="https://thenewstack.io/category/application-security/" alt="View all posts in Application Security">Application Security</a> / <a href="https://thenewstack.io/category/cloud-native/" alt="View all posts in Cloud Native">Cloud Native</a>	    </h4>
+
+		<h2 class="small">
+			<a href="https://thenewstack.io/cncf-incubates-open-policy-agent-a-policy-as-code-project/">CNCF Incubates Open Policy Agent, a Policy-As-Code Project</a>
+		</h2>
+
+		<h4 class="timestamp">3 Apr 2019 11:05am,
+
+		 by <span class="links">
+
+				<a href="https://thenewstack.io/author/mike-melanson/" title="Posts by Mike Melanson" class="author url fn" rel="author">Mike Melanson</a>
+	        </span>
+
+	</header>
+
+</div>
+
+<div class="normalstory-box">
+
+	<div class="commentcloud">
+		<h5 class="links">
+	        	        <a href="//thenewstack.io/chef-opens-its-code-base-says-goodbye-to-open-core/#disqus_thread">+</a>
+	    </h5>
+	</div>
+
+	<a href="https://thenewstack.io/chef-opens-its-code-base-says-goodbye-to-open-core/" class="athumbnail">
+
+		
+		<div class="normalstory-overlay" style="display: none;">
+			<img src="">
+		</div>
+
+
+		<img width="290" height="120" src="https://cdn.thenewstack.io/media/2019/04/2d3b425c-7115542_4104b8f177_z-290x120.jpg" class="attachment-normal size-normal wp-post-image wp-stateless-item" alt="" data-image-size="normal" data-stateless-media-bucket="cdn.thenewstack.io" data-stateless-media-name="media/2019/04/2d3b425c-7115542_4104b8f177_z.jpg" />
+	</a>
+
+	<header class="title-row">
+
+		<h4>
+	        <a href="https://thenewstack.io/category/tools/" alt="View all posts in Tools">Tools</a>	    </h4>
+
+		<h2 class="small">
+			<a href="https://thenewstack.io/chef-opens-its-code-base-says-goodbye-to-open-core/">Chef Opens Its Code Base, Says Goodbye to Open Core</a>
+		</h2>
+
+		<h4 class="timestamp">2 Apr 2019 10:03am,
+
+		 by <span class="links">
+
+				<a href="https://thenewstack.io/author/susanhall/" title="Posts by Susan Hall" class="author url fn" rel="author">Susan Hall</a>
+	        </span>
+
+	</header>
+
+</div>
+
+	</div>
+</div>
+
+				<div class="comment-block">
+					<div id="comments" class="comments-area">
+						<div class="button-wrapper">
+							<div class="showDisqus">View / Add Comments</div>
+						</div>
+						<h4 class="attribution">
+							Please stay on topic and be respectful of others.
+							Review our <a href="/terms-of-use">Terms of Use</a>.
+						</h4>
+		        		<div id="disqus_thread"></div>
+					</div>
+				</div>
+
+		
+		
+
+			<div class="sponsored-feed">
+				<div class="related-posts-wrapper rss-block">
+				<div class="sectionheader">Sponsored Feed</div>
+					<div class="singlerss-wrap"><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://portworx.com/px-security-using-openstorage-python-sdk/" ><img src="https://cdn.thenewstack.io/media/2018/01/69778945-portworx@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://portworx.com/px-security-using-openstorage-python-sdk/" >PX-Security using the OpenStorage Python SDK</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://blog.openshift.com/kubernetes-operator-hands-on-workshop-at-red-hat-summit-on-may-6th-announced/" ><img src="https://cdn.thenewstack.io/media/2016/05/f5138a03-red-hat-openshift@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://blog.openshift.com/kubernetes-operator-hands-on-workshop-at-red-hat-summit-on-may-6th-announced/" >Kubernetes Operator Hands-on Workshop at Red Hat Summit on May 6th Announced</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.linuxfoundation.org/press-release/2019/04/lf-networking-passes-one-year-mark-with-expanded-cross-community-momentum/" ><img src="https://cdn.thenewstack.io/media/2017/07/b22fecc6-linuxfoundation@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.linuxfoundation.org/press-release/2019/04/lf-networking-passes-one-year-mark-with-expanded-cross-community-momentum/" >LF Networking Passes One-Year Mark with Expanded Cross-Community Momentum</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.cncf.io/news/2019/04/03/sdxcentral-cncf-remains-focused-as-cloud-native-interest-soars/" ><img src="https://cdn.thenewstack.io/media/2016/08/CNCF@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.cncf.io/news/2019/04/03/sdxcentral-cncf-remains-focused-as-cloud-native-interest-soars/" >SDxCentral: âCNCF Remains Focused as Cloud Native Interest Soarsâ</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://cloud.google.com/blog/topics/hybrid-cloud/happening-hybrid-cloud-sessions-at-next19-and-how-you-can-register/" ><img src="https://cdn.thenewstack.io/media/2016/04/CloudFoundry@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://cloud.google.com/blog/topics/hybrid-cloud/happening-hybrid-cloud-sessions-at-next19-and-how-you-can-register/" >Happening hybrid cloud sessions at Next â19 (and how you can register)</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://circleci.com/blog/contributing-the-elixir-orb/" ><img src="https://cdn.thenewstack.io/media/2018/01/d2f23bca-circleci@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://circleci.com/blog/contributing-the-elixir-orb/" >Contributing the Elixir orb</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.influxdata.com/blog/introducing-our-new-influxdata-community-slack-workspace/" ><img src="https://cdn.thenewstack.io/media/2017/09/d89d8e1a-influxdata@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.influxdata.com/blog/introducing-our-new-influxdata-community-slack-workspace/" >Introducing Our New InfluxData Community Slack Workspace</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://puppet.com/podcasts/bolt-uniting-models-tasks" ><img src="https://cdn.thenewstack.io/media/2017/10/b0438c93-puppet@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://puppet.com/podcasts/bolt-uniting-models-tasks" >Bolt: Uniting Models and Tasks</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://superuser.openstack.org/articles/how-the-starlingx-project-opens-new-doors-for-telecoms/" ><img src="https://cdn.thenewstack.io/media/2017/06/bded1ace-openstack@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://superuser.openstack.org/articles/how-the-starlingx-project-opens-new-doors-for-telecoms/" >How the StarlingX project opens new doors for telecoms</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.cloudbees.com/blog/come-cloudbees-days-and-learn-about-technologies-driving-devops" ><img src="https://cdn.thenewstack.io/media/2018/07/df79640c-cloudbees@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.cloudbees.com/blog/come-cloudbees-days-and-learn-about-technologies-driving-devops" >Come to CloudBees Days and Learn About the Technologies Driving DevOps</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.pagerduty.com/blog/announcing-pagerduty-summit-2019/" ><img src="https://cdn.thenewstack.io/media/2017/04/042245f3-pagerduty@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.pagerduty.com/blog/announcing-pagerduty-summit-2019/" >Announcing PagerDuty Summit 2019! by PagerDuty</a></div><span class="date">April 03, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://content.pivotal.io/home-page/cloud-native-buildpacks-for-kubernetes-and-beyond" ><img src="https://cdn.thenewstack.io/media/2014/12/Pivotal@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://content.pivotal.io/home-page/cloud-native-buildpacks-for-kubernetes-and-beyond" >Cloud Native Buildpacks: an Industry-Standard Build Process for Kubernetes and Beyond.</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://about.gitlab.com/2019/04/03/five-ways-resist-service-wrapping-buyer-based-open-core/" ><img src="https://cdn.thenewstack.io/media/2019/03/0b8a7166-gitlab@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://about.gitlab.com/2019/04/03/five-ways-resist-service-wrapping-buyer-based-open-core/" >5 Ways to resist the threat of service-wrapping with buyer-based open core</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://blog.pulumi.com/unified-logs-with-pulumi-logs" ><img src="https://cdn.thenewstack.io/media/2018/08/45286d2f-pulumi@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://blog.pulumi.com/unified-logs-with-pulumi-logs" >Unified Logs withÂ pulumi logs</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.memsql.com/blog/how-ceos-can-stay-relevant-in-the-age-of-ai/" ><img src="https://cdn.thenewstack.io/media/2018/09/a93ae45a-memsql@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.memsql.com/blog/how-ceos-can-stay-relevant-in-the-age-of-ai/" >How CEOs Can Stay Relevant in the Age of AI</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.dynatrace.com/news/blog/get-automatic-monitoring-insights-into-cloud-foundry-platform-components/" ><img src="https://cdn.thenewstack.io/media/2018/07/4a53d638-dynatrace@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.dynatrace.com/news/blog/get-automatic-monitoring-insights-into-cloud-foundry-platform-components/" >Get automatic monitoring insights into Cloud Foundry platform components</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://aspenmesh.io/2019/04/announcing-aspen-mesh-1-1/" ><img src="https://cdn.thenewstack.io/media/2018/09/67841a3d-aspenmesh@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://aspenmesh.io/2019/04/announcing-aspen-mesh-1-1/" >Announcing Aspen Mesh 1.1</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://blogs.oracle.com/cloudnative/site-reliability-engineering-sre-workbench-at-oracle-code" ><img src="https://cdn.thenewstack.io/media/2018/12/35c9e830-oracle@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://blogs.oracle.com/cloudnative/site-reliability-engineering-sre-workbench-at-oracle-code" >Site Reliability Engineering (SRE) Workbench at Oracle Code</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.twistlock.com/2019/04/02/service-mesh-service-fabric-service-bus-mean/" ><img src="https://cdn.thenewstack.io/media/2017/06/87a847e8-twistlock@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.twistlock.com/2019/04/02/service-mesh-service-fabric-service-bus-mean/" >Service Mesh. Service Fabric. Service Bus. What Does It All Mean?!</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://blog.chef.io/2019/04/02/chef-software-announces-the-enterprise-automation-stack/" ><img src="https://cdn.thenewstack.io/media/2017/05/d217cf09-chef@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://blog.chef.io/2019/04/02/chef-software-announces-the-enterprise-automation-stack/" >Introducing the New Chef: 100% Open, Always</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://semaphoreci.com/blog/a-docker-product-manager-on-what-the-future-holds-for-containers" ><img src="https://cdn.thenewstack.io/media/2018/10/6cef594c-semaphore@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://semaphoreci.com/blog/a-docker-product-manager-on-what-the-future-holds-for-containers" >A Docker Product Manager on What the Future Holds for Containers</a></div><span class="date">April 02, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://blog.atomist.com/announcing-sdm-1-4/" ><img src="https://cdn.thenewstack.io/media/2018/12/db4b1f93-atomist@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://blog.atomist.com/announcing-sdm-1-4/" >Announcing SDM 1.4</a></div><span class="date">April 01, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://wso2.com/blogs/thesource/2019/04/women-in-open-source-tech-roundup-march-2019/" ><img src="https://cdn.thenewstack.io/media/2018/01/5e8bc8be-wso2@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://wso2.com/blogs/thesource/2019/04/women-in-open-source-tech-roundup-march-2019/" >Women in Open Source Tech Roundup: March 2019</a></div><span class="date">March 31, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.tigera.io/blog/using-kubeless-for-kubernetes-events/" ><img src="https://cdn.thenewstack.io/media/2018/04/b0aad753-tigera@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.tigera.io/blog/using-kubeless-for-kubernetes-events/" >Using Kubeless for Kubernetes Events</a></div><span class="date">March 29, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://epsagon.com/blog/troubleshooting-aws-lambda-101/" ><img src="https://cdn.thenewstack.io/media/2018/12/02b6112a-epsagon@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://epsagon.com/blog/troubleshooting-aws-lambda-101/" >Troubleshooting AWS Lambda 101</a></div><span class="date">March 29, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.nirmata.com/2019/03/29/jobs-and-cronjobs/" ><img src="https://cdn.thenewstack.io/media/2018/11/3a06bcf4-nirmata@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.nirmata.com/2019/03/29/jobs-and-cronjobs/" >Jobs and CronJobs</a></div><span class="date">March 28, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://harness.io/2019/03/harness-continuous-delivery-for-aws-cloud-native-applications/" ><img src="https://cdn.thenewstack.io/media/2019/01/60fc8d25-harness@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://harness.io/2019/03/harness-continuous-delivery-for-aws-cloud-native-applications/" >Harness Continuous Delivery For AWS Cloud-Native Applications</a></div><span class="date">March 27, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="http://www.lightbend.com/blog/lightbend-charity-survey-how-is-streaming-impacting-cloud-app-architecture-decisions" ><img src="https://cdn.thenewstack.io/media/2019/03/345dfc95-lightbend@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="http://www.lightbend.com/blog/lightbend-charity-survey-how-is-streaming-impacting-cloud-app-architecture-decisions" >Lightbend Charity Survey: How Is Streaming Impacting Cloud App Architecture Decisions</a></div><span class="date">March 26, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.stackery.io/blog/aws-santa-clara/" ><img src="https://cdn.thenewstack.io/media/2018/07/0c7335aa-stackery@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.stackery.io/blog/aws-santa-clara/" >Canât-miss Serverless Sessions for AWS Summit Santa Clara</a></div><span class="date">March 26, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.packet.com/blog/illustrating-the-cloud-native-universe/" ><img src="https://cdn.thenewstack.io/media/2017/01/565068e6-packet@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.packet.com/blog/illustrating-the-cloud-native-universe/" >To Infinity and Beyond: Illustrating the Cloud Native Universe</a></div><span class="date">March 25, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://ns1.com/blog/next-generation-dns-drives-better-sre-heres-how" ><img src="https://cdn.thenewstack.io/media/2019/01/78f349c9-ns1@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://ns1.com/blog/next-generation-dns-drives-better-sre-heres-how" >Next-Generation DNS Drives Better SRE: Here's How</a></div><span class="date">March 21, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://humio.com/blog/2019-03-20-logging-better-faster-resilient-software/" ><img src="https://cdn.thenewstack.io/media/2019/03/4e8a205d-humio@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://humio.com/blog/2019-03-20-logging-better-faster-resilient-software/" >Better, Faster, Resilient Software Delivery Through Limitless Logging</a></div><span class="date">March 20, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://raygun.com/blog/native-app-development/" ><img src="https://cdn.thenewstack.io/media/2018/03/b7658547-raygun@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://raygun.com/blog/native-app-development/" >Understanding native app development - what you need to know in 2019</a></div><span class="date">March 18, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.haproxy.com/blog/ip-masking-in-haproxy/" ><img src="https://cdn.thenewstack.io/media/2019/01/7fcc3a2c-haproxy@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.haproxy.com/blog/ip-masking-in-haproxy/" >IP Masking in HAProxy</a></div><span class="date">March 14, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://rollbar.com/blog/slack-actions/" ><img src="https://cdn.thenewstack.io/media/2018/06/85b960ce-rollbar@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://rollbar.com/blog/slack-actions/" >Introducing Interactive Slack Notifications</a></div><span class="date">March 11, 2019</span><br /></div></div><div class="rss-unit"><div class="rss-logo"><div class="imagefix" style="float:none;"><a  target="_blank" href="https://www.exoscale.com/syslog/configuration-management-kubernetes-spring-boot/" ><img src="https://cdn.thenewstack.io/media/2018/11/4e8ad9dc-exoscale@2x.png"></a></div></div><div class="rss-title"><div class="title"><a target="_blank" href="https://www.exoscale.com/syslog/configuration-management-kubernetes-spring-boot/" >Configuration management: a Spring Boot use-case with Kubernetes</a></div><span class="date">March 04, 2019</span><br /></div></div></div>				</div>
+			</div>
+		
+
+<div class="footer-wrap">
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+
+	    <div id="mainfooter">
+
+			<div class="clearfix">
+
+		        <div class="footercol">
+		            <div id="nav_menu-8"><h4>Architecture</h4><div class="menu-tns-nav-2018-architecture-container"><ul id="menu-tns-nav-2018-architecture" class="menu"><li id="menu-item-5771478" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771478"><a href="https://thenewstack.io/category/cloud-native/">Cloud Native</a></li>
+<li id="menu-item-5771479" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771479"><a href="https://thenewstack.io/category/containers/">Containers</a></li>
+<li id="menu-item-5771480" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771480"><a href="https://thenewstack.io/category/edge-iot/">Edge/IoT</a></li>
+<li id="menu-item-5771481" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771481"><a href="https://thenewstack.io/category/microservices/">Microservices</a></li>
+<li id="menu-item-5771482" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771482"><a href="https://thenewstack.io/category/networking/">Networking</a></li>
+<li id="menu-item-5771483" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771483"><a href="https://thenewstack.io/category/serverless/">Serverless</a></li>
+<li id="menu-item-5771484" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771484"><a href="https://thenewstack.io/category/storage/">Storage</a></li>
+</ul></div></div>		        </div>
+
+		        <div class="footercol">
+		            <div id="nav_menu-9"><h4>Development</h4><div class="menu-tns-nav-2018-development-container"><ul id="menu-tns-nav-2018-development" class="menu"><li id="menu-item-5771485" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771485"><a href="https://thenewstack.io/category/application-security/">Application Security</a></li>
+<li id="menu-item-5771486" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771486"><a href="https://thenewstack.io/category/cloud-services/">Cloud Services</a></li>
+<li id="menu-item-5771487" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771487"><a href="https://thenewstack.io/category/data/">Data</a></li>
+<li id="menu-item-5771488" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771488"><a href="https://thenewstack.io/category/machine-learning/">Machine Learning</a></li>
+<li id="menu-item-5771489" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771489"><a href="https://thenewstack.io/category/programming-languages/">Programming Languages</a></li>
+</ul></div></div>		        </div>
+
+		        <div class="footercol">
+					<div id="nav_menu-10"><h4>Operations</h4><div class="menu-tns-nav-2018-operations-container"><ul id="menu-tns-nav-2018-operations" class="menu"><li id="menu-item-5771490" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771490"><a href="https://thenewstack.io/category/ci-cd/">CI/CD</a></li>
+<li id="menu-item-5771491" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771491"><a href="https://thenewstack.io/category/culture/">Culture</a></li>
+<li id="menu-item-5771492" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771492"><a href="https://thenewstack.io/category/devops/">DevOps</a></li>
+<li id="menu-item-5771493" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771493"><a href="https://thenewstack.io/category/kubernetes/">Kubernetes</a></li>
+<li id="menu-item-5771494" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771494"><a href="https://thenewstack.io/category/monitoring/">Monitoring</a></li>
+<li id="menu-item-5771495" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771495"><a href="https://thenewstack.io/category/tools/">Tools</a></li>
+</ul></div></div>		        </div>
+
+		        <div class="footercol">
+		            <div id="nav_menu-7"><h4>The New Stack</h4><div class="menu-the-new-stack-container"><ul id="menu-the-new-stack" class="menu"><li id="menu-item-5771496" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771496"><a href="/ebooks">Ebooks</a></li>
+<li id="menu-item-5771497" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771497"><a href="/podcasts">Podcasts</a></li>
+<li id="menu-item-5771498" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5771498"><a href="/events">Events</a></li>
+<li id="menu-item-4335680" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4335680"><a href="/newsletter-archive">Newsletter</a></li>
+<li id="menu-item-5772556" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5772556"><a href="https://thenewstack.io/about-and-contact-info/">About / Contact</a></li>
+<li id="menu-item-602" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-602"><a href="https://thenewstack.io/sponsors/">Sponsors</a></li>
+<li id="menu-item-6995230" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6995230"><a href="https://thenewstack.io/disclosure-guidelines/">Disclosures</a></li>
+<li id="menu-item-3543938" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3543938"><a href="https://thenewstack.io/contributions/">Contributions</a></li>
+</ul></div></div>		        </div>
+
+			</div>
+
+	    </div>
+
+	    <div class="footer-social-nav">
+			<div class="menu-follow-container"><ul id="footer-follow" class="menu"><li id="menu-item-583" class="twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-583"><a target="_blank" href="https://twitter.com/thenewstack">Twitter</a></li>
+<li id="menu-item-584" class="facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-584"><a target="_blank" href="https://www.facebook.com/thenewstack">Facebook</a></li>
+<li id="menu-item-224124" class="youtube menu-item menu-item-type-custom menu-item-object-custom menu-item-224124"><a target="_blank" href="https://www.youtube.com/channel/UCWea_KfCnTMD39uQuA5TKOQ">YouTube</a></li>
+<li id="menu-item-880401" class="soundcloud menu-item menu-item-type-custom menu-item-object-custom menu-item-880401"><a target="_blank" href="https://soundcloud.com/search?q=the%20new%20stack">Soundcloud</a></li>
+<li id="menu-item-586" class="linkedin menu-item menu-item-type-custom menu-item-object-custom menu-item-586"><a target="_blank" href="https://www.linkedin.com/company/6611720">LinkedIn</a></li>
+<li id="menu-item-880402" class="slideshare menu-item menu-item-type-custom menu-item-object-custom menu-item-880402"><a target="_blank" href="http://www.slideshare.net/TheNewStack">Slideshare</a></li>
+<li id="menu-item-1767" class="rss menu-item menu-item-type-custom menu-item-object-custom menu-item-1767"><a target="_blank" href="http://thenewstack.io/rss-feeds">RSS</a></li>
+</ul></div>	    </div>
+
+	    <div class="site-info">
+	        <h4>&copy; 2019 The New Stack. All rights reserved.</h4>
+			<a href="/privacy-policy">Privacy Policy</a>. <a href="/terms-of-use">Terms of Use</a>.
+	    </div>
+
+	</footer>
+
+
+
+	<script type="text/javascript">
+    adroll_adv_id = "N5U6YTQS3VHWDAOX4QEAOP";
+    adroll_pix_id = "FQK73G2NDFC5TLARVUPP25";
+    (function () {
+        var _onload = function(){
+            if (document.readyState && !/loaded|complete/.test(document.readyState)){setTimeout(_onload, 10);return}
+            if (!window.__adroll_loaded){__adroll_loaded=true;setTimeout(_onload, 50);return}
+            var scr = document.createElement("script");
+            var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+            scr.setAttribute('async', 'true');
+            scr.type = "text/javascript";
+            scr.src = host + "/j/roundtrip.js";
+            ((document.getElementsByTagName('head') || [null])[0] ||
+                document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+        };
+        if (window.addEventListener) {window.addEventListener('load', _onload, false);}
+        else {window.attachEvent('onload', _onload)}
+    }());
+</script>
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WGF7MX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WGF7MX');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1667886366787627');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1667886366787627&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+<script type="text/javascript">
+_linkedin_data_partner_id = "26441";
+</script><script type="text/javascript">
+(function(){var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})();
+</script><link rel='stylesheet' id='simple-share-buttons-adder-ssba-css'  href='https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/css/ssba.css?ver=5.1.1' type='text/css' media='all' />
+<style id='simple-share-buttons-adder-ssba-inline-css' type='text/css'>
+	.ssba {
+									
+									
+									
+									
+								}
+								.ssba img
+								{
+									width: 35px !important;
+									padding: 6px;
+									border:  0;
+									box-shadow: none !important;
+									display: inline !important;
+									vertical-align: middle;
+									box-sizing: unset;
+								}
+								
+								.ssba-classic-2 .ssbp-text {
+									display: none!important;
+								}
+								
+								.ssba .fb-save
+								{
+								padding: 6px;
+								line-height: 30px; }
+								.ssba, .ssba a
+								{
+									text-decoration:none;
+									background: none;
+									font-family: Indie Flower;
+									font-size: 20px;
+									
+									font-weight: bold;
+								}
+								
+
+			   #ssba-bar-2 .ssbp-bar-list {
+					max-width: 48px!important;;
+			   }
+			   #ssba-bar-2 .ssbp-bar-list li a {height: 48px!important; width: 48px!important; 
+				}
+				#ssba-bar-2 .ssbp-bar-list li a:hover {
+				}
+					
+				#ssba-bar-2 .ssbp-bar-list li a::before {line-height: 48px!important;; font-size: 18px;}
+				#ssba-bar-2 .ssbp-bar-list li a:hover::before {}
+				#ssba-bar-2 .ssbp-bar-list li {
+				margin: 0px 0!important;
+				}@media only screen and ( max-width: 750px ) {
+				#ssba-bar-2 {
+				display: block;
+				}
+			}
+@font-face {
+				font-family: 'ssbp';
+				src:url('https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/fonts/ssbp.eot?xj3ol1');
+				src:url('https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/fonts/ssbp.eot?#iefixxj3ol1') format('embedded-opentype'),
+					url('https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/fonts/ssbp.woff?xj3ol1') format('woff'),
+					url('https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/fonts/ssbp.ttf?xj3ol1') format('truetype'),
+					url('https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/fonts/ssbp.svg?xj3ol1#ssbp') format('svg');
+				font-weight: normal;
+				font-style: normal;
+
+				/* Better Font Rendering =========== */
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+			}
+</style>
+<link rel='stylesheet' id='frontend-css'  href='https://thenewstack.io/wp-content/plugins/wp-rss-multi-importer/css/frontend.css?ver=5.1.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://checkout.stripe.com/checkout.js'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/stripe-checkout-pro/assets/js/vendor/parsley.min.js?ver=2.3.7'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-includes/js/dist/vendor/moment.min.js?ver=2.22.2'></script>
+<script type='text/javascript'>
+moment.locale( 'en_US', {"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthsShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"weekdaysShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"week":{"dow":1},"longDateFormat":{"LT":"g:i a","LTS":null,"L":null,"LL":"F j, Y","LLL":"F j, Y g:i a","LLLL":null}} );
+</script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/stripe-checkout-pro/assets/js/vendor/pikaday.min.js?ver=2.3.7'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/stripe-checkout-pro/assets/js/vendor/pikaday-jquery.min.js?ver=2.3.7'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sc_coup = {"ajaxurl":"https:\/\/thenewstack.io\/wp-admin\/admin-ajax.php"};
+var sc_script = null;
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/stripe-checkout-pro/assets/js/public-main.min.js?ver=2.3.7'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var countVars = {"disqusShortname":"thenewstack"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/disqus-comment-system/public/js/comment_count.js?ver=3.0.17'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/simple-share-buttons-adder/js/ssba.js?ver=5.1.1'></script>
+<script type='text/javascript'>
+Main.boot( [] );
+</script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/themes/thenewstack/js/navigation.js?ver=20120206'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/themes/thenewstack/js/skip-link-focus-fix.js?ver=20130115'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/themes/thenewstack/js/equalHeight.js?ver=20120232'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/themes/thenewstack/inc/responsive-tables/responsive-tables.js?ver=20120206'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/themes/thenewstack/js/script.js?ver=5ca5cf4747d03'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/page-links-to/js/new-tab.min.js?ver=3.0.0-beta.1'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/libs/cycle2/jquery.cycle2.min.js?ver=2.10.0'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/libs/cycle2/jquery.cycle2.carousel.min.js?ver=2.10.0'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/libs/cycle2/jquery.cycle2.swipe.min.js?ver=2.10.0'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/libs/cycle2/jquery.cycle2.tile.min.js?ver=2.10.0'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/libs/cycle2/jquery.cycle2.video.min.js?ver=2.10.0'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/templates/dark/script.js?ver=2.10.0'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/templates/thumbnails/script.js?ver=2.10.0'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/cyclone-slider-2/js/client.js?ver=2.10.0'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-includes/js/wp-embed.min.js?ver=5.1.1'></script>
+<script type='text/javascript' src='https://thenewstack.io/wp-content/plugins/wp-rss-multi-importer/scripts/show-excerpt.js?ver=5.1.1'></script>
+
+
+
+	<script>
+
+		(function trackOutbounds() {
+
+			var hitCallbackHandler = function(url,win) {
+			    if (win) {
+				    window.open(url, win);
+			    } else {
+		        	window.location.href = url;
+		        }
+		    };
+
+		    var addEvent = function(el, eventName, handler) {
+
+				if (el.addEventListener) {
+					el.addEventListener(eventName, handler);
+				} else {
+					el.attachEvent('on' + eventName, function(){
+						handler.call(el);
+				    });
+				}
+			}
+
+			if (document.getElementsByTagName) {
+
+				var el = document.getElementsByTagName('a');
+				var getDomain = document.domain.split('.').reverse()[1] + '.' + document.domain.split('.').reverse()[0];
+
+				// Look thru each a element
+				for (var i=0; i < el.length;i++) {
+
+					// Extract it's href attribute
+					var href = (typeof(el[i].getAttribute('href')) == 'string' ) ? el[i].getAttribute('href') : '';
+
+					// Query the href for the top level domain (xxxxx.com)
+					var myDomain = href.match(getDomain);
+
+					// If link is outbound and is not to this domain
+					if ((href.match(/^(https?:|\/\/)/i)  && !myDomain) || href.match(/^mailto\:/i)) {
+
+						// Add an event to click
+						addEvent(el[i],'click', function(e) {
+
+							var url = this.getAttribute('href');
+							var win = (typeof(this.getAttribute('target')) == 'string') ? this.getAttribute('target') : '';
+
+							var targetURL = document.createElement('a');
+							targetURL.href = url;
+							//targetURL.protocol; // => "http:"
+							//targetURL.hostname; // => "example.com"
+							//targetURL.port;     // => "3000"
+							//targetURL.pathname; // => "/pathname/"
+							//targetURL.search;   // => "?search=test"
+							//targetURL.hash;     // => "#hash"
+							//targetURL.host;     // => "example.com:3000"
+
+							console.log('Outbound Traffic ' + targetURL.hostname + ' ' + url);
+
+							ga('send', 'event', 'Outbound Traffic', targetURL.hostname, url,
+								{ 'hitCallback' : hitCallbackHandler(url,win) },
+								{ 'nonInteraction': 1 }
+							);
+
+							e.preventDefault();
+
+						});
+
+					}
+				}
+			}
+		})();
+
+		jQuery(document).ready(function($) {
+
+			/// Track RSS ckicks
+			$('.rss-unit').on('click', function() {
+
+				var url = $(this).children('.rss-title')
+						  .children('.title').children('a').attr('href');
+
+				ga('send', 'event', 'RSS Outbound Traffic', url);
+
+			});
+
+			/// Track publish date in GA
+			var postDate = $('#post-date').text().replace(/^\s+|\s+$/g, '');
+			var postTitle = $('#post-title').text().replace(/^\s+|\s+$/g, '');
+
+			if (postTitle !== '' && postDate !== '') {
+
+				console.log('event','Date Published', postTitle, postDate);
+
+				ga('send', {
+					hitType : 'event',
+					eventCategory : 'Date Published',
+					eventAction : postTitle,
+					eventLabel : postDate,
+					nonInteraction : true
+				});
+
+			}
+
+			/// Track tags in GA
+			var tags = $('#post-tags').text();
+			tags = tags.replace(/,\s*$/, '');
+			tags = tags.replace(/\r?\n|\r/g,'');
+			tags = tags.replace(/\s/g,'');
+			tags = tags.split(',');
+			var i = 0;
+
+			var postTagHitToGA = setInterval(function() {
+
+				if (i >= tags.length) {
+					clearInterval(postTagHitToGA);
+					return false;
+				}
+
+				if(tags[i]) {
+					ga('send', {
+						hitType : 'event',
+						eventCategory : 'Tag Hit',
+						eventAction : tags[i],
+						nonInteraction : true
+					});
+				}
+
+				i++;
+
+			}, 500);
+
+		});
+
+		/// Podcast Transcripts Toggle
+		jQuery(document).ready(function($) {
+
+			$('.podcast-transcript-section-title').on('click', function() {
+				var $parent = $(this).parent();
+				$parent.toggleClass('podcast-transcript-section-open');
+			});
+
+			$('.podcast-transcript-section-content-close-bar').on('click', function() {
+				var $transcript = $(this).parent().parent().parent();
+				var $section = $(this).parent().parent();
+				$section.toggleClass('podcast-transcript-section-open');
+				$('html, body').animate({
+			        scrollTop: $($transcript).offset().top - 125
+			    }, 333);
+			});
+
+		});
+
+		/// Sponsor Note click handler
+		$('.sponsor_note, .Ebook-Sponsor-Note').on('click', function() {
+			var url = $(this).attr('data-url');
+			if (!url) return;
+			console.log('Outbound Traffic: ' + url);
+			ga('send', 'event', 'Outbound Traffic', url, url);
+			window.open(url, '_blank');
+		});
+
+		$('.sponsor_note a, .Ebook-Sponsor-Note a').on('click', function(event) {
+			event.stopPropagation();
+		});
+
+	</script>
+
+	
+
+
+<script id="dsq-count-scr" src="//thenewstack.disqus.com/count.js" async></script>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function($) {
+		
+		clearInterval(window.showHideComments);
+		window.showHideComments = setInterval(function() {
+		
+			$('.normalstory-box .commentcloud').each(function () {
+				
+				var commentCountLink = $(this).find('h5 a');
+				var storyCommentCount = commentCountLink.html();
+				
+				if ( storyCommentCount != '+' ) {
+					$(this).show();
+				}
+			
+			});
+		
+		}, 999);
+		
+		$('.normalstory-box .commentcloud .links a').click(function(event) {
+			event.preventDefault();
+			window.location = '//' + window.location.hostname + this.pathname + '#disqus_thread';
+		});
+		
+		
+		
+		$('.postshare .links #showbox').each(function() {
+		    if ( $(this).html == '' ) $(this).html = '+';
+			$(this).show();
+		});
+		
+		$('.postshare .links #showbox').click(function(event) {
+			event.preventDefault();
+		});
+		
+		
+		
+		function loadDisqusComments() {
+		
+			$('html, body').stop().animate({
+			    scrollLeft : $('.comment-block').offset().left,
+			    scrollTop : $('.comment-block').offset().top
+			}, 999, function() {
+				
+				$.ajax ({
+			        type : 'GET',
+			        url : '//' + disqus_shortname + '.disqus.com/embed.js',
+			        dataType : 'script',
+			        cache : true
+			    });
+				
+			    $('.showDisqus').fadeOut();
+			
+			});
+		
+		}
+		
+		
+		
+		/// Auto-show comments if the URL contains '#disqus_thread'
+		if( window.location.href.indexOf('#disqus_thread') > -1 ) {
+			loadDisqusComments()
+		}
+		
+		
+		$('.social-header .commentcloud').on('click', function(event) {
+			event.preventDefault();
+			loadDisqusComments()
+		});
+		
+		
+		$('.social-footer .commentcloud').on('click', function(event) {
+			event.preventDefault();
+			loadDisqusComments()
+		});
+		
+		
+		/// View/Add Comments Button
+		$('.showDisqus').on('click', function(event) {
+			event.preventDefault();
+			loadDisqusComments()
+		});
+		
+		
+		$('.postshare .links').click(function(event) {
+			event.preventDefault();
+			loadDisqusComments()
+		});
+	
+	});
+
+</script>
+
+
+
+</div>
+
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley | Because we&#039;re damned if we do, and we&#039;re damned if we don&#039;t!</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11" />
+	<link rel="pingback" href="https://blog.c22.cc/xmlrpc.php" />
+<meta name="google-site-verification" content="MV2HGg2_q7Tmi_muCawqaJSBrNP5hUqr7_20UolZDn8" />
+<meta name="msvalidate.01" content="1402D6BDAB65A3EC3E2FCB146E9B2254" />
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9ibG9nLmMyMi5jYw%3D%3D"
+		+ "&id=1599597"
+		+ "&time=1554398155";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//c22blog.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//s.pubmine.com' />
+<link rel='dns-prefetch' href='//x.bidswitch.net' />
+<link rel='dns-prefetch' href='//static.criteo.net' />
+<link rel='dns-prefetch' href='//ib.adnxs.com' />
+<link rel='dns-prefetch' href='//aax.amazon-adsystem.com' />
+<link rel='dns-prefetch' href='//bidder.criteo.com' />
+<link rel='dns-prefetch' href='//cas.criteo.com' />
+<link rel='dns-prefetch' href='//gum.criteo.com' />
+<link rel='dns-prefetch' href='//ads.pubmatic.com' />
+<link rel='dns-prefetch' href='//gads.pubmatic.com' />
+<link rel='dns-prefetch' href='//tpc.googlesyndication.com' />
+<link rel='dns-prefetch' href='//ad.doubleclick.net' />
+<link rel='dns-prefetch' href='//googleads.g.doubleclick.net' />
+<link rel='dns-prefetch' href='//www.googletagservices.com' />
+<link rel='dns-prefetch' href='//cdn.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.g.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.swid.switchadhub.com' />
+<link rel="alternate" type="application/rss+xml" title="CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley &raquo; Feed" href="https://blog.c22.cc/feed/" />
+<link rel="alternate" type="application/rss+xml" title="CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley &raquo; Comments Feed" href="https://blog.c22.cc/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJyNUtlOwzAQ/CFci6pEeUF8i49tss36kA9C+HqcpDSFgpUXa3Y9s8fYfPRMOZvAJm4y85Q7tJGPXjnDokGC6Vd0UDE+8b9lhANEfoHkhRrYEj3QJblu6+OCFjryjpwUtI/7KcGqnr0fb3S0irIunUuCa4yLcBlABhEmHtNEcDBoa7MrF6DkjRdpZhjQKIDAFFpNNqLuIK2tV8wSfFQlxjffjWbYF6+qrq72S+kDxMjKaTAblvoy26NuTXOf5dWo6/Y7VoBcbt2AwEiMPIHxJFKptbvAmVAN4Z6P3LqERRJvoFaoA8fKy4mEzv4I2JkEhpo0wPxZCuyWp9jCmkioubgUYUP/Gdqf7j7pm3l9fjk1bduemuPlCyVmOl0=?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFztEKwjAMBdAfsiu6Dp/Eb6k1jtQlrU3q0K+3A30QhkLgPtwDN3bOBjlM9QxiY7tbhfJ4RxdlY38BQzgWr9AR8geHxAqsi81JlEDEj7DSUjrhBKYKlAZY28wlrbjvl5DvCPNfFkGzD1dTQPC5rB/psB0Gt+v7vXPxBTjQW9A='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://c22blog.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel='shortlink' href='https://wp.me/6I7X' />
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley" />
+<meta property="og:description" content="Because we&#039;re damned if we do, and we&#039;re damned if we don&#039;t!" />
+<meta property="og:url" content="https://blog.c22.cc/" />
+<meta property="og:site_name" content="CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley" />
+<meta property="og:image" content="https://secure.gravatar.com/blavatar/1b6c05a022094e3a7342e6b645c9cfce?s=200&amp;ts=1554398155" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/1b6c05a022094e3a7342e6b645c9cfce?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/1b6c05a022094e3a7342e6b645c9cfce?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/1b6c05a022094e3a7342e6b645c9cfce?s=114" />
+<link rel='openid.server' href='https://c22blog.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://c22blog.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://blog.c22.cc/osd.xml" title="CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<style type="text/css">
+.widget_twitter li {
+	word-wrap: break-word;
+}
+</style>
+<meta name="application-name" content="CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Because we&#039;re damned if we do, and we&#039;re damned if we don&#039;t!" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://blog.c22.cc/feed/;icon-uri=https://secure.gravatar.com/blavatar/1b6c05a022094e3a7342e6b645c9cfce?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Because we&#039;re damned if we do, and we&#039;re damned if we don&#039;t!" />
+	<style type="text/css">
+		#header-background {
+		width: 100%;
+		height: 200px;
+		-moz-border-radius: 6px;
+		-khtml-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+		background: #454546 url(https://c22blog.files.wordpress.com/2011/03/cropped-catch22_1000_3003.jpg) 50% 0;
+		margin: 0 0 20px 0;
+	}
+	#header-background a {
+		display: block;
+		text-decoration: none;
+		width: 960px;
+		height: 200px;
+	}
+	#header-background a span {
+		visibility: hidden;
+	}
+		#title h1,
+	#title h1 a,
+	#title p {
+		color: #blank !important;
+	}
+		/* Remove title text */
+	#title h1,
+	#title p {
+		display: none;
+	}
+	</style>		<script type="text/javascript">
+		function __ATA_CC() {var v = document.cookie.match('(^|;) ?personalized-ads-consent=([^;]*)(;|$)');return v ? 1 : 0;}
+		var __ATA_PP = { pt: 0, ht: 0, tn: 'zbench', amp: false, siteid: 8982, blogid: 1599597, consent: __ATA_CC() };
+		var __ATA = __ATA || {};
+		__ATA.cmd = __ATA.cmd || [];
+		__ATA.criteo = __ATA.criteo || {};
+		__ATA.criteo.cmd = __ATA.criteo.cmd || [];
+		</script>
+		<script type="text/javascript" src="//s.pubmine.com/head.js" async></script><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'none']);
+	_gaq.push(['_setAllowLinker', true]);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+<body class="home blog mp6 customizer-styles-applied two-column content-sidebar highlander-enabled highlander-light">
+
+<div id="wrapper">
+
+<div id="header">
+	<div id="header_inner">
+		<ul id="menu-shared-stories" class="nav sf-menu"><li id="menu-item-1838" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-1838"><a href="https://blog.c22.cc/" aria-current="page">Home</a></li>
+<li id="menu-item-1837" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1837"><a href="https://blog.c22.cc/about/">About me</a>
+<ul class="sub-menu">
+	<li id="menu-item-2036" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2036"><a href="https://blog.c22.cc/about/">About me</a></li>
+	<li id="menu-item-3832" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3832"><a href="https://blog.c22.cc/about/speed-blogging/">Speed Blogging</a></li>
+	<li id="menu-item-2034" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2034"><a href="http://www.twitter.com/ChrisJohnRiley">Twitter (@ChrisJohnRiley)</a></li>
+	<li id="menu-item-2605" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2605"><a href="http://twitter.com/catch22insec">Twitter (@catch22insec)</a></li>
+	<li id="menu-item-2033" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2033"><a href="http://www.eurotrashsecurity.eu">Eurotrash Security Podcast</a></li>
+	<li id="menu-item-2606" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2606"><a href="http://twitter.com/eurotrashsec">Twitter (@eurotrashsec)</a></li>
+	<li id="menu-item-1834" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1834"><a href="https://blog.c22.cc/pgp-public-key/">PGP Public Key</a></li>
+</ul>
+</li>
+<li id="menu-item-2622" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2622"><a href="http://feed.c22.cc">Shared Items</a>
+<ul class="sub-menu">
+	<li id="menu-item-3427" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3427"><a href="http://feed.c22.cc">Shared Items</a></li>
+	<li id="menu-item-3428" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3428"><a href="http://feeds.feedburner.com/C22SharedItems">Shared Items (RSS)</a></li>
+	<li id="menu-item-2109" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2109"><a href="http://www.google.com/reader/shared/ChrisJohnRiley">Shared Items (Google Reader archive)</a></li>
+</ul>
+</li>
+<li id="menu-item-2018" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-2018"><a href="https://blog.c22.cc/toolsscripts/">Tools / Scripts</a>
+<ul class="sub-menu">
+	<li id="menu-item-2037" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2037"><a href="https://blog.c22.cc/toolsscripts/">Tools / Scripts</a></li>
+	<li id="menu-item-4461" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4461"><a href="https://blog.c22.cc/2012/10/03/scythe-framework/">Scythe Framework</a></li>
+	<li id="menu-item-3112" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3112"><a href="https://blog.c22.cc/toolsscripts/apache-log-extractor-alpha/">Apache Log Extractor [Alpha]</a></li>
+	<li id="menu-item-2031" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2031"><a href="https://blog.c22.cc/toolsscripts/ua-tester/">UA-Tester</a></li>
+	<li id="menu-item-2410" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2410"><a href="https://blog.c22.cc/toolsscripts/metasploit-modules/">Metasploit Modules</a></li>
+	<li id="menu-item-2237" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2237"><a href="https://blog.c22.cc/toolsscripts/prn-2-me/">PRN-2-ME</a></li>
+	<li id="menu-item-2163" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2163"><a href="https://blog.c22.cc/toolsscripts/poc-scr-im-tessercap-captcha-ocr/">[PoC] scr.im.tessercap (CAPTCHA OCR)</a></li>
+	<li id="menu-item-2139" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2139"><a href="https://blog.c22.cc/toolsscripts/poc-scr-im-jim/">[PoC] scr.im-jim</a></li>
+	<li id="menu-item-2032" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2032"><a href="https://blog.c22.cc/toolsscripts/typ3defenctool/">Typo3 Default Encryption Keys</a></li>
+</ul>
+</li>
+<li id="menu-item-1836" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1836"><a href="https://blog.c22.cc/media/">Media</a></li>
+<li id="menu-item-1833" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1833"><a href="https://blog.c22.cc/advisories/">Advisories</a>
+<ul class="sub-menu">
+	<li id="menu-item-2623" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2623"><a href="https://blog.c22.cc/advisories/">Advisories</a></li>
+	<li id="menu-item-6985" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6985"><a href="https://blog.c22.cc/advisories/cve-2013-51135114-lastpass-android-container-pin-and-auto-wipe-security-feature-bypass/">CVE-2013-5113/5114 &#8211; LastPass Android container PIN and auto-wipe security feature bypass</a></li>
+	<li id="menu-item-6984" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6984"><a href="https://blog.c22.cc/advisories/cve-2013-2503-privoxy-proxy-authentication-credential-exposure/">CVE-2013-2503 &#8211; Privoxy Proxy Authentication Credential Exposure</a></li>
+	<li id="menu-item-3903" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3903"><a href="https://blog.c22.cc/advisories/typo3-ext-sa-2012-003-t3extplorer/">TYPO3-EXT-SA-2012-003 &#8211; t3extplorer</a></li>
+	<li id="menu-item-2819" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2819"><a href="http://wp.me/p6I7X-Jh">SurveyMonkey: IP Spoofing</a></li>
+	<li id="menu-item-2638" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2638"><a href="https://blog.c22.cc/2011/01/09/metasploit-sap-management-console-aux-modules/">SAP Management Console</a></li>
+	<li id="menu-item-2624" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2624"><a href="https://blog.c22.cc/2009/10/07/the-secrets-of-scr-im/">scr.im Captcha Bypass</a></li>
+	<li id="menu-item-2027" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2027"><a href="https://blog.c22.cc/advisories/typo3-sa-2010-009-sr_feuser_register/">TYPO3-SA-2010-009 &#8211; sr_feuser_register</a></li>
+	<li id="menu-item-2030" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2030"><a href="https://blog.c22.cc/advisories/typo3-sa-2009-001/">TYPO3-SA-2009-001 &#8211; Insecure Randomness</a></li>
+	<li id="menu-item-2028" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2028"><a href="https://blog.c22.cc/advisories/typo3-sa-2009-016-install-tool/">TYPO3-SA-2009-016 &#8211; Install Tool</a></li>
+	<li id="menu-item-2029" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2029"><a href="https://blog.c22.cc/advisories/typo3-sa-2009-016-felogin/">TYPO3-SA-2009-016 &#8211; felogin</a></li>
+</ul>
+</li>
+<li id="menu-item-1828" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1828"><a href="https://blog.c22.cc/books/">Bookshelf</a></li>
+</ul>		<form id="search-form" role="search" method="get" action="https://blog.c22.cc/">
+			<input type="text" value="Search: type, hit enter" onfocus="if (this.value == 'Search: type, hit enter' ) {this.value = '';}" onblur="if (this.value == '' ) {this.value = 'Search: type, hit enter';}" name="s" id="s" />
+			<input type="submit" id="search-submit" value="Search" />
+		</form>
+	</div>
+</div>
+
+<div id="content">
+
+		<div id="title">
+		<h1><a href="https://blog.c22.cc/">CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley</a></h1>
+		<p>Because we&#039;re damned if we do, and we&#039;re damned if we don&#039;t!</p>
+	</div>
+
+		<div id="header-background"><a href="https://blog.c22.cc/"><span>Home</span></a></div>
+	
+	<div id="maincontent">
+		<div id="maincontent_inner">
+	
+		<div id="post-28476" class="post-28476 post type-post status-publish format-standard hentry category-conference category-security tag-deepsec">
+			<h2 class="title"><a href="https://blog.c22.cc/2015/11/19/deepsec-201550-shades-of-waf/" rel="bookmark">[DeepSec 2015]50 Shades of&nbsp;WAF</a></h2>
+
+			<div class="post-info">
+				<div>
+					<span class="comments-meta"><span>Comments Off<span class="screen-reader-text"> on [DeepSec 2015]50 Shades of&nbsp;WAF</span></span></span>
+					Posted by <span class="author"><a href="https://blog.c22.cc/author/catchtwotwo/" title="Posts by ChrisJohnRiley" rel="author">ChrisJohnRiley</a></span> on <span class="time">November 19, 2015</span>
+									</div>
+			</div>
+
+			<div class="content">
+				<p><a href="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png"><img data-attachment-id="28070" data-permalink="https://blog.c22.cc/2014/11/20/deepsec-2014-the-measured-cso-alex-hutton/deepseclogo/" data-orig-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630" data-orig-size="262,55" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="DeepSecLogo" data-image-description="" data-medium-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630?w=262" data-large-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630?w=262" class="wp-image-28070 size-full alignright" style="margin:10px;" src="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630" alt="DeepSecLogo" srcset="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png 262w, https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=150 150w" sizes="(max-width: 262px) 100vw, 262px"   /></a></p>
+<p><a href="https://deepsec.net/speaker.html#PSLOT213">50 Shades of WAF &#8211; Exemplified at Barracuda &amp; Sucuri</a><br />
+Ashar Javed (Hyundai AutoEver Europe GmbH)</p>
+<blockquote><p>This talk will present 50 (25*2) bypasses of Barracuda and Sucuri&#8217;s WAF default signatures that deal with Cross-Site Scripting (XSS). 150,000 organizations worldwide including Fortune 1000 companies are using Barracuda while around 10,000 web applications are behind Sucuri&#8217;s cloud-based WAF. The XSS bypasses we will present in this talk are also applicable to other WAFs. All bypasses were responsibly reported to the vendors and most of them were fixed. Further, we will show XSS in Barracuda&#8217;s admin interface and in their web application. Finally, we will present one unfixed bypass of Barracuda and Sucuri and will see how quickly vendors will react to fix it, given it will make thousands of sites vulnerable.</p></blockquote>
+<h3>Â Barracuda</h3>
+<p>150,000 organizations use Barracuda Networks technology.</p>
+<p>Over 10 monthsÂ during 2014/2015 Barracuda had 7 updates of their ruleset, none of which included XSS. 6 months after that, they released 5 updates and 1 firmware patch that included fixes for XSS issues. Updating is hard, meaning there are a lot of WAFs out there that are letting XSS attacks through.</p>
+<p>How to detect Barracuda&#8230; if you see this message, then you&#8217;re looking at Barracuda:</p>
+<blockquote><p>The specified URL cannot be found</p></blockquote>
+<p>After testing the regular expressions used to detect XSS, their was a number of XSS discovered.</p>
+<h4>Event Handlers</h4>
+<p>4 separate regexes handling event handlers.</p>
+<p>Large number of event handlers missing, and the ones in the regex are hard-coded (for logging and tracking purposes).</p>
+<ul>
+<li>ontoggle</li>
+<li>onsearch</li>
+<li>onlaungaugechange</li>
+<li>oncuechange</li>
+<li>ondragexit</li>
+<li>&#8230;</li>
+</ul>
+<p>Moving to a more generic event handler detection e.g. on(.*) would catch these.</p>
+<p>However, even if the event handler was detected it was bypassable. However the logic didn&#8217;t allow for backtick (`) which is supported in some browsers. It was also possible to bypass by injecting a newline between the equals and quotes (onclick=%0A&#8221;stuff&#8221;). This was due to the use of &#8220;.&#8221; in the regex, which matches anything except a newline.</p>
+<p>meta tags where also treated differently, resulting in a number of ways of bypassing the filters. The same issues existed in a number of html tags.</p>
+<p>Some other issues that cause bypasses:</p>
+<ul>
+<li>Tags &lt; 10 chars</li>
+<li>Tags alphanumeric</li>
+<li>Tags are closed properly</li>
+<li>Data URI JS injection (resulted in multiple issues)</li>
+<li>expression</li>
+</ul>
+<p>All these Regexes work together to detect issues. However these are not always turned on. They need to activated, and whitelisting specific checks may have a knock-on effect in other areas where mutliple regexes are needed for detection.</p>
+<p>Constant tweaks to the payload and complexity of the regexes results in false positives. The knock-on effect of this is disabling of protections, which lowers overall the level of security.</p>
+<p>Some of the bypasses effected the BarracudaNetworks.com login page and stored XSS in their main admin interface.</p>
+<p><strong><em>Takeaway</em></strong>: Updated to 1.102 version and apply the firmware patch 8.0.1</p>
+<h3>Sucuri</h3>
+<p>Cloud-based WAF&#8230; priced cheaper than a takeaway pizza.</p>
+<p>Sucuri offers a bug bounty (through <a href="https://hackerone.com/sucuri" target="_blank">HackerOne</a>) on bypasses.</p>
+<p>A large number of bypasses using encoding, backticks, unclosed tags, VBscript&#8230;</p>
+<p>Blocked all onmouse*, onkey*, and many many more. Blacklists are a zero sum game.</p>
+<p>Blocking of script tags appeared work well, however &lt;script%2fsrc was a workable bypass technique. There&#8217;s always new bypasses, and almost an endless way to bypass the protections given enough time.</p>
+<h3>Conclusion</h3>
+<p>WAFs are not the only protection layer. It can be an extra layer, but not the only defense.</p>
+<p><strong>Links:</strong></p>
+<ul>
+<li>Presentation <a href="https://deepsec.net/speaker.html#PSLOT213" target="_blank">Abstract</a></li>
+<li>Ashar JavedÂ <a href="@soaj1664ashar" target="_blank">Twitter</a></li>
+</ul>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-right:5px;margin-top:0px">
+		<div id="atatags-26942-5ca63bcb285c0">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-26942-5ca63bcb285c0',  {
+					collapseEmpty: 'before',
+					sectionId: '26942',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div>		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-top:0px">
+		<div id="atatags-114160-5ca63bcb285c2">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-114160-5ca63bcb285c2',  {
+					collapseEmpty: 'before',
+					sectionId: '114160',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div></div>
+				
+			</div>
+		</div>			</div>
+
+			<div class="post-meta">
+								<span class="categories"><a href="https://blog.c22.cc/tag/conference/" rel="category tag">Conference</a>, <a href="https://blog.c22.cc/category/security/" rel="category tag">Security</a></span>				<span class="tags"><a href="https://blog.c22.cc/tag/deepsec/" rel="tag">deepsec</a></span>			</div>
+			<div class="sep"></div>
+
+		</div>
+
+		
+		<div id="post-28395" class="post-28395 post type-post status-publish format-standard hentry category-conference category-security tag-deepsec">
+			<h2 class="title"><a href="https://blog.c22.cc/2015/11/19/deepsec-2015-file-format-fuzzing-in-android-giving-a-stagefright-to-the-android-installer/" rel="bookmark">[DeepSec 2015] File Format Fuzzing in Android &#8211; Giving a Stagefright to the Android&nbsp;Installer</a></h2>
+
+			<div class="post-info">
+				<div>
+					<span class="comments-meta"><span>Comments Off<span class="screen-reader-text"> on [DeepSec 2015] File Format Fuzzing in Android &#8211; Giving a Stagefright to the Android&nbsp;Installer</span></span></span>
+					Posted by <span class="author"><a href="https://blog.c22.cc/author/catchtwotwo/" title="Posts by ChrisJohnRiley" rel="author">ChrisJohnRiley</a></span> on <span class="time">November 19, 2015</span>
+									</div>
+			</div>
+
+			<div class="content">
+				<p><a href="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png"><img data-attachment-id="28070" data-permalink="https://blog.c22.cc/2014/11/20/deepsec-2014-the-measured-cso-alex-hutton/deepseclogo/" data-orig-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630" data-orig-size="262,55" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="DeepSecLogo" data-image-description="" data-medium-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630?w=262" data-large-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630?w=262" class="wp-image-28070 size-full alignright" style="margin:10px;" src="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630" alt="DeepSecLogo" srcset="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png 262w, https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=150 150w" sizes="(max-width: 262px) 100vw, 262px"   /></a></p>
+<p><a href="https://deepsec.net/speaker.html#PSLOT199">File Format Fuzzing in Android &#8211; Giving a Stagefright to the Android Installer</a><br />
+<em>Alexandru Blanda (Intel Corporation)</em></p>
+<blockquote><p>Â The presentation focuses on revealing a fuzzing approach that can beÂ used to uncover different types of vulnerabilities inside multiple coreÂ system components of the Android OS. The session will be targeted onÂ exposing the general idea behind this approach and how it applies toÂ several real-life targets from the Android OS, with examples of actualÂ discovered vulnerabilities. These vulnerabilities affect criticalÂ components of the Android OS and the audience will have the opportunityÂ to learn about the way they were discovered and possible exploitÂ scenarios. The most important targets that will be included in the talk: the Android APK installer and the Stagefright media framework.</p></blockquote>
+<h3></h3>
+<p>An approach that can be used for file-format fuzzing on Android</p>
+<h3>File Format Fuzzing</h3>
+<p>First steps in file format fuzzing:</p>
+<ul>
+<li>Data Generation</li>
+<li>Log process (Execute Tests)</li>
+<li>Triage mechanism</li>
+<li>Analyze and Debug crashes</li>
+</ul>
+<p>If the fuzzing is successful, triage and categorization of the issues is an important step to avoid being overwhelmed by responses.</p>
+<p><em>Data Generation</em></p>
+<p>Mutational vs. generational Fuzzing</p>
+<p>Maintain the structural validity of the file being processed. The target needs to accept that the file is valid otherwise it won&#8217;t run.</p>
+<p>Tools use for test-case generation:</p>
+<ul>
+<li>Basic Fuzzing Framework (BFF)</li>
+<li>FuzzBox</li>
+<li>Radamsa</li>
+<li>American Fuzzy Lop (AFL)</li>
+</ul>
+<p><em>Log Process</em></p>
+<p>To find out what&#8217;s happening with the test-cases we send to the Android device, we need to check the logs. This can be read out using the logcat on the device. This can be done by looking for Fatal messages and seeding the logcat before and after the run to identify the test case details and information required to reproduce.</p>
+<pre style="padding-left:30px;">adb shell logcat -v time *:F</pre>
+<p><em>Triage Mechanism</em></p>
+<p>Each time a crash occurs a tombstone file is created under /data/tombstones and /data/system/dropbox. This data is important to have for triaging the issues and tracking the various crashes.</p>
+<p>By looking at the value where the crash occurs you can collect a unique list of crashes without duplicates.</p>
+<ol>
+<li>Parse logcat for input that causes crashes</li>
+<li>Execute input to cause the crash again</li>
+<li>Grab the Tombstone data to check against existing know issues</li>
+</ol>
+<p><em>Analyze and Debug Crashes</em></p>
+<p>After triage maybe you have 2 or 3 interesting crashes to investigate. Using the Tombstone data can give a good indication of the severity and location of where the crash occurs. Dmesg also gives a good source of information.</p>
+<p>Using gdbserver you can debug crashes on the device. gdb can then be used to start a remote debugging session (make sure you set the Android debugging symbols).</p>
+<p>addr2line can be useful in getting the information on where the call took place (example: where libstagefright called libc.so)</p>
+<h3>Fuzzing the Stagefright Media Framework</h3>
+<p>Media files are interesting attack vectors as the contain complex data and result in a large attack surface (audio, video, images, etc&#8230;). Media files are also seen as innocuous to users, and can be played through various sources without the users consent (MMS etc..).</p>
+<p>Easiest way to test was the build the stagefright CLI toolÂ (frameworks/av/cmds/stagefright) and calling it from the Android command line for testing.</p>
+<p>Initially started fuzzing in early 2014&#8230; thousands of crashes (needed a triage mechanism to cope). First severe issues reported to Google in September 2014.</p>
+<h3>Fuzzing the Android application installer</h3>
+<p>The application installer is an attractive target (runs with high system privileges). If an attacker can exploit this, the impact will be high. The installer also allows for unprivileged users to send input to system components.</p>
+<p>The process of application installation differs between ART and Dalvik (Lollipop and KitKat respectively).</p>
+<p>Extract the APK, fuzz the components to be tested, repack</p>
+<p>ART is easier as alterations can be made without extraction.</p>
+<p>Modifications to the APK will result in anÂ application signature mismatch. This means that the APK will need to be re-signed before testing.</p>
+<h3>Fuzzing with AFL in Android</h3>
+<p>Android port of the tool developed by Adrian Denkiewicz of Intel</p>
+<p>Using alongsideÂ <a href="https://github.com/fuzzing/MFFA" target="_blank">MFFA</a>Â to discover issues. In some cases, AFL reported crashes that could not be confirmed when running the test case singularly.</p>
+<p>This method of testing showed some results that were not seen in other tests (1 high RCE issue, and several low severity issues).</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>Links:</strong></p>
+<ul>
+<li>Presentation <a href="https://deepsec.net/speaker.html#PSLOT199" target="_blank">Abstract</a></li>
+<li>PresentationÂ <a href="https://www.blackhat.com/docs/eu-15/materials/eu-15-Blanda-Fuzzing-Android-A-Recipe-For-Uncovering-Vulnerabilities-Inside-System-Components-In-Android-wp.pdf" target="_blank">Paper</a></li>
+<li>Alexandru Blanda <a href="@bigdinrock" target="_blank">Twitter</a></li>
+</ul>
+<div id="atatags-370373-5ca63bcb2c731">
+        <script type="text/javascript">
+            __ATA.cmd.push(function() {
+                __ATA.initVideoSlot('atatags-370373-5ca63bcb2c731', {
+                    sectionId: '370373',
+                    format: 'inread'
+                });
+            });
+        </script>
+    </div>			</div>
+
+			<div class="post-meta">
+								<span class="categories"><a href="https://blog.c22.cc/tag/conference/" rel="category tag">Conference</a>, <a href="https://blog.c22.cc/category/security/" rel="category tag">Security</a></span>				<span class="tags"><a href="https://blog.c22.cc/tag/deepsec/" rel="tag">deepsec</a></span>			</div>
+			<div class="sep"></div>
+
+		</div>
+
+		
+		<div id="post-28314" class="post-28314 post type-post status-publish format-standard hentry category-conference category-security tag-deepsec">
+			<h2 class="title"><a href="https://blog.c22.cc/2015/11/19/deepsec-2015how-to-break-xml-encryption-automatically/" rel="bookmark">[DeepSec 2015]How to Break XML Encryption â&nbsp;Automatically</a></h2>
+
+			<div class="post-info">
+				<div>
+					<span class="comments-meta"><span>Comments Off<span class="screen-reader-text"> on [DeepSec 2015]How to Break XML Encryption â&nbsp;Automatically</span></span></span>
+					Posted by <span class="author"><a href="https://blog.c22.cc/author/catchtwotwo/" title="Posts by ChrisJohnRiley" rel="author">ChrisJohnRiley</a></span> on <span class="time">November 19, 2015</span>
+									</div>
+			</div>
+
+			<div class="content">
+				<p><a href="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png"><img data-attachment-id="28070" data-permalink="https://blog.c22.cc/2014/11/20/deepsec-2014-the-measured-cso-alex-hutton/deepseclogo/" data-orig-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630" data-orig-size="262,55" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="DeepSecLogo" data-image-description="" data-medium-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630?w=262" data-large-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630?w=262" class="wp-image-28070 size-full alignright" style="margin:10px;" src="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630" alt="DeepSecLogo" srcset="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png 262w, https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=150 150w" sizes="(max-width: 262px) 100vw, 262px"   /></a></p>
+<p><a href="https://deepsec.net/speaker.html#PSLOT198" target="_blank">How to Break XML Encryption â Automatically</a><br />
+<em>Juraj Somorovsky (Ruhr University Bochum)</em></p>
+<blockquote><p>In recent years, XML Encryption became a target of several new attacks. These attacks belong to the family of adaptive chosen-ciphertext attacks, and allow an adversary to decrypt symmetric and asymmetric XML ciphertexts, without knowing the secret keys. In order toprotect XML Encryption implementations, the World Wide Web Consortium (W3C) published an updated version of the standard.</p>
+<p>Unfortunately, most of the current XML Encryption implementations do not support the newest standard and offer different XML Security configurations to protect confidentiality of the exchanged messages. Resulting from the attack and specification complexity, evaluation of the security configuration correctness becomes tedious and error prone.<br />
+In this talk, we will first give an overview on Web Service specific attacks. Afterwards, we present attacks on XML Encryption and how to evaluate security of XML Encryption interfaces automatically. Our algorithm can detect a vulnerability and exploit it to retrieve a plaintext from an encrypted message. To assess practicability of our approach, we implemented an open source attack plugin for Web Service attacking tool called WS-Attacker. With the plugin, we discovered new security problems in four out of five analyzed Web Service implementations, including IBM Datapower or Apache CXF.</p></blockquote>
+<h3>What is a WebService and XML Security</h3>
+<p>SOAP WebService are a standard that allows you to execute a function on the server and receive a response (remote procedure calls). This range from simple to very complex requests.</p>
+<p>There are many ways to secure this communication. SSL/TLS can be used to secure the tunnel between the client and server (transport communication). The broker however (the server in this case) can see the data. To stops this from happening, you need to encrypt the data within the SOAP request using something like XML Security.</p>
+<p>XML Security consists of 2 standards (XML Signature and XML Encryption). This can be used to protect to the entire document, or sections individually.</p>
+<h3>XML Signature Wrapping</h3>
+<p>One of the problems of XML Security is XML Signature wrapping. As the XML signature should protect against alteration to the document, by allowing validation of specific elements.</p>
+<p>An attacker can howeverÂ relocate the signed element, maintaining the valid signature. Then an attacker can add additional data to the request that are understood by the application layer. As the verification and application logic are separate, the verification will pass due to the presence of a valid signature. The application will then accept the attackers data as validated when it hasn&#8217;t been confirmed at the validation layer.</p>
+<p>This problem was seen in 2011 in Amazon Web Services by bypassing signed SOAP requests. This resulted in the ability for an active attacker to alter the SOAP data and start instances without permission.</p>
+<p>Further attacks against SAML were performed, where &lt;10 out of 22 systems tested were vulnerable to signature wrapping attacks.</p>
+<h3>Attacks on XML encryption</h3>
+<p>In most cases XML Encryption uses a hybrid encryption scheme (Asymmetric and symmetric keys). Published attacks (2011/2012) exist for both portions of the encryption (adapted chosen-ciphertext attacks) using the server as an oracle.</p>
+<p>&nbsp;</p>
+<p>XML is a text-based data format. Therefore it must be parsed to be understood (usually ASCII encoded). Certain ASCII characters are not parseable or can be excluded. This reduces the understood character set and makes the attack easier.</p>
+<p><em>Validity oracle</em></p>
+<ol>
+<li>Content Decryption</li>
+<li>XML parsing</li>
+<li>XML Evaluation</li>
+</ol>
+<p>Be using this oracle and checking the error type returned, it&#8217;s possible to see if the failure occurs at the decryption of parsing phase.</p>
+<p>This attack is made possible as an attacker can flip bits in the request. Cipher Block Chaining Mode has been discussed previously in several padding oracle attacks.</p>
+<p>Performance (against Symmetric encryption): 14 queries / pain-text byte</p>
+<p>&nbsp;</p>
+<h3>How to analyze WebServices Automatically</h3>
+<p>WS-Attacker tool &#8211;Â https://github.com/RUB-NDS/WS-Attacker</p>
+<p>Automated tool to validate attacks against WebServices, implementing XML Signature wrapping and sending requests to the oracle to validate if the system is vulnerable.</p>
+<p>If the oracle can be identified, the attack is performed.</p>
+<p>Examples of vulnerable systems discovered in testing:</p>
+<ul>
+<li>Apache Axis2</li>
+<li>Apache CXF</li>
+<li>Axway Gateway</li>
+<li>IBM DataPower</li>
+<li>Microsoft WCF</li>
+</ul>
+<h3></h3>
+<p>Countermeasures that were in place for Apache CXF were found to be incorrectly implemented, resulting it being vulnerable to attack.</p>
+<h3>Conclusion</h3>
+<p>XML is very complicated, so application of XML Encryption should be validated using tools like WS-Attacker to ensure that it&#8217;s not vulnerable.</p>
+<p>This attack is also applies to other scenarios like SAML, JSON, Web Crypto</p>
+<p>Prefer authentication encryption (AES-GCM instead of AES-CBC)</p>
+<p><strong>Links:</strong></p>
+<ul>
+<li>Presentation <a href="https://deepsec.net/speaker.html#PSLOT198" target="_blank">Abstract</a></li>
+<li>Juraj Somorovsky <a href="@jurajsomorovsky" target="_blank">Twitter</a></li>
+<li>WS-Attacker &#8211;Â <a href="https://github.com/RUB-NDS/WS-Attacker" target="_blank">Github</a>Â &#8211;Â <a href="http://web-in-security.blogspot.co.at/2015/04/introduction-to-ws-attacker-xml.html" target="_blank">Blogpost</a></li>
+<li>How to Break XML Encryption â AutomaticallyÂ <a href="https://www.usenix.org/system/files/conference/woot15/woot15-paper-kupser.pdf" target="_blank">Paper</a></li>
+</ul>
+			</div>
+
+			<div class="post-meta">
+								<span class="categories"><a href="https://blog.c22.cc/tag/conference/" rel="category tag">Conference</a>, <a href="https://blog.c22.cc/category/security/" rel="category tag">Security</a></span>				<span class="tags"><a href="https://blog.c22.cc/tag/deepsec/" rel="tag">deepsec</a></span>			</div>
+			<div class="sep"></div>
+
+		</div>
+
+		
+		<div id="post-28238" class="post-28238 post type-post status-publish format-standard hentry category-conference category-security tag-deepsec">
+			<h2 class="title"><a href="https://blog.c22.cc/2015/11/19/deepsec-2015-hacking-cookies-in-modern-web-applications-and-browsers/" rel="bookmark">[DeepSec 2015] Hacking Cookies in Modern Web Applications and&nbsp;Browsers</a></h2>
+
+			<div class="post-info">
+				<div>
+					<span class="comments-meta"><span>Comments Off<span class="screen-reader-text"> on [DeepSec 2015] Hacking Cookies in Modern Web Applications and&nbsp;Browsers</span></span></span>
+					Posted by <span class="author"><a href="https://blog.c22.cc/author/catchtwotwo/" title="Posts by ChrisJohnRiley" rel="author">ChrisJohnRiley</a></span> on <span class="time">November 19, 2015</span>
+									</div>
+			</div>
+
+			<div class="content">
+				<p><a href="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png"><img data-attachment-id="28070" data-permalink="https://blog.c22.cc/2014/11/20/deepsec-2014-the-measured-cso-alex-hutton/deepseclogo/" data-orig-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630" data-orig-size="262,55" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="DeepSecLogo" data-image-description="" data-medium-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630?w=262" data-large-file="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630?w=262" class="wp-image-28070 size-full alignright" style="margin:10px;" src="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=630" alt="DeepSecLogo" srcset="https://c22blog.files.wordpress.com/2014/11/deepseclogo.png 262w, https://c22blog.files.wordpress.com/2014/11/deepseclogo.png?w=150 150w" sizes="(max-width: 262px) 100vw, 262px"   /></a></p>
+<p><a href="https://deepsec.net/speaker.html#PSLOT196" target="_blank">Hacking Cookies in Modern Web Applications and Browsers</a><br />
+<em>Dawid Czagan (Silesia Security Lab)</em></p>
+<blockquote><p>Since cookies store sensitive data (session ID, CSRF token, etc.) they are interesting from an attacker&#8217;s point of view. As it turns out, quite many web applications (including sensitive ones like bitcoin platforms) have cookie related vulnerabilities, that lead, for example, to user impersonation, remote cookie tampering, XSS and more.</p>
+<p>Developers tend to forget that multi-factor authentication does not help if cookies are insecurely processed. Security evaluators underestimate cookie related problems. Moreover, there are problems with the secure processing of cookies in modern browsers. And browser dependent exploitation can be used to launch more powerful attacks.</p>
+<p>That&#8217;s why secure cookie processing (from the perspective of web application and browser) is a subject worth discussing. The following topics will be presented:</p>
+<p>&#8211; cookie related vulnerabilities in web applications<br />
+&#8211; insecure processing of secure flag in modern browsers<br />
+&#8211; bypassing HttpOnly flag in Safari<br />
+&#8211; problems with Domain attribute in Internet Explorer<br />
+&#8211; cookie tampering in Safari<br />
+&#8211; underestimated XSS via cookie<br />
+&#8211; HTTP Strict Transport Security (HSTS)<br />
+&#8211; importance of regeneration<br />
+&#8211; and more</p></blockquote>
+<p>Why are we interested in Cookies&#8230;</p>
+<p>Even when an application enforced 2 Factor Authentication, an attacker can gain access by getting the cookies. Security is always measured at the least protected part. If Cookies aren&#8217;t correctly protected, then even a 2FA system can be bypassed.</p>
+<p>Many testers underestimate the security issues caused by mis-configured Cookie protections. Exploitation of Cookie related issues is not limited to local attacks.</p>
+<p>Browsers also have issues dealing with secure Cookie processing. These kind of issues can be combined with application issues to make attacks on cookies more impactful.</p>
+<p>What are the consequences of insecure Cookie processing?</p>
+<ul>
+<li>SQL injection</li>
+<li>XSS</li>
+<li>User impersonation</li>
+<li>&#8230;</li>
+</ul>
+<h3>Web Application</h3>
+<h4>Secure flag and HSTS</h4>
+<p>Setting &#8220;Secure&#8221; on Cookies protects the confidentiality of the cookies by making sure that they are only send over secure connections.</p>
+<p>RFC6265 prevents this cookie being sent over unencrypted HTTP, however it specifically allows an attacker to overwrite a cookie in the browser. This allows an attacker to inject a cookie (new or overwriting an existing cookie) that will be used in the HTTPS protected sessions.</p>
+<p>HSTS to the rescue&#8230; even if a Cookie is not marked as &#8220;Secure&#8221; an HSTS header will tell the browser to only communicate over HTTPS. Therefore it&#8217;s not required to set &#8220;Secure&#8221; right&#8230; wrong!</p>
+<p>Although HSTS works fine, as long as it&#8217;s supported by all major browsers. This is not the case with HSTS, as Internet Explorer 10 doesn&#8217;t support it.</p>
+<p>Setting both &#8220;Secure&#8221; and HSTS is the safest mechanism here&#8230; to ensure maximum security.</p>
+<h4>Importance of regeneration</h4>
+<p>IfÂ session IDs are regenerated after a session change (logon, logout, etc&#8230;) then this may allow an attacker access (session fixation).</p>
+<p>An attacker who can learn the value of the Cookie prior to the user authenticating, can re-use this knowledge once the Cookie is authenticated.</p>
+<p>All Cookies with sensitive data or used within the application should be regenerated on a state change (include CSRF tokens etc&#8230;)</p>
+<h4>Server-side invalidation</h4>
+<p>Just because the session cookie is deleted by the users browser, doesn&#8217;t mean that it&#8217;s invalidated on the server. This can lead to issues where the session remains open, however the server still has a valid session.</p>
+<h4>HttpOnly Flag</h4>
+<p>Assigning this flag prevents a non-HTTP API (e.g JavaScript) from reading out the session Cookie&#8230; the theory being, that it can be used to protect against XSS attacks stealing the session Cookies.</p>
+<p>Problems here are that RFC6265 talks about &#8220;reading&#8221; the cookie. However non-HTTP API can still write or overwrite depending on how the RFC is understood and implemented.</p>
+<p>Specific browsers (e.g. Safari 9) will allow you to overwrite the cookie. This means that an XSS vulnerability can overwrite the Cookie and switch the user into an attacker controlled account. If the user can then be prompted to enter private data into this session, it is exposed to the attacker.</p>
+<p>Combining this with the previously seen session fixation issue (Cookie value not changed after state change). This would allow an attacker to set a known Cookie and use it to gain access to a user&#8217;s session once they authenticate.</p>
+<h4>Domain Attribute</h4>
+<p>RFC6265 says &#8211; When a domain attribute is not specified, then it should only be sent to the domain where it originated.</p>
+<p>However Internet Explorer 11 sends this Cookie to all subdomains of this domain.</p>
+<p>This can be a real issue where a cookie is set on example.com where a sensitive application lives under example.com/wallet. The cookie is set without the domain attribute, according to the RFC. In Internet Explorer 11 this means that the user will also send this Cookie to sub-domains that are less sensitive, meaning an XSS in test.example.com can read out the Cookie value.</p>
+<p>This kind of leakage can happen to externally hosted domains. As the rules only take effect on the Domain name, the fact that the site is hosted externally is incidental, however may expose sensitive data to a 3rd party vendor.</p>
+<h4>Cookie Tampering</h4>
+<p>Safari 9 allows comma-separated lists of Cookies (taken from the obsoleted RFC2109)</p>
+<p>Example:</p>
+<pre style="padding-left:30px;">/index.php?lang=de,%20PHPSESSID=abc</pre>
+<p>As this is taken from the request and put into the Set-Cookie header, it allows an attacker fully remotely to tamper with the Cookie jar of the user. This allows changing the users account, as discussed previously.</p>
+<p>It&#8217;s also possible to perform XSS via Cookie without locally setting a Cookie.</p>
+<h4>Underestimated XS via Cookie</h4>
+<p>Commonly this issue has a low assigned risk as the Cookie value has to be set locally. However if you can gain access to a low sensitive website on a subdomain like x.example.com, you can set a Cookie for y.example.com in order to exploit the user without local access to the browser.</p>
+<p>Response splitting also allows exploitation of this issue, by allowing an attacker to set a Cookie by injecting a Set-Cookie header to place the XSS into the browser&#8217;s Cookie Jar.</p>
+<h3></h3>
+<h3>Conclusions</h3>
+<ul>
+<li>Educate development teams about the risks of Cookies</li>
+<li>Discuss/improve RFC 6265</li>
+<li>Cooperate with Browser vendors</li>
+</ul>
+<p>&nbsp;</p>
+<p><strong>Links:</strong></p>
+<ul>
+<li>Presentation <a href="https://deepsec.net/speaker.html#PSLOT196" target="_blank">Abstract</a></li>
+<li>Dawid Czagan <a href="@dawidczagan" target="_blank">Twitter</a></li>
+<li>RFC <a href="https://tools.ietf.org/html/rfc6265" target="_blank">6265</a></li>
+</ul>
+			</div>
+
+			<div class="post-meta">
+								<span class="categories"><a href="https://blog.c22.cc/tag/conference/" rel="category tag">Conference</a>, <a href="https://blog.c22.cc/category/security/" rel="category tag">Security</a></span>				<span class="tags"><a href="https://blog.c22.cc/tag/deepsec/" rel="tag">deepsec</a></span>			</div>
+			<div class="sep"></div>
+
+		</div>
+
+		
+
+		<div class="next-prev-links">
+			<div class="nav-previous"><p><a href="https://blog.c22.cc/page/2/" ><span class="meta-nav">&larr;</span> Older posts</a></p></div>
+			<div class="nav-next"><p></p></div>
+		</div>
+
+	</div>
+
+
+</div><div id="sidebar" class="sidebar">
+			<div id="rssfeed"><a href="https://blog.c22.cc/feed/"><span>RSS feed</span></a></div>
+
+		<div class="sidebar-border active" id="primary-widget-area">
+		<div class="sidebar-inner">
+				<div id="recent-posts-2" class="widget widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+											<li>
+					<a href="https://blog.c22.cc/2015/11/19/deepsec-201550-shades-of-waf/">[DeepSec 2015]50 Shades of&nbsp;WAF</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2015/11/19/deepsec-2015-file-format-fuzzing-in-android-giving-a-stagefright-to-the-android-installer/">[DeepSec 2015] File Format Fuzzing in Android &#8211; Giving a Stagefright to the Android&nbsp;Installer</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2015/11/19/deepsec-2015how-to-break-xml-encryption-automatically/">[DeepSec 2015]How to Break XML Encryption â&nbsp;Automatically</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2015/11/19/deepsec-2015-hacking-cookies-in-modern-web-applications-and-browsers/">[DeepSec 2015] Hacking Cookies in Modern Web Applications and&nbsp;Browsers</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2015/11/19/deepsec-2015-can-societies-manage-the-sigint-monster/">[DeepSec 2015] Can societies manage the SIGINT&nbsp;monster?</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2015/10/19/lhs-microcase-deepsec-2015/">[LHS Microcast] DeepSec&nbsp;2015</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2015/10/02/lhs-microcast-interview-w-jen-ellis/">[LHS Microcast] Interview w/ Jen&nbsp;Ellis</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2014/12/23/taking-out-the-eurotrash/">Taking out the&nbsp;Eurotrash</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2014/12/22/all-good-things-must-come-to-an-end/">All good things must come to an&nbsp;end</a>
+									</li>
+											<li>
+					<a href="https://blog.c22.cc/2014/11/21/deepsec-2014-advanced-powershell-threat-lethal-client-side-attacks-using-powershell/">[DeepSec 2014] Advanced Powershell Threat: Lethal Client Side Attacks using&nbsp;Powershell</a>
+									</li>
+					</ul>
+		</div><div id="media_image-2" class="widget widget_media_image"><style>.widget.widget_media_image { overflow: hidden; }.widget.widget_media_image img { height: auto; max-width: 100%; }</style><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img class="image alignright" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="" width="88" height="31" /></a></div><div id="archives-4" class="widget widget_archive"><h3 class="widget-title">Archives</h3>		<label class="screen-reader-text" for="archives-dropdown-4">Archives</label>
+		<select id="archives-dropdown-4" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+			
+			<option value="">Select Month</option>
+				<option value='https://blog.c22.cc/2015/11/'> November 2015 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2015/10/'> October 2015 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2014/12/'> December 2014 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2014/11/'> November 2014 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2014/10/'> October 2014 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2014/09/'> September 2014 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2014/08/'> August 2014 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2014/07/'> July 2014 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2014/04/'> April 2014 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2014/01/'> January 2014 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2013/12/'> December 2013 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2013/10/'> October 2013 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2013/09/'> September 2013 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2013/08/'> August 2013 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2013/07/'> July 2013 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2013/06/'> June 2013 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2013/05/'> May 2013 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2013/04/'> April 2013 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2013/03/'> March 2013 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2013/02/'> February 2013 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2012/12/'> December 2012 &nbsp;(4)</option>
+	<option value='https://blog.c22.cc/2012/11/'> November 2012 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2012/10/'> October 2012 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2012/09/'> September 2012 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2012/08/'> August 2012 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2012/07/'> July 2012 &nbsp;(2)</option>
+	<option value='https://blog.c22.cc/2012/06/'> June 2012 &nbsp;(3)</option>
+	<option value='https://blog.c22.cc/2012/05/'> May 2012 &nbsp;(3)</option>
+	<option value='https://blog.c22.cc/2012/04/'> April 2012 &nbsp;(3)</option>
+	<option value='https://blog.c22.cc/2012/03/'> March 2012 &nbsp;(8)</option>
+	<option value='https://blog.c22.cc/2012/02/'> February 2012 &nbsp;(7)</option>
+	<option value='https://blog.c22.cc/2012/01/'> January 2012 &nbsp;(7)</option>
+	<option value='https://blog.c22.cc/2011/12/'> December 2011 &nbsp;(11)</option>
+	<option value='https://blog.c22.cc/2011/11/'> November 2011 &nbsp;(17)</option>
+	<option value='https://blog.c22.cc/2011/10/'> October 2011 &nbsp;(6)</option>
+	<option value='https://blog.c22.cc/2011/09/'> September 2011 &nbsp;(9)</option>
+	<option value='https://blog.c22.cc/2011/08/'> August 2011 &nbsp;(6)</option>
+	<option value='https://blog.c22.cc/2011/07/'> July 2011 &nbsp;(10)</option>
+	<option value='https://blog.c22.cc/2011/06/'> June 2011 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2011/05/'> May 2011 &nbsp;(3)</option>
+	<option value='https://blog.c22.cc/2011/04/'> April 2011 &nbsp;(9)</option>
+	<option value='https://blog.c22.cc/2011/03/'> March 2011 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2011/02/'> February 2011 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2011/01/'> January 2011 &nbsp;(11)</option>
+	<option value='https://blog.c22.cc/2010/12/'> December 2010 &nbsp;(3)</option>
+	<option value='https://blog.c22.cc/2010/11/'> November 2010 &nbsp;(12)</option>
+	<option value='https://blog.c22.cc/2010/10/'> October 2010 &nbsp;(6)</option>
+	<option value='https://blog.c22.cc/2010/09/'> September 2010 &nbsp;(11)</option>
+	<option value='https://blog.c22.cc/2010/08/'> August 2010 &nbsp;(9)</option>
+	<option value='https://blog.c22.cc/2010/07/'> July 2010 &nbsp;(21)</option>
+	<option value='https://blog.c22.cc/2010/06/'> June 2010 &nbsp;(8)</option>
+	<option value='https://blog.c22.cc/2010/05/'> May 2010 &nbsp;(7)</option>
+	<option value='https://blog.c22.cc/2010/04/'> April 2010 &nbsp;(13)</option>
+	<option value='https://blog.c22.cc/2010/03/'> March 2010 &nbsp;(7)</option>
+	<option value='https://blog.c22.cc/2010/02/'> February 2010 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2010/01/'> January 2010 &nbsp;(3)</option>
+	<option value='https://blog.c22.cc/2009/12/'> December 2009 &nbsp;(17)</option>
+	<option value='https://blog.c22.cc/2009/11/'> November 2009 &nbsp;(6)</option>
+	<option value='https://blog.c22.cc/2009/10/'> October 2009 &nbsp;(6)</option>
+	<option value='https://blog.c22.cc/2009/09/'> September 2009 &nbsp;(21)</option>
+	<option value='https://blog.c22.cc/2009/08/'> August 2009 &nbsp;(15)</option>
+	<option value='https://blog.c22.cc/2009/07/'> July 2009 &nbsp;(9)</option>
+	<option value='https://blog.c22.cc/2009/06/'> June 2009 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2009/05/'> May 2009 &nbsp;(3)</option>
+	<option value='https://blog.c22.cc/2009/04/'> April 2009 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2009/03/'> March 2009 &nbsp;(4)</option>
+	<option value='https://blog.c22.cc/2009/02/'> February 2009 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2009/01/'> January 2009 &nbsp;(4)</option>
+	<option value='https://blog.c22.cc/2008/12/'> December 2008 &nbsp;(18)</option>
+	<option value='https://blog.c22.cc/2008/11/'> November 2008 &nbsp;(6)</option>
+	<option value='https://blog.c22.cc/2008/10/'> October 2008 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2008/09/'> September 2008 &nbsp;(10)</option>
+	<option value='https://blog.c22.cc/2008/08/'> August 2008 &nbsp;(7)</option>
+	<option value='https://blog.c22.cc/2008/07/'> July 2008 &nbsp;(7)</option>
+	<option value='https://blog.c22.cc/2008/06/'> June 2008 &nbsp;(1)</option>
+	<option value='https://blog.c22.cc/2008/03/'> March 2008 &nbsp;(3)</option>
+	<option value='https://blog.c22.cc/2008/02/'> February 2008 &nbsp;(4)</option>
+	<option value='https://blog.c22.cc/2008/01/'> January 2008 &nbsp;(4)</option>
+	<option value='https://blog.c22.cc/2007/12/'> December 2007 &nbsp;(5)</option>
+	<option value='https://blog.c22.cc/2007/11/'> November 2007 &nbsp;(8)</option>
+	<option value='https://blog.c22.cc/2007/10/'> October 2007 &nbsp;(6)</option>
+	<option value='https://blog.c22.cc/2007/09/'> September 2007 &nbsp;(8)</option>
+	<option value='https://blog.c22.cc/2007/08/'> August 2007 &nbsp;(6)</option>
+
+		</select>
+		</div><div id="text-7" class="widget widget_text">			<div class="textwidget"><!-- Start of Twitter Counter Code -->
+<p><a href="http://twitter.com/ChrisJohnRiley" target="_blank"><img src="http://twittercounter.com/counter/?username=ChrisJohnRiley" alt="ChrisJohnRiley on Twitter" width="88" height="26" border="0" align="right"></a></p>
+<!-- End of Twitter Counter Code --></div>
+		</div><div id="twitter-4" class="widget widget_twitter"><h3 class="widget-title"><a href='http://twitter.com/ChrisJohnRiley'>@ChrisJohnRiley</a></h3><ul class='tweets'>
+			<li>
+				RT @<a href='http://twitter.com/Burp_Suite'>Burp_Suite</a>: Blog post: Introducing the Web Security Academy
+
+<a href="https://portswigger.net/blog/introducing-the-web-security-academy"> portswigger.net/blog/introduciâ¦</a> 				<a href="http://twitter.com/ChrisJohnRiley/statuses/1113077643166076933" class="timesince">2&nbsp;days&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				RT @<a href='http://twitter.com/BSidesZurich'>BSidesZurich</a>: <a href='http://twitter.com/search?q=%23BSidesZH'>#BSidesZH</a> <a href='http://twitter.com/search?q=%23CfP'>#CfP</a> is OPEN. This year we r happy to introduce the Shepherding process,read more about it at <a href="https://t.co/9Gbzâ¦" rel="nofollow">https://t.co/9Gbzâ¦</a> 				<a href="http://twitter.com/ChrisJohnRiley/statuses/1113077603739623424" class="timesince">2&nbsp;days&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				Cc @<a href='http://twitter.com/foxandfriends'>foxandfriends</a> for the burn ð¥ <a href="https://twitter.com/bebraw/status/1112653452533026818"> twitter.com/bebraw/status/â¦</a> 				<a href="http://twitter.com/ChrisJohnRiley/statuses/1112752766328422400" class="timesince">3&nbsp;days&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				RT @<a href='http://twitter.com/Queen_Europe'>Queen_Europe</a>: I mean, the Brexit Express literally appears to be going backwards but OK <a href="https://twitter.com/SteveBakerHW/status/1112300203023970304"> twitter.com/SteveBakerHW/sâ¦</a> 				<a href="http://twitter.com/ChrisJohnRiley/statuses/1112332725086814209" class="timesince">4&nbsp;days&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				One of my pet peeves: Watching movies when somebody wakes up to their mobile phone ringing, and they didn&#039;t even haâ¦ <a href="https://twitter.com/i/web/status/1111715905275416576"> twitter.com/i/web/status/1â¦</a> 				<a href="http://twitter.com/ChrisJohnRiley/statuses/1111715905275416576" class="timesince">5&nbsp;days&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				RT @<a href='http://twitter.com/lcamtuf'>lcamtuf</a>: Thread: there are countless urban legends and misconceptions about the practices of tech companies such as Google and Facebookâ¦ 				<a href="http://twitter.com/ChrisJohnRiley/statuses/1111624696901107714" class="timesince">6&nbsp;days&nbsp;ago</a>
+			</li>
+
+			</ul></div><div id="flickr-2" class="widget widget_flickr"><h3 class="widget-title"></h3><!-- Start of Flickr Widget -->
+<div class="flickr-wrapper flickr-size-thumbnail">
+	<div class="flickr-images">
+		<a href="https://www.flickr.com/photos/c22/16171126653/"><img src="https://live.staticflickr.com/7642/16171126653_504b9e28d2_s.jpg" alt="Computer History Museum (Mountain View, CA)" title="Computer History Museum (Mountain View, CA)"  /></a><a href="https://www.flickr.com/photos/c22/15658163086/"><img src="https://live.staticflickr.com/7518/15658163086_92a02df283_s.jpg" alt="Hmmâ¦ no tanks. Why did nobody tell me earlier!" title="Hmmâ¦ no tanks. Why did nobody tell me earlier!"  /></a><a href="https://www.flickr.com/photos/c22/14322110059/"><img src="https://live.staticflickr.com/5591/14322110059_07bec335c6_s.jpg" alt="Huge Organâ¦ #firstcon14" title="Huge Organâ¦ #firstcon14"  /></a><a href="https://www.flickr.com/photos/c22/14479643812/"><img src="https://live.staticflickr.com/3867/14479643812_ef9aa76deb_s.jpg" alt="The Internet @ the MIT Museumâ¦ #firstcon14" title="The Internet @ the MIT Museumâ¦ #firstcon14"  /></a>	</div>
+
+			<a class="flickr-more" href="https://www.flickr.com/photos/c22/">
+			More Photos		</a>
+	</div>
+<!-- End of Flickr Widget -->
+</div><div id="linkcat-123053" class="widget widget_links"><h3 class="widget-title">Links</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.rootshell.be" rel="friend met">/dev/random</a></li>
+<li><a href="http://carnal0wnage.attackresearch.com/" rel="acquaintance" title="Carnal0wnage Blog" target="_blank">Carnal0wnage Blog</a></li>
+<li><a href="http://www.eurotrashsecurity.eu" rel="me">Eurotrash Security Podcast</a></li>
+<li><a href="http://hp.com/go/white-rabbit" rel="friend met" title="SANS Institute">HP | Following the White Rabbit</a></li>
+<li><a href="http://pauldotcom.com/" title="PaulDotCom">PaulDotCom</a></li>
+<li><a href="http://www.securityninja.co.uk/" rel="acquaintance" title="McGrew Security Blog" target="_blank">Security Ninja</a></li>
+<li><a href="http://www.shodanhq.com/">ShodanHQ</a></li>
+
+	</ul>
+</div>
+<div id="text-8" class="widget widget_text"><h3 class="widget-title">Disclaimer</h3>			<div class="textwidget"><p>The contents of this personal blog are solely my own opinions and comments, as such they do not reflect the opinions of my employer(s) past, present or future. No legal liability is accepted for anything you do, think, or consider fact as the basis of articles and links posted on this blog.</p>
+<p>"Three to one...two...one...probability factor of one to one...we have normality, I repeat we have normality. Anything you still canât cope with is therefore your own problem."</p>
+<p>Note: A large portion of content I post on my blog comes from "live blogging" of security conferences. These posts are in notes form and are written live during a talk. As such errors and emissions are expected. I'm only human after all!</p>
+</div>
+		</div>		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">
+							<div style="padding-bottom:15px;width:300px;height:250px;">
+		<div id="atatags-286348-5ca63bcb717f6">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-286348-5ca63bcb717f6',  {
+					collapseEmpty: 'before',
+					sectionId: '286348',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div>
+				</div>
+				
+			</div>
+		</div>
+		</div>
+	</div>
+
+	
+
+</div>
+
+
+</div>
+<div id="footer">
+	<div>
+		<a href="#wrapper" id="top-link">&uarr; Top</a>
+		<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+			</div>
+</div>
+
+</div>
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="1599597" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://blog.c22.cc" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="CÐ°ÑÑÐ½Â²Â² (in)sÐµÑuÑitÑ / ChrisJohnRiley" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="9e445bd00e" /><input type="hidden" name="_wp_http_referer" value="/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<script type='text/javascript' src='https://platform.twitter.com/widgets.js?ver=20111117'></script>
+<div class="widget widget_eu_cookie_law_widget"><div
+	class="hide-on-button ads-active"
+	data-hide-timeout="30"
+	data-consent-expiration="180"
+	id="eu-cookie-law"
+>
+	<form method="post">
+		<input type="submit" value="Close and accept" class="accept" />
+
+		Privacy &amp; Cookies: This site uses cookies. By continuing to use this website, you agree to their use. <br />
+To find out more, including how to control cookies, see here:
+		<a href="https://automattic.com/cookies" >
+			Cookie Policy		</a>
+ </form>
+</div>
+</div><link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1524699534h&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"1599597","siteName":"C\u0430\u0442\u0441\u043d\u00b2\u00b2 (in)s\u0435\u0441u\u044fit\u0443 \/ ChrisJohnRiley","siteURL":"https:\/\/blog.c22.cc","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/1b6c05a022094e3a7342e6b645c9cfce?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/zbench","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fblog.c22.cc%2F2015%2F11%2F19%2Fdeepsec-201550-shades-of-waf%2F&signup_flow=account&domain=blog.c22.cc","themeURL":"","xhrURL":"https:\/\/blog.c22.cc\/wp-admin\/admin-ajax.php","nonce":"27b1b17b50","isSingular":"","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"7da6c257c1\" \/>","referer":"https:\/\/blog.c22.cc\/","canFollow":"1","feedID":"253090","statusMessage":"","customizeLink":"https:\/\/c22blog.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fc22blog.wordpress.com%2F","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: zBench","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 3,181 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fblog.c22.cc%2F2015%2F11%2F19%2Fdeepsec-201550-shades-of-waf%2F&signup_flow=account&domain=blog.c22.cc\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/blog.c22.cc\/wp-admin\/admin-ajax.php","nonce":"fe690db059","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/c22blog.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fblog.c22.cc%2F2015%2F11%2F19%2Fdeepsec-201550-shades-of-waf%2F","blog_id":"1599597","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=1599597&v=wpcom&tz=2&user_id=0&subd=c22blog","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyVkNGKAjEMRX/IGtdFxAfZb+m0wUmnTWuTOrv79VthFREZ8Cnh5tybEJiLcZkVWSEIeLyQw/K9DrKCh1FqpsR2IhaINKHAuWHD0bKPWJ9hHTF1pLQBfgdkN4K4SkUFEnJbiJ7Jn7Bj2Po0T4Qm2hkUU4lW8UlfyLE+EZvBVkhWFGvvTL5greR7yl17M0GrdZMsmZxS5qvp3t1oYhfbdXn/sRTiV3roP60//2X9SL3Y5WzNTTBCQC39LnMTuucrHT92u8/NfnvYbsIf4YO0gg=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'1599597','blog_tz':'2','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'1599597','v':'wpcom','tz':'2','user_id':'0','subd':'c22blog'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWtpP0NsWnVkWWJrYkdyazA0M1BdbnMxRy1Vei5ybE52ZkR6cjI3eEF8aisuQ0Z2NzB0KyVhNSYweG0rVi05SVthdjkvbVpVX1UlSyYwUTIvdGZGOD9wUmdpflhrLDdpTEV0NWRRfjFmWjlMMkxpektrPXJ5XVZCaF1jc2c0QXJKbj9MWFUxSnF3ZFJVTEhjTyxFbUJbZ2xncVRGS01EV3xvWXRNMi00ZV9+N0FlPyZaMisvR19xeGhtSzJUfF9GRmpRaDZSYUNuWWkzYldZYWJvUHZjW2F0ZXxGREpZbg=='}]);
+_stq.push([ 'clickTrackerInit', '1599597', '0' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
+
+
+#####EOF#####
+
+

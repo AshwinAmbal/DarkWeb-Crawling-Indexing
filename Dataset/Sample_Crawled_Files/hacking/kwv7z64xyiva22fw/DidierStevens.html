@@ -1,0 +1,1109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if IE 7]>
+<html id="ie7" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<![endif]-->
+<!--[if (gt IE 7) | (!IE)]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!--<![endif]-->
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Didier Stevens | (blog \&#8217;DidierStevens)</title>
+
+	<style type="text/css" media="screen">
+		@import url( https://s2.wp.com/wp-content/themes/pub/rubric/style.css );
+	</style>
+
+	<link rel="pingback" href="https://blog.didierstevens.com/xmlrpc.php" />
+	
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9ibG9nLmRpZGllcnN0ZXZlbnMuY29t"
+		+ "&id=264765"
+		+ "&time=1554417135";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//didierstevens.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel="alternate" type="application/rss+xml" title="Didier Stevens &raquo; Feed" href="https://blog.didierstevens.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Didier Stevens &raquo; Comments Feed" href="https://blog.didierstevens.com/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s2.wp.com/_static/??-eJx9UdFuwyAM/KFRtCmL8jL1W4B4xC0GBI7S/P2cZGu1reIF3Zk72xx6ycqlyBBZ06xymD3GqpfsEqlKGGD9w06u1hf93BbwClVfgLNxV7WzuxyjC/Mo11LQI1bWNqRdZYspq668BjgRxtYAlwpInbLhTUEwooEAJLKWbcHRAx+jD6wYbk0L5f5n0AYneVDz6UdG1uYCtSo5CWdSPMlubd/3apyyyqkKOoLYLahjYhRXvYNWLw9JSaaGMcVfRH0Gg6VlLSC/4QX6PaQHbZmM25pbUx7on/xIQE+d9iFZEzbBmT5e37t+GIauf7t8AYX/8Yc=?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFztEKwjAMBdAfsiu6Dp/Eb6k1jtQlrU3q0K+3A30QhkLgPtwDN3bOBjlM9QxiY7tbhfJ4RxdlY38BQzgWr9AR8geHxAqsi81JlEDEj7DSUjrhBKYKlAZY28wlrbjvl5DvCPNfFkGzD1dTQPC5rB/psB0Gt+v7vXPxBTjQW9A='></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1530132353h&cssminify=yes' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://didierstevens.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel='shortlink' href='https://wp.me/16Sp' />
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Didier Stevens" />
+<meta property="og:description" content="(blog \&#039;DidierStevens)" />
+<meta property="og:url" content="https://blog.didierstevens.com/" />
+<meta property="og:site_name" content="Didier Stevens" />
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s2.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://didierstevens.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://didierstevens.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://blog.didierstevens.com/osd.xml" title="Didier Stevens" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style id="wpcom-hotfix-masterbar-style">
+			@media screen and (min-width: 783px) {
+				#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+					margin-top: 5px;
+				}
+			}
+		</style>
+		<style type="text/css">
+.widget_twitter li {
+	word-wrap: break-word;
+}
+</style>
+<meta name="application-name" content="Didier Stevens" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="(blog \&#039;DidierStevens)" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://blog.didierstevens.com/feed/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="(blog \&#039;DidierStevens)" />
+<style type="text/css">
+#header{
+	background: url(https://didierstevens.files.wordpress.com/2009/08/blog-header.png) no-repeat top right;
+}
+#header a {
+	color:#B54141;
+}
+</style>
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+
+<body class="home blog mp6 customizer-styles-applied highlander-enabled highlander-light">
+<div id="rap">
+<h1 id="header"><a href="https://blog.didierstevens.com/">Didier Stevens</a></h1>
+
+<div id="content">
+<!-- end header -->
+
+
+<h2>Thursday 4 April 2019</h2>
+<div class="post-6589 post type-post status-publish format-standard hentry category-quickpost" id="post-6589">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/" rel="bookmark">Quickpost: Browsers &amp; Content-Disposition</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/quickpost/" rel="category tag">Quickpost</a> &#8212; Didier Stevens @ 0:00 <br /></div>
+
+	<div class="storycontent">
+		<p>A quick check confirmed that response header <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition">Content-Disposition</a> can direct browsers to display or save a file.</p>
+<p>I used my <a href="https://github.com/DidierStevens/Beta/blob/master/tcp-honeypot.py">tcp-honeypot.py</a> to serve 3 HTTP responses:</p>
+<blockquote><p>HTTP/1.1 200 OK<br />
+Content-Disposition: inline</p>
+<p>Line 1<br />
+Line 2<br />
+Line 3</p></blockquote>
+<p>&nbsp;</p>
+<blockquote><p>HTTP/1.1 200 OK<br />
+Content-Disposition: attachment</p>
+<p>Line 1<br />
+Line 2<br />
+Line 3</p></blockquote>
+<p>&nbsp;</p>
+<blockquote><p>HTTP/1.1 200 OK<br />
+Content-Disposition: attachment; filename=&#8221;test.js&#8221;</p>
+<p>Line 1<br />
+Line 2<br />
+Line 3</p></blockquote>
+<p>&nbsp;</p>
+<p>Only the Content-Disposition response header changes between these 3 responses.</p>
+<p>With Content-Disposition response header &#8220;inline&#8221;, Internet Explorer displays the content inside the browser window:</p>
+<p><img data-attachment-id="6590" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182001/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182001.png?w=803&#038;h=609" data-orig-size="803,609" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182001" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182001.png?w=803&#038;h=609?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182001.png?w=803&#038;h=609?w=803" class="alignnone size-full wp-image-6590" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182001.png?w=803&#038;h=609" alt="" width="803" height="609" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182001.png 803w, https://didierstevens.files.wordpress.com/2019/04/20190403-182001.png?w=128&amp;h=96 128w, https://didierstevens.files.wordpress.com/2019/04/20190403-182001.png?w=300&amp;h=228 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182001.png?w=768&amp;h=582 768w" sizes="(max-width: 803px) 100vw, 803px" /></p>
+<p>With Content-Disposition response header &#8220;attachment&#8221;, Internet Explorer proposes to save the content to disk using a generated filename:</p>
+<p><img data-attachment-id="6591" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182126/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182126.png?w=798&#038;h=607" data-orig-size="798,607" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182126" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182126.png?w=798&#038;h=607?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182126.png?w=798&#038;h=607?w=798" class="alignnone size-full wp-image-6591" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182126.png?w=798&#038;h=607" alt="" width="798" height="607" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182126.png 798w, https://didierstevens.files.wordpress.com/2019/04/20190403-182126.png?w=126&amp;h=96 126w, https://didierstevens.files.wordpress.com/2019/04/20190403-182126.png?w=300&amp;h=228 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182126.png?w=768&amp;h=584 768w" sizes="(max-width: 798px) 100vw, 798px" /></p>
+<p>With Content-Disposition response header &#8220;attachment; filename=&#8221;test.js&#8221;&#8221;, Internet Explorer proposes to open or save the content to disk using the provided filename test.js:</p>
+<p><img data-attachment-id="6592" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182149/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182149.png?w=798&#038;h=608" data-orig-size="798,608" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182149" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182149.png?w=798&#038;h=608?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182149.png?w=798&#038;h=608?w=798" class="alignnone size-full wp-image-6592" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182149.png?w=798&#038;h=608" alt="" width="798" height="608" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182149.png 798w, https://didierstevens.files.wordpress.com/2019/04/20190403-182149.png?w=126&amp;h=96 126w, https://didierstevens.files.wordpress.com/2019/04/20190403-182149.png?w=300&amp;h=229 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182149.png?w=768&amp;h=585 768w" sizes="(max-width: 798px) 100vw, 798px" /></p>
+<p>When option Open is selected, file test.js will be opened with the Windows scripting host (after warnings are clicked away).</p>
+<p>The behavior of Edge is quite similar:</p>
+<p><img data-attachment-id="6593" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-181735/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181735.png?w=815&#038;h=647" data-orig-size="815,647" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-181735" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181735.png?w=815&#038;h=647?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181735.png?w=815&#038;h=647?w=815" class="alignnone size-full wp-image-6593" src="https://didierstevens.files.wordpress.com/2019/04/20190403-181735.png?w=815&#038;h=647" alt="" width="815" height="647" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-181735.png 815w, https://didierstevens.files.wordpress.com/2019/04/20190403-181735.png?w=121&amp;h=96 121w, https://didierstevens.files.wordpress.com/2019/04/20190403-181735.png?w=300&amp;h=238 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-181735.png?w=768&amp;h=610 768w" sizes="(max-width: 815px) 100vw, 815px" /></p>
+<p><img data-attachment-id="6594" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-181812/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181812.png?w=815&#038;h=647" data-orig-size="815,647" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-181812" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181812.png?w=815&#038;h=647?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181812.png?w=815&#038;h=647?w=815" class="alignnone size-full wp-image-6594" src="https://didierstevens.files.wordpress.com/2019/04/20190403-181812.png?w=815&#038;h=647" alt="" width="815" height="647" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-181812.png 815w, https://didierstevens.files.wordpress.com/2019/04/20190403-181812.png?w=121&amp;h=96 121w, https://didierstevens.files.wordpress.com/2019/04/20190403-181812.png?w=300&amp;h=238 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-181812.png?w=768&amp;h=610 768w" sizes="(max-width: 815px) 100vw, 815px" /></p>
+<p><img data-attachment-id="6595" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-181902/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181902.png?w=814&#038;h=646" data-orig-size="814,646" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-181902" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181902.png?w=814&#038;h=646?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-181902.png?w=814&#038;h=646?w=814" class="alignnone size-full wp-image-6595" src="https://didierstevens.files.wordpress.com/2019/04/20190403-181902.png?w=814&#038;h=646" alt="" width="814" height="646" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-181902.png 814w, https://didierstevens.files.wordpress.com/2019/04/20190403-181902.png?w=121&amp;h=96 121w, https://didierstevens.files.wordpress.com/2019/04/20190403-181902.png?w=300&amp;h=238 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-181902.png?w=768&amp;h=609 768w" sizes="(max-width: 814px) 100vw, 814px" /></p>
+<p>Google Chrome saves the file to disk without prompting the user (attachment):</p>
+<p><img data-attachment-id="6596" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182324/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182324.png?w=1003&#038;h=171" data-orig-size="1003,171" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182324" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182324.png?w=1003&#038;h=171?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182324.png?w=1003&#038;h=171?w=1003" class="alignnone size-full wp-image-6596" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182324.png?w=1003&#038;h=171" alt="" width="1003" height="171" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182324.png 1003w, https://didierstevens.files.wordpress.com/2019/04/20190403-182324.png?w=128&amp;h=22 128w, https://didierstevens.files.wordpress.com/2019/04/20190403-182324.png?w=300&amp;h=51 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182324.png?w=768&amp;h=131 768w" sizes="(max-width: 1003px) 100vw, 1003px" /></p>
+<p><img data-attachment-id="6597" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182408/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182408.png?w=1002&#038;h=712" data-orig-size="1002,712" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182408" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182408.png?w=1002&#038;h=712?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182408.png?w=1002&#038;h=712?w=1002" class="alignnone size-full wp-image-6597" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182408.png?w=1002&#038;h=712" alt="" width="1002" height="712" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182408.png 1002w, https://didierstevens.files.wordpress.com/2019/04/20190403-182408.png?w=128&amp;h=91 128w, https://didierstevens.files.wordpress.com/2019/04/20190403-182408.png?w=300&amp;h=213 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182408.png?w=768&amp;h=546 768w" sizes="(max-width: 1002px) 100vw, 1002px" /></p>
+<p><img data-attachment-id="6598" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182447/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182447.png?w=1002&#038;h=713" data-orig-size="1002,713" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182447" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182447.png?w=1002&#038;h=713?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182447.png?w=1002&#038;h=713?w=1002" class="alignnone size-full wp-image-6598" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182447.png?w=1002&#038;h=713" alt="" width="1002" height="713" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182447.png 1002w, https://didierstevens.files.wordpress.com/2019/04/20190403-182447.png?w=128&amp;h=91 128w, https://didierstevens.files.wordpress.com/2019/04/20190403-182447.png?w=300&amp;h=213 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182447.png?w=768&amp;h=546 768w" sizes="(max-width: 1002px) 100vw, 1002px" /></p>
+<p>And Firefox prompts the user (attachment):</p>
+<p><img data-attachment-id="6599" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182727/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png?w=1024&#038;h=184" data-orig-size="1039,187" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182727" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png?w=1024&#038;h=184?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png?w=1024&#038;h=184?w=1039" class="alignnone size-full wp-image-6599" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png?w=1024&#038;h=184" alt="" width="1024" height="184" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png?w=1024&amp;h=184 1024w, https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png?w=128&amp;h=23 128w, https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png?w=300&amp;h=54 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png?w=768&amp;h=138 768w, https://didierstevens.files.wordpress.com/2019/04/20190403-182727.png 1039w" sizes="(max-width: 1024px) 100vw, 1024px" /></p>
+<p><img data-attachment-id="6600" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182751/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png?w=1024&#038;h=568" data-orig-size="1039,576" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182751" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png?w=1024&#038;h=568?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png?w=1024&#038;h=568?w=1039" class="alignnone size-full wp-image-6600" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png?w=1024&#038;h=568" alt="" width="1024" height="568" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png?w=1024&amp;h=568 1024w, https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png?w=128&amp;h=71 128w, https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png?w=300&amp;h=166 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png?w=768&amp;h=426 768w, https://didierstevens.files.wordpress.com/2019/04/20190403-182751.png 1039w" sizes="(max-width: 1024px) 100vw, 1024px" /></p>
+<p><img data-attachment-id="6601" data-permalink="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/20190403-182806/" data-orig-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png?w=1024&#038;h=609" data-orig-size="1039,618" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190403-182806" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png?w=1024&#038;h=609?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png?w=1024&#038;h=609?w=1039" class="alignnone size-full wp-image-6601" src="https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png?w=1024&#038;h=609" alt="" width="1024" height="609" srcset="https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png?w=1024&amp;h=609 1024w, https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png?w=128&amp;h=76 128w, https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png?w=300&amp;h=178 300w, https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png?w=768&amp;h=457 768w, https://didierstevens.files.wordpress.com/2019/04/20190403-182806.png 1039w" sizes="(max-width: 1024px) 100vw, 1024px" /></p>
+<p>Tests were conducted on a fully patched Windows 10 1809 machine, with default configurations for Internet Explorer and Edge.</p>
+<p>The latest versions of Chrome and Firefox were installed with default configurations.</p>
+<hr />
+<p><a href="https://blog.didierstevens.com/2007/11/01/announcing-quickposts/">Quickpost info</a></p>
+<hr />
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/04/04/quickpost-browsers-content-disposition/#respond">Leave a Comment</a>	</div>
+
+</div>
+
+
+
+<h2>Monday 1 April 2019</h2>
+<div class="post-6584 post type-post status-publish format-standard hentry category-entertainment category-my-software" id="post-6584">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/04/01/list-interfaces-xlsm/" rel="bookmark">list-interfaces.xlsm</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/entertainment/" rel="category tag">Entertainment</a>,<a href="https://blog.didierstevens.com/category/my-software/" rel="category tag">My Software</a> &#8212; Didier Stevens @ 0:01 <br /></div>
+
+	<div class="storycontent">
+		<p>Inspired by today&#8217;s date and ShadowHammer, I created an Excel spreadsheet that will list all the interfaces on your Windows machine (using <a href="https://docs.microsoft.com/en-us/windows/desktop/api/iphlpapi/nf-iphlpapi-getiftable">GetIfTable</a>).</p>
+<p>One of the properties that is listed, is the MAC address, and it is compared with a list of MAC addresses found in sheet &#8220;List&#8221;. As a PoC, I populated that sheet with the initial <a href="https://shadowhammer.kaspersky.com/">ShadowHammer</a> list published by <a href="https://twitter.com/SkylightCyber">@SkylightCyber</a>.</p>
+<p>And I got a hit on one of my laptops:</p>
+<p><img data-attachment-id="6585" data-permalink="https://blog.didierstevens.com/2019/04/01/list-interfaces-xlsm/20190331-215622/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png?w=1024&#038;h=253" data-orig-size="1229,304" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190331-215622" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png?w=1024&#038;h=253?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png?w=1024&#038;h=253?w=1229" class="alignnone size-full wp-image-6585" src="https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png?w=1024&#038;h=253" alt="" width="1024" height="253" srcset="https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png?w=1024&amp;h=253 1024w, https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png?w=128&amp;h=32 128w, https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png?w=300&amp;h=74 300w, https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png?w=768&amp;h=190 768w, https://didierstevens.files.wordpress.com/2019/03/20190331-215622.png 1229w" sizes="(max-width: 1024px) 100vw, 1024px" /></p>
+<p>00:50:56:C0:00:08 is a generic MAC address used by VMware for the &#8220;VMware Virtual Ethernet Adapter for VMnet8&#8221; (VMware Workstation is installed on that machine). So no, that laptop was not targeted by the ShadowHammer actor: it&#8217;s a false positive (revised lists were published, one with 2 MAC addresses per line, and that&#8217;s where this MAC address appears now).</p>
+<p>Enjoy! ð</p>
+<p><a href="http://didierstevens.com/files/software/list-interfaces.zip" target="_self" rel="noopener noreferrer">list-interfaces.zip</a> (<a href="https://didierstevens.com/files/software/list-interfaces.zip" target="_self" rel="noopener noreferrer">https</a>)<br />
+MD5: B7DFF86AA0AFD83EF7796F12CEF46D6C<br />
+SHA256: 2AD35C825D1A5D9BCFF75C1374C238415C15BADA3CDB0A5EA7178DE4E1DEF0A2</p>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/04/01/list-interfaces-xlsm/#respond">Leave a Comment</a>	</div>
+
+</div>
+
+
+
+
+<div class="post-6582 post type-post status-publish format-standard hentry category-announcement" id="post-6582">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/04/01/overview-of-content-published-in-march-4/" rel="bookmark">Overview of Content Published in&nbsp;March</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/announcement/" rel="category tag">Announcement</a> &#8212; Didier Stevens @ 0:00 <br /></div>
+
+	<div class="storycontent">
+		<p>Here is an overview of content I published in March:</p>
+<p>Blog posts:</p>
+<ul>
+<li><a href="https://blog.didierstevens.com/2019/03/06/update-pdf-parser-py-version-0-7-1/">Update: pdf-parser.py Version 0.7.1</a></li>
+<li><a href="https://blog.didierstevens.com/2019/03/07/analyzing-a-phishing-pdf-with-objstm/">Analyzing a Phishing PDF with /ObjStm</a></li>
+<li><a href="https://blog.didierstevens.com/2019/03/11/update-re-search-py-version-0-0-13/">Update: re-search.py Version 0.0.13</a></li>
+<li><a href="https://blog.didierstevens.com/2019/03/13/update-oledump-py-version-0-0-42/">Update: oledump.py Version 0.0.42</a></li>
+<li><a href="https://blog.didierstevens.com/2019/03/15/maldoc-excel-4-0-macro/">Maldoc: Excel 4.0 Macro</a></li>
+<li><a href="https://blog.didierstevens.com/2019/03/23/quickpost-pdf-tools-download-feature/">Quickpost: PDF Tools Download Feature</a></li>
+<li><a href="https://blog.didierstevens.com/2019/03/25/update-pecheck-py-version-0-7-6/">Update: pecheck.py Version 0.7.6</a></li>
+</ul>
+<p>YouTube videos:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=xZktqpSHA0c">Analyzing a Phishing PDF with /ObjStm</a></li>
+<li><a href="https://www.youtube.com/watch?v=kr-di-Hi9PM">Maldoc: Excel 4.0 Macro</a></li>
+<li><a href="https://www.youtube.com/watch?v=g_nNeID3yQc">Maldoc Analysis: Excel 4.0 Macro</a></li>
+</ul>
+<p>Videoblog posts:</p>
+<ul>
+<li><a href="https://videos.didierstevens.com/2019/03/11/analyzing-a-phishing-pdf-with-objstm/">Analyzing a Phishing PDF with /ObjStm</a></li>
+<li><a href="https://videos.didierstevens.com/2019/03/15/349/">Maldoc: Excel 4.0 Macro</a></li>
+<li><a href="https://videos.didierstevens.com/2019/03/31/maldoc-analysis-excel-4-0-macro/">Maldoc Analysis: Excel 4.0 Macro</a></li>
+</ul>
+<p>SANS ISC Diary entries:</p>
+<ul>
+<li><a href="https://isc.sans.edu//forums/diary/Quick+and+Dirty+Malicious+HTA+Analysis/24728/">Quick and Dirty Malicious HTA Analysis</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/Wireshark+300+and+Npcap/24730/">Wireshark 3.0.0 and Npcap</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/Tip+Ghidra+ZIP+Files/24732/">Tip: Ghidra &amp; ZIP Files</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/Maldoc+Excel+40+Macros/24750/">Maldoc: Excel 4.0 Macros</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/Video+Maldoc+Analysis+Excel+40+Macro/24752/">Video: Maldoc Analysis: Excel 4.0 Macro</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/Wireshark+300+and+Npcap+Some+Remarks/24758/">Wireshark 3.0.0 and Npcap: Some Remarks</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/VelvetSweatshop+Maldocs/24772/">&#8220;VelvetSweatshop&#8221; Maldocs</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/Decoding+QR+Codes+with+Python/24774/">Decoding QR Codes with Python</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/VelvetSweatshop+Maldocs+Shellcode+Analysis/24776/">&#8220;VelvetSweatshop&#8221; Maldocs: Shellcode Analysis</a></li>
+<li><a href="https://isc.sans.edu//forums/diary/404+is+not+Malware/24794/">&#8220;404&#8221; is not Malware</a></li>
+</ul>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/04/01/overview-of-content-published-in-march-4/#respond">Leave a Comment</a>	</div>
+
+</div>
+
+
+
+<h2>Monday 25 March 2019</h2>
+<div class="post-6571 post type-post status-publish format-standard hentry category-my-software category-update" id="post-6571">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/03/25/update-pecheck-py-version-0-7-6/" rel="bookmark">Update: pecheck.py Version&nbsp;0.7.6</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/my-software/" rel="category tag">My Software</a>,<a href="https://blog.didierstevens.com/category/update/" rel="category tag">Update</a> &#8212; Didier Stevens @ 0:00 <br /></div>
+
+	<div class="storycontent">
+		<p>During recent malware analysis, I had a need to quickly extract overlays from a bunch of PE files. This can be done with this new version: use option &#8220;-g o&#8221; to get the overlay:</p>
+<p><img data-attachment-id="6576" data-permalink="https://blog.didierstevens.com/2019/03/25/update-pecheck-py-version-0-7-6/20190324-223905/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190324-223905.png?w=994&#038;h=330" data-orig-size="994,330" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190324-223905" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190324-223905.png?w=994&#038;h=330?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190324-223905.png?w=994&#038;h=330?w=994" class="alignnone size-full wp-image-6576" src="https://didierstevens.files.wordpress.com/2019/03/20190324-223905.png?w=994&#038;h=330" alt="" width="994" height="330" srcset="https://didierstevens.files.wordpress.com/2019/03/20190324-223905.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190324-223905.png?w=128&amp;h=42 128w, https://didierstevens.files.wordpress.com/2019/03/20190324-223905.png?w=300&amp;h=100 300w, https://didierstevens.files.wordpress.com/2019/03/20190324-223905.png?w=768&amp;h=255 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p><img data-attachment-id="6577" data-permalink="https://blog.didierstevens.com/2019/03/25/update-pecheck-py-version-0-7-6/20190324-223919/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190324-223919.png?w=994&#038;h=412" data-orig-size="994,412" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190324-223919" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190324-223919.png?w=994&#038;h=412?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190324-223919.png?w=994&#038;h=412?w=994" class="alignnone size-full wp-image-6577" src="https://didierstevens.files.wordpress.com/2019/03/20190324-223919.png?w=994&#038;h=412" alt="" width="994" height="412" srcset="https://didierstevens.files.wordpress.com/2019/03/20190324-223919.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190324-223919.png?w=128&amp;h=53 128w, https://didierstevens.files.wordpress.com/2019/03/20190324-223919.png?w=300&amp;h=124 300w, https://didierstevens.files.wordpress.com/2019/03/20190324-223919.png?w=768&amp;h=318 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p>Option -A (rle ASCII dump) is also new.</p>
+<p>And option -y (yara) supports regex (#r#) and hexadecimal (#x#) ad-hoc rules.</p>
+<p>&nbsp;</p>
+<p><a href="http://didierstevens.com/files/software/pecheck-v0_7_6.zip" target="_self" rel="noopener noreferrer">pecheck-v0_7_6.zip</a> (<a href="https://didierstevens.com/files/software/pecheck-v0_7_6.zip" target="_self" rel="noopener noreferrer">https</a>)<br />
+MD5: C07704E37FB1C18B769BB5336CD2478A<br />
+SHA256: 312E730F6DE784808B6E5BE355752803F281F7DC838E4B9C6B3FE924622F47F8</p>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/03/25/update-pecheck-py-version-0-7-6/#comments">Comments (1)</a>	</div>
+
+</div>
+
+
+
+<h2>Saturday 23 March 2019</h2>
+<div class="post-6572 post type-post status-publish format-standard hentry category-my-software category-pdf category-quickpost" id="post-6572">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/03/23/quickpost-pdf-tools-download-feature/" rel="bookmark">Quickpost: PDF Tools Download&nbsp;Feature</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/my-software/" rel="category tag">My Software</a>,<a href="https://blog.didierstevens.com/category/pdf/" rel="category tag">PDF</a>,<a href="https://blog.didierstevens.com/category/quickpost/" rel="category tag">Quickpost</a> &#8212; Didier Stevens @ 9:34 <br /></div>
+
+	<div class="storycontent">
+		<p>When I&#8217;m asked to perform a quick check of an online PDF document, that I expect to be benign, I will just point my <a href="https://blog.didierstevens.com/programs/pdf-tools/">PDF tools</a> to the online document. When you provide an URL argument to pdf-parser, it will download the document and perform the analysis (without writing it to disk).</p>
+<p><img data-attachment-id="6573" data-permalink="https://blog.didierstevens.com/2019/03/23/quickpost-pdf-tools-download-feature/20190323-100607/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190323-100607.png?w=994&#038;h=607" data-orig-size="994,607" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190323-100607" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190323-100607.png?w=994&#038;h=607?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190323-100607.png?w=994&#038;h=607?w=994" class="alignnone size-full wp-image-6573" src="https://didierstevens.files.wordpress.com/2019/03/20190323-100607.png?w=994&#038;h=607" alt="" width="994" height="607" srcset="https://didierstevens.files.wordpress.com/2019/03/20190323-100607.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190323-100607.png?w=128&amp;h=78 128w, https://didierstevens.files.wordpress.com/2019/03/20190323-100607.png?w=300&amp;h=183 300w, https://didierstevens.files.wordpress.com/2019/03/20190323-100607.png?w=768&amp;h=469 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<hr />
+<p><a href="https://blog.didierstevens.com/2007/11/01/announcing-quickposts/">Quickpost info</a></p>
+<hr />
+<p>&nbsp;</p>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/03/23/quickpost-pdf-tools-download-feature/#comments">Comments (1)</a>	</div>
+
+</div>
+
+
+
+<h2>Friday 15 March 2019</h2>
+<div class="post-6565 post type-post status-publish format-standard hentry category-maldoc category-malware category-my-software" id="post-6565">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/03/15/maldoc-excel-4-0-macro/" rel="bookmark">Maldoc: Excel 4.0&nbsp;Macro</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/maldoc/" rel="category tag">maldoc</a>,<a href="https://blog.didierstevens.com/category/malware/" rel="category tag">Malware</a>,<a href="https://blog.didierstevens.com/category/my-software/" rel="category tag">My Software</a> &#8212; Didier Stevens @ 0:00 <br /></div>
+
+	<div class="storycontent">
+		<p>MD5 <a href="https://www.virustotal.com/#/file/3160c1547217035c8fa1611040025e1e71bd48dac524d9b0958eea3a09a4d04b/detection">007de2c71861a3e1e6d70f7fe8f4ce9b</a> is a malicious document: a spreadsheet with Excel 4.0 macros.</p>
+<p>Excel 4.0 macros predate VBA macros: they are composed of functions placed inside cells of a macro sheet.</p>
+<p>These macros are not stored in dedicated VBA streams, but as BIFF records in the Workbook stream.</p>
+<p>Spreadsheets with Excel 4.0 macros can be analyzed with <a href="https://blog.didierstevens.com/programs/oledump-py/">oledump.py and plugin plugin_biff.py</a>.</p>
+<p>Option -x of plugin_biff will select all BIFF records relevant for the analysis of Excel 4.0 macros:</p>
+<p><img data-attachment-id="6566" data-permalink="https://blog.didierstevens.com/2019/03/15/maldoc-excel-4-0-macro/20190315-003803/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190315-003803.png?w=994&#038;h=527" data-orig-size="994,527" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190315-003803" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190315-003803.png?w=994&#038;h=527?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190315-003803.png?w=994&#038;h=527?w=994" class="alignnone size-full wp-image-6566" src="https://didierstevens.files.wordpress.com/2019/03/20190315-003803.png?w=994&#038;h=527" alt="" width="994" height="527" srcset="https://didierstevens.files.wordpress.com/2019/03/20190315-003803.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190315-003803.png?w=128&amp;h=68 128w, https://didierstevens.files.wordpress.com/2019/03/20190315-003803.png?w=300&amp;h=159 300w, https://didierstevens.files.wordpress.com/2019/03/20190315-003803.png?w=768&amp;h=407 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p>In this output, we have all the BIFF records necessary to 1) determine that this is a malicious document and 2) report what this maldoc does.</p>
+<p>The first BIFF record, BOUNDSHEET, tells us that the spreadsheet contains a Excel 4.0 macro sheet that is hidden.</p>
+<p>The third BIFF LABEL record tells us that there is a cell with name Auto_Open: the macros will execute when the spreadsheet is opened.</p>
+<p>And then we have BIFF FORMULA records that tell us that something is CONCATENATEd and EXECuted.</p>
+<p>The BIFF STRING record provides us with the exact command (msiexec &#8230;) that will be executed.</p>
+<p>The latest version of plugin_biff contains much larger lists of tokens and functions used in formula expressions. Of course, it&#8217;s still possible that tokens and/or functions are used unknown by my plugin. This is now clearly indicated in the output:</p>
+<p><img data-attachment-id="6567" data-permalink="https://blog.didierstevens.com/2019/03/15/maldoc-excel-4-0-macro/20190306-223128/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190306-223128.png?w=979&#038;h=512" data-orig-size="979,512" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190306-223128" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190306-223128.png?w=979&#038;h=512?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190306-223128.png?w=979&#038;h=512?w=979" class="alignnone size-full wp-image-6567" src="https://didierstevens.files.wordpress.com/2019/03/20190306-223128.png?w=979&#038;h=512" alt="" width="979" height="512" srcset="https://didierstevens.files.wordpress.com/2019/03/20190306-223128.png 979w, https://didierstevens.files.wordpress.com/2019/03/20190306-223128.png?w=128&amp;h=67 128w, https://didierstevens.files.wordpress.com/2019/03/20190306-223128.png?w=300&amp;h=157 300w, https://didierstevens.files.wordpress.com/2019/03/20190306-223128.png?w=768&amp;h=402 768w" sizes="(max-width: 979px) 100vw, 979px" /></p>
+<p>*UNKNOWN FUNCTION* is reported when a function number is unknown. The function number is always reported. Here, for the sake of this example, a crippled version of plugin_biff reports functions with number 0x0037 and 0x0150. In the released version of plugin_biff, functions 0x0037 and 0x0150 are identified as RETURN and CONCATENATE respectively.</p>
+<p>*INCOMPLETE FORMULA PARSING* is reported when a formula expression can not be fully parsed. Left of the warning *INCOMPLETE FORMULA PARSING*, the partially parsed expression can be found, and right of the warning, the remaining, unparsed expression is reported as a Python string. If the remainder contains bytes that could be potentially dangerous functions like EXEC, then this is reported too.</p>
+<p>The complete analysis of the maldoc is explained in this video:</p>
+<p><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='640' height='360' src='https://www.youtube.com/embed/kr-di-Hi9PM?version=3&#038;rel=1&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></p>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/03/15/maldoc-excel-4-0-macro/#comments">Comments (2)</a>	</div>
+
+</div>
+
+
+
+<h2>Wednesday 13 March 2019</h2>
+<div class="post-6556 post type-post status-publish format-standard hentry category-my-software category-update" id="post-6556">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/03/13/update-oledump-py-version-0-0-42/" rel="bookmark">Update: oledump.py Version&nbsp;0.0.42</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/my-software/" rel="category tag">My Software</a>,<a href="https://blog.didierstevens.com/category/update/" rel="category tag">Update</a> &#8212; Didier Stevens @ 0:00 <br /></div>
+
+	<div class="storycontent">
+		<p>This version comes with a major update of the BIFF plugin (for Excel files). New features for plugin_biff.py will be discussed in detail in next blog post.</p>
+<p>And there are 2 minor changes to oledump itself.</p>
+<p>A warning is displayed when an Office file format without macro-support is selected, like .docx files:</p>
+<p><img data-attachment-id="6557" data-permalink="https://blog.didierstevens.com/2019/03/13/update-oledump-py-version-0-0-42/20190312-175227/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190312-175227.png?w=994&#038;h=158" data-orig-size="994,158" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190312-175227" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190312-175227.png?w=994&#038;h=158?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190312-175227.png?w=994&#038;h=158?w=994" class="alignnone size-full wp-image-6557" src="https://didierstevens.files.wordpress.com/2019/03/20190312-175227.png?w=994&#038;h=158" alt="" width="994" height="158" srcset="https://didierstevens.files.wordpress.com/2019/03/20190312-175227.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190312-175227.png?w=128&amp;h=20 128w, https://didierstevens.files.wordpress.com/2019/03/20190312-175227.png?w=300&amp;h=48 300w, https://didierstevens.files.wordpress.com/2019/03/20190312-175227.png?w=768&amp;h=122 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p>In prior versions, no output was produced at all when files like .docx files were processed.</p>
+<p>And there&#8217;s a bug fix when selecting non-existing streams:</p>
+<p><img data-attachment-id="6558" data-permalink="https://blog.didierstevens.com/2019/03/13/update-oledump-py-version-0-0-42/20190312-175119/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190312-175119.png?w=994&#038;h=281" data-orig-size="994,281" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190312-175119" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190312-175119.png?w=994&#038;h=281?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190312-175119.png?w=994&#038;h=281?w=994" class="alignnone size-full wp-image-6558" src="https://didierstevens.files.wordpress.com/2019/03/20190312-175119.png?w=994&#038;h=281" alt="" width="994" height="281" srcset="https://didierstevens.files.wordpress.com/2019/03/20190312-175119.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190312-175119.png?w=128&amp;h=36 128w, https://didierstevens.files.wordpress.com/2019/03/20190312-175119.png?w=300&amp;h=85 300w, https://didierstevens.files.wordpress.com/2019/03/20190312-175119.png?w=768&amp;h=217 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p><a href="http://didierstevens.com/files/software/oledump_V0_0_42.zip" target="_self" rel="noopener noreferrer">oledump_V0_0_42.zip</a> (<a href="https://didierstevens.com/files/software/oledump_V0_0_42.zip" target="_self" rel="noopener noreferrer">https</a>)<br />
+MD5: C5CCF18F9F10CB6916CC74C002C78EDE<br />
+SHA256: 14A1FDA4AB57B09729AEB2697818782FAE498369A760FEC8AEE5CFB0A0E9D126</p>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/03/13/update-oledump-py-version-0-0-42/#comments">Comments (1)</a>	</div>
+
+</div>
+
+
+
+<h2>Monday 11 March 2019</h2>
+<div class="post-6552 post type-post status-publish format-standard hentry category-my-software category-update" id="post-6552">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/03/11/update-re-search-py-version-0-0-13/" rel="bookmark">Update: re-search.py Version&nbsp;0.0.13</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/my-software/" rel="category tag">My Software</a>,<a href="https://blog.didierstevens.com/category/update/" rel="category tag">Update</a> &#8212; Didier Stevens @ 0:00 <br /></div>
+
+	<div class="storycontent">
+		<p>In this update, you can also save your library with custom regular expressions in the working directory (in prior versions, it would only take it from the application directory).</p>
+<p>Here is an example with a regular expression for MAC addresses:</p>
+<p><img data-attachment-id="6553" data-permalink="https://blog.didierstevens.com/2019/03/11/update-re-search-py-version-0-0-13/20190311-001419/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190311-001419.png?w=994&#038;h=527" data-orig-size="994,527" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190311-001419" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190311-001419.png?w=994&#038;h=527?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190311-001419.png?w=994&#038;h=527?w=994" class="alignnone size-full wp-image-6553" src="https://didierstevens.files.wordpress.com/2019/03/20190311-001419.png?w=994&#038;h=527" alt="" width="994" height="527" srcset="https://didierstevens.files.wordpress.com/2019/03/20190311-001419.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190311-001419.png?w=128&amp;h=68 128w, https://didierstevens.files.wordpress.com/2019/03/20190311-001419.png?w=300&amp;h=159 300w, https://didierstevens.files.wordpress.com/2019/03/20190311-001419.png?w=768&amp;h=407 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p>And there&#8217;s a small fix for URL regex: a &#8211; character was not considered to be part of the query of a URL.</p>
+<p><a href="http://didierstevens.com/files/software/re-search_V0_0_13.zip" target="_self" rel="noopener noreferrer">re-search_V0_0_13.zip</a> (<a href="https://didierstevens.com/files/software/re-search_V0_0_13.zip" target="_self" rel="noopener noreferrer">https</a>)<br />
+MD5: 241464482856756FF1C0C2386AF84CD5<br />
+SHA256: 9409EC639C4C6E988ADFC2401CA89200712BE171894D214B56E4ACC84C32E489</p>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/03/11/update-re-search-py-version-0-0-13/#comments">Comments (2)</a>	</div>
+
+</div>
+
+
+
+<h2>Thursday 7 March 2019</h2>
+<div class="post-6541 post type-post status-publish format-standard hentry category-maldoc category-malware category-my-software category-pdf" id="post-6541">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/03/07/analyzing-a-phishing-pdf-with-objstm/" rel="bookmark">Analyzing a Phishing PDF with&nbsp;/ObjStm</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/maldoc/" rel="category tag">maldoc</a>,<a href="https://blog.didierstevens.com/category/malware/" rel="category tag">Malware</a>,<a href="https://blog.didierstevens.com/category/my-software/" rel="category tag">My Software</a>,<a href="https://blog.didierstevens.com/category/pdf/" rel="category tag">PDF</a> &#8212; Didier Stevens @ 0:00 <br /></div>
+
+	<div class="storycontent">
+		<p>I got hold of a <a href="https://www.virustotal.com/#/file/341f1f3e87faee70adcadd2ada25190f42440e1eaf2bccd7d3f614964963469d/detection">phishing PDF</a> where the /URI is hiding inside a stream object (/ObjStm).</p>
+<p>First I start the analysis with <a href="https://blog.didierstevens.com/programs/pdf-tools/">pdfid.py</a>:</p>
+<p><img data-attachment-id="6542" data-permalink="https://blog.didierstevens.com/2019/03/07/analyzing-a-phishing-pdf-with-objstm/20190307-001305/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001305.png?w=994&#038;h=330" data-orig-size="994,330" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190307-001305" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001305.png?w=994&#038;h=330?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001305.png?w=994&#038;h=330?w=994" class="alignnone size-full wp-image-6542" src="https://didierstevens.files.wordpress.com/2019/03/20190307-001305.png?w=994&#038;h=330" alt="" width="994" height="330" srcset="https://didierstevens.files.wordpress.com/2019/03/20190307-001305.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190307-001305.png?w=128&amp;h=42 128w, https://didierstevens.files.wordpress.com/2019/03/20190307-001305.png?w=300&amp;h=100 300w, https://didierstevens.files.wordpress.com/2019/03/20190307-001305.png?w=768&amp;h=255 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p>There is no /URI reported, but remark that the PDF contains 5 stream objects (/ObjStm). These can contain /URIs. In the past, I would search and decompress these stream objects with <a href="https://blog.didierstevens.com/programs/pdf-tools/">pdf-parser.py</a>, and then pipe the result through pdfid.py, in order to detect /URIs (or other objects that require further analysis).</p>
+<p>Since <a href="https://blog.didierstevens.com/2019/02/28/update-pdf-parser-py-version-0-7-0/">pdf-parser.py version 0.7.0</a>, I prefer another method: using option -O to let pdf-parser.py extract and parse the objects inside stream objects.</p>
+<p>With option -a (here combined with option -O), I can get statistics and keywords just like with pdfid:</p>
+<p><img data-attachment-id="6543" data-permalink="https://blog.didierstevens.com/2019/03/07/analyzing-a-phishing-pdf-with-objstm/20190307-001330/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001330.png?w=994&#038;h=527" data-orig-size="994,527" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190307-001330" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001330.png?w=994&#038;h=527?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001330.png?w=994&#038;h=527?w=994" class="alignnone size-full wp-image-6543" src="https://didierstevens.files.wordpress.com/2019/03/20190307-001330.png?w=994&#038;h=527" alt="" width="994" height="527" srcset="https://didierstevens.files.wordpress.com/2019/03/20190307-001330.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190307-001330.png?w=128&amp;h=68 128w, https://didierstevens.files.wordpress.com/2019/03/20190307-001330.png?w=300&amp;h=159 300w, https://didierstevens.files.wordpress.com/2019/03/20190307-001330.png?w=768&amp;h=407 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p>Now I can see that there is a /URI inside the PDF (object 43).</p>
+<p>Thus I can use option -k to get the value of /URI entries, combined with option -O to look inside stream objects:</p>
+<p><img data-attachment-id="6544" data-permalink="https://blog.didierstevens.com/2019/03/07/analyzing-a-phishing-pdf-with-objstm/20190307-001346/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001346.png?w=994&#038;h=173" data-orig-size="994,173" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190307-001346" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001346.png?w=994&#038;h=173?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001346.png?w=994&#038;h=173?w=994" class="alignnone size-full wp-image-6544" src="https://didierstevens.files.wordpress.com/2019/03/20190307-001346.png?w=994&#038;h=173" alt="" width="994" height="173" srcset="https://didierstevens.files.wordpress.com/2019/03/20190307-001346.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190307-001346.png?w=128&amp;h=22 128w, https://didierstevens.files.wordpress.com/2019/03/20190307-001346.png?w=300&amp;h=52 300w, https://didierstevens.files.wordpress.com/2019/03/20190307-001346.png?w=768&amp;h=134 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p>And here I have the /URI.</p>
+<p>Another method, is to select object 43:</p>
+<p><img data-attachment-id="6545" data-permalink="https://blog.didierstevens.com/2019/03/07/analyzing-a-phishing-pdf-with-objstm/20190307-001402/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001402.png?w=994&#038;h=337" data-orig-size="994,337" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190307-001402" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001402.png?w=994&#038;h=337?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190307-001402.png?w=994&#038;h=337?w=994" class="alignnone size-full wp-image-6545" src="https://didierstevens.files.wordpress.com/2019/03/20190307-001402.png?w=994&#038;h=337" alt="" width="994" height="337" srcset="https://didierstevens.files.wordpress.com/2019/03/20190307-001402.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190307-001402.png?w=128&amp;h=43 128w, https://didierstevens.files.wordpress.com/2019/03/20190307-001402.png?w=300&amp;h=102 300w, https://didierstevens.files.wordpress.com/2019/03/20190307-001402.png?w=768&amp;h=260 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p>From this output, we also see that object 43 is inside stream object 16.</p>
+<p>Remark: if you use option -O on a PDF that does not contain stream objects (/ObjStm), pdf-parser will behave as if you didn&#8217;t provide this option. Hence, if you want, you can always use option -O to analyze PDFs.</p>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/03/07/analyzing-a-phishing-pdf-with-objstm/#comments">Comments (3)</a>	</div>
+
+</div>
+
+
+
+<h2>Wednesday 6 March 2019</h2>
+<div class="post-6538 post type-post status-publish format-standard hentry category-my-software category-pdf category-update" id="post-6538">
+	 <h3 class="storytitle">
+			<a href="https://blog.didierstevens.com/2019/03/06/update-pdf-parser-py-version-0-7-1/" rel="bookmark">Update: pdf-parser.py Version&nbsp;0.7.1</a>
+		 </h3>
+	<div class="meta">Filed under:  <a href="https://blog.didierstevens.com/category/my-software/" rel="category tag">My Software</a>,<a href="https://blog.didierstevens.com/category/pdf/" rel="category tag">PDF</a>,<a href="https://blog.didierstevens.com/category/update/" rel="category tag">Update</a> &#8212; Didier Stevens @ 0:00 <br /></div>
+
+	<div class="storycontent">
+		<p>This is a bug fix version for statistics (-a).</p>
+<p><img data-attachment-id="6539" data-permalink="https://blog.didierstevens.com/2019/03/06/update-pdf-parser-py-version-0-7-1/20190305-213739/" data-orig-file="https://didierstevens.files.wordpress.com/2019/03/20190305-213739.png?w=994&#038;h=423" data-orig-size="994,423" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="20190305-213739" data-image-description="" data-medium-file="https://didierstevens.files.wordpress.com/2019/03/20190305-213739.png?w=994&#038;h=423?w=300" data-large-file="https://didierstevens.files.wordpress.com/2019/03/20190305-213739.png?w=994&#038;h=423?w=994" class="alignnone size-full wp-image-6539" src="https://didierstevens.files.wordpress.com/2019/03/20190305-213739.png?w=994&#038;h=423" alt="" width="994" height="423" srcset="https://didierstevens.files.wordpress.com/2019/03/20190305-213739.png 994w, https://didierstevens.files.wordpress.com/2019/03/20190305-213739.png?w=128&amp;h=54 128w, https://didierstevens.files.wordpress.com/2019/03/20190305-213739.png?w=300&amp;h=128 300w, https://didierstevens.files.wordpress.com/2019/03/20190305-213739.png?w=768&amp;h=327 768w" sizes="(max-width: 994px) 100vw, 994px" /></p>
+<p><a href="http://didierstevens.com/files/software/pdf-parser_V0_7_1.zip" target="_self" rel="noopener noreferrer">pdf-parser_V0_7_1.zip</a> (<a href="https://didierstevens.com/files/software/pdf-parser_V0_7_1.zip" target="_self" rel="noopener noreferrer">https</a>)<br />
+MD5: 1480D3BF602686C9E7C2FE82AC6C963B<br />
+SHA256: D2C8E0599A84127C36656AA2600F9668A3CB12EF306D28752D6D8AC436A89D1A</p>
+	</div>
+
+	<div class="feedback">
+                        <a href="https://blog.didierstevens.com/2019/03/06/update-pdf-parser-py-version-0-7-1/#comments">Comments (2)</a>	</div>
+
+</div>
+
+
+
+<a href="https://blog.didierstevens.com/page/2/" >Next Page &raquo;</a>
+<!-- begin footer -->
+</div>
+
+
+<!-- begin sidebar -->
+<div id="menu">
+
+<ul>
+<li id="text-2" class="widget widget_text"><h2 class="widgettitle">Didier Stevens Labs</h2>
+			<div class="textwidget"><a href="http://DidierStevensLabs.com"><img src="https://didierstevens.files.wordpress.com/2014/01/dsl-new-2-100.png" alt="Didier Stevens Labs" width="100" height="114" class="alignnone size-full wp-image-3673" /><a><br><a href="http://DidierStevensLabs.com"><b>Visit my company, Didier Stevens Labs</b><a></div>
+		</li>
+<li id="pages-2" class="widget widget_pages"><h2 class="widgettitle">Pages</h2>
+		<ul>
+			<li class="page_item page-item-2"><a href="https://blog.didierstevens.com/about/">About</a></li>
+<li class="page_item page-item-3931"><a href="https://blog.didierstevens.com/didier-stevens-suite/">Didier Stevens Suite</a></li>
+<li class="page_item page-item-36"><a href="https://blog.didierstevens.com/links/">Links</a></li>
+<li class="page_item page-item-2583"><a href="https://blog.didierstevens.com/my-software/">My Software</a></li>
+<li class="page_item page-item-4"><a href="https://blog.didierstevens.com/professional/">Professional</a></li>
+<li class="page_item page-item-35 page_item_has_children"><a href="https://blog.didierstevens.com/programs/">Programs</a>
+<ul class='children'>
+	<li class="page_item page-item-1217"><a href="https://blog.didierstevens.com/programs/ariad/">Ariad</a></li>
+	<li class="page_item page-item-3330"><a href="https://blog.didierstevens.com/programs/authenticode-tools/">Authenticode Tools</a></li>
+	<li class="page_item page-item-48"><a href="https://blog.didierstevens.com/programs/binary-tools/">Binary Tools</a></li>
+	<li class="page_item page-item-324"><a href="https://blog.didierstevens.com/programs/castoggle/">CASToggle</a></li>
+	<li class="page_item page-item-314"><a href="https://blog.didierstevens.com/programs/disitool/">Disitool</a></li>
+	<li class="page_item page-item-107"><a href="https://blog.didierstevens.com/programs/eicargen/">EICARgen</a></li>
+	<li class="page_item page-item-183"><a href="https://blog.didierstevens.com/programs/extractscripts/">ExtractScripts</a></li>
+	<li class="page_item page-item-127"><a href="https://blog.didierstevens.com/programs/filegen/">FileGen</a></li>
+	<li class="page_item page-item-2478"><a href="https://blog.didierstevens.com/programs/heaplocker/">HeapLocker</a></li>
+	<li class="page_item page-item-3066"><a href="https://blog.didierstevens.com/programs/network-appliance-forensic-toolkit/">Network Appliance Forensic&nbsp;Toolkit</a></li>
+	<li class="page_item page-item-1663"><a href="https://blog.didierstevens.com/programs/nokia-time-lapse-photography/">Nokia Time Lapse&nbsp;Photography</a></li>
+	<li class="page_item page-item-3916"><a href="https://blog.didierstevens.com/programs/oledump-py/">oledump.py</a></li>
+	<li class="page_item page-item-55"><a href="https://blog.didierstevens.com/programs/ollystepnsearch/">OllyStepNSearch</a></li>
+	<li class="page_item page-item-837"><a href="https://blog.didierstevens.com/programs/pdf-tools/">PDF Tools</a></li>
+	<li class="page_item page-item-2001"><a href="https://blog.didierstevens.com/programs/shellcode/">Shellcode</a></li>
+	<li class="page_item page-item-199"><a href="https://blog.didierstevens.com/programs/spidermonkey/">SpiderMonkey</a></li>
+	<li class="page_item page-item-232"><a href="https://blog.didierstevens.com/programs/translate/">Translate</a></li>
+	<li class="page_item page-item-91"><a href="https://blog.didierstevens.com/programs/usbvirusscan/">USBVirusScan</a></li>
+	<li class="page_item page-item-42"><a href="https://blog.didierstevens.com/programs/userassist/">UserAssist</a></li>
+	<li class="page_item page-item-3648"><a href="https://blog.didierstevens.com/programs/virustotal-tools/">VirusTotal Tools</a></li>
+	<li class="page_item page-item-124"><a href="https://blog.didierstevens.com/programs/xorsearch/">XORSearch &amp; XORStrings</a></li>
+	<li class="page_item page-item-3918"><a href="https://blog.didierstevens.com/programs/yara-rules/">YARA Rules</a></li>
+	<li class="page_item page-item-133"><a href="https://blog.didierstevens.com/programs/zipencryptftp/">ZIPEncryptFTP</a></li>
+</ul>
+</li>
+<li class="page_item page-item-2932 page_item_has_children"><a href="https://blog.didierstevens.com/public-drafts/">Public Drafts</a>
+<ul class='children'>
+	<li class="page_item page-item-2935"><a href="https://blog.didierstevens.com/public-drafts/cisco-tricks/">Cisco Tricks</a></li>
+</ul>
+</li>
+<li class="page_item page-item-202"><a href="https://blog.didierstevens.com/reverse-engineering-mentoring/">Reverse Engineering Mentoring</a></li>
+<li class="page_item page-item-151"><a href="https://blog.didierstevens.com/screencasts-videos/">Screencasts &amp; Videos</a></li>
+		</ul>
+			</li>
+<li id="search-2" class="widget widget_search"><form role="search" method="get" id="searchform" class="searchform" action="https://blog.didierstevens.com/">
+				<div>
+					<label class="screen-reader-text" for="s">Search for:</label>
+					<input type="text" value="" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+			</form></li>
+<li id="top-posts-2" class="widget widget_top-posts"><h2 class="widgettitle">Top Posts</h2>
+<ul>				<li>
+										<a href="https://blog.didierstevens.com/programs/pdf-tools/" class="bump-view" data-bump-view="tp">
+						PDF Tools					</a>
+										</li>
+								<li>
+										<a href="https://blog.didierstevens.com/2015/03/30/howto-make-your-own-cert-with-openssl-on-windows/" class="bump-view" data-bump-view="tp">
+						Howto: Make Your Own Cert With OpenSSL on Windows					</a>
+										</li>
+								<li>
+										<a href="https://blog.didierstevens.com/programs/oledump-py/" class="bump-view" data-bump-view="tp">
+						oledump.py					</a>
+										</li>
+								<li>
+										<a href="https://blog.didierstevens.com/2017/05/12/quickpost-zip-password-cracking-with-john-the-ripper/" class="bump-view" data-bump-view="tp">
+						Quickpost: ZIP Password Cracking With John The Ripper					</a>
+										</li>
+								<li>
+										<a href="https://blog.didierstevens.com/2017/08/14/using-metasploit-on-windows/" class="bump-view" data-bump-view="tp">
+						Using Metasploit On Windows					</a>
+										</li>
+				</ul></li>
+<li id="categories-1" class="widget widget_categories"><h2 class="widgettitle">Categories</h2>
+		<ul>
+				<li class="cat-item cat-item-2427"><a href="https://blog.didierstevens.com/category/net/">.NET</a>
+</li>
+	<li class="cat-item cat-item-21043934"><a href="https://blog.didierstevens.com/category/010-editor/">010 Editor</a>
+</li>
+	<li class="cat-item cat-item-290"><a href="https://blog.didierstevens.com/category/announcement/">Announcement</a>
+</li>
+	<li class="cat-item cat-item-134289"><a href="https://blog.didierstevens.com/category/arduino/">Arduino</a>
+</li>
+	<li class="cat-item cat-item-567478309"><a href="https://blog.didierstevens.com/category/bash-bunny/">Bash Bunny</a>
+</li>
+	<li class="cat-item cat-item-9247"><a href="https://blog.didierstevens.com/category/beta/">Beta</a>
+</li>
+	<li class="cat-item cat-item-21416447"><a href="https://blog.didierstevens.com/category/bpmtk/">bpmtk</a>
+</li>
+	<li class="cat-item cat-item-11198"><a href="https://blog.didierstevens.com/category/certification/">Certification</a>
+</li>
+	<li class="cat-item cat-item-114613718"><a href="https://blog.didierstevens.com/category/didier-stevens-labs/">Didier Stevens Labs</a>
+</li>
+	<li class="cat-item cat-item-1252421"><a href="https://blog.didierstevens.com/category/eee-pc/">Eee PC</a>
+</li>
+	<li class="cat-item cat-item-6474"><a href="https://blog.didierstevens.com/category/encryption/">Encryption</a>
+</li>
+	<li class="cat-item cat-item-384"><a href="https://blog.didierstevens.com/category/entertainment/">Entertainment</a>
+</li>
+	<li class="cat-item cat-item-98119"><a href="https://blog.didierstevens.com/category/fellow-bloggers/">Fellow Bloggers</a>
+</li>
+	<li class="cat-item cat-item-62455"><a href="https://blog.didierstevens.com/category/forensics/">Forensics</a>
+</li>
+	<li class="cat-item cat-item-1816"><a href="https://blog.didierstevens.com/category/hacking/">Hacking</a>
+</li>
+	<li class="cat-item cat-item-79"><a href="https://blog.didierstevens.com/category/hardware/">Hardware</a>
+</li>
+	<li class="cat-item cat-item-415890379"><a href="https://blog.didierstevens.com/category/maldoc/">maldoc</a>
+</li>
+	<li class="cat-item cat-item-15593"><a href="https://blog.didierstevens.com/category/malware/">Malware</a>
+</li>
+	<li class="cat-item cat-item-8249"><a href="https://blog.didierstevens.com/category/my-software/">My Software</a>
+</li>
+	<li class="cat-item cat-item-877911"><a href="https://blog.didierstevens.com/category/n800/">N800</a>
+</li>
+	<li class="cat-item cat-item-7426"><a href="https://blog.didierstevens.com/category/networking/">Networking</a>
+</li>
+	<li class="cat-item cat-item-891"><a href="https://blog.didierstevens.com/category/nonsense/">Nonsense</a>
+</li>
+	<li class="cat-item cat-item-876320"><a href="https://blog.didierstevens.com/category/nslu2/">nslu2</a>
+</li>
+	<li class="cat-item cat-item-1902"><a href="https://blog.didierstevens.com/category/osx/">OSX</a>
+</li>
+	<li class="cat-item cat-item-47759"><a href="https://blog.didierstevens.com/category/pdf/">PDF</a>
+</li>
+	<li class="cat-item cat-item-64"><a href="https://blog.didierstevens.com/category/personal/">Personal</a>
+</li>
+	<li class="cat-item cat-item-224855"><a href="https://blog.didierstevens.com/category/physical-security/">Physical Security</a>
+</li>
+	<li class="cat-item cat-item-10386"><a href="https://blog.didierstevens.com/category/poll/">Poll</a>
+</li>
+	<li class="cat-item cat-item-473"><a href="https://blog.didierstevens.com/category/puzzle/">Puzzle</a>
+</li>
+	<li class="cat-item cat-item-46973"><a href="https://blog.didierstevens.com/category/quickpost/">Quickpost</a>
+</li>
+	<li class="cat-item cat-item-7781"><a href="https://blog.didierstevens.com/category/release/">Release</a>
+</li>
+	<li class="cat-item cat-item-49333"><a href="https://blog.didierstevens.com/category/reverse-engineering/">Reverse Engineering</a>
+</li>
+	<li class="cat-item cat-item-27216"><a href="https://blog.didierstevens.com/category/rfid/">RFID</a>
+</li>
+	<li class="cat-item cat-item-1568824"><a href="https://blog.didierstevens.com/category/shellcode/">Shellcode</a>
+</li>
+	<li class="cat-item cat-item-300967"><a href="https://blog.didierstevens.com/category/smart-card/">smart card</a>
+</li>
+	<li class="cat-item cat-item-652"><a href="https://blog.didierstevens.com/category/spam/">Spam</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="https://blog.didierstevens.com/category/technology/">technology</a>
+</li>
+	<li class="cat-item cat-item-854673"><a href="https://blog.didierstevens.com/category/ultraedit/">UltraEdit</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://blog.didierstevens.com/category/uncategorized/">Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-3251"><a href="https://blog.didierstevens.com/category/update/">Update</a>
+</li>
+	<li class="cat-item cat-item-65966"><a href="https://blog.didierstevens.com/category/vulnerabilities/">Vulnerabilities</a>
+</li>
+	<li class="cat-item cat-item-4305"><a href="https://blog.didierstevens.com/category/wifi/">WiFi</a>
+</li>
+	<li class="cat-item cat-item-729864"><a href="https://blog.didierstevens.com/category/windows-7/">Windows 7</a>
+</li>
+	<li class="cat-item cat-item-4502980"><a href="https://blog.didierstevens.com/category/windows-8/">Windows 8</a>
+</li>
+	<li class="cat-item cat-item-3003"><a href="https://blog.didierstevens.com/category/windows-vista/">Windows Vista</a>
+</li>
+	<li class="cat-item cat-item-686916"><a href="https://blog.didierstevens.com/category/wireshark/">Wireshark</a>
+</li>
+		</ul>
+			</li>
+<li id="text-1" class="widget widget_text">			<div class="textwidget"><a href="https://blog.didierstevens.com/feed/" title="RSS"><img src="https://i2.wp.com/radio.weblogs.com/0001011/images/xml.gif" border="0" width="36"></a>
+</div>
+		</li>
+<li id="blog-stats-2" class="widget widget_blog-stats"><h2 class="widgettitle">Blog Stats</h2>
+		<ul>
+			<li>5,645,351 hits</li>
+		</ul>
+		</li>
+<li id="twitter-2" class="widget widget_twitter"><h2 class="widgettitle"><a href='http://twitter.com/DidierStevens'>Twitter @DidierStevens</a></h2>
+<ul class='tweets'>
+			<li>
+				New blog post &quot;list-interfaces.xlsm&quot; <a href="https://blog.didierstevens.com/2019/04/01/list-interfaces-xlsm/"> blog.didierstevens.com/2019/04/01/lisâ¦</a> <a href="https://t.co/vbxNeDCmDZ" rel="nofollow">https://t.co/vbxNeDCmDZ</a> 				<a href="http://twitter.com/DidierStevens/statuses/1113471546494988290" class="timesince">1&nbsp;day&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				RT @<a href='http://twitter.com/NVISOsecurity'>NVISOsecurity</a>: NVISO is nominated for the Datanews Awards for the 2nd year in a row! Very happy to see our hard work and commitment toâ¦ 				<a href="http://twitter.com/DidierStevens/statuses/1113338182979006464" class="timesince">1&nbsp;day&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				New blog post &quot;Overview of Content Published in March&quot; <a href="https://blog.didierstevens.com/2019/04/01/overview-of-content-published-in-march-4/"> blog.didierstevens.com/2019/04/01/oveâ¦</a> 				<a href="http://twitter.com/DidierStevens/statuses/1113111042098331648" class="timesince">2&nbsp;days&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				Listing your machine&#039;s MAC addresses with Excel: <a href="https://blog.didierstevens.com/2019/04/01/list-interfaces-xlsm/"> blog.didierstevens.com/2019/04/01/lisâ¦</a> 				<a href="http://twitter.com/DidierStevens/statuses/1112750026558717957" class="timesince">3&nbsp;days&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				/OpenAction in PDFs is not always malicious: <a href="https://isc.sans.edu/forums/diary/Analysis+of+PDFs+Created+with+OpenOfficeLibreOffice/24798/"> isc.sans.edu/forums/diary/Aâ¦</a> 				<a href="http://twitter.com/DidierStevens/statuses/1112749273937006596" class="timesince">3&nbsp;days&nbsp;ago</a>
+			</li>
+
+			</ul></li>
+<li id="archives-2" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>
+		<ul>
+				<li><a href='https://blog.didierstevens.com/2019/04/'>April 2019</a></li>
+	<li><a href='https://blog.didierstevens.com/2019/03/'>March 2019</a></li>
+	<li><a href='https://blog.didierstevens.com/2019/02/'>February 2019</a></li>
+	<li><a href='https://blog.didierstevens.com/2019/01/'>January 2019</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/12/'>December 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/11/'>November 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/10/'>October 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/09/'>September 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/08/'>August 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/07/'>July 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/06/'>June 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/05/'>May 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/04/'>April 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/03/'>March 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/02/'>February 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2018/01/'>January 2018</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/12/'>December 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/11/'>November 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/10/'>October 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/09/'>September 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/08/'>August 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/07/'>July 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/06/'>June 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/05/'>May 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/04/'>April 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/03/'>March 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/02/'>February 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2017/01/'>January 2017</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/12/'>December 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/11/'>November 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/10/'>October 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/09/'>September 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/08/'>August 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/07/'>July 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/06/'>June 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/05/'>May 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/04/'>April 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/03/'>March 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/02/'>February 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2016/01/'>January 2016</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/12/'>December 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/11/'>November 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/10/'>October 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/09/'>September 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/08/'>August 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/07/'>July 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/06/'>June 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/05/'>May 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/04/'>April 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/03/'>March 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/02/'>February 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2015/01/'>January 2015</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/12/'>December 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/11/'>November 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/10/'>October 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/09/'>September 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/08/'>August 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/07/'>July 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/06/'>June 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/05/'>May 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/04/'>April 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/03/'>March 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/02/'>February 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2014/01/'>January 2014</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/12/'>December 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/11/'>November 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/10/'>October 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/09/'>September 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/08/'>August 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/07/'>July 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/06/'>June 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/05/'>May 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/04/'>April 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/03/'>March 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/02/'>February 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2013/01/'>January 2013</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/12/'>December 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/11/'>November 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/10/'>October 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/09/'>September 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/08/'>August 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/07/'>July 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/06/'>June 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/05/'>May 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/04/'>April 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/03/'>March 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/02/'>February 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2012/01/'>January 2012</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/12/'>December 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/11/'>November 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/10/'>October 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/09/'>September 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/08/'>August 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/07/'>July 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/06/'>June 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/05/'>May 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/04/'>April 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/03/'>March 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/02/'>February 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2011/01/'>January 2011</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/12/'>December 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/11/'>November 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/10/'>October 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/09/'>September 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/08/'>August 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/07/'>July 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/06/'>June 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/05/'>May 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/04/'>April 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/03/'>March 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/02/'>February 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2010/01/'>January 2010</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/12/'>December 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/11/'>November 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/10/'>October 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/09/'>September 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/08/'>August 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/07/'>July 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/06/'>June 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/05/'>May 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/04/'>April 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/03/'>March 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/02/'>February 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2009/01/'>January 2009</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/12/'>December 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/11/'>November 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/10/'>October 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/09/'>September 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/08/'>August 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/07/'>July 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/06/'>June 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/05/'>May 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/04/'>April 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/03/'>March 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/02/'>February 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2008/01/'>January 2008</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/12/'>December 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/11/'>November 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/10/'>October 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/09/'>September 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/08/'>August 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/07/'>July 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/06/'>June 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/05/'>May 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/04/'>April 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/03/'>March 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/02/'>February 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2007/01/'>January 2007</a></li>
+	<li><a href='https://blog.didierstevens.com/2006/12/'>December 2006</a></li>
+	<li><a href='https://blog.didierstevens.com/2006/11/'>November 2006</a></li>
+	<li><a href='https://blog.didierstevens.com/2006/10/'>October 2006</a></li>
+	<li><a href='https://blog.didierstevens.com/2006/09/'>September 2006</a></li>
+	<li><a href='https://blog.didierstevens.com/2006/08/'>August 2006</a></li>
+	<li><a href='https://blog.didierstevens.com/2006/07/'>July 2006</a></li>
+	<li><a href='https://blog.didierstevens.com/2006/06/'>June 2006</a></li>
+		</ul>
+			</li>
+<li id="calendar-2" class="widget widget_calendar"><div id="calendar_wrap" class="calendar_wrap"><table id="wp-calendar">
+	<caption>April 2019</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+		<th scope="col" title="Sunday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="https://blog.didierstevens.com/2019/03/">&laquo; Mar</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr><td><a href="https://blog.didierstevens.com/2019/04/01/" aria-label="Posts published on April 1, 2019">1</a></td><td>2</td><td>3</td><td id="today"><a href="https://blog.didierstevens.com/2019/04/04/" aria-label="Posts published on April 4, 2019">4</a></td><td>5</td><td>6</td><td>7</td>
+	</tr>
+	<tr>
+		<td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td>
+	</tr>
+	<tr>
+		<td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td>
+	</tr>
+	<tr>
+		<td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td>
+	</tr>
+	<tr>
+		<td>29</td><td>30</td>
+		<td class="pad" colspan="5">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></li>
+
+</ul>
+
+</div>
+
+
+<p class="credit"><cite> <a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a></cite></p>
+
+</div>
+
+<!--  -->
+	<div style="display:none">
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/didierstevens.wordpress.com\/public.api\/connect\/?action=request&domain=blog.didierstevens.com","logoutURL":"https:\/\/didierstevens.wordpress.com\/wp-login.php?action=logout&_wpnonce=38cab5525b","homeURL":"https:\/\/blog.didierstevens.com\/","postID":"6589","gravDefault":"mystery","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1551752381j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="264765" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://blog.didierstevens.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Didier Stevens" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="9e445bd00e" /><input type="hidden" name="_wp_http_referer" value="/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<script type='text/javascript' src='https://platform.twitter.com/widgets.js?ver=20111117'></script>
+<link rel='stylesheet' id='all-css-0-3' href='https://s0.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1524699534h&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"264765","siteName":"Didier Stevens","siteURL":"https:\/\/blog.didierstevens.com","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/rubric","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fblog.didierstevens.com%2F2019%2F04%2F04%2Fquickpost-browsers-content-disposition%2F&signup_flow=account&domain=blog.didierstevens.com","themeURL":"","xhrURL":"https:\/\/blog.didierstevens.com\/wp-admin\/admin-ajax.php","nonce":"27b1b17b50","isSingular":"","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"bfd3cab68a\" \/>","referer":"https:\/\/blog.didierstevens.com\/","canFollow":"1","feedID":"267095","statusMessage":"","customizeLink":"https:\/\/didierstevens.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fdidierstevens.wordpress.com%2F","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Rubric","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 692 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fblog.didierstevens.com%2F2019%2F04%2F04%2Fquickpost-browsers-content-disposition%2F&signup_flow=account&domain=blog.didierstevens.com\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/blog.didierstevens.com\/wp-admin\/admin-ajax.php","nonce":"fe690db059","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"0","login_url":"https:\/\/didierstevens.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fblog.didierstevens.com%2F2019%2F04%2F04%2Fquickpost-browsers-content-disposition%2F","blog_id":"264765","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=264765&v=wpcom&tz=0&user_id=0&subd=didierstevens","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyVT8sOwjAM+yG6wrQdOCC+pbQRpOuLpB3w93QSm3aYJnGK5dhxLF9J6BgyhCwtSwMjakjvxvJBrla+iOTKHQNLhwOwfBYo8FDBOKAdsTIeg7gpkl5xBqpIxBGI0NQjC/fnhUxKD7xn0hljmEwLmtUYtCtTeG3LCcMWb2s7+vxGs1ZtZGlFsTA4aSGn+peYieq5+sup77vueG7b3n4BLMqIBg=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'264765','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'264765','v':'wpcom','tz':'0','user_id':'0','subd':'didierstevens'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dMVEs1QkdjayZ2U0g9LzAsWVFHW28/U0JfcD9SNVZobUxCQ0cwP0RJPWxXdC9GcXVQVCxyXUJUNUVGR284RD9TLkFDREdiSFNMTEpjJlk4MHBydVBqWS1nLiwzUy90ZDdmVVRJUEdFd01PY1B3bGQxZGo3LX5RMDVMSmY/Zj9BW00/SmlSPTUsN1dUd193UWR6YjBhOS8reVVDSUVmUy9Jd3xsM3FzTExka2NTSHNRcGN1THA5RHMvcldbM1ZGbWxJPVVLPz8rX249Mi1HaHJIcw=='}]);
+_stq.push([ 'clickTrackerInit', '264765', '0' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
+
+
+
+#####EOF#####
+
+

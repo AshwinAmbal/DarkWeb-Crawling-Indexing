@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="">
+
+    <title>Meltdown and Spectre</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,bold,900,600">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+
+    <link rel="stylesheet" href="meltdown.min.css" type='text/css'>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-justify">
+          <h1 class="display-4 text-left">Meltdown and Spectre</h1>
+          <p class="lead">Vulnerabilities in modern computers leak passwords and sensitive data.</p>
+          <br />
+          <p>Meltdown and Spectre exploit critical vulnerabilities in modern <abbr style="cursor:help;" title="The main part of every computer">processors</abbr>.
+          These hardware vulnerabilities allow programs to steal data which is currently processed on the computer.
+          While programs are typically not permitted to read data from other programs, a malicious program can exploit Meltdown and Spectre to get hold of secrets stored in the memory of other running programs.
+          This might include your passwords stored in a password manager or browser, your personal photos, emails, instant messages and even business-critical documents. </p>
+          <p>Meltdown and Spectre work on personal computers, mobile devices, and in the cloud.
+          Depending on the cloud provider's infrastructure, it might be possible to steal data from other customers.</p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="card-deck">
+              <div class="card meltdown" id="meltdown">
+                  <div class="logo-wrapper">
+                    <center><img class="card-img-top" src="images/meltdown.min.svg" alt="Meltdown"/></center>
+                  </div>
+                  <div class="card-body">
+                      <h4 class="card-title">Meltdown</h4>
+                      <p class="card-text">
+                      <p>Meltdown breaks the most fundamental isolation between user applications and the operating system.
+                      This attack allows a program to access the memory, and thus also the secrets, of other programs and the operating system. </p>
+                      <p>If your computer has a vulnerable processor and runs an unpatched operating system, it is not safe to work with sensitive information without the chance of leaking the information. This applies both to personal computers as well as cloud infrastructure. Luckily, there are <a href="#faq-fix">software patches against Meltdown</a>.</p>
+                      </p>
+                  </div>
+                  <div class="card-footer">
+                      <a href="https://meltdownattack.com/meltdown.pdf" class="btn btn-primary btn-lg btn-block"><i class="fa fa-download d-print-none"></i> Meltdown Paper</a>
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <a href="meltdown.bib" class="btn btn-primary btn-lg btn-block"><i class="fa fa-quote-right d-print-none"></i> Cite</a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <a href="https://arxiv.org/abs/1801.01207" target="_blank" class="btn btn-primary btn-lg btn-block"><i class="fa fa-archive d-print-none"></i> arXiv</a>
+                        </div>
+                      </div>
+                </div>
+          </div>
+
+
+          <div class="card spectre" id="spectre">
+              <div class="logo-wrapper">
+                <center><img class="card-img-top" src="images/spectre.min.svg" alt="Spectre"/></center>
+              </div>
+              <div class="card-body">
+                  <h4 class="card-title">Spectre</h4>
+                  <p class="card-text">
+                  <p>Spectre breaks the isolation between different applications.
+                  It allows an attacker to trick error-free programs, which follow best practices, into leaking their secrets.
+                  In fact, the safety checks of said best practices actually increase the attack surface and may make applications more susceptible to Spectre
+                  </p>
+                  <p>Spectre is harder to exploit than Meltdown, but it is also harder to mitigate.
+                  <a href="#faq-fix">However, it is possible to prevent specific known exploits based on Spectre through software patches.</a>
+                  </p>
+              </div>
+              <div class="card-footer">
+                <a href="https://spectreattack.com/spectre.pdf" class="btn btn-primary btn-lg btn-block"><i class="fa fa-download  d-print-none"></i> Spectre Paper</a>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <a href="spectre.bib" class="btn btn-primary btn-lg btn-block"><i class="fa fa-quote-right d-print-none"></i> Cite</a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <a href="https://arxiv.org/abs/1801.01203" target="_blank" class="btn btn-primary btn-lg btn-block"><i class="fa fa-archive d-print-none"></i> arXiv</a>
+                        </div>
+                    </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <h2 id="meltdown-reported">Who reported Meltdown?</h2>
+          <p>
+          Meltdown was independently discovered and reported by three teams:
+            <ul>
+             <li><a href="https://twitter.com/tehjh" target="_blank">Jann
+                 Horn</a> (<a class="company" href="https://googleprojectzero.blogspot.com" target="_blank">Google Project Zero</a>),</li>
+            <li><a href="mailto:werner.haas@cyberus-technology.de">Werner Haas</a>, <a href="mailto:thomas.prescher@cyberus-technology.de">Thomas Prescher</a> (<a class="company" href="https://www.cyberus-technology.de" target="_blank">Cyberus Technology</a>), </li>
+            <li><a href="https://gruss.cc" target="_blank">Daniel Gruss</a>, <a
+                 href="https://mlq.me" target="_blank">Moritz Lipp</a>, <a href="https://www.iaik.tugraz.at/content/about_iaik/people/mangard_stefan/" target="_blank">Stefan Mangard</a>, <a href="https://misc0110.net/" target="_blank">Michael Schwarz</a> (<a class="company" href="https://www.iaik.tugraz.at" target="_blank">Graz University of Technology</a>)</li>
+            </ul> 
+          </p>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <h2 id="spectre-reported">Who reported Spectre?</h2>
+          <p>
+          Spectre was independently discovered and reported by two people:
+            <ul>
+             <li><a href="https://twitter.com/tehjh" target="_blank">Jann
+                 Horn</a> (<a class="company" href="https://googleprojectzero.blogspot.com" target="_blank">Google Project Zero</a>) and</li>
+             <li><a href="https://paulkocher.com" target="_blank">Paul Kocher</a> in collaboration with, in alphabetical order, 
+                <a href="https://www.cis.upenn.edu/~danielg3/" target="_blank">Daniel Genkin</a> (<a class="company" href="https://www.upenn.edu/" target="_blank">University of Pennsylvania</a> and <a class="company" href="https://www.umd.edu" target="_blank">University of Maryland</a>), <a href="https://www.shiftleft.org/" target="_blank">Mike Hamburg</a> (<a class="company" href="https://www.rambus.com" target="_blank">Rambus</a>), <a
+                 href="https://mlq.me" target="_blank">Moritz Lipp</a> (<a class="company" href="https://www.iaik.tugraz.at" target="_blank">Graz University of Technology</a>), and <a href="https://cs.adelaide.edu.au/~yval">Yuval Yarom</a> (<a class="company" href="https://www.adelaide.edu.au/" target="_blank">University of Adelaide</a> and <a class="company" href="https://www.data61.csiro.au/" target="_blank">Data61</a>)
+              </li>
+             </ul> 
+          </p>
+        </div>
+      </div>
+      
+
+      <br/>
+      <hr />
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 faq">
+          <h2 id="faq"><a href="#faq">Questions &amp; Answers</a></h2>
+          <h4 id="faq-affected"><a href="#faq-affected">Am I affected by the vulnerability?</a></h4>
+          <p>Most certainly, yes.</p>
+
+          <h4 id="faq-detect"><a href="#faq-detect">Can I detect if someone has exploited Meltdown or Spectre against me?</a></h4>
+          <p>Probably not. The exploitation does not leave any traces in traditional log files.</p>
+
+          <h4 id="faq-antivirus"><a href="#faq-antivirus">Can my antivirus detect or block this attack?</a></h4>
+          <p>While possible in theory, this is unlikely in practice. Unlike usual malware, Meltdown and Spectre are hard to distinguish from regular benign applications. However, your antivirus may detect malware which uses the attacks by comparing binaries after they become known.</p>
+
+          <h4 id="faq-leaked"><a href="#faq-leaked">What can be leaked?</a></h4>
+          <p>If your system is affected, our proof-of-concept exploit can read the memory content of your computer. This may include passwords and sensitive data stored on the system.</p>
+
+          <h4 id="faq-wild"><a href="#faq-wild">Has Meltdown or Spectre been abused in the wild?</a></h4>
+          <p>We don't know. </p>
+
+          <h4 id="faq-fix"><a href="#faq-fix">Is there a workaround/fix?</a></h4>
+          <p>There are patches against Meltdown for Linux (<a href="https://lwn.net/Articles/738975/" target="_blank"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> KPTI (formerly KAISER)</a>), Windows, <!--(<a href="#">TODO</a>)--> and OS X. <!--(<a href="#">TODO</a>)-->
+          There is also work to harden software against future exploitation of Spectre, respectively to patch software after exploitation through Spectre (<a href="http://lists.llvm.org/pipermail/llvm-commits/Week-of-Mon-20180101/513630.html" target="_blank"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> LLVM patch</a>, <a href="https://blogs.msdn.microsoft.com/vcblog/2018/01/15/spectre-mitigations-in-msvc/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i> MSVC</a>, <a href="https://github.com/ARM-software/speculation-barrier" target="_blank"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> ARM speculation barrier header</a>).</p>
+
+          <h4 id="faq-systems-meltdown"><a href="#faq-systems-meltdown">Which systems are affected by Meltdown?</a></h4>
+          <p>Desktop, Laptop, and Cloud computers may be affected by Meltdown. More technically, every Intel processor which implements out-of-order execution is potentially affected, which is effectively every processor since 1995 (except Intel Itanium and Intel Atom before 2013). We successfully tested Meltdown on Intel processor generations released as early as 2011. Currently, we have only verified Meltdown on Intel processors. At the moment, it is unclear whether AMD processors are also affected by Meltdown. <a href="https://developer.arm.com/support/security-update" target="_blank"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> According to ARM</a>, some of their processors are also affected.</p>
+
+          <h4 id="faq-systems-spectre"><a href="#faq-systems-spectre">Which systems are affected by Spectre?</a></h4>
+          <p>Almost every system is affected by Spectre: Desktops, Laptops, Cloud Servers, as well as Smartphones. More specifically, all modern processors capable of keeping many instructions in flight are potentially vulnerable. In particular, we have verified Spectre on Intel, AMD, and ARM processors.</p>
+
+          <h4 id="faq-cloud"><a href="#faq-cloud">Which cloud providers are affected by Meltdown?</a></h4>
+          <p>Cloud providers which use Intel CPUs and <abbr title="Xen paravirtualization">Xen PV</abbr> as virtualization without having patches applied.
+          Furthermore, cloud providers without real hardware virtualization, relying on containers that share one kernel, such as Docker, LXC, or OpenVZ are affected.</p>
+
+          <h4 id="faq-meltdown-vs-spectre"><a href="#faq-meltdown-vs-spectre">What is the difference between Meltdown and Spectre?</a></h4>
+          <p>Meltdown breaks the mechanism that keeps applications from accessing arbitrary system memory.
+          Consequently, applications can access system memory.
+          Spectre tricks other applications into accessing arbitrary locations in their memory.
+          Both attacks use side channels to obtain the information from the accessed memory location.
+          For a more technical discussion we refer to the papers (<a href="https://meltdownattack.com/meltdown.pdf"><i class="fa fa-download  d-print-none"></i> Meltdown</a> and <a href="https://spectreattack.com/spectre.pdf"><i class="fa fa-download  d-print-none"></i> Spectre</a>)</p>
+
+          <h4 id="faq-why-meltdown"><a href="#faq-why-meltdown">Why is it called Meltdown?</a></h4>
+          <p>The vulnerability basically melts security boundaries which are normally enforced by the hardware.</p>
+
+          <h4 id="faq-why-spectre"><a href="#faq-why-spectre">Why is it called Spectre?</a></h4>
+          <p>The name is based on the root cause, speculative execution. As it is not easy to fix, it will haunt us for quite some time.</p>
+
+          <h4 id="faq-papers"><a href="#faq-papers">Is there more technical information about Meltdown and Spectre?</a></h4>
+          <p>Yes, there is an <a href="https://arxiv.org/abs/1801.01207"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> academic paper</a> and <a href="http://blog.cyberus-technology.de/posts/2018-01-03-meltdown.html" target="_blank"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> a blog post</a> about Meltdown, and an <a href="https://arxiv.org/abs/1801.01203"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> academic paper</a> about Spectre. Furthermore, there is a <a href="https://googleprojectzero.blogspot.co.at/2018/01/reading-privileged-memory-with-side.html" target="_blank"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> Google Project Zero blog entry</a> about both attacks.</p>
+
+          <h4 id="faq-cve-spectre"><a href="#faq-cve-spectre">What are CVE-2017-5753 and CVE-2017-5715?</a></h4>
+          <p>CVE-2017-5753 and CVE-2017-5715 are the official references to Spectre. <abbr title="Common Vulnerabilities and Exposures">CVE</abbr> is the Standard for Information Security Vulnerability Names maintained by MITRE.</p>
+
+          <h4 id="faq-cve-meltdown"><a href="#faq-cve-meltdown">What is the CVE-2017-5754?</a></h4>
+          <p>CVE-2017-5754 is the official reference to Meltdown. <abbr title="Common Vulnerabilities and Exposures">CVE</abbr> is the Standard for Information Security Vulnerability Names maintained by MITRE.</p>
+          
+          <h4 id="faq-demo-video"><a href="#faq-demo-video">Can I see Meltdown in action?</a></h4>
+          <p>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/bReA1dvGJ6Y" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/RbHbFkh6eeE" allowfullscreen></iframe>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/kwnh7q356Jk" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/L1N1P2zxaZE" allowfullscreen></iframe>
+                </div>
+            </div>
+          </div>
+          
+          
+          <br />
+          </p>
+                    
+          <h4 id="faq-logo"><a href="#faq-logo">Can I use the logo?</a></h4>
+          <p>Both the Meltdown and Spectre logo are free to use, rights waived via <a href="http://creativecommons.org/publicdomain/zero/1.0/"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> CC0</a>. Logos are designed by <a href="https://vividfox.me/" target="_blank"><i class="fa fa-sm fa-external-link-alt  d-print-none"></i> Natascha Eibl</a>.</p>
+          <table id="logos">
+           <tr><td></td><th>Logo</th><th>Logo with text</th><th>Code illustration</th></tr>
+           <tr>
+           <th>Meltdown</th>
+           <td>
+            <a href="meltdown.png"><i class="fa fa-download  d-print-none"></i>&nbsp;PNG</a> &nbsp;&nbsp;/&nbsp;&nbsp; 
+            <a href="meltdown.svg"><i class="fa fa-download d-print-none"></i>&nbsp;SVG</a>
+           </td>
+           <td>
+            <a href="meltdown-text.png"><i class="fa fa-download d-print-none"></i>&nbsp;PNG</a> &nbsp;&nbsp;/&nbsp;&nbsp; 
+            <a href="meltdown-text.svg"><i class="fa fa-download d-print-none"></i>&nbsp;SVG</a>
+           </td>
+           <td>
+            <a href="meltdown-code.png"><i class="fa fa-download d-print-none"></i>&nbsp;PNG</a> &nbsp;&nbsp;/&nbsp;&nbsp; 
+            <a href="meltdown-code.svg"><i class="fa fa-download d-print-none"></i>&nbsp;SVG</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Spectre</th>
+           <td>
+            <a href="spectre.png"><i class="fa fa-download d-print-none"></i>&nbsp;PNG</a> &nbsp;&nbsp;/&nbsp;&nbsp; 
+            <a href="spectre.svg"><i class="fa fa-download d-print-none"></i>&nbsp;SVG</a>
+           </td>
+           <td>
+            <a href="spectre-text.png"><i class="fa fa-download d-print-none"></i>&nbsp;PNG</a> &nbsp;&nbsp;/&nbsp;&nbsp; 
+            <a href="spectre-text.svg"><i class="fa fa-download d-print-none"></i>&nbsp;SVG</a>
+           </td>
+           <td>
+            <a href="spectre-code.png"><i class="fa fa-download d-print-none"></i>&nbsp;PNG</a> &nbsp;&nbsp;/&nbsp;&nbsp; 
+            <a href="spectre-code.svg"><i class="fa fa-download d-print-none"></i>&nbsp;SVG</a>
+           </td>
+           </tr>
+          </table>
+          <br />
+           </tr>
+          </table>
+          </p>
+          
+          <h4 id="faq-code"><a href="#faq-code">Is there a proof-of-concept code?</a></h4>
+          <p>Yes, there is a <a href="https://github.com/IAIK/meltdown" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i> GitHub repository</a> containing test code for Meltdown.</p>
+ 
+                    
+          <h4 id="faq-advisory"><a href="#faq-advisory">Where can I find official infos/security advisories of involved/affected companies?</a></h4>
+          <p>
+          <table id="logos">
+           <tr><td></td><th>Link</th></tr>
+           <tr>
+           <th>Intel</th>
+           <td>
+            <a href="https://security-center.intel.com/advisories.aspx" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Advisory</a> &nbsp;&nbsp; / &nbsp;&nbsp;  <a href="https://newsroom.intel.com/news/intel-responds-to-security-research-findings/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Newsroom</a> &nbsp;&nbsp; / &nbsp;&nbsp;  <a href="https://newsroom.intel.com/wp-content/uploads/sites/11/2018/01/Intel-Analysis-of-Speculative-Execution-Side-Channels.pdf" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Whitepaper</a>
+           </td>
+           </tr>
+           <th>ARM</th>
+           <td>
+            <a href="https://developer.arm.com/support/security-update" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Update</a> 
+           </td>
+           </tr>
+           <tr>
+           <th>AMD</th>
+           <td>
+            <a href="https://www.amd.com/en/corporate/speculative-execution" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Information</a> 
+           </td>
+           </tr>
+           <tr>
+           <th>RISC-V</th>
+           <td>
+            <a href="https://riscv.org/2018/01/more-secure-world-risc-v-isa/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Blog</a> 
+           </td>
+           </tr>
+           <tr>
+           <th>NVIDIA</th>
+           <td>
+            <a href="http://nvidia.custhelp.com/app/answers/detail/a_id/4611/~/security-bulletin%3A-nvidia-gpu-display-driver-security-updates-for-speculative" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Bulletin</a> &nbsp;&nbsp;/&nbsp;&nbsp; <a href="https://www.nvidia.com/en-us/product-security/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Product Security</a>
+           </td>
+           </tr>           <tr>
+           <th>Microsoft</th>
+           <td>
+            <a href="https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/ADV180002" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Guidance</a> &nbsp;&nbsp; / &nbsp;&nbsp; <a href="https://support.microsoft.com/en-us/help/4072699/important-information-regarding-the-windows-security-updates-released" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Information regarding anti-virus software</a> &nbsp;&nbsp; / &nbsp;&nbsp;
+            <a href="https://azure.microsoft.com/en-us/blog/securing-azure-customers-from-cpu-vulnerability/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Azure Blog</a> &nbsp;&nbsp; / &nbsp;&nbsp;
+            <a href="https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Windows (Client)</a> &nbsp;&nbsp; / &nbsp;&nbsp; <a href="https://support.microsoft.com/en-us/help/4072698/windows-server-guidance-to-protect-against-the-speculative-execution" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Windows (Server)</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Amazon</th>
+           <td>
+            <a href="https://aws.amazon.com/de/security/security-bulletins/AWS-2018-013/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Bulletin</a> 
+           </td>
+           </tr>
+           <tr>
+           <th>Google</th>
+           <td>
+            <a href="https://googleprojectzero.blogspot.co.at/2018/01/reading-privileged-memory-with-side.html" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Project Zero Blog</a> &nbsp;&nbsp; / &nbsp;&nbsp;
+            <a href="https://blog.google/topics/google-cloud/what-google-cloud-g-suite-and-chrome-customers-need-know-about-industry-wide-cpu-vulnerability/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i> Need to know</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Android</th>
+           <td>
+            <a href="https://source.android.com/security/bulletin/2018-01-01" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Bulletin</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Apple</th>
+           <td>
+            <a href="https://support.apple.com/en-us/HT208394" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Apple Support</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Lenovo</th>
+           <td>
+            <a href="https://support.lenovo.com/at/de/solutions/len-18282" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Advisory</a>
+           </td>
+           </tr>
+           <tr>
+           <th>IBM</th>
+           <td>
+            <a href="https://www.ibm.com/blogs/psirt/potential-cpu-security-issue/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Blog</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Dell</th>
+           <td>
+            <a href="http://www.dell.com/support/article/at/de/atbsdt1/sln308587/microprocessor-side-channel-attacks--cve-2017-5715--cve-2017-5753--cve-2017-5754---impact-on-dell-products?lang=en" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Knowledge Base</a> &nbsp;&nbsp;/&nbsp;&nbsp; <a href="http://www.dell.com/support/article/at/de/atbsdt1/sln308588/microprocessor-side-channel-attacks--cve-2017-5715--cve-2017-5753--cve-2017-5754---impact-on-dell-emc-products--dell-enterprise-servers--storage-and-networking-?lang=en" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Knowledge Base (Server)</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Hewlett Packard Enterprise</th>
+           <td>
+            <a href="http://h22208.www2.hpe.com/eginfolib/securityalerts/SCAM/Side_Channel_Analysis_Method.html" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Vulnerability Alert</a> 
+           </td>
+           </tr>           
+           <tr>
+           <th>HP Inc.</th>
+           <td>
+            <a href="https://support.hp.com/document/c05869091" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Bulletin</a> 
+           </td>
+           </tr>           
+           <tr>
+           <th>Huawei</th>
+           <td>
+            <a href="http://www.huawei.com/en/psirt/security-notices/huawei-sn-20180104-01-intel-en" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Notice</a> 
+           </td>
+           </tr>           
+           <tr>
+           <th>Synology</th>
+           <td>
+            <a href="https://www.synology.com/en-us/support/security/Synology_SA_18_01" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Advisory</a> 
+           </td>
+           </tr>           <tr>
+           <th>Cisco</th>
+           <td>
+            <a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180104-cpusidechannel" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Advisory</a>
+           </td>
+           </tr>
+           <tr>
+           <th>F5</th>
+           <td>
+            <a href="https://support.f5.com/csp/article/K91229003" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Advisory</a>
+           </td>
+           </tr>           
+           <tr>
+           <th>Mozilla</th>
+           <td>
+            <a href="https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Blog</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Red Hat</th>
+           <td>
+            <a href="https://access.redhat.com/security/vulnerabilities/speculativeexecution" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Vulnerability Response</a> &nbsp;&nbsp;/&nbsp;&nbsp;
+            <a href="https://access.redhat.com/articles/3307751" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Performance Impacts</a>
+           </td>
+           </tr>       
+           <tr>
+           <th>Debian</th>
+           <td>
+            <a href="https://security-tracker.debian.org/tracker/CVE-2017-5754" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Tracker</a> 
+           </td>
+           </tr>
+           <tr>
+           <th>Ubuntu</th>
+           <td>
+            <a href="https://wiki.ubuntu.com/SecurityTeam/KnowledgeBase/SpectreAndMeltdown" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Knowledge Base</a> 
+           </td>
+           </tr>
+           <tr>
+           <th>SUSE</th>
+           <td>
+            <a href="https://www.suse.com/c/suse-addresses-meltdown-spectre-vulnerabilities/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Vulnerability Response</a> 
+           </td>
+           </tr> 
+           <tr>
+           <th>Fedora</th>
+           <td>
+            <a href="https://fedoramagazine.org/protect-fedora-system-meltdown/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Kernel update</a> 
+           </td>
+           </tr> 
+           <tr>
+           <th>Qubes</th>
+           <td>
+            <a href="https://www.qubes-os.org/news/2018/01/04/xsa-254-meltdown-spectre/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Announcement</a> 
+           </td>
+           </tr> 
+           <tr>
+           <th>Fortinet</th>
+           <td>
+            <a href="https://fortiguard.com/psirt/FG-IR-18-002" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Advisory</a> 
+           </td>
+           </tr> 
+           <th>NetApp</th>
+           <td>
+            <a href="https://security.netapp.com/advisory/ntap-20180104-0001/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Advisory</a> 
+           </td>
+           </tr> 
+           <tr>
+           <th>LLVM</th>
+           <td>
+            <a href="http://lists.llvm.org/pipermail/llvm-commits/Week-of-Mon-20180101/513630.html" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Spectre (Variant #2) Patch</a> &nbsp;&nbsp;/&nbsp;&nbsp;
+            <a href="https://reviews.llvm.org/D41760" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Review __builtin_load_no_speculate</a> &nbsp;&nbsp;/&nbsp;&nbsp;
+            <a href="https://reviews.llvm.org/D41761" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Review llvm.nospeculateload</a>
+           </td>
+           </tr> 
+           <tr>
+           <th>CERT</th>
+           <td>
+            <a href="http://www.kb.cert.org/vuls/id/584653" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Vulnerability Note</a> 
+           </td>
+           </tr>
+           <tr>
+           <th>MITRE</th>
+           <td>
+            <a href="http://www.cve.mitre.org/cgi-bin/cvename.cgi?name=2017-5715"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;CVE-2017-5715</a> &nbsp;&nbsp;/&nbsp;&nbsp;  <a href="http://www.cve.mitre.org/cgi-bin/cvename.cgi?name=2017-5753"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;CVE-2017-5753</a> &nbsp;&nbsp; / &nbsp;&nbsp; <a href="http://www.cve.mitre.org/cgi-bin/cvename.cgi?name=2017-5754"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;CVE-2017-5754</a>
+           </td>
+           </tr>
+           <tr>
+           <th>VMWare</th>
+           <td>
+            <a href="https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Advisory</a> &nbsp;&nbsp;/&nbsp;&nbsp; <a href="https://blogs.vmware.com/security/2018/01/vmsa-2018-0002.html" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Blog</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Citrix</th>
+           <td>
+            <a href="https://support.citrix.com/article/CTX231399" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Bulletin</a> &nbsp;&nbsp;/&nbsp;&nbsp; 
+            <a href="https://support.citrix.com/article/CTX231390" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Bulletin (XenServer)</a>
+           </td>
+           </tr>
+           <tr>
+           <th>Xen</th>
+           <td>
+            <a href="https://xenbits.xen.org/xsa/advisory-254.html" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;Security Advisory (XSA-254)</a> &nbsp;&nbsp;/&nbsp;&nbsp; <a href="https://blog.xenproject.org/2018/01/04/xen-project-spectremeltdown-faq/" target="_blank"><i class="fa fa-sm fa-external-link-alt d-print-none"></i>&nbsp;FAQ</a>  
+           </td>
+           </tr>
+          </table>
+          <br />
+           </tr>
+          </table>
+          </p>
+          
+        </div>
+      </div>
+
+      <br/>
+      <hr />
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 acknowledgements text-justify">
+          <h2 id="acknowledgements">Acknowledgements</h2>
+
+          <p>We would like to thank <a class="company" target="_blank" href="https://intel.com">Intel</a> for awarding us with a bug bounty for the responsible disclosure process, and their professional handling of this issue through communicating a clear timeline and connecting all involved researchers.
+            Furthermore, we would also thank <a class="company" target="_blank" href="https://arm.com">ARM</a> for their fast response upon disclosing the issue.</p>
+
+          <p>This work was supported in part by the European Research Council (ERC) under the European Unionâs Horizon 2020 research and innovation programme (grant agreement No 681402).</p>
+
+          <p>This work was supported in part by NSF awards #1514261 and #1652259, financial assistance award 70NANB15H328 from the U.S. Department of Commerce, National Institute of Standards and Technology, the 2017-2018 Rothschild Postdoctoral Fellowship, and the Defense Advanced Research Project Agency (DARPA) under Contract #FA8650-16-C-7622.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex flex-row justify-content-between copyright">
+            <div class="p-2">
+            <p>
+              &copy; 2018 Graz University of Technology. All Rights Reserved.
+            </p>
+            </div>
+            <div class="p-2">
+              <p>System hosted at Graz University of Technology | <a href="https://www.tugraz.at/en/about-this-page/legal-notice" target="_blank">Legal Notice</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+
+
+
+#####EOF#####
+
+

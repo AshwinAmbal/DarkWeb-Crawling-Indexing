@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-locale="US">
+<head>
+<script>
+if(window&&!("Promise"in window)){var xhr=new XMLHttpRequest;xhr.open("GET",'/media/shared/js/promise.js',false);xhr.onerror=function(){console.log(xhr.statusText)};xhr.send("");eval(xhr.responseText);}
+</script> <script>window.usingBordeauxAds = true</script>
+<!-- Consent Manager Tag : Stubbed (minified) (updated 2018-04-27T17:00) -->
+<script type="text/javascript">
+(function(){function d(){if(!window.frames.__cmpLocator)if(document.body&&document.body.firstChild){var a=document.body,c=document.createElement("iframe");c.style.display="none";c.height=c.width=0;c.name="__cmpLocator";a.insertBefore(c,a.firstChild)}else setTimeout(d,5)}function g(){var a=arguments;__cmp.a=__cmp.a||[];if(a.length)if("ping"===a[0])a[2]({gdprAppliesGlobally:!1,cmpLoaded:!1},!0);else __cmp.a.push([].slice.apply(a));else return __cmp.a}function b(a){var c="string"===typeof a.data,b=a.data;
+if(c)try{b=JSON.parse(a.data)}catch(h){}if(b.__cmpCall){var e=b.__cmpCall;window.__cmp(e.command,e.parameter,function(b,d){var f={__cmpReturn:{returnValue:b,success:d,callId:e.callId}};a.source.postMessage(c?JSON.stringify(f):f,"*")})}}d();"function"!==typeof __cmp&&(window.__cmp=g,__cmp.msgHandler=b,window.addEventListener?window.addEventListener("message",b,!1):window.attachEvent("onmessage",b))})();
+</script>
+<!-- End Consent Manager Tag : Stubbed (minified) -->
+<script>
+window.askForConsent = true;
+window.waitForConsent = true;
+window.indexExchangeEnabled = true;
+window.amazonA9Enabled = true;
+window.rampS2SEnabled = null;
+window.iasOptimiseEnabled = true;
+window.bluekaiEnabled = true;
+window.cmpConfig = {"gdprAppliesGlobally":false,"uiUrl":"https:\/\/consent.cmp.space.com\/cmpui.html"};
+/*! begin dom-promises (v2.7.7) */
+'use strict';(function(){function v(){m||(m=!0,w.forEach(n))}function x(){p||(p=!0,y.forEach(n))}function z(){q||(q=!0,A.forEach(n))}function l(){return r&&r.now&&r.now()||0}function n(a){return a()}function D(a){"cmp_request_translation_data"===a.data&&Promise.resolve(window.reliablePageLoad).then(function(){var a=window.__translator.trans;a={tag:"cmp_translations_data",main:{heading:a("cmp_main_heading"),description:a("cmp_main_description"),btnAccept:a("cmp_main_btn_accept"),btnMoreInfo:a("cmp_main_btn_moreinfo")},
+confirm:{heading:a("cmp_confirm_heading"),description:a("cmp_confirm_description"),btnGoBack:a("cmp_confirm_btn_goback"),btnLeave:a("cmp_confirm_btn_leave")},purposes:{heading:a("cmp_purposes_heading"),description:a("cmp_purposes_description"),btnAcceptAll:a("cmp_purposes_btn_acceptall"),btnRejectAll:a("cmp_purposes_btn_rejectall"),btnSave:a("cmp_purposes_btn_save"),btnAndContinue:a("cmp_purposes_btn_andcontinue"),btnAndContinueShort:a("cmp_purposes_btn_andcontinueshort"),list:{1:a("cmp_purposes_list_1"),
+"1_description":a("cmp_purposes_list_1_description"),2:a("cmp_purposes_list_2"),"2_description":a("cmp_purposes_list_2_description"),3:a("cmp_purposes_list_3"),"3_description":a("cmp_purposes_list_3_description"),4:a("cmp_purposes_list_4"),"4_description":a("cmp_purposes_list_4_description"),5:a("cmp_purposes_list_5"),"5_description":a("cmp_purposes_list_5_description")}},vendors:{heading:a("cmp_vendors_heading"),description:a("cmp_vendors_description"),btnAcceptAll:a("cmp_vendors_btn_acceptall"),
+btnRejectAll:a("cmp_vendors_btn_rejectall"),btnSave:a("cmp_vendors_btn_save"),btnBack:a("cmp_vendors_btn_back"),privacyPolicy:a("cmp_vendors_privacy_policy")}};document.getElementById("cmp-ui-iframe").contentWindow.postMessage(a,"*")})}function E(a,c,b){a.performance&&a.performance.timing&&Date.now();a.__cmp("init",a.cmpConfig);a.__cmp("getVendorConsents",null,function(g,d){d?(c({askedForConsent:!0,consent:g}),a.reliablePageLoad.then(function(){if(g.gdprApplies&&.33>Math.random()){var b=g.vendorConsents,
+d=Object.keys(b),c=d.length;d=d.map(function(a){return b[a]}).filter(Boolean).length;a.ga&&a.ga("send","event","CMP","getVendorConsents",0===c?"n/a":0===d?"none":d===c?"all":"some",d,{nonInteraction:!0,dimension123:d})}})):b(Error("Failed to get vendor consents"))})}function F(a,c,b){function g(a,b){return null===b||void 0===b?a:b}JSON.parse(g("true",h("mock_consent_success")(a)))?(b=parseInt(h("mock_consent_timeout")(a),10),a={askedForConsent:!0,consent:{gdprApplies:JSON.parse(g("true",h("mock_gdpr_applies")(a))),
+hasGlobalScope:JSON.parse(g("false",h("mock_has_global_scope")(a))),metadata:"AAAAAAA",purposeConsents:JSON.parse(g(JSON.stringify({1:!0,2:!0,3:!0,4:!0,5:!0}),h("mock_purpose_consents")(a))),vendorConsents:JSON.parse(g("{}",h("mock_vendor_consents")(a)))}},isNaN(b)?c(a):setTimeout(c,b,a)):b(Error("Failed to get vendor consents"))}function t(a){return function(c){return 0<=c.location.search.indexOf(a)}}function h(a){return function(c){return B(a,c.location.search)}}function B(a,c,b){b=void 0===b?"\x26":
+b;if(""===a)return!1;a=c.indexOf(a+"\x3d");return 0<=a?(a=c.indexOf("\x3d",a),b=c.indexOf(b,a+1),0<=b?c.substring(a+1,b):c.substring(a+1)):!1}function G(a){return a.split("").map(function(a){return H(I.call(a,0)-1)}).join("")}var f=String,H=f.fromCharCode,I=f.prototype.charCodeAt,e=window,C=e.document,r=e.performance;f=e.Promise;var u=l();e.resolveFEP=null;e.processFEP=f?new f(function(a){e.resolveFEP=a}):{then:function(){}};var k=!(-1<window.location.href.indexOf("disable_dom_promise_timeouts")),
+q=!1,A=[];k&&setTimeout(z,5E3);C.addEventListener("DOMContentLoaded",z);e.reliableDOMContentLoaded=f?new f(function(a){k&&setTimeout(a,5E3);C.addEventListener("DOMContentLoaded",a)}):{then:function(a){q?a():A.push(a)}};e.reliableDOMContentLoaded.then(function(){console.log("::DOMContentLoaded at",l()-u|0)});var p=!1,y=[];k&&setTimeout(x,7E3);e.addEventListener("load",x);e.reliablePageLoad=f?new f(function(a){k&&setTimeout(a,7E3);e.addEventListener("load",a)}):{then:function(a){p?a():y.push(a);return e.reliablePageLoad},
+catch:function(){return e.reliablePageLoad}};e.reliablePageLoad.then(function(){console.log("::PageLoad at",l()-u|0)});var m=!1,w=[];k&&setTimeout(v,1E4);e.resolveBordeauxDone=v;e.bordeauxDone=f?new f(function(a){k&&setTimeout(a,1E4);e.resolveBordeauxDone=a}):{then:function(a){m?a():w.push(a)}};e.bordeauxDone.then(function(){console.log("::BordeauxDone at",l()-u|0)});(function(a){var c=a.Promise;a.addEventListener("message",D,!1);a.reliableConsentGiven=c?c.resolve(a.reliableDOMContentLoaded).then(function(){return new c(function(b,
+c){t("force_clear_consent")(a)&&(document.cookie="EuConsent\x3d; path\x3d/; Max-Age\x3d0",document.cookie="cmp\x3d; path\x3d/; Max-Age\x3d0",document.cookie="TestingHideEUConsent\x3d; path\x3d/; Max-Age\x3d0");t("force_hide_consent")(a)&&(document.cookie="TestingHideEUConsent\x3dtrue;");var d=t("mock_consent")(a);"true"===B("TestingHideEUConsent",document.cookie,";")?b({askedForConsent:!1}):d?F(a,b,c):a.askForConsent?E(a,b,c):b({askedForConsent:!1})})}):{then:function(){}};a.reliableConsentGiven.then(function(b){b.askedForConsent&&
+b.consent.gdprApplies&&a.reliablePageLoad.then(function(){var b=a.document.querySelector("#document-footer-content \x3e nav \x3e ul");if(b){var d=a.document.createElement("a");d.addEventListener("click",function(){a.__cmp("renderConsents",function(){})});d.href="#";d.textContent=a.__translator.trans("cmp_footer_link");var c=a.document.createElement("li");c.appendChild(d);b.appendChild(c)}if(b=a.document.querySelector("ul.footer__listcontainer"))d=a.document.createElement("a"),d.className="footer__link",
+d.addEventListener("click",function(){a.__cmp("renderConsents",function(){})}),d.href="#",d.textContent=a.__translator.trans("cmp_footer_link"),c=a.document.createElement("li"),c.className="footer__list-item",c.appendChild(d),b.appendChild(c);if(b=a.document.querySelector("#gawker-contact-block ul"))d=a.document.createElement("a"),d.className="is-reversed",d.addEventListener("click",function(){a.__cmp("renderConsents",function(){})}),d.href="#",d.textContent=a.__translator.trans("cmp_footer_link"),
+c=a.document.createElement("li"),c.appendChild(d),b.appendChild(c)})})})(e);(function(){var a=window,c=a.document,b=a.Promise;a.wadoinawdoijzxioznelknsdf=b?new b(function(a){var b=parseInt(h("mock_tiberius")(window),10);isNaN(b)||setTimeout(a,b,!0);c.addEventListener(G("tq/cmpdljoh"),function(){a(!0)})}):{then:function(){}}})()})();
+/*! end dom-promises (v2.7.7) */</script>
+<script>
+window.adParameters = {
+site: 'space',
+content: 'unknown',
+type: 'homepage',
+}
+</script>
+<script>window.gaCookieSet=/(?:^|;\\s*)_ga/.test(document.cookie);</script>
+<script>window.vanilla = window.vanilla || {}</script>
+<script>'use strict';(function(){function g(c,a){return function(){return setTimeout(c,a)}}function h(c,a,b){b=void 0===b?function(){}:b;return function(){var d=c.createElement("script"),e=c.getElementsByTagName("script")[0],f=k({},a,{async:1});Object.keys(f).forEach(function(a){return d.setAttribute(a,f[a])});e.parentNode.insertBefore(d,e);b()}}var k=Object.assign||function(c){for(var a=1;a<arguments.length;a++){var b=arguments[a],d;for(d in b)Object.prototype.hasOwnProperty.call(b,d)&&(c[d]=b[d])}return c};
+window.vanilla.addJs=function(c,a,b,d){b=void 0===b?!1:b;c=h(document,c,d);a=null!==a?g(c,a):c;b?window.reliablePageLoad.then(a):a()}})();</script>
+<script>'use strict';(function(){function f(a,d){return function(){var c=a.createElement("link"),b=g({},d,{rel:"stylesheet",type:"text/css"});Object.keys(b).forEach(function(a){return c.setAttribute(a,b[a])});var e=a.getElementsByTagName("head")[0];e.parentNode.insertBefore(c,e)}}var g=Object.assign||function(a){for(var d=1;d<arguments.length;d++){var c=arguments[d],b;for(b in c)Object.prototype.hasOwnProperty.call(c,b)&&(a[b]=c[b])}return a},h=window.requestAnimationFrame||window.webkitRequestAnimationFrame||
+window.mozRequestAnimationFrame||window.msRequestAnimationFrame||function(a){return window.reliablePageLoad.then(a)};window.vanilla.addCss=function(a){return h(f(document,a))}})();</script>
+<link rel="alternate" hreflang="x-default" href="https://www.space.com">
+<link rel="alternate" hreflang="en-US" href="https://www.space.com">
+<link rel="alternate" hreflang="en-CA" href="https://www.space.com">
+<script>
+function handleHeaderError() {
+if (window.amIIE && !window.amIIE()) {
+window.wadoinawdoijzxioznelknsdf.then(function () {
+window._sp_ = window._sp_ || {};
+window._sp_.config = window._sp_.config || {};
+if (window._sp_.bootstrap && !window.headerExecuted) {
+window._sp_.bootstrap('//vanilla.futurecdn.net/space/108228/media/js/header/header.js');
+}
+})
+}
+}
+</script>
+<script defer src="//vanilla.futurecdn.net/space/108228/media/js/header/header.js" onerror="handleHeaderError()"></script>
+<!-- tag factory //-->
+<meta charset="utf-8">
+<link rel="dns-prefetch" href="//cdn.mos.cms.futurecdn.net">
+<meta data-static-host="//vanilla.futurecdn.net/space/108228" id="static-host-pattern">
+<script src="https://consent.cmp.oath.com/cmp3p.js"></script>
+<meta id="gpt-api-script-location" data-src="//www.googletagservices.com/tag/js/gpt.js">
+<meta id="index-exchange-script-location" data-src="//js-sec.indexww.com/ht/p/184056-27935757131282.js">
+<meta id="amazon-a9-script-location" data-src="//c.amazon-adsystem.com/aax2/apstag.js">
+<meta id="ias-optimise-script-location" data-src="//cdn.adsafeprotected.com/iasPET.1.js">
+<meta id="bluekai-script-location" data-src="//tags.bkrtx.com/js/bk-coretag.js">
+<script>
+var vanFontLoader=function(e){if("undefined"==typeof e||"object"!=typeof e)return!1;var t=document.getElementsByTagName("head")[0],n=function(e,n){var o=document.createElement("style");o.type="text/css","undefined"!=typeof n&&(o.id=n,o.classList.add("font-style")),o.styleSheet?o.styleSheet.cssText=e:o.appendChild(document.createTextNode(e)),t.appendChild(o)},o=function(){"undefined"!=typeof e.hideKey&&n(e.hideKey+"{visibility:visible}")};if("undefined"!=typeof e.hideKey&&n(e.hideKey+"{visibility:hidden}"),"undefined"!=typeof e.fontKey&&"undefined"!=typeof e.staticHost&&"undefined"!=typeof e.version&&"undefined"!=typeof e.woff2Version){var i=e.fontKey,a=e.version,f=e.woff2Version,r=e.staticHost,d="woff",s=!1;f&&(s=function(e){if(!("FontFace"in e))return!1;var t=new e.FontFace("t",'url( "data:application/font-woff2," ) format( "woff2" )',{});try{var n=t.load();"undefined"!=typeof n.then&&n.then(function(){},function(){})}catch(o){return!1}return"loading"==t.status}(window)),s?d="woff2":navigator.userAgent.indexOf("Android")>-1&&(d="ttf");var c="vanFont-"+i+"-"+d,u=c+".json",y=function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//"+r+"/"+a+"/media/fonts/json/"+u,t.appendChild(e)},l=!1,v=!1;try{if(l=localStorage.getItem(c)){var v=JSON.parse(l);v.version!=a&&(localStorage.removeItem(c),v=!1)}}catch(p){console.error("Error when parsing font in vanFontLoader",p)}v&&"undefined"!=typeof v.value?(n(v.value,i),o()):y()}this.store=function(e){e.version=a;var t=JSON.stringify(e);localStorage.setItem(c,t),n(e.value),o()}}; try {
+var OpenSans_vanFontLoader = new vanFontLoader({fontKey: 'OpenSans', version: 1, woff2Version: true, staticHost: 'vanilla.futurecdn.net/space' });
+var space_vanFontLoader = new vanFontLoader({fontKey: 'space', version: 5, woff2Version: false, staticHost: 'vanilla.futurecdn.net/space' ,hideKey: '.icon' });
+} catch(e) {
+console.warn('Failed to load fonts: '+ e.message);
+}
+</script>
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta content="" name="news_keywords">
+<title>Space.com: NASA, Space Exploration and Astronomy News</title>
+<meta name="pub_date" content="">
+<meta name="description" content="Get the latest space exploration, innovation and astronomy news. Space.com celebrates humanity's ongoing expansion across the final frontier. ">
+<link rel="canonical" href="https://www.space.com">
+<style id="critical-styles">.newsletter-signup,.mag-banner-wrap,.popular-box{display:none;}html,body,div,span,iframe,h1,h2,h3,h4,p,pre,a,abbr,img,small,i,ul,li,form{margin:0;padding:0;border:0;font:inherit;font-size:100%;vertical-align:baseline}label,article,figure,figcaption,footer,header,nav,section,time{padding:0;border:0;font:inherit;font-size:100%;vertical-align:baseline}article,figure,figcaption,footer,header,nav,section,time{margin:0}html{line-height:1}ul{list-style:none}a img{border:none}article,figcaption,figure,footer,header,nav,section{display:block}.container{margin:auto}.container:after{content:"";display:table;clear:both}.container.full{clear:both;max-width:100%}@media screen and (min-width:1000px){.container.full{max-width:970px}}@media screen and (min-width:1574px){.container.full{max-width:1200px}body.limit-width .container.full{max-width:970px}}#main{background:#fff;border-top:1px solid #ccc}@media screen and (min-width:1000px){.impact #main .listingResults{overflow:visible}.impact #main .trending-wrapper{max-width:922px;margin-left:24px;margin-right:24px}}@media screen and (min-width:1000px){#content{width:600px}}@media screen and (min-width:700px){#content{padding-left:1.5em;padding-right:1.5em;padding-top:1.875em}}@media screen and (min-width:900px){#content{float:left}}@media screen and (min-width:900px){.impact #content{position:relative;border-top:none}}@media screen and (min-width:1000px){.impact #content{padding-left:0;padding-right:0;width:100%;max-width:922px;margin-left:24px;margin-right:24px}}#sidebar{width:100%}@media screen and (min-width:1000px){#sidebar{width:300px;margin-top:.875em}}@media only screen and (min-width:700px){html{font-size:100%}}html{font-family:"Open Sans",Arial,sans-serif;color:#333}h1,h2,h3,h4{font-weight:700}.block-link{display:block;position:relative;color:#3669c9;background:#ddd;line-height:22px;padding:11px 12px;margin:0 12px 12px 0;text-align:center;font-size:14px;font-weight:600;text-transform:uppercase}.block-link:hover{color:#3669c9;text-decoration:none;background:#666}.block-link:visited{color:#3669c9;text-decoration:none}.block-link.full{width:-webkit-calc(100% - 24px);width:calc(100% - 24px)}.separator-heading{border-top:1px solid #ccc;border-bottom:1px solid #ccc}#content>header h1{font-weight:600;font-size:24px;line-height:30px;margin-bottom:.25rem}@media (min-width:700px){#content>header h1{margin-bottom:.5rem;font-size:28px;line-height:34px}}@media (min-width:1574px){#content>header h1{margin-bottom:.75rem;font-size:34px;line-height:42px}body.limit-width #content>header h1{margin-bottom:.5rem;font-size:28px;line-height:34px}}#content>header h2{font-size:18px;line-height:26px;font-weight:300;margin-bottom:20px}@media (min-width:1000px){#content>header h2{font-size:20px;line-height:28px}}@media (min-width:1574px){#content>header h2{font-size:24px;line-height:30px}body.limit-width #content>header h2{font-size:20px;line-height:28px}}.fallback{display:none}.icon:before{font-family:"space",arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-style:normal;font-variant:normal;font-weight:400;text-decoration:none;text-transform:none}.icon-arrow-down:before{content:"\f104"}.icon-arrow-right:before{content:"\f106"}.icon-envelope:before{content:"\f11c"}.icon-facebook:before{content:"\f11e"}.icon-filled-envelope:before{content:"\f11f"}.icon-flipboard:before{content:"\f120"}.icon-home:before{content:"\f123"}.icon-instagram:before{content:"\f124"}.icon-search:before{content:"\f12b"}.list-text-links .list-title:before{content:"\f12e"}.icon-tick:before{content:"\f131"}.icon-twitter:before{content:"\f132"}.icon-youtube:before{content:"\f135"}.icon-circle{border-radius:50%;display:block}.impact header a{color:#3669c9}figure{position:relative}figure img{top:0;left:0}.image-remove-reflow-container{position:relative;height:0;overflow:hidden}.image-remove-reflow-container img{width:100%;position:absolute;top:0;left:0}.dfp-leaderboard-container{margin:auto;max-width:970px;height:auto}#burgerbar-none{display:none}#burgerbar{background:#1b1b1b}#burgerbar,#burgerbar~.burgerbar .button-menu.checked{display:none}@media only screen and (max-width:699px){#burgerbar:checked~.burgerbar .button-menu.unchecked{display:none}#burgerbar:checked~.burgerbar .button-menu.checked,#burgerbar:checked~.wrapper .menuitems{display:block}}.button-search{position:absolute;top:0;right:0;min-width:60px;height:60px;margin-bottom:0;line-height:60px}@media only screen and (min-width:700px){.button-search{position:relative}}*:checked+.button-search{background-color:#3669c9}.search-box{z-index:1000001;position:absolute;right:0;top:60px;width:100%;border:2px solid #3669c9;-webkit-box-sizing:border-box;box-sizing:border-box;background-color:#fff;padding:1em 18px;font-size:16px;display:none;line-height:44px}.search-box .search-submit{position:absolute;right:18px;width:44px;height:44px;background-color:#333;color:#fff;border:none;padding:0}.search-box .search-submit .icon:before{font-size:20px}*:checked~.search-box{display:block}.burgerbar .burgerbar-small .search-box{width:100%}@media screen and (min-width:575px){.burgerbar .burgerbar-small .search-box{width:480px}}.search-checkbox{display:none}.masthead-item{width:auto;text-align:center;font-size:0}@media only screen and (min-width:700px){.masthead-item{padding-right:1rem;padding-left:1rem;position:relative;height:100%;float:right}}.masthead-item .desktop-text{display:none}@media only screen and (min-width:700px){.masthead-item .desktop-text{display:inline-block;zoom:1;*display:inline;padding-right:8px;font-size:14px;vertical-align:middle;line-height:60px}}.masthead-item .icon-search{display:inline-block;zoom:1;*display:inline;vertical-align:middle;font-size:1.4rem}@media only screen and (min-width:700px){.masthead-item .icon-search{font-size:1rem}}.burgerbar{background-color:#1b1b1b;color:#fff;font-size:24px;line-height:60px;max-height:60px;height:60px}.pro .burgerbar{background-color:#8c2b5e}@media only screen and (min-width:700px){.burgerbar{border-bottom:1px solid #1b1b1b}.pro .burgerbar{border-bottom:1px solid #8c2b5e}}.burgerbar .other-links{display:none}@media only screen and (min-width:700px){.burgerbar .other-links{display:block;float:right;clear:none;margin-right:10px;height:24px;line-height:24px;margin-top:18px;font-size:14px}.burgerbar .other-links a{float:left;-webkit-box-sizing:border-box;box-sizing:border-box;color:#fff}.burgerbar .other-links a:visited{color:#fff}}.burgerbar .buttons-social{display:none}@media only screen and (min-width:700px){.burgerbar .buttons-social{display:block}.burgerbar .buttons-social a{float:left;border:1px solid #fff;width:24px;height:24px;margin-top:18px;-webkit-box-sizing:border-box;box-sizing:border-box;color:#fff;margin-right:10px}.burgerbar .buttons-social a:visited{color:#fff}.burgerbar .buttons-social a:before{font-size:12px;line-height:22px;-webkit-box-sizing:border-box;box-sizing:border-box;float:left;width:22px;text-align:center}}.burgerbar .buttons-social .icon-youtube{display:none}@media screen and (min-width:750px){.burgerbar .buttons-social .icon-youtube{display:block}}.burgerbar .logo{text-align:left}.burgerbar .logo .site-logo{vertical-align:middle;line-height:25px;height:27px;display:inline-block}.pro .burgerbar .logo .site-logo{line-height:16px}.pro .burgerbar .logo .site-logo:after{bottom:-1px}.burgerbar .logo .site-logo:after{position:absolute;content:'';text-transform:uppercase;font-size:9.11px;bottom:-4px;left:3px;line-height:0}@media only screen and (max-width:360px){.pro .burgerbar .logo svg{width:185px}.pro .burgerbar .logo svg path{-webkit-transform:scale(.93);-ms-transform:scale(.93);transform:scale(.93)}}.burgerbar .logo h1,.burgerbar .logo .hidden-header{display:none}.burgerbar .logo .strapline{font-size:13px;font-weight:400;text-transform:uppercase;float:right;line-height:13px;margin-top:31px;margin-left:13px}@media only screen and (max-width:699px){.burgerbar .logo{text-align:center;margin:auto}.burgerbar .logo .strapline{display:none}}.burgerbar .logo a{color:#fff}.burgerbar .logo a:hover{color:#fff;text-decoration:none}.burgerbar .logo a:visited{color:#fff}.burgerbar .logo a:visited:hover{color:#fff}.burgerbar .button-menu{-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-o-user-select:none;-ms-user-select:none;user-select:none;position:absolute;left:0;width:60px}.burgerbar .burgerbar-small{width:100%;max-height:60px;height:60px}@media only screen and (min-width:700px){.burgerbar .burgerbar-small{position:relative}.burgerbar .burgerbar-small>.button-menu{display:none}.burgerbar .burgerbar-small .logo{padding:0 16px;position:absolute}}.burgerbar .site-logo{position:relative}.trending-wrapper{margin:30px 24px 0;display:block;font-weight:600}@media only screen and (max-width:699px){.trending-wrapper{display:none}}.trending-wrapper .trending-bar{overflow:hidden;*zoom:1;display:block;background-color:transparent;position:relative;clear:both;width:100%;height:40px;font-size:14px;background:#ededed}.trending-wrapper .trending-items{overflow:hidden;height:100%;display:inline-block;width:85%}.trending-wrapper .trending-lead{text-transform:uppercase;margin:0 0 0 10px;padding:0 10px 0 0;display:inline-block;line-height:40px;position:relative;cursor:pointer;background:#ededed;color:#3669c9}.trending-wrapper .trending-item{display:inline-block;*display:inline;margin-left:-2px;line-height:40px}.trending-wrapper .trending-item:first-of-type{margin-left:0}.trending-wrapper .trending-item a{line-height:40px;padding:0 14px;display:block}.trending-wrapper .trending-item a,.trending-wrapper .trending-item a:hover,.trending-wrapper .trending-item a:visited,.trending-wrapper .trending-item a:hover:visited{color:#1b1b1b}@media screen and (min-width:1000px){.impact .trending-wrapper{margin-left:0;margin-right:0}}.trending.pro{width:100%;max-width:927px;display:table;overflow:hidden;border-collapse:separate;border-spacing:2px;margin-left:22px;margin-top:30px}@media only screen and (max-width:999px){.trending.pro{display:none}}.trending.pro .menu-item-container{background:#ededed;padding:0 12px;line-height:40px;font-size:13px;display:table-cell;text-align:center}.trending.pro .menu-item-container a{color:#333}.trending.pro .menu-item{font-size:inherit;display:inline}.trending.pro .menu-item a{font-size:inherit;padding-left:0;padding-right:0;line-height:40px}.trending.pro .menu-item a:hover{background-color:inherit}.optional-content-checkbox,.optional-content-checkbox+.contains-optional-content .optional-row,.optional-content-checkbox+.contains-optional-content+label .checked{display:none}.optional-content-checkbox+.contains-optional-content+label .unchecked{display:block}.optional-content-checkbox:checked+.contains-optional-content .optional-row{display:inline-block;zoom:1;*display:inline}.optional-content-checkbox:checked+.contains-optional-content+label .checked{display:block}.optional-content-checkbox:checked+.contains-optional-content+label .unchecked{display:none}.contains-optional-content{margin-bottom:0!important}.btn-reveal{text-align:center}.box{display:table;margin-bottom:40px;float:left;clear:both;width:100%}.box h3,.box h4{font-weight:600;font-size:16px;line-height:40px;text-transform:uppercase;vertical-align:middle}.box p{font-size:16px;line-height:24px;margin-bottom:1rem;color:#333}#sidebar .box,.btn-reveal{margin-bottom:30px}.btn-reveal{width:100%;height:44px;line-height:44px;padding:0;color:#333;background-color:#ddd;border:none;position:relative}.btn-reveal:hover{background-color:#666;color:#fff}.btn-reveal{font-size:.875em}.btn-reveal,.list-heading-link{text-transform:uppercase;font-weight:700}.list-heading-link:hover{text-decoration:none}input[type="search"]{-webkit-appearance:none;border:1px solid #ddd;font-size:1em;padding-right:3em;line-height:2.5em;padding-left:.75em;width:100%;-webkit-box-sizing:border-box;box-sizing:border-box;outline-offset:0;border-radius:0;margin-top:0;margin-bottom:0}input[type="search"]:focus{outline-offset:0}@media screen and (min-width:700px){input[type="search"]{padding-right:0}}@media screen and (min-width:900px){input[type="search"]{padding-right:54px;padding-top:13px;padding-bottom:11px;line-height:16px;font-size:16px}}select{line-height:44px}label{line-height:1.4;display:block;margin:0 0 5px}.search-form{position:relative}.search-form button{position:absolute;top:0;right:0;line-height:1.75em;padding-right:.8em;padding-left:.8em;height:100%}#content>.search-form{border:solid 1em #ededed}#searchfilter{display:none;overflow:hidden;background:#ededed;padding:15px;margin-bottom:20px}#searchfilter input{display:none}#searchfilter .header,#searchfilter h3{text-transform:uppercase;font-size:13px;line-height:16px}#searchfilter .header{background:#666;color:#fff;padding:18px;font-weight:700}@media screen and (min-width:575px){#searchfilter .header{padding:7px}}#searchfilter .header h2{display:inline-block}#searchfilter .header .show-hide{display:inline-block;float:right}@media screen and (min-width:575px){#searchfilter .header .show-hide{display:none}}#searchfilter .header i{font-size:12px;padding-left:7px}#searchfilter h3{color:#3669c9;padding:0 0 12px}@media screen and (min-width:575px){#searchfilter h3{padding:0 0 15px}}#searchfilter .dropdown-container{position:relative}#searchfilter .dropdown-container .icon{position:absolute;font-size:13px;width:42px;height:100%;background:#666;color:#fff;right:0;top:0;pointer-events:none;text-align:center;padding-top:14px;-webkit-box-sizing:border-box;box-sizing:border-box}@media screen and (min-width:575px){#searchfilter .dropdown-container .icon{width:34px;padding-top:10px}}#searcharticletype{float:left;margin-bottom:8px;width:100%}@media screen and (min-width:575px){#searcharticletype{border-right:solid 2px #fff;padding-right:3px;margin-bottom:0;max-width:361px}}@media screen and (min-width:800px){#searcharticletype{max-width:50%}}@media screen and (min-width:1000px){#searcharticletype{max-width:361px}}#searcharticletype ul{width:100%}#searcharticletype li{display:inline-block;width:100%;margin-bottom:6px;vertical-align:top}@media screen and (min-width:575px){#searcharticletype li{margin-right:7px;margin-bottom:7px;min-width:22%;width:auto}}#searcharticletype .icon-tick{display:none}#searcharticletype input[type=radio]:checked+label{font-weight:600;border:1px solid #666;color:#3669c9}#searcharticletype input[type=radio]:checked+label .icon-tick{display:inline-block;float:right;font-size:1em}@media screen and (min-width:575px){#searcharticletype input[type=radio]:checked+label .icon-tick{display:none}}#searcharticletype label{border:1px solid #ccc;text-align:left}#searcharticletype label,#advancedsearchsort{font-family:'Open Sans',sans-serif;display:inline-block;padding:9px 18px;width:100%;-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;font-size:16px;line-height:22px;font-weight:400;background:#fff}@media screen and (min-width:575px){#searcharticletype label,#advancedsearchsort{font-size:13px;padding:5px;text-align:center}}@media screen and (min-width:575px){#searchorder{padding-left:10px;overflow:hidden}}#searchorder select{width:100%}.filter-container{overflow:hidden}.mobile-toggle{margin-top:14px}.mobile-toggle.invisible{display:none}@media screen and (min-width:575px){.mobile-toggle{margin-top:20px}.mobile-toggle.invisible{display:block}}#advancedsearchsort{-webkit-appearance:none;-moz-appearance:none;appearance:none;border-radius:0;border:1px solid #666;text-align:left}.clear-filters{font-size:16px;text-align:right;margin-top:20px}@media screen and (min-width:575px){.clear-filters{font-size:13px;margin-top:13px}}.clear-filters label{margin:0;display:inline-block;vertical-align:top}.clear-filters .clear-cross{float:right;width:16px;height:16px;padding:2px 0 0 6px;line-height:0}@media screen and (min-width:575px){.clear-filters .clear-cross{width:13px;height:13px}}#content>.search-form,.listingResultsWrapper,.feature-block,.list-grid,.product-brands{margin-bottom:25px}@media screen and (min-width:700px){#content>.search-form,.listingResultsWrapper,.feature-block,.list-grid,.product-brands{margin-bottom:40px}}.listingResultsWrapper header{position:relative;overflow:hidden}@media screen and (min-width:900px){.impact .listingResultsWrapper{clear:left}}@media screen and (min-width:900px){.impact .listingResults{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-flow:row wrap;-ms-flex-flow:row wrap;flex-flow:row wrap;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;-webkit-align-content:flex-start;-ms-flex-line-pack:start;align-content:flex-start;overflow:hidden}}.feature-block{overflow:hidden;*zoom:1}@media screen and (min-width:700px){.feature-block.top-featured{background-color:#1b1b1b;position:relative}.feature-block.top-featured:before{content:"";width:2%;height:100%;background-color:#fff;position:absolute;left:49%;top:0}}.feature-block .image-remove-reflow-container{padding-bottom:56.25%}.list-title{padding-left:20px;padding-right:20px;text-transform:uppercase;line-height:42px;position:relative}@media screen and (min-width:700px){.list-title{padding-left:0;padding-right:0;margin-bottom:0}}@media screen and (min-width:900px){.list-title{margin-bottom:0}}@media screen and (min-width:900px){.impact .list-title{text-align:center;margin-bottom:20px}}.list-heading-link{padding-left:20px;padding-right:20px;line-height:37px;color:#232128;display:block;font-size:.84em;padding-top:2px}@media screen and (min-width:700px){.list-heading-link{padding-left:0;padding-right:0;position:absolute;border-bottom:none;top:0;right:0;padding-top:4px}}.list-heading-link:visited{color:#232128}.optional-image-wrapper .optional-image{display:none}@media screen and (min-width:700px){.optional-image-wrapper .optional-image{display:inherit}}.list-grid{background-color:#ededed;padding:9px 20px;position:relative}.list-grid:before{content:'';border-left:1px solid #fff;left:45.7%;height:-webkit-calc(100% - 46px);height:calc(100% - 46px);top:23px;position:absolute}@media screen and (min-width:700px){.list-grid:before{border-right:1px solid #fff;left:32%;width:31%;margin-left:10px;margin-right:10px}}@media screen and (min-width:900px){.list-grid:before{left:31%;width:31%}}.list-grid li{position:relative;margin-left:0;margin-right:10px;padding-right:10px;-webkit-box-sizing:border-box;box-sizing:border-box;vertical-align:top;display:inline-block;zoom:1;*display:inline;width:45.7%}@media screen and (min-width:575px){.list-grid li{margin-left:10px;padding:0}}@media screen and (min-width:699px){.list-grid li:first-child,.list-grid li:nth-child(2n+1){margin-left:10px}.list-grid li:nth-child(2n){margin-right:10px}}@media screen and (min-width:700px){.list-grid li{width:30%}.list-grid li:first-child,.list-grid li:nth-child(3n+1){margin-left:0}.list-grid li:first-child a,.list-grid li:nth-child(3n+1) a{padding-left:0}.list-grid li:nth-child(3n){margin-right:0}}.list-grid li a{color:#333;padding:11px 0 11px 4px;display:block;line-height:1.38}.list-text-links{margin-bottom:20px}@media screen and (max-width:699px){.list-text-links{margin-top:20px}}@media screen and (min-width:700px){.list-text-links{margin-top:0}}@media screen and (min-width:900px){.list-text-links{float:right;width:-webkit-calc((100% - (2 * 15px))/3);width:calc((100% - (2 * 15px))/3);padding-left:15px}.impact .list-text-links{position:absolute;z-index:99;left:66.2%}}.list-text-links .content .byline{display:none}.list-text-links .list-title{line-height:55px}.list-text-links .list-title a{color:#333}@media screen and (min-width:900px){.list-text-links .list-title{text-align:left;margin-bottom:0;line-height:56px}}.list-text-links .list-title:before{font-family:space;border-radius:50%;background-color:#3669c9;display:inline-block;zoom:1;*display:inline;width:38px;line-height:38px;text-align:center;color:#fff;margin-right:11px;font-size:25px;font-weight:lighter;vertical-align:middle}.impact #homePageCarousel{margin-right:0;margin-bottom:30px;background-color:transparent}@media screen and (min-width:575px){.impact #homePageCarousel{margin-right:-15px}}@media screen and (min-width:900px){.impact #homePageCarousel{overflow:visible}}#content header h1{margin-bottom:20px}.image-remove-flow-width-setter{width:100%}.image-remove-flow-width-setter .image-remove-reflow-container{padding-bottom:56.25%;position:relative;height:0;overflow:hidden}.image-remove-flow-width-setter .image-remove-reflow-container img{position:absolute!important;height:100%;object-fit:cover;float:none;max-width:none;left:0;right:0;margin-left:auto;margin-right:auto}.listingResult,.feature-block.top-featured .feature-block-item-wrapper{overflow:hidden;*zoom:1;position:relative}.listingResult a,.feature-block.top-featured .feature-block-item-wrapper a{text-decoration:none;color:inherit}.listingResult a:hover,.feature-block.top-featured .feature-block-item-wrapper a:hover{color:inherit}.listingResult a:visited,.feature-block.top-featured .feature-block-item-wrapper a:visited{text-decoration:none;color:inherit}.listingResult a:hover,.feature-block.top-featured .feature-block-item-wrapper a:hover,.listingResult a:hover:hover,.feature-block.top-featured .feature-block-item-wrapper a:hover:hover,.listingResult a:visited:hover,.feature-block.top-featured .feature-block-item-wrapper a:visited:hover,.listingResult a:hover .article-name,.feature-block.top-featured .feature-block-item-wrapper a:hover .article-name,.feature-block.top-featured .feature-block-item-wrapper a:hover figcaption,.listingResult a:hover:hover .article-name,.feature-block.top-featured .feature-block-item-wrapper a:hover:hover .article-name,.feature-block.top-featured .feature-block-item-wrapper a:hover:hover figcaption,.listingResult a:visited:hover .article-name,.feature-block.top-featured .feature-block-item-wrapper a:visited:hover .article-name,.feature-block.top-featured .feature-block-item-wrapper a:visited:hover figcaption{text-decoration:none}.listingResult img{height:100%;object-fit:cover;float:none;width:100%}.feature-block.top-featured .feature-block-item-wrapper img{width:100%}@media screen and (-ms-high-contrast:active),(-ms-high-contrast:none){.listingResult img,.feature-block.top-featured .feature-block-item-wrapper img{width:auto}}@supports (-ms-accelerator:true){.listingResult img,.feature-block.top-featured .feature-block-item-wrapper img{width:auto}}.listingResult .content{padding-left:20px;padding-right:20px}.feature-block.top-featured .feature-block-item-wrapper .article-name{line-height:1.25;margin-top:12px;margin-bottom:0}.listingResult .synopsis{color:#333;line-height:1.375}@media screen and (min-width:1000px){.listingResult:hover .article-name,.feature-block.top-featured .feature-block-item-wrapper:hover .article-name{color:#3669c9;text-decoration:none}}.listingResult a.category-link{position:absolute;left:0;top:0;text-transform:uppercase;padding:.65em .7em}.impact .feature-block.top-featured .feature-block-item-wrapper a.category-link{position:absolute;left:0;top:0;text-transform:uppercase;color:#fff;padding:.65em .7em}.mainCarousel a.category-link{position:absolute;left:0;top:0;text-transform:uppercase;padding:.65em .7em}@media screen and (min-width:700px){.listingResult a.category-link,.impact .feature-block.top-featured .feature-block-item-wrapper a.category-link,.mainCarousel a.category-link{font-size:.8125em}}.article-name{color:#333;font-weight:700;text-decoration:none}.listingResult{background-color:#fff;border-bottom:1px solid #ccc}@media screen and (min-width:700px){.listingResult{margin-bottom:0}}@media screen and (min-width:900px){.listingResult{margin-left:0;margin-right:0}}.listingResult article{overflow:hidden;*zoom:1}@media screen and (min-width:700px){.listingResult .content{padding-top:0;padding-left:0;padding-right:0;overflow:hidden;min-width:13em}}.listingResult .content header{overflow:hidden;*zoom:1}.listingResult a.category-link{background-color:#1b1b1b;color:#fff;display:none;font-size:.8125em!important}@media screen and (min-width:700px){.listingResult a.category-link{top:20px;display:block;max-width:200px;line-height:1.4em}}@media screen and (min-width:900px){.impact .listingResult a.category-link{top:0}}.listingResult:first-child a.category-link{display:block}@media screen and (min-width:700px){.listingResult .image{float:left;width:250px;margin-right:20px}}.listingResult .article-name{margin-top:0;font-size:1.25em;line-height:1.4;margin-bottom:4px}@media screen and (min-width:700px){.listingResult .article-name{margin-top:-6px}}@media screen and (min-width:900px){.listingResult .article-name{padding:0}}@media screen and (min-width:900px){.impact .listingResult{display:inline-block;zoom:1;*display:inline;vertical-align:top;text-align:left;font-size:1rem;word-spacing:normal;width:-webkit-calc((100% - 30px)/3);width:calc((100% - 30px)/3);-webkit-box-sizing:border-box;box-sizing:border-box;border-bottom:none;margin-bottom:20px}}@media screen and (min-width:900px){.impact .listingResult .article-name{margin-bottom:7px;font-size:20px;line-height:26px;margin-top:0}}@media screen and (min-width:900px){.impact .listingResult .image{margin-right:0;float:none;width:100%;margin-bottom:15px;height:0;padding-bottom:56.16%;overflow:hidden}.impact .listingResult .image img{height:100%;object-fit:cover;display:block}}@media screen and (min-width:900px) and (-ms-high-contrast:active),screen and (min-width:900px) and (-ms-high-contrast:none){.impact .listingResult .image img{width:auto}}@media screen and (min-width:900px){@supports (-ms-accelerator:true){.impact .listingResult .image img{width:auto}}}@media screen and (min-width:900px){.list-text-links .listingResult{margin-bottom:0;margin-right:0;display:block}}@media screen and (min-width:900px){.list-text-links .listingResult,.list-text-links .listingResult:nth-of-type(2),.list-text-links .listingResult:nth-of-type(3){width:100%}}.list-text-links .listingResult:first-of-type,.list-text-links .listingResult:nth-of-type(2),.list-text-links .listingResult:nth-of-type(3){border-bottom:1px dotted #999}.list-text-links .listingResult:first-of-type .article-name{font-size:20px;line-height:26px}.list-text-links .listingResult:nth-of-type(2) .article-name,.list-text-links .listingResult:nth-of-type(3) .article-name{font-size:18px;line-height:24px}.list-text-links .listingResult:nth-of-type(n+4){border-bottom:none}@media screen and (max-width:699px){.list-text-links .listingResult:nth-of-type(n+4) .content{padding-bottom:0}}.list-text-links .listingResult:nth-of-type(n+4) .article-name{font-size:1rem;line-height:22px;font-weight:400}@media screen and (max-width:699px){.list-text-links .listingResult:nth-of-type(n+5) .search-result{padding-top:0}}@media screen and (min-width:700px){.list-text-links .listingResult:nth-of-type(n+5) .content{padding-top:0}}.list-text-links .listingResult .content{padding:8px 20px}@media screen and (min-width:700px){.list-text-links .listingResult .content{background-color:#fff;padding-left:0;padding-right:0}}.list-text-links .listingResult .content header{margin-bottom:0}.list-text-links .listingResult .image,.list-text-links .listingResult .published-date,.list-text-links .listingResult .synopsis{display:none}.list-text-links .listingResult .article-name{margin-top:0;margin-bottom:0}@media screen and (min-width:900px){.list-text-links .listingResult .article-name{margin-top:0}}.search-result{padding-top:20px;padding-bottom:20px}@media screen and (min-width:900px){.impact .search-result{padding-top:0;padding-bottom:0}}.list-text-links .search-result{padding-top:0;padding-bottom:0}.search-result .image{margin-top:-20px;margin-bottom:20px}@media screen and (min-width:700px){.search-result .image{margin-top:0;margin-bottom:7.5px}}@media screen and (min-width:700px){body:not(.vertical-home) .search-result .image{max-height:140px}}@media screen and (min-width:700px){body:not(.vertical-home) .search-result .image figure{height:140px;padding-top:0}body:not(.vertical-home) .search-result .image figure img{position:relative}}.feature-block-item-wrapper,.feature-block-item-wrapper .article-name{color:#fff}.feature-block-item{min-height:85px}.feature-block-item:first-child:before{font-size:13px}.feature-block-item figcaption{overflow:hidden;padding:10px 20px 13px;margin-bottom:0;text-decoration:none}.feature-block-item .article-strapline{display:none;font-size:1rem;line-height:22px}.top-featured .feature-block-item-wrapper.item-1 .article-strapline{display:block;margin-top:.3em}.top-featured .feature-block-item{background-color:#1b1b1b}.top-featured .feature-block-item img{display:block}@media screen and (min-width:700px){.top-featured .feature-block-item img{width:100%}}.curatedCarousel .top-featured .feature-block-item span{color:inherit}.list-text-links .listingResult{background-color:#fff}.feature-block.top-featured{position:relative;z-index:1;border:none;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-align-content:stretch;-ms-flex-line-pack:stretch;align-content:stretch;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;margin-bottom:30px}.feature-block.top-featured:before{display:none}.feature-block.top-featured .feature-block-item-wrapper{width:100%;z-index:999;background-color:#1b1b1b;border-bottom:solid 15px #fff;font-size:1.125em}.feature-block.top-featured .feature-block-item-wrapper img{height:100%;object-fit:cover;float:none;max-width:none;left:0;right:0;margin-left:auto;margin-right:auto}@media screen and (-ms-high-contrast:active),(-ms-high-contrast:none){.feature-block.top-featured .feature-block-item-wrapper img{width:auto}}@supports (-ms-accelerator:true){.feature-block.top-featured .feature-block-item-wrapper img{width:auto}}.feature-block.top-featured .feature-block-item-wrapper .image-remove-flow-width-setter{float:left;width:151px}@media screen and (min-width:575px){.feature-block.top-featured .feature-block-item-wrapper .image-remove-flow-width-setter{float:none;width:100%}}.feature-block.top-featured .feature-block-item-wrapper.item-1 .image-remove-flow-width-setter{width:100%}.feature-block.top-featured .feature-block-item-wrapper:nth-of-type(1){font-size:1.25em}@media screen and (min-width:575px){.feature-block.top-featured .feature-block-item-wrapper:nth-of-type(1){font-size:1.5em}}@media screen and (min-width:575px){.feature-block.top-featured .feature-block-item-wrapper{border:none;margin:0}.feature-block.top-featured .feature-block-item-wrapper:nth-of-type(1){border-bottom:solid 15px #fff}.feature-block.top-featured .feature-block-item-wrapper:nth-of-type(2){border-right:solid 15px #fff}.feature-block.top-featured .feature-block-item-wrapper:nth-of-type(2),.feature-block.top-featured .feature-block-item-wrapper:nth-of-type(3){width:-webkit-calc(50% - 7.5px);width:calc(50% - 7.5px);border-bottom:solid 15px #fff}}.impact .feature-block.top-featured .feature-block-item-wrapper{border:none;margin-right:0;margin-bottom:15px;min-width:-webkit-calc(100% - 15px);min-width:calc(100% - 15px);-webkit-flex:1;-webkit-box-flex:1;-webkit-flex:1 1 -webkit-calc(100% - 15px);-ms-flex:1 1 calc(100% - 15px);flex:1 1 calc(100% - 15px)}.impact .feature-block.top-featured .feature-block-item-wrapper a.category-link{background-color:#3669c9;z-index:1;font-size:13px}@media screen and (min-width:575px){.impact .feature-block.top-featured .feature-block-item-wrapper{margin-right:15px}}@media screen and (min-width:575px){.impact .feature-block.top-featured .feature-block-item-wrapper{min-width:-webkit-calc(50% - 15px);min-width:calc(50% - 15px);-webkit-flex:1;-webkit-box-flex:1;-webkit-flex:1 1 -webkit-calc(50% - 15px);-ms-flex:1 1 calc(50% - 15px);flex:1 1 calc(50% - 15px)}}@media screen and (min-width:900px){.impact .feature-block.top-featured .feature-block-item-wrapper{min-width:-webkit-calc(33.33% - 15px);min-width:calc(33.33% - 15px);-webkit-flex:1;-webkit-box-flex:1;-webkit-flex:1 1 -webkit-calc(33.33% - 15px);-ms-flex:1 1 calc(33.33% - 15px);flex:1 1 calc(33.33% - 15px)}}.impact .feature-block.top-featured .feature-block-item-wrapper.item-1{min-width:100%;-webkit-box-flex:0;-webkit-flex:0;-ms-flex:0;flex:0}@media screen and (min-width:575px){.impact .feature-block.top-featured .feature-block-item-wrapper.item-1{min-width:-webkit-calc(100% - 15px);min-width:calc(100% - 15px);-webkit-flex:1;-webkit-box-flex:1;-webkit-flex:1 1 -webkit-calc(100% - 15px);-ms-flex:1 1 calc(100% - 15px);flex:1 1 calc(100% - 15px)}}@media screen and (min-width:900px){.impact .feature-block.top-featured .feature-block-item-wrapper.item-1{min-width:-webkit-calc(66.66% - 15px);min-width:calc(66.66% - 15px);-webkit-flex:1;-webkit-box-flex:1;-webkit-flex:1 1 -webkit-calc(66.66% - 15px);-ms-flex:1 1 calc(66.66% - 15px);flex:1 1 calc(66.66% - 15px);max-width:-webkit-calc(66.66% - 15px);max-width:calc(66.66% - 15px);margin-right:30px}}@media screen and (max-width:699px){.listingResults .listingResult:not(.result1) .image{display:none}}.byline{display:block;margin-bottom:4px;line-height:23px;font-size:13px}.byline .relative-date{margin-left:4px}.listingResult .published-date{line-height:23px;font-size:13px}.listingResult:not(.small) .byline{display:none}.mainCarousel a.category-link{background-color:#1b1b1b;color:#fff;display:none;font-size:13px!important}@media screen and (min-width:700px){.mainCarousel a.category-link{top:20px;display:block;max-width:200px;line-height:1.4em}}@media screen and (min-width:900px){.mainCarousel a.category-link{top:0}}.pro .wrapper,.pro .menuitems.container,.pro .wrapper .menu-item-container a{background:#601948!important}.primary-nav{position:relative;z-index:1100}.primary-nav .wrapper{background:#3669c9}.primary-nav .menuitems{display:none;position:absolute;width:100%;left:0;top:60px;z-index:999}.primary-nav .menuitems:hover{z-index:999}@media screen and (min-width:700px){.primary-nav .menuitems{z-index:auto;display:block;position:relative;top:0}}.nav-list{font-size:0}@media screen and (min-width:700px){.nav-list{height:44px;overflow:hidden}}.nav-list.component-loaded{height:auto;overflow:visible}.menu-item{background-color:#3669c9}@media screen and (min-width:700px){.menu-item{display:inline-block;zoom:1;*display:inline;vertical-align:top;font-size:0;background-color:transparent}}.menu-item a{display:block;line-height:44px;font-size:1rem;padding-left:1rem}.menu-item a:not(.maglink){padding-right:1rem}@media screen and (min-width:700px){.menu-item a{display:inline-block;zoom:1;*display:inline;vertical-align:top}}.menu-item a,.menu-item a:visited,.menu-item a:hover,.menu-item a:visited:hover{color:#fff}@media screen and (min-width:700px){.menu-item a:not(.menu-item-magazines):hover{background-color:#3669c9}}.menu-item a:not(.menu-item-magazines):active{background-color:#1b1b1b}.menu-item .icon-home{font-size:1.3em;line-height:1}.pro .menu-item{background-color:transparent}.menu-item.menu-item-main-pro{background-color:#8c2b5e}@media screen and (min-width:700px){.menu-item.menu-item-main-pro{min-width:70px;text-align:center}}.menu-item.menu-item-main-pro a{background-color:transparent}.pro .menu-item.menu-item-main-pro{background-color:#2f6e91}.sub-menu{vertical-align:top;display:none;background-color:#3669c9;font-size:0}.sub-menu-item{font-size:1rem}.menu-hamburger{height:60px;margin-bottom:0}.menu-hamburger:before,.menu-hamburger:after{content:"";position:absolute;width:18px;margin-left:-9px;top:50%;left:50%}.menu-hamburger:before{height:8px;border-top:2px solid #fff;border-bottom:2px solid #fff;margin-top:-6px}.menu-hamburger:after{height:2px;background:#fff;margin-top:-1px}.menu-hamburger.checked:before{border-top:none;border-bottom:none;border-left:2px solid #fff;border-right:2px solid #fff;width:8px;height:18px;margin-top:-9px;margin-left:-6px}.menu-hamburger.checked:after{width:2px;height:18px;margin-top:-9px;margin-left:-1px}.menu-item-hover-reveal,.menu-item-magazines{line-height:44px;color:#fff;padding-left:1rem;padding-right:1rem;white-space:nowrap}.menu-item-hover-reveal.menu-item,.menu-item-magazines.menu-item{font-size:1rem}@media screen and (min-width:700px){.menu-item-hover-reveal:hover .sub-menu,.menu-item-magazines:hover .sub-menu{display:block;position:absolute;margin-left:-16px}}.menu-item-hover-reveal .icon,.menu-item-magazines .icon{font-size:11px;line-height:1;position:relative;top:-1px;left:1px}@media screen and (min-width:700px){.menu-item-hover-reveal .icon-arrow-right,.menu-item-magazines .icon-arrow-right{display:none}}.menu-item-hover-reveal .icon-arrow-down,.menu-item-magazines .icon-arrow-down{display:none}@media screen and (min-width:700px){.menu-item-hover-reveal .icon-arrow-down,.menu-item-magazines .icon-arrow-down{display:inline}}@media screen and (min-width:700px){.nav-sub-set-container{position:absolute;top:0;right:0}}@media screen and (min-width:700px){.menu-item-nav-sub-set{float:right}}#content h1{font-weight:600;font-size:24px;line-height:30px;margin-bottom:.25rem}@media (min-width:700px){#content h1{margin-bottom:.5rem;font-size:28px;line-height:34px}}@media (min-width:1574px){#content h1{margin-bottom:.75rem;font-size:34px;line-height:42px}body.limit-width #content h1{margin-bottom:.5rem;font-size:28px;line-height:34px}}#content>header{margin:30px 20px}@media screen and (min-width:700px){#content>header{margin-top:0;margin-left:0;margin-right:0}}#content>header p{font-size:18px;line-height:26px;font-weight:300}@media (min-width:700px){#content>header p{font-size:20px;line-height:28px}}@media (min-width:1574px){#content>header p{font-size:24px;line-height:30px}body.limit-width #content>header p{font-size:20px;line-height:28px}}#sidebar{-webkit-box-sizing:border-box;box-sizing:border-box;float:left}@media screen and (min-width:700px){#sidebar{padding-left:20px;padding-right:20px}}@media screen and (min-width:1000px){#sidebar{padding-left:0;padding-right:0;width:300px}#sidebar>*:first-child{margin-top:1em}}.buttons-social .icon-facebook{background:#3B5998}.buttons-social .icon-facebook:hover{background:#4c70ba}.buttons-social .icon-twitter{background:#4099FF}.buttons-social .icon-twitter:hover{background:#73b4ff}.buttons-social .icon-youtube{background:#CD201F}.buttons-social .icon-youtube:hover{background:#e23e3d}.buttons-social .icon-instagram{background:#de3073}.buttons-social .icon-instagram:hover{background:#e55c91}.buttons-social .icon-flipboard{background:#e12828}.buttons-social .icon-flipboard:hover{background:#e75555}.buttons-social .icon-envelope{background:#3669c9}.buttons-social .icon.icon-flipboard{font-size:12px}.burgerbar .buttons-social a{border:none}.burgerbar .buttons-social a:before{font-size:14px;line-height:24px;width:100%;height:100%}.burgerbar .buttons-social .icon.icon-flipboard:before{font-size:12px}.newsletter-signup{display:block!important;background-color:#ededed;border-bottom:1px solid #1b1b1b}@media (max-width:900px){.newsletter-signup{float:none!important}}.newsletter-signup .grey-box{color:#666}.newsletter-signup>h3{min-height:36px;font-size:16px;line-height:1.25em;font-family:"Open Sans",Arial,sans-serif;padding:8px 0;border-top:1px solid #1b1b1b;border-bottom:1px solid #1b1b1b}.newsletter-signup>h3 span{display:block;-webkit-box-sizing:border-box;box-sizing:border-box;width:300px;margin:0 auto}.newsletter-signup .icon-envelope{float:left;background-color:#3669c9;color:#fff;text-align:center;border-radius:50%;font-size:25px;line-height:36px;width:38px;height:38px;margin-right:10px;margin-left:10px}.newsletter-signup small{font-size:10px;line-height:12px}@media screen and (min-width:700px){.newsletter-signup{float:none}}@media screen and (min-width:900px){.newsletter-signup{float:none;width:100%}}@media screen and (min-width:900px){.impact .newsletter-signup{float:right;width:-webkit-calc((100% - (2 * 15px))/3);width:calc((100% - (2 * 15px))/3);clear:none;margin-bottom:0;height:0;padding-bottom:-webkit-calc(((100% - (2 * 15px))/3)* .93);padding-bottom:calc(((100% - (2 * 15px))/3)* .93)}}@media screen and (min-width:900px){.impact .newsletter-signup .grey-box{width:auto;padding-top:2px}}@media screen and (min-width:1000px){.impact .newsletter-signup .grey-box{padding-top:1ex}}@media screen and (min-width:900px){.impact .newsletter-signup .grey-box p{margin-bottom:3px}}@media screen and (min-width:1000px){.impact .newsletter-signup .grey-box p{margin-bottom:1rem}}@media screen and (min-width:900px){.impact .newsletter-signup footer{margin-top:-6px}}@media screen and (min-width:1000px){.impact .newsletter-signup footer{margin-top:0}}@media screen and (max-width:900px){.newsletter-signup .icon-envelope{margin-left:0}.newsletter-signup .grey-box{padding-left:0;padding-right:0}.newsletter-signup h3 span{width:300px;margin:0 auto}}.newsletter-signup .newsletter-logo{text-align:center}.newsletter-signup .newsletter-logo img{height:20px;padding-top:2px}.newsletter-signup.product-newsletter{border:solid 1px #333;-webkit-box-sizing:border-box;box-sizing:border-box}.newsletter-signup.product-newsletter h3,.newsletter-signup.product-newsletter h4{color:#fff;text-transform:none;font-family:"Open Sans",Arial,sans-serif}.newsletter-signup.product-newsletter h3{background:#333;font-size:15px;line-height:20px;border-top:none;border-bottom:none}.newsletter-signup.product-newsletter .icon-filled-envelope{float:left}.newsletter-signup.product-newsletter .product-cta{font-weight:700;display:inline}.newsletter-signup.product-newsletter .product-info{font-weight:400;display:inline}.newsletter-signup.product-newsletter .reduce{font-size:80%;display:inline}.newsletter-signup.product-newsletter h4{background-color:#666;font-size:.75em;line-height:33px}.newsletter-signup.product-newsletter p{color:#333;text-align:center;font-size:13px;line-height:17px;width:58%;margin-top:.5rem;display:inline-block;margin-left:5px}.newsletter-signup.product-newsletter p .jump-out-text{font-weight:700;display:block}.newsletter-signup.product-newsletter footer{color:#666;margin:.75rem 0 .5rem}.newsletter-signup .newsletter-image{display:inline-block;height:102px;width:35%;margin-left:8px;background:url("/media/img/newsletter-image.png") no-repeat;background-size:auto 102px;background-repeat:no-repeat;image-rendering:-moz-crisp-edges;image-rendering:-o-crisp-edges;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;-ms-interpolation-mode:nearest-neighbor}.newsletter-signup .newsletter-button{-webkit-box-sizing:border-box;box-sizing:border-box;width:100%;padding:0 17px;background:-webkit-gradient(linear,left bottom,left top,color-stop(50%,#E94E1B),color-stop(50%,#ed724a));background:-webkit-linear-gradient(bottom,#E94E1B 50%,#ed724a 50%);background:linear-gradient(to top,#E94E1B 50%,#ed724a 50%);height:44px;text-align:center}.newsletter-signup .newsletter-button a{color:#fff;font-size:1em;font-weight:900;display:inline-block;padding-top:14px;height:100%;width:100%;-webkit-box-sizing:border-box;box-sizing:border-box}.newsletter-signup .newsletter-button a:hover,.newsletter-signup .newsletter-button a:visited{color:#fff;text-decoration:none}.newsletter-signup .newsletter-button .icon{color:#fff;font-size:12px;position:relative;top:-2px;padding-left:3px}.newsletter-signup .subtitle{display:block;padding-left:10px;width:300px;margin:auto}.icon-filled-envelope{float:left;text-align:center;border-radius:50%;font-size:40px;line-height:36px;width:38px;height:38px;margin-right:10px;margin-left:10px;background-color:#3669c9;color:#fff}.link-columns{background-color:#ededed;border-bottom:solid 1ex #ededed;border-top:solid 1ex #ededed;padding-left:20px;padding-right:20px;-webkit-box-sizing:border-box;box-sizing:border-box;position:relative}@media screen and (min-width:700px){.link-columns{padding-left:0;padding-right:0}}@media screen and (max-width:700px){.link-columns:before{content:"";position:absolute;left:46%;border-left:1px solid #fff;height:-webkit-calc(100% - 11px - 8px);height:calc(100% - 11px - 8px);top:11px}}.link-columns .table-row{font-size:0}.link-columns .table-row li{display:inline-block;zoom:1;*display:inline;font-size:1rem;width:50%}.link-columns .table-row a{font-weight:600;color:#333;display:block;line-height:44px;text-decoration:none}.link-columns .table-row a:active{text-decoration:underline}@media screen and (min-width:700px){.link-columns .table-row li{display:table-cell;padding:0 0 0 1em;border:solid 1px #3669c9;border-top:0;border-bottom:0;width:auto}.link-columns .table-row li:first-child{border-left:none}.link-columns .table-row li:last-child{border-right:none}.link-columns .table-row a:hover,.link-columns .table-row a:visited,.link-columns .table-row a:visited:hover{text-decoration:none}.link-columns .table-row a:visited{color:#333}}.menu-item.menu-item-nextup a,.menu-item.menu-item-nextup a:hover{background-color:#1DAFEC}@media screen and (min-width:700px){.menu-item.menu-item-nextup a,.menu-item.menu-item-nextup a:hover{background-color:#1DAFEC}}.mfmwidget{margin:20px 20px 0}.mfmwidget img{max-width:100%}.mfmwidget .magazinelogo img{height:50px;margin-bottom:10px}.mfmwidget a.more:link{color:#fff}.mfmwidget a.more:visited{color:#fff}.mfmwidget a.more:hover{text-decoration:underline}.mfmwidget .container{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;text-align:center;padding:15px 10px 10px;height:100%}@media screen and (min-width:600px){.mfmwidget .container{-webkit-box-orient:horizontal;-webkit-box-direction:normal;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row}.mfmwidget .container .left,.mfmwidget .container .right{width:33.33%}}.mfmwidget .headerLine{background:#3669c9;width:100%;height:1px}.mfmwidget .left,.mfmwidget .right{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;-webkit-align-self:center;-ms-flex-item-align:center;align-self:center}.mfmwidget .text{padding:0 5px 10px;line-height:20px}.mfmwidget .ViewMoreButton{margin-top:20px;margin-left:auto;margin-right:auto;width:100%;height:44px;font-size:.813em;font-weight:700;line-height:38px;text-align:center;color:#3669c9;text-transform:uppercase}.mfmwidget .buttonBackground{background-color:#3669c9;margin:40px}@media only screen and (min-width:599px){.mfmwidget .text{padding:10px 15px 0 10px;line-height:28px}.mfmwidget .buttonBackground{width:195px;margin-left:auto;margin-right:auto}}.newsletter-signup,.newsletter-signup>h3{background-color:#fff}.newsletter-signup .grey-box{padding:1ex;margin:0 auto;width:300px;-webkit-box-sizing:border-box;box-sizing:border-box;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column}body{background-color:#fff;-webkit-text-size-adjust:100%}a{color:#3669c9;text-decoration:none}a:hover{text-decoration:underline}a:visited{color:#afc3e9}a:visited:hover{color:#afc3e9}button{font-size:.875em;line-height:3em;border:solid 1px #3669c9;color:#fff;background-color:#3669c9;text-transform:uppercase;font-family:"Open Sans",Arial,sans-serif;margin:0;padding:1ex 1em}button:focus{outline:0}button::-moz-focus-inner{border:0}.table{display:table;width:100%}.table-row{display:table-row}.list-title{border-top:2px solid #3669c9;border-bottom:2px solid #3669c9}.search-box .search-submit{top:16px}.sub-menu{visibility:hidden;position:absolute;display:block;margin-left:-16px}@media screen and (min-width:700px){.menu-item-hover-reveal:hover .sub-menu{visibility:visible}}img{display:block}body:not(.vertical-home) .search-result .image{overflow:hidden}@media screen and (min-width:700px){body:not(.vertical-home) .search-result .image{max-height:140px}}body:not(.vertical-home) .search-result .image figure{height:auto;padding-top:0}body:not(.vertical-home) .search-result .image figure img{position:absolute;top:0;left:0}@media screen and (min-width:700px){body:not(.vertical-home) .search-result .image figure{height:140px;padding-top:0}body:not(.vertical-home) .search-result .image figure img{position:relative}}@media screen and (min-width:700px){.nav-list.component-loaded{overflow:hidden;height:44px}}</style>
+<link rel="apple-touch-icon" href="https://vanilla.futurecdn.net/space/108228/apple-touch-icon.png">
+<link rel="shortcut icon" href="https://vanilla.futurecdn.net/space/108228/favicon.ico">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://vanilla.futurecdn.net/space/108228/apple-touch-icon.png">
+<meta property="og:title" content="">
+<meta property="og:site_name" content="Space.com">
+<meta property="og:url" content="https://www.space.com">
+<meta property="og:description" content="">
+<meta property="og:image" content="">
+<meta property="og:image:width" content="1200">
+<meta property="og:type" content="article">
+<meta property="article:publisher" content="https://www.facebook.com/spacecom">
+<meta property="article:author" content="https://www.facebook.com/spacecom">
+<meta property="fb:app_id" content="">
+<meta property="fb:pages" content="">
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:site" content="@SPACEdotcom">
+<meta property="twitter:title" content="">
+<meta property="twitter:description" content="">
+<meta property="twitter:creator" content="@SPACEdotcom">
+<meta property="twitter:image" content="">
+<meta property="twitter:account_id" content="9696142">
+<meta name="google-site-verification" content="BLc-HVUJTeyM8vGOcy4EluXHmKoUVDmZWiz8pl0JQZA">
+<meta name="p:domain_verify" content="6873911a0960244b0806d7a9a2aba69b">
+<meta name="taboola:url" content="https://www.space.com">
+<meta name="botify-site-verification" content="2pzcQZFibLjk9GJgSZgweA8MU9al6utA">
+<meta name="msvalidate.01" content="CC462E6DF91492086145CA5EBDCB615E">
+<script type="text/javascript">
+window.missingImage = function(){var missingImage = document.createElement('img');missingImage.src = '//vanilla.futurecdn.net/space/media/img/missing-image.svg';return missingImage;}
+VAN={};
+var FEP_object;
+VAN.gaDimensions=function(e,i,a,n){ga("create",e,"auto",{useAmpClientId:!0}),null!=a&&ga("set",{dimension57:a}),ga("require","displayfeatures"),n.fepPrimaryProduct&&ga("set",{dimension40:n.fepPrimaryProduct}),n.fepSecondaryProducts.length&&ga("set",{dimension41:n.fepSecondaryProducts.join("|")}),n.fepPrimaryProduct[0]&&ga("set",{dimension42:n.fepPrimaryCompany}),n.fepCompanies.length>=1&&ga("set",{dimension43:n.fepCompanies.join("|")}),n.fepPrimaryProduct&&ga("set",{dimension45:n.fepPrimaryProduct}),n.fepCategory&&ga("set",{dimension46:n.fepCategory}),n.fepArticleName.length>0&&ga("set",{dimension47:n.fepArticleName}),n.fepAlgorithm&&ga("set",{dimension50:n.fepAlgorithm}),n.fepNullified?ga("set",{dimension51:"true"}):ga("set",{dimension51:"false"}),"object"==typeof n.fepGroups&&Array.isArray(n.fepGroups)&&ga("set",{dimension58:n.fepGroups.join("|")}),n.thirdCategories&&ga("set",{dimension74:n.thirdCategories.join("|")});var o="false";try{"undefined"!=typeof window.vanilla&&"undefined"!=typeof window.vanilla.aft&&(o=window.vanilla.aft.logged_in===!0?"true":"false")}catch(t){console.error("Badly structured aft object",t)}ga("set",{dimension13:o}),ga("set",{dimension10:document.querySelector("html").getAttribute("data-locale")});try{var r=document.cookie.replace(/(?:(?:^|.*;\s*)_ga\s*\=\s*([^;]*).*$)|^.*$/,"$1");r&&ga("set",{dimension59:r})}catch(t){console.log("GA ID error: ",t)}ga("send","pageview",i)}; VAN.assignFep=function(a){try{var e=e||{fepPrimaryProduct:"",fepSecondaryProducts:Array(),fepCompanies:Array(),fepHawk:{},fepCategory:"",fepGroups:Array(),kwMunge:Array(),fepArticleName:"",fepPrimaryCompany:"",fepAlgorithm:"",fepNullified:"",ready:!1,primaryCategory:"",secondaryCategories:Array(),thirdCategories:Array()};if(window.FEP=e,!e.ready){if("undefined"==typeof a)throw"FEPNotReady";e.fepPrimaryProduct=a[0].adTags.primaryProduct,e.fepSecondaryProducts=a[0].adTags.secondaryProducts,e.fepCompanies=a[0].adTags.companies,e.fepCategory="object"==typeof a[0].adTags.category?"":a[0].adTags.category,e.fepGroups="undefined"!=typeof a[0].adTags.groups?a[0].adTags.groups:Array(),e.fepArticleName=a[0].articleName,e.fepAlgorithm=a[0].strategy,e.fepNullified=a[0].nullified,e.fepPrimaryCompany=null!==a[0].adTags.primaryCompany&&a[0].adTags.primaryCompany.length>=1?a[0].adTags.primaryCompany:" ","undefined"!=typeof a[0].adTags.primaryCategory&&"undefined"!=typeof a[0].adTags.secondaryCategories&&"undefined"!=typeof a[0].adTags.thirdCategories&&(e.primaryCategory=a[0].adTags.primaryCategory,e.secondaryCategories=a[0].adTags.secondaryCategories,e.thirdCategories=a[0].adTags.thirdCategories),e.fepIAB=[],e.ready=!0;var r=["fepPrimaryProduct","fepSecondaryProducts","fepCompanies","fepCategory"];r.forEach(function(a){var r=e[a];"object"==typeof r&&(r=r),e.kwMunge=e.kwMunge.concat(r)}),e.kwMunge=e.kwMunge.filter(function(a,r){return e.kwMunge.indexOf(a)==r}),"undefined"!=typeof a[0].hawkTags.primaryProduct&&(e.fepHawk.primaryProduct=a[0].hawkTags.primaryProduct),"undefined"!=typeof a[0].hawkTags.secondaryProducts&&(e.fepHawk.secondaryProducts=a[0].hawkTags.secondaryProducts),"undefined"!=typeof a[0].hawkTags.companies&&(e.fepHawk.companies=a[0].hawkTags.companies),"undefined"!=typeof a[0].hawkTags.groups&&(e.fepHawk.groups=a[0].hawkTags.groups),"undefined"!=typeof a[0].hawkTags.category&&(e.fepHawk.category=a[0].hawkTags.category)}return window.FEP=e,e}catch(o){console.log("fep ga exc "+o.message)}};;
+</script>
+<script>
+try{
+var FEP_object = [{"nullified":"","strategy":"","overrides":[],"internalProductName":"","topProductVsproductName":"","adTags":{"groups":[],"companies":["Software","SpaceX","","Arianespace","Sloan_Digital_Sky_Survey","SpaceX"],"primaryProduct":"","category":{},"secondaryProducts":["Missile","Crew_Dragon","","Constellation","Alien","Constellation"],"primaryCompany":""},"articleName":"","articleType":""}];
+<!-- /.../20140911155300/space/ekTwLyGyMqy5mF6GhALJA3,5b4K9doAgeWRN3ZrigTBui,L2jhvXTMWjN3wtBHt79iXX,bScdWZunHUnsb5jKtj9DuG,auUAUsmDZpZ2nBrBZykhyn,U6ATTz35SboGXW9JqttEuW/5dd976b2/00000000/ -->
+}catch(ex){
+if (typeof console == "object") {
+console.log(ex);
+}
+}
+</script>
+<!-- GA TPL PREMIUM -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+// Optimizely Universal Analytics Integration
+window.optimizely = window.optimizely || [];
+window.optimizely.push("activateUniversalAnalytics");
+// Setup the FEP global object form the FEP_object
+// @TODO - can the format of FEP_object be changed server side?
+VAN.assignFep(FEP_object);
+var ga_code = 'UA-72111741-9';
+var analytics_ga_data = {"dimension9":"1"};
+var version = 'null';
+// Make sure all the GA dimensions are setup and correct
+VAN.gaDimensions(ga_code, analytics_ga_data, version, window.FEP);
+</script>
+<!-- END GA PREMIUM -->
+<script>
+var trailingSlash = false;
+</script>
+<link rel="manifest" href="/manifest.json">
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+var OneSignal = window.OneSignal || [];
+OneSignal.push(function() {
+OneSignal.init({
+appId: "33e14929-fc6a-44ea-ae7c-8cc69df3e88e",
+autoRegister: true
+});
+OneSignal.registerForPushNotifications();
+});
+OneSignal.push(["addListenerForNotificationOpened", function(data) {
+OneSignal.getUserId( function(userId) {
+ga('send', 'event', 'OneSignal Notification_Clicked', data.id, userId);
+});
+}]);
+</script>
+</head>
+<body class="limit-width vertical-home impact ">
+<script>window.isIE = false</script>
+<!--[IE]><script>window.isIE = true</script><![endif]-->
+<script>
+window.amIIE = function() {
+return navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') !== -1 || window.isIE;
+}
+</script>
+<!-- contentType : //-->
+<nav class="primary-nav">
+<input type="radio" name="burgerbar-expand" class="burgerbar-none-radio" id="burgerbar-none" checked>
+<input type="radio" name="burgerbar-expand" class="burgerbar-radio" id="burgerbar">
+<div class="burgerbar ">
+<div class="container full burgerbar-small">
+<label class="button-menu unchecked menu-hamburger" for="burgerbar" onclick></label>
+<label class="button-menu checked menu-hamburger" for="burgerbar-none" onclick></label>
+<div class="logo" itemprop="publisher" itemscope itemtype="https://schema.org/Organization" id="publisherDetails">
+<a href="https://www.space.com/" itemprop="url">
+<span class="site-logo" itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) -->
+
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="132px" height="30px" viewbox="0 0 132 30" enable-background="new 0 0 132 30" xml:space="preserve">
+<title>space</title>
+<desc>Created with Sketch.</desc>
+<g id="vector">
+<g id="space">
+<g id="Shape">
+<polygon fill="#FFFFFF" points="75.8789062,29.6386719 63.6210938,0.4140625 57.1552734,0.4140625 44.8447266,29.6386719
+51.3613281,29.6386719 60.3613281,8.1210938 69.4140625,29.6386719 "></polygon>
+<path fill="#FFFFFF" d="M12.3105469,29.9482422c-4.3964844,0-8.8457031-1.5517578-12.3105469-4.6552734l3.7753906-4.5
+c2.5859375,2.171875,5.328125,3.5175781,8.6386719,3.5175781c2.5859375,0,4.1894531-1.0351562,4.1894531-2.7421875v-0.1035156
+c0-1.6035156-0.9824219-2.4296875-5.8457031-3.671875c-5.84375-1.5-9.6201172-3.1035156-9.6201172-8.8447266V8.8447266
+c0-5.2763672,4.2412109-8.7412109,10.1376953-8.7412109c4.2421875,0,7.8105469,1.3447266,10.7587891,3.671875
+l-3.3095703,4.8105469c-2.5869141-1.7578125-5.1210938-2.8447266-7.5527344-2.8447266
+c-2.4306641,0-3.7236328,1.1376953-3.7236328,2.5341797V8.328125c0,1.9130859,1.2412109,2.5341797,6.2587891,3.8271484
+c5.8964844,1.5517578,9.2070312,3.6728516,9.2070312,8.6904297v0.1025391
+C22.9648438,26.6894531,18.5683594,29.9482422,12.3105469,29.9482422z"></path>
+<path fill="#FFFFFF" d="M37.0341797,20.7929688H32.171875v8.7421875h-6.3613281V0.5175781h11.8447266
+c6.9306641,0,11.1201172,4.0859375,11.1201172,10.0341797v0.1035156
+C48.7246094,17.328125,43.5517578,20.7929688,37.0341797,20.7929688z M42.2587891,10.6552734
+c0-2.8447266-1.9658203-4.3964844-5.1728516-4.3964844H32.171875v8.8447266h5.0693359
+c3.2070312,0,5.0693359-1.9140625,5.0693359-4.3964844v-0.0517578H42.2587891z"></path>
+<path fill="#FFFFFF" d="M89.1210938,30c-8.5351562,0-14.8964844-6.5683594-14.8964844-14.8964844V15
+c0-8.2246094,6.2070312-15,15.1035156-15c5.4824219,0,8.7402344,1.8105469,11.4296875,4.5l-4.0332031,4.7070312
+c-2.2246094-2.0175781-4.5-3.2587891-7.3964844-3.2587891c-4.9140625,0-8.4316406,4.0869141-8.4316406,9.0517578v0.1035156
+c0,4.9658203,3.4658203,9.1035156,8.4316406,9.1035156c3.3105469,0,5.3271484-1.3447266,7.6035156-3.4140625l4.0332031,4.0859375
+C98.0683594,28.0351562,94.7070312,30,89.1210938,30z"></path>
+<polygon fill="#FFFFFF" points="104.328125,29.5351562 104.328125,0.5175781 121.6542969,0.5175781 121.6542969,6.2070312
+110.6376953,6.2070312 110.6376953,12.1035156 119.7929688,12.1035156 119.7929688,17.7929688 110.6376953,17.7929688
+110.6376953,23.8447266 121.8623047,23.8447266 121.8623047,29.5351562 "></polygon>
+<polygon fill="#FFFFFF" points="125.0175781,0.4140625 127.0351562,0.4140625 127.0351562,2.4824219 125.0175781,2.4824219
+"></polygon>
+<path fill="#FFFFFF" d="M124.8613281,7.0351562c0-2.0175781,1.5527344-3.5175781,3.5175781-3.5175781l0,0
+c1.9140625,0,3.5175781,1.5,3.5175781,3.5683594c0,1.2929688-0.4140625,2.0693359-1.1386719,2.6894531l-1.2402344-1.1894531
+c0.4648438-0.4140625,0.7236328-0.8789062,0.7236328-1.5507812c0-0.9833984-0.8271484-1.65625-1.8623047-1.65625l0,0
+c-1.0341797,0-1.8613281,0.6728516-1.8613281,1.7070312c0,0.6210938,0.2578125,1.0859375,0.7236328,1.5527344
+l-1.1376953,1.1367188C125.3789062,9.1552734,124.8613281,8.3789062,124.8613281,7.0351562z"></path>
+<path fill="#FFFFFF" d="M124.8613281,14.2246094c0-2.1210938,1.5527344-3.6728516,3.5175781-3.6728516l0,0
+c1.9658203,0,3.5175781,1.5517578,3.5175781,3.6728516c0,2.1201172-1.5517578,3.671875-3.5175781,3.671875l0,0
+C126.4140625,17.8964844,124.8613281,16.2929688,124.8613281,14.2246094z M128.3789062,15.9824219
+c0.9833984,0,1.8623047-0.7236328,1.8623047-1.7578125c0-1.0859375-0.8271484-1.7597656-1.8623047-1.7597656l0,0
+c-0.9824219,0-1.8613281,0.7246094-1.8613281,1.7597656C126.5175781,15.3105469,127.3447266,15.9824219,128.3789062,15.9824219
+L128.3789062,15.9824219z"></path>
+<path fill="#FFFFFF" d="M125.0175781,27.671875h3.7753906c0.9316406,0,1.3964844-0.4130859,1.3964844-1.1367188
+c0-0.7246094-0.4648438-1.1904297-1.3964844-1.1904297h-3.7753906v-1.9130859h3.7753906
+c0.9316406,0,1.3964844-0.4140625,1.3964844-1.1386719s-0.4648438-1.1376953-1.3964844-1.1376953h-3.7753906v-1.9130859
+h6.7753906v1.9130859h-0.9824219c0.5683594,0.4658203,1.0859375,1.0341797,1.0859375,2.0166016
+c0,0.8798828-0.4140625,1.5527344-1.0859375,1.9140625c0.671875,0.5693359,1.0859375,1.2929688,1.0859375,2.2246094
+c0,1.4482422-0.8789062,2.2753906-2.4824219,2.2753906h-4.3964844V27.671875L125.0175781,27.671875z"></path>
+</g>
+</g>
+</g>
+</svg>
+<img class="fallback" src="" data-fallback-src="https://vanilla.futurecdn.net/space/media/img/SPC_logo.svg">
+<meta itemprop="url" content="https://vanilla.futurecdn.net/space/media/img/SPC_logo.svg">
+</span>
+<h1 itemprop="name">Space</h1> <span class="strapline"></span>
+</a>
+</div> <input type="checkbox" name="burgerbar-expand" class="search-checkbox" id="search-checkbox">
+<label class="button-search masthead-item " for="search-checkbox" onclick="">
+<span class="desktop-text">Search</span><span class="icon icon-search"></span>
+</label>
+<form class="search-box" action="https://www.space.com/search" method="GET">
+<input type="search" name="searchTerm" placeholder="Search Space" class="search-input">
+<button type="submit" class="search-submit">
+<span class="icon icon-search"></span>
+</button>
+</form>
+<div class="other-links">
+<a href="https://www.space.com/feeds/all">
+<abbr title="Really Simple Syndication">RSS</abbr>
+</a>
+</div>
+<div class="buttons-social masthead-item">
+<a target="_blank" href="https://www.facebook.com/spacecom" class="icon icon-circle icon-facebook"></a>
+<a target="_blank" href="https://twitter.com/SPACEdotcom" class="icon icon-circle icon-twitter"></a>
+<a target="_blank" href="https://www.instagram.com/spacedotcom/" rel="nofollow" class="icon icon-circle icon-instagram"></a>
+<a target="_blank" href="https://www.youtube.com/user/VideoFromSpace" class="icon icon-circle icon-youtube"></a>
+<a target="_blank" href="https://flipboard.com/@Spacecom" class="icon icon-circle icon-flipboard"></a>
+</div>
+</div>
+</div>
+<div class="wrapper">
+<div class="menuitems container full">
+<ul class="nav-list" data-component="nav">
+<li class="menu-item menu-item-home" data-menuitem="">
+<a class="home" href="https://www.space.com/">
+<i class="icon icon-home"></i>
+</a>
+</li>
+<li class="menu-item menu-item-news" data-menuitem="">
+<a class="" href="https://www.space.com/news">
+<span>News</span>
+</a>
+</li>
+<li class="menu-item menu-item-tech" data-menuitem="">
+<a class="" href="https://www.space.com/tech-robots">
+<span>Tech</span>
+</a>
+</li>
+<li class="menu-item menu-item-spaceflight" data-menuitem="">
+<a class="" href="https://www.space.com/spaceflight">
+<span>Spaceflight</span>
+</a>
+</li>
+<li class="menu-item menu-item-science &amp; astronomy" data-menuitem="">
+<a class="" href="https://www.space.com/science-astronomy">
+<span>Science &amp; Astronomy</span>
+</a>
+</li>
+<li class="menu-item menu-item-search for life" data-menuitem="">
+<a class="" href="https://www.space.com/search-for-life">
+<span>Search For Life</span>
+</a>
+</li>
+<li class="menu-item menu-item-skywatching" data-menuitem="">
+<a class="" href="https://www.space.com/skywatching">
+<span>Skywatching</span>
+</a>
+</li>
+<li class="menu-item menu-item-entertainment" data-menuitem="">
+<a class="" href="https://www.space.com/entertainment">
+<span>Entertainment</span>
+</a>
+</li>
+<li class="menu-item menu-item-video" data-menuitem="">
+<a class="" href="https://www.youtube.com/user/VideoFromSpace/videos">
+<span>Video</span>
+</a>
+</li>
+<li class='menu-item menu-item-read "all about space" magazine!' data-menuitem="">
+<a class="" href="https://www.space.com/43203-all-about-space-free-issue.html">
+<span>Read "All About Space" Magazine!</span>
+</a>
+</li>
+<li class="menu-item menu-item-all topics" data-menuitem="">
+<a class="" href="https://www.space.com/topics">
+<span>All Topics</span>
+</a>
+</li>
+<li class="menu-item menu-item-about us" data-menuitem="">
+<a class="" href="https://www.space.com/41418-about-us.html">
+<span>About Us</span>
+</a>
+</li>
+<li class="menu-item menu-item-more menu-level-1 has-submenu
+menu-item-hover-reveal
+more-hide" data-more>
+More
+<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-right"></i>
+<ul class="sub-menu" data-more-submenu="">
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="dfp-leaderboard-container"></div>
+<div id="main" class="container full lightbox1">
+<div class="trending-wrapper ">
+<div class="trending-bar container full">
+<div class="trending-lead brands-disabled">
+Trending
+</div>
+<ul class="trending-items">
+<li class="trending-item"> <a href="https://www.space.com/39251-on-this-day-in-space.html">On This Day in Space</a></li>
+<li class="trending-item"> <a href="https://www.space.com/32286-space-calendar.html">2019 Space Calendar</a></li>
+<li class="trending-item"> <a href="https://www.space.com/34-image-day.html">Image of the Day</a></li>
+<li class="trending-item"> <a href="https://www.space.com/16830-full-moon-calendar.html">Full Moon</a></li>
+<li class="trending-item"> <a href="https://www.space.com/43203-all-about-space-free-issue.html">Read 'All About Space'</a></li>
+<li class="trending-item"> <a href="https://www.space.com/topics/expert-voices">Expert Voices</a></li>
+<!-- Start Trending Subset //-->
+<!-- End Trending Subset //-->
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="tag-page-content">
+<h2 id="arianespace-soyuz-launching-03b-satellites">Arianespace Soyuz Launching 03b Satellites!</h2><p class="mid__article"></p><div class="youtube-video"><iframe data-lazy-priority="high" data-lazy-src="https://www.youtube.com/embed/9uTxZbbRsgY" allowfullscreen></iframe></div>
+</div>
+<div class="list-text-links list-text-links-trending-panel">
+<h2 class="list-title">
+<a href="https://www.space.com/news">Latest News</a>
+</h2>
+<div class="listingResult small result1 " data-page="1">
+<a href="https://www.space.com/17933-nasa-television-webcasts-live-space-tv.html">
+<article class="search-result search-result-news has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="NASA's first 2017 test of its RS-25 rocket engine, destined to propel its Space Launch System rocket past Earth orbit." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Watch Live @ 3:40 pm ET: NASA Testing RS-25 Rocket Engine for SLS </h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+SPACE.com Staff </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T18:57:19Z" data-published-date="2019-04-04T18:57:19Z"></time>
+</p>
+</header>
+<p class="synopsis">
+At 3:40 p.m. EDT (1940 GMT), NASA will webcast a test of an RS-25 rocket engine at the Stennis Space Center in Mississippi. Watch it live here!
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result2 " data-page="1">
+<a href="https://www.space.com/shard-shattered-alien-planet-dead-star.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="A planetary fragment orbits the white dwarf SDSS J122859.93+104032.9, leaving a tail of gas in its wake. " class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Shard of Shattered Alien Planet Spotted Around Dead Star</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Mike Wall </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T18:24:21Z" data-published-date="2019-04-04T18:24:21Z"></time>
+</p>
+</header>
+<p class="synopsis">
+The killer of this alien planet left a significant piece of evidence behind.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result3 " data-page="1">
+<a href="https://www.space.com/arianespace-soyuz-launches-4-ses-satellites.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="An Arianespace Soyuz rocket launches from French Guiana on April 4, 2019, carrying four communications satellites to orbit." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Four New Satellites Ride Into Space To Join Growing SES Constellation</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Elizabeth Howell </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T17:16:42Z" data-published-date="2019-04-04T17:16:42Z"></time>
+</p>
+</header>
+<p class="synopsis">
+An Arianespace Soyuz rocket is set to deploy four satellites into space today (April 4) after a successful launch from French Guiana.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result4 " data-page="1">
+<a href="https://www.space.com/progress-72-launch-spotted-from-space-station.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="David Saint-Jacques snapped this photo from the International Space Station April 4 of the launch trail left by the Progress 72 cargo spacecraft." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Wow! Astronaut Spots Cargo Ship Launch from Space Station (Photo)</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Sarah Lewin </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T15:44:36Z" data-published-date="2019-04-04T15:44:36Z"></time>
+</p>
+</header>
+<p class="synopsis">
+Canadian astronaut David Saint-Jacques snapped a photo of a Russian cargo spacecraft's zigzag launch trail from the International Space Station this morning (April 4).
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result5 " data-page="1">
+<a href="https://www.space.com/israeli-moon-lander-beresheet-lunar-orbit-success.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="An artist's illustration of the Beresheet moon lander built by SpaceIL and Israel Aerospace Industries in space." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Pioneering Israeli Lunar Lander Arrives in Orbit Around the Moon</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Mike Wall </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T15:34:30Z" data-published-date="2019-04-04T15:34:30Z"></time>
+</p>
+</header>
+<p class="synopsis">
+Israel just became the seventh nation to orbit the moon.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result6 " data-page="1">
+<a href="https://www.space.com/17561-new-moon-explained-lunar-phases.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="New Moon" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">April New Moon 2019: Catch Mars, the Pleiades and Spring Constellations in the Moonless Night Sky</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Jesse Emspak </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T15:13:24Z" data-published-date="2019-04-04T15:13:24Z"></time>
+</p>
+</header>
+<p class="synopsis">
+The new moon occurs on Friday, April 5, at 4:50 a.m. EDT (0450 GMT). During this lunar phase, you won't see the moon in the night sky, but there are plenty of other celestial treats to look for!
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+</div>
+<div class="mainCarousel curatedCarousel">
+<section class="feature-block top-featured" id="homePageCarousel">
+<div id="Item1" class="feature-block-item-wrapper item-1 ">
+<a href="https://www.space.com/israeli-moon-lander-beresheet-lunar-orbit-success.html">
+<figure class="feature-block-item">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container">
+<img src="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-320-80.jpg" alt="Up next is a historic touchdown attempt on April 11." class="" onerror="this.parentNode.replaceChild(window.missingImage(),this)" srcset="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-600-80.jpg 600w, https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-970-80.jpg 970w" sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d.jpg" data-pin-nopin="true">
+</div>
+</div>
+<figcaption>
+<span class="article-name">Pioneering Israeli Lunar Lander Arrives in Orbit Around the Moon</span>
+<span class="article-strapline">Up next is a historic touchdown attempt on April 11.</span>
+</figcaption>
+</figure>
+</a>
+</div><div id="Item2" class="feature-block-item-wrapper item-2 optional-image-wrapper ">
+<a href="https://www.space.com/spacex-starhopper-prototype-first-hop.html">
+<figure class="feature-block-item">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="It was a short, tethered flight." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/74kcEkS7iBur4SZfwFDgde-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/74kcEkS7iBur4SZfwFDgde-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/74kcEkS7iBur4SZfwFDgde-450-80.jpg 450w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/74kcEkS7iBur4SZfwFDgde.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/74kcEkS7iBur4SZfwFDgde.jpg" data-pin-nopin="true">
+</div>
+</div>
+<figcaption>
+<span class="article-name"> SpaceX's 'Starhopper' Starship Prototype Just Aced Its 1st Hop, Elon Musk Says</span>
+<span class="article-strapline">It was a short, tethered flight.</span>
+</figcaption>
+</figure>
+</a>
+</div><div id="Item3" class="feature-block-item-wrapper item-3 optional-image-wrapper ">
+<a href="https://www.space.com/russia-launches-progress-72-cargo-ship-space-station.html">
+<figure class="feature-block-item">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="It will arrive at the space station in just over 3 hours." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/59e6amSHA5KW3VKMoGkCQT-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/59e6amSHA5KW3VKMoGkCQT-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/59e6amSHA5KW3VKMoGkCQT-450-80.jpg 450w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/59e6amSHA5KW3VKMoGkCQT.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/59e6amSHA5KW3VKMoGkCQT.jpg" data-pin-nopin="true">
+</div>
+</div>
+<figcaption>
+<span class="article-name">Russian Cargo Ship Launches on Superfast Trip to Space Station</span>
+<span class="article-strapline">It will arrive at the space station in just over 3 hours.</span>
+</figcaption>
+</figure>
+</a>
+</div><div id="Item4" class="feature-block-item-wrapper item-4 optional-image-wrapper ">
+<a href="https://www.space.com/event-horizon-telescope-black-hole-announcement-coming-soon.html">
+<figure class="feature-block-item">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="The Event Horizon Telescope team has a big announcement on April 10." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/kzvPVZRzUkxWwLSKKdSNmZ-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/kzvPVZRzUkxWwLSKKdSNmZ-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/kzvPVZRzUkxWwLSKKdSNmZ-450-80.jpg 450w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/kzvPVZRzUkxWwLSKKdSNmZ.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/kzvPVZRzUkxWwLSKKdSNmZ.jpg" data-pin-nopin="true">
+</div>
+</div>
+<figcaption>
+<span class="article-name">'Groundbreaking Result' Coming from Black-Hole Hunting Event Horizon Telescope Next Week</span>
+<span class="article-strapline">The Event Horizon Telescope team has a big announcement on April 10.</span>
+</figcaption>
+</figure>
+</a>
+</div><div id="Item5" class="feature-block-item-wrapper item-5 optional-image-wrapper ">
+<a href="https://www.space.com/shapeshifting-airplane-wing-invented.html">
+<figure class="feature-block-item">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/RUsvbukvi3MmeivKgcyooJ-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/RUsvbukvi3MmeivKgcyooJ-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/RUsvbukvi3MmeivKgcyooJ-450-80.jpg 450w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/RUsvbukvi3MmeivKgcyooJ.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/RUsvbukvi3MmeivKgcyooJ.jpg" data-pin-nopin="true">
+</div>
+</div>
+<figcaption>
+<span class="article-name">Airplane Wing Assembles Like a Jigsaw Puzzle and Can Morph Into Any Shape</span>
+<span class="article-strapline"></span>
+</figcaption>
+</figure>
+</a>
+</div><div id="Item6" class="feature-block-item-wrapper item-6 optional-image-wrapper ">
+<a href="https://www.space.com/nasa-moon-2024-landing-mars-2033.html">
+<figure class="feature-block-item">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt='"The moon is the proving ground," Bridenstine said. ' class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/vK2j8z7ZdTckdjHoRCY5xj-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/vK2j8z7ZdTckdjHoRCY5xj-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/vK2j8z7ZdTckdjHoRCY5xj-450-80.jpg 450w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/vK2j8z7ZdTckdjHoRCY5xj.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/vK2j8z7ZdTckdjHoRCY5xj.jpg" data-pin-nopin="true">
+</div>
+</div>
+<figcaption>
+<span class="article-name">NASA's Moon-by-2024 Push Could Help Put Astronauts on Mars by 2033, Chief Says</span>
+<span class="article-strapline">"The moon is the proving ground," Bridenstine said. </span>
+</figcaption>
+</figure>
+</a>
+</div> </section>
+</div>
+<section data-next="latest" data-total-count="2722" data-list="mixed1/home/latest" class="listingResultsWrapper mixed1 mixed1">
+<header>
+<h2 class="list-title"> Tech</h2>
+<a class="list-heading-link" href="https://www.space.com/tech-robots">View more <i class="icon icon-arrow-right"></i></a> </header>
+<div class="listingResults mixed1" data-sort="page" data-listkey="mixed1">
+<div class="listingResult small result1 " data-page="1">
+<a href="https://www.space.com/india-anti-satellite-missile-test-agi-simulations.html">
+<article class="search-result search-result-news has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/22TDZma6nuYofmjcSgxLjD.jpeg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/22TDZma6nuYofmjcSgxLjD.jpeg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="A still from a video animation showing what the anti-satellite weapon launched by India on March 27 may have looked like from space, just moments before the MICROSAT-R satellite struck the kinetic kill missile placed in its path." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/22TDZma6nuYofmjcSgxLjD-320-80.jpeg" data-srcset="https://cdn.mos.cms.futurecdn.net/22TDZma6nuYofmjcSgxLjD-320-80.jpeg 320w, https://cdn.mos.cms.futurecdn.net/22TDZma6nuYofmjcSgxLjD-450-80.jpeg 450w, https://cdn.mos.cms.futurecdn.net/22TDZma6nuYofmjcSgxLjD-970-80.jpeg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/22TDZma6nuYofmjcSgxLjD.jpeg" data-pin-media="https://cdn.mos.cms.futurecdn.net/22TDZma6nuYofmjcSgxLjD.jpeg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">These Simulations Reveal What Happened During India's Anti-Satellite Missile Test (Videos)</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Doris Elin Salazar </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-03T11:28:35Z" data-published-date="2019-04-03T11:28:35Z"></time>
+</p>
+</header>
+<p class="synopsis">
+A U.S. space and defense software company created two new simulation videos, revealing how the anti-satellite weapon recently launched by India might have looked hitting a satellite in space.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result2 sponsored-post">
+<!-- stuffs -->
+<div style="width:100%"></div>
+</div>
+<div class="listingResult small result3 lightbox2" data-page="1">
+<a href="https://www.space.com/elon-musk-spacex-nasa-chief-crew-dragon-video.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/ymVoEpXoXQmMwP9pFGCTpA.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/ymVoEpXoXQmMwP9pFGCTpA.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="A still from a video filmed in anticipation of Demo-1, the first test flight for the Crew Dragon capsule developed by SpaceX through a partnership with NASA. From left to right: Elon Musk, NASA astronaut Doug Hurley, NASA astronaut Mike Hopkins, NASA astronaut Victor Glover, NASA Administrator Jim Bridenstine and NASA astronaut Bob Behnken." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/ymVoEpXoXQmMwP9pFGCTpA-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/ymVoEpXoXQmMwP9pFGCTpA-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/ymVoEpXoXQmMwP9pFGCTpA-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/ymVoEpXoXQmMwP9pFGCTpA-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/ymVoEpXoXQmMwP9pFGCTpA.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/ymVoEpXoXQmMwP9pFGCTpA.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Here's What Elon Musk Had to Say to NASA's Chief Before SpaceX's 1st Crew Dragon Test Flight (Video)</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Doris Elin Salazar </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-03T11:24:31Z" data-published-date="2019-04-03T11:24:31Z"></time>
+</p>
+</header>
+<p class="synopsis">
+Hear from the future riders of Crew Dragon, the reusable vehicle developed by SpaceX through a partnership with NASA.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<section class="popular-box">
+<div id="popular-box-wrapper" class="style1">
+<div class="most-popular-tab-bar">
+<input type="radio" name="popradio" id="popradio-1" checked>
+<div id="popularcontent">
+<div class="flex-row">
+<label class="poplabel" id="poplabel-1" for="popradio-1">
+<span>More from Space...</span>
+</label>
+</div>
+<ol class="popular-list active" id="poplist-1">
+<li class="most-popular-item first-article">
+<div style="width:100%">
+<a href="https://www.space.com/17933-nasa-television-webcasts-live-space-tv.html">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg" data-pin-nopin="true">
+</a>
+<div class="popular-listings">
+<span class="number-1">1</span><h4><a href="https://www.space.com/17933-nasa-television-webcasts-live-space-tv.html">Watch Live @ 3:40 pm ET: NASA Testing RS-25 Rocket Engine for SLS </a></h4>
+</div>
+</div>
+</li>
+<li class="most-popular-item ">
+<div style="width:100%">
+<a href="https://www.space.com/shard-shattered-alien-planet-dead-star.html">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg" data-pin-nopin="true">
+</a>
+<div class="popular-listings">
+<span class="number-2">2</span><h4><a href="https://www.space.com/shard-shattered-alien-planet-dead-star.html">Shard of Shattered Alien Planet Spotted Around Dead Star</a></h4>
+</div>
+</div>
+</li>
+<li class="most-popular-item ">
+<div style="width:100%">
+<a href="https://www.space.com/arianespace-soyuz-launches-4-ses-satellites.html">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg" data-pin-nopin="true">
+</a>
+<div class="popular-listings">
+<span class="number-3">3</span><h4><a href="https://www.space.com/arianespace-soyuz-launches-4-ses-satellites.html">Four New Satellites Ride Into Space To Join Growing SES Constellation</a></h4>
+</div>
+</div>
+</li>
+<li class="most-popular-item ">
+<div style="width:100%">
+<a href="https://www.space.com/progress-72-launch-spotted-from-space-station.html">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/Sy5iQ4jHtW3yBGr79FGYKW.jpg" data-pin-nopin="true">
+</a>
+<div class="popular-listings">
+<span class="number-4">4</span><h4><a href="https://www.space.com/progress-72-launch-spotted-from-space-station.html">Wow! Astronaut Spots Cargo Ship Launch from Space Station (Photo)</a></h4>
+</div>
+</div>
+</li>
+<li class="most-popular-item ">
+<div style="width:100%">
+<a href="https://www.space.com/israeli-moon-lander-beresheet-lunar-orbit-success.html">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/NKL9kmqbnm5MHLyEMuxG3d.jpg" data-pin-nopin="true">
+</a>
+<div class="popular-listings">
+<span class="number-5">5</span><h4><a href="https://www.space.com/israeli-moon-lander-beresheet-lunar-orbit-success.html">Pioneering Israeli Lunar Lander Arrives in Orbit Around the Moon</a></h4>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+</div>
+</section>
+<section data-next="latest" data-total-count="13354" data-list="mixed2/home/latest" class="listingResultsWrapper mixed2 mixed2">
+<header>
+<h2 class="list-title"> Spaceflight</h2>
+<a class="list-heading-link" href="https://www.space.com/spaceflight">View more <i class="icon icon-arrow-right"></i></a> </header>
+<div class="listingResults mixed2" data-sort="page" data-listkey="mixed2">
+<div class="listingResult small result1 " data-page="1">
+<a href="https://www.space.com/17933-nasa-television-webcasts-live-space-tv.html">
+<article class="search-result search-result-news has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="NASA's first 2017 test of its RS-25 rocket engine, destined to propel its Space Launch System rocket past Earth orbit." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/UVdwEcQba6mVPe8rhRSje.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Watch Live @ 3:40 pm ET: NASA Testing RS-25 Rocket Engine for SLS </h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+SPACE.com Staff </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T18:57:19Z" data-published-date="2019-04-04T18:57:19Z"></time>
+</p>
+</header>
+<p class="synopsis">
+At 3:40 p.m. EDT (1940 GMT), NASA will webcast a test of an RS-25 rocket engine at the Stennis Space Center in Mississippi. Watch it live here!
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result2 sponsored-post">
+<!-- stuffs -->
+<div style="width:100%"></div>
+</div>
+<div class="listingResult small result3 " data-page="1">
+<a href="https://www.space.com/arianespace-soyuz-launches-4-ses-satellites.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="An Arianespace Soyuz rocket launches from French Guiana on April 4, 2019, carrying four communications satellites to orbit." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/4tnRToiAUhJp5LXtUPxyZR.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Four New Satellites Ride Into Space To Join Growing SES Constellation</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Elizabeth Howell </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T17:16:42Z" data-published-date="2019-04-04T17:16:42Z"></time>
+</p>
+</header>
+<p class="synopsis">
+An Arianespace Soyuz rocket is set to deploy four satellites into space today (April 4) after a successful launch from French Guiana.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+</div>
+</section>
+<section data-next="latest" data-total-count="11801" data-list="mixed3/home/latest" class="listingResultsWrapper mixed3 lightbox3 mixed3">
+<header>
+<h2 class="list-title"> Science &amp; Astronomy</h2>
+<a class="list-heading-link" href="https://www.space.com/science-astronomy">View more <i class="icon icon-arrow-right"></i></a> </header>
+<div class="listingResults mixed3" data-sort="page" data-listkey="mixed3">
+<div class="listingResult small result1 " data-page="1">
+<a href="https://www.space.com/shard-shattered-alien-planet-dead-star.html">
+<article class="search-result search-result-news has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="A planetary fragment orbits the white dwarf SDSS J122859.93+104032.9, leaving a tail of gas in its wake. " class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/sexWrgcU5ksehByoeTf4bQ.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Shard of Shattered Alien Planet Spotted Around Dead Star</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Mike Wall </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T18:24:21Z" data-published-date="2019-04-04T18:24:21Z"></time>
+</p>
+</header>
+<p class="synopsis">
+The killer of this alien planet left a significant piece of evidence behind.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result2 sponsored-post">
+<!-- stuffs -->
+<div style="width:100%"></div>
+</div>
+<div class="listingResult small result3 " data-page="1">
+<a href="https://www.space.com/34-image-day.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/vBKayabaxddxYiiKMptfgn.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/vBKayabaxddxYiiKMptfgn.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="Thursday, April 4, 2019: When Russia launched the Progress 72 cargo spacecraft to the International Space Station this morning, the Expedition 59 crew could see the Soyuz rocket's plume from about 250 miles (400 kilometers) above the Earth. Canadian Space Agency astronaut David Saint-Jacques, one of the six crewmembers currently at the station, tweeted this photo as the Progress cargo ship began its 3-hour trip to the orbiting lab. &quot;Fresh supplies coming our way!&quot; he said. " class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/vBKayabaxddxYiiKMptfgn-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/vBKayabaxddxYiiKMptfgn-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/vBKayabaxddxYiiKMptfgn-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/vBKayabaxddxYiiKMptfgn-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/vBKayabaxddxYiiKMptfgn.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/vBKayabaxddxYiiKMptfgn.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Image of the Day</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Hanneke Weitering </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T14:01:14Z" data-published-date="2019-04-04T14:01:14Z"></time>
+</p>
+</header>
+<p class="synopsis">
+When Russia launched the Progress 72 cargo spacecraft to the International Space Station this morning, the Expedition 59 crew could see the Soyuz rocket's plume from about 250 miles above the Earth.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+</div>
+</section>
+<section data-next="latest" data-total-count="1577" data-list="mixed4/home/latest" class="listingResultsWrapper mixed4 mixed4">
+<header>
+<h2 class="list-title"> Search For Life</h2>
+<a class="list-heading-link" href="https://www.space.com/search-for-life">View more <i class="icon icon-arrow-right"></i></a> </header>
+<div class="listingResults mixed4" data-sort="page" data-listkey="mixed4">
+<div class="listingResult small result1 " data-page="1">
+<a href="https://www.space.com/mars-deep-groundwater-recurring-slope-lineae.html">
+<article class="search-result search-result-news has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/TXSfMPSFK7RLP2m8ZcBW9S.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/TXSfMPSFK7RLP2m8ZcBW9S.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="Dark streaks known as recurring slope lineae (RSL) on the walls of Mars&rsquo; Palikir Crater, as seen by NASA&rsquo;s Mars Reconnaissance Orbiter. RSL streaks may be evidence of liquid water." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/TXSfMPSFK7RLP2m8ZcBW9S-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/TXSfMPSFK7RLP2m8ZcBW9S-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/TXSfMPSFK7RLP2m8ZcBW9S-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/TXSfMPSFK7RLP2m8ZcBW9S-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/TXSfMPSFK7RLP2m8ZcBW9S.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/TXSfMPSFK7RLP2m8ZcBW9S.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Mars May Have Lots of Water Deep Underground</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Mike Wall </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-02T11:08:55Z" data-published-date="2019-04-02T11:08:55Z"></time>
+</p>
+</header>
+<p class="synopsis">
+Mars may harbor lots of liquid water deep underground, and not just near its poles, a new study suggests.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result2 " data-page="1">
+<a href="https://www.space.com/saturn-moons-different-traits-chances-life.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/2DuCLro4HFT8SeXawuy4pY.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/2DuCLro4HFT8SeXawuy4pY.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="A view of Saturn's moon Enceladus taken by NASA's Cassini spacecraft." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/2DuCLro4HFT8SeXawuy4pY-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/2DuCLro4HFT8SeXawuy4pY-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/2DuCLro4HFT8SeXawuy4pY-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/2DuCLro4HFT8SeXawuy4pY-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/2DuCLro4HFT8SeXawuy4pY.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/2DuCLro4HFT8SeXawuy4pY.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Why Does Enceladus Have an Underground Ocean? New Research Probes Differences Between Saturn's Moons</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Charles Q. Choi </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-01T16:19:33Z" data-published-date="2019-04-01T16:19:33Z"></time>
+</p>
+</header>
+<p class="synopsis">
+New answers for mysteries concerning Saturn's moons could shed light on whether one, Enceladus, could support life.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result3 " data-page="1">
+<a href="https://www.space.com/mars-methane-plume-confirmed-location.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/6v7f6vgSPEinEzt7nqTheU.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/6v7f6vgSPEinEzt7nqTheU.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="Europe's Mars Express orbiter captured this image of a half-lit Red Planet in December 2012." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/6v7f6vgSPEinEzt7nqTheU-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/6v7f6vgSPEinEzt7nqTheU-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/6v7f6vgSPEinEzt7nqTheU-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/6v7f6vgSPEinEzt7nqTheU-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/6v7f6vgSPEinEzt7nqTheU.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/6v7f6vgSPEinEzt7nqTheU.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">There Is Definitely Methane on Mars, Scientists Say. But Is It a Sign of Life?</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Mike Wall </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-01T15:59:39Z" data-published-date="2019-04-01T15:59:39Z"></time>
+</p>
+</header>
+<p class="synopsis">
+We may be one step closer to cracking the Mars methane mystery.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+</div>
+</section>
+<section data-next="latest" data-total-count="4071" data-list="mixed5/home/latest" class="listingResultsWrapper mixed5 mixed5">
+<header>
+<h2 class="list-title"> Skywatching</h2>
+<a class="list-heading-link" href="https://www.space.com/skywatching">View more <i class="icon icon-arrow-right"></i></a> </header>
+<div class="listingResults mixed5" data-sort="page" data-listkey="mixed5">
+<div class="listingResult small result1 " data-page="1">
+<a href="https://www.space.com/17561-new-moon-explained-lunar-phases.html">
+<article class="search-result search-result-news has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="New Moon" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/v79CAr3uCf5xwZt7i2SE2m.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">April New Moon 2019: Catch Mars, the Pleiades and Spring Constellations in the Moonless Night Sky</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Jesse Emspak </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-04T15:13:24Z" data-published-date="2019-04-04T15:13:24Z"></time>
+</p>
+</header>
+<p class="synopsis">
+The new moon occurs on Friday, April 5, at 4:50 a.m. EDT (0450 GMT). During this lunar phase, you won't see the moon in the night sky, but there are plenty of other celestial treats to look for!
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result2 " data-page="1">
+<a href="https://www.space.com/northeast-astronomy-forum-preview-schedule.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/ydTCcSKg9Reo3gcUeHqvZf.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/ydTCcSKg9Reo3gcUeHqvZf.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="This year's Northeast Astronomy Forum will include several talks about the Apollo program." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/ydTCcSKg9Reo3gcUeHqvZf-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/ydTCcSKg9Reo3gcUeHqvZf-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/ydTCcSKg9Reo3gcUeHqvZf-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/ydTCcSKg9Reo3gcUeHqvZf-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/ydTCcSKg9Reo3gcUeHqvZf.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/ydTCcSKg9Reo3gcUeHqvZf.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">Northeast Astronomy Forum 2019 Gathers Space Fans This Weekend</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Meghan Bartels </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-02T14:11:02Z" data-published-date="2019-04-02T14:11:02Z"></time>
+</p>
+</header>
+<p class="synopsis">
+Space fans will gather this weekend in Rockland, New York, to celebrate astronomy at the Northeast Astronomy Forum &mdash; and if you'll be attending, be sure to stop by Space.com.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result3 " data-page="1">
+<a href="https://www.space.com/33619-visible-planets-guide.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/Yo94hr7TRfawnQMBQTypyh.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/Yo94hr7TRfawnQMBQTypyh.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="Mars will spend April in the western evening sky, moving eastward among the stars of Taurus. It will remain a target for early evening observing while the planet slowly descends towards the western twilight. Meanwhile, Earth's orbital motion will continue to increase our distance from the Red Planet, causing Mars to dim from visual magnitude 1.45 to 1.63. Mars' apparent disk diameter will decrease slightly in size at the same time. The planet will spend the first days of April sitting several degrees to the left (south) of the bright open star cluster known as the Pleiades (or Messier 45). On April 9, the waxing crescent moon will land 7 degrees below (southwest of) Mars. On the following evening, the moon's orbital motion will take it 9 degrees to Mars' upper left." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/Yo94hr7TRfawnQMBQTypyh-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/Yo94hr7TRfawnQMBQTypyh-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/Yo94hr7TRfawnQMBQTypyh-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/Yo94hr7TRfawnQMBQTypyh-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/Yo94hr7TRfawnQMBQTypyh.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/Yo94hr7TRfawnQMBQTypyh.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">The Brightest Planets in April's Night Sky: How to See them (and When)</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Joe Rao </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-02T03:43:42Z" data-published-date="2019-04-02T03:43:42Z"></time>
+</p>
+</header>
+<p class="synopsis">
+Here's how to see three naked-eye planets visible in April's night sky.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+</div>
+</section>
+<section data-next="latest" data-total-count="2215" data-list="mixed6/home/latest" class="listingResultsWrapper mixed6 mixed6">
+<header>
+<h2 class="list-title"> Entertainment</h2>
+<a class="list-heading-link" href="https://www.space.com/entertainment">View more <i class="icon icon-arrow-right"></i></a> </header>
+<div class="listingResults mixed6" data-sort="page" data-listkey="mixed6">
+<div class="listingResult small result1 " data-page="1">
+<a href="https://www.space.com/astronaut-samantha-cristoforetti-barbie-doll.html">
+<article class="search-result search-result-news has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/2dWCoQi69iYy5QJ2yDwSWK.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/2dWCoQi69iYy5QJ2yDwSWK.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="Mattel Italia released two Barbie dolls modeled after European astronaut Samantha Cristoforetti during an event on Oct. 11, 2018." class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/2dWCoQi69iYy5QJ2yDwSWK-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/2dWCoQi69iYy5QJ2yDwSWK-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/2dWCoQi69iYy5QJ2yDwSWK-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/2dWCoQi69iYy5QJ2yDwSWK-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/2dWCoQi69iYy5QJ2yDwSWK.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/2dWCoQi69iYy5QJ2yDwSWK.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">This New Barbie Doll Launches Real-Life Astronaut's Face Into a Toy World</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Kasandra Brabaw </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-03T11:21:31Z" data-published-date="2019-04-03T11:21:31Z"></time>
+</p>
+</header>
+<p class="synopsis">
+Space enthusiasts may recognize the face of a new Barbie doll touring at special events around the world; she looks just like European Space Agency (ESA) astronaut Samantha Cristoforetti.
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result2 " data-page="1">
+<a href="https://www.space.com/captain-marvel-nears-1-billion-box-office.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/aCteqtgp7dSMNr7VkX4CXQ.jpeg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/aCteqtgp7dSMNr7VkX4CXQ.jpeg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt="captain marvel" class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/aCteqtgp7dSMNr7VkX4CXQ-320-80.jpeg" data-srcset="https://cdn.mos.cms.futurecdn.net/aCteqtgp7dSMNr7VkX4CXQ-320-80.jpeg 320w, https://cdn.mos.cms.futurecdn.net/aCteqtgp7dSMNr7VkX4CXQ-450-80.jpeg 450w, https://cdn.mos.cms.futurecdn.net/aCteqtgp7dSMNr7VkX4CXQ-970-80.jpeg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/aCteqtgp7dSMNr7VkX4CXQ.jpeg" data-pin-media="https://cdn.mos.cms.futurecdn.net/aCteqtgp7dSMNr7VkX4CXQ.jpeg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">'Captain Marvel' Nears $1 Billion, More Comic Milestones Within Reach</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Chris Arrant </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-02T18:50:41Z" data-published-date="2019-04-02T18:50:41Z"></time>
+</p>
+</header>
+<p class="synopsis">
+Higher, faster, further&hellip; more?
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+<div class="listingResult small result3 " data-page="1">
+<a href="https://www.space.com/new-dune-movie-adaptation-begins-filming.html">
+<article class="search-result search-result-news optional-image-wrapper has-rating">
+<div class="image">
+<figure class="article-lead-image-wrap" data-original="https://cdn.mos.cms.futurecdn.net/54yahB5DmBuMB5GEBSudnN.jpg">
+<div class="image-remove-flow-width-setter">
+<div class="image-remove-reflow-container" data-original="https://cdn.mos.cms.futurecdn.net/54yahB5DmBuMB5GEBSudnN.jpg">
+<img src="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" alt='Kyle McLachlan, star of the 1984 film "Dune" directed by David Lynch.' class=" lazy-image lazy-image-loading lazyload optional-image" onerror="this.parentNode.replaceChild(window.missingImage(),this)" sizes="auto" data-normal="https://vanilla.futurecdn.net/space/media/img/missing-image.svg" data-src="https://cdn.mos.cms.futurecdn.net/54yahB5DmBuMB5GEBSudnN-320-80.jpg" data-srcset="https://cdn.mos.cms.futurecdn.net/54yahB5DmBuMB5GEBSudnN-320-80.jpg 320w, https://cdn.mos.cms.futurecdn.net/54yahB5DmBuMB5GEBSudnN-450-80.jpg 450w, https://cdn.mos.cms.futurecdn.net/54yahB5DmBuMB5GEBSudnN-970-80.jpg 970w" data-sizes="auto" data-original-mos="https://cdn.mos.cms.futurecdn.net/54yahB5DmBuMB5GEBSudnN.jpg" data-pin-media="https://cdn.mos.cms.futurecdn.net/54yahB5DmBuMB5GEBSudnN.jpg" data-pin-nopin="true">
+</div>
+</div>
+</figure>
+</div>
+<div class="content">
+<header>
+<h3 class="article-name">The Spice Must Flow: New 'Dune' Movie Starts Shooting</h3>
+<p class="byline">
+<span class="by-author">
+By
+<span style="white-space:nowrap">
+Scott Snowden </span>
+</span>
+<time class="published-date relative-date" datetime="2019-04-02T18:44:58Z" data-published-date="2019-04-02T18:44:58Z"></time>
+</p>
+</header>
+<p class="synopsis">
+The cameras are rolling on the next big-screen adaptation of Frank Herbert's "Dune."
+</p>
+</div>
+</article>
+</a>
+<!-- Cats: -->
+</div>
+</div>
+</section>
+</div> </div>
+<script type="text/javascript">
+if (!window.amIIE()) {
+var targeting = {};
+var siteTargeting = [];
+for (var attrname in siteTargeting) { targeting[attrname] = siteTargeting[attrname]; }
+var pageTags = "";
+targeting.tags = pageTags;
+window.reliablePageLoad.then(function(){
+(function(){
+/* bootstrap---start */
+var _sp_=function(n){function t(e){if(o[e])return o[e].exports;var r=o[e]={i:e,l:!1,exports:{}};return n[e].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var o={};return t.m=n,t.c=o,t.i=function(n){return n},t.d=function(n,o,e){t.o(n,o)||Object.defineProperty(n,o,{configurable:!1,enumerable:!0,get:e})},t.n=function(n){var o=n&&n.__esModule?function(){return n["default"]}:function(){return n};return t.d(o,"a",o),o},t.o=function(n,t){return Object.prototype.hasOwnProperty.call(n,t)},t.p="",t(t.s=2)}([function(n,t){function o(n,t){e&&console[n].apply(console,["[bootstrap]"].concat(Array.prototype.slice.call(t)))}var e=!1;n.exports={debug:function(){o("debug",arguments)},info:function(){o("info",arguments)},time:function(){o("time",arguments)},warn:function(){o("warn",arguments)},error:function(){o("error",arguments)},useDefaults:function(){e=!0},DEBUG:1}},function(n,t,o){"use strict";function e(){R||(R=!0,D=b.config=b.config||{},s(),F=D.bootstrap&&D.bootstrap.contentControlCallback||D.content_control_callback,q=D.accountId||D.account_id||D.client_id||window.sp_cid,N=D.beacon&&D.beacon.contentControlEndpoint||D.content_control_beacon_endpoint||v.a,D.debug_level&&"OFF"!==D.debug_level.toString().toUpperCase()||D.debug&&D.debug.level&&"OFF"!==D.debug.level.toString().toUpperCase()?j=!0:window.location.search&&null!=window.location.search.match(/_sp_debug_level=(?!off|OFF)/)&&(j=!0),j&&m.useDefaults({defaultLevel:m.DEBUG}))}function r(n,t,e){function r(o,e){var r=new Image;r.src="//"+N+"/cct?v="+encodeURIComponent(v.b)+"&ct="+h+"&cid="+encodeURIComponent(q)+"&l="+encodeURIComponent(n.toString())+"&rc="+encodeURIComponent(t)+"&d0="+encodeURIComponent(i)+(o?"&d1="+encodeURIComponent(o):"")+(null==e?"":"&d2="+encodeURIComponent(e)),g.info("sending beacon: "+r.src),c&&c()}var i=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"",a=arguments[4],c=arguments[5];if(a){var d=e.lastIndexOf("."),u=e.lastIndexOf("/"),s=-1===d||u>d?e+".png":e.substring(0,d)+".png",l=new Image;l.addEventListener("load",function(){r("1",s)}),l.addEventListener("error",function(){o.i(f.a)(s,function(n,t,o){r("0",s+"::"+o)})}),l.src=s}else r()}function i(n,t,o,e){var r=arguments.length>4&&void 0!==arguments[4]?arguments[4]:{},a=arguments.length>5&&void 0!==arguments[5]&&arguments[5],c=function(){i(n,t,o,e,r,!0)};n(t,a?o:c,e,r)}function a(n,t,o,e){function r(o,r){t(o,n,r,e.enableImageLoad)}function i(t,r){o(t,n,r,e.enableImageLoad),e.onError&&e.onError(r)}var a=document.createElement("script");a.src=n,a.onload=function(){e.onLoad&&e.onLoad()},a.onerror=function(){function t(n){return o.indexOf(n)>-1}var o=(navigator.userAgent||navigator.vendor||window.opera).toLowerCase();t("mobi")||t("ipad")||t("android")||t("iphone")?i(L):t("exabot")?i(O):t("bingbot")||t("bingpreview")?i(k):t("googlebot")||t("adsbot-google")||t("mediapartners-google")?i(C):t("googleweblight")?i(E):window.location.host===w?i(x):t("msie 10")||t("msie 9")||t("msie 8")?i(I):c(n,r,i)},document.head.appendChild(a)}function c(n,t,e){o.i(f.a)(n,function(o,r,i,a){(o||r?t:e)(a,n+"::"+i)})}function d(n,t,o,e){if(S)return void u(U+"::"+n,o);r(y,n,t,o,e,function(){if(F){if(j){g.error("bootstrap locking",y,n,t,o,e);debugger}setTimeout(function(){F()},250)}})}function u(n,t,o,e){r(_,n,t,o,e)}function s(){b._networkListenerData||(b._networkListenerData=o.i(p.a)())}function l(n,t){e(),g.info("bootstrap called with",n,t),i(a,n,d,u,t)}Object.defineProperty(t,"__esModule",{value:!0});var f=o(4),p=o(5),v=o(3),g=o(0),m=void 0;m=o(0);var w=["w","e","b","c","a","c","h","e",".","g","o","o","g","l","e","u","s","e","r","c","o","n","t","e","n","t",".","c","o","m"].join(""),b=window._sp_||{},h=1,_=0,y=1,L="m",C="g",x="gw",E="gl",I="i",k="b",O="e",U="n",R=!1,S=!1,j=!1,D=void 0,F=void 0,q=void 0,N=void 0;window.addEventListener("beforeunload",function(){S=!0}),window._sp_=b,b.setupNetworkListeners=s,b.bootstrap=l,window.spBootstrap=l,t["default"]=b},function(n,t,o){o(0);n.exports=o(1)["default"]},function(n,t,o){"use strict";function e(n){return n.join("")}o.d(t,"b",function(){return r}),o.d(t,"a",function(){return i});var r=(o(0),"2.0.1115"),i=(e(["w","w","w",".","s","u","m","m","e","r","h","a","m","s","t","e","r",".","c","o","m"]),e(["w","w","w",".","r","o","o","s","t","e","r","f","i","r","e","w","o","r","k",".","c","o","m"]));e(["/","/","f","s","m","1","0","1","9",".","g","l","o","b","a","l",".","s","s","l",".","f","a","s","t","l","y",".","n","e","t","/","f","s","m","/","d","s"]),e(["h","t","t","p","s",":","/","/","d","2","z","v","5","r","k","i","i","4","6","m","i","q",".","c","l","o","u","d","f","r","o","n","t",".","n","e","t","/","0","/","2",".","0",".","1","1","1","5","/","r","e","c","o","v","e","r","y","_","d","f","p","_","i","n","t","e","r","n","a","l","-","v","2",".","0",".","1","1","1","5",".","j","s"]),e(["h","t","t","p","s",":","/","/","d","2","z","v","5","r","k","i","i","4","6","m","i","q",".","c","l","o","u","d","f","r","o","n","t",".","n","e","t","/","0","/","2",".","0",".","1","1","1","5","/","r","e","c","o","v","e","r","y","_","l","i","b","_","a","p","i","_","i","f","r","a","m","e","-","v","2",".","0",".","1","1","1","5",".","h","t","m","l"]),e(["h","t","t","p","s",":","/","/","d","2","z","v","5","r","k","i","i","4","6","m","i","q",".","c","l","o","u","d","f","r","o","n","t",".","n","e","t","/","0","/","2",".","0",".","1","1","1","5","/","r","e","c","o","v","e","r","y","_","l","i","b","_","r","i","d","_","i","f","r","a","m","e","-","v","2",".","0",".","1","1","1","5",".","h","t","m","l"])},function(n,t,o){"use strict";function e(n,t){function o(n){try{return n&&n.timeStamp?n.timeStamp:window.performance.now()}catch(n){return Date.now()}}var e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:window.location,l=arguments.length>3&&void 0!==arguments[3]?arguments[3]:window.navigator,f=arguments.length>4&&void 0!==arguments[4]?arguments[4]:{},p=document.createElement("a");if(p.href=n,"https:"===e.protocol&&p.protocol!==e.protocol)return r.error("protocol mismatch in https environment, standing down"),void t(!1,!1,p.protocol,u);var v=new XMLHttpRequest,g=f.withCredentials;null!=g&&(v.withCredentials=g);try{v.open(f.method||"GET",n)}catch(n){return void t(!0,!1,n.toString(),c,v)}if(null!=f.headers){var m=f.headers;Object.keys(m).forEach(function(n){v.setRequestHeader(n,m[n])})}var w=void 0,b=void 0;v.onloadstart=function(n){w=o(n)},v.onreadystatechange=function(n){if(4===this.readyState){b=o(n)-w;var e=0===this.status&&!1!==l.onLine,r="2"===this.status.toString()[0],c=void 0;return c=r?a:!1===l.onLine?s:i,void t(e,r,this.status+"::"+b,c,v)}};try{v.send(f.body)}catch(n){return void t(!0,!1,n.toString(),d,v)}}t.a=e;var r=o(0),i="n",a="nx",c="xo",d="xs",u="p",s="of"},function(n,t,o){"use strict";function e(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:document,t=[],o=[],e=r.bind(null,t),i=r.bind(null,o);return n.addEventListener("load",e,!0),n.addEventListener("error",i,!0),{load:{events:t,listener:e},error:{events:o,listener:i}}}function r(n,t){if(t.target){var o="string"==typeof t.target.tagName?t.target.tagName.toLowerCase():"",e="string"==typeof t.target.src?t.target.src:"";"iframe"!==o&&n.push({tagName:o,src:e})}}t.a=e;o(0)}]);
+//# sourceMappingURL=https://s3.amazonaws.com/d3jlsadfjkuern/2.0.1115/Ym9vdHN0cmFwLmpz.map
+/* bootstrap---end */
+})();
+(function(){
+(function(){ return (function(){function n(b){window._sp_.config.content_control_callback=function(){p[k("mpdbujpo")][k("isfg")]="//"+b+k("0dd/iunm")};window._sp_.config.enable_rid=!0;window._sp_.config.enable_vid=!0;window._sp_.config.vid_control_callback=function(){console.warn("vid detected")}}function k(b){return b.split("").map(function(a){return q(r.call(a,0)-1)}).join("")}function t(b,a){return"choice"===a?Promise.resolve(b):"off"===a?Promise.resolve(b).then(function(a){return"recovery"===a?"continue-with-adblocker":
+a}):"force"===a?Promise.resolve("recovery"):Promise.reject(Error("Invalid recovery mode: "+a))}function u(){window.pppasoeommmsmzrvbr=new Promise(function(b){window.hiriyyyteetaqgthyu=b})}function v(){window.asdinwawisuihzejsahzl=new Promise(function(b){window.zkckcosdoiaioawqnmzsdqw=b})}function w(b,a){b.then(function(a){a=a.info;0!==(void 0===a.msg_id?0:a.msg_id)&&(l.sendEvent("tiberius","seen",a.msg_desc),window.localStorage.setItem("adblock","disabled"))});Promise.all([b,a]).then(function(a){var b=
+a[0].info;l.sendEvent("tiberius",a[1],0!==(void 0===b.msg_id?0:b.msg_id)?b.msg_desc:"")})}function x(b,a,d){window._sp_.config.mms_domain=b;window._sp_.mms=window._sp_.mms||{};window._sp_.mms.cmd=window._sp_.mms.cmd||[];window._sp_.mms.cmd.push(function(){Object.keys(a).forEach(function(b){window._sp_.mms.setTargeting(b,a[b])});window.vanilla&&window.vanilla.aft?window._sp_.mms.setTargeting("club_loggedin",window.vanilla.aft.logged_in):window._sp_.mms.setTargeting("club_loggedin",!1)});var c=parseInt(h("mock_tiberius_choice")(window),
+10),f=!isNaN(c)&&c in g;b={choice:new Promise(function(a){if(f){var b=g[c]||"choice-"+c,e=parseInt(h("mock_tiberius_choice_timeout")(window),10);isNaN(e)?a(b):window.setTimeout(a,e,b)}else window._sp_.config.mms_choice_selected_callback=function(b){a(g[b]||"choice-"+b)}}),message:new Promise(function(a){function b(a,b){b=void 0===b?0:b;return isNaN(a)?b:a}var c=parseInt(h("mock_tiberius_campaign_id")(window),10),d=parseInt(h("mock_tiberius_message_id")(window),10);isNaN(c)&&isNaN(d)?window._sp_.config.mms_client_data_callback=
+function(b){a(b)}:(c={msgID:b(d),info:{cmpgn_id:b(c),msg_id:b(d)}},d=parseInt(h("mock_tiberius_campaign_timeout")(window),10),isNaN(d)?a(c):window.setTimeout(a,d,c))})};d&&!f&&window._sp_.mms.cmd.push(function(){return window._sp_.mms.startMsg()});return b}function h(b){return function(a){a=a.location.search;var d=void 0;d=void 0===d?"\x26":d;if(""===b)a=!1;else{var c=a.indexOf(b+"\x3d");0<=c?(c=a.indexOf("\x3d",c),d=a.indexOf(d,c+1),a=0<=d?a.substring(c+1,d):a.substring(c+1)):a=!1}return a}}var g=
+{1:"whitelist",2:"recovery",3:"alt-ad",4:"publisher-custom",5:"redirect",6:"continue-with-adblocker"},y=Object.assign||function(b){for(var a=1;a<arguments.length;a++){var d=arguments[a],c;for(c in d)Object.prototype.hasOwnProperty.call(d,c)&&(b[c]=d[c])}return b},l={sendEvent:function(b,a,d){if("undefined"!==typeof window.ga){var c=window.ga,f=window.analytics_ga_data||{};c("set","nonInteraction",!0);c("send",y({},f,{hitType:"event",eventCategory:b,eventAction:a,eventLabel:d}))}}},m=String,q=m.fromCharCode,
+r=m.prototype.charCodeAt,p=window;return function(b,a,d,c,f,k,g,e){window._sp_=window._sp_||{};window._sp_.config=window._sp_.config||{};window._sp_.config.account_id=b;b=void 0===e?"off":e;e=h("force_recovery_mode")(window);e="force"===e||"choice"===e||"off"===e?e:b;b="choice"===e||"force"===e;n(a);c=x(c,g,"force"!==e);a=c.message;c=c.choice;w(a,c);void 0===window.asdinwawisuihzejsahzl&&v();g=window.zkckcosdoiaioawqnmzsdqw;t(c,e).then(g);void 0===window.pppasoeommmsmzrvbr&&u();a.then(window.hiriyyyteetaqgthyu);
+b&&(window._sp_.config.gpt_auto_load=!1,window._sp_.config.publisher_base=k);b?(window._sp_.bootstrap(d+"/media/js/b"+f+"-gb.js"),window._sp_.bootstrap(d+"/media/js/c"+f+"-gb.js")):(window._sp_.bootstrap(d+"/media/js/a"+f+"-gb.js"),window._sp_.bootstrap(d+"/media/js/b"+f+"-gb.js"))}})(); })()(
+200,
+"www.space.com",
+"https://www.space.com/108228",
+"ttauri.space.com",
+"space",
+"",
+targeting,
+"off"
+);
+})();
+});
+window.vanilla.tiberius = {
+enabled: true,
+}
+} else {
+window.vanilla.tiberius = {
+enabled: false,
+}
+}
+</script>
+<footer id="document-footer" class="container full">
+<div id="document-footer-content">
+<p>Space is part of Future US Inc, an international media group and leading digital publisher. <a href="http://www.futureus.com" target="_blank">Visit our corporate site</a>.</p>
+<nav>
+<ul>
+<li><a href="http://www.futureplc.com/terms-conditions/" target="_blank">Terms and conditions</a></li>
+<li><a href="http://www.futureplc.com/privacy-policy/" target="_blank">Privacy policy</a></li>
+<li><a href="http://www.futureplc.com/cookies-policy/" target="_blank">Cookies policy</a></li>
+<li><a href="https://www.space.com/topics" target="_blank">Topics</a></li>
+</ul>
+</nav>
+<p>&copy;
+<span>
+<span>
+<span>Future US, Inc.</span> </span>
+<span>11 West 42nd Street, 15th Floor</span>,
+<span>New York,</span>
+<span class="region">NY</span> <span>10036</span></span>. </p>
+</div>
+</footer>
+<script>
+window.vanL10N = [];
+</script><script>
+if (document.cookie.indexOf("EuConsent") < 0) {
+if (!window._comscore) {
+window._comscore = window._comscore || [];
+}
+window._comscore.push({
+c1: "2",
+c2: "10055482",
+cs_ucfr: '' });
+(function() {
+var s = document.createElement("script"), el = document.getElementsByTagName("script")[0];
+s.async = true;
+s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+el.parentNode.insertBefore(s, el);
+})();
+} else {
+window.reliableConsentGiven.then(function(value) {
+if (!window._comscore) {
+window._comscore = window._comscore || [];
+}
+var cs_ucfr_value = '';
+if (value.consent && value.consent.purposeConsents[5]) {
+cs_ucfr_value = 1;
+} else {
+cs_ucfr_value = 0;
+}
+window._comscore.push({
+c1: "2",
+c2: "10055482",
+cs_ucfr: cs_ucfr_value });
+(function() {
+var s = document.createElement("script"), el = document.getElementsByTagName("script")[0];
+s.async = true;
+s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+el.parentNode.insertBefore(s, el);
+})();
+});
+}
+</script>
+<script>
+var dfp_config = {
+"keystone": "",
+"ad_unit": "10518929/Know_Space/home",
+"live_ad_unit": "10518929/Know_Space/",
+"test_ad_unit": "10518929/Know_Space_Test/",
+"recovery_ad_unit": "",
+"recovery_test_ad_unit": "",
+"incremental": true,
+"gptBeta": "",
+"max_incremental_ads": 20,
+"max_incremental_ads_mobile": 20,
+"max_concurrent_ads": 4,
+"refresh": true,
+"site_platform": "vanilla",
+"tiberius": true,
+"tiberius_mode": "off",
+"keywords": "",
+"article_id": "",
+"vanilla_article_id": "",
+"page_type": "list",
+"product_brand": "",
+"product_category": "",
+"product": "",
+"vertical": "home",
+"source": "",
+"provertical": "",
+"single_request": true,
+"onscroll": {
+"refresh" : "",
+"mpu": ""
+},
+"jwplayer": ""
+}
+</script> <script>window.vanillaComponents = [{"trackable":[{"type":"click","identifier":".menuitems a","name":"Link clicked","countTotal":true}],"name":"Primary Nav","excludeHidden":false,"identifier":".primary-nav"},{"trackable":[{"type":"click","identifier":".feature-block-item-wrapper a","name":"Article clicked","countTotal":false}],"name":"Featured articles","excludeHidden":false,"identifier":".top-featured"},{"trackable":[{"type":"click","identifier":"a","name":"Logo clicked","countTotal":false}],"name":"Site Logo","identifier":".logo"},{"trackable":[{"type":"click","identifier":".most-popular-item","name":"Most read article clicked","countTotal":true}],"name":"Most Popular - Popular","identifier":"#poplist-1"},{"trackable":[{"type":"click","identifier":".most-popular-item","name":"Most shared article clicked","countTotal":true}],"name":"Most Popular - Shared","identifier":"#poplist-2"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":false}],"name":"Prev/Next","identifier":".next-prev-container"},{"trackable":[{"type":"click","identifier":"a","name":"Number clicked","countTotal":true}],"name":"Paginated Review Numerical pagination - Number","identifier":".pagination-numerical-list"},{"trackable":[{"type":"click","identifier":".prev,.next","name":"Prev/Next clicked","countTotal":false}],"name":"Paginated Review Numerical pagination - Prev/Next","identifier":".navigation-sequential"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Inline Pagination","identifier":".swipe-pages-wrapper"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Article Tags","identifier":"#articleTag"},{"trackable":[{"type":"click","identifier":".recommended-article a","name":"Link clicked","countTotal":true}],"name":"Recommended article","identifier":".recommendation-articles"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Trending bar","identifier":".trending-items"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Boilerplate-1","identifier":".club-boilerplate-1"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Boilerplate-2","identifier":".club-boilerplate-2"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Boilerplate-3","identifier":".club-boilerplate-3"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Boilerplate-4","identifier":".club-boilerplate-4"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Inline links","identifier":"#article-body"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Social links","identifier":".socialite-widget"},{"trackable":[{"type":"click","identifier":"a","name":"Link clicked","countTotal":true}],"name":"Avatar","identifier":"#club-login"},{"trackable":[{"type":"click","identifier":".fwd-link","name":"FWD link clicked","countTotal":true}],"name":"FWD Link","identifier":"div [itemprop='articleBody']"}]</script>
+<script>
+var require = {waitSeconds:0};
+</script> <!-- Google Tag Manager -->
+<script>
+(function(){
+function loadGTM(){
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.defer=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WBMJWKG');
+}
+// Can't be in asset loader until we can call custom loader functions
+;(window.Promise
+? Promise.all([
+window.reliablePageLoad,
+window.reliableConsentGiven
+])
+: window.reliableConsentGiven
+).then(function(){
+setTimeout(loadGTM, 1500);
+});
+})();
+</script>
+<!-- End Google Tag Manager -->
+<script>window.addEventListener("load",function(){if(!window.askForConsent){var e=document.createElement("script");e.src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js",e.onload=function(){var e=window.innerWidth>=700?"bottom":"top";window.cookieconsent.initialise({palette:{popup:{background:"#000"},button:{background:"#666666"}},position:e,content:{message:window.__translator.trans("cookie_popup"),link:window.__translator.trans("click here"),href:"http://www.futureplc.com/cookies-policy/",dismiss:window.__translator.trans("I accept")}})},document.body.appendChild(e);var o=document.createElement("link");o.rel="stylesheet",o.type="text/css",o.href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css",document.body.appendChild(o);var n=document.createElement("style");n.appendChild(document.createTextNode(".cc-window {z-index:10000000}")),document.body.appendChild(n)}});
+</script>
+<!-- document assets - added by the article itself -->
+<script>
+window.vanilla.addJs({"id":"main-js","src":"\/\/vanilla.futurecdn.net\/space\/108228\/media\/js\/main.min.js"}, null, 0)
+window.vanilla.addJs({"id":"responsive-js","src":"\/responsive.0b91e224.js"}, null, 0)
+window.vanilla.addJs({"id":"ffte-js","src":"\/\/vanilla.futurecdn.net\/space\/108228\/media\/shared\/js\/app.js"}, 2000, 1)
+window.vanilla.addCss({"href":"\/\/vanilla.futurecdn.net\/space\/108228\/media\/css\/space.min.css"})
+</script> <script>
+window.ffte = {"site":"space","endpoint":"\/\/api.vanilla.futurecdn.net\/article","locale":"US","gaCode":"UA-72111741-9","debug":[],"serverEnvironment":"live","regionLink":"","isGlobal":false}
+</script>
+<script>
+window.xkeys = ["space-platform-responsive","space-core-version-10.18.6","space-core-ftefrontprodred","space-page-homepage","space-region-US"];
+</script>
+</body>
+<script>
+window.ftr_request_id = "";
+</script> </html>
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hackerspace-Bielefeld e.V</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<style>
+			body {
+				color: #ffffff;
+				background-color: #000000;
+			}
+
+			img {
+				max-width: 600px;
+				width: 100%;
+			}
+
+			span {
+				display: block;
+				float: left;	
+				width: 80px; 
+			}
+
+			a {
+				color: #00ff00;
+				text-decoration: none;
+				display: block;	
+				min-width: 220px;
+				max-width: 380px;
+				text-align: right;
+			}
+
+			.p {
+				margin-bottom: 10px;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			div.center  {
+				text-align: center;
+			}
+
+			div.contact {
+				width: 380px;
+				margin: 0px auto;
+			}
+			div.links {
+				width: 380px;
+				margin: 0px auto;
+				border-bottom: 1px solid #fff;
+				margin-bottom: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="center">
+			<img src="logo.png" style="max-width:380px; width:100%;" itemprop="logo" />
+		</div>
+		<div class="center p" style="max-width:380px;">Der Space ist ein Treffpunkt f&uuml;r Leute mit technischem Tatendrang und jenen die gerne noch was lernen m&ouml;chten.</div>
+		<div class="links">
+			<div class="p">
+				<span>Wiki</span>
+				<a href="https://wiki.hackerspace-bielefeld.de" itemprop="wiki">https://wiki.hackerspace-bielefeld.de</a>
+			</div>
+			<div class="p">
+				<span>Git</span>
+				<a href="https://git.space.bi" itemprop="wiki">https://git.space.bi</a>
+			</div>
+                        <div class="p">
+                                <span>Status</span>
+                                <a href="https://status.space.bi" itemprop="status">https://status.space.bi</a>
+                        </div>
+                        <!--<div class="p">
+                                <span></span>
+                                <a href="https://" itemprop="status">https://status.space.bi</a>
+                        </div>-->
+
+		</div>
+		<div class="contact">
+			<div class="p">
+				<span>E-Mail</span>
+				<a href="mailto:info@hackerspace-bielefeld.de" itemprop="email">info@hackerspace-bielefeld.de</a>
+			</div>
+			<div class="p">
+				<span>Telefon</span>
+				<a href="tel:+49-52-1337-322-42" itemprop="telephone">+49-52-1337-322-42</a>
+			</div>
+			<div class="p">
+				<span>Location</span>
+				<a href="geo:52.038189,8.532973" itemprop="location">Sudbrackstr. 42<br/>33611 Bielefeld</a>
+			</div>
+			<div class="p">
+				<span>Website</span>
+				<a href="https://hackerspace-bielefeld.de" itemprop="url">www.hackerspace-bielefeld.de</a>
+			</div>
+			<div class="p">
+				<span>Chat</span>
+				<a href="https://jabber.space.bi">jabber.space.bi</a>
+			</div>
+		</div>
+	</body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	    <meta charset="utf-8"><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+    <meta name="theme-color" content="#373f51">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://cdn.aviationtoday.com/wp-content/uploads/2017/01/cropped-Screen-Shot-2017-01-30-at-11.27.03-AM.png">
+
+    <title>Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says - Avionics</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://www.aviationtoday.com/wp-content/themes/avi-17/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+
+    <script src="https://use.fontawesome.com/1042050258.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/slick/slick-theme.css"/>
+     <link href="https://www.aviationtoday.com/wp-content/themes/avi-17/css/style.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://www.aviationtoday.com/wp-content/themes/avi-17/assets/js/html5shiv.js"></script>
+      <script src="https://www.aviationtoday.com/wp-content/themes/avi-17/assets/js/respond.min.js"></script>
+    <![endif]-->
+       
+		<script language="javascript" type="text/javascript">
+		var googletag = googletag || {};
+		googletag.cmd = googletag.cmd || [];
+		(function() {
+		var gads = document.createElement('script');
+		gads.async = true;
+		gads.type = 'text/javascript';
+		var useSSL = 'https:' == document.location.protocol;
+		gads.src = (useSSL ? 'https:' : 'http:') + 
+		'//www.googletagservices.com/tag/js/gpt.js';
+		var node = document.getElementsByTagName('script')[0];
+		node.parentNode.insertBefore(gads, node);
+		})();
+  </script>
+		
+  
+<!-- This site is optimized with the Yoast SEO plugin v3.2.5 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://www.aviationtoday.com/2017/11/08/boeing-757-testing-shows-airplanes-vulnerable-hacking-dhs-says/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says - Avionics" />
+<meta property="og:description" content="A team of government, industry and academic officials successfully demonstrated that a commercial aircraft could be remotely hacked in a non-laboratory setting last year, a U.S. Department of Homeland Security (DHS) official said Wednesday at the 2017 CyberSat Summit in Tysons Corner, Virginia. âWe got the airplane on Sept. 19, 2016. Two days later, I &hellip;" />
+<meta property="og:url" content="https://www.aviationtoday.com/2017/11/08/boeing-757-testing-shows-airplanes-vulnerable-hacking-dhs-says/" />
+<meta property="og:site_name" content="Avionics" />
+<meta property="article:tag" content="Cybersecurity" />
+<meta property="article:tag" content="DHS" />
+<meta property="article:section" content="Commercial" />
+<meta property="article:published_time" content="2017-11-08T14:27:26-04:00" />
+<meta property="article:modified_time" content="2017-11-16T17:19:33-04:00" />
+<meta property="og:updated_time" content="2017-11-16T17:19:33-04:00" />
+<meta property="og:image" content="https://cdn.aviationtoday.com/wp-content/uploads/2017/11/dhs-headquarters.jpg" />
+<meta property="og:image:width" content="500" />
+<meta property="og:image:height" content="357" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="A team of government, industry and academic officials successfully demonstrated that a commercial aircraft could be remotely hacked in a non-laboratory setting last year, a U.S. Department of Homeland Security (DHS) official said Wednesday at the 2017 CyberSat Summit in Tysons Corner, Virginia. âWe got the airplane on Sept. 19, 2016. Two days later, I [&hellip;]" />
+<meta name="twitter:title" content="Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says - Avionics" />
+<meta name="twitter:image" content="https://cdn.aviationtoday.com/wp-content/uploads/2017/11/dhs-headquarters.jpg" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//apps.decisionbriefs.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel='dns-prefetch' href='//cdn.aviationtoday.com' />
+<script type="text/javascript">
+var utag_data = {
+    "siteName": "Avionics",
+    "siteDescription": "The Pulse of Aviation Electronics",
+    "postCategory": [
+        "commercial",
+        "military"
+    ],
+    "postTags": [
+        "cybersecurity",
+        "dhs"
+    ],
+    "pageType": "post",
+    "postTitle": "Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says",
+    "postAuthor": "Staff Writer",
+    "postDate": "2017\/11\/08",
+    "_aicore_id": [
+        "5a034d094170e23f048b456b"
+    ],
+    "_aicore_collection": [
+        "av_editorial"
+    ],
+    "_aicore_market": [
+        "aviation"
+    ],
+    "_aicore_updated": [
+        "2017-11-16 22:19:36"
+    ],
+    "_aicore_indexed": [
+        "2017-11-16 22:19:36"
+    ],
+    "_edit_lock": [
+        "1510870653:9"
+    ],
+    "_edit_last": [
+        "9"
+    ],
+    "_thumbnail_id": [
+        "56859"
+    ],
+    "byline": [
+        "Calvin Biesecker"
+    ],
+    "right_sidebar_caption": [
+        ""
+    ],
+    "right_column": [
+        ""
+    ],
+    "subtitle": [
+        ""
+    ],
+    "_at_widget": [
+        "1"
+    ],
+    "_yoast_wpseo_primary_category": [
+        "372"
+    ],
+    "_yoast_wpseo_primary_issues": [
+        ""
+    ],
+    "_yoast_wpseo_primary_publication": [
+        ""
+    ],
+    "dsq_needs_sync": [
+        "1"
+    ]
+};
+</script>
+<link rel="alternate" type="application/rss+xml" title="Avionics &raquo; Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says Comments Feed" href="https://www.aviationtoday.com/2017/11/08/boeing-757-testing-shows-airplanes-vulnerable-hacking-dhs-says/feed/" />
+<link rel='stylesheet' id='animate-css-css'  href='https://cdn.aviationtoday.com/wp-content/plugins/popup-addon-for-ninja-forms/css/animations.css?ver=4.8.1' type='text/css' media='all' />
+<link rel='stylesheet' id='magnific-popup-css'  href='https://cdn.aviationtoday.com/wp-content/plugins/popup-addon-for-ninja-forms/css/magnific-popup.css?ver=4.8.1' type='text/css' media='all' />
+<link rel='stylesheet' id='tweet_slide_bx_css-css'  href='https://cdn.aviationtoday.com/wp-content/plugins/tweet-slide/assets/css/jquery.bxslider.css?ver=4.8.1' type='text/css' media='all' />
+<link rel='stylesheet' id='tweet_slide_style_css-css'  href='https://cdn.aviationtoday.com/wp-content/plugins/tweet-slide/assets/css/tweet_slide_style.css?ver=4.8.1' type='text/css' media='all' />
+<link rel='stylesheet' id='wordpress-popular-posts-css'  href='https://cdn.aviationtoday.com/wp-content/plugins/wordpress-popular-posts/style/wpp.css?ver=3.3.4' type='text/css' media='all' />
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='http://apps.decisionbriefs.com/widgets/component/prnewsonline/savepost?ver=4.8.1'></script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-content/plugins/popup-addon-for-ninja-forms/js/magnific-popup.js?ver=4.8.1'></script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-content/plugins/popup-addon-for-ninja-forms/js/nf-popups.js?ver=4.8.1'></script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-content/themes/avi-17/bootstrap/js/bootstrap.min.js?ver=4.8.1'></script>
+<script type='text/javascript' src='https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/waypoints/jquery.waypoints.min.js?ver=4.8.1'></script>
+<script type='text/javascript' src='https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/waypoints/shortcuts/sticky.min.js?ver=4.8.1'></script>
+<script type='text/javascript' src='https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/modernizr-custom.js?ver=4.8.1'></script>
+<script type='text/javascript' src='https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/custom.js?ver=4.8.1'></script>
+<link rel='https://api.w.org/' href='https://www.aviationtoday.com/wp-json/' />
+<script type="text/javascript" src="https://apps.decisionbriefs.com/js/custom/bigquery/tracking.js"></script>	<script type="text/javascript">
+	t_set_identity_info(
+            '127.0.0.1', //ip
+            null, //identity id
+            'uvolqkfhc399n3ptjavorn24u1', //session id
+            null //hash email
+	);
+
+	
+	t_set_app_info(
+            'avionics-main-site', //application
+            'aviationtoday', //brand
+            'aviation', //market
+            null //profiles_collection
+	);
+	</script>
+	<!-- BEGIN wp-parsely Plugin Version 1.10.2 -->
+<meta name='wp-parsely_version' id='wp-parsely_version' content='1.10.2' />
+   <script type="application/ld+json">
+   {"@context":"http:\/\/schema.org","@type":"NewsArticle","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/www.aviationtoday.com\/2017\/11\/08\/boeing-757-testing-shows-airplanes-vulnerable-hacking-dhs-says\/"},"headline":"Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says","url":"http:\/\/www.aviationtoday.com\/2017\/11\/08\/boeing-757-testing-shows-airplanes-vulnerable-hacking-dhs-says\/","thumbnailUrl":"https:\/\/cdn.aviationtoday.com\/wp-content\/uploads\/2017\/11\/dhs-headquarters-150x150.jpg","image":{"@type":"ImageObject","url":"https:\/\/cdn.aviationtoday.com\/wp-content\/uploads\/2017\/11\/dhs-headquarters-150x150.jpg"},"dateCreated":"2017-11-08T19:27:26Z","datePublished":"2017-11-08T19:27:26Z","dateModified":"1970-01-01T00:00:00Z","articleSection":"Commercial","author":[{"@type":"Person","name":"Calvin Biesecker"}],"creator":[],"publisher":{"@type":"Organization","name":"Avionics"},"keywords":["cybersecurity","dhs"]}   </script>
+    <!-- END wp-parsely Plugin Version 1.10.2 -->
+<meta name="tec-api-version" content="v1"><meta name="tec-api-origin" content="https://www.aviationtoday.com"><link rel="https://theeventscalendar.com" href="https://www.aviationtoday.com/wp-json/tribe/events/v1/" />				<!-- WordPress Popular Posts v3.3.4 -->
+				<script type="text/javascript">
+
+					var sampling_active = 0;
+					var sampling_rate   = 100;
+					var do_request = false;
+
+					if ( !sampling_active ) {
+						do_request = true;
+					} else {
+						var num = Math.floor(Math.random() * sampling_rate) + 1;
+						do_request = ( 1 === num );
+					}
+
+					if ( do_request ) {
+
+						/* Create XMLHttpRequest object and set variables */
+						var xhr = ( window.XMLHttpRequest )
+						  ? new XMLHttpRequest()
+						  : new ActiveXObject( "Microsoft.XMLHTTP" ),
+						url = 'https://www.aviationtoday.com/wp-admin/admin-ajax.php',
+						params = 'action=update_views_ajax&token=fb01aeaff7&wpp_id=56857';
+						/* Set request method and target URL */
+						xhr.open( "POST", url, true );
+						/* Set request header */
+						xhr.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
+						/* Hook into onreadystatechange */
+						xhr.onreadystatechange = function() {
+							if ( 4 === xhr.readyState && 200 === xhr.status ) {
+								if ( window.console && window.console.log ) {
+									window.console.log( xhr.responseText );
+								}
+							}
+						};
+						/* Send request */
+						xhr.send( params );
+
+					}
+
+				</script>
+				<!-- End WordPress Popular Posts v3.3.4 -->
+				<link rel="icon" href="https://cdn.aviationtoday.com/wp-content/uploads/2017/01/cropped-Screen-Shot-2017-01-30-at-11.27.03-AM-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://cdn.aviationtoday.com/wp-content/uploads/2017/01/cropped-Screen-Shot-2017-01-30-at-11.27.03-AM-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://cdn.aviationtoday.com/wp-content/uploads/2017/01/cropped-Screen-Shot-2017-01-30-at-11.27.03-AM-180x180.png" />
+<meta name="msapplication-TileImage" content="https://cdn.aviationtoday.com/wp-content/uploads/2017/01/cropped-Screen-Shot-2017-01-30-at-11.27.03-AM-270x270.png" />
+
+    <!-- lytics for dfp -->
+    <script>
+    !function(l,a){a.liosetup=a.liosetup||{},a.liosetup.callback=a.liosetup.callback||[],a.liosetup.addCallback=function(l){if("function"==typeof a.liosetup.callback){var o=[];o.push(a.liosetup.callback),a.liosetup.callback=o}a.lio&&a.lio.loaded?l(a.lio.data):a.liosetup.callback.push(l)}}(document,window);
+    !function(o,g){g.googletag=g.googletag||{},g.googletag.cmd=g.googletag.cmd||[],"undefined"!=typeof g.googletag?g.googletag.cmd.push(function(){g.googletag.pubads().disableInitialLoad()}):console.warn("attempting to load Lytics for DFP before initializing googletag"),g.liosetup.callback.push(function(o){o||o.segments?g.googletag.cmd.push(function(){g.googletag.pubads().setTargeting("LyticsSegments",o.segments),g.googletag.pubads().refresh()}):(console.warn("unable to load Lytics audiences for DFP"),g.googletag.pubads().refresh())})}(document,window);
+    </script>
+
+    <!-- lytics -->
+    <script type="text/javascript">
+    window.jstag=function(){function t(t){return function(){return t.apply(this,arguments),this}}function n(){var n=["ready"].concat(c.call(arguments));return t(function(){n.push(c.call(arguments)),this._q.push(n)})}var i={_q:[],_c:{},ts:(new Date).getTime(),ver:"2.0.0"},c=Array.prototype.slice;return i.init=function(t){return i._c=t,t.synchronous||i.loadtagmgr(t),this},i.loadtagmgr=function(t){var n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=t.url+"/api/tag/"+t.cid+"/lio.js";var i=document.getElementsByTagName("script")[0];i.parentNode.insertBefore(n,i)},i.ready=n(),i.send=n("send"),i.mock=n("mock"),i.identify=n("identify"),i.pageView=n("pageView"),i.bind=t(function(t){i._q.push([t,c.call(arguments,1)])}),i.block=t(function(){i._c.blockload=!0}),i.unblock=t(function(){i._c.blockload=!1}),i}(),window.jstag.init({cid:"1038a2bedcbad3ea9c50d46f9fc994c0", url:"//c.lytics.io", min:true, loadid:false});
+    </script>
+
+    <script>
+        jstag.send({"application":"avionics-main-site","technology":"wordpress","brand":"aviationtoday","market":"aviation","content_type":"post","page_title":"Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says","ip":"169.45.1.23","wp_category":["Commercial","Military"],"wp_tag":["Cybersecurity","DHS"]});
+    </script>
+    <!-- end lytics -->
+
+        
+  <script language="javascript" type="text/javascript">
+    // moved this block to follow lytics code above
+    googletag.cmd.push(function() {
+      var leader_mapping = googletag.sizeMapping().
+              addSize([970, 300], [[970, 90], [970,250], [728, 90]]).
+              addSize([508, 400], [468, 60]).
+              addSize([0,0], [[300, 50], [320, 50]]).             
+              build();      
+      googletag.defineSlot('/987/aviationtoday.com/Avionics-Leaderboard-created-Dec-2016', [970, 90], 'div-gpt-ad-1482248583477-0').defineSizeMapping(leader_mapping).addService(googletag.pubads());
+      googletag.pubads().setTargeting('path', '/2017/11/08/boeing-757-testing-shows-air').setTargeting('category', ['commercial', 'military']);
+      googletag.pubads().enableSingleRequest();
+      googletag.pubads().collapseEmptyDivs();
+      googletag.enableServices();
+    });
+  </script>
+
+<script>
+!function(f,e,a,t,h,r){if(!f[h]){r=f[h]=function()
+{r.invoke? r.invoke.apply(r,arguments):r.queue.push(arguments)}
+,
+r.queue=[],r.loaded=1*new Date,r.version="1.0.0",
+f.FeathrBoomerang=r;var g=e.createElement(a),
+h=e.getElementsByTagName("head")[0]||e.getElementsByTagName("script")[0].parentNode;
+g.async=!0,g.src=t,h.appendChild(g)}
+}(window,document,"script","https://cdn.feathr.co/js/boomerang.min.js","feathr")
+feathr("fly", "57277bfd8e8027356b7924b7");
+feathr("sprinkle", "page_view");
+</script>
+
+<script>
+!function(f,e,a,t,h,r){if(!f[h]){r=f[h]=function()
+{r.invoke? r.invoke.apply(r,arguments):r.queue.push(arguments)}
+,
+r.queue=[],r.loaded=1*new Date,r.version="1.0.0",
+f.FeathrBoomerang=r;var g=e.createElement(a),
+h=e.getElementsByTagName("head")[0]||e.getElementsByTagName("script")[0].parentNode;
+g.async=!0,g.src=t,h.appendChild(g)}
+}(window,document,"script","https://cdn.feathr.co/js/boomerang.min.js","feathr")
+feathr("fly", "57277bfd8e8027356b7924b7");
+feathr("sprinkle", "page_view");
+</script>
+
+<script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0017/1502.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>
+    
+  <script src="https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/ai-popup-ed.js?3-5"></script>
+  <script>
+  jQuery(window).ready(function($){
+      $('body').prependPopupEd('/987/aviationtoday.com/Aviation-Today-Roadblock-Created-Dec2016', [640, 480], 'div-gpt-ad-1522700136747-0');
+      
+  });
+  </script>
+
+  </head>
+  <body class="post-template-default single single-post postid-56857 single-format-standard wp-custom-logo tribe-no-js" >
+
+<!-- Loading script asynchronously -->
+<script type="text/javascript">
+ (function(a,b,c,d){
+ a='//tags.tiqcdn.com/utag/accessintel/aviationtoday/prod/utag.js';
+ b=document;c='script';d=b.createElement(c);d.src=a;d.type='text/java'+c;d.async=true;
+ a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+ })();
+</script>
+<!-- END: T-WP -->
+
+
+    <div class="wrapper">
+      <header>
+       <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+             <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar top-bar"></span>
+                  <span class="icon-bar middle-bar"></span>
+                  <span class="icon-bar bottom-bar"></span>
+                </button> -->
+                <button type="button" class="navbar-toggle collapsed menu-toggle">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar top-bar"></span>
+                  <span class="icon-bar middle-bar"></span>
+                  <span class="icon-bar bottom-bar"></span>
+                </button>
+           <div class="brand">
+             <a href="https://www.aviationtoday.com/" class="custom-logo-link" rel="home" itemprop="url"><img width="255" height="77" src="https://cdn.aviationtoday.com/wp-content/uploads/2018/09/32629-avionics-logo-re-brand.png" class="custom-logo" alt="Avionics International Logo 2018" itemprop="logo" /></a>           </div>
+          </div>
+          <div id="navbar" class="collapse scrollable-menu">
+                  <div class="visible-xs"><div class="container-fluid" style="display:none">
+  <!--div class="row top-dd-menu">
+    <div class="col-sm-10 search-bar">
+		<form action='http://beta.rotorandwing.com/' method='GET'>			
+			<input type="text" class="form-control" id="s" name="s" placeholder="&#xF002; Search">
+		</form>
+    </div>
+    <div class="col-sm-2 close hidden-xs text-right" data-toggle="dropdown">
+      <div class="close-area">
+        <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div-->
+
+
+  <div class="mobi-search visible-xs visible-sm">
+    <form class="search-bar" action='/' method='GET'>      
+      <input type="text" class="form-control" id="s" name="s" placeholder="&#xF002; Search">
+    </form>
+  </div>
+  <div class="row middle-dd-menu">
+
+    <div class="col-sm-3 magazine">
+      <div class="inner text-center">
+      <div class="col-sm-12">
+        <h5 style="margin-top:0rem; margin-bottom:0rem;">Digital Edition</h5>
+      </div>
+        <!-- sb -->
+        <a href="http://interactive.aviationtoday.com/avionicsmagazine/october-november-2018/"><img class="alignnone wp-image-72579 size-medium" src="https://cdn.aviationtoday.com/wp-content/uploads/2017/10/screen-shot-2018-10-15-at-1-43-03-pm-221x300.png" alt="Avionics International October/November 2018 Cover" width="221" height="300" /></a>
+<div class="text">
+
+<a href="http://interactive.aviationtoday.com/avionicsmagazine/october-november-2018/">October/November 2018</a>
+<div id="line"></div>
+</div>      </div>
+    </div>
+
+    <div class="col-sm-9 left-drop-menu">
+  		<div class="inner">
+                        <div class="row">
+                  <div class="col-sm-12">
+                    <h5>Categories</h5>
+                     <ul class="list-unstyled ">
+                            <li class='col-sm-4'><a href='https://www.aviationtoday.com/category/commercial/'>Commercial</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/business-ga/'>Business & GA</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/atm-modernization/'>ATM Modernization</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/regulation/'>Regulation</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/military/'>Military</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/connectivity/'>Connectivity</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/unmanned/'>Unmanned</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/embedded-avionics/'>Embedded Avionics</a></li>                      </ul>
+                  </div>
+                </div>
+                        
+                    <div class="row">
+          <div class="col-sm-12">
+            <h5>Events &amp; Products</h5>
+             <ul class="list-unstyled">
+                  <li class='col-sm-4'><a href='http://interactive.aviationtoday.com/avionicsmagazine/'>Digital Edition</a></li><li class='col-sm-4'><a href='/news-archive/'>News Archive</a></li><li class='col-sm-4'><a href='http://interactive.aviationtoday.com/avionicsmagazine/archive/'>Magazine Archive</a></li><li class='col-sm-4'><a href='http://www.aviationtoday.com/video_advertisers/'>Video Insight</a></li><li class='col-sm-4'><a href='http://www.aviationtoday.com/industry-reports/'>Industry Reports</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/2010/12/01/aerospace-acronym-abbreviation-guide/'>AEROSPACE ACRONYM & Abbreviation Guide</a></li><li class='col-sm-4'><a href='http://www.rotorandwing.com'>Rotor & Wing International</a></li><li class='col-sm-4'><a href='http://www.aircraftvaluenews.com/'>Aircraft Value News</a></li>              </ul>
+          </div>
+        </div>
+              </div>
+    </div>
+
+    
+    <!--
+    <div class="col-sm-3 log-in">
+      <form>
+
+        <div class="hidden-xs">
+          <div class="form-group">
+                <label class="col-sm-4 col-form-label">Login</label>
+              <div>
+                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+              </div>
+          </div>
+          <div class="form-group">
+              <div>
+                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+              </div>
+          </div>
+          <div class="form-group">
+            <div>
+              <a href="">Forgot your password?</a>
+            </div>
+              <div align="right">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-12">
+            <div id="bar"></div>
+            <p><strong>Not yet a member?</strong><br>
+            Learn about all the benefits of<br>
+            signing up for <a href="">My Account</a></p>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    -->
+  </div>
+
+  <div class="row bottom-dd-menu">
+      <div class="col-sm-12 visible-xs text-right" data-toggle="collapse" data-target="#navbar">
+        <div class="close-area">
+          <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+
+
+		<!--
+        <div class="row">
+          <div class="col-xs-6">
+            <ul class="list-inline visible-xs text-left">
+              <li><a href="">DIGITAL EDITION - July 2016</a></li>
+            </ul>
+          </div>
+          <div class="col-xs-6">
+            <ul class="list-inline visible-xs text-right">
+              <li><a href="">Sign in</a></li>
+              <li><a href="">Subscribe</a></li>
+            </ul>
+          </div>
+        </div>
+        -->
+        <!--
+                <ul class="list-inline hidden-xs text-right">
+			        </ul>
+                -->     
+      </div>
+    </div>
+</div>
+</div>
+          </div>
+
+          <div id="navbar" class="hidden-xs">
+            <ul class="nav navbar-nav navbar-right navi">
+              <li id="navi-hb" class="dropdown"><a href="/?s" class="dropdown-toggle search-only-sect" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search fa-lg"></i> Search</a>
+                <div class="dropdown-menu scrollable-menu" style="padding-bottom: 0.3rem;border-radius: 0px;">
+                  
+
+<div class="container-fluid">
+  <div class="row top-dd-menu">
+      <form action='/' method='GET'>      
+        <div class="col-sm-6 col-sm-offset-2 search-bar search-bar-only">
+    			<input type="text" class="form-control" id="s" name="s" placeholder="&#xF002; Search">
+        </div>
+        <div class="col-sm-2 search-btn-cont"><button type="submit" class="btn btn-default search-btn form-control">Search</button></div>
+      </form>
+        <!--div class="col-sm-2 close hidden-xs text-right" data-toggle="dropdown">
+          <div class="close-area">
+          <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
+          </div>
+        </div-->
+  </div>
+</div>
+
+                </div>
+              </li>
+              <!--<li><a href="">Sign in</a></li>-->
+              <li id="navi-hb"><a href="/subscribe/">Subscribe</a></li>
+
+              <li id="navi-hb" class="dropdown menu-link-cont">
+                <a href="#" id="menu-link" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars" aria-hidden="true">&nbsp;</i><i class="fa fa-close" aria-hidden="true">&nbsp;</i><span id="menu">MENU</span></a>
+                <div class="dropdown-menu scrollable-menu">
+                  <div class="container-fluid" style="display:none">
+  <!--div class="row top-dd-menu">
+    <div class="col-sm-10 search-bar">
+		<form action='http://beta.rotorandwing.com/' method='GET'>			
+			<input type="text" class="form-control" id="s" name="s" placeholder="&#xF002; Search">
+		</form>
+    </div>
+    <div class="col-sm-2 close hidden-xs text-right" data-toggle="dropdown">
+      <div class="close-area">
+        <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div-->
+
+
+  <div class="mobi-search visible-xs visible-sm">
+    <form class="search-bar" action='/' method='GET'>      
+      <input type="text" class="form-control" id="s" name="s" placeholder="&#xF002; Search">
+    </form>
+  </div>
+  <div class="row middle-dd-menu">
+
+    <div class="col-sm-3 magazine">
+      <div class="inner text-center">
+      <div class="col-sm-12">
+        <h5 style="margin-top:0rem; margin-bottom:0rem;">Digital Edition</h5>
+      </div>
+        <!-- sb -->
+        <a href="http://interactive.aviationtoday.com/avionicsmagazine/october-november-2018/"><img class="alignnone wp-image-72579 size-medium" src="https://cdn.aviationtoday.com/wp-content/uploads/2017/10/screen-shot-2018-10-15-at-1-43-03-pm-221x300.png" alt="Avionics International October/November 2018 Cover" width="221" height="300" /></a>
+<div class="text">
+
+<a href="http://interactive.aviationtoday.com/avionicsmagazine/october-november-2018/">October/November 2018</a>
+<div id="line"></div>
+</div>      </div>
+    </div>
+
+    <div class="col-sm-9 left-drop-menu">
+  		<div class="inner">
+                        <div class="row">
+                  <div class="col-sm-12">
+                    <h5>Categories</h5>
+                     <ul class="list-unstyled ">
+                            <li class='col-sm-4'><a href='https://www.aviationtoday.com/category/commercial/'>Commercial</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/business-ga/'>Business & GA</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/atm-modernization/'>ATM Modernization</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/regulation/'>Regulation</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/military/'>Military</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/connectivity/'>Connectivity</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/unmanned/'>Unmanned</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/category/embedded-avionics/'>Embedded Avionics</a></li>                      </ul>
+                  </div>
+                </div>
+                        
+                    <div class="row">
+          <div class="col-sm-12">
+            <h5>Events &amp; Products</h5>
+             <ul class="list-unstyled">
+                  <li class='col-sm-4'><a href='http://interactive.aviationtoday.com/avionicsmagazine/'>Digital Edition</a></li><li class='col-sm-4'><a href='/news-archive/'>News Archive</a></li><li class='col-sm-4'><a href='http://interactive.aviationtoday.com/avionicsmagazine/archive/'>Magazine Archive</a></li><li class='col-sm-4'><a href='http://www.aviationtoday.com/video_advertisers/'>Video Insight</a></li><li class='col-sm-4'><a href='http://www.aviationtoday.com/industry-reports/'>Industry Reports</a></li><li class='col-sm-4'><a href='https://www.aviationtoday.com/2010/12/01/aerospace-acronym-abbreviation-guide/'>AEROSPACE ACRONYM & Abbreviation Guide</a></li><li class='col-sm-4'><a href='http://www.rotorandwing.com'>Rotor & Wing International</a></li><li class='col-sm-4'><a href='http://www.aircraftvaluenews.com/'>Aircraft Value News</a></li>              </ul>
+          </div>
+        </div>
+              </div>
+    </div>
+
+    
+    <!--
+    <div class="col-sm-3 log-in">
+      <form>
+
+        <div class="hidden-xs">
+          <div class="form-group">
+                <label class="col-sm-4 col-form-label">Login</label>
+              <div>
+                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+              </div>
+          </div>
+          <div class="form-group">
+              <div>
+                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+              </div>
+          </div>
+          <div class="form-group">
+            <div>
+              <a href="">Forgot your password?</a>
+            </div>
+              <div align="right">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-12">
+            <div id="bar"></div>
+            <p><strong>Not yet a member?</strong><br>
+            Learn about all the benefits of<br>
+            signing up for <a href="">My Account</a></p>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    -->
+  </div>
+
+  <div class="row bottom-dd-menu">
+      <div class="col-sm-12 visible-xs text-right" data-toggle="collapse" data-target="#navbar">
+        <div class="close-area">
+          <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+
+
+		<!--
+        <div class="row">
+          <div class="col-xs-6">
+            <ul class="list-inline visible-xs text-left">
+              <li><a href="">DIGITAL EDITION - July 2016</a></li>
+            </ul>
+          </div>
+          <div class="col-xs-6">
+            <ul class="list-inline visible-xs text-right">
+              <li><a href="">Sign in</a></li>
+              <li><a href="">Subscribe</a></li>
+            </ul>
+          </div>
+        </div>
+        -->
+        <!--
+                <ul class="list-inline hidden-xs text-right">
+			        </ul>
+                -->     
+      </div>
+    </div>
+</div>
+                </div>
+              </li>
+
+              <!-- <li id="navi-hb" class="dropdown"><a href="/?s" class="dropdown-toggle search-only-sect" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search fa-lg"></i> Search</a>
+                <div class="dropdown-menu scrollable-menu" style="padding-bottom: 0.3rem;border-radius: 0px;">
+                                  </div>
+              </li> -->
+
+            </ul>
+          </div><!--/.nav-collapse -->
+
+          <div class="dropdown-new">
+          <!--   -->
+          <style>
+body{
+	overflow-x: hidden;
+}
+#menu-link.dropdown-button-reverse{
+	background:#fff;
+	color:#272932;
+}
+.dropdown-new{
+	display:none;
+	position: fixed;
+	width:100%;
+    top: 48px;
+    left: 0;
+    z-index: 1000;
+    padding: 30px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 16px;
+    text-align: left;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    border-radius: 0;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    max-height:100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.dropdownmain{
+	padding-bottom:15px;
+	/* height:2000px;*/
+}
+.dropdown-new .inn{
+	display:inline-block;
+	text-align:left;
+}
+.dropdown-new .magazine{
+	border-right: 1px solid #CCC;
+}
+.dropdown-new .magazine a{
+	display:block;
+}
+.dropdown-new .magazine a img{
+	width:100%;
+	max-width:100%;
+}
+.dropdown-new .magazine a,
+.dropdown-new .magazine a img,
+.dropdown-new .magazine .text,
+.dropdown-new .magazine h5{
+	margin:0;
+	padding:0;
+}
+.dropdown-new .magazine h5{
+	font-size:14px;
+	font-weight:normal;
+	margin-bottom:5px;
+}
+.dropdown-new .magazine .text{
+	font-size:24px;
+	margin-top:5px;
+	padding-bottom:15px;
+	margin-bottom:15px;
+	/*border-bottom: 1px solid #CCC;*/
+}
+.dropdown-new .magazine .text a{
+	color:#6b6b6b;
+	font-family: Raleway;
+}
+.dropdown-new .magazine .text a:hover{
+	color:#5aa5b1 ;
+}
+.dropdown-new .unit{
+	padding:0 30px;
+}
+.dropdown-new .unit li{
+	line-height:30px;
+}
+.dropdown-new .unit a{
+	font-weight:normal;
+	font-size:16px;
+	color:#6b6b6b ;
+	font-family: Raleway;
+}
+.dropdown-new .unit a:hover{
+	color:#5aa5b1 ;
+}
+.dropdown-new .inn{
+	max-width:66%;
+	text-align:center;
+}
+.dropdown-new .inn img{
+	width:100% !important;
+	height:auto !important;
+}
+.dropdown-new .bottomLeft a{
+	color:#272932;
+}
+.dropdown-new .bottomLeft a:hover{
+	color:#5aa5b1 ;
+}
+.dropdown-new .inn .bottomLeft li{
+	line-height:30px;
+	padding:5px 0;
+	border-bottom:1px dotted rgba(0,0,0,0.3);
+}
+.dropdown-new .inn .bottomLeft ul li:last-of-type{
+	border-bottom:0;
+}
+.sm-clear-line{
+	clear:both;
+	height:30px;
+}
+.dropdown-new .search-box{
+	display:none;
+}
+@media only screen and (min-width: 992px) {
+	.sm-clear-line{
+		display:none;
+	}
+}
+@media only screen and (max-width: 768px) {
+	.sm-clear-line{
+		display:none;
+	}
+	header .magazine .inner,
+	.dropdown-new .magazine{
+		border:0;
+	}
+	.dropdownmain .wrapper{
+		margin:0;
+	   display:table; 
+	}
+	.dropdownmain .wrapper .magazine{
+		width:100%;
+	    display:table-footer-group;
+	    float:none;  
+	}
+	.dropdownmain .wrapper .links{
+	    display:table-header-group;
+	    width:100%;
+	    float:none;  
+	}
+	.dropdown-new .unit ul{
+		padding-bottom:30px;
+		margin-bottom:30px;
+		border-bottom:1px solid #6b6b6b;
+	}
+	.dropdown-new .unit h5{
+		font-size:26px;
+	}
+	.dropdown-new .unit li{
+		padding:5px 0;
+		border-bottom:1px dotted rgba(0,0,0,0.3);
+	}
+	.dropdown-new .unit ul li:last-of-type{
+		border-bottom:0;
+	}
+	.dropdown-new .inn .bottomLeft li{
+		padding:5px 0;
+		border-bottom:1px dotted rgba(0,0,0,0.3);
+	}
+	.dropdown-new .inn .bottomLeft ul li:last-of-type{
+		border-bottom:0;
+	}
+	.dropdown-new .inn .bottomLeft{
+		margin-bottom:60px;
+	}
+	.dropdown-new .magazine .text{
+		border:0;
+	}
+	.dropdown-new .search-box{
+		display:block;
+		padding:0 30px 15px;
+	}
+	.dropdown-new .search-box input{
+		width:79.7%;
+		float:left;
+	}
+	.dropdown-new .search-box button{
+		width:19.7%;
+		float:right;
+	}
+}
+</style>
+<div class="dropdownmain">
+
+	<div class="search-box">
+		<form action="/" method="GET">      
+			<input type="text" class="form-control" id="s" name="s" placeholder="Search">
+			<button type="submit" class="btn btn-default search-btn form-control"><i class="fa fa-search" aria-hidden="true"></i></button>
+		</form>
+		<div style="clear:both;"></div>
+	</div>
+
+	<div class="row wrapper">
+		
+		<div class="col-sm-4 col-md-3 magazine">
+			<div class="inner text-center">
+				<div class="inn">
+					<h5>Digital Edition</h5>
+					<a href="http://interactive.aviationtoday.com/avionicsmagazine/october-november-2018/"><img class="alignnone wp-image-72579 size-medium" src="https://cdn.aviationtoday.com/wp-content/uploads/2017/10/screen-shot-2018-10-15-at-1-43-03-pm-221x300.png" alt="Avionics International October/November 2018 Cover" width="221" height="300" /></a>
+<div class="text">
+
+<a href="http://interactive.aviationtoday.com/avionicsmagazine/october-november-2018/">October/November 2018</a>
+<div id="line"></div>
+</div>											<div class="bottomLeft">
+							<ul class="list-unstyled ">
+								<li><a href='https://www.aviationtoday.com/contact-us/'>Contact Us</a></li><li><a href='http://www.aviationtoday.com/news-archive/'>News Archive</a></li>							</ul>
+						</div>
+									</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-8 col-md-9 links">
+		<div class="row">
+
+		<div class="col-xs-12 col-sm-6 col-md-3">
+
+							<div class="unit">
+					<h5>Categories</h5>
+					<ul class="list-unstyled ">
+						<li><a href='https://www.aviationtoday.com/category/commercial/'>Commercial</a></li><li><a href='https://www.aviationtoday.com/category/business-ga/'>Business & GA</a></li><li><a href='https://www.aviationtoday.com/category/atm-modernization/'>ATM Modernization</a></li><li><a href='https://www.aviationtoday.com/category/regulation/'>Regulation</a></li><li><a href='https://www.aviationtoday.com/category/military/'>Military</a></li><li><a href='https://www.aviationtoday.com/category/connectivity/'>Connectivity</a></li><li><a href='https://www.aviationtoday.com/category/unmanned/'>Unmanned</a></li><li><a href='https://www.aviationtoday.com/category/embedded-avionics/'>Embedded Avionics</a></li>					</ul>
+				</div>
+			
+		</div>
+
+		<div class="col-xs-12 col-sm-6 col-md-3">
+
+							<div class="unit">
+					<h5>Content</h5>
+					<ul class="list-unstyled ">
+						<li><a href='http://interactive.aviationtoday.com/avionicsmagazine/'>Digital Edition</a></li><li><a href='/news-archive/'>News Archive</a></li><li><a href='http://interactive.aviationtoday.com/avionicsmagazine/archive/'>Magazine Archive</a></li><li><a href='http://www.aviationtoday.com/video_advertisers/'>Video Insight</a></li><li><a href='http://www.aviationtoday.com/industry-reports/'>Industry Reports</a></li><li><a href='https://www.aviationtoday.com/2010/12/01/aerospace-acronym-abbreviation-guide/'>AEROSPACE ACRONYM & Abbreviation Guide</a></li><li><a href='http://www.rotorandwing.com'>Rotor & Wing International</a></li><li><a href='http://www.aircraftvaluenews.com/'>Aircraft Value News</a></li>					</ul>
+				</div>
+			
+		</div>
+
+		<div class="sm-clear-line"></div>
+
+		<div class="col-xs-12 col-sm-6 col-md-3">
+
+							<div class="unit">
+					<h5>Events</h5>
+					<ul class="list-unstyled ">
+						<li><a href='http://www.gcasummit.com/'>GCA Summit</a></li><li><a href='http://www.avionicsfornextgen.com/'>Avionics for NextGen</a></li><li><a href='http://www.aviationtoday.com/events/'>Event Calendar</a></li><li><a href='https://jobs.aviationtoday.com/'>Job Center</a></li><li><a href='http://www.aviationtoday.com/webinars/'>Webinar</a></li>					</ul>
+				</div>
+			
+		</div>
+
+		<div class="col-xs-12 col-sm-6 col-md-3">
+
+							<div class="unit">
+					<h5>About Us</h5>
+					<ul class="list-unstyled ">
+						<li><a href='https://www.aviationtoday.com/contact-us/'>Contact Us</a></li><li><a href='http://www.aviationtoday.com/subscribe/'>Subscribe / Renew</a></li><li><a href='https://www.aviationtoday.com/advertising/'>Advertising</a></li><li><a href='http://www.aviationtoday.com/subscribe/'>E-letters</a></li><li><a href='http://www.aviationtoday.com/2018-writing-submission-guidelines/'>Contribute to Avionics</a></li><li><a href='http://www.accessintel.com/privacypolicy/'>Privacy Policy</a></li>					</ul>
+				</div>
+			
+		</div>
+
+		<div class="sm-clear-line"></div>
+
+		</div>
+		</div>
+
+</div>          </div>
+
+        </div>
+      </nav>
+      <div class="sec-menu container-fluid hidden-xs">
+		            <div class="row">
+            <div class="col-sm-12">
+              <div class="topics" align="center">
+                <ul class="list-inline">
+					<li class='highlignt'><a href='https://www.aviationtoday.com/category/commercial/'>Commercial</a></li><li class=''><a href='https://www.aviationtoday.com/category/business-ga/'>Business & GA</a></li><li class=''><a href='https://www.aviationtoday.com/category/atm-modernization/'>ATM Modernization</a></li><li class=''><a href='https://www.aviationtoday.com/category/regulation/'>Regulation</a></li><li class=''><a href='https://www.aviationtoday.com/category/military/'>Military</a></li><li class=''><a href='https://www.aviationtoday.com/category/connectivity/'>Connectivity</a></li><li class=''><a href='https://www.aviationtoday.com/category/embedded-avionics/'>Embedded Avionics</a></li>                </ul>
+              </div>
+            </div>
+          </div>
+                  </div>
+          </header>
+
+ 
+      
+
+
+
+<div id="featured-stories-slider" class="container-fluid top-post-feed-cont">
+	<div class="row">
+		<div class="col-xs-12 col-sm-2 col-md-2 col-lg-1 latest_news slider-header-cont">
+			<div class="wrapper">Latest News</div>
+		</div>
+		<div class="col-xs-12 col-sm-10 col-md-10 col-lg-11">
+			<div class="row slicks slick-s-recent">
+									<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/31/canada-five-year-plan-mandating-ads-b/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/web-large-toronto-tower.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/31/canada-five-year-plan-mandating-ads-b/">Canada Has a Five-Year Plan for Mandating ADS-B Out</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.picwire.com/wp-content/uploads/files/pdfs/technical-articles/pic-technical-article-ultralite.pdf?utm_source=AvionicsNative&#038;utm_campaign=PIC-Avionics-Native#new_tab"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/02/pic-wire-cable.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.picwire.com/wp-content/uploads/files/pdfs/technical-articles/pic-technical-article-ultralite.pdf?utm_source=AvionicsNative&#038;utm_campaign=PIC-Avionics-Native#new_tab">How to SWAP-Optimize Aircraft Weight With Cabling</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/29/x-59-supersonic-boom-prediction-real-time/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/01/x-59-quesst.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/29/x-59-supersonic-boom-prediction-real-time/">Supersonic Flight Unlocked by Real-Time Boom Predictions</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/29/harbour-air-start-flight-testing-electric-seaplane-year/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/magnix-350shp-motor-1.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/29/harbour-air-start-flight-testing-electric-seaplane-year/">Harbour Air to Start Flight Testing All-Electric Seaplane This Year</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/28/air-force-looks-field-new-skyborg-ai-concept-2023/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/skyborg-photo-1024x576.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/28/air-force-looks-field-new-skyborg-ai-concept-2023/">Air Force Looks to Field âSkyborgâ AI Concept by 2023</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/28/podcast-wheels-uber-private-aviation/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/miles_rogers-large.jpeg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/28/podcast-wheels-uber-private-aviation/">PODCAST: Wheels Up, the âUberâ of Private Aviation</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/28/utc-hybrid-ev-regional/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/utc-804-ss.png" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/28/utc-hybrid-ev-regional/">UTC's Hybrid-Electric Regional Plane Promises 30 Percent Fuel Savings</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/28/77908/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/smartsky-tech.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/28/77908/">StandardAero Awarded SmartSky STC for Embraer Jets</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/28/14-new-avionics-technologies-unveiled-aea-2019/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/ltc-for-twitter-e1553783201955.png" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/28/14-new-avionics-technologies-unveiled-aea-2019/">14 New Avionics Technologies Unveiled at AEA 2019</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/27/faa-senate-737-max-certification-hearing/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2018/12/737m8ac.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/27/faa-senate-737-max-certification-hearing/">FAA Stands By Delegating 737 MAX Certification in Senate Hearing</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/27/southwest-737-max-makes-immediate-emergency-landing/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/swa-max_8x_2_tarmac2-177_pr-1111-source.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/27/southwest-737-max-makes-immediate-emergency-landing/">Southwest 737 MAX Makes Immediate Emergency Landing</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/26/mro-unlocking-huge-opportunities-digital-twins-aviation/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/digital-twin-mro.png" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/26/mro-unlocking-huge-opportunities-digital-twins-aviation/">How MRO is Unlocking Huge Opportunities for Digital Twins in Aviation</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/26/jetcopter-vtol-aero-2019/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/jetcopter-top-pb.png" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/26/jetcopter-vtol-aero-2019/">Jetcopter VTOL to be Revealed at AERO 2019</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/26/77808/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/t1a-cockpit.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/26/77808/">Upgraded US Air Force Trainer T-1A Completes First Flight</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/26/belgium-purchase-four-mq-9b-skyguardian-drones-600-million/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2018/03/typecertifiablepredatorb_skyguardian_generalatomics.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/26/belgium-purchase-four-mq-9b-skyguardian-drones-600-million/">Belgium to Purchase Four MQ-9B SkyGuardian Drones for $600 Million</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+								<div class="col-md-4" id="item">
+						<div class="row">
+							<div class="col-md-6 slider-img-div">
+								<a href="https://www.aviationtoday.com/2019/03/26/space-based-ads-b-will-change-atc-nats-uk-north-atlantic/"><img src="https://cdn.aviationtoday.com/wp-content/uploads/2019/03/nats-uk-pic.jpg" style="width:100%;"/></a>
+							</div>
+							<div class="col-md-6 slider-text-div">
+								<div class="wrapper">
+									<h3><a href="https://www.aviationtoday.com/2019/03/26/space-based-ads-b-will-change-atc-nats-uk-north-atlantic/">How Space-based ADS-B Will Change ATC for NATS UK in the North Atlantic</a></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+						</div>
+		</div>
+	</div>
+</div>
+
+  
+</section><!--TOP SECTION-->
+
+<section class="top-banner">
+	<div class="">
+		<div class="">
+		    <div class="banner-img text-center">
+				<!-- /987/aviationtoday.com/Avionics-Leaderboard-created-Dec-2016 -->
+<div id="div-gpt-ad-1482248583477-0"><script>// <![CDATA[
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1482248583477-0'); });
+// ]]></script></div>		    </div>
+		  </div>
+	</div><!--top-banner-->
+</section>
+
+<section class="container section5">
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<!-- Header -->
+			<div class="post-header">
+	<div class="category">
+			</div>
+	<a href='/category/commercial'>Commercial</a>, <a href='/category/military'>Military</a>						
+	</p>
+	<h1>Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says</h1>
+
+	<!-- categories and share -->
+	<div class="row">
+		<div id="light-bg" class="col-md-12">
+			<p>
+				<strong>By Calvin Biesecker</strong> | November 8, 2017				<br /><a href='/contact-us/'>Send Feedback</a> 			</p>
+		</div>		
+	</div>
+	<div class="row">
+		<div id="light-bg" class="col-xs-12 col-sm-6 col-md-9">
+		<a href='/?s=&facets[taxonomy_post_tag][]=cybersecurity'>Cybersecurity</a>, <a href='/?s=&facets[taxonomy_post_tag][]=dhs'>DHS</a>		</div>
+		<div class="col-xs-12 col-sm-6 col-md-3 social-links-row">
+				<div id="social-share">
+	<div class="addthis_toolbox">
+	  <div class="custom_images">
+	   <ul>
+	   	<li>
+	   		 <a class="addthis_button_facebook at300b" title="Facebook" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+	   	</li>
+	   	<li>
+	   		<a class="addthis_button_twitter at300b" title="Tweet" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+	   	</li>
+	   	<li>
+	   		<a class="addthis_button_email at300b" title="Email" href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+		</li>
+		<li>
+	   		<a class="addthis_button_linkedin at300b" title="View more services" href="#"><i class="fa fa-linkedin" aria-hidden="true"></i>
+			</a>
+	   	</li>
+	   	<li>
+	   		<a class="addthis_button_print at300b" title="View more services" href="#"><i class="fa fa-print" aria-hidden="true"></i>
+			</a>
+	   	</li>
+		<li>
+	   		<a class="addthis_button_more at300b" title="View more services" href="#"><i class="fa fa-share" aria-hidden="true"></i></a>
+	   	</li>
+	   </ul>
+	  </div>
+		<div class="atclear"></div>
+	</div>
+</div>
+		</div>
+	</div>
+	<!--  -->
+</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8">
+			<!-- Content -->
+			<div class="row">
+				<div class="col-sm-12">
+					<!-- content -->
+					<div class="the_content">
+	<p></p>
+<div id="attachment_56859" style="width: 510px" class="wp-caption aligncenter">
+<img class="size-full wp-image-56859" src="https://cdn.aviationtoday.com/wp-content/uploads/2017/11/dhs-headquarters.jpg" alt="" width="500" height="357"><p class="wp-caption-text">U.S. Department of Homeland Security headquarters. Photo courtesy of DHS</p>
+</div>
+<p>A team of government, industry and academic officials successfully demonstrated that a commercial aircraft could be remotely hacked in a non-laboratory setting last year, a U.S. Department of Homeland Security (DHS) official said Wednesday at the 2017 CyberSat Summit in Tysons Corner, Virginia.</p>
+<p>âWe got the airplane on Sept. 19, 2016. Two days later, I was successful in accomplishing a remote, non-cooperative, penetration,â said Robert Hickey, aviation program manager within the Cyber Security Division of the DHS Science and Technology (S&amp;T) Directorate.</p><p><script>
+  googletag.cmd.push(function() {
+    var story_mapping = googletag.sizeMapping().
+							addSize([728, 90], [728, 90]).
+							addSize([0,0], [[468, 60], [300, 50], [320, 50]]).
+							build();
+    googletag.defineSlot('/987/aviationtoday.com/Avionics_728x90_story_pages_only', [728, 90], 'div-gpt-ad-1485447378796-0').defineSizeMapping(story_mapping).addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="div-gpt-ad-1485447378796-0" style='clear:both; border-top: 1px solid rgba(122, 122, 122, 0.5); border-bottom: 1px solid rgba(122, 122, 122, 0.5); text-align:center; padding-bottom:20px; padding-top:10px;'><script>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1485447378796-0'); });
+</script></div></p>
+
+<p>â[Which] means I didnât have anybody touching the airplane, I didnât have an insider threat. I stood off using typical stuff that could get through security and we were able to establish a presence on the systems of the aircraft.â Hickey said the details of the hack and the work his team are doing are classified, but said they accessed the aircraftâs systems through radio frequency communications, adding that, based on the RF configuration of most aircraft, âyou can come to grips pretty quickly where we wentâ on the aircraft.</p>
+<p>The aircraft that DHS is using for its tests is a legacy Boeing 757 commercial plane purchased by the S&amp;T branch. After his speech at the CyberSat Summit, Hickey told <em>Avionics</em>Â sister publication <em>Defense Daily</em> that the testing is with the aircraft on the ground at the airport in Atlantic City, New Jersey. The initial response from experts was, ââWeâve known that for years,ââ and, âItâs not a big deal,â Hickey said.</p>
+<p>But in March 2017, at a technical exchange meeting, he said seven airline pilot captains from American Airlines and Delta Air Lines in the room had no clue.</p>
+<p>âAll seven of them broke their jaw hitting the table when they said, âYou guys have known about this for years and havenât bothered to let us know because we depend on this stuff to be absolutely the bible,'â Hickey said.</p>
+<p>Hickey, who is a staff officer in the Office of the Director of National Intelligence on assignment to DHS S&amp;T, said that while aviation is a subsector of the transportation component of the National Infrastructure Protection Plan, the focus is squarely on traditional terrestrial-based systems. The reservation and scheduling systems of airline arenât part of Hickeyâs research, he said.</p>
+<p>âI want to suggest to you that thereâs a different type of critical infrastructure, and thatâs critical infrastructure thatâs in motion, of which aviation is one of the third of that,â Hickey said. The others are surface and maritime transportation, he said.</p>
+<p>âAnd I look at all of those and say, âIf weâre not looking at those from a different perspective, weâre going to miss the boat,â no pun intended,â Hickey said. He said he doesnât know the answers yet for aircraft cyber infrastructure, adding that itâs not a policy issue yet because more research needs to be done on these systems to understand what the issues are. Patching avionics subsystem on every aircraft when a vulnerability is discovered is cost prohibitive, Hickey said.</p>
+<p>The cost to change one line of code on a piece of avionics equipment is $1 million, and it takes a year to implement. For Southwest Airlines, whose fleet is based on Boeingâs 737, it would âbankruptâ them if a cyber vulnerability was specific to systems on board 737s, he said, adding that other airlines that fly 737s would also see their earnings hurt. Hickey said newer models of 737s and other aircraft, like Boeingâs 787 and the Airbus Group A350, have been designed with security in mind, but that legacy aircraft, which make up more than 90% of the commercial planes in the sky, donât have these protections.</p>
+<p>Aircraft also represent different challenges for cybersecurity and traditional land-based networks, Hickey said. He said that whether itâs the U.S. Air Force or the commercial sector, there are no maintenance crews that can deal with ferreting out cyber threats aboard an aircraft.</p>
+<p>âThey donât exist in the maintenance world,â Hickey said, noting that when he was in the Air Force, he commanded a logistics group. Hickey was also an airline pilot for more than 20 years. The chief information officers of airlines âdonât know how to chase a cyber spark through an airplane either,â Hickey said. âWhy? Because they have been dealing with, and theyâre programmed to, and they do a great job of, protecting the terrestrial-based networks. Airplanes are absolutely different â crazy different.â</p>
+<p>Trying to deal with airplane cybersecurity the same way it is approached for land-based networks âis going to leave us short of the mark,â Hickey said.</p>
+<p>Hickey's team for his work includes Massachusetts Institute of Technology, the Energy Department's Pacific Northwest National Laboratory, University of California San Diego, Sierra Nevada, SRI International and QED Secure Solutions. QED is led by Johnathan Butts, a former Air Force officer who has done cyber vulnerability assessments of Minuteman III intercontinental ballistic missiles and B-52 bombers, Hickey said.</p>
+<p>Two years ago, a security researcher claimed to have hacked into a passenger aircraft through its in-flight entertainment system while he was traveling aboard the plane. However, there is no evidence he accessed flight control systems.</p>
+<p><em>This article was originally published <a href="http://www.defensedaily.com/dhs-led-team-demonstrates-commercial-aircraft-can-remotely-hacked/?_ga=2.164691071.1193047674.1510671169-1264798994.1504785608">by Defense Daily</a>, an Avionics sister publication. It has been edited.<br></em></p></div>
+				</div>
+			</div>
+			<!-- Receive -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="row receive">
+	<div class="col-xs-12 col-sm-9 txt">
+		<h3>Receive the latest avionics news right to your inbox</h3>
+	</div>
+	<div class="col-xs-12 col-sm-3 btn">		
+		<a href="/subscribe/?utm_source=EditorialButton&utm_medium=Article&utm_campaign=EditorialSignUp">
+			<button type="submit" class="btn btn-default">
+				Sign Up
+			</button>
+		</a>	
+	</div>
+</div>
+				</div>
+			</div>
+			<!-- more on this topic -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="more-on-this-topic">
+	<h2>More On This Topic</h2><div class='col-xs-6 col-sm-3' style='text-align:center;'>
+						<a href='https://www.aviationtoday.com/2019/03/29/x-59-supersonic-boom-prediction-real-time/'>
+							<div class='img-div-story'>
+							<img src='https://cdn.aviationtoday.com/wp-content/uploads/2019/01/x-59-quesst.jpg' style='height:auto; width:100%;' /></div>Supersonic Flight Unlocked by Real-Time Boom Predictions
+						</a>
+					</div><div class='col-xs-6 col-sm-3' style='text-align:center;'>
+						<a href='https://www.aviationtoday.com/2019/03/29/harbour-air-start-flight-testing-electric-seaplane-year/'>
+							<div class='img-div-story'>
+							<img src='https://cdn.aviationtoday.com/wp-content/uploads/2019/03/magnix-350shp-motor-1.jpg' style='height:auto; width:100%;' /></div>Harbour Air to Start Flight Testing All-Electric Seaplane This Year
+						</a>
+					</div><div class="clearfix visible-xs"></div><div class='col-xs-6 col-sm-3' style='text-align:center;'>
+						<a href='https://www.aviationtoday.com/2019/03/28/utc-hybrid-ev-regional/'>
+							<div class='img-div-story'>
+							<img src='https://cdn.aviationtoday.com/wp-content/uploads/2019/03/utc-804-ss.png' style='height:auto; width:100%;' /></div>UTC's Hybrid-Electric Regional Plane Promises 30 Percent Fuel Savings
+						</a>
+					</div><div class='col-xs-6 col-sm-3' style='text-align:center;'>
+						<a href='https://www.aviationtoday.com/2019/03/27/faa-senate-737-max-certification-hearing/'>
+							<div class='img-div-story'>
+							<img src='https://cdn.aviationtoday.com/wp-content/uploads/2018/12/737m8ac.jpg' style='height:auto; width:100%;' /></div>FAA Stands By Delegating 737 MAX Certification in Senate Hearing
+						</a>
+					</div><div class="clearfix visible-xs"></div>
+</div>
+				</div>
+			</div>
+			<!-- Story comments  -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="story-comments">
+	
+<div id="disqus_thread">
+    </div>
+
+</div>				</div>
+			</div>
+			<!-- also on-->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="row also-on-rwi"'>
+		<div class='col-sm-12'><h2>Also On Avionics</h2></div><div class='col-xs-6 col-sm-3'>
+							<a href='https://www.aviationtoday.com/2011/10/01/smarter-scout/'>
+								<div class='img-div-story'>
+								<img src='https://cdn.aviationtoday.com/wp-content/uploads/2017/01/Military-300x200.jpg' style='height:auto; width:100%;' /></div>
+								Smarter Scout
+							</a>
+						</div><div class='col-xs-6 col-sm-3'>
+							<a href='https://www.aviationtoday.com/2012/10/18/panasonic-secures-additional-ku-band-capacity-on-asiasat-5/'>
+								<div class='img-div-story'>
+								<img src='https://cdn.aviationtoday.com/wp-content/uploads/2017/01/Commercial-300x200.jpg' style='height:auto; width:100%;' /></div>
+								Panasonic Secures Additional Ku-Band Capacity on AsiaSat 5
+							</a>
+						</div><div class="clearfix visible-xs"></div><div class='col-xs-6 col-sm-3'>
+							<a href='https://www.aviationtoday.com/2014/06/13/jeppesen-efb-approved-for-danish-air-transport/'>
+								<div class='img-div-story'>
+								<img src='https://cdn.aviationtoday.com/wp-content/uploads/2014/06/Jeppesen20Mobile20FliteDeck20Windows.jpg' style='height:auto; width:100%;' /></div>
+								Jeppesen EFB Approved For Danish Air Transport
+							</a>
+						</div><div class='col-xs-6 col-sm-3'>
+							<a href='https://www.aviationtoday.com/2016/09/30/what-existing-flight-tracking-solutions-can-meet-icaos-new-amendments/'>
+								<div class='img-div-story'>
+								<img src='https://cdn.aviationtoday.com/wp-content/uploads/2016/09/Mary20McMillian20ANG1620Flight20Tracking.jpg' style='height:auto; width:100%;' /></div>
+								What Existing Flight Tracking Solutions Can Meet ICAO&rsquo;s New Amendments?
+							</a>
+						</div><div class="clearfix visible-xs"></div>	</div>
+
+	
+				</div>
+			</div>	
+		</div>
+		<!-- Sidebar -->
+		<div class="col-sm-4 ad-300">
+			<!-- sidebar add -->
+			<div class="banner right">
+	<div style="width:300px; margin-left:auto; margin-right:auto;" id="item-banner" data-spy="affix" data-offset-top="590" data-offset-bottom="750">
+		<script>// <![CDATA[
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/987/aviationtoday.com/avionics-midpage-new', [[300, 250], [300, 600]], 'div-gpt-ad-1479409658442-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+// ]]></script>
+<div id="div-gpt-ad-1479409658442-0"><script>// <![CDATA[
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1479409658442-0'); });
+// ]]></script></div>				
+	</div>
+</div><!--/.banner .right-->
+
+
+
+		</div>
+	</div>
+
+</section>
+
+
+<!-- <script>
+var $j = jQuery.noConflict();
+
+$j(document).ready(function () {
+		// $(".home .post.one").css({'height':($(".home .post.one img").height()+'px')});
+
+
+    	// alert($j('#rotorwingrightsquarebottom').height());
+ 		var controller = new ScrollMagic.Controller();
+ 		if ($( window ).width() >= 768) {
+			var scenefront = new ScrollMagic.Scene({
+	      		triggerElement: ".the_content",
+	      		triggerHook:'.1',
+	      		// offset:450,
+	      		duration:$j(".the_content").height()
+	          })
+	          .setPin(".single .banner.right")
+	          // .addIndicators()
+	           .addTo(controller);
+	    
+	 }
+
+	 	
+  });
+	
+</script> -->
+			<footer class="footer-cont">
+				<div class="container-fluid">
+					<div class="row footer-top">
+						<div class="col-xs-12 col-sm-6 col-md-2 footer-logo" align="center">
+							<a href="https://www.aviationtoday.com/" class="custom-logo-link" rel="home" itemprop="url"><img width="255" height="77" src="https://cdn.aviationtoday.com/wp-content/uploads/2018/09/32629-avionics-logo-re-brand.png" class="custom-logo" alt="Avionics International Logo 2018" itemprop="logo" /></a>						</div>
+						<div class="hidden-xs hidden-sm col-md-8 footer-slogan text-center">
+							<div>
+								<h4>The Pulse of Aviation Electronics</h4>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-2 footer-social-icons" align="center">
+							<div class="col-xs-3 col-sm-3">
+								<a href="https://www.facebook.com/avionicsmagazine/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+							</div>
+							<div class="col-xs-3 col-sm-3">
+								<a href="https://twitter.com/avionicsmag" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+							</div>
+							<div class="col-xs-3 col-sm-3">
+								<a href="https://www.linkedin.com/company/avionics-magazine" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+							</div>
+							<div class="col-xs-3 col-sm-3">
+								<a href="https://www.youtube.com/channel/UCVPZSvlx-8JEriWezRBIeOQ" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i>
+</i></a>
+							</div>
+						</div>
+					</div>
+					<!--footer-top-->
+										<div class="row footer-body">
+						<div class="col-sm-6 col-md-3">
+							<div class="quick-links">								<h1>Quick Links</h1>							
+								<div class="nav-links-white-light">
+									<ul>
+										<li><a href='https://www.aviationtoday.com/category/commercial/'>Commercial</a></li><li><a href='https://www.aviationtoday.com/category/business-ga/'>Business & GA</a></li><li><a href='https://www.aviationtoday.com/category/military/'>Military</a></li><li><a href='https://www.aviationtoday.com/category/embedded-avionics/'>Embedded Avionics</a></li><li><a href='https://www.aviationtoday.com/category/atm-modernization/'>ATM Modernization</a></li><li><a href='https://www.aviationtoday.com/category/connectivity/'>Connectivity</a></li><li><a href='/advertising/'>Advertise</a></li><li><a href='https://www.aviationtoday.com/webinars/'>Webinars</a></li><li><a href='http://www.aviationtoday.com/video_advertisers/'>Video Insight</a></li><li><a href='/subscribe/'>Subscribe to Avionics</a></li><li><a href='/contact-us/'>Contact Us</a></li><li><a href='http://jobs.aviationtoday.com/'>Job Center</a></li>									</ul>
+								</div>
+								</div>
+						</div>
+						<div class="col-md-6">
+							<div class="recent-issues hidden-sm hidden-xs">
+								<div>
+									<h1>Recent Issues</h1>
+								</div>
+													
+								<div class="row">
+									
+											<div class='col-sm-4 post'>
+												<div class='inner'>
+													<a href='http://interactive.aviationtoday.com/avionicsmagazine/march-2019/' target='_blank' rel='noopener'>
+														<img class='alignleft wp-image-42412 size-full' src='https://cdn.aviationtoday.com/wp-content/uploads/2019/03/01_avs_030119_cover_p01.jpg' />
+													</a>
+													<div class='text'>
+														<a href='http://interactive.aviationtoday.com/avionicsmagazine/march-2019/'>
+															<span id='date'>
+																March 2019
+															</span>
+														</a>
+														<div id='line'></div>
+													</div>
+												</div>
+											</div>
+											
+											<div class='col-sm-4 post'>
+												<div class='inner'>
+													<a href='http://interactive.aviationtoday.com/avionicsmagazine/february-2019/' target='_blank' rel='noopener'>
+														<img class='alignleft wp-image-42412 size-full' src='https://cdn.aviationtoday.com/wp-content/uploads/2019/03/01_avs_020119_cover_p01-final.jpg' />
+													</a>
+													<div class='text'>
+														<a href='http://interactive.aviationtoday.com/avionicsmagazine/february-2019/'>
+															<span id='date'>
+																February 2019
+															</span>
+														</a>
+														<div id='line'></div>
+													</div>
+												</div>
+											</div>
+											
+											<div class='col-sm-4 post'>
+												<div class='inner'>
+													<a href='http://interactive.aviationtoday.com/avionicsmagazine/december-2018-january-2019/' target='_blank' rel='noopener'>
+														<img class='alignleft wp-image-42412 size-full' src='https://cdn.aviationtoday.com/wp-content/uploads/2019/02/01_avs_120118_cover_p01-jpg.jpeg' />
+													</a>
+													<div class='text'>
+														<a href='http://interactive.aviationtoday.com/avionicsmagazine/december-2018-january-2019/'>
+															<span id='date'>
+																December/January 2019
+															</span>
+														</a>
+														<div id='line'></div>
+													</div>
+												</div>
+											</div>
+																			</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3 ad-300">
+							<div class="banner">
+								<div class="text-center" style='width: 300px;margin:0 auto;'>
+	<div class="news-sect left-side banner desktop text-center">
+		<script>// <![CDATA[
+googletag.cmd.push(function() { googletag.defineSlot('/987/aviationtoday.com/avionicsrightsquarebottom', [[300, 250], [300, 600]], 'div-gpt-ad-1482261795020-0').addService(googletag.pubads()); googletag.pubads().enableSingleRequest(); googletag.enableServices(); });
+// ]]></script>
+<!-- /987/aviationtoday.com/avionicsrightsquarebottom -->
+<div id="div-gpt-ad-1482261795020-0"><script>// <![CDATA[
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1482261795020-0'); });
+// ]]></script></div>	</div>
+</div>
+	
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--footer-body-->
+
+				<div class="footer-bottom">
+					<div class="text-center">
+						<span>&copy; 2019, Access Intelligence, LLC. All rights reserved. Learn more about licensing or reproducing content on this site. | <a target="_blank"href="http://www.accessintel.com/privacypolicy">privacy policy</a></span>
+
+					</div>
+				</div>
+
+			</footer><!--footer-cont-->
+		</div><!--wrapper-->
+		<script>
+			t_log_action(
+				'view', //action
+				'5a034d094170e23f048b456b', //entity label
+				'av_editorial', //entity collection
+				'', //owner
+				null, //distribution id
+				'', //channel
+				'', //widget
+				null, //campaign_id
+				null, //meta
+				null //value
+		);
+	
+		wp_gated_init_track_downloads('5a034d094170e23f048b456b','av_editorial');
+		
+
+            t_log_action(
+                    'impression', //action
+                    '5a034d094170e23f048b456b', //entity label
+                    'av_editorial', //entity collection
+                    '', //owner
+                    null, //distribution id
+                    '', //channel
+                    '', //widget
+                    null, //campaign_id
+                    null, //meta
+                    null //value
+            );
+            
+
+
+</script>
+
+<!-- START Parse.ly Include: Standard -->
+<div id="parsely-root" style="display: none">
+  <div id="parsely-cfg" data-parsely-site="aviationtoday.com"></div>
+</div>
+<script data-cfasync="false">
+(function(s, p, d) {
+  var h=d.location.protocol, i=p+"-"+s,
+      e=d.getElementById(i), r=d.getElementById(p+"-root"),
+      u=h==="https:"?"d1z2jf7jlzjs58.cloudfront.net"
+      :"static."+p+".com";
+  if (e) return;
+  e = d.createElement(s); e.id = i; e.async = true;
+  e.setAttribute('data-cfasync', 'false'); e.src = h+"//"+u+"/p.js"; r.appendChild(e);
+})("script", "parsely", document);
+</script>
+<!-- END Parse.ly Include: Standard -->
+		<script>
+		( function ( body ) {
+			'use strict';
+			body.className = body.className.replace( /\btribe-no-js\b/, 'tribe-js' );
+		} )( document.body );
+		</script>
+		<script data-cfasync="false" type="text/javascript">
+var addthis_config = {"data_track_clickback":true,"ui_atversion":300,"ignore_server_config":true};
+var addthis_share = {"passthrough":{"twitter":{"via":"avionicsmag"}},"url_transforms":{"shorten":{"twitter":"bitly"}},"shorteners":{"bitly":{}}};
+</script>
+                <!-- AddThis Settings Begin -->
+                <script data-cfasync="false" type="text/javascript">
+                    var addthis_product = "wpp-5.3.6";
+                    var wp_product_version = "wpp-5.3.6";
+                    var wp_blog_version = "4.8.1";
+                    var addthis_plugin_info = {"info_status":"enabled","cms_name":"WordPress","plugin_name":"Share Buttons by AddThis","plugin_version":"5.3.6","anonymous_profile_id":"wp-5956b05edf06a58ac6fe8476926eb822","plugin_mode":"WordPress","select_prefs":{"addthis_per_post_enabled":true,"addthis_above_enabled":true,"addthis_below_enabled":false,"addthis_sidebar_enabled":false,"addthis_mobile_toolbar_enabled":false,"addthis_above_showon_home":true,"addthis_above_showon_posts":true,"addthis_above_showon_pages":true,"addthis_above_showon_archives":true,"addthis_above_showon_categories":true,"addthis_above_showon_excerpts":true,"addthis_below_showon_home":true,"addthis_below_showon_posts":true,"addthis_below_showon_pages":true,"addthis_below_showon_archives":true,"addthis_below_showon_categories":true,"addthis_below_showon_excerpts":true,"addthis_sidebar_showon_home":true,"addthis_sidebar_showon_posts":true,"addthis_sidebar_showon_pages":true,"addthis_sidebar_showon_archives":true,"addthis_sidebar_showon_categories":true,"addthis_mobile_toolbar_showon_home":true,"addthis_mobile_toolbar_showon_posts":true,"addthis_mobile_toolbar_showon_pages":true,"addthis_mobile_toolbar_showon_archives":true,"addthis_mobile_toolbar_showon_categories":true,"sharing_enabled_on_post_via_metabox":true},"page_info":{"template":"posts","post_type":""}};
+                    if (typeof(addthis_config) == "undefined") {
+                        var addthis_config = {"data_track_clickback":true,"ui_atversion":300,"ignore_server_config":true};
+                    }
+                    if (typeof(addthis_share) == "undefined") {
+                        var addthis_share = {"passthrough":{"twitter":{"via":"avionicsmag"}},"url_transforms":{"shorten":{"twitter":"bitly"}},"shorteners":{"bitly":{}}};
+                    }
+                    if (typeof(addthis_layers) == "undefined") {
+                        var addthis_layers = {};
+                    }
+                </script>
+                <script
+                    data-cfasync="false"
+                    type="text/javascript"
+                    src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5806743671f20c94 "
+                    async="async"
+                >
+                </script>
+                <script data-cfasync="false" type="text/javascript">
+                    (function() {
+                        var at_interval = setInterval(function () {
+                            if(window.addthis) {
+                                clearInterval(at_interval);
+                                addthis.layers(addthis_layers);
+                            }
+                        },1000)
+                    }());
+                </script>
+                <script type='text/javascript'> /* <![CDATA[ */var tribe_l10n_datatables = {"aria":{"sort_ascending":": activate to sort column ascending","sort_descending":": activate to sort column descending"},"length_menu":"Show _MENU_ entries","empty_table":"No data available in table","info":"Showing _START_ to _END_ of _TOTAL_ entries","info_empty":"Showing 0 to 0 of 0 entries","info_filtered":"(filtered from _MAX_ total entries)","zero_records":"No matching records found","search":"Search:","pagination":{"all":"All","next":"Next","previous":"Previous"},"select":{"rows":{"0":"","_":": Selected %d rows","1":": Selected 1 row"}},"datepicker":{"dayNames":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"dayNamesShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"dayNamesMin":["S","M","T","W","T","F","S"],"monthNames":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthNamesShort":["January","February","March","April","May","June","July","August","September","October","November","December"],"nextText":"Next","prevText":"Prev","currentText":"Today","closeText":"Done"}};/* ]]> */ </script><link rel='stylesheet' id='addthis_output-css'  href='https://cdn.aviationtoday.com/wp-content/plugins/addthis/css/output.css?ver=4.8.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-content/plugins/tweet-slide/assets/js/jquery.bxslider.min.js?ver=4.8.1'></script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-content/plugins/tweet-slide/assets/js/tweet_slide.js?ver=4.8.1'></script>
+<script type='text/javascript' src='https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/slick/slick.min.js'></script>
+<script type='text/javascript' src='https://www.aviationtoday.com/wp-content/themes/avi-17/scripts/theme.js'></script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-content/plugins/page-links-to/js/new-tab.min.js?ver=2.9.8'></script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-includes/js/wp-embed.min.js?ver=4.8.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var embedVars = {"disqusConfig":{"platform":"wordpress@4.8.1","language":""},"disqusIdentifier":"56857 http:\/\/www.aviationtoday.com\/?p=56857","disqusShortname":"aviationtodaysite","disqusTitle":"Boeing 757 Testing Shows Airplanes Vulnerable to Hacking, DHS Says","disqusUrl":"https:\/\/www.aviationtoday.com\/2017\/11\/08\/boeing-757-testing-shows-airplanes-vulnerable-hacking-dhs-says\/","options":{"manualSync":false},"postId":"56857"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-content/plugins/disqus-comment-system/media/js/disqus.js?ver=4.8.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var countVars = {"disqusShortname":"aviationtodaysite"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://cdn.aviationtoday.com/wp-content/plugins/disqus-comment-system/media/js/count.js?ver=4.8.1'></script>
+<!--wp_footer-->
+		<!-- scrollmagic -->
+
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
+
+<!-- START EMBED CODE-->
+<script src="https://api.b2c.com/api/init-2886ngru5uzeozmbr3v.js" data-cfasync="false" async></script>
+<noscript><img src="https://api.b2c.com/api/noscript-2886ngru5uzeozmbr3v.gif"></noscript>
+<!-- END EMBED CODE-->
+	<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"7b3e015db0","applicationID":"41145498","transactionName":"Y1xQYEQEDBBYBhVaDVoWZ0ZfSgsNXQAZHRJcSQ==","queueTime":0,"applicationTime":19,"atts":"TxtTFgweHx4=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
+
+
+
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1554150836 -->
+
+
+#####EOF#####
+
+

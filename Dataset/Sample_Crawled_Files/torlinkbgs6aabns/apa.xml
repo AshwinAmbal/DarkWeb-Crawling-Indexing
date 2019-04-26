@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+<title>Login Memberbereich |Â Science.apa.at</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="nofollow">
+ 
+<meta name="description" content="APA-Science - Das Netzwerk der APA fÃ¼r Forschung und Innovation. Science.apa.at bietet fundierte multimediale Berichterstattung zu Forschungs- und Bildungsthemen sowie aktuelle BeitrÃ¤ge von fÃ¼hrenden Playern der Ã¶sterreichischen Wissenschaftslandschaft. "/>  
+<meta name="keywords" content="forschung, bildung, wissenschaft, technik, natur, kultur, politik, wirtschaft, medizin" />
+
+
+<script
+                          src="https://code.jquery.com/jquery-1.12.4.min.js"
+                          integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+                          crossorigin="anonymous"></script>
+
+<script
+                          src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+                          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+                          crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/docroot/apa-science/js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+
+<link rel="icon" href="/docroot/apa-science/images/favicon_new.ico" /> 
+<link rel="shortcut icon" href="/docroot/apa-science/images/favicon_new.ico" />
+
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/youtube.css"/>
+
+
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/fonts.css"/>
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/background_images.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/styles.css?v=3"  />
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/styles_hl.css?v=4"  />
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/menu.css" />
+<link type="text/css" href="/docroot/apa-science/css/custom-theme/jquery-ui-1.8.23.custom.css" rel="stylesheet" media="screen" />
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/ie_workaround.css" />
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/print.css" media="print" />	
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/styles.pajinate.css" media="screen" />
+<script type="text/javascript" src="/docroot/apa-science/js/fancybox/jquery.fancybox-1.3.4_patch.js"></script>
+<script type="text/javascript" src="/docroot/apa-science/js/fancybox/jquery.easing-1.3.pack.js"></script>
+<script type="text/javascript" src="/docroot/apa-science/js/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="/docroot/apa-science/js/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+<script type="text/javascript" src="/docroot/apa-science/js/commons.js"></script>
+<script type="text/javascript" src="/docroot/apa-science/js/jquery.pajinate.js"></script>
+<script type="text/javascript" src="/docroot/apa-science/js/date_range.js"></script>
+
+<!-- apa quicklaunch -->
+<script src="https://www.apa.at/Site/apabar/apabar.package.js"></script>
+
+
+
+
+        <link rel="stylesheet" type="text/css" href="/docroot/apa-science/css/cookieconsent.css"  />
+        <!-- Load GCM File here -->
+        <script  src="/docroot/apa-science/js/GCM.science.min.js"></script>
+        <!-- Init GCM with Config-File and other settings -->
+        <script>window.GCM.init('/docroot/apa-science/gentics-cm/gcmconfig.json', 'de', 1, true);</script>
+
+        <script src="/docroot/apa-science/js/banner.js"></script>
+
+
+
+
+
+
+</head>
+<body>
+
+<div id="apaQL"></div>
+
+<div class="topHeader">
+	<div class="topHeaderContent">
+		<div class="topHeaderLeft"><a href="http://science.apa.at"></a></div>
+		<div class="topHeaderRight">
+		</div>
+
+		<div class="topHeaderLogin">
+			<div id="userdataelements" style="display:none;">
+				<span style="color: #FFFFFF;">Eingeloggt mit:</span> <span style="color: #FFFFFF;" id="usernamefield"></span>&nbsp;&nbsp;
+				<a style="display:none;" class="tomemberarealink whiteCube" href="/site/home/member/memberbereich.html">Zum Memberbereich</a>&nbsp;&nbsp;
+				<a class="whiteCube" style="display:none;" id="linklogout" href="/login/?action=logout&redirectifloginsucceed=/site/home.html&redirectifloginfailed=/site/home.html">Log out</a>
+			</div>
+			<div id="loginelements" style="display:none;">
+				<a class="whiteCube" href="https://science.apa.at/site/home/login-memberbereich.html">Login</a>
+			</div>
+		</div>		
+
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+jQuery.ajaxSetup({
+cache:false
+});
+
+jQuery(function($){
+        $.datepicker.regional['de'] = {clearText: 'lÃ¶schen', clearStatus: 'aktuelles Datum lÃ¶schen',
+                closeText: 'schlieÃen', closeStatus: 'ohne Ãnderungen schlieÃen',
+                prevText: 'zurÃ¼ck', prevStatus: 'letzten Monat zeigen',
+                nextText: 'Vor', nextStatus: 'nÃ¤chsten Monat zeigen',
+                currentText: 'heute', currentStatus: '',
+                monthNames: ['Januar','Februar','MÃ¤rz','April','Mai','Juni',
+                'Juli','August','September','Oktober','November','Dezember'],
+                monthNamesShort: ['Jan','Feb','MÃ¤r','Apr','Mai','Jun',
+                'Jul','Aug','Sep','Okt','Nov','Dez'],
+                monthStatus: 'anderen Monat anzeigen', yearStatus: 'anderes Jahr anzeigen',
+                weekHeader: 'Wo', weekStatus: 'Woche des Monats',
+                dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                dayStatus: 'Setze DD als ersten Wochentag', dateStatus: 'WÃ¤hle D, M d',
+                dateFormat: 'dd.mm.yy', firstDay: 1, 
+                initStatus: 'WÃ¤hle ein Datum', isRTL: false};
+        $.datepicker.setDefaults($.datepicker.regional['de']);
+});
+</script>
+<div class="bodyOutterWrapper">
+<div class="bodyWrapper">
+<div class="head-print-border"></div>  
+<div class="head-print">
+	<div class="headLeft"><a href="https://science.apa.at/"><img src="/docroot/apa-science/images/header/logo.png" /></a></div>
+	<div class="headRight">
+	<img src="/docroot/apa-science/images/header/text.png" />
+	</div>
+	<div class="stopFloat"></div>
+</div>
+
+<div class="menuLeft">
+<ul class="unified topMenu">
+ <li class="open"><a href="/site/home.html">Home </a></li>
+ <li class="closed"><a href="/natur_und_technik">Natur &amp; Technik </a></li>
+ <li class="closed"><a href="/medizin">Medizin &amp; Biotech </a></li>
+ <li class="closed"><a href="/kultur_und_gesellschaft">Kultur &amp; Gesellschaft </a></li>
+ <li class="closed"><a href="/politik_und_wirtschaft">Politik &amp; Wirtschaft </a></li>
+ <li class="closed"><a href="/bildung">Bildung </a></li>
+ <li class="closed"><a href="http://science.apa.at/site/home/Dossierliste.html">Dossiers</a></li>
+ </ul>
+ 
+ <script type="text/javascript">
+    $('div.menuLeft ul li:eq(0)').removeClass("closed");
+    $('div.menuLeft ul li:eq(0)').addClass("active open");
+  </script>
+	<div class="stopFloat"></div>
+</div>
+
+
+
+<div class="menuRight">
+<div class="topSearch">
+
+<form id="topSearchForm" method="get" action="/site/home/search.html">
+	<input id="pssearchparam" name="pssearchparam" type="text" value="Suche" class="js_topSearchText"/>
+	<input type="image" src="/docroot/apa-science/images/bg/suche_submit.png" class="topSearchSubmit" />
+	<div class="stopFloat"></div>
+</form>
+
+<script type="text/javascript">
+	$("#pssearchparam").click(function () {
+		$(this).val('');
+	});
+	
+	$("#topSearchForm").submit(function () {
+		if($("#pssearchparam").val() == 'Suche') {
+			$("#pssearchparam").val('');
+		}
+		return true;
+	});
+ </script>
+</div>
+</div>
+<div class="stopFloat"></div>
+
+
+	<script type="text/javascript">
+	var userDataJSON = null;
+	var userData = null;
+	
+	$(document).ready(function() {
+		$('#userdataelements').hide();
+		$('#loginelements').hide();
+		
+		$.ajaxSetup({
+			cache:false
+		});
+		
+		//userDataJSON = $.getJSON('/login/?action=json', function(data) {
+		
+		$.ajax({
+			url: '/login/?action=json',
+			dataType: 'json',
+			type: 'get',
+			complete: ajaxSucceed,
+			cache: false
+		});
+		//});
+	});
+	
+	function ajaxSucceed(response) {
+		data = response['responseText'];
+		userData = jQuery.parseJSON(data);
+		
+		if(userData != null && userData.sessionExists) {
+			if (userData.username != null) {
+				$('#welcomeBoxOld').hide();
+				$('#welcomeBoxLoggedinUser').show();
+				$('#welcomeNameLoggedinUser').text(userData.username);
+			}
+			//alert("Username " + userData.username);
+			//alert("ProductIDS " + userData.productIds);
+			//alert("extended "+ userData.extended);
+			//alert("loggedInWithPW " +userData.loggedInWithPW);
+		  	var username = data.username;
+		  	if(userData.displayname && jQuery.trim(userData.displayname).length > 0) {
+		  		username = userData.displayname;
+		  	}
+			  	$('#usernamefield').html(username);
+				$('#userdataelements').show();
+				$('li.linkFooterTermine').show(); // Footer fur alle angemeldeten User
+				if (userData.loggedInWithPW) {
+				 $('#linklogout').show();
+				}
+				if (userData.extended) { // Gruppe B
+					$('.tomemberarealink').show();
+					$('#welcome_text_group_b').show();
+					$('#linklogout').show();
+				} else {
+				  	$('#welcome_text_group_a').show(); // Gruppe A
+				  	$('#linklogout').show();
+				}
+				
+			} else { // nicht eingeloggt
+			  $('#welcomeBoxOld').show();
+				$('#loginelements').show();
+			}
+
+		   if(typeof setUserDataComments == 'function') {
+		   	setUserDataComments();
+		   }
+		}
+	</script>
+
+
+<div class="container w940 mtop20">
+
+<h1 class="mbottom20">Login</h1>
+
+<div class="left w420">
+
+	<div class="wws">
+	
+	
+	
+	<h2 style="text-transform:uppercase">
+<p><span style="font-family: Arial;">Bitte melden Sie sich an.</span></p>	</h2>
+  
+  <div class="wwsContent">
+	
+	
+	  <script type="text/javascript">
+	  	$(document).ready(function() {
+			  $('#loginRequired').show();
+			  $('#username').focus();
+			}); 
+		</script>
+	
+	
+	
+	<h3 id="loginRequired" class="mtop20" style="display:none;">
+<p><span style="font-size: small;"><span class="apple-style-span"><span style="color: rgb(85, 95, 105);">Sie m&uuml;ssen angemeldet sein, um diesen Inhalt sehen zu k&ouml;nnen.</span></span></span></p> <p>&nbsp;</p>	</h3> 
+
+	
+	
+	<h3 id="loginErrMsg" class="mtop20" style="display:none;">
+<p><span style="font-size: small;"><span class="apple-style-span"><span style="color: rgb(85, 95, 105);"> Login fehlgeschlagen. Bitte versuchen Sie es noch einmal.</span></span></span></p>	</h3> 
+	
+	
+		
+	<form action="/login/" method="post">
+		<label class="login" for="username">Username</label> <input id="username" name="username" type="text" value="" />
+		<label class="login" for="password">Passwort&nbsp;</label> <input id="password" name="password" type="password" value="" />
+		<input name="redirectifloginsucceed" type="hidden" value="/site/natur_und_technik/detail.html?key=SCI_20180504_SCI39471352442095920" />
+		<input name="redirectifloginfailed" type="hidden" value="/site/home/login-memberbereich.html?err_msg=1" />
+		<input type="submit" value="LOGIN" style="display:block;" class="mtop10" />
+	</form>
+	<div class="mtop20"></div>
+	<hr />
+	
+	<p>
+<p><span class="apple-style-span"><span style="color: rgb(85, 95, 105);">Kennwort vergessen? Bitte z&ouml;gern Sie nicht, uns zu kontaktieren. Tel.: +43/1/36060 - 3333, <a href="mailto:customercare@apa.at?subject=Frage%20zum%20APA-Science%20Login">customercare@apa.at</a>.</span></span></p> <p><span class="apple-style-span"><span style="color: rgb(85, 95, 105);">Bei technischen Problemen wenden Sie sich bitte an den APA-Servicedesk, Tel.: +43/1/36060 - 6666, <a href="mailto:hotline@apa.at">hotline@apa.at</a>. <br /> </span></span></p>	</p>
+	
+	</div>
+ </div>
+	
+</div>
+
+
+<div class="right w460 wws">
+
+  <div class="wws">
+  <div class="wwsContent">
+  <p>
+<h4>&nbsp;</h4> <p><strong><span style="color: rgb(85, 95, 105);">LOGIN F&Uuml;R SCIENCE-PARTNER</span></strong></p> <p><span class="apple-style-span"><span style="color: rgb(85, 95, 105);">Das  umfangreiche Meldungsarchiv (&uuml;ber 600.000 Meldungen)&nbsp;sowie die Science-Termindatenbank sind  passwortgesch&uuml;tzt und stehen nur den APA-Science-Partnern&nbsp;als  Information&nbsp;zur Verf&uuml;gung. </span></span><span class="apple-style-span"><span style="color: rgb(85, 95, 105);"><br /> </span></span></p> <p>&nbsp;</p> <p><strong><span style="color: rgb(85, 95, 105);">LOGIN F&Uuml;R PRESSESTELLEN DER SCIENCE-PARTNER</span></strong></p> <p class="MsoNormal"><span class="apple-style-span"><span style="color: rgb(85, 95, 105);">F&uuml;r  Pressestellen und Kommunikationsbeauftragte der APA-Science Partner  gibt es einen eigenen Memberbereich mit exklusiven Zusatzinformationen (</span></span><span class="apple-style-span"><span style="color: rgb(85, 95, 105);">u.a. Termin- und Themenplanung, Registierung f&uuml;r Push-Dienste, Download-Bereich, Redaktionskontakte).</span></span></p>	</p>	
+  </div>
+	
+ 
+</div> <!-- right -->
+
+</div><!-- container -->
+
+
+
+
+<!-- HTML Code for APA-Consent-Tool -->
+
+<div class="apa-consent-reset apa-consent-wrapper">
+
+	<div class="apa-consent-reset apa-consent-bgColor apa-consent-boxShadow apa-consent-banner testOFF">
+
+		<ul class="apa-consent-reset apa-consent-bannerContent">
+			<li class="apa-consent-reset">
+				<div class="apa-consent-reset apa-consent-bannerText">
+				</div>
+			</li>
+			<li class="apa-consent-reset apa-consent-buttonWrapperDetails">
+				<button class="apa-consent-reset apa-consent-button">
+					Cookie-PrÃ¤ferenzen
+				</button>
+			</li>
+			<li class="apa-consent-reset apa-consent-buttonWrapperAccept">
+				<button id="apa-consent-button-accept" class="apa-consent-reset apa-consent-button">
+					akzeptieren
+				</button>
+			</li>
+		</ul>
+
+		<div class="apa-consent-reset apa-consent-bgColorWhite apa-consent-boxShadow apa-consent-bannerButtonOFF">
+			<div class="apa-consent-reset apa-consent-bannerButtonOFFicon1 apa-consent-bgColor"></div>
+			<div class="apa-consent-reset apa-consent-bannerButtonOFFicon2 apa-consent-bgColor"></div>
+		</div>
+
+	</div>
+
+	<div class="apa-consent-reset apa-consent-dialogWrapper testOFF">
+		<div class="apa-consent-reset apa-consent-bgColor apa-consent-boxShadow apa-consent-dialog">
+			<div class="apa-consent-reset apa-consent-mobileScroller">
+
+				<div class="apa-consent-reset apa-consent-mobileClose"></div>
+
+				<div class="apa-consent-reset apa-consent-dialogInnerWidth apa-consent-dialogHeader">
+					<h3 class="apa-consent-reset apa-consent-H3">
+						Cookie-PrÃ¤ferenzen
+					</h3>
+					<p class="apa-consent-reset apa-consent-P">
+						WÃ¤hlen Sie aus, ob diese Website lediglich funktionelle Cookies und/oder Marketing-Cookies, wie
+						nachfolgend beschrieben, verwenden darf:
+					</p>
+				</div>
+				<div class="apa-consent-reset apa-consent-dialogBodyWrapper">
+					<div class="apa-consent-reset apa-consent-dialogInnerWidth apa-consent-dialogBody">
+						<ul class="apa-consent-reset apa-consent-items">
+
+						</ul>
+					</div>
+				</div>
+				<div class="apa-consent-reset apa-consent-dialogInnerWidth apa-consent-dialogSubmit">
+					<button id="apa-constent-button-save-settings"
+							class="apa-consent-reset apa-consent-button apa-consent-boxShadow">
+						speichern & schlieÃen
+					</button>
+				</div>
+
+				<div class="apa-consent-reset apa-consent-bgColorWhite apa-consent-boxShadow apa-consent-dialogButtonOFF">
+					<div class="apa-consent-reset apa-consent-dialogButtonOFFicon1"></div>
+					<div class="apa-consent-reset apa-consent-dialogButtonOFFicon2 apa-consent-bgColor"></div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="apa-consent-reset apa-consent-bgColor apa-consent-boxShadow apa-consent-bannerButtonON">
+	<div class="apa-consent-reset apa-consent-bannerButtonONicon1 apa-consent-bgColorWhite"></div>
+	<div class="apa-consent-reset apa-consent-bannerButtonONicon2 apa-consent-bgColorWhite"></div>
+</div>
+
+<div class="apa-consent-reset apa-consent-bgColor apa-consent-boxShadow apa-consent-dialogButtonON testOFF">
+	<div class="apa-consent-reset apa-consent-dialogButtonONicon1 apa-consent-bgColorWhite"></div>
+	<div class="apa-consent-reset apa-consent-dialogButtonONicon2 apa-consent-bgColorWhite"></div>
+</div>
+
+<!-- /HTML Code for APA-Consent-Tool -->
+
+
+
+<!-- hidden prototype elements -->
+
+<ul style="display:none">
+	<li id="prototypeAppEntry" class="apa-consent-reset apa-consent-item">
+		<div class="apa-consent-reset apa-consent-itemSwitch">
+			<span class="apa-consent-reset apa-consent-boxShadow"></span>
+		</div>
+		<div class="apa-consent-reset apa-consent-itemTitle">
+
+		</div>
+		<div class="apa-consent-reset apa-consent-itemText">
+
+		</div>
+		<div class="apa-consent-reset apa-consent-itemSubItems">
+			<ul class="apa-consent-reset apa-consent-cookie-items">
+				<li id="prototypeAppEntryCookieItem" style="display:none"
+					class="apa-consent-reset apa-consent-itemSubItem">
+					<div class="apa-consent-reset apa-consent-subItemTitle">
+						<div class="apa-consent-reset apa-consent-subItemSwitch"></div>
+						<span></span>
+					</div>
+					<div class="apa-consent-reset apa-consent-subItemText">
+						<p class="apa-consent-reset apa-consent-P"></p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</li>
+
+	<li id="prototypeAppEntryProtected" class="apa-consent-reset apa-consent-item">
+		<div class="apa-consent-reset apa-consent-itemSwitch">
+			<span class=" apa-consent-reset apa-consent-boxShadow"></span>
+		</div>
+		<div class="apa-consent-reset apa-consent-itemTitle apa-consent-itemTitleSwitch">
+		</div>
+		<div class="apa-consent-reset apa-consent-itemText">
+
+		</div>
+		<div class="apa-consent-reset apa-consent-itemSubItems">
+			<ul class="apa-consent-reset apa-consent-cookie-items">
+
+				<li id="prototypeAppEntryProtectedCookieItem" style="display: none;"
+					class="apa-consent-reset apa-consent-itemSubItem">
+					<div class="apa-consent-reset apa-consent-subItemTitle">
+						<div class="apa-consent-reset apa-consent-subItemSwitch"></div>
+						<span></span>
+					</div>
+					<div class="apa-consent-reset apa-consent-subItemText">
+						<p class="apa-consent-reset apa-consent-P"></p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</li>
+
+</ul>
+</div><!-- class="bodyWrapper" -->
+<div class="footerWrapper">
+	<div class="footer">
+	<ul class="unified bottomMenu">
+	<li><a href="/site/home/ueberuns.html">Ãber uns</a></li>
+	<li class="spacer">|</li>
+	<li><a href="/site/home/partner.html">Unsere Partner</a></li>
+	<li class="spacer">|</li>
+	<li><a href="/site/home/kontakt.html">Kontakt</a></li>
+	<li class="spacer">|</li>
+	<li><a href="/site/home/impressum.html">Impressum</a></li>
+	<li class="spacer">|</li>
+        <li><a href="https://www.apa.at/Site/datenschutz/datenschutzerklaerung.html">DatenschutzerklÃ¤rung</a></li>
+        <li class="spacer">|</li>
+        <li><a class="cookie-pref" href="javascript: void(0);">Cookie-PrÃ¤ferenzen</a></li>
+        <li class="spacer">|</li>
+	<li><a href="/site/home/search.html">Erweiterte Suche</a></li>
+	<li class="linkFooterTermine spacer" style="display:none">|</li>
+	<li class="linkFooterTermine" style="display:none"><a href="/site/home/member/terminsuche.html">Termine</a></li>
+	</ul>
+	<div class="stopFloat"></div>
+	</div>
+	<div id="footer-print-watermark">
+  &copy; APA - Austria Presse Agentur eG - science.apa.at
+	</div>	
+
+</div>
+</div><!-- class="bodyOutterWrapper" -->
+
+<script type="text/javascript">
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    var path = "path=/";
+    document.cookie = cname + "=" + cvalue + "; " + expires + "; " + path;
+}
+ 
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
+
+</script>
+
+
+<script>window.GCM.apps.loadScript('google', 'https://www.googletagmanager.com/gtag/js?id=UA-1239604-25')</script>
+
+<script>
+
+  (function() {
+
+  if(!window.GCM.apps.get('google')) return;
+
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag(){dataLayer.push(arguments);}
+
+  gtag('js', new Date());
+
+  gtag('config', 'UA-1239604-25',{ 'anonymize_ip': true , 'cookie_domain': 'science.apa.at'}); })();
+
+</script>
+
+
+<!-- youtube banner -->
+
+<script>
+
+
+$( document ).ready(function() {
+
+	if (window.GCM.apps.get('youtube')) {
+		activateYouTube();
+	} else {
+
+                $( 'iframe[src*=youtube]' ).each(function( index, element ) {
+console.log(element);
+//			$(this).data('src', $(this).attr('src'));
+//			$(this).attr('src', '');
+
+		});
+
+		$( 'iframe[data-src*=youtube]' ).each(function( index, element ) {
+
+
+			$($(this).parent()).addClass('youtube-wrapper');
+			$($(this).parent()).css('background-image', 'url(/docroot/apa-science/images/youtube-video-banner.png)');
+			$($(this).parent()).css('height', '315px');
+			$($(this).parent()).prepend('<a class="preferences-button hide" href="javascript:void(0)">Cookie-Pr&auml;ferenzen</a>');
+			$($(this).parent()).prepend('<h2>Zum laden des Videos, bitte YouTube Cookies akzeptieren.</h2>');
+
+			$(this).hide(); // ('display', 'none');
+
+
+			$('.preferences-button').click(function() {
+				$('.apa-consent-wrapper').removeClass('testOFF');
+				$('.apa-consent-dialogWrapper').removeClass('testOFF');
+			});
+
+
+
+
+		});
+	}
+	$(document).on('click', '.btnAcceptYT', function() {
+		if(window.GCM.apps.set('youtube', true)) {
+			activateYouTube();
+		}
+	});
+	function activateYouTube () {
+console.log('activateYo');
+		$( 'iframe[data-src*=youtube]' ).each(function( index, iFrame ) {
+
+			$(iFrame).attr('src',  $(iFrame).data('src'));
+			$(this).css('display', 'block');
+		});
+
+	}
+
+
+	$('.cookie-pref').click(function() {
+		$('.apa-consent-wrapper').removeClass('testOFF');
+		$('.apa-consent-dialogWrapper').removeClass('testOFF');
+
+	});
+
+});
+
+
+</script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">	
+	$(document).ready(function(){
+	
+	  $('a').each(function () { 
+	   if ($(this).attr('href')!=null &&  $(this).attr('href').indexOf('http://science.apa.at')!=-1) {
+	     newHref=$(this).attr('href').replace("http://","https://");
+	     $(this).attr('href',newHref);
+	    } else if($(this).attr('href') != null && $(this).attr('href').indexOf('http')>-1) {
+                $(this).attr('target','_blank');
+                }
+	  }) 
+	  
+	   $('img').each(function () { 
+	   if ($(this).attr('src')!=null &&  $(this).attr('src').indexOf('http://science.apa.at')!=-1) {
+	     newHref=$(this).attr('src').replace("http://","https://");
+	     $(this).attr('src',newHref);
+	    }
+	  }) 
+	
+	initAPABar('http://www.apa.at','#apaQL');
+	
+	});    
+</script>
+
+
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

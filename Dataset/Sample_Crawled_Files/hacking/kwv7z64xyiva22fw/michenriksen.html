@@ -1,0 +1,570 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+  <head>
+    <title>Birdwatcher: Data analysis and OSINT framework for Twitter | michenriksen.com</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
+    <meta name="generator" content="Nanoc 4.9.3">
+    <meta name="twitter:dnt" content="on">
+    <link rel="alternate" type="application/atom+xml" title="RSS Feed for michenriksen.com"  href="/blog/feed.xml" />
+  </head>
+
+  <body id="top">
+
+    <!-- Header -->
+    <header id="header">
+      <div class="inner">
+        <a href="/" class="image avatar"><img src="/images/avatar.jpg" alt="Michael Henriksen" /></a>
+        <h1><strong>Hi, I'm Michael.</strong> Security engineer,<br> internet sleuth and builder of tools.</h1>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+      <section id="blog_post">
+        <header class="major">
+          <h2>Birdwatcher: Data analysis and OSINT framework for Twitter</h2>
+          <p>Posted October 14, 2016</p>
+        </header>
+
+        <p>Yes, here again with another tool release. This time it's an
+<a href="https://en.wikipedia.org/wiki/Open-source_intelligence">OSINT</a>
+framework for a different social network &mdash;
+<a href="https://twitter.com/">Twitter.com</a>.</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/start.png" class="image fit thumb">
+  <img src="/images/birdwatcher/start_thumbnail.png" alt="" /></a>
+  <h3>Birdwatcher framework.</h3>
+</article>
+
+<p><a href="https://github.com/michenriksen/birdwatcher">Birdwatcher</a> started
+out as a collection of small scripts to generate a classic weighted word cloud
+of Tweets from a group of users. As I thought about what else I could do with
+data from Twitter I decided to rewrite the scripts into a full-fledged,
+module based, console framework with a ton more functionality.</p>
+
+<p>If you have any experience working with other frameworks such as
+<a href="https://www.metasploit.com/">Metasploit</a> or
+<a href="https://bitbucket.org/LaNMaSteR53/recon-ng">Recon-ng</a>, you will feel
+right at home with Birdwatcher as it's heavily inspired by these frameworks and
+has many of the same concepts and commands.</a></p>
+
+<p>This blog post won't go over how to set up Birdwatcher, but you can have a
+look at the <a href="https://github.com/michenriksen/birdwatcher#birdwatcher">README</a>
+to find out how to <a href="https://github.com/michenriksen/birdwatcher#installation">install</a>
+and <a href="https://github.com/michenriksen/birdwatcher#configuration">configure</a>
+the framework.</p>
+
+<h2>Workspaces</h2>
+
+<p>Just like Metasploit and Recon-ng, Birdwatcher supports the concept of
+Workspaces. Workspaces enable you to segment and manage users and data stored in
+the underlying database. You can use workspaces to create logical separation
+between different users. For example, you may want to create a workspace for a
+company, a department or for a specific topic.</p>
+
+<p>The command prompt will always show the currently active workspace inside the
+square brackets. Birdwatcher will always have a default workspace which might be
+all you need if you intend to use Birdwatcher on a single group of users. If you
+plan to use it on several different groups, it is recommended to create a
+workspace for each of them, to prevent cross contamination.</p>
+
+<h2>Commands</h2>
+
+<p>The core of the Birdwatcher framework is its commands and one of the most
+important ones is the <code>help</code> command:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/help.png" class="image fit thumb">
+  <img src="/images/birdwatcher/help_thumbnail.png" alt="" /></a>
+  <h3>Executing the help command.</h3>
+</article>
+
+<p>The <code>help</code> command simply lists all available commands with short descriptions
+of what they do.</p>
+
+<h2>Modules</h2>
+
+<p>Again, just like Metasploit and Recon-ng, Birdwatcher ships with a bunch of
+modules that either enrich the raw Twitter data harvested by the commands or
+somehow present the data in interesting and useful ways. Here are some of the
+things the modules can currently do:</p>
+
+<ul>
+  <li>Retrieve user's Klout score, Tweet topics and influence graph</li>
+  <li>Generate weighted word clouds based on user's Tweets</li>
+  <li>Listing the most shared URLs</li>
+  <li>Generate graphical social graphs between users</li>
+  <li>Crawl shared URLs to retrieve HTTP status codes, content types and page titles</li>
+  <li>Generate KML files with geo-enabled Tweets to be viewed in Google Earth</li>
+  <li>Generate Punchcard-style plots of when users are most engaged with Twitter</li>
+  <li>Calculate the sentiment score of Tweets (positive, neutral or negative)</li>
+</ul>
+
+<p>Birdwatcher's code is designed to make it pretty simple for anyone with a bit
+of Ruby knowledge to extend Birdwatcher with new modules. How to create one is
+out of scope for this blog post, but have a look at this
+<a href="https://github.com/michenriksen/birdwatcher/wiki/Creating-a-Birdwatcher-Module">Wiki article</a>
+if you are interested in finding out more.</p>
+
+<h2>LOVELY HORSE</h2>
+
+<p>If you have been following the news around the Snowden documents, you might
+have heard of a program by the UK intelligence agency GCHQ called
+<a href="http://www.mirror.co.uk/news/technology-science/technology/gchqs-lovely-horse-tool-helped-5133474">LOVELY HORSE</a>.
+The program was made to simply monitor a smaller group of security related
+Twitter accounts to keep taps on what was being said and possibly more.</p>
+
+<p>To demonstrate the capabilities and usage of Birdwatcher, I thought it would
+be fun to go through how we can create our own LOVELY HORSE program...</p>
+
+<h3>Creating a new workspace</h3>
+
+<p>Instead of using the default workspace, let's create a dedicated one for our
+lovely horses to keep things neat and tidy:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/workspace.png" class="image fit thumb">
+  <img src="/images/birdwatcher/workspace_thumbnail.png" alt="" /></a>
+  <h3>Creating a new workspace.</h3>
+</article>
+
+<p>The <code>workspace add</code> command created our new workspace and
+automatically made it the currently active one, as can be seen in the square
+brackets of the command prompt.</p>
+
+<h3>Adding users to the workspace</h3>
+
+<p>Now that we have our workspace we need to add some users to it so we have
+something to work with. The <a href="https://s3.amazonaws.com/s3.documentcloud.org/documents/1588722/lovely-horse.pdf">leaked PDF</a>
+contains a list of 37 Twitter accounts that we will use for this example:</p>
+
+<pre>
+0xcharlie
+alexsotirov
+anon_central
+anon_operations
+anonops
+anonymousirc
+bradarkin
+CeRTFi
+danchodanchev
+daveaitel
+dinodaizovi
+diocyde
+egyp7
+GoVCeRT_NL
+halvarflake
+hdmoore
+hernano
+JaNeTCSiRT
+kevinmitnick
+lennyzeltser
+lulzsec
+mdowd
+mikko
+msftsecresponse
+operationleaks
+owasp
+pusscat
+Shadowserver
+snowfl0w
+taosecurity
+taviso
+teamcymru
+thegrugq
+TheHackersNews
+tinman2k
+VuPeN
+WTFuzz
+</pre>
+
+<p>One way to add the users would be to execute <code>user add 0xcharlie alexsotirov ... WTFuzz</code>
+but that would be a lot of typing and I don't really like that. Instead we can
+make use of our first module to easily import them into the workspace. We copy
+the usernames and save them to a file and load the User Importer module:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/module_info.png" class="image fit thumb">
+  <img src="/images/birdwatcher/module_info_thumbnail.png" alt="" /></a>
+  <h3>The User Importer module.</h3>
+</article>
+
+<p>The <code>use</code> command loads a module by its <em>path</em>. The path is
+determined simply by how the module files are placed in the directory stucture.
+Modules live inside at least one directory which can be seen as a namespace of
+the type of object they are working on. In this case the User Importer lives in
+the <code>users/</code> namespace which makes pretty good sense. When a module
+is loaded it is also indicated in the command prompt with another set of square
+brackets with the module's path in red text.</p>
+
+<p>After loading the module we type <code>show info</code> to get a bit more
+information on what the module does. All modules have additional information that
+can be seen with the <code>show info</code> command.</p>
+
+<p>The <code>show</code> command can also display any options a module might
+have:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/module_options.png" class="image fit thumb">
+  <img src="/images/birdwatcher/module_options_thumbnail.png" alt="" /></a>
+  <h3>Options for the User Importer module.</h3>
+</article>
+
+<p>The module is very basic and only has one option called <code>FILE</code>
+which tells the module which file to read usernames from. The table tells us
+that the option is required to set and that the current value is empty. Let's
+configure the module and run it:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/user_import.png" class="image fit thumb">
+  <img src="/images/birdwatcher/user_import_thumbnail.png" alt="" /></a>
+  <h3>Importing users.</h3>
+</article>
+
+<p>The module fetched basic user information from the Twitter API and saved them
+to the underlying database. We can see the users in the current workspace at any
+time with the <code>user list</code> command:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/user_list.png" class="image fit thumb">
+  <img src="/images/birdwatcher/user_list_thumbnail.png" alt="" /></a>
+  <h3>Paging through users in the workspace.</h3>
+</article>
+
+<h3>Fetching Tweets</h3>
+
+<p>Now that we have imported our lovely horses we can fetch their Tweets from
+the Twitter API and have them saved to the database for analysis:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/status_fetch.png" class="image fit thumb">
+  <img src="/images/birdwatcher/status_fetch_thumbnail.png" alt="" /></a>
+  <h3>Fetching Tweets from users.</h3>
+</article>
+
+<p>The <code>status fetch</code> command will fetch up to 1.000 Tweets from each
+user and save them to the database. The command also extracts entities such as
+URLs, Mentions and Hashtags to save them to separate database tables. The
+command might take a bit of time to finish the first time because of all the
+Tweets it needs to fetch and process, however on any subsequent runs, it only
+fetches and processes any Tweets the users might have posted since the last run.</p>
+
+<p>Now that we have fetched the Tweets we can page through them with the
+<code>status list</code> command:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/status_list.png" class="image fit thumb">
+  <img src="/images/birdwatcher/status_list_thumbnail.png" alt="" /></a>
+  <h3>Listing Tweets from users.</h3>
+</article>
+
+<p>Using the <code>status search</code> command we can find Tweets containing a
+specific word or phrase, for example <em>lovelyhorse</em>:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/status_search.png" class="image fit thumb">
+  <img src="/images/birdwatcher/status_search_thumbnail.png" alt="" /></a>
+  <h3>Searching for Tweets mentioning <em>lovelyhorse</em>.</h3>
+</article>
+
+<h3>Crawling URLs</h3>
+
+<p>After the Tweets have been fetched and processed we also have a pretty large
+collection of URLs that might point to interesting or valuable information.
+Right now we only know the URLs that were shared which can pretty hard to
+process. To get a better idea of which links might be interesting we can use the
+URL Crawler module:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/url_crawl_info.png" class="image fit thumb">
+  <img src="/images/birdwatcher/url_crawl_info_thumbnail.png" alt="" /></a>
+  <h3>SLoading the URL Crawler module.</h3>
+</article>
+
+<p>As the module information says, it enriches the collected URLs with their
+HTTP status codes, content types and potentially page titles if the URL points
+to a HTML page with a title. The module also follows redirects so in case the
+URL is somehow obfuscated or shortened we can know the actual destination too.</p>
+
+<p>The module also warns us that it might not be safe to blindly visit all the
+shared URLs as it could be pointing at places you don't want to request with
+your own IP. Let's check the module's options to see what we can do:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/url_crawl_options.png" class="image fit thumb">
+  <img src="/images/birdwatcher/url_crawl_options_thumbnail.png" alt="" /></a>
+  <h3>Viewing options for the URL Crawler module.</h3>
+</article>
+
+<p>This module has a bit more options than the <code>users/import</code> module.
+None of them are required but the <code>PROXY_ADDR</code> and
+<code>PROXY_PORT</code> are definitely a good idea to configure. The options
+will instruct the module to request all URLs through a HTTP proxy to hide the
+origin of the request for your own safety and OPSEC. I personally have
+<a href="https://www.torproject.org/">Tor</a> installed and its SOCKS proxy
+exposed as an HTTP proxy with Polipo. Check out this
+<a href="https://www.marcus-povey.co.uk/2016/03/24/using-tor-as-a-http-proxy/">blog post</a>
+if you want to know how it's done.</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/url_crawl.png" class="image fit thumb">
+  <img src="/images/birdwatcher/url_crawl_thumbnail.png" alt="" /></a>
+  <h3>Crawling URLs for more information.</h3>
+</article>
+
+<p>We configure the module to use a proxy and run it. It will steadily crunch
+through the URLs but it might take a while to finish, depending on your
+connection speed, proxy, <code>THREADS</code> setting and the amount of URLs to
+crawl. The first time you run this module it can take quite a long time as it
+needs to process a lot of URLs.</p>
+
+<h3>Getting Klout information</h3>
+
+<p>The <a href="https://klout.com/s/developers/v2">Klout API</a> can give us a
+lot of valuable information on users such as their
+<a href="https://klout.com/corp/score">Klout score</a> which can be used to find
+users with the most reach and influence, the general topics they are Tweeting
+about, and an influence graph which can tell us who each user is influencing
+and who they are being influenced by.</p>
+
+<p>The first module we need to run is the <code>users/klout_id</code> module.
+This module simply retrieves each user's Klout ID which is needed for all the
+other Klout related modules:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/klout_id.png" class="image fit thumb">
+  <img src="/images/birdwatcher/klout_id_thumbnail.png" alt="" /></a>
+  <h3>Retrieving user's Klout ID.</h3>
+</article>
+
+<p>Next we run the <code>users/klout_topics</code> module which retrieves the
+general topics that each user is Tweeting about such as <em>Technology</em>,
+<em>Hacking</em>, <em>Marketing</em>, <em>Information Security</em>, etc. Each
+topic will be saved in a table and referenced through a join table to users, to
+make it easy to retrieve users who Tweet, or don't Tweet, about a specific
+topic:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/klout_topics.png" class="image fit thumb">
+  <img src="/images/birdwatcher/klout_topics_thumbnail.png" alt="" /></a>
+  <h3>Retrieving user's Klout topics.</h3>
+</article>
+
+<p>If we want to know about how influential each user is, we can use the
+<code>users/klout_score</code> module to retrieve their Klout score. The score
+is calculated by Klout and is explained <a href="https://klout.com/corp/score">here</a>,
+but the higher the score the more influential the user is:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/klout_score.png" class="image fit thumb">
+  <img src="/images/birdwatcher/klout_score_thumbnail.png" alt="" /></a>
+  <h3>Retrieving user's Klout scores.</h3>
+</article>
+
+<p>From the output we can see that mikko is the most influential followed by
+hdmoore and thegrugq. The klout score will of course also be saved to the
+database to make querying based on Klout scores possible.</p>
+
+<p>Lastly we will run the <code>users/klout_influence</code> module to retrieve
+information about who our users are being influenced by and who they are
+influencing:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/klout_influence.png" class="image fit thumb">
+  <img src="/images/birdwatcher/klout_influence_thumbnail.png" alt="" /></a>
+  <h3>Retrieving user's Klout influence.</h3>
+</article>
+
+<h3>Making a word cloud</h3>
+
+<p>A great way to get a quick sense of what the users are talking about is to
+use the <code>statuses/word_cloud</code> module. The module can generate a
+classic weighted word cloud based on Tweets from all users, or a smaller
+selection, within a window of time. The module has quite a lot of options for
+customization:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/word_cloud_options.png" class="image fit thumb">
+  <img src="/images/birdwatcher/word_cloud_options_thumbnail.png" alt="" /></a>
+  <h3>Viewing options for the Word Cloud module.</h3>
+</article>
+
+<p>We configure the module with a file destination for the generated image and
+set <code>INCLUDE_PAGE_TITLES</code> to true in order to mix in the page titles
+we previously retrived with the <code>urls/crawl</code> module. This gives an
+even better idea of the topics our users have been talking about over the last
+seven days:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/word_cloud.png" class="image fit thumb">
+  <img src="/images/birdwatcher/word_cloud_thumbnail.png" alt="" /></a>
+  <h3>Generating a word cloud from Tweets.</h3>
+</article>
+
+<p>The result is a pretty word cloud that tells us what has been on our lovely
+horse's mind over the last seven days:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/word_cloud_result.png" class="image fit thumb">
+  <img src="/images/birdwatcher/word_cloud_result_thumbnail.png" alt="" /></a>
+  <h3>The result of the word cloud module.</h3>
+</article>
+
+<h3>Generating an influence graph</h3>
+
+<p>The raw influence data we retrieved earlier with
+<code>users/klout_influence</code> can be visualized and examined with the
+<code>users/influence_graph</code> module:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/influence_graph.png" class="image fit thumb">
+  <img src="/images/birdwatcher/influence_graph_thumbnail.png" alt="" /></a>
+  <h3>Generating a visual influence graph.</h3>
+</article>
+
+<p>The result is a directional graph showing who is influencing who according
+to Klout:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/influence_graph_result.png" class="image fit thumb">
+  <img src="/images/birdwatcher/influence_graph_result_thumbnail.png" alt="" /></a>
+  <h3>The influence graph visualized.</h3>
+</article>
+
+<h3>Generating a social graph</h3>
+
+<p>Another type of graph we can generate is a social graph that doesn't use
+Klout's influence data but instead finds social connections by analyzing each
+user's Tweets for mentions of other users:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/social_graph.png" class="image fit thumb">
+  <img src="/images/birdwatcher/social_graph_thumbnail.png" alt="" /></a>
+  <h3>The social graph between users.</h3>
+</article>
+
+<p>The resulting graph is a bit different from the influence graph and shows a
+very tightly coupled cluster between some users. The edge weight between users
+is calculated simply by counting how many times they mention each other in
+Tweets. The thicker the line, the stronger the connection between two users:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/social_graph_result.png" class="image fit thumb">
+  <img src="/images/birdwatcher/social_graph_result_thumbnail.png" alt="" /></a>
+  <h3>The social graph visualized.</h3>
+</article>
+
+<h3>Plotting a user's Twitter engagement</h3>
+
+<p>Another question you might ask is at what day and time a user is most
+engaged with Twitter. This might be useful for finding the time where a user
+is most likely to engage with you on Twitter. We can use the
+<code>users/activity_plot</code> module to get an idea of this:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/activity_plot.png" class="image fit thumb">
+  <img src="/images/birdwatcher/activity_plot_thumbnail.png" alt="" /></a>
+  <h3>Generating an activity plot for <em>halvarflake</em>.</h3>
+</article>
+
+<p>The resulting plot tells us that <em>halvarflake</em> is generally very
+engaged with Twitter on Fridays at around 8AM and Tuesdays &amp; Wednesdays at
+around 7PM:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/activity_plot_result.png" class="image fit thumb">
+  <img src="/images/birdwatcher/activity_plot_result_thumbnail.png" alt="" /></a>
+  <h3><em>halvarflake</em>'s activity plot.</h3>
+</article>
+
+<h3>Listing shared URLs</h3>
+
+<p>The last module I want to demonstrate in this blog post is the
+<code>urls/most_shared</code> module. The module will simply list URLs shared
+within a specific window of time ordered from most to least shared. If a URL
+has been shared by several users it is a pretty good indicator that it has
+interesting information:</p>
+
+<article class="6u 12u$(xsmall) poptrox center">
+  <a href="/images/birdwatcher/most_shared.png" class="image fit thumb">
+  <img src="/images/birdwatcher/most_shared_thumbnail.png" alt="" /></a>
+  <h3>Paging through the shared URLs.</h3>
+</article>
+
+<p>Because we ran the <code>urls/crawl</code> module earlier we also see page
+title, content type and HTTP code which is very convenient. Because I used Tor
+as an HTTP proxy we also ran into a CloudFlare CAPTCHA wall.</p>
+
+<h2>Wrapping up</h2>
+
+<p>This concludes my first post on Birdwatcher. I hope you enjoyed it and hope
+you  will include it in your OSINT toolbox. Feel free to file any bugs on
+<a href="https://github.com/michenriksen/birdwatcher/issues/new">GitHub</a> or
+give me ideas for new modules.</p>
+
+<p>In the next blog post I will go over some of the more advanced functionality
+of Birdwatcher, like querying the underlying database for data, interacting with
+Birdwatcher's code through the interactive Ruby shell and how to write a new
+module.</p>
+
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="inner">
+        <ul class="icons">
+          <li><a href="http://twitter.com/michenriksen" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+          <li><a href="https://github.com/michenriksen" class="icon fa-github"><span class="label">Github</span></a></li>
+          <li><a href="https://spamty.eu/mail/v4/1421/7gnqBNERty0dc43bc7/" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+          <li><a href="/blog/feed.xml" class="icon fa-rss"><span class="label">RSS feed</span></a></li>
+        </ul>
+        <ul class="copyright">
+          <li>&copy; 2018 Michael Henriksen</li>
+          <li><a href="/about">about</a></li>
+          <li><a href="/blog">blog</a></li>
+          <li><a href="/projects">projects</a></li>
+        </ul>
+        <p><a href="https://www.buymeacoffee.com/michenriksen" target="_blank" style="border-bottom:none"><img src=" data:image/png;base64,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" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;margin-top:25px"></a></p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/jquery.poptrox.min.js"></script>
+    <script src="/assets/js/skel.min.js"></script>
+    <script src="/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="/assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="/assets/js/main.js"></script>
+    <script>
+      // Respect visitors who don't want to be tracked
+      if (!navigator.doNotTrack) {
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-75318722-1', 'auto');
+        ga('send', 'pageview');
+      }
+    </script>
+
+  </body>
+
+</html>
+
+
+
+#####EOF#####
+
+

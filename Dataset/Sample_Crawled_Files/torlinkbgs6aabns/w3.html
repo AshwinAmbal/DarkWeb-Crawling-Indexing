@@ -1,0 +1,2798 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Basic HTML data types</title>
+<link rel="previous" href="charset.html">
+<link rel="next" href="struct/global.html">
+<link rel="contents" href="cover.html#toc">
+<link rel="stylesheet" type="text/css" href= 
+"http://www.w3.org/StyleSheets/TR/W3C-REC">
+<link rel="STYLESHEET" href="style/default.css" type="text/css">
+</head>
+<body>
+<div class="navbar" align="center">&nbsp;<a href="charset.html">previous</a>
+&nbsp; <a href="struct/global.html">next</a> &nbsp; <a href=
+"cover.html#minitoc">contents</a> &nbsp; <a href="index/elements.html">
+elements</a> &nbsp; <a href="index/attributes.html">attributes</a> &nbsp; <a
+href="index/list.html">index</a> 
+
+<hr></div>
+
+<h1 align="center"><a name="h-6">6</a> Basic HTML data types</h1>
+
+<div class="subtoc">
+<p><strong>Contents</strong></p>
+
+<ol>
+<li><a class="tocxref" href="#h-6.1">Case information</a></li>
+
+<li><a class="tocxref" href="#h-6.2">SGML basic types</a></li>
+
+<li><a class="tocxref" href="#h-6.3">Text strings</a></li>
+
+<li><a class="tocxref" href="#h-6.4">URIs</a></li>
+
+<li><a class="tocxref" href="#h-6.5">Colors</a> 
+
+<ol>
+<li><a class="tocxref" href="#h-6.5.1">Notes on using colors</a></li>
+</ol>
+</li>
+
+<li><a class="tocxref" href="#h-6.6">Lengths</a></li>
+
+<li><a class="tocxref" href="#h-6.7">Content types (MIME types)</a></li>
+
+<li><a class="tocxref" href="#h-6.8">Language codes</a></li>
+
+<li><a class="tocxref" href="#h-6.9">Character encodings</a></li>
+
+<li><a class="tocxref" href="#h-6.10">Single characters</a></li>
+
+<li><a class="tocxref" href="#h-6.11">Dates and times</a></li>
+
+<li><a class="tocxref" href="#h-6.12">Link types</a></li>
+
+<li><a class="tocxref" href="#h-6.13">Media descriptors</a></li>
+
+<li><a class="tocxref" href="#h-6.14">Script data</a></li>
+
+<li><a class="tocxref" href="#h-6.15">Style sheet data</a></li>
+
+<li><a class="tocxref" href="#h-6.16">Frame target names</a></li>
+</ol>
+</div>
+
+<p>This section of the specification describes the basic data types that may
+appear as an element's content or an attribute's value.</p>
+
+<p>For introductory information about reading the HTML DTD, please consult the
+<a href="./intro/sgmltut.html">SGML tutorial</a>.</p>
+
+<h2><a name="h-6.1">6.1</a> <a name="case">Case information</a></h2>
+
+<p>Each attribute definition includes information about the <span class= 
+"index-inst" title="case::of attribute values"><a name="idx-case">
+case-sensitivity</a></span> of its values. The case information is presented
+with the following keys:</p>
+
+<dl>
+<dt><strong><a name="case-sensitive">CS</a></strong></dt>
+
+<dd>The value is case-sensitive (i.e., user agents interpret "a" and "A"
+differently).</dd>
+
+<dt><strong><a name="case-insensitive">CI</a></strong></dt>
+
+<dd>The value is case-insensitive (i.e., user agents interpret "a" and "A" as
+the same).</dd>
+
+<dt><strong><a name="case-neutral">CN</a></strong></dt>
+
+<dd>The value is not subject to case changes, e.g., because it is a number or a
+character from the document character set.</dd>
+
+<dt><strong><a name="case-attribute">CA</a></strong></dt>
+
+<dd>The element or attribute definition itself gives case information.</dd>
+
+<dt><strong><a name="see-type-for-case">CT</a></strong></dt>
+
+<dd>Consult the type definition for details about case-sensitivity.</dd>
+</dl>
+
+<p>If an attribute value is a list, the keys apply to every value in the list,
+unless otherwise indicated.</p>
+
+<h2><a name="h-6.2">6.2</a> SGML basic types</h2>
+
+<p>The <a href="./sgml/dtd.html">document type definition</a> specifies the
+syntax of HTML element content and attribute values using SGML tokens (e.g.,
+PCDATA, CDATA, NAME, ID, etc.). See <a rel="biblioentry" href= 
+"./references.html#ref-ISO8879" class="normref">[ISO8879]</a> for their full
+definitions. The following is a summary of key information:</p>
+
+<ul>
+<li><span class="index-def" title="CDATA|data type::CDATA"><a name=
+"type-cdata"><strong>CDATA</strong></a></span> is a sequence of characters from
+the document character set and may include character entities. User agents
+should interpret attribute values as follows: 
+
+<ul>
+<li>Replace character entities with characters,</li>
+
+<li>Ignore line feeds,</li>
+
+<li>Replace each carriage return or tab with a single space.</li>
+</ul>
+
+<p>User agents may ignore leading and trailing white space in CDATA attribute
+values (e.g., "&nbsp;&nbsp;&nbsp;myval&nbsp;&nbsp;&nbsp;" may be interpreted as
+"myval"). Authors should not declare attribute values with leading or trailing
+white space.</p>
+
+<p>For some HTML 4 attributes with CDATA attribute values, the specification
+imposes further constraints on the set of legal values for the attribute that
+may not be expressed by the DTD.</p>
+
+<p>Although the <a href="present/styles.html#edef-STYLE" class="noxref"><samp
+class="einst">STYLE</samp></a> and <a href="interact/scripts.html#edef-SCRIPT"
+class="noxref"><samp class="einst">SCRIPT</samp></a> elements use CDATA for
+their data model, for these elements, CDATA must be handled <span class= 
+"index-inst" title="CDATA::script and style data|user agent::processing script 
+and style data"><a name="idx-CDATA-1">differently</a></span> by user agents.
+Markup and entities must be treated as raw text and passed to the application
+as is. The first occurrence of the character sequence "&lt;/" (end-tag open
+delimiter) is treated as terminating the end of the element's content. In valid
+documents, this would be the end tag for the element.</p>
+</li>
+
+<li><span class="index-inst" title="ID|data type::ID"><a name="type-id">
+<strong>ID</strong></a></span> and <span class="index-inst" title="NAME|data 
+type::NAME"><a name="type-name"><strong>NAME</strong></a></span> tokens must
+begin with a letter ([A-Za-z]) and may be followed by any number of letters,
+digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods
+(".").</li>
+
+<li><span class="index-inst" title="IDREF|data type::IDREF"><a name=
+"type-idref"><strong>IDREF</strong></a></span> and <span class="index-inst"
+title="IDREFS|data type::IDREFS"><a name="type-idrefs"><strong>
+IDREFS</strong></a></span> are references to ID tokens defined by other
+attributes. IDREF is a single token and IDREFS is a space-separated list of
+tokens.</li>
+
+<li><span class="index-inst" title="NUMBER|data type::NUMBER"><a name= 
+"type-number"><strong>NUMBER</strong></a></span> tokens must contain at least
+one digit ([0-9]).</li>
+</ul>
+
+<h2><a name="h-6.3">6.3</a> <a name="type-text">Text strings</a></h2>
+
+<p>A number of attributes ( <span class="index-def" title="parameter 
+entity::%Text;|%Text;"><a name="didx-parameter_entity" href= 
+"./sgml/dtd.html#Text">%Text;</a></span> in the DTD) take text that is meant to
+be "human readable". For introductory information about attributes, please
+consult the <a href="intro/sgmltut.html#attributes">tutorial discussion of
+attributes</a>.</p>
+
+<h2><a name="h-6.4">6.4</a> <a name="type-uri">URIs</a></h2>
+
+<p>This specification uses the term URI as defined in <a rel="biblioentry"
+href="./references.html#ref-URI" class="normref">[URI]</a> (see also <a rel= 
+"biblioentry" href="./references.html#ref-RFC1630" class="informref">
+[RFC1630]</a>).</p>
+
+<p>Note that URIs include URLs (as defined in <a rel="biblioentry" href= 
+"./references.html#ref-RFC1738" class="normref">[RFC1738]</a> and <a rel= 
+"biblioentry" href="./references.html#ref-RFC1808" class="normref">
+[RFC1808]</a>).</p>
+
+<p>Relative URIs are resolved to full URIs using a base URI. <a rel=
+"biblioentry" href="./references.html#ref-RFC1808" class="normref">
+[RFC1808]</a>, section 3, defines the normative algorithm for this process. For
+more information about base URIs, please consult the section on <a href= 
+"struct/links.html#edef-BASE">base URIs</a> in the chapter on <a href= 
+"struct/links.html">links</a>.</p>
+
+<p>URIs are represented in the DTD by the parameter entity <span class= 
+"index-def" title="parameter entity::%URI;|%URI;"><a name= 
+"didx-parameter_entity-1" href="sgml/dtd.html#URI">%URI;</a></span>.</p>
+
+<p>URIs in general are <span class="index-inst" title="case::of URIs|URI::case 
+of"><a name="idx-case-1" href="#case-sensitive">case-sensitive.</a></span>
+There may be URIs, or parts of URIs, where case doesn't matter (e.g., machine
+names), but identifying these may not be easy. Users should always consider
+that URIs are case-sensitive (to be on the safe side).</p>
+
+<p>Please consult the appendix for information about <a href= 
+"appendix/notes.html#non-ascii-chars">non-ASCII characters in URI attribute
+values</a>.</p>
+
+<h2><a name="h-6.5">6.5</a> <a name="type-color">Colors</a></h2>
+
+<p>The attribute value type "color" (<span class="index-def" title="parameter 
+entity::%Color;|%Color;"><a name="didx-parameter_entity-2" href= 
+"sgml/loosedtd.html#Color">%Color;</a></span>) refers to color definitions as
+specified in <a rel="biblioentry" href="./references.html#ref-SRGB" class= 
+"normref">[SRGB]</a>. A color value may either be a hexadecimal number
+(prefixed by a hash mark) or one of the following sixteen color names. The
+color names are <span class="index-inst" title="case::of color names"><a name= 
+"idx-case-2" href="#case-insensitive">case-insensitive.</a></span></p>
+
+<table summary="Table of color names and their sRGB values" align="center"
+width="80%" border="0" cellspacing="10" cellpadding="0">
+<caption><b><span class="index-inst" title="color::names of"><a name=
+"idx-color">Color names</a></span> and sRGB values</b>
+<br>
+</caption>
+
+<tr>
+<td width="16"><img alt="" src="images/black.gif"></td>
+<td>Black = "#000000"</td>
+<td width="16"><img alt="" src="images/green.gif"></td>
+<td>Green = "#008000"
+<br>
+</td>
+</tr>
+
+<tr>
+<td width="16"><img alt="" src="images/silver.gif"></td>
+<td>Silver = "#C0C0C0"</td>
+<td width="16"><img alt="" src="images/lime.gif"></td>
+<td>Lime = "#00FF00"
+<br>
+</td>
+</tr>
+
+<tr>
+<td width="16"><img alt="" src="images/gray.gif"></td>
+<td>Gray = "#808080"</td>
+<td width="16"><img alt="" src="images/olive.gif"></td>
+<td>Olive = "#808000"
+<br>
+</td>
+</tr>
+
+<tr>
+<td width="16"><img alt="" src="images/white.gif"></td>
+<td>White = "#FFFFFF"</td>
+<td width="16"><img alt="" src="images/yellow.gif"></td>
+<td>Yellow = "#FFFF00"
+<br>
+</td>
+</tr>
+
+<tr>
+<td width="16"><img alt="" src="images/maroon.gif"></td>
+<td>Maroon = "#800000"</td>
+<td width="16"><img alt="" src="images/navy.gif"></td>
+<td>Navy = "#000080"
+<br>
+</td>
+</tr>
+
+<tr>
+<td width="16"><img alt="" src="images/red.gif"></td>
+<td>Red = "#FF0000"</td>
+<td width="16"><img alt="" src="images/blue.gif"></td>
+<td>Blue = "#0000FF"
+<br>
+</td>
+</tr>
+
+<tr>
+<td width="16"><img alt="" src="images/purple.gif"></td>
+<td>Purple = "#800080"</td>
+<td width="16"><img alt="" src="images/teal.gif"></td>
+<td>Teal = "#008080"
+<br>
+</td>
+</tr>
+
+<tr>
+<td width="16"><img alt="" src="images/fuchsia.gif"></td>
+<td>Fuchsia = "#FF00FF"</td>
+<td width="16"><img alt="" src="images/aqua.gif"></td>
+<td>Aqua = "#00FFFF"
+<br>
+</td>
+</tr>
+</table>
+
+<p>Thus, the color values "#800080" and "Purple" both refer to the color
+purple.</p>
+
+<h3><a name="h-6.5.1">6.5.1</a> Notes on using colors</h3>
+
+<p>Although colors can add significant amounts of information to documents and
+make them more readable, please consider the following guidelines when
+including color in your documents:</p>
+
+<ul>
+<li>The use of HTML elements and attributes for specifying color is <a href= 
+"./conform.html#deprecated">deprecated</a>. You are encouraged to use <a href= 
+"./present/styles.html">style sheets</a> instead.</li>
+
+<li>Don't use color combinations that cause problems for people with color
+blindness in its various forms.</li>
+
+<li>If you use a background image or set the background color, then be sure to
+set the various text colors as well.</li>
+
+<li>Colors specified with the <a href="struct/global.html#edef-BODY" class= 
+"noxref"><samp class="einst">BODY</samp></a> and <a href= 
+"present/graphics.html#edef-FONT" class="noxref"><samp class="einst">
+FONT</samp></a> elements and <a href="present/graphics.html#adef-bgcolor"
+class="noxref"><samp class="ainst">bgcolor</samp></a> on tables look different
+on different platforms (e.g., workstations, Macs, Windows, and LCD panels vs.
+CRTs), so you shouldn't rely entirely on a specific effect. In the future,
+support for the <a rel="biblioentry" href="./references.html#ref-SRGB" class= 
+"normref">[SRGB]</a> color model together with ICC color profiles should
+mitigate this problem.</li>
+
+<li>When practical, adopt common conventions to minimize user confusion.</li>
+</ul>
+
+<h2><a name="h-6.6">6.6</a> Lengths</h2>
+
+<p>HTML specifies three types of length values for attributes:</p>
+
+<ol>
+<li><a name="type-pixels"><strong>Pixels</strong></a>: The value (<span class= 
+"index-def" title="parameter entity::%Pixels;|%Pixels;"><a name= 
+"didx-parameter_entity-3" href="sgml/dtd.html#Pixels">%Pixels;</a></span> in
+the DTD) is an integer that represents the number of pixels of the canvas
+(screen, paper). Thus, the value "50" means fifty pixels. For normative
+information about the definition of a <span class="index-def" title="pixel"><a
+name="didx-pixel">pixel,</a></span> please consult <a rel="biblioentry" href= 
+"./references.html#ref-CSS1" class="normref">[CSS1]</a>.</li>
+
+<li><a name="type-length"><strong>Length</strong></a>: The value (<span class= 
+"index-def" title="parameter entity::%Length;|%Length;"><a name= 
+"didx-parameter_entity-4" href="sgml/dtd.html#Length">%Length;</a></span> in
+the DTD) may be either a %Pixel; or a percentage of the available horizontal or
+vertical space. Thus, the value "50%" means half of the available space.</li>
+
+<li><a name="type-multi-length"><strong>MultiLength</strong></a>: The value (
+<span class="index-def" title="parameter entity::%MultiLength;|%MultiLength;">
+<a name="didx-parameter_entity-5" href="sgml/dtd.html#MultiLength">
+%MultiLength;</a></span> in the DTD) may be a %Length; or a <span class= 
+"index-def" title="relative length"><a name="didx-relative_length"><dfn>
+relative length</dfn></a></span>. A relative length has the form "i*", where
+"i" is an integer. When allotting space among elements competing for that
+space, user agents allot pixel and percentage lengths first, then divide up
+remaining available space among relative lengths. Each relative length receives
+a portion of the available space that is proportional to the integer preceding
+the "*". The value "*" is equivalent to "1*". Thus, if 60 pixels of space are
+available after the user agent allots pixel and percentage space, and the
+competing relative lengths are 1*, 2*, and 3*, the 1* will be alloted 10
+pixels, the 2* will be alloted 20 pixels, and the 3* will be alloted 30
+pixels.</li>
+</ol>
+
+<p>Length values are <span class="index-inst" title="case::of length values"><a
+name="idx-case-3" href="#case-neutral">case-neutral.</a></span></p>
+
+<h2><a name="h-6.7">6.7</a> <a name="type-content-type">Content types (MIME
+types)</a></h2>
+
+<div class="note">
+<p><em><strong>Note.</strong> A "media type" (defined in <a rel="biblioentry"
+href="references.html#ref-RFC2045" class="normref">[RFC2045]</a> and <a rel= 
+"biblioentry" href="references.html#ref-RFC2046" class="normref">[RFC2046]</a>)
+specifies the nature of a linked resource. This specification employs the term
+"content type" rather than "media type" in accordance with current usage.
+Furthermore, in this specification, "media type" may refer to the <a href= 
+"#type-media-descriptors">media</a> where a user agent renders a
+document.</em></p>
+</div>
+
+<p>This type is represented in the DTD by <span class="index-def" title= 
+"parameter entity::%ContentType;|%ContentType;"><a name=
+"didx-parameter_entity-6" href="sgml/dtd.html#ContentType">
+%ContentType;.</a></span></p>
+
+<p>Content types are <span class="index-inst" title="case::of content types"><a
+name="idx-case-4" href="#case-insensitive">case-insensitive.</a></span></p>
+
+<p>Examples of content types include "text/html", "image/png", "image/gif",
+"video/mpeg", "text/css", and "audio/basic". For the current list of registered
+MIME types, please consult <a rel="biblioentry" href= 
+"./references.html#ref-MIMETYPES" class="normref">[MIMETYPES].</a></p>
+
+<h2><a name="h-6.8">6.8</a> <a name="type-langcode">Language codes</a></h2>
+
+<p>The value of attributes whose type is a language code ( <span class= 
+"index-def" title="parameter entity::%LanguageCode;|%LanguageCode;"><a name= 
+"didx-parameter_entity-7" href="sgml/dtd.html#LanguageCode">
+%LanguageCode</a></span> in the DTD) refers to a language code as specified by
+<a rel="biblioentry" href="./references.html#ref-RFC1766" class="normref">
+[RFC1766]</a>, section 2. For information on specifying language codes in HTML,
+please consult the section on <a href="struct/dirlang.html#langcodes">language
+codes</a>. Whitespace is not allowed within the language-code.</p>
+
+<p>Language codes are <span class="index-inst" title="case::of language codes">
+<a name="idx-case-5" href="#case-insensitive">case-insensitive.</a></span></p>
+
+<h2><a name="h-6.9">6.9</a> <a name="type-charset">Character encodings</a></h2>
+
+<p>The "charset" attributes (<span class="index-def" title="parameter 
+entity::%Charset;|%Charset;"><a name="didx-parameter_entity-8" href= 
+"sgml/dtd.html#Charset">%Charset</a></span> in the DTD) refer to a <span class= 
+"index-inst" title="character encoding::names of"><a name= 
+"idx-character_encoding">character encoding</a></span> as described in the
+section on <a href="./charset.html#encodings">character encodings</a>. Values
+must be strings (e.g., "euc-jp") from the IANA registry (see <a rel=
+"biblioentry" href="./references.html#ref-CHARSETS" class="normref">
+[CHARSETS]</a> for a complete list).</p>
+
+<p>Names of character encodings are <span class="index-inst" title="case::of 
+character encodings"><a name="idx-case-6" href="#case-insensitive">
+case-insensitive.</a></span></p>
+
+<p>User agents must follow the steps set out in the section on <a href= 
+"charset.html#spec-char-encoding">specifying character encodings</a> in order
+to determine the character encoding of an external resource.</p>
+
+<h2><a name="h-6.10">6.10</a> <a name="type-character">Single
+characters</a></h2>
+
+<p>Certain attributes call for a single character from the <a href= 
+"charset.html#doc-char-set">document character set</a>. These attributes take
+the <span class="index-def" title="parameter entity::%Character;|%Character;">
+<a name="didx-parameter_entity-9" href="sgml/dtd.html#Character">
+%Character</a></span> type in the DTD.</p>
+
+<p>Single characters may be specified with <a href="charset.html#entities">
+character references</a> (e.g., "&amp;amp;").</p>
+
+<h2><a name="h-6.11">6.11</a> <span class="index-inst" title="date::format 
+of|time::format of"><a name="type-datetime">Dates and times</a></span></h2>
+
+<p><a rel="biblioentry" href="./references.html#ref-ISO8601" class="normref">
+[ISO8601]</a> allows many options and variations in the representation of dates
+and times. The current specification uses one of the formats described in the
+profile <a rel="biblioentry" href="./references.html#ref-DATETIME" class= 
+"normref">[DATETIME]</a> for its definition of legal date/time strings ( <span
+class="index-def" title="parameter entity::%Datetime;|%Datetime;"><a name= 
+"didx-parameter_entity-10" href="sgml/dtd.html#Datetime">%Datetime</a></span>
+in the DTD).</p>
+
+<p>The format is:</p>
+
+<pre>
+  YYYY-MM-DDThh:mm:ssTZD
+</pre>
+
+where: 
+
+<pre>
+     YYYY = four-digit year
+     MM   = two-digit month (01=January, etc.)
+     DD   = two-digit day of month (01 through 31)
+     hh   = two digits of hour (00 through 23) (am/pm NOT allowed)
+     mm   = two digits of minute (00 through 59)
+     ss   = two digits of second (00 through 59)
+     TZD  = time zone designator
+</pre>
+
+<p>The time zone designator is one of:</p>
+
+<dl>
+<dt><strong>Z</strong></dt>
+
+<dd>indicates UTC (Coordinated Universal Time). The "Z" must be uppercase.</dd>
+
+<dt><strong>+hh:mm</strong></dt>
+
+<dd>indicates that the time is a local time which is <samp>hh</samp> hours and
+<samp>mm</samp> minutes ahead of UTC.</dd>
+
+<dt><strong>-hh:mm</strong></dt>
+
+<dd>indicates that the time is a local time which is <samp>hh</samp> hours and
+<samp>mm</samp> minutes behind UTC.</dd>
+</dl>
+
+<p>Exactly the components shown here must be present, with exactly this
+punctuation. Note that the <samp>"T"</samp> appears literally in the string (it
+must be uppercase), to indicate the beginning of the time element, as specified
+in <a rel="biblioentry" href="./references.html#ref-ISO8601" class="normref">
+[ISO8601]</a></p>
+
+<p>If a generating application does not know the time to the second, it may use
+the value "00" for the seconds (and minutes and hours if necessary).</p>
+
+<div class="note">
+<p><em><strong>Note.</strong> <a rel="biblioentry" href= 
+"./references.html#ref-DATETIME" class="normref">[DATETIME]</a> does not
+address the issue of leap seconds.</em></p>
+</div>
+
+<h2><a name="h-6.12">6.12</a> <a name="type-links">Link types</a></h2>
+
+<p>Authors may use the following recognized <span class="index-inst" title= 
+"link type::list of recognized|link::type of"><a name="idx-link_type">link
+types,</a></span> listed here with their conventional interpretations. In the
+DTD, <a href="sgml/dtd.html#LinkTypes">%LinkTypes</a> refers to a
+space-separated list of link types. White space characters are not permitted
+within link types.</p>
+
+<p>These link types are <span class="index-inst" title="case::of link 
+types|link type::case of"><a name="idx-case-7" href="#case-insensitive">
+case-insensitive,</a></span> i.e., "Alternate" has the same meaning as
+"alternate".</p>
+
+<p>User agents, search engines, etc. may interpret these link types in a
+variety of ways. For example, user agents may provide access to linked
+documents through a navigation bar.</p>
+
+<dl>
+<dt><strong>Alternate</strong></dt>
+
+<dd>Designates substitute versions for the document in which the link occurs.
+When used together with the <a href="struct/dirlang.html#adef-lang" class= 
+"noxref"><samp class="ainst">lang</samp></a> attribute, it implies a translated
+version of the document. When used together with the <a href= 
+"present/styles.html#adef-media" class="noxref"><samp class="ainst">
+media</samp></a> attribute, it implies a version designed for a different
+medium (or media).</dd>
+
+<dt><strong>Stylesheet</strong></dt>
+
+<dd>Refers to an external style sheet. See the section on <a href= 
+"present/styles.html#style-external">external style sheets</a> for details.
+This is used together with the link type "Alternate" for user-selectable
+alternate style sheets.</dd>
+
+<dt><strong>Start</strong></dt>
+
+<dd>Refers to the first document in a collection of documents. This link type
+tells search engines which document is considered by the author to be the
+starting point of the collection.</dd>
+
+<dt><strong>Next</strong></dt>
+
+<dd>Refers to the next document in a linear sequence of documents. User agents
+may choose to preload the "next" document, to reduce the perceived load
+time.</dd>
+
+<dt><strong>Prev</strong></dt>
+
+<dd>Refers to the previous document in an ordered series of documents. Some
+user agents also support the synonym "Previous".</dd>
+
+<dt><strong>Contents</strong></dt>
+
+<dd>Refers to a document serving as a table of contents. Some user agents also
+support the synonym <em>ToC</em> (from "Table of Contents").</dd>
+
+<dt><strong>Index</strong></dt>
+
+<dd>Refers to a document providing an index for the current document.</dd>
+
+<dt><strong>Glossary</strong></dt>
+
+<dd>Refers to a document providing a glossary of terms that pertain to the
+current document.</dd>
+
+<dt><strong>Copyright</strong></dt>
+
+<dd>Refers to a copyright statement for the current document.</dd>
+
+<dt><strong>Chapter</strong></dt>
+
+<dd>Refers to a document serving as a chapter in a collection of
+documents.</dd>
+
+<dt><strong>Section</strong></dt>
+
+<dd>Refers to a document serving as a section in a collection of
+documents.</dd>
+
+<dt><strong>Subsection</strong></dt>
+
+<dd>Refers to a document serving as a subsection in a collection of
+documents.</dd>
+
+<dt><strong>Appendix</strong></dt>
+
+<dd>Refers to a document serving as an appendix in a collection of
+documents.</dd>
+
+<dt><strong>Help</strong></dt>
+
+<dd>Refers to a document offering help (more information, links to other
+sources information, etc.)</dd>
+
+<dt><strong>Bookmark</strong></dt>
+
+<dd>Refers to a bookmark. A bookmark is a link to a key entry point within an
+extended document. The <a href="struct/global.html#adef-title" class="noxref">
+<samp class="ainst">title</samp></a> attribute may be used, for example, to
+label the bookmark. Note that several bookmarks may be defined in each
+document.</dd>
+</dl>
+
+<p>Authors may wish to define <span class="index-inst" title="link 
+type::profiles for new"><a name="idx-link_type-2">additional link
+types</a></span> not described in this specification. If they do so, they
+should use a <a href="./struct/global.html#profiles">profile</a> to cite the
+conventions used to define the link types. Please see the <a href= 
+"struct/global.html#adef-profile" class="noxref"><samp class="ainst">
+profile</samp></a> attribute of the <a href="struct/global.html#edef-HEAD"
+class="noxref"><samp class="einst">HEAD</samp></a> element for more
+details.</p>
+
+<p>For further discussions about link types, please consult the section on <a
+href="struct/links.html">links in HTML documents</a>.</p>
+
+<h2><a name="h-6.13">6.13</a> <a name="type-media-descriptors">Media
+descriptors</a></h2>
+
+<p>The following is a list of <span class="index-inst" title="media 
+descriptor::list of recognized"><a name="idx-media_descriptor">recognized media
+descriptors</a></span> ( <span class="index-def" title="parameter 
+entity::%MediaDesc;|%MediaDesc;"><a name="didx-parameter_entity-11" href= 
+"sgml/dtd.html#MediaDesc">%MediaDesc</a></span> in the DTD).</p>
+
+<dl>
+<dt><strong>screen</strong></dt>
+
+<dd>Intended for non-paged computer screens.</dd>
+
+<dt><strong>tty</strong></dt>
+
+<dd>Intended for media using a fixed-pitch character grid, such as teletypes,
+terminals, or portable devices with limited display capabilities.</dd>
+
+<dt><strong>tv</strong></dt>
+
+<dd>Intended for television-type devices (low resolution, color, limited
+scrollability).</dd>
+
+<dt><strong>projection</strong></dt>
+
+<dd>Intended for projectors.</dd>
+
+<dt><strong>handheld</strong></dt>
+
+<dd>Intended for handheld devices (small screen, monochrome, bitmapped
+graphics, limited bandwidth).</dd>
+
+<dt><strong>print</strong></dt>
+
+<dd>Intended for paged, opaque material and for documents viewed on screen in
+print preview mode.</dd>
+
+<dt><strong>braille</strong></dt>
+
+<dd>Intended for braille tactile feedback devices.</dd>
+
+<dt><strong>aural</strong></dt>
+
+<dd>Intended for speech synthesizers.</dd>
+
+<dt><strong>all</strong></dt>
+
+<dd>Suitable for all devices.</dd>
+</dl>
+
+<p>Future versions of HTML may introduce new values and may allow parameterized
+values. To facilitate the introduction of these extensions, conforming user
+agents must be able to <span class="index-inst" title="media 
+descriptor::parsing of"><a name="idx-media_descriptor-1">parse</a></span> the
+<a href="present/styles.html#adef-media" class="noxref"><samp class="ainst">
+media</samp></a> attribute value as follows:</p>
+
+<ol>
+<li>The value is a comma-separated list of entries. For example, 
+
+<pre>
+media="screen, 3d-glasses, print and resolution &gt; 90dpi"
+</pre>
+
+<p>is mapped to:</p>
+
+<pre>
+"screen"
+"3d-glasses"
+"print and resolution &gt; 90dpi"
+</pre>
+</li>
+
+<li>Each entry is truncated just before the first character that isn't a US
+ASCII letter [a-zA-Z] (ISO 10646 hex 41-5a, 61-7a), digit [0-9] (hex 30-39), or
+hyphen (hex 2d). In the example, this gives: 
+
+<pre>
+"screen"
+"3d-glasses"
+"print"
+</pre>
+</li>
+
+<li>A <span class="index-inst" title="case::of media descriptors|media 
+descriptor::case of"><a name="idx-case-8" href="#case-insensitive">
+case-sensitive</a></span> match is then made with the set of media types
+defined above. User agents may ignore entries that don't match. In the example
+we are left with <tt>screen</tt> and <tt>print</tt>.</li>
+</ol>
+
+<div class="note">
+<p><em><strong>Note.</strong> Style sheets may include media-dependent
+variations within them (e.g., the CSS <strong>@media</strong> construct). In
+such cases it may be appropriate to use "<a href=
+"present/styles.html#adef-media" class="noxref"><samp class=
+"ainst">media</samp></a>=all"</em>.</p>
+</div>
+
+<h2><a name="h-6.14">6.14</a> <span class="index-inst" title="script::data"><a
+name="type-script">Script data</a></span></h2>
+
+<p>Script data ( <span class="index-def" title="parameter 
+entity::%Script;|%Script;"><a name="didx-parameter_entity-12" href= 
+"sgml/dtd.html#Script">%Script;</a></span> in the <a href="./sgml/dtd.html">
+DTD</a>) can be the content of the <a href="interact/scripts.html#edef-SCRIPT"
+class="noxref"><samp class="einst">SCRIPT</samp></a> element and the value of
+<a href="interact/scripts.html#scripts">intrinsic event attributes</a>. User
+agents must not evaluate script data as HTML markup but instead must pass it on
+as data to a script engine.</p>
+
+<p>The <span class="index-inst" title="case::of script data"><a name=
+"idx-case-9">case-sensitivity</a></span> of script data depends on the
+scripting language.</p>
+
+<p>Please note that script data that is element content may not contain <a
+href="charset.html#entities">character references</a>, but script data that is
+the value of an attribute may contain them. The appendix provides further
+information about <a href="appendix/notes.html#notes-specifying-data">
+specifying non-HTML data</a>.</p>
+
+<h2><a name="h-6.15">6.15</a> <span class="index-inst" title="style
+sheet::data"><a name="type-style">Style sheet data</a></span></h2>
+
+<p>Style sheet data (<a href="sgml/dtd.html#StyleSheet">%StyleSheet;</a> in the
+<a href="./sgml/dtd.html">DTD</a>) can be the content of the <a href= 
+"present/styles.html#edef-STYLE" class="noxref"><samp class="einst">
+STYLE</samp></a> element and the value of the <a href= 
+"present/styles.html#adef-style" class="noxref"><samp class="ainst">
+style</samp></a> attribute. User agents must not evaluate style data as HTML
+markup.</p>
+
+<p>The <span class="index-inst" title="case::of style data"><a name=
+"idx-case-10">case-sensitivity</a></span> of style data depends on the style
+sheet language.</p>
+
+<p>Please note that style sheet data that is element content may not contain <a
+href="charset.html#entities">character references</a>, but style sheet data
+that is the value of an attribute may contain them. The appendix provides
+further information about <a href="appendix/notes.html#notes-specifying-data">
+specifying non-HTML data</a>.</p>
+
+<h2><a name="h-6.16">6.16</a> <a name="type-frame-target">Frame target
+names</a></h2>
+
+<p>Except for the reserved names listed below, frame target names (<span class= 
+"index-def" title="parameter entity::%FrameTarget;|%FrameTarget;"><a name= 
+"didx-parameter_entity-13" href=
+"sgml/loosedtd.html#FrameTarget">%FrameTarget;</a></span> in the DTD) must
+begin with an alphabetic character (a-zA-Z). User agents should ignore all
+other target names.</p>
+
+<p>The following <span class="index-inst" title="target frame::reserved 
+names|frame::list of reserved target names"><a name="idx-target_frame">target
+names</a></span> are reserved and have special meanings.</p>
+
+<dl>
+<dt><strong>_blank</strong></dt>
+
+<dd>The user agent should load the designated document in a new, unnamed
+window.</dd>
+
+<dt><strong>_self</strong></dt>
+
+<dd>The user agent should load the document in the same frame as the element
+that refers to this target.</dd>
+
+<dt><strong>_parent</strong></dt>
+
+<dd>The user agent should load the document into the immediate <a href= 
+"present/frames.html#edef-FRAMESET" class="noxref"><samp class="einst">
+FRAMESET</samp></a> parent of the current frame. This value is equivalent to
+<tt>_self</tt> if the current frame has no parent.</dd>
+
+<dt><strong>_top</strong></dt>
+
+<dd>The user agent should load the document into the full, original window
+(thus canceling all other frames). This value is equivalent to <tt>_self</tt>
+if the current frame has no parent.</dd>
+</dl>
+
+<div class="navbar" align="center">
+<hr><a href="charset.html">previous</a> &nbsp; <a href="struct/global.html">
+next</a> &nbsp; <a href="cover.html#minitoc">contents</a> &nbsp; <a href= 
+"index/elements.html">elements</a> &nbsp; <a href="index/attributes.html">
+attributes</a> &nbsp; <a href="index/list.html">index</a></div>
+</body>
+</html>
+
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document " prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#">
+<head><meta property="dc:language" content="en" lang="">
+        <title>
+            RDFa 1.1 Primer - Third Edition
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><!-- 
+      === NOTA BENE ===      For the three scripts below, if your spec resides on dev.w3 you can check them out in the same tree and use relative links so that they'll work offline,     -->
+
+        <style type="text/css">
+/*<![CDATA[*/
+        code                 { font-family: monospace; }   
+        span.hilite          { color: red; /* font-weight: bold */ }
+        a.figurelink:hover   { background:white !important}
+        div.figure, figure   { font-size: 90%}
+        div.c1, figure.c1    { margin: 0pt auto; text-align: center}
+        figcaption           { display: none;}
+        /*]]>*/
+        </style>
+         
+    
+    <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #C83500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    background: #fcfaee;    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title , div.warning-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.warning-title { color: #f22; }
+div.issue-title span, div.note-title span, div.warning-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue, div.warning {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child, .warning > p:first-child { margin-top: 0 }
+.issue, .note, .warning {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note , div.warning {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue, span.warning { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+.warning {
+    border-color: #f11;
+    border-right-width: .2em;
+    border-top-width: .2em;
+    border-bottom-width: .2em;
+    border-style: solid;
+    background: #fbe9e9;
+}
+
+.warning-title:before{
+    content: "â "; /*U+26A0 WARNING SIGN*/
+    font-size: 3em;
+    float: left;
+    height: 100%;
+    padding-right: .3em;
+    vertical-align: top;
+    margin-top: -0.5em;
+}
+</style><link href="https://www.w3.org/StyleSheets/TR/W3C-WG-NOTE" rel="stylesheet"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+    <body id="respecDocument" role="document" class="h-entry"><div id="respecHeader" role="contentinfo" class="head">
+  <p>
+      
+        
+            <a href="http://www.w3.org/"><img src="https://www.w3.org/Icons/w3c_home" alt="W3C" height="48" width="72"></a>
+        
+      
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">RDFa 1.1 Primer - Third Edition</h1>
+  
+    <h2 property="bibo:subtitle" id="subtitle">Rich Structured Data Markup for Web Documents</h2>
+  
+  <h2 id="w3c-working-group-note-17-march-2015"><abbr title="World Wide Web Consortium">W3C</abbr> Working Group Note <time property="dcterms:issued" class="dt-published" datetime="2015-03-17">17 March 2015</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="http://www.w3.org/TR/2015/NOTE-rdfa-primer-20150317/">http://www.w3.org/TR/2015/NOTE-rdfa-primer-20150317/</a></dd>
+      <dt>Latest published version:</dt>
+      <dd><a href="http://www.w3.org/TR/rdfa-primer/">http://www.w3.org/TR/rdfa-primer/</a></dd>
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="http://www.w3.org/2010/02/rdfa/sources/rdfa-primer/Overview-src.html">http://www.w3.org/2010/02/rdfa/sources/rdfa-primer/Overview-src.html</a></dd>
+    
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="http://www.w3.org/TR/2013/NOTE-rdfa-primer-20130822/">http://www.w3.org/TR/2013/NOTE-rdfa-primer-20130822/</a></dd>
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" property="bibo:editor" resource="_:editor0"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Ivan Herman"><a class="u-url url p-name fn" property="foaf:homepage" href="http://www.w3.org/People/Ivan/">Ivan Herman</a>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.w3.org"><abbr title="World Wide Web Consortium">W3C</abbr></a>, <span class="ed_mailto"><a class="u-email email" property="foaf:mbox" href="mailto:ivan@w3.org">ivan@w3.org</a></span></span>
+<span property="rdf:rest" resource="_:editor1"></span>
+</dd>
+<dd class="p-author h-card vcard" resource="_:editor1"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Ben Adida"><a class="u-url url p-name fn" property="foaf:homepage" href="http://ben.adida.net/">Ben Adida</a>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://creativecommons.org/">Creative Commons</a>, <span class="ed_mailto"><a class="u-email email" property="foaf:mbox" href="mailto:ben@adida.net">ben@adida.net</a></span></span>
+<span property="rdf:rest" resource="_:editor2"></span>
+</dd>
+<dd class="p-author h-card vcard" resource="_:editor2"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Manu Sporny"><a class="u-url url p-name fn" property="foaf:homepage" href="http://manu.sporny.org">Manu Sporny</a>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://digitalbazaar.com/">Digital Bazaar</a>, <span class="ed_mailto"><a class="u-email email" property="foaf:mbox" href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a></span></span>
+<span property="rdf:rest" resource="_:editor3"></span>
+</dd>
+<dd class="p-author h-card vcard" resource="_:editor3"><span property="rdf:first" typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Mark Birbeck</span>, webBackPlane.com, <span class="ed_mailto"><a class="u-email email" property="foaf:mbox" href="mailto:mark.birbeck@webBackplane.com">mark.birbeck@webBackplane.com</a></span></span>
+<span property="rdf:rest" resource="rdf:nil"></span>
+</dd>
+
+    
+    
+  </dl>
+  
+    <p>
+      Please check the <a href="http://www.w3.org/2015/rdfa1.1-errata"><strong>errata</strong></a> for any errors or issues
+      reported since publication.
+    </p>
+  
+  
+    <p>
+      
+        This document is also available in this non-normative format:
+      
+      <a rel="alternate" href="diff.html">diff to previous version</a>
+    </p>
+  
+  
+  
+    
+      <p class="copyright">
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> Â©
+        2010-2015
+        
+        <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>Â®</sup>
+        (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
+        <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+        <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>). 
+        
+        <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
+        
+          <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+        
+        rules apply.
+      </p>
+    
+  
+  <hr>
+</div>
+        <section property="dc:abstract" class="introductory" id="abstract"><h2 resource="#h-abstract" id="h-abstract"><span property="xhv:role" resource="xhv:heading">Abstract</span></h2>
+            <p>
+                The last couple of years have witnessed a fascinating evolution: while the Web was initially
+                built predominantly for human consumption, web content is increasingly consumed by machines
+                which expect some amount of structured data. Sites have started to identify a page's title,
+                content type, and preview image to provide appropriate information in a user's newsfeed when
+                she clicks the "Like" button. Search engines have started to provide richer search results by
+                extracting fine-grained structured details from the Web pages they crawl. In turn, web
+                publishers are producing increasing amounts of structured data within their Web content to
+                improve their standing with search engines.
+            </p>
+            <p>
+                A key enabling technology behind these developments is the ability to add structured data to
+                HTML pages directly. RDFa (Resource Description Framework in Attributes) is a technique that
+                allows just that: it provides a set of markup attributes to augment the visual information on
+                the Web with machine-readable hints. In this Primer, we show how to express data using RDFa
+                in HTML, and in particular how to mark up existing human-readable Web page content to express
+                machine-readable data.
+            </p>
+            <p>
+                This document provides only a Primer to RDFa&nbsp;1.1. The complete specification of RDFa, with
+                further examples, can be found in the RDFa&nbsp;1.1 Core&nbsp;[<cite><a href="#bib-rdfa-core" class="bibref">rdfa-core</a></cite>], RDFa Lite&nbsp;[<cite><a href="#bib-rdfa-lite" class="bibref">rdfa-lite</a></cite>],
+                XHTML+RDFa&nbsp;1.1&nbsp;[<cite><a href="#bib-xhtml-rdfa" class="bibref">xhtml-rdfa</a></cite>], and the HTML5+RDFa&nbsp;1.1&nbsp;[<cite><a href="#bib-html-rdfa" class="bibref">html-rdfa</a></cite>] specifications.
+            </p>
+        </section><section id="sotd" class="introductory"><h2 resource="#h-sotd" id="h-sotd"><span property="xhv:role" resource="xhv:heading">Status of This Document</span></h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at
+          http://www.w3.org/TR/.</em>
+        </p>
+        
+        
+        
+        <p>
+          This document was published by the <a href="http://www.w3.org/2010/02/rdfa">RDFa Working Group</a> as a Working Group Note.
+          
+          
+            If you wish to make comments regarding this document, please send them to 
+            <a href="mailto:public-rdfa@w3.org">public-rdfa@w3.org</a> 
+            (<a href="mailto:public-rdfa-request@w3.org?subject=subscribe">subscribe</a>,
+            <a href="http://lists.w3.org/Archives/Public/public-rdfa/">archives</a>).
+          
+          
+          
+          
+          
+            
+            All comments are welcome.
+            
+          
+        </p>
+        
+        
+        
+          <p>
+            Publication as a Working Group Note does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr>
+            Membership. This is a draft document and may be updated, replaced or obsoleted by other
+            documents at any time. It is inappropriate to cite this document as other than work in
+            progress.
+          </p>
+        
+        
+        
+        <p>
+          
+            This document was produced by a group operating under the 
+            <a id="sotd_patent" property="w3p:patentRules" href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent
+            Policy</a>.
+          
+          
+          
+            
+              <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/44350/status" rel="disclosure">public list of any patent
+              disclosures</a> 
+            
+            made in connection with the deliverables of the group; that page also includes
+            instructions for disclosing a patent. An individual who has actual knowledge of a patent
+            which the individual believes contains
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
+            Claim(s)</a> must disclose the information in accordance with
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+            6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          
+          
+        </p>
+        
+          <p>
+            This document is governed by the  <a id="w3c_process_revision" href="http://www.w3.org/2005/10/Process-20051014/">14 October 2005 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+          </p>
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 resource="#h-toc" id="h-toc" class="introductory"><span property="xhv:role" resource="xhv:heading">Table of Contents</span></h2><ul id="respecContents" role="directory" class="toc"><li class="tocline"><a class="tocxref" href="#introduction"><span class="secno">1. </span>
+                Introduction
+            </a><ul class="toc"><li class="tocline"><a class="tocxref" href="#html-vs.-xhtml"><span class="secno">1.1 </span>
+                    HTML vs. XHTML
+                </a></li><li class="tocline"><a class="tocxref" href="#validation"><span class="secno">1.2 </span>
+                    Validation
+                </a></li></ul></li><li class="tocline"><a class="tocxref" href="#using-rdfa"><span class="secno">2. </span>
+                Using RDFa
+            </a><ul class="toc"><li class="tocline"><a class="tocxref" href="#the-basics-of-rdfa-rdfa-lite"><span class="secno">2.1 </span>
+                    The Basics of RDFa: RDFa Lite
+                </a><ul class="toc"><li class="tocline"><a class="tocxref" href="#the-first-steps-adding-machine-readable-hints-to-web-pages"><span class="secno">2.1.1 </span>
+                        The First Steps: Adding Machine-Readable Hints to Web Pages
+                    </a><ul class="toc"><li class="tocline"><a class="tocxref" href="#hints-on-social-networking-sites"><span class="secno">2.1.1.1 </span>
+                            Hints on Social Networking Sites
+                        </a></li><li class="tocline"><a class="tocxref" href="#links-with-flavor-1"><span class="secno">2.1.1.2 </span>
+                            Links with Flavor
+                        </a></li><li class="tocline"><a class="tocxref" href="#setting-a-default-vocabulary"><span class="secno">2.1.1.3 </span>
+                            Setting a Default Vocabulary
+                        </a></li><li class="tocline"><a class="tocxref" href="#multiple-items-per-page"><span class="secno">2.1.1.4 </span>
+                            Multiple Items per Page
+                        </a></li></ul></li><li class="tocline"><a class="tocxref" href="#exploring-further-social-networks"><span class="secno">2.1.2 </span>
+                        Exploring Further: Social networks
+                    </a><ul class="toc"><li class="tocline"><a class="tocxref" href="#contact-information"><span class="secno">2.1.2.1 </span>
+                            Contact Information
+                        </a></li><li class="tocline"><a class="tocxref" href="#describing-social-networks"><span class="secno">2.1.2.2 </span>
+                            Describing Social Networks
+                        </a></li></ul></li><li class="tocline"><a class="tocxref" href="#repeated-patterns"><span class="secno">2.1.3 </span>Repeated Patterns</a></li><li class="tocline"><a class="tocxref" href="#internal-references"><span class="secno">2.1.4 </span>
+                        Internal References
+                    </a></li><li class="tocline"><a class="tocxref" href="#using-multiple-vocabularies"><span class="secno">2.1.5 </span>
+                        Using Multiple Vocabularies
+                    </a><ul class="toc"><li class="tocline"><a class="tocxref" href="#repeating-properties"><span class="secno">2.1.5.1 </span>
+                            Repeating properties
+                        </a></li><li class="tocline"><a class="tocxref" href="#default-prefixes-initial-context"><span class="secno">2.1.5.2 </span>
+                            Default Prefixes (Initial Context)
+                        </a></li></ul></li></ul></li><li class="tocline"><a class="tocxref" href="#going-deeper-rdfa-core"><span class="secno">2.2 </span>
+                    Going Deeper: RDFa Core
+                </a><ul class="toc"><li class="tocline"><a class="tocxref" href="#using-the-content-attribute"><span class="secno">2.2.1 </span>
+                        Using the <code>content</code> attribute
+                    </a></li><li class="tocline"><a class="tocxref" href="#datatypes"><span class="secno">2.2.2 </span>
+                        Datatypes
+                    </a></li><li class="tocline"><a class="tocxref" href="#alternative-for-setting-the-context-about"><span class="secno">2.2.3 </span>
+                        Alternative for setting the context: <code>about</code>
+                    </a></li><li class="tocline"><a class="tocxref" href="#alternative-for-setting-the-property-rel"><span class="secno">2.2.4 </span>
+                        Alternative for setting the property: <code>rel</code>
+                    </a></li></ul></li></ul></li><li class="tocline"><a class="tocxref" href="#you-said-something-about-rdf"><span class="secno">3. </span>
+                You Said Something about RDF?
+            </a><ul class="toc"><li class="tocline"><a class="tocxref" href="#custom-vocabularies"><span class="secno">3.1 </span>
+                    Custom Vocabularies
+                </a></li></ul></li><li class="tocline"><a class="tocxref" href="#rdfa-tools"><span class="secno">4. </span>
+                RDFa Tools
+            </a></li><li class="tocline"><a class="tocxref" href="#acknowledgments"><span class="secno">5. </span>
+                Acknowledgments
+            </a></li><li class="tocline"><a class="tocxref" href="#references"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#informative-references"><span class="secno">A.1 </span>Informative references</a></li></ul></li></ul></section>
+        <section property="bibo:hasPart" resource="#introduction" typeof="bibo:Chapter" id="introduction">
+            <!--OddPage--><h2 resource="#h-introduction" id="h-introduction"><span property="xhv:role" resource="xhv:heading"><span class="secno">1. </span>
+                Introduction
+            </span></h2>
+            <p>
+                The web is a rich, distributed repository of interconnected information. Until recently, it
+                was organized primarily for human consumption. On a typical web page, an HTML author might
+                specify a headline, then a smaller sub-headline, a block of italicized text, a few paragraphs
+                of average-size text, and, finally, a few single-word links. Web browsers will follow these
+                presentation instructions faithfully. However, only the human mind understands what the
+                headline expresses-a blog post title. The sub-headline indicates the author, the italicized
+                text is the article's publication date, and the single-word links are subject categories.
+                Computers do not understand the nuances between the information; the gap between what
+                programs and humans understand is large.
+            </p>
+            <figure id="fig-presentation-vs.-semantics" class="figure c1">
+                <a class="figurelink c1" href="diagrams/presentation-vs-semantics.svg"><img src="diagrams/presentation-vs-semantics.png" alt="presentation vs. semantics"></a>
+                <p>
+                    <em>Figure 1</em>: On the left, what browsers see. On the right, what
+                    humans see. Can we bridge the gap so that browsers see more of what we see?
+                </p>
+            <figcaption>Fig. <span class="figno">1</span> <span class="fig-title">presentation vs. semantics</span></figcaption></figure>
+            <p>
+                What if the browser, or any machine consumer such as a Web crawler, received information on
+                the meaning of a web page's visual elements? A dinner party announced on a blog could be
+                copied to the user's calendar, an author's complete contact information to the user's address
+                book. Users could automatically recall previously browsed articles according to
+                categorization labels (i.e., tags). A photo copied and pasted from a web site to a school
+                report would carry with it a link back to the photographer, giving him proper credit. A link
+                shared by a user to his social network contacts would automatically carry additional data
+                pulled from the original web page: a thumbnail, an author, and a specific title. When web
+                data meant for humans is augmented with hints meant for computer programs, these programs
+                become significantly more helpful, because they begin to understand the data's structure.
+            </p>
+            <p>
+                RDFa allows HTML authors to do just that. Using a few simple HTML attributes, authors can
+                mark up human-readable data with machine-readable indicators for browsers and other programs
+                to interpret. A web page can include markup for items as simple as the title of an article,
+                or as complex as a user's complete social network.
+            </p>
+            <section property="bibo:hasPart" resource="#html-vs.-xhtml" typeof="bibo:Chapter" id="html-vs.-xhtml">
+                <h3 resource="#h-html-vs.-xhtml" id="h-html-vs.-xhtml"><span property="xhv:role" resource="xhv:heading"><span class="secno">1.1 </span>
+                    HTML vs. XHTML
+                </span></h3>
+                <p>
+                    Historically, RDFa&nbsp;1.0&nbsp;[<cite><a href="#bib-rdfa-syntax" class="bibref">rdfa-syntax</a></cite>] was specified only for XHTML. RDFa&nbsp;1.1&nbsp;[<cite><a href="#bib-rdfa-core" class="bibref">rdfa-core</a></cite>] 
+                    is the newer version and the one used in this document. RDFa&nbsp;1.1 is
+                    specified for both XHTML&nbsp;[<cite><a href="#bib-xhtml-rdfa" class="bibref">xhtml-rdfa</a></cite>] and HTML5&nbsp;[<cite><a href="#bib-html-rdfa" class="bibref">html-rdfa</a></cite>]. In fact, RDFa&nbsp;1.1 also
+                    works for any XML-based languages like SVG&nbsp;[<cite><a href="#bib-svg11" class="bibref">svg11</a></cite>]. This document uses HTML in all of
+                    the examples; for simplicity, we use the term "HTML" throughout this document to refer to
+                    all of the HTML-family languages.
+                </p>
+            </section>
+            <section property="bibo:hasPart" resource="#validation" typeof="bibo:Chapter" id="validation">
+                <h3 resource="#h-validation" id="h-validation"><span property="xhv:role" resource="xhv:heading"><span class="secno">1.2 </span>
+                    Validation
+                </span></h3>
+                <p>
+                    RDFa is based on attributes. While some of the HTML attributes (e.g., <code>href</code>,
+                    <code>src</code>) have been re-used, other RDFa attributes are new. This is important
+                    because some of the (X)HTML validators may not properly validate the HTML code until they
+                    are updated to recognize the new RDFa attributes. This is rarely a problem in practice
+                    since browsers simply ignore attributes that they do not recognize. None of the
+                    RDFa-specific attributes have any effect on the visual display of the HTML content.
+                    Authors do not have to worry about pages marked up with RDFa looking any different to a
+                    human being from pages not marked up with RDFa.
+                </p>
+            </section>
+        </section>
+        <section property="bibo:hasPart" resource="#using-rdfa" typeof="bibo:Chapter" id="using-rdfa">
+            <!--OddPage--><h2 resource="#h-using-rdfa" id="h-using-rdfa"><span property="xhv:role" resource="xhv:heading"><span class="secno">2. </span>
+                Using RDFa
+            </span></h2>
+            <section property="bibo:hasPart" resource="#the-basics-of-rdfa-rdfa-lite" typeof="bibo:Chapter" id="the-basics-of-rdfa-rdfa-lite">
+                <h3 resource="#h-the-basics-of-rdfa-rdfa-lite" id="h-the-basics-of-rdfa-rdfa-lite"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1 </span>
+                    The Basics of RDFa: RDFa Lite
+                </span></h3>
+                <p>
+                    We begin the introduction to RDFa by using a subset of all the possibilities called RDFa
+                    Lite&nbsp;1.1&nbsp;[<cite><a href="#bib-rdfa-lite" class="bibref">rdfa-lite</a></cite>]. The goal, when defining that subset, was to define a set of
+                    possibilities that can be applied to most simple to moderate structured data markup
+                    tasks, without burdening the authors with additional complexities. Many Web authors will
+                    not need to use more than this minimal subset.
+                </p>
+                <section property="bibo:hasPart" resource="#the-first-steps-adding-machine-readable-hints-to-web-pages" typeof="bibo:Chapter" id="the-first-steps-adding-machine-readable-hints-to-web-pages">
+                    <h4 resource="#h-the-first-steps-adding-machine-readable-hints-to-web-pages" id="h-the-first-steps-adding-machine-readable-hints-to-web-pages"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.1 </span>
+                        The First Steps: Adding Machine-Readable Hints to Web Pages
+                    </span></h4>
+                    <p>
+                        Consider Alice, a blogger who publishes a mix of professional and personal articles
+                        at <code>http://example.com/alice</code>. We will construct markup examples to
+                        illustrate how Alice can use RDFa. A more complete markup of these examples is
+                        available <a href="/2010/02/rdfa/sources/rdfa-primer/alice-example.html">on a
+                        dedicated page</a>.
+                    </p>
+                    <section property="bibo:hasPart" resource="#hints-on-social-networking-sites" typeof="bibo:Chapter" id="hints-on-social-networking-sites">
+                        <h5 resource="#h-hints-on-social-networking-sites" id="h-hints-on-social-networking-sites"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.1.1 </span>
+                            Hints on Social Networking Sites
+                        </span></h5>
+                        <p>
+                            Alice publishes a blog and would like to provide extra structural information on
+                            her pages like the publication date or the title. She would like to use the terms
+                            defined in the Dublin Core vocabulary&nbsp;[<cite><a href="#bib-dc11" class="bibref">dc11</a></cite>], a set of terms that are widely
+                            used by, for example, the publishing industry or libraries. Her blog already
+                            contain that information:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 1</span></div><pre class="example">&lt;html&gt;
+&lt;head&gt;
+  ...
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;h2&gt;The Trouble with Bob&lt;/h2&gt;
+  &lt;p&gt;Date: 2011-09-10&lt;/p&gt;
+  ...
+&lt;/body&gt;</pre></div>
+                        <p>
+                            This information is, however, aimed at humans only; computers need some
+                            sophisticated methods to extract it. But, using RDFa, she can annotate her
+                            page to make the <em>structured data</em> clear:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 2</span></div><pre class="example">&lt;html&gt;
+&lt;head&gt;
+  ...
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;h2 <span class="hilite">property="http://purl.org/dc/terms/title"</span>&gt;The Trouble with Bob&lt;/h2&gt;
+  &lt;p&gt;Date: &lt;span <span class="hilite">property="http://purl.org/dc/terms/created"</span>&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+  ...
+&lt;/body&gt;</pre></div>
+                        <p>
+                            (Notice the markup colored in red: these are the RDFa "hints".)
+                        </p>
+                        <p>
+                            One useful way to visualize the structured data is:
+                        </p>
+                        <figure class="figure c1" id="dfig2">
+                            <a class="figurelink" href="diagrams/title-and-author.svg"><img src="diagrams/title-and-author.png" alt="relationship value is text"></a>
+                            <p>
+                                <em>Figure 2</em>: A visualization of the structured data
+                                for a blog post with a title of "The Trouble with Bob" and a creation date.
+                            </p>
+                        <figcaption>Fig. <span class="figno">2</span> <span class="fig-title">relationship value is text</span></figcaption></figure>
+                        <p>
+                            It is worth emphasizing that RDFa uses URLs to identify just about everything.
+                            This is why, instead of just using properties like <code>title</code> or
+                            <code>created</code>, we use <code>http://purl.org/dc/terms/title</code> and
+                            <code>http://purl.org/dc/terms/created</code>. The reason behind this design
+                            decision is rooted in data portability, consistency, and information sharing.
+                            Using URLs removes the possibility for ambiguities in terminology. Without
+                            ensuring that there is no ambiguity, the term "title" might mean "the title of a
+                            work", "a job title", or "the deed for real-estate property". When each
+                            vocabulary term is a URL, a detailed explanation for the vocabulary term is just
+                            one click away. It allows anything, humans or machines, to follow the link to
+                            find out what a particular vocabulary term means. By using a URL to identify a
+                            particular creation time, for example
+                            <code>http://purl.org/dc/terms/created</code>, both humans and machines can
+                            understand that the URL unambiguously refers to the "Date of creating the
+                            resource", such as a web page.
+                        </p>
+                        <p>
+                            By using URLs as identifiers, RDFa provides a solid way of disambiguating
+                            vocabulary terms. It becomes trivial to determine whether or not vocabulary terms
+                            used in different documents mean the same thing. If the URLs are the same, the
+                            vocabulary terms mean the same thing. It also becomes very easy to create new
+                            vocabulary terms and vocabulary documents. If one can publish a document to the
+                            Web, one automatically has the power to create a new vocabulary document
+                            containing new vocabulary terms.
+                        </p>
+                    </section>
+                    <section property="bibo:hasPart" resource="#links-with-flavor-1" typeof="bibo:Chapter" id="links-with-flavor-1">
+                        <h5 resource="#links-with-flavor" id="links-with-flavor"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.1.2 </span>
+                            Links with Flavor
+                        </span></h5>
+                        <p>
+                            The previous example demonstrated how Alice can markup text to make it machine
+                            readable. She would also like to mark up the links in a machine-readable way, to
+                            express the type of link being described. RDFa lets the publisher add a "flavor",
+                            i.e., a label, to an existing clickable link that processors can understand. This
+                            makes the same markup help both humans and machines.
+                        </p>
+                        <p>
+                            In her blog's footer, Alice already declares her content to be freely reusable,
+                            as long as she receives due credit when her articles are cited. The HTML includes
+                            a link to a Creative Commons&nbsp;[<cite><a href="#bib-cc-about" class="bibref">cc-about</a></cite>] license:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 3</span></div><pre class="example">&lt;p&gt;All content on this site is licensed under
+   &lt;a href="http://creativecommons.org/licenses/by/3.0/"&gt;
+     a Creative Commons License&lt;/a&gt;. Â©2011 Alice Birpemswick.&lt;/p&gt;</pre></div>
+                        <p>
+                            A human clearly understands this sentence, in particular the <em>meaning</em> of
+                            the link with respect to the current document: it indicates the document's
+                            license, the conditions under which the page's contents are distributed.
+                            Unfortunately, when Bob visits Alice's blog, his browser sees only a plain link
+                            that could just as well point to one of Alice's friends or to her CV. For Bob's
+                            browser to understand that this link actually points to the document's licensing
+                            terms, Alice needs to add some <em>flavor</em>, some indication of what
+                            <em>kind</em> of link this is.
+                        </p>
+                        <p>
+                            She can add this flavor using again the <code>property</code> attribute. Indeed,
+                            when the element contains the <code>href</code> (or <code>src</code>) attribute,
+                            <code>property</code> is automatically associated with the value of this
+                            attribute rather than the textual content of the <code>a</code> element. The
+                            value of the attribute is the <code>http://creativecommons.org/ns#license</code>,
+                            defined by the <a href="http://creativecommons.org/">Creative Commons</a>:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 4</span></div><pre class="example">&lt;p&gt;All content on this site is licensed under
+   &lt;a <span class="hilite">property="http://creativecommons.org/ns#license"</span> href="http://creativecommons.org/licenses/by/3.0/"&gt;
+     a Creative Commons License&lt;/a&gt;. Â©2011 Alice Birpemswick.&lt;/p&gt;</pre></div>
+                        <p>
+                            With this small update, Bob's browser will now understand that this link has a
+                            flavor: it indicates the blog's license:
+                        </p>
+                        <figure id="fig-two-web-pages-connected-by-a-link-labeled-license-and-two-notes-with-a-license-relationship" class="figure c1">
+                            <a class="figurelink" href="diagrams/license.svg"><img src="diagrams/license.png" alt="two Web pages connected by a link labeled 'license' and two notes with a 'license' relationship"></a>
+                            <p>
+                                <em>Figure 3</em>: A link with flavor: the link indicates
+                                the web page's license. We can represent web pages as nodes, the link as an
+                                arrow connecting those nodes, and the link's flavor as the label on that
+                                arrow.
+                            </p>
+                        <figcaption>Fig. <span class="figno">3</span> <span class="fig-title">two Web pages connected by a link labeled 'license' and two notes with a 'license' relationship</span></figcaption></figure>
+                        <p>
+                            Alice is quite pleased that she was able to add only structured-data hints via
+                            RDFa, never having to repeat the content of her text or the URL of her clickable
+                            links.
+                        </p>
+                    </section>
+                    <section property="bibo:hasPart" resource="#setting-a-default-vocabulary" typeof="bibo:Chapter" id="setting-a-default-vocabulary">
+                        <h5 resource="#defvocab" id="defvocab"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.1.3 </span>
+                            Setting a Default Vocabulary
+                        </span></h5>
+                        <p>
+                            In a number of simple use cases, such as our example with Alice's blog, HTML
+                            authors will predominantly use a single vocabulary. However, while generating
+                            full URLs via a CMS system is not a particular problem, typing these by hand may
+                            be error prone and tedious for humans. To alleviate this problem RDFa introduces
+                            the <code>vocab</code> attribute to let the author declare a single vocabulary
+                            for a chunk of HTML. Thus, instead of:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 5</span></div><pre class="example">&lt;html&gt;
+&lt;head&gt;
+  ...
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;h2 <span class="hilite">property="http://purl.org/dc/terms/title"</span>&gt;The Trouble with Bob&lt;/h2&gt;
+  &lt;p&gt;Date: &lt;span <span class="hilite">property="http://purl.org/dc/terms/created"</span>&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+  ...
+&lt;/body&gt;</pre></div>
+                        <p>
+                            Alice can write:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 6</span></div><pre class="example">&lt;html&gt;
+&lt;head&gt;
+  ...
+&lt;/head&gt;
+&lt;body <span class="hilite">vocab="http://purl.org/dc/terms/"</span>&gt;
+  ...
+  &lt;h2 <span class="hilite">property="title"</span>&gt;The Trouble with Bob&lt;/h2&gt;
+  &lt;p&gt;Date: &lt;span <span class="hilite">property="created"</span>&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+  ...
+&lt;/body&gt;</pre></div>
+                        <p>
+                            Note how the property values are single "terms" now; these are simply
+                            concatenated to the URL defined via the <code>vocab</code> attribute. The
+                            attribute can be placed on <em>any</em> HTML element (i.e., not only on the
+                            <code>body</code> element like in the example) and its effect is valid for all
+                            the elements below that point.
+                        </p>
+                        <p>
+                            Default vocabularies and full URIs can be mixed at any time. I.e., Alice could
+                            have written:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 7</span></div><pre class="example">&lt;html&gt;
+&lt;head&gt;
+  ...
+&lt;/head&gt;
+&lt;body <span class="hilite">vocab="http://purl.org/dc/terms/"</span>&gt;
+  ...
+  &lt;h2 <span class="hilite">property="title"</span>&gt;The Trouble with Bob&lt;/h2&gt;
+  &lt;p&gt;Date: &lt;span <span class="hilite">property="http://purl.org/dc/terms/created"</span>&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+  ...
+&lt;/body&gt;</pre></div>
+                        <p>
+                            Perhaps a more interesting example is the combination of the header with the
+                            licensing segment of her web page:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 8</span></div><pre class="example">&lt;html&gt;
+&lt;head&gt;
+  ...
+&lt;/head&gt;
+&lt;body <span class="hilite">vocab="http://purl.org/dc/terms/"</span>&gt;
+  ...
+  &lt;h2 <span class="hilite">property="title"</span>&gt;The Trouble with Bob&lt;/h2&gt;
+  &lt;p&gt;Date: &lt;span <span class="hilite">property="created"</span>&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+  ...
+  &lt;p&gt;All content on this site is licensed under
+   &lt;a <span class="hilite">property="http://creativecommons.org/ns#license"</span> href="http://creativecommons.org/licenses/by/3.0/"&gt;
+     a Creative Commons License&lt;/a&gt;. Â©2011 Alice Birpemswick.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                        <p>
+                            The full URL for the license term is necessary to avoid mixing vocabularies. As
+                            an alternative, Alice could have also chosen to use the <code>vocab</code>
+                            attribute again:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 9</span></div><pre class="example">&lt;html&gt;
+&lt;head&gt;
+  ...
+&lt;/head&gt;
+&lt;body <span class="hilite">vocab="http://purl.org/dc/terms/"</span>&gt;
+  ...
+  &lt;h2 <span class="hilite">property="title"</span>&gt;The Trouble with Bob&lt;/h2&gt;
+  &lt;p&gt;Date: &lt;span <span class="hilite">property="created"</span>&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+  ...
+  &lt;p <span class="hilite">vocab="http://creativecommons.org/ns#"</span>&gt;All content on this site is licensed under
+    &lt;a <span class="hilite">property="license"</span> href="http://creativecommons.org/licenses/by/3.0/"&gt;
+      a Creative Commons License&lt;/a&gt;. Â©2011 Alice Birpemswick.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                        <p>
+                            because the <code>vocab</code> in the license paragraph overrides the definition
+                            inherited from the body of the document.
+                        </p>
+                        <div class="note"><div id="h-note1" role="heading" aria-level="6" class="note-title"><span>Note</span></div><p class="">The <code>vocab</code> attribute references structured data vocabularies, identified using URLs.
+                          RDFa does not limit the form of these URLs or the document formats accessible by de-referencing them; 
+                          however users <em title="SHOULD" class="rfc2119">SHOULD</em> aim to use widely shared, conventional values for identifying such vocabularies, 
+                          following conventions of case, spelling etc. established by their publishers.</p></div>
+                    </section>
+                    <section property="bibo:hasPart" resource="#multiple-items-per-page" typeof="bibo:Chapter" id="multiple-items-per-page">
+                        <h5 resource="#multiple-items" id="multiple-items"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.1.4 </span>
+                            Multiple Items per Page
+                        </span></h5>
+                        <p>
+                            Alice's blog page may contain, of course, multiple entries. Sometimes, Alice's
+                            sister Eve guest blogs, too. The front page of the blog lists the 10 most recent
+                            entries, each with its own title, author, and introductory paragraph. How, then,
+                            should Alice mark up the title of each of these entries individually even though
+                            they all appear within the same web page? RDFa provides <code>resource</code>, an
+                            attribute for specifying the "context", i.e., the exact URL to which the
+                            contained RDFa markup applies:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 10</span></div><pre class="example">&lt;body <span class="hilite">vocab="http://purl.org/dc/terms/"</span>&gt;
+   ...          
+   &lt;div <span class="hilite">resource="/alice/posts/trouble_with_bob"</span>&gt;
+      &lt;h2 <span class="hilite">property="title"</span>&gt;The trouble with Bob&lt;/h2&gt;
+      &lt;p&gt;Date: &lt;span <span class="hilite">property="created"</span>&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+      &lt;h3 <span class="hilite">property="creator"</span>&gt;Alice&lt;/h3&gt;
+      ...
+   &lt;/div&gt;
+   ...
+   &lt;div <span class="hilite">resource="/alice/posts/jos_barbecue"</span>&gt;
+      &lt;h2 <span class="hilite">property="title"</span>&gt;Jo's Barbecue&lt;/h2&gt;
+      &lt;p&gt;Date: &lt;span <span class="hilite">property="created"</span>&gt;2011-09-14&lt;/span&gt;&lt;/p&gt;
+      &lt;h3 <span class="hilite">property="creator"</span>&gt;Eve&lt;/h3&gt;
+      ...
+   &lt;/div&gt;
+   ...
+&lt;/body&gt;        </pre></div>
+                        <p>
+                            (Note that we used relative URLs in the example; the value of
+                            <code>resource</code> could have been <em>any</em> URLs, i.e., relative or
+                            absolute.) We can represent this, once again, as a diagram connecting URLs to
+                            properties:
+                        </p>
+                        <figure id="fig-two-separate-nodes-each-with-two-properties" class="figure c1">
+                            <a href="diagrams/multiple-blog-entries.svg" class="figurelink"><img src="diagrams/multiple-blog-entries.png" alt="two separate nodes, each with two properties"></a>
+                            <p>
+                                <em>Figure 4</em>: Multiple Items per Page: each blog entry
+                                is represented by its own node, with properties attached to each.
+                            </p>
+                        <figcaption>Fig. <span class="figno">4</span> <span class="fig-title">two separate nodes, each with two properties</span></figcaption></figure>
+                        <p>
+                            Alice can use the same technique to give her friend Bob proper credit when she
+                            posts one of his photos:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 11</span></div><pre class="example">&lt;div <span class="hilite">resource="/alice/posts/trouble_with_bob"</span>&gt;
+    &lt;h2 <span class="hilite">property="title"</span>&gt;The trouble with Bob&lt;/h2&gt;
+    ...  
+    The trouble with Bob is that he takes much better photos than I do:
+    ...
+    &lt;div <span class="hilite">resource="http://example.com/bob/photos/sunset.jpg"</span>&gt;
+      &lt;img src="http://example.com/bob/photos/sunset.jpg" /&gt;
+      &lt;span <span class="hilite">property="title"</span>&gt;Beautiful Sunset&lt;/span&gt;
+      by &lt;span <span class="hilite">property="creator"</span>&gt;Bob&lt;/span&gt;.
+    &lt;/div&gt;
+ &lt;/div&gt;       </pre></div>
+                        <p>
+                            Notice how the innermost <code>resource</code> value,
+                            <code>http://example.com/bob/photos/sunset.jpg</code>, "overrides" the outer
+                            value <code>/alice/posts/trouble_with_bob</code> for all markup inside the
+                            containing <code>div</code>. Once again, here is a diagram that represents the
+                            underlying data of this new portion of markup:
+                        </p>
+                        <figure id="fig-two-separate-nodes-each-with-two-properties-1" class="figure c1">
+                            <a href="diagrams/image-about.svg" class="figurelink"><img src="diagrams/image-about.png" alt="two separate nodes, each with two properties"></a>
+                            <p>
+                                <em>Figure 5</em>: Describing a Photo
+                            </p>
+                        <figcaption>Fig. <span class="figno">5</span> <span class="fig-title">two separate nodes, each with two properties</span></figcaption></figure>
+                    </section>
+                </section>
+                <section property="bibo:hasPart" resource="#exploring-further-social-networks" typeof="bibo:Chapter" id="exploring-further-social-networks">
+                    <h4 resource="#h-exploring-further-social-networks" id="h-exploring-further-social-networks"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.2 </span>
+                        Exploring Further: Social networks
+                    </span></h4>
+                    <section property="bibo:hasPart" resource="#contact-information" typeof="bibo:Chapter" id="contact-information">
+                        <h5 resource="#h-contact-information" id="h-contact-information"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.2.1 </span>
+                            Contact Information
+                        </span></h5>
+                        <p>
+                            Alice would also like to make information about herself, such as her email
+                            address, phone number, and other details, easily available to her friends'
+                            contact management software. This time, instead of describing the properties of a
+                            web page, she's going to describe the properties of a person: herself.
+                        </p>
+                        <p>
+                            Alice already has contact information displayed on her blog.
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 12</span></div><pre class="example">&lt;div&gt;
+  &lt;p&gt;
+     Alice Birpemswick, 
+     Email: &lt;a href="mailto:alice@example.com"&gt;alice@example.com&lt;/a&gt;,
+     Phone: &lt;a href="tel:+1-617-555-7332"&gt;+1 617.555.7332&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;</pre></div>
+                        <p>
+                            The Dublin Core vocabulary does not provide property names for describing contact
+                            information, but the Friend-of-a-Friend&nbsp;[<cite><a href="#bib-foaf" class="bibref">foaf</a></cite>] vocabulary does. Alice therefore
+                            decides to use the FOAF vocabulary. As a first step, she declares a FOAF
+                            "Person". For this purpose, Alice uses <code>typeof</code>, an RDFa attribute
+                            that is specifically meant to declare a new data item with a certain type:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 13</span></div><pre class="example">&lt;div <span class="hilite">typeof="http://xmlns.com/foaf/0.1/Person"</span>&gt;
+  ...</pre></div>
+                        <p>
+                            Alice realizes that she only intends to use the FOAF vocabulary at this point, so
+                            she uses the <code>vocab</code> attribute to simplify her markup further (and
+                            overriding the effects of any <code>vocab</code> attributes that may have been
+                            used in, for example, the <code>body</code> element at the top).
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 14</span></div><pre class="example">&lt;div <span class="hilite">vocab="http://xmlns.com/foaf/0.1/" typeof="Person"</span>&gt;
+  ...</pre></div>
+                        <p>
+                            Then, Alice indicates which content on the page represents her full name, email
+                            address, and phone number:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 15</span></div><pre class="example">&lt;div <span class="hilite">vocab="http://xmlns.com/foaf/0.1/" typeof="Person"</span>&gt;&lt;p&gt;
+  &lt;p&gt;
+    &lt;span <span class="hilite">property="name"</span>&gt;Alice Birpemswick&lt;/span&gt;,
+    Email: &lt;a <span class="hilite">property="mbox"</span> href="mailto:alice@example.com"&gt;alice@example.com&lt;/a&gt;,
+    Phone: &lt;a <span class="hilite">property="phone"</span> href="tel:+1-617-555-7332"&gt;+1 617.555.7332&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;</pre></div>
+                        <p>
+                            Note how Alice did not specify a <code>resource</code> like she did when adding
+                            blog entry metadata. But, if she is not declaring what she is talking about, how
+                            does the RDFa Processor know what she's identifying? In RDFa, in the absence of a
+                            <code>resource</code> attribute, the <code>typeof</code> attribute on the
+                            enclosing <code>div</code> implicitly sets the subject of the properties marked
+                            up within that <code>div</code>. That is, the name, email address, and phone
+                            number are associated with a new node of type <code>Person</code>. This node has
+                            no URL to identify it, so it is called a <em>blank node</em> as shown on the
+                            figure:
+                        </p>
+                        <figure id="fig-single-blank-node-with-4-properties" class="figure c1">
+                            <a href="diagrams/contact-info.svg" class="figurelink"><img src="diagrams/contact-info.png" alt="single 'blank' node with 4 properties"></a>
+                            <p>
+                                <em>Figure 6</em>: A Blank Node: blank nodes are not
+                                identified by URL. Instead, many of them have an RDFa <code>typeof</code>
+                                attribute that identifies the type of data they represent.<br>
+                                (We've used a short-hand to label the arrows, in order to save space and
+                                clarify the diagram. The actual labels are always the full URLs.)
+                            </p>
+                        <figcaption>Fig. <span class="figno">6</span> <span class="fig-title">single 'blank' node with 4 properties</span></figcaption></figure>
+                    </section>
+                    <section property="bibo:hasPart" resource="#describing-social-networks" typeof="bibo:Chapter" id="describing-social-networks">
+                        <h5 resource="#h-describing-social-networks" id="h-describing-social-networks"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.2.2 </span>
+                            Describing Social Networks
+                        </span></h5>
+                        <p>
+                            Alice continues to mark up her page by adding information about her friends,
+                            including at least their names and homepages. She starts with plain HTML:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 16</span></div><pre class="example">&lt;div&gt;
+   &lt;ul&gt;
+      &lt;li&gt;
+        &lt;a href="http://example.com/bob/"&gt;Bob&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;a href="http://example.com/eve/"&gt;Eve&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;a href="http://example.com/manu/"&gt;Manu&lt;/a&gt;
+      &lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/div&gt;</pre></div>
+                        <p>
+                            First, Alice indicates that the friends she is describing are people, as opposed
+                            to animals or imaginary friends, by using again the <code>Person</code> type in
+                            <code>typeof</code> attributes.
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 17</span></div><pre class="example">&lt;div <span class="hilite">vocab="http://xmlns.com/foaf/0.1/"</span>&gt;
+   &lt;ul&gt;
+      &lt;li <span class="hilite">typeof="Person"</span>&gt;
+        &lt;a href="http://example.com/bob/"&gt;Bob&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li <span class="hilite">typeof="Person"</span>&gt;
+        &lt;a href="http://example.com/eve/"&gt;Eve&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li <span class="hilite">typeof="Person"</span>&gt;
+        &lt;a href="http://example.com/manu/"&gt;Manu&lt;/a&gt;
+      &lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/div&gt;        </pre></div>
+                        <p>
+                            Beyond declaring the type of data we are dealing with, each <code>typeof</code>
+                            creates a new blank node with its own distinct properties. Thus, Alice can
+                            indicate each friend's homepage:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 18</span></div><pre class="example">&lt;div vocab="http://xmlns.com/foaf/0.1/"&gt;
+   &lt;ul&gt;
+      &lt;li typeof="Person"&gt;
+        &lt;a <span class="hilite">property="homepage"</span> href="http://example.com/bob/"&gt;Bob&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li typeof="Person"&gt;
+        &lt;a <span class="hilite">property="homepage"</span> href="http://example.com/eve/"&gt;Eve&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li typeof="Person"&gt;
+        &lt;a <span class="hilite">property="homepage"</span> href="http://example.com/manu/"&gt;Manu&lt;/a&gt;
+      &lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/div&gt;       </pre></div>
+                        <p>
+                            Alice would also like to improve the markup by expressing each person's name
+                            using RDFa, too. That can be done by adding a separate <code>span</code> element
+                            and the relevant <code>property</code>:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 19</span></div><pre class="example">&lt;div vocab="http://xmlns.com/foaf/0.1/"&gt;
+  &lt;ul&gt;
+      &lt;li typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/bob/"&gt;&lt;span <span class="hilite">property="name"</span>&gt;Bob&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/eve/"&gt;&lt;span <span class="hilite">property="name"</span>&gt;Eve&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/manu/"&gt;&lt;span <span class="hilite">property="name"</span>&gt;Manu&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/div&gt;       </pre></div>
+                        <p>
+                            Alice is happy that, with so little additional markup, she's able to fully
+                            express both a pleasant human-readable page and a machine-readable dataset.
+                        </p>
+                        <p>
+                            Alice is a member of 5 different social networking sites. She is tired of
+                            repeatedly entering information about her friends in each new social networking
+                            site, so she decides to list her friends in one place-on her website, combining
+                            it with her own FOAF data. With RDFa, she can indicate her friendships on her own
+                            web page and let social networking sites read it automatically. So far, Alice has
+                            listed three individuals but has not specified her relationship with them; they
+                            might be her friends, or they might be her favorite 17th century poets. To
+                            indicate that she knows them, she uses the FOAF property <code>foaf:knows</code>:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 20</span></div><pre class="example">&lt;div vocab="http://xmlns.com/foaf/0.1/" <span class="hilite">typeof="Person"</span>&gt;
+   &lt;p&gt;
+    &lt;span <span class="hilite">property="name"</span>&gt;Alice Birpemswick&lt;/span&gt;,
+    Email: &lt;a <span class="hilite">property="mbox"</span> href="mailto:alice@example.com"&gt;alice@example.com&lt;/a&gt;,
+    Phone: &lt;a <span class="hilite">property="phone"</span> href="tel:+1-617-555-7332"&gt;+1 617.555.7332&lt;/a&gt;
+  &lt;/p&gt;
+   &lt;ul&gt;
+      &lt;li <span class="hilite">property="knows"</span> typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/bob/"&gt;&lt;span <span class="hilite">property="name"</span>&gt;Bob&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li <span class="hilite">property="knows"</span> typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/eve/"&gt;&lt;span <span class="hilite">property="name"</span>&gt;Eve&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li <span class="hilite">property="knows"</span> typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/manu/"&gt;&lt;span <span class="hilite">property="name"</span>&gt;Manu&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/div&gt;       </pre></div>
+                        <p>
+                            With this, Alice could describe here social network:
+                        </p>
+                        <figure id="fig-x8-node-network-with-12-relationships" class="figure c1">
+                            <a href="diagrams/social-network.svg" class="figurelink"><img src="diagrams/social-network.png" alt="8 node network with 12 relationships"></a>
+                            <p>
+                                <em>Figure 7</em>: Alice's social network. Note that, with
+                                RDFa, Alice could express a fairly complex set of information that others can
+                                use.
+                            </p>
+                        <figcaption>Fig. <span class="figno">7</span> <span class="fig-title">8 node network with 12 relationships</span></figcaption></figure>
+                    </section>
+                </section>
+                <section property="bibo:hasPart" resource="#repeated-patterns" typeof="bibo:Chapter" id="repeated-patterns">
+                  <h4 resource="#patterns" id="patterns"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.3 </span>Repeated Patterns</span></h4>
+                  <p>We have seen, in a <a href="#links-with-flavor">previous section</a>, how Alice can use RDFa to include Creative Commons statements on her blog. However, the solution in that section assigned these statements <em>to the whole page</em>, and not to individual blog items. This may be an issue if the page includes <a href="#multiple-items">multiple items</a>. Indeed, Alice may be forced to repeat the relevant statements like this: </p>
+
+                        <div class="example"><div class="example-title"><span>Example 21</span></div><pre class="example">&lt;body vocab="http://purl.org/dc/terms/"&gt;
+   ...          
+   &lt;div resource="/alice/posts/trouble_with_bob"&gt;
+      &lt;h2 property="title"&gt;The trouble with Bob&lt;/h2&gt;
+      &lt;p&gt;Date: &lt;span property="created"&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+      &lt;h3 property="creator"&gt;Alice&lt;/h3&gt;
+      ...
+      <span class="hilite">&lt;p vocab="http://creativecommons.org/ns#"&gt;All content on this blog item is licensed under
+        &lt;a property="license" href="http://creativecommons.org/licenses/by/3.0/"&gt;
+          a Creative Commons License&lt;/a&gt;. &lt;span property="attributionName"&gt;Â©2011 Alice Birpemswick&lt;/span&gt;.&lt;/p&gt;</span>
+   &lt;/div&gt;
+   ...
+   &lt;div resource="/alice/posts/jims_concert"&gt;
+      &lt;h2 property="title"&gt;I was at Jim's concert the other day&lt;/h2&gt;
+      &lt;p&gt;Date: &lt;span property="created"&gt;2011-10-22&lt;/span&gt;&lt;/p&gt;
+      &lt;h3 property="creator"&gt;Alice&lt;/h3&gt;
+      ...
+      <span class="hilite">&lt;p vocab="http://creativecommons.org/ns#"&gt;All content on this blog item is licensed under
+        &lt;a property="license" href="http://creativecommons.org/licenses/by/3.0/"&gt;
+          a Creative Commons License&lt;/a&gt;. &lt;span property="attributionName"&gt;Â©2011 Alice Birpemswick&lt;/span&gt;.&lt;/p&gt;</span>
+   &lt;/div&gt;
+   ...
+&lt;/body&gt;        </pre></div>
+                <p>which may be tedious and error prone.</p>
+
+                <p>HTML+RDFa introduces the notion of "Property copying" to alleviate this situation. Using this feature Alice can "collect" a number of statements as a pattern, and refer to that pattern from other parts of the page. This is done using the magic property <code>rdfa:copy</code> and the magic type <code>rdfa:Pattern</code> as follows:</p>
+
+                       <div class="example"><div class="example-title"><span>Example 22</span></div><pre class="example">&lt;body vocab="http://purl.org/dc/terms/"&gt;
+   ...          
+   &lt;div resource="/alice/posts/trouble_with_bob"&gt;
+      &lt;h2 property="title"&gt;The trouble with Bob&lt;/h2&gt;
+      &lt;p&gt;Date: &lt;span property="created"&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+      &lt;h3 property="creator"&gt;Alice&lt;/h3&gt;
+      ...
+      <span class="hilite">&lt;link property="rdfa:copy" href="#ccpattern"/&gt;</span>
+    &lt;/div&gt;
+   ...
+   &lt;div resource="/alice/posts/jims_concert"&gt;
+      &lt;h2 property="title"&gt;I was at Jim's concert the other day&lt;/h2&gt;
+      &lt;p&gt;Date: &lt;span property="created"&gt;2011-10-22&lt;/span&gt;&lt;/p&gt;
+      &lt;h3 property="creator"&gt;Alice&lt;/h3&gt;
+      ...
+      <span class="hilite">&lt;link property="rdfa:copy" href="#ccpattern"/&gt;</span>
+   &lt;/div&gt;
+   ...
+
+   <span class="hilite">&lt;div resource="#ccpattern" typeof="rdfa:Pattern"&gt;
+      &lt;p vocab="http://creativecommons.org/ns#"&gt;All content on this blog item is licensed under
+        &lt;a property="license" href="http://creativecommons.org/licenses/by/3.0/"&gt;
+          a Creative Commons License&lt;/a&gt;. &lt;span property="attributionName"&gt;Â©2011 Alice Birpemswick&lt;/span&gt;.&lt;/p&gt;
+   &lt;/div&gt;</span>
+
+&lt;/body&gt;        </pre></div>
+                  <p>(Alice may choose to use CSS to make the CC statements invisible on the screen if she wants.) The effect of this structure is to, conceptually, "copy" all the RDFa statements appearing in the pattern to replace the <code>link</code> element, yielding the following structure:</p>
+                        <figure id="fig-x8-node-network-with-12-relationships-1" class="figure c1">
+                            <a href="diagrams/patterns.svg" class="figurelink"><img src="diagrams/patterns.png" alt="8 node network with 12 relationships"></a>
+                            <p>
+                                <em>Figure 8</em>: Creative Commons statements added to each blog item separately.
+                            </p>
+                        <figcaption>Fig. <span class="figno">8</span> <span class="fig-title">8 node network with 12 relationships</span></figcaption></figure>
+
+                </section>
+
+
+                <section property="bibo:hasPart" resource="#internal-references" typeof="bibo:Chapter" id="internal-references">
+                    <h4 resource="#internalReferences" id="internalReferences"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.4 </span>
+                        Internal References
+                    </span></h4>
+                    <p>
+                        Alice may want to add her personal data to her individual blog items, too. She
+                        decides to combine her FOAF data with the blog items, i.e.:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 23</span></div><pre class="example">&lt;div vocab="http://purl.org/dc/terms/"&gt;
+            
+   &lt;div resource="/alice/posts/trouble_with_bob"&gt;
+      &lt;h2 property="title"&gt;The trouble with Bob&lt;/h2&gt;
+      ...
+      &lt;h3 vocab="http://xmlns.com/foaf/0.1/" <span class="hilite">property="http://purl.org/dc/terms/creator"</span> typeof="Person"&gt;
+        &lt;span property="name"&gt;Alice Birpemswick&lt;/span&gt;,
+        Email: &lt;a property="mbox" href="mailto:alice@example.com"&gt;alice@example.com&lt;/a&gt;,
+        Phone: &lt;a property="phone" href="tel:+1-617-555-7332"&gt;+1 617.555.7332&lt;/a&gt;
+      &lt;/h3&gt;
+      ...
+   &lt;/div&gt;
+   ...
+&lt;/div&gt;        </pre></div>
+                    <p>
+                        The structured data she generates looks like this:
+                    </p>
+                    <figure id="fig-the-simple-blog-structure-extended-with-alice-s-foaf-data-as-blank-node" class="figure c1">
+                        <a href="diagrams/blog-with-foaf.svg" class="figurelink"><img src="diagrams/blog-with-foaf.png" alt="The simple blog structure extended with Alice's foaf data as blank node"></a>
+                        <p>
+                            <em>Figure 9</em>: Alice's blog item with data about herself.
+                        </p>
+                    <figcaption>Fig. <span class="figno">9</span> <span class="fig-title">The simple blog structure extended with Alice's foaf data as blank node</span></figcaption></figure>
+                    <p>
+                        Unfortunately, this solution is not optimal in two respects. First of all, notice
+                        that Alice had to use the full URI for the <code>creator</code> property: this is
+                        because the <code>vocab</code> attribute is used to set the FOAF terms, i.e., the
+                        simple <code>creator</code> value would have been misinterpreted. We will come back
+                        to the issue of using several vocabularies in <a href="#multipleVocabs">another
+                        section</a> below.
+                    </p>
+                    <p>
+                        The other issue is that Alice would like to design her Web page so that her personal
+                        data would not appear on the page in each individual blog item but, rather, in one
+                        place like a footnote or a sidebar. I.e., what she would like to see is something
+                        like:
+                    </p>
+                    <figure id="fig-mock-up-of-alice-s-blog-page-design-with-blogs-on-the-left-and-personal-data-on-the-right" class="figure c1">
+                        <img src="diagrams/blog-screenshot.png" alt="Mock-up of Alice's blog page design, with blogs on the left and personal data on the right">
+                        <p>
+                            <em>Figure 10</em>: Structure of Alice's Site: individual blog
+                            items on the left, personal data, linked from the blog using RDFa terms, in a
+                            sidebar.
+                        </p>
+                    <figcaption>Fig. <span class="figno">10</span> <span class="fig-title">Mock-up of Alice's blog page design, with blogs on the left and personal data on the right</span></figcaption></figure>
+                    <p>
+                        If the FOAF data were included in each blog item, Alice would have to create a
+                        complex set of CSS rules to achieve the visual effect she wants.
+                    </p>
+                    <p>
+                        To solve this, Alice decides to make use of the structure she already used for her
+                        FOAF data but, this time, assigning it a separate URI using the <code>resource</code>
+                        attribute:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 24</span></div><pre class="example">&lt;div vocab="http://xmlns.com/foaf/0.1/" <span class="hilite">resource="#me"</span> typeof="Person"&gt;
+  &lt;p&gt;
+   &lt;span property="name"&gt;Alice Birpemswick&lt;/span&gt;,
+     Email: &lt;a property="mbox" href="mailto:alice@example.com"&gt;alice@example.com&lt;/a&gt;,
+     Phone: &lt;a property="phone" href="tel:+1-617-555-7332"&gt;+1 617.555.7332&lt;/a&gt;
+  &lt;/p&gt;
+  ...
+&lt;/div&gt;</pre></div>
+                    <p>
+                        It is actually considered as a good practice to use real URIs whenever possible,
+                        i.e., Alice's new alternative should be preferred in general. Indeed, if a real URI
+                        is used, then it becomes possible to unambiguously refer to that particular piece of
+                        information, whereas that becomes more complicated with blank nodes.
+                    </p>
+                    <div class="note"><div id="h-note2" role="heading" aria-level="5" class="note-title"><span>Note</span></div><p class="">
+                        The <code>resource="#me"</code> markup (which, by the way, also presupposes that the target is in the
+                        same HTML scope) is a FOAF convention: the URL that represents
+                        the <em>person</em> Alice is <code>http://example.com/alice#me</code>. It should not
+                        be confused with Alice's homepage, <code>http://example.com/alice</code>. Of course,
+                        Alice could have used a different URI if, for example, her blog and her personal
+                        homepage were kept separate; e.g., she could have used
+                        <code>resource="http://alice.example.com/alice/home#myself"</code> instead of
+                        <code>resource="#me"</code>.
+                    </p></div>
+                    <p>
+                        Using the explicit URI for her FOAF data Alice can add a direct reference to the blog
+                        item using again the <code>resource</code> attribute:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 25</span></div><pre class="example">&lt;div vocab="http://purl.org/dc/terms/"&gt;
+   &lt;div resource="/alice/posts/trouble_with_bob"&gt;
+      &lt;h2 property="title"&gt;The trouble with Bob&lt;/h2&gt;
+      &lt;h3 <span class="hilite">property="creator" resource="#me"</span>&gt;Alice&lt;/h3&gt;
+      ...
+   &lt;/div&gt;
+&lt;/div&gt;
+   ...
+&lt;div class="sidebar" vocab="http://xmlns.com/foaf/0.1/" resource="#me" typeof="Person"&gt;
+  &lt;p&gt;
+   &lt;span property="name"&gt;Alice Birpemswick&lt;/span&gt;,
+     Email: &lt;a property="mbox" href="mailto:alice@example.com"&gt;alice@example.com&lt;/a&gt;,
+     Phone: &lt;a property="phone" href="tel:+1-617-555-7332"&gt;+1 617.555.7332&lt;/a&gt;
+  &lt;/p&gt;
+  ...
+&lt;/div&gt;</pre></div>
+                    <p>
+                        The <code>resource</code> attribute appears, in this case, together with
+                        <code>property</code> <em>on the same element</em>: in this situation
+                        <code>resource</code> indicates the "target" of the relation. Usage of this attribute
+                        allows Alice to "distribute" the various parts of her structured data on her page.
+                        What she gets is a slightly modified version of the previous structure, where the
+                        only difference is the usage of an explicit URI instead of a blank node:
+                    </p>
+                    <figure id="fig-the-simple-blog-structure-extended-with-alice-s-foaf-data-with-an-explicit-uri" class="figure c1">
+                        <a href="diagrams/blog-with-foaf-with-URI.svg" class="figurelink"><img src="diagrams/blog-with-foaf-with-URI.png" alt="The simple blog structure extended with Alice's foaf data with an explicit URI"></a>
+                        <p>
+                            <em>Figure 11</em>: Alice's blog item with data about herself,
+                            using an explicit URI for her FOAF data.
+                        </p>
+                    <figcaption>Fig. <span class="figno">11</span> <span class="fig-title">The simple blog structure extended with Alice's foaf data with an explicit URI</span></figcaption></figure>
+                    <p>
+                        Using this approach, it becomes very easy to also add references to the <em>same</em> data from different blog posts:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 26</span></div><pre class="example">&lt;div vocab="http://purl.org/dc/terms/"&gt;
+   &lt;div resource="/alice/posts/trouble_with_bob"&gt;
+      &lt;h2 property="title"&gt;The trouble with Bob&lt;/h2&gt;
+      &lt;h3 <span class="hilite">property="creator" resource="#me"</span>&gt;Alice&lt;/h3&gt;
+      ...
+   &lt;/div&gt;
+&lt;/div&gt;
+   ...
+&lt;div vocab="http://purl.org/dc/terms/"&gt;
+   &lt;div resource="/alice/posts/my_photos"&gt;
+      &lt;h2 property="title"&gt;I will post my photos neverthelessâ¦&lt;/h2&gt;
+      &lt;h3 <span class="hilite">property="creator" resource="#me"</span>&gt;Alice&lt;/h3&gt;
+      ...
+   &lt;/div&gt;
+&lt;/div&gt;
+   ...
+&lt;div class="sidebar" vocab="http://xmlns.com/foaf/0.1/" resource="#me" typeof="Person"&gt;
+  &lt;p&gt;
+   &lt;span property="name"&gt;Alice Birpemswick&lt;/span&gt;,
+     Email: &lt;a property="mbox" href="mailto:alice@example.com"&gt;alice@example.com&lt;/a&gt;,
+     Phone: &lt;a property="phone" href="tel:+1-617-555-7332"&gt;+1 617.555.7332&lt;/a&gt;
+  &lt;/p&gt;
+  ...
+&lt;/div&gt;</pre></div>
+                    <p>
+                        Leading to the following structure:
+                    </p>
+                    <figure class="figure c1" id="dfig12">
+                        <a href="diagrams/two-blogs-with-foaf-with-URI.svg" class="figurelink"><img src="diagrams/two-blogs-with-foaf-with-URI.png" alt="The simple blog structure with two blogs extended with Alice's foaf data with an explicit URI"></a>
+                        <p id="fig12">
+                            <em>Figure 12</em>: Several of Alice's blog items with data
+                            about herself, using an explicit URI for her FOAF data.
+                        </p>
+                    <figcaption>Fig. <span class="figno">12</span> <span class="fig-title">The simple blog structure with two blogs extended with Alice's foaf data with an explicit URI</span></figcaption></figure>
+                    <div class="note"><div id="h-note3" role="heading" aria-level="5" class="note-title"><span>Note</span></div><p class="">
+                        Combined with <code>property</code>, the <code>resource</code> attribute plays
+                        exactly the same role as <code>href</code>, already used for "links with flavor",
+                        except that it does not provide a clickable link to the browser like
+                        <code>href</code> does. Also, the <code>resource</code> attribute can be used on
+                        <em>any</em> HTML element, as opposed to <code>href</code> whose usage is restricted,
+                        in HTML, to the <code>a</code> and <code>link</code> elements.
+                    </p></div>
+                    <div class="note"><div id="h-note4" role="heading" aria-level="5" class="note-title"><span>Note</span></div><p class="">There is a similarity between this issue and its solution and the issue and the approach taken in the <a href="#patterns">section on property copying</a>. There is, however, a subtle but important difference between the two. The solution using the <code>resource</code> attribute introduces a new node in the graph, as shown on <a class="fig-ref" href="#dfig12">Figure 12</a>, whereas copying the properties does not. Which of the two approaches should be adopted is often based on the vocabulary that is used.</p></div>
+                </section>
+                <section property="bibo:hasPart" resource="#using-multiple-vocabularies" typeof="bibo:Chapter" id="using-multiple-vocabularies">
+                    <h4 resource="#multipleVocabs" id="multipleVocabs"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.5 </span>
+                        Using Multiple Vocabularies
+                    </span></h4>
+                    <p>
+                        The previous examples show that, for more complex cases, multiple vocabularies have
+                        to be used to express the various aspects of structured data. We have seen Alice
+                        using the Dublin Core, as well as the FOAF and the Creative Commons vocabularies, but
+                        there may be more. For example. Alice may want to add vocabulary elements defined by
+                        search engines on their schema.org site&nbsp;[<cite><a href="#bib-schema" class="bibref">schema</a></cite>].
+                    </p>
+                    <p>
+                        Alice can use either full URLs for all the terms, or can use the <code>vocab</code>
+                        attribute to abbreviate the terms for the predominant vocabulary. But, in some cases,
+                        the vocabularies cannot be separated easily, which means that the usage of
+                        <code>vocab</code> may become awkward. Here is, for example, the kind of HTML she
+                        might end up with:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 27</span></div><pre class="example">&lt;html&gt;
+ &lt;head&gt;
+    ...
+ &lt;/head&gt;
+ &lt;body <span class="hilite">vocab="http://schema.org/"</span>&gt;
+   &lt;div resource="/alice/posts/trouble_with_bob" <span class="hilite">typeof="BlogPosting"</span>&gt;
+      &lt;h2 <span class="hilite">property="http://purl.org/dc/terms/title"</span>&gt;The trouble with Bob&lt;/h2&gt;
+      ...
+      &lt;h3 <span class="hilite">property="http://purl.org/dc/terms/creator"</span> resource="#me"&gt;Alice&lt;/h3&gt;
+      &lt;div <span class="hilite">property="articleBody"</span>&gt;
+        &lt;p&gt;The trouble with Bob is that he takes much better photos than I do:&lt;/p&gt;
+      &lt;/div&gt;
+      ...
+   &lt;/div&gt;
+   ...
+  &lt;/body&gt;
+ &lt;/html&gt;</pre></div>
+                    <p>
+                        Note that the schema.org and the Dublin Core terms are intertwined for a specific
+                        blog, and it becomes an arbitrary choice whether to use the <code>vocab</code>
+                        attribute for <code>http://purl.org/dc/terms/</code> or for
+                        <code>http://schema.org/</code>. We have seen the same problem in a <a href="#internalReferences">previous section</a> when FOAF and Dublin Core terms were
+                        mixed.
+                    </p>
+                    <p>
+                        To alleviate this problem, RDFa offers the possibility of using <em>prefixed</em>
+                        terms: a special <code>prefix</code> attribute can assign prefixes to represent URLs
+                        and, using those prefixes, the vocabulary elements themselves can be abbreviated. The
+                        <code>prefix:reference</code> syntax is used: the URL associated with
+                        <code>prefix</code> is simply concatenated to <code>reference</code> to create a full
+                        URL. (Note that we have already used this convention to simplify our figures.) Here
+                        is how the HTML of the previous example looks like when prefixes are used:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 28</span></div><pre class="example">&lt;html&gt;
+ &lt;head&gt;
+   ...
+ &lt;/head&gt;
+ &lt;body <span class="hilite">prefix="dc: http://purl.org/dc/terms/ schema: http://schema.org/"</span>&gt;
+   &lt;div resource="/alice/posts/trouble_with_bob" <span class="hilite">typeof="schema:BlogPosting"</span>&gt;
+      &lt;h2 <span class="hilite">property="dc:title"</span>&gt;The trouble with Bob&lt;/h2&gt;
+      ...
+      &lt;h3 <span class="hilite">property="dc:creator"</span> resource="#me"&gt;Alice&lt;/h3&gt;
+      &lt;div <span class="hilite">property="schema:articleBody"</span>&gt;
+        &lt;p&gt;The trouble with Bob is that he takes much better photos than I do:&lt;/p&gt;
+      &lt;/div&gt;
+     ...
+   &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                    <p>
+                        The usage of prefixes can greatly reduce possible errors by concentrating the
+                        vocabulary choices to one place in the file. Just like <code>vocab</code>, the
+                        <code>prefix</code> attribute can appear anywhere in the HTML file, only affecting
+                        the elements below. <code>prefix</code> and <code>vocab</code> can also be mixed, for
+                        example:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 29</span></div><pre class="example">&lt;html&gt;
+ &lt;head&gt;
+   ...
+ &lt;/head&gt;
+ &lt;body <span class="hilite">vocab="http://purl.org/dc/terms/"</span> <span class="hilite">prefix="schema: http://schema.org/"</span>&gt;
+   &lt;div resource="/alice/posts/trouble_with_bob" <span class="hilite">typeof="schema:BlogPosting"</span>&gt;
+      &lt;h2 <span class="hilite">property="title"</span>&gt;The trouble with Bob&lt;/h2&gt;
+      ...
+      &lt;h3 <span class="hilite">property="creator"</span> resource="#me"&gt;Alice&lt;/h3&gt;
+      &lt;div <span class="hilite">property="schema:articleBody"</span>&gt;
+        &lt;p&gt;The trouble with Bob is that he takes much better photos than I do:&lt;/p&gt;
+      &lt;/div&gt;
+      ...
+   &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                    <div class="note"><div id="h-note5" role="heading" aria-level="5" class="note-title"><span>Note</span></div><div class="">
+                        An important issue may arise if the <code>html</code> element contains a large number
+                        of prefix declarations. The character encoding (i.e., UTF-8, UTF-16, ASCII, etc.)
+                        used for an HTML5 file is declared using a <code>meta</code> element in the header.
+                        In HTML5 this meta declaration must fall within the first 512 bytes of the page, or
+                        the HTML5 processor (browser, parser, etc.) will try to detect the encoding using
+                        some heuristics. A very "long" <code>html</code> tag may therefore lead to problems.
+                        One way of avoiding the issue is to place most of the prefix declarations on the
+                        <code>body</code> element.
+                    </div></div>
+                    <section property="bibo:hasPart" resource="#repeating-properties" typeof="bibo:Chapter" id="repeating-properties">
+                        <h5 resource="#h-repeating-properties" id="h-repeating-properties"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.5.1 </span>
+                            Repeating properties
+                        </span></h5>
+                        <p>
+                            The previous example, whereby the Dublin Core and the schema.org vocabularies are
+                            used within the same blog post, raises another issue. It so happens that not only
+                            Dublin Core, but also schema.org has a property called <code>creator</code>.
+                            Because RDFa uses URIs to denote properties that, by itself, is not a problem.
+                            However, if Alice wants to use <em>both</em> these properties in the same blog
+                            post (e.g., because she wants search engines to manage her blog post but, at the
+                            same times, she wants Dublin Core aware applications, like catalogs, to handle
+                            her blog post, too) this is what she may have to do:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 30</span></div><pre class="example">&lt;html&gt;
+ &lt;head&gt;
+   ...
+ &lt;/head&gt;
+ &lt;body prefix="dc: http://purl.org/dc/terms/ schema: http://schema.org/"&gt;
+   &lt;div resource="/alice/posts/trouble_with_bob" typeof="schema:BlogPosting"&gt;
+      &lt;h2 property="dc:title"&gt;The trouble with Bob&lt;/h2&gt;
+      ...
+      &lt;h3 <span class="hilite">property="dc:creator" resource="#me"</span>&gt;&lt;span <span class="hilite">property="schema:creator" resource="#me"</span>&gt;Alice&lt;/span&gt;&lt;/h3&gt;
+      &lt;div property="schema:articleBody"&gt;
+        &lt;p&gt;The trouble with Bob is that he takes much better photos than I do:&lt;/p&gt;
+      &lt;/div&gt;
+     ...
+   &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                        <p>
+                            Which is a bit awkward. Fortunately, RDFa allows the value of a
+                            <code>property</code> attribute to be a list of values, i.e., she can also write:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 31</span></div><pre class="example">&lt;html&gt;
+ &lt;head&gt;
+   ...
+ &lt;/head&gt;
+ &lt;body prefix="dc: http://purl.org/dc/terms/ schema: http://schema.org/"&gt;
+   &lt;div resource="/alice/posts/trouble_with_bob" typeof="schema:BlogPosting"&gt;
+      &lt;h2 property="dc:title"&gt;The trouble with Bob&lt;/h2&gt;
+      ...
+      &lt;h3 <span class="hilite">property="dc:creator schema:creator" resource="#me"</span>&gt;Alice&lt;/h3&gt;
+      &lt;div property="schema:articleBody"&gt;
+        &lt;p&gt;The trouble with Bob is that he takes much better photos than I do:&lt;/p&gt;
+      &lt;/div&gt;
+     ...
+   &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                        <p>
+                            yielding the structure:
+                        </p>
+                        <figure id="fig-the-simple-blog-structure-with-two-different-creator-properties" class="figure c1">
+                            <a href="diagrams/blog-with-two-creators.svg" class="figurelink"><img src="diagrams/blog-with-two-creators.png" alt="The simple blog structure with two different creator properties"></a>
+                            <p>
+                                <em>Figure 13</em>: Alice's blog item using two different
+                                vocabularies, including two properties with the same context and target.
+                            </p>
+                        <figcaption>Fig. <span class="figno">13</span> <span class="fig-title">The simple blog structure with two different creator properties</span></figcaption></figure>
+                        <p>Similarly to <code>property</code>, <code>typeof</code> also accepts a list of values. For example, 
+                          schema.org also has a notion of a Person, similar to FOAF; Alice may choose to use both:</p>
+
+                    <div class="example"><div class="example-title"><span>Example 32</span></div><pre class="example">&lt;div class="sidebar" prefix="foaf: http://xmlns.com/foaf/0.1/ schema: http://schema.org/" 
+     resource="#me" <span class="hilite">typeof="foaf:Person schema:Person"</span>&gt;
+  &lt;p&gt;
+   &lt;span property="foaf:name"&gt;Alice Birpemswick&lt;/span&gt;,
+     Email: &lt;a property="foaf:mbox" href="mailto:alice@example.com"&gt;alice@example.com&lt;/a&gt;,
+     Phone: &lt;a property="foaf:phone" href="tel:+1-617-555-7332"&gt;+1 617.555.7332&lt;/a&gt;
+  &lt;/p&gt;
+  ...
+&lt;/div&gt;</pre></div>
+                    </section>
+                    <section property="bibo:hasPart" resource="#default-prefixes-initial-context" typeof="bibo:Chapter" id="default-prefixes-initial-context">
+                        <h5 resource="#default_prefixes" id="default_prefixes"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.1.5.2 </span>
+                            Default Prefixes (Initial Context)
+                        </span></h5>
+                        <p>
+                            A number of vocabularies are very widely used by the Web community with
+                            well-known prefixesâthe Dublin Core vocabulary is a good example. These common
+                            vocabularies tend to be defined over and over again, and sometimes Web page
+                            authors forget to declare them altogether.
+                        </p>
+                        <p>
+                            To alleviate this issue, RDFa introduces the concept of an <em>initial
+                            context</em> that defines a set of default prefixes. These prefixes, whose list
+                            is maintained and regularly updated by the <abbr title="World Wide Web Consortium">W3C</abbr>, provide a number of pre-defined
+                            prefixes that are known to the RDFa processor. Prefix declarations in a document
+                            always override declarations made through the defaults, but if a web page author
+                            forgets to declare a common vocabulary such as Dublin Core or FOAF, the RDFa
+                            Processor will fall back to those. The list of default prefixes are <a href="http://www.w3.org/2011/rdfa-context/rdfa-1.1">available on the Web</a> for
+                            everyone to read.
+                        </p>
+                        <p>
+                            For example, the following example does <em>not</em> declare the <code>dc:</code>
+                            prefix using a <code>prefix</code> attribute:
+                        </p>
+                        <div class="example"><div class="example-title"><span>Example 33</span></div><pre class="example">&lt;html&gt;
+ &lt;head&gt;
+   ...
+ &lt;/head&gt;
+ &lt;body&gt;
+   &lt;div&gt;
+      &lt;h2 <span class="hilite">property="dc:title"</span>&gt;The trouble with Bob&lt;/h2&gt;
+      ...
+      &lt;h3 <span class="hilite">property="dc:creator"</span> resource="#me"&gt;Alice&lt;/h3&gt;
+       ...
+   &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                        <p>
+                            However, an RDFa processor still recognizes the <code>dc:title</code> and
+                            <code>dc:creator</code> short-hands and expands the values to the corresponding
+                            URLs. The RDFa processor is able to do this because the <code>dc</code> prefix is
+                            part of the default prefixes in the initial context.
+                        </p>
+                        <div class="note"><div id="h-note6" role="heading" aria-level="6" class="note-title"><span>Note</span></div><p class="">
+                            Default prefixes are used as a mechanism to correct RDFa documents where authors
+                            accidentally forgot to declare common prefixes. While authors may rely on these
+                            to be available for RDFa documents, the prefixes may change over the course
+                            of 5-10 years, although the policy of <abbr title="World Wide Web Consortium">W3C</abbr> is that once a prefix is defined as
+                            part of a default profile, that particular prefix will <em>not</em> be changed or
+                            removed. Nevertheless, the best way to ensure that the prefixes that document
+                            authors use always map to the intent of the author is to use the
+                            <code>prefix</code> attribute to declare these prefixes.
+                        </p></div>
+                        <p>
+                            Since default prefixes are meant to be a last-resort mechanism to help novice
+                            document authors, the markup above is not recommended. The rest of this document
+                            will utilize authoring best practices by declaring all prefixes in order to make
+                            the document author's intentions explicit.
+                        </p>
+                    </section>
+                </section>
+            </section>
+            <section property="bibo:hasPart" resource="#going-deeper-rdfa-core" typeof="bibo:Chapter" id="going-deeper-rdfa-core">
+                <h3 resource="#h-going-deeper-rdfa-core" id="h-going-deeper-rdfa-core"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.2 </span>
+                    Going Deeper: RDFa Core
+                </span></h3>
+                <p>
+                    As we have seen in the previous sections, RDFa Lite is fairly powerful. Alice could
+                    indeed express complex sets of structured information. However, there are cases when the
+                    set of attributes presented so far does not cover all the needs, or make the resulting HTML
+                    structure a bit awkward and possibly error-prone. In those cases additional RDFa
+                    possibilities, provided through additional RDFa attributes, may come to the rescue; some
+                    of these will be presented in this section.
+                </p>
+                <div class="note"><div id="h-note7" role="heading" aria-level="4" class="note-title"><span>Note</span></div><p class="">
+                    RDFa Lite does not define a separate class of RDFa processors. In other words conforming
+                    RDFa processors are supposed to handle all RDFa features, not only those listed used by
+                    RDFa Lite.
+                </p></div>
+                <section property="bibo:hasPart" resource="#using-the-content-attribute" typeof="bibo:Chapter" id="using-the-content-attribute">
+                    <h4 resource="#h-using-the-content-attribute" id="h-using-the-content-attribute"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.2.1 </span>
+                        Using the <code>content</code> attribute
+                    </span></h4>
+                    <p>
+                        When creating her blog, Alice decided to use this simple structure to add Dublin Core
+                        information to her blog post (see also <a class="fig-ref" href="#dfig2">Figure 2</a>):
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 34</span></div><pre class="example">&lt;html&gt;
+ &lt;head&gt;
+   ...
+ &lt;/head&gt;
+ &lt;body&gt;
+   ...
+   &lt;h2 <span class="hilite">property="http://purl.org/dc/terms/title"</span>&gt;The Trouble with Bob&lt;/h2&gt;
+   &lt;p&gt;Date: &lt;span <span class="hilite">property="http://purl.org/dc/terms/created"</span>&gt;2011-09-10&lt;/span&gt;&lt;/p&gt;
+   ...
+ &lt;/body&gt;
+&lt;/html&gt;        </pre></div>
+                    <p>
+                        However, to do that, Alice had to accept a small compromise. Indeed, although the
+                        string "2011-09-10" unambiguously identifies a date for a machine, it does not looks
+                        very natural for a human reader. Surely a native English reader would prefer
+                        something like "10th of September, 2011". On the other hand, although it is of course
+                        possible for a machine to parse and interpret that string as a date, too, it is
+                        clearly more complicated to do so. The problem is that, as a default, RDFa uses the
+                        textual content of the element for the property value. While this works well in most
+                        of the cases, sometimes, like in this example, this has awkward consequences.
+                    </p>
+                    <p>
+                        To alleviate this problem RDFa makes it possible to re-use the <code>content</code>
+                        attribute of HTML. The blog entry could be written as follows:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 35</span></div><pre class="example">&lt;html&gt;
+ &lt;head&gt;
+   ...
+ &lt;/head&gt;
+ &lt;body&gt;
+   ...
+   &lt;h2 property="http://purl.org/dc/terms/title"&gt;The Trouble with Bob&lt;/h2&gt;
+   &lt;p&gt;Date: &lt;span property="http://purl.org/dc/terms/created" <span class="hilite">content="2011-09-10"</span>&gt;10th of September, 2011&lt;/span&gt;&lt;/p&gt;
+   ...
+ &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                    <p>
+                        The resulting structure is exactly the same as before (i.e., <a class="fig-ref" href="#dfig2">Figure
+                        2</a>). The difference is the presence of the <code>content</code> attribute: it
+                        instructs the RDFa processor to overrule the default behavior of using the textual
+                        content, and to use the value of the <code>content</code> attribute instead. Using
+                        this attribute Alice could provide a more readable date, while maintaining an
+                        unambiguous content for machines using the structured data.
+                    </p>
+                    <p>
+                        The <code>content</code> attribute has another important usage. The "traditional"
+                        approach to add simple metadata to a Web page has been to use the document header
+                        through the <code>link</code> and the <code>meta</code> elements. While there is no
+                        problem using <code>link</code> in RDFa Lite (which uses the <code>href</code>
+                        attribute, i.e., can be used to define "flavored" links), the fact that, in a
+                        conforming HTML file, the <code>meta</code> element may have no text content means
+                        that the <em>only</em> way of using the header for such statements is to use the
+                        <code>content</code> attribute. For example, using the <code>meta</code> element is
+                        the approach suggested by Facebook for the Open Graph Protocol&nbsp;[<cite><a href="#bib-ogp" class="bibref">ogp</a></cite>] vocabulary;
+                        i.e., if Alice wants to make use of the "Like" button in her posts, this is what she
+                        would add to her header:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 36</span></div><pre class="example">&lt;html&gt;
+ &lt;head <span class="hilite">prefix="og: http://ogp.me/ns#" </span>&gt;
+   ...
+   &lt;meta <span class="hilite">property="og:title" content="The Trouble with Bob"</span> /&gt;
+   &lt;meta <span class="hilite">property="og:type"  content="text"</span> /&gt;
+   &lt;meta <span class="hilite">property="og:image" content="http://example.com/alice/bob-ugly.jpg"</span> /&gt;
+   ...
+ &lt;/head&gt;
+ &lt;body&gt;
+  ...
+ &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                    <div class="note"><div id="h-note8" role="heading" aria-level="5" class="note-title"><span>Note</span></div><p class="">
+                        In this example the prefix for the Open Graph Protocol vocabulary is defined via the
+                        <code>prefix</code> attribute. Alas, many authors forget to do so. Fortunately, the
+                        <code>og</code> prefix is part of the initial context for RDFa, i.e., the resulting
+                        information will be valid even without the prefix declarationâ¦
+                    </p></div>
+                </section>
+                <section property="bibo:hasPart" resource="#datatypes" typeof="bibo:Chapter" id="datatypes">
+                    <h4 resource="#h-datatypes" id="h-datatypes"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.2.2 </span>
+                        Datatypes
+                    </span></h4>
+                    <p>
+                        Alice has already put license information on her page:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 37</span></div><pre class="example">&lt;p&gt;All content on this site is licensed under
+   &lt;a property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by/3.0/"&gt;
+     a Creative Commons License&lt;/a&gt;. Â©2011 Alice Birpemswick.&lt;/p&gt;</pre></div>
+                    <p>
+                        but she would like to complete this by recording the date of her copyright statement
+                        as a structured data, too. She can use the <code>date</code> term of Dublin Core:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 38</span></div><pre class="example">&lt;p&gt;All content on this site is licensed under
+   &lt;a property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by/3.0/"&gt;
+     a Creative Commons License&lt;/a&gt;. Â©&lt;span <span class="hilite">property="dc:date"</span>&gt;2011&lt;/span&gt; Alice Birpemswick.&lt;/p&gt;</pre></div>
+                    <p>
+                        However, the value used for the date may be ambiguous for machines. Of course, if a
+                        program "knows" that that <code>http://purl.org/dc/terms/date</code> refers to a
+                        date, then of course it can find out that the string "2011" stands for a year. But
+                        there may be processors that, for example, provide a visual presentation of all the
+                        structured data on a specific page, and would like to use a different "widget" to
+                        represent a year and again another one to represent, say, an integer number. How
+                        would such a processor know which one to choose?
+                    </p>
+                    <p>
+                        Alice may decide to be helpful by adding an additional information to that item in
+                        the form of a <em>datatype</em>. This additional information can be conveyed to the
+                        RDFa processor using the <code>datatype</code> RDFa attribute as follows:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 39</span></div><pre class="example">&lt;p&gt;All content on this site is licensed under
+   &lt;a property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by/3.0/"&gt;
+     a Creative Commons License&lt;/a&gt;. Â©&lt;span <span class="hilite">property="dc:date" datatype="xsd:gYear"</span>&gt;2011&lt;/span&gt; Alice Birpemswick.&lt;/p&gt;</pre></div>
+                    <p>
+                        where <code>xsd:gYear</code> stands for
+                        <code>http://www.w3.org/2001/XMLSchema#gYear</code>, and is one of the standard
+                        datatypes defined by <a href="http://www.w3.org/TR/xmlschema11-2/#built-in-datatypes"><abbr title="World Wide Web Consortium">W3C</abbr>'s Datatype
+                        specification</a>&nbsp;[<cite><a href="#bib-xmlschema11-2" class="bibref">xmlschema11-2</a></cite>] which contains such types as booleans, integers, dates,
+                        or doubles. (<code>xsd</code> is one of the <a href="#default_prefixes">default
+                        prefixes</a> for RDFa.)
+                    </p>
+                </section>
+                <section property="bibo:hasPart" resource="#alternative-for-setting-the-context-about" typeof="bibo:Chapter" id="alternative-for-setting-the-context-about">
+                    <h4 resource="#h-alternative-for-setting-the-context-about" id="h-alternative-for-setting-the-context-about"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.2.3 </span>
+                        Alternative for setting the context: <code>about</code>
+                    </span></h4>
+                    <p>
+                        Alice has used the following patterns to define structured data for the individual
+                        blogs:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 40</span></div><pre class="example">&lt;div resource="/alice/posts/trouble_with_bob"&gt;
+   &lt;h2 property="title"&gt;The trouble with Bob&lt;/h2&gt;
+   &lt;h3 property="creator" resource="#me"&gt;Alice&lt;/h3&gt;
+   ...
+&lt;/div&gt;</pre></div>
+                    <p>
+                        The role of the <code>resource</code> attribute in the <code>div</code> element is to
+                        set the "context", i.e., the subject for all the subsequent statements. Also, when
+                        combined with the <code>property</code> attribute, <code>resource</code> can be used
+                        to set the "target", i.e., the object for the statement (much as <code>href</code>).
+                    </p>
+                    <p>
+                        This pattern is perfectly fine, but it may become too verbose in some cases. Indeed,
+                        let us suppose that Alice would like to set up a separate index page for all her
+                        blog posts, and the only information she would like to put there, as structured data, is
+                        references to the titles. Following the same pattern, she would have to do something
+                        like:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 41</span></div><pre class="example">&lt;ul&gt;
+  &lt;li <span class="hilite">resource="/alice/posts/trouble_with_bob"</span>&gt;&lt;span <span class="hilite">property="title"</span>&gt;The trouble with Bob&lt;/span&gt;&lt;/li&gt;
+  &lt;li <span class="hilite">resource="/alice/posts/jos_barbecue"</span>&gt;&lt;span <span class="hilite">property="title"</span>&gt;Jo's Barbecue&lt;/span&gt;&lt;/li&gt;
+  ...
+&lt;/ul&gt;</pre></div>
+                    <p>
+                        This of course works, but it is a bit convoluted. Merging the information into one
+                        element, i.e.:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 42</span></div><pre class="example">&lt;ul resource="/alice/posts/trouble_with_bob"&gt;
+  &lt;li resource="/alice/posts/trouble_with_bob" property="title"&gt;The trouble with Bob&lt;/li&gt;
+  ...
+&lt;/ul&gt;</pre></div>
+                    <p>
+                        would not be correct; the combination of <code>property</code> and
+                        <code>resource</code> would generate a different statement than originally intended.
+                    </p>
+                    <p>
+                        RDFa introduces a separate attribute, called <code>about</code>, that can be used as
+                        an alternative to <code>resource</code> in setting the the context. Using that
+                        attribute, Alice could write:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 43</span></div><pre class="example">&lt;ul&gt;
+  &lt;li <span class="hilite">about="/alice/posts/trouble_with_bob"</span> property="title"&gt;The trouble with Bob&lt;/li&gt;
+  &lt;li <span class="hilite">about="/alice/posts/jos_barbecue"</span> property="title"&gt;Jo's Barbecue&lt;/li&gt;
+  ...
+&lt;/ul&gt;</pre></div>
+                    <p>
+                        The fundamental difference between <code>about</code> and <code>resource</code> is
+                        that the former is <em>only</em> used to set the context, whether combined with the
+                        <code>property</code> attribute on the same element or not. This also means that, for
+                        such usage, <code>about</code> and <code>resource</code> are interchangeable; i.e.,
+                        in her original blog item, Alice could have chosen to write:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 44</span></div><pre class="example">&lt;div <span class="hilite">about="/alice/posts/trouble_with_bob"</span>&gt;
+   &lt;h2 property="title"&gt;The trouble with Bob&lt;/h2&gt;
+   &lt;h3 property="creator" resource="#me"&gt;Alice&lt;/h3&gt;
+   ...
+&lt;/div&gt;</pre></div>
+                </section>
+                <section property="bibo:hasPart" resource="#alternative-for-setting-the-property-rel" typeof="bibo:Chapter" id="alternative-for-setting-the-property-rel">
+                    <h4 resource="#h-alternative-for-setting-the-property-rel" id="h-alternative-for-setting-the-property-rel"><span property="xhv:role" resource="xhv:heading"><span class="secno">2.2.4 </span>
+                        Alternative for setting the property: <code>rel</code>
+                    </span></h4>
+                    <p>
+                        Another pattern that Alice used in her code is as follows:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 45</span></div><pre class="example">&lt;div vocab="http://xmlns.com/foaf/0.1/" resource="#me"&gt;
+   &lt;ul&gt;
+      &lt;li <span class="hilite">property="knows"</span> resource="http://example.com/bob/#me" typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/bob/"&gt;&lt;span property="name"&gt;Bob&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li <span class="hilite">property="knows"</span> resource="http://example.com/eve/#me" typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/eve/"&gt;&lt;span property="name"&gt;Eve&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li <span class="hilite">property="knows"</span> resource="http://example.com/manu/#me" typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/manu/"&gt;&lt;span property="name"&gt;Manu&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/div&gt;       </pre></div>
+                    <p>
+                        Each "branch" in the list sets a separate object (blank nodes in this example) and
+                        the same property (<code>foaf:knows</code>) is used to bind them to the same context.
+                        The <code>property="knows"</code> had to be repeated in each list element to define
+                        the corresponding property. If this structure is generated by some CMS systems, this
+                        is of course not a problem. However, if such structure is authored manually, it is
+                        clearly error prone: the property name can be misspelled or forgotten.
+                    </p>
+                    <p>
+                        Instead, Alice could use another RDFa attribute, namely <code>rel</code>. Using this
+                        attribute the corresponding HTML would look as:
+                    </p>
+                    <div class="example"><div class="example-title"><span>Example 46</span></div><pre class="example">&lt;div vocab="http://xmlns.com/foaf/0.1/" resource="#me"&gt;
+   &lt;ul <span class="hilite">rel="knows"</span>&gt;
+      &lt;li resource="http://example.com/bob/#me" typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/bob/"&gt;&lt;span property="name"&gt;Bob&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li resource="http://example.com/eve/#me" typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/eve/"&gt;&lt;span property="name"&gt;Eve&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li resource="http://example.com/manu/#me" typeof="Person"&gt;
+        &lt;a property="homepage" href="http://example.com/manu/"&gt;&lt;span property="name"&gt;Manu&lt;/span&gt;&lt;/a&gt;
+      &lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/div&gt;       </pre></div>
+                    <p>
+                        In contrast to <code>property</code>, <code>rel</code> <em>never</em> considers the
+                        textual content of an element (or the value of the <code>content</code> attribute).
+                        Instead, if no clear target has been specified for a link via, e.g., a
+                        <code>resource</code> or an <code>href</code> attribute, the processor is supposed to
+                        go âdownâ and find one or more targets in the hierarchy and use those. This is what
+                        happens in this case: the <code>knows</code> attribute on the <code>ul</code>
+                        element does not include any obvious target; however, the processor finds those in
+                        the individual <code>li</code> elements and will use those. This 
+                        pattern is typical for the usage of <code>rel</code>.
+                    </p>
+                    <div class="note"><div id="h-note9" role="heading" aria-level="5" class="note-title"><span>Note</span></div><p class="">
+                        In many situations, <code>property</code> and <code>rel</code> are interchangeable
+                        when the intended structured data involves (flavored) links. There are, however,
+                        subtle differences involving, for example, âchainingâ that must be used with care.
+                        The interested reader should consult the <a href="http://www.w3.org/TR/rdfa-core/#s_chaining">relevant section of the RDFa&nbsp;1.1
+                        specification</a> for further details. 
+                        In general, it is advised to use <code>property</code>, when possible.
+                    </p></div>
+                </section>
+            </section>
+        </section>
+        <section property="bibo:hasPart" resource="#you-said-something-about-rdf" typeof="bibo:Chapter" id="you-said-something-about-rdf">
+            <!--OddPage--><h2 resource="#h-you-said-something-about-rdf" id="h-you-said-something-about-rdf"><span property="xhv:role" resource="xhv:heading"><span class="secno">3. </span>
+                You Said Something about RDF?
+            </span></h2>
+            <p>
+                RDFa benefits from the power of RDF&nbsp;[<cite><a href="#bib-rdf11-primer" class="bibref">rdf11-primer</a></cite>], the <abbr title="World Wide Web Consortium">W3C</abbr>'s standard for interoperable
+                machine-readable data. Although readers of this document are not expected to understand RDF,
+                some may be interested in how these two specifications interrelate.
+            </p>
+            <p>
+                RDF, the Resource Description Framework, is the abstract data representation we have drawn
+                out as graphs in the examples above. Each arrow in the graph is represented as a
+                subject-property-object triple: the subject is the node at the start of the arrow, the
+                property is the arrow itself, and the object is the node or literal at the end of the arrow.
+                A set of such RDF triples is often called an "RDF graph", and is typically stored in what is
+                often called a "Triple Store" or a "Graph Store".
+            </p>
+            <p>
+                Consider the first example graph:
+            </p>
+            <figure id="fig-relationship-value-is-text" class="figure c1">
+                <a href="diagrams/title-and-author.svg" class="figurelink"><img src="diagrams/title-and-author.png" alt="relationship value is text"></a>
+            <figcaption>Fig. <span class="figno">14</span> <span class="fig-title">relationship value is text</span></figcaption></figure>
+            <p>
+                The two RDF triples for this graph are written, using the Turtle syntax&nbsp;[<cite><a href="#bib-turtle" class="bibref">turtle</a></cite>] for RDF,
+                is as follows:
+            </p>
+            <div class="example"><div class="example-title"><span>Example 47</span></div><pre class="example">&lt;http://www.example.com/alice/posts/trouble_with_bob&gt;
+    &lt;http://purl.org/dc/terms/title&gt; "The Trouble with Bob" ;
+    &lt;http://purl.org/dc/terms/created&gt; "2011-09-10" .</pre></div>
+            <p>
+                The <strong>TYPE</strong> arrows we drew are no different from other arrows. The
+                <strong>TYPE</strong> is just another property that happens to be a core RDF property, namely
+                <code>rdf:type</code>. The <code>rdf</code> vocabulary is located at
+                <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>. The contact information example
+                from above should thus be diagrammed as:
+            </p>
+            <figure id="fig-blank-node-with-rdf-type-foaf-person" class="figure c1">
+                <a href="diagrams/type.svg" class="figurelink"><img src="diagrams/type.png" alt="blank node with rdf:type foaf:Person"></a>
+            <figcaption>Fig. <span class="figno">15</span> <span class="fig-title">blank node with rdf:type foaf:Person</span></figcaption></figure>
+            <p>
+                The point of RDF is to provide a universal language for expressing data and relationships. A
+                unit of data can have any number of properties that are expressed as URLs. These URLs can be
+                reused by any publisher, much like any web publisher can link to any web page, even ones they
+                did not create themselves. Using data in the form of RDF triples, collected from various
+                locations, and also using the RDF query language SPARQL&nbsp;[<cite><a href="#bib-sparql11-query" class="bibref">sparql11-query</a></cite>], one can search for
+                "friends of Alice's who created items whose title contains the word 'Bob'," whether those
+                items are blog posts, videos, calendar events, or other data types.
+            </p>
+            <p>
+                RDF is an abstract data model meant to maximize the reuse of vocabularies. RDFa is a way to
+                express RDF data within HTML, in a way that is machine-readable, and by reusing the existing
+                human-readable data in the document.
+            </p>
+            <section property="bibo:hasPart" resource="#custom-vocabularies" typeof="bibo:Chapter" id="custom-vocabularies">
+                <h3 resource="#h-custom-vocabularies" id="h-custom-vocabularies"><span property="xhv:role" resource="xhv:heading"><span class="secno">3.1 </span>
+                    Custom Vocabularies
+                </span></h3>
+                <p>
+                    As Alice marks up her page with RDFa, she may discover the need to express data, such as
+                    her favorite photos, that is not covered by existing vocabularies. If she needs to, Alice
+                    can create a custom vocabulary suited for her needs. Once a vocabulary is created, it can
+                    be used in RDFa markup like any other vocabulary.
+                </p>
+                <p>
+                    The instructions on how to create a vocabulary, also known as an RDF Schema, are
+                    available in the RDF Primer&nbsp;[<cite><a href="#bib-rdf11-primer" class="bibref">rdf11-primer</a></cite>]. At a high level, the creation of
+                    a vocabulary for RDFa involves:
+                </p>
+                <ol>
+                    <li>Selecting a URL where the vocabulary will reside, for example:
+                    <code>http://example.com/photos/vocab#</code>.
+                    </li>
+                    <li>Publishing the vocabulary document at the specified vocabulary URL. The vocabulary
+                    document defines the classes and properties that make up the vocabulary. For example,
+                    Alice may want to define the classes <code>Photo</code> and <code>Camera</code>, as well
+                    as the property <code>takenWith</code> that relates a photo to the camera with which it
+                    was taken.
+                    </li>
+                    <li>Using the vocabulary in an HTML document either with the <code>vocab</code> attribute
+                    or with the prefix declaration mechanism. For example: <code>prefix="photo:
+                    http://example.com/photos/vocab#"</code> and <code>typeof="photo:Camera"</code>.
+                    </li>
+                </ol>
+                <p>
+                    It is worth noting that anyone who can publish a document on the Web can publish a
+                    vocabulary and thus define new data fields they may wish to express. RDF and RDFa allow
+                    fully distributed extensibility of vocabularies.
+                </p>
+            </section>
+        </section>
+        <section property="bibo:hasPart" resource="#rdfa-tools" typeof="bibo:Chapter" id="rdfa-tools">
+            <!--OddPage--><h2 resource="#h-rdfa-tools" id="h-rdfa-tools"><span property="xhv:role" resource="xhv:heading"><span class="secno">4. </span>
+                RDFa Tools
+            </span></h2>
+            <p>
+                There is a wide variety of tools that can be used to generate or process RDFa data. Good
+                sources for these are the <a href="http://www.w3.org/2001/sw/wiki/RDFa">RDFa page of the <abbr title="World Wide Web Consortium">W3C</abbr>
+                Semantic Web Wiki</a>, although care should be taken that some tools may be related to a previous
+                version of RDFa. Another source may be the <a href="http://rdfa.info/tools/">RDFa community siteâs
+                implementation page</a>. Both these sources are constantly evolving. By the way, the latter is
+                part of a more general <a href="http://rdfa.info/">community page</a> that
+                contains further examples for using RDFa, general information, as well as information on how to get involved.
+                In particular, RDFa fragments can be tested using the
+                <a href="http://rdfa.info/play">real-time RDFa&nbsp;1.1 editor</a> that can also display a
+                visual representation of the underlying structural data.
+            </p>
+        </section>
+        <section property="bibo:hasPart" resource="#acknowledgments" typeof="bibo:Chapter" id="acknowledgments">
+            <!--OddPage--><h2 resource="#h-acknowledgments" id="h-acknowledgments"><span property="xhv:role" resource="xhv:heading"><span class="secno">5. </span>
+                Acknowledgments
+            </span></h2>
+            <p>
+                At the time of publication, the active members of the RDF Web Application Working Group were:
+            </p>
+            <ul>
+                <li>StÃ©phane Corlosquet, Massachusetts General Hospital
+                </li>
+                <li>Ivan Herman, <abbr title="World Wide Web Consortium">W3C</abbr>
+                </li>
+                <li>Gregg Kellogg (Invited Expert)
+                </li>
+                <li>Niklas LindstrÃ¶m (Invited Expert)
+                </li>
+                <li>Shane McCarron, Applied Testing and Technology, Inc. (Invited Expert)
+                </li>
+                <li>Steven Pemberton, Centre Mathematics and Computer Science
+                </li>
+                <li>Manu Sporny, Digital Bazaar (Chair, Invited Expert)
+                </li>
+                <li>Ted Thibodeau, OpenLink Software
+                </li>
+            </ul>
+            <p>
+                Thanks also to Grant Robertson and Guus Schreiber who, though not part of the Working Group,
+                have provided useful comments on earlier drafts of this note.
+            </p>
+        </section>
+    
+
+<section property="bibo:hasPart" resource="#references" typeof="bibo:Chapter" id="references" class="appendix"><!--OddPage--><h2 resource="#h-references" id="h-references"><span property="xhv:role" resource="xhv:heading"><span class="secno">A. </span>References</span></h2><section property="bibo:hasPart" resource="#informative-references" typeof="bibo:Chapter" id="informative-references"><h3 resource="#h-informative-references" id="h-informative-references"><span property="xhv:role" resource="xhv:heading"><span class="secno">A.1 </span>Informative references</span></h3><dl resource="" class="bibliography"><dt id="bib-cc-about">[cc-about]</dt><dd><a property="dc:references" href="http://creativecommons.org/about/licenses/"><cite>Creative Commons: About Licenses</cite></a> URL: http://creativecommons.org/about/licenses/ 
+</dd><dt id="bib-dc11">[dc11]</dt><dd>Dublin Core metadata initiative. <a property="dc:references" href="http://dublincore.org/documents/dcmi-terms/"><cite>Dublin Core metadata element set, version 1.1</cite></a>. July 1999. Dublin Core recommendation. URL: <a property="dc:references" href="http://dublincore.org/documents/dcmi-terms/">http://dublincore.org/documents/dcmi-terms/</a>
+</dd><dt id="bib-foaf">[foaf]</dt><dd>Dan Brickley; Libby Miller. <a property="dc:references" href="http://xmlns.com/foaf/spec"><cite>FOAF Vocabulary Specification 0.99 (Paddington Edition)</cite></a>. 14 January 2014. URL: <a property="dc:references" href="http://xmlns.com/foaf/spec">http://xmlns.com/foaf/spec</a>
+</dd><dt id="bib-html-rdfa">[html-rdfa]</dt><dd>Manu Sporny. <a property="dc:references" href="http://www.w3.org/TR/html-rdfa/"><cite>HTML+RDFa 1.1 - Second Edition</cite></a> 17 March 2015. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/html-rdfa/">http://www.w3.org/TR/html-rdfa/</a> 
+</dd><dt id="bib-ogp">[ogp]</dt><dd><a property="dc:references" href="http://ogp.me"> <cite>The Open Graph Protocol</cite></a>.  December 2010. URL: <a property="dc:references" href="http://ogp.me">http://ogp.me</a>
+</dd><dt id="bib-rdf11-primer">[rdf11-primer]</dt><dd>Guus Schreiber; Yves Raimond. <a property="dc:references" href="http://www.w3.org/TR/rdf11-primer/"><cite>RDF 1.1 Primer</cite></a>. 24 June 2014. W3C Note. URL: <a property="dc:references" href="http://www.w3.org/TR/rdf11-primer/">http://www.w3.org/TR/rdf11-primer/</a>
+</dd><dt id="bib-rdfa-core">[rdfa-core]</dt><dd>Ben Adida; Mark Birbeck; Shane McCarron; Ivan Herman. <a property="dc:references" href="http://www.w3.org/TR/rdfa-core/"><cite>RDFa Core 1.1 - Third Edition</cite></a> 17 March 2015. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/rdfa-core/">http://www.w3.org/TR/rdfa-core/</a> 
+</dd><dt id="bib-rdfa-lite">[rdfa-lite]</dt><dd>Manu Sporny. <a property="dc:references" href="http://www.w3.org/TR/rdfa-lite/"><cite>RDFa Lite 1.1 - Second Edition</cite></a> 17 March 2015. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/rdfa-lite/">http://www.w3.org/TR/rdfa-lite/</a> 
+</dd><dt id="bib-rdfa-syntax">[rdfa-syntax]</dt><dd>Ben Adida; Mark Birbeck; Shane McCarron; Steven Pemberton et al. <a property="dc:references" href="http://www.w3.org/TR/rdfa-syntax"><cite>RDFa in XHTML: Syntax and Processing</cite></a>. 14 October 2008. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/rdfa-syntax">http://www.w3.org/TR/rdfa-syntax</a>
+</dd><dt id="bib-schema">[schema]</dt><dd><a property="dc:references" href="http://schema.org">Schemasâschema.org</a> 
+</dd><dt id="bib-sparql11-query">[sparql11-query]</dt><dd>Steven Harris; Andy Seaborne. <a property="dc:references" href="http://www.w3.org/TR/sparql11-query/"><cite>SPARQL 1.1 Query Language</cite></a>. 21 March 2013. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/sparql11-query/">http://www.w3.org/TR/sparql11-query/</a>
+</dd><dt id="bib-svg11">[svg11]</dt><dd>Erik DahlstrÃ¶m; Patrick Dengler; Anthony Grasso; Chris Lilley; Cameron McCormack; Doug Schepers; Jonathan Watt; Jon Ferraiolo; Jun Fujisawa; Dean Jackson et al. <a property="dc:references" href="http://www.w3.org/TR/SVG11/"><cite>Scalable Vector Graphics (SVG) 1.1 (Second Edition)</cite></a>. 16 August 2011. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/SVG11/">http://www.w3.org/TR/SVG11/</a>
+</dd><dt id="bib-turtle">[turtle]</dt><dd>Eric Prud'hommeaux; Gavin Carothers. <a property="dc:references" href="http://www.w3.org/TR/turtle/"><cite>RDF 1.1 Turtle</cite></a>. 25 February 2014. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/turtle/">http://www.w3.org/TR/turtle/</a>
+</dd><dt id="bib-xhtml-rdfa">[xhtml-rdfa]</dt><dd>Shane McCarron. <a property="dc:references" href="http://www.w3.org/TR/xhtml-rdfa/"><cite>XHTML+RDFa 1.1 - Third Edition</cite></a> 17 March 2015. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/xhtml-rdfa/">http://www.w3.org/TR/xhtml-rdfa/</a> 
+</dd><dt id="bib-xmlschema11-2">[xmlschema11-2]</dt><dd>David Peterson; Sandy Gao; Ashok Malhotra; Michael Sperberg-McQueen; Henry Thompson; Paul V. Biron et al. <a property="dc:references" href="http://www.w3.org/TR/xmlschema11-2/"><cite>W3C XML Schema Definition Language (XSD) 1.1 Part 2: Datatypes</cite></a>. 5 April 2012. W3C Recommendation. URL: <a property="dc:references" href="http://www.w3.org/TR/xmlschema11-2/">http://www.w3.org/TR/xmlschema11-2/</a>
+</dd></dl></section></section><script src="https://www.w3.org/scripts/TR/fixup.js"></script></body></html>
+
+
+#####EOF#####
+
+

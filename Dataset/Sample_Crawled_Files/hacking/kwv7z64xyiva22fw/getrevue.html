@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+<title dir='ltr'>The trouble with Mark Zuckerberg profiles | Revue</title>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='The Interface - Can Mark Zuckerberg fix Facebook before it breaks democracy? That&#39;s the headline on Evan Osnos&#39; 14,000-word profile of the Facebook CEO after two' name='description'>
+<meta content='newsletter, email, digest, curation' name='keywords'>
+<!--[if lt IE 9]>
+<script src="//d3jbm9h03wxzi9.cloudfront.net/assets/html5shiv-d3d35aa8c5c7074d41080b04f1324ad142a05add2f6e1e2ac7028b1eb3bece66.js"></script>
+<![endif]-->
+<link rel="stylesheet" media="all" href="//d3jbm9h03wxzi9.cloudfront.net/assets/application-9e65a07a26a0eb740876fa31d9dca2d327a10cc23ea3d799c18dc436088e2f96.css" />
+<script src="//d3jbm9h03wxzi9.cloudfront.net/assets/application-8074fbbc9b8c0fd1cbbe4aa5acff46dfa368fd2da6b76fe7dc73dd1ee1707441.js"></script>
+<script>
+  I18n.defaultLocale = "en";
+  I18n.locale = "en";
+</script>
+<link href='//d3jbm9h03wxzi9.cloudfront.net/assets/favicon-84fc7f228d52c2410eb7aa839e279caeaa491588c7c75229ed33e1c7f69fe75d.ico' rel='icon' size='16x16'>
+<link href='//d3jbm9h03wxzi9.cloudfront.net/assets/favicon-84fc7f228d52c2410eb7aa839e279caeaa491588c7c75229ed33e1c7f69fe75d.ico' rel='icon' size='32x32'>
+<link color='#E15718' href='//d3jbm9h03wxzi9.cloudfront.net/assets/icon-3c1cfdd15627dced20a77f68d16ee564dc20eed0e312dd9c1bf8051c15691617.svg' rel='mask-icon'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="IEaOLJxP9SxK53GWawtImVyoUJqnySfPUH7LLgfSUGfM4UvPayuWTtmgEFZHUMwsl/4MGxTsi2iWCwyPGuQFGQ==" />
+
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Bevan" />
+<script type="text/javascript">
+  function getQueryParam(url, param) {
+    // Expects a raw URL
+    param = param.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + param + "=([^&#]*)",
+    regex = new RegExp( regexS ),
+    results = regex.exec(url);
+    if (results === null || (results && typeof(results[1]) !== 'string' && results[1].length)) {
+      return '';
+    } else {
+      return decodeURIComponent(results[1]).replace(/\+/g, ' ');
+    }
+  };
+
+  function geUtmParams() {
+    var campaign_keywords = 'utm_source utm_medium utm_campaign utm_content utm_term'.split(' ')
+    , kw = ''
+    , params = {}
+    , first_params = {}
+    , result = {};
+
+    var index;
+    for (index = 0; index < campaign_keywords.length; ++index) {
+      kw = getQueryParam(document.URL, campaign_keywords[index]);
+      if (kw.length) {
+        params[campaign_keywords[index] + ' [last touch]'] = kw;
+      }
+    }
+    for (index = 0; index < campaign_keywords.length; ++index) {
+      kw = getQueryParam(document.URL, campaign_keywords[index]);
+      if (kw.length) {
+        first_params[campaign_keywords[index]] = kw;
+      }
+    };
+
+    result.first_params = first_params;
+    result.params = params;
+
+    return result;
+  }
+
+  function extractReferrer(referrer) {
+    campaign = geUtmParams().first_params["utm_campaign"];
+    ref = getQueryParam(document.URL, 'ref');
+
+    if(!campaign && !ref) {
+      if (/www\.getrevue\.co\/profile\/(.*?)\/issue/.test(window.location.href)) {
+        return 'Revue Profile Issue'
+      } else if(/www\.getrevue\.co\/profile/.test(window.location.href)) {
+        return 'Revue Profile'
+      }
+    }
+
+    if(!!campaign) {
+      return campaign;
+    } else if (referrer.search('https?://(.*)google.([^/?]*)') === 0) {
+      return 'Google';
+    } else if (referrer.search('https?://(.*)bing.([^/?]*)') === 0) {
+      return 'Bing';
+    } else if (referrer.search('https?://(.*)yahoo.([^/?]*)') === 0) {
+      return 'Yahoo';
+    } else if (referrer.search('https?://(.*)facebook.([^/?]*)') === 0) {
+      return 'Facebook';
+    } else if (referrer.search('https?://(.*)twitter.([^/?]*)') === 0 || referrer.search('https?://(.*)t.co/') === 0) {
+      return 'Twitter';
+    } else if (referrer.search('https?://(.*)linkedin.([^/?]*)') === 0) {
+      return 'LinkedIn'
+    } else if (referrer == '$direct' || (!referrer || /^\s*$/.test(referrer))) {
+      return '$direct';
+    } else if (referrer.search('https?://(.*)getrevue.co') == 0) {
+      if(/\/app\//.test(referrer)) {
+        return 'Revue App';
+      } else if (/\/profile\/(.*?)\/issue/.test(referrer)) {
+        return 'Revue Profile Issue'
+      } else if (/\/profile\//.test(referrer)) {
+        return 'Revue Profile'
+      } else if (/blog\.getrevue\.co/.test(referrer)) {
+        return 'Revue Blog'
+      } else {
+        return 'Revue Page'
+      }
+    } else if (referrer.search('https?://(.*)rev.vu([^/?]*)') === 0) {
+      return 'Revue Item';
+    } else if (!!ref) {
+      return ref;
+    } else {
+      tld = new RegExp('\.(asn\.au|com\.au|net\.au|id\.au|org\.au|edu\.au|gov\.au|csiro\.au|act\.au|nsw\.au|nt\.au|qld\.au|sa\.au|tas\.au|vic\.au|wa\.au|co\.at|or\.at|priv\.at|ac\.at|avocat\.fr|aeroport\.fr|veterinaire\.fr|co\.hu|film\.hu|lakas\.hu|ingatlan\.hu|sport\.hu|hotel\.hu|ac\.il|co\.il|org\.il|net\.il|k12\.il|gov\.il|muni\.il|idf\.il|ac\.za|gov\.za|law\.za|mil\.za|nom\.za|school\.za|net\.za|co\.uk|org\.uk|me\.uk|ltd\.uk|plc\.uk|net\.uk|sch\.uk|ac\.uk|gov\.uk|mod\.uk|nhs\.uk|police\.uk)')
+      a = document.createElement('a');
+      a.href = referrer;
+      ref = a.hostname;
+      if(tld.test(ref)) {
+        return ref.replace(tld, '').split('.').pop()
+      } else {
+        return ref.split('.').reverse()[1];
+      }
+    }
+  };
+
+  function getReferrer() {
+    ref = document.referrer;
+    return extractReferrer(ref);
+  }
+  
+  function mixpanelLoaded() {
+    try {
+      // Set ref
+      initial_ref = mixpanel.get_property('$initial_referrer');
+      mixpanel.register_once({"Source": extractReferrer(initial_ref)});
+      // mixpanel.people.set_once({"Source": extractReferrer(initial_ref)});
+      // mixpanel.people.set_once({"$created": new Date().toISOString()});
+
+      // Set distinct id
+      $('#member_distinct_id').val(mixpanel.get_distinct_id())
+    } catch(e) {}
+  };
+</script>
+<script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+mixpanel.init("2087bc32dd14049d6de8a339112517d9", {loaded: mixpanelLoaded});</script>
+
+<script type="text/javascript">
+  var utm = geUtmParams();
+  mixpanel.register(utm.params);
+  // mixpanel.people.set(utm.params);
+  // mixpanel.people.set_once(utm.first_params);
+</script>
+
+
+<meta content='summary_large_image' property='twitter:card'>
+<meta content='@getrevue' property='twitter:site'>
+<meta content='@CaseyNewton' property='twitter:site'>
+<meta content='1073732649320413' property='fb:app_id'>
+<meta content='https://www.getrevue.co/profile/caseynewton/issues/the-trouble-with-mark-zuckerberg-profiles-133299' property='og:url'>
+<meta content='article' property='og:type'>
+<meta content='The trouble with Mark Zuckerberg profiles' property='og:title'>
+<meta content="Can Mark Zuckerberg fix Facebook before it breaks democracy? That's the headline on Evan Osnos' 14,000-word profile of the Facebook CEO after two years' worth of scandals. That question is maybe unanswerable â what would it mean to fix Facebook, or democracy? â but the article does a better-than-average job at exploring its contours.Osnos had the chance to interview Zuckerberg several times, even breaking (banana) bread with the CEO at his home. The New Yorker excels at bouying its narrative prof" property='og:description'>
+<meta content='https://s3.amazonaws.com/revue/issue_images/images/000/037/886/original/issue_image_13329920180911-4-3jpcl5jpg?1536624879' property='twitter:image'>
+<meta content='https://s3.amazonaws.com/revue/issue_images/images/000/037/886/original/issue_image_13329920180911-4-3jpcl5jpg?1536624879' property='og:image'>
+<meta content='https://s3.amazonaws.com/revue/profile_covers/images/000/001/549/original/VRG_DSN_2420_Interface_Newsletter_v03.jpg?1522118552' property='og:image'>
+
+</head>
+<body class='profiles archive' data-page='ProfilesArchive'>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58968534-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<style>
+  #profile-nav {border-color: #3b5998 !important;}
+  #profile-nav.expanded svg {fill: #3b5998 !important;}
+  #nav-back {color: #3b5998 !important;}
+  #nav-back:after {border-color: #3b5998 !important;}
+  #profile-logo {background-color: #3b5998 !important;}
+  section.profile-form input[type="submit"] {background-color: #3b5998 !important;}
+  section#premium a {color: #3b5998 !important;}
+</style>
+<div id='profile-nav'>
+<a id="nav-back" href="https://www.getrevue.co/profile/caseynewton">View profile</a>
+<a id="profile-logo" href="https://www.getrevue.co/?ref=Revue+Profile"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="basic" id="Layer_1" x="0px" y="0px" width="69px" height="28px" viewBox="0 0 69 28" xml:space="preserve">
+  <path d="M64.5293352,10.7041667 C65.0574432,10.6932778 65.3370748,10.9435278 65.3487341,11.5175278 C65.4141025,14.6482778 61.2060582,14.9296389 61.2060582,14.9296389 C61.4291136,13.3777778 62.6296371,10.7436389 64.5293352,10.7041667 L64.5293352,10.7041667 Z M67.1731247,18.3427222 C66.183615,19.4257778 64.9358809,20.2513889 63.5530139,20.2803611 C60.9010055,20.3353889 61.2215402,16.9429167 61.2215402,16.9429167 C61.2215402,16.9429167 68.9206787,17.2128056 68.8088643,11.8327222 C68.7618449,9.56880556 66.6052604,8.54427778 64.6474571,8.58491667 C60.6521468,8.66833333 57.2805125,12.3923333 57.3781828,17.0982778 C57.3877396,17.5509444 57.4292161,17.9754167 57.5007008,18.3722778 C56.9821496,19.0516667 56.0666094,20.0699722 55.2370803,20.0699722 C54.781795,20.0699722 54.6111108,19.6655278 54.6111108,19.2105278 C54.6111108,15.7544722 56.2048006,12.3516944 56.2048006,10.3425 C56.2048006,9.12255556 55.3743158,8.77313889 54.3454321,8.77313889 C53.0770554,8.77313889 52.3717645,9.60088889 52.3717645,9.60088889 C53.0636759,11.5056667 50.6058615,20.0699722 48.0218975,20.0699722 C47.4106454,20.0699722 47.3039917,19.5891111 47.3039917,19.1971111 C47.3039917,16.6306389 48.8831551,12.3316667 48.8831551,10.4099722 C48.8831551,9.13286111 48.0360416,8.75369444 47.0310499,8.75369444 C45.8419945,8.75369444 45.0539418,9.60088889 45.0539418,9.60088889 C45.9052604,11.2443333 43.6670609,17.5278056 43.6670609,19.3456667 C43.6670609,21.1633333 44.6720526,22.5985278 46.4427341,22.5985278 C49.3199003,22.5985278 50.9894709,18.98225 50.9894709,18.98225 C50.9894709,18.98225 50.6058615,22.5985278 54.0992493,22.5985278 C55.8911468,22.5985278 57.3170194,21.0725278 58.0666537,20.0585 C58.9885014,21.7876944 60.7930139,22.6360556 63.2355374,22.5855 C64.9924571,22.54875 66.2531884,22.0451389 67.2291274,21.1678056 C68.7343213,19.8129167 67.7318144,17.7308056 67.1731247,18.3427222 L67.1731247,18.3427222 Z" id="logo-3"></path>
+  <path d="M26.7737202,10.6613889 C27.2463989,10.6401944 27.5780194,10.8772222 27.6036316,11.4508333 C27.7467922,14.6338889 23.4097313,14.9679444 23.4097313,14.9679444 C23.595133,13.4112222 25.0563657,10.7385833 26.7737202,10.6613889 L26.7737202,10.6613889 Z M40.7751773,8.25183333 C39.5069917,8.25183333 38.5365956,9.352 38.5365956,10.5278056 C38.5365956,12.46525 40.1209197,12.5216389 40.0922493,14.0808889 C40.0631967,15.6401389 37.5797701,20.0656944 35.9027452,20.0656944 C35.2813629,20.0656944 35.1850305,19.4376389 35.1850305,19.1428611 C35.1850305,16.1589167 36.764385,11.9 36.764385,10.4646111 C36.764385,9.11166667 35.9434571,8.76633333 34.9608283,8.76633333 C33.6624432,8.76633333 32.9456842,9.59233333 32.9456842,9.59233333 C33.3958089,10.5264444 32.953903,12.7576944 32.4514072,14.90125 C31.5830776,17.3673889 28.768795,20.3318889 26.2513463,20.3453056 C22.962856,20.3620278 23.4431801,16.8923611 23.4431801,16.8923611 C23.4431801,16.8923611 31.1772964,17.0648333 30.9355097,11.6886389 C30.8334432,9.42666667 28.6531579,8.45425 26.6968837,8.54233333 C22.7048227,8.72180556 19.5250886,12.5216389 19.7366759,17.2235 C19.9035374,20.9350556 22.6740499,22.7052778 25.6234654,22.5730556 C28.2326593,22.4552222 30.1816704,21.2733889 31.5830776,19.8959444 C31.766759,21.4402222 32.7354349,22.5901667 34.5905983,22.5901667 C39.4282438,22.5901667 43.2540166,15.6076667 43.2540166,11.2779722 C43.2540166,9.69344444 42.4260166,8.25183333 40.7751773,8.25183333 L40.7751773,8.25183333 Z" id="logo-2"></path>
+  <path d="M28.5526205,23.9979444 C27.8781025,24.3351111 26.6978393,24.9295278 24.176759,24.9295278 C16.3352244,24.9295278 14.7163047,14.8510833 14.7163047,14.8510833 C14.7163047,14.8510833 20.6525983,12.3402222 20.6525983,7.24869444 C20.6525983,2.14919444 16.5122161,0 12.3303573,0 C7.68422992,0 2.5235651,2.50327778 0.296451524,7.35233333 C-1.10954294,10.4138611 2.93030194,11.3689722 3.13080332,10.4148333 C3.78850139,7.28272222 7.27940443,2.35063889 12.3638061,2.35063889 C15.0450582,2.35063889 16.6133269,4.12183333 16.6133269,7.24947222 C16.6133269,11.1274722 12.1436177,13.1708889 10.1611579,13.8335556 C11.0426759,9.77763889 11.3523158,8.55438889 11.3523158,7.83455556 C11.3523158,6.24166667 10.4319972,5.97605556 9.4931385,5.97605556 C8.35492521,5.97605556 7.53285042,6.81061111 7.53285042,6.81061111 C8.19054848,8.01188889 7.07985873,12.2853889 6.59685873,14.0175 C6.01179224,16.1165278 5.20539058,19.2188889 4.69945429,21.1909444 C4.19351801,23.1635833 7.71806094,22.6329444 7.95411357,22.0507778 C8.21138227,21.4172778 8.88800277,19.0950278 9.5005928,16.6561111 C10.5281385,16.3356667 11.706108,15.8806667 11.706108,15.8806667 C12.2212188,19.3026944 14.9691773,28 22.8107119,28 C29.5392632,28 29.1092078,23.7198889 28.5526205,23.9979444" id="logo-1"></path>
+</svg>
+</a></div>
+
+<article id='issue-holder'>
+<section class='profile-form'>
+<form class="new_member" id="new_member" action="/profile/caseynewton/add_subscriber" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="nla8FoY1YyPp/zLNQEm+uqcEwT4V1t/FOS0bBNmvJndy8Xn1cVEAQXq4Uw1sEjoPbFKdv6bzc2L/WNylxJlzCQ==" /><input type="hidden" name="member[distinct_id]" id="member_distinct_id" />
+<div id='profile-form'>
+<div id='profile-form-fields'>
+<label for="member_email">Subscribe to our newsletter</label>
+<div class='input-group'>
+<input class="form-control" placeholder="Your email address..." title="Subscribe to the newsletter of The Interface" type="text" name="member[email]" id="member_email" />
+<div class='input-group-btn'><input type="submit" name="commit" value="Subscribe now" class="btn btn-primary" title="Subscribe to the newsletter of The Interface" /></div>
+</div>
+<span class='error-message'>
+
+
+</span>
+<div style='width: 1px; height: 1px; overflow: hidden;'>
+<label for="confirm_5dIzct">This thingy has to be empti pwieshh</label>
+<input type="text" name="confirm_5dIzct" id="confirm_5dIzct" autocomplete="off" />
+</div>
+
+</div>
+</div>
+</form>
+</section>
+<script>
+  mixpanel.track('Profile viewed', {
+    'profile' : "The Interface",
+    'profile_id' : "30244",
+    'Last page': getReferrer()
+  }, function() {
+    mixpanel.register({"First time": false});
+  });
+</script>
+<script>
+  show_captcha = false;
+  var captchaCallback = function() {
+    $('#new_member').submit()
+  };
+</script>
+
+<section id='issue'>
+<section id='issue-display'>
+<header>
+<span class='issue-nr'></span>
+<h1 title='The Interface - The trouble with Mark Zuckerberg profiles'>The trouble with Mark Zuckerberg profiles</h1>
+</header>
+<div id='issue-frame'><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Revue</title>
+  <style type="text/css">
+    #outlook a {padding:0;}
+    body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;} 
+    .ExternalClass {width:100%;}
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div, .ExternalClass blockquote {line-height: 100%;}
+    .ExternalClass p, .ExternalClass blockquote {margin-bottom: 0; margin: 0;}
+    #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+    
+    img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;} 
+    a img {border:none;} 
+    .image_fix {display:block;}
+
+    p {margin: 1em 0;}
+    .revue-p + .revue-p, .revue-p + .revue-blockquote {margin-top: 14px !important;}
+    .revue-p + .revue-h2 {margin-top: 28px !important;}
+    .revue-h2 {font-size: 20px; line-height: 28px; font-weight: 700;padding-bottom: 8px;}
+    
+
+    h1, h2, h3, h4, h5, h6 {color: black !important;}
+    h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: black;}
+    h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {color: black;}
+    h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {color: black;}
+
+    table td {border-collapse: collapse;}
+    table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+
+    a {color: #3498db;}
+    p.domain a{color: black;}
+
+    hr {border: 0; background-color: #d8d8d8; margin: 0; margin-bottom: 0; height: 1px;}
+
+    @media screen and (max-width:600px) {
+      a[href^="tel"], a[href^="sms"] {
+        text-decoration: none;
+        color: blue;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+        text-decoration: default;
+        color: orange !important;
+        pointer-events: auto;
+        cursor: default;
+      }
+
+      td[class="description-before"] {
+        padding-bottom: 28px !important;
+      }
+      td[class="description"] {
+        padding-bottom: 14px !important;
+      }
+      td[class="description"] span, [class="item-text"], [class="item-text"] span {
+        font-size: 16px !important;
+        line-height: 24px !important;
+      }
+
+      span[class="item-link-title"] {
+        font-size: 18px !important;
+        line-height: 24px !important;
+      }
+
+      [class="item-header"] {
+        font-size: 22px !important;
+      }
+
+      [class="item-link-description"], [class="item-link-description"] span {
+        font-size: 14px !important;
+        line-height: 22px !important;
+      }
+
+      img.item-image-large {
+        margin-bottom: 14px !important;
+      }
+
+      .link-image {
+        width: 84px !important;
+        height: 84px !important;
+      }
+
+      .link-image img {
+        max-width: 100% !important;
+        max-height: 100% !important;
+      }
+
+    }
+
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+      a[href^="tel"], a[href^="sms"] {
+        text-decoration: none;
+        color: blue;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+        text-decoration: default;
+        color: orange !important;
+        pointer-events: auto;
+        cursor: default;
+      }
+    }
+
+  </style>
+  <!--[if gte mso 9]>
+    <style type="text/css">
+      #contentTable {
+        width: 600px;
+      }
+    </style>
+  <![endif]-->
+</head>
+<body style="width:100% !important;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;">
+<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" style="margin:0; padding:0; width:100% !important; line-height: 100% !important; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="100%">
+  <tr>
+    <td width="10" valign="top">&nbsp;</td>
+    <td valign="top" align="center">
+      <!--[if (gte mso 9)|(IE)]>
+      <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="background-color: #FFF; border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">
+        <tr>
+          <td>
+      <![endif]-->
+      <table cellpadding="0" cellspacing="0" border="0" align="center" style="width: 100%; max-width: 600px; background-color: #FFF; border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;" id="contentTable">
+        <tr>
+          <td width="600" valign="top" align="center" style="border-collapse:collapse;">
+            <div style='display:none;font-size:1px;color:#FFF;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;'>Can Mark Zuckerberg fix Facebook before it breaks democracy? That's the headline on Evan Osnos' 14,00</div>
+<table align='center' border='0' cellpadding='0' cellspacing='0'>
+<tr>
+<td align='center' style='padding-bottom: 28px; padding-top: 28px;' valign='top'>&nbsp;</td>
+</tr>
+<tr>
+<td align='center' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px; color: #A7ADB5; text-decoration: none; padding-bottom: 8px;'>September 10 &middot; Issue #202 &middot; <a target="_blank" style="color: #3b5998" href="https://www.getrevue.co/profile/caseynewton/issues/the-trouble-with-mark-zuckerberg-profiles-133299?utm_campaign=Issue&amp;utm_content=view_in_browser&amp;utm_medium=email&amp;utm_source=The+Interface">View online</a></td>
+</tr>
+<tr>
+<td align='center' style='padding-bottom: 56px;' valign='top'>
+<a href="https://www.getrevue.co/profile/caseynewton?utm_campaign=Issue&amp;utm_content=profileimage&amp;utm_medium=email&amp;utm_source=The+Interface"><img alt="The Interface" style="display: block; width: 100%; border: 0; outline: none;" src="https://s3.amazonaws.com/revue/profile_covers/images/000/001/549/cover/VRG_DSN_2420_Interface_Newsletter_v03.jpg?1522118552" />
+</a></td>
+</tr>
+<tr>
+<td align='left' class='description' style='padding-bottom: 28px;' valign='top'>
+<span style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 18px; line-height: 28px;display: block; margin: 0; margin-bottom: 0;'><div style="margin: 0;" class="revue-p">
+<a href="https://www.newyorker.com/magazine/2018/09/17/can-mark-zuckerberg-fix-facebook-before-it-breaks-democracy?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">Can Mark Zuckerberg fix Facebook before it breaks democracy</a>? Thatâs the headline on Evan Osnosâ 14,000-word profile of the Facebook CEO after two yearsâ worth of scandals. That question is maybe unanswerable â what would it mean to fix Facebook, or democracy? â but the article does a better-than-average job at exploring its contours.</div><div style="margin: 0;" class="revue-p">Osnos had the chance to interview Zuckerberg several times, even breaking (banana) bread with the CEO at his home. The <em>New Yorker</em> excels at bouying its narrative profiles with bright, colorful anecdotes, and Osnosâ tales of Zuckerbergâs board-game dominance are delightful:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">A few years ago, he played Scrabble on a corporate jet with a friendâs daughter, who was in high school at the time. She won. Before they played a second game, he wrote a simple computer program that would look up his letters in the dictionary so that he could choose from all possible words. Zuckerbergâs program had a narrow lead when the flight landed. The girl told me, âDuring the game in which I was playing the program, everyone around us was taking sides: Team Human and Team Machine.â</div><div style="margin: 0;" class="revue-p">The bulk of Osnosâ profiles consists of stories that are well known to readers of this newsletter, though perhaps not the <em>New Yorker</em> readership at large. (The 2016 election, check; former employees lamenting the platformâs effect on society, check; Cambridge Analytica, check; Alex Jones, check.) Among the reporting Osnos draws on is my own â he <a href="https://www.theverge.com/2018/2/6/16976328/facebook-mark-zuckerberg-pollster-tavis-mcginn-honest-data?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">includes quotes from Zuckerbergâs former pollster, Tavis McGinn, from a piece I did in February</a>.</div><div style="margin: 0;" class="revue-p">The profile is at its best in its conclusion, which sums up the CEOâs profile â and the task ahead of him â as well as anyone Iâve seen do it:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">The caricature of Zuckerberg is that of an automaton with little regard for the human dimensions of his work. The truth is something else: he decided long ago that no historical change is painless. Like Augustus, he is at peace with his trade-offs. Between speech and truth, he chose speech. Between speed and perfection, he chose speed. Between scale and safety, he chose scale. His life thus far has convinced him that he can solve âproblem after problem after problem,â no matter the howling from the public it may cause.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">At a certain point, the habits of mind that served Zuckerberg well on his ascent will start to work against him. To avoid further crises, he will have to embrace the fact that heâs now a protector of the peace, not a disrupter of it. Facebookâs colossal power of persuasion has delivered fortune but also peril. Like it or not, Zuckerberg is a gatekeeper. The era when Facebook could learn by doing, and fix the mistakes later, is over. The costs are too high, and idealism is not a defense against negligence.</div><div style="margin: 0;" class="revue-p">Facebook, and Zuckerberg, derive much of their confidence from earlier times that the company seemed to be on the brink of oblivion: the initial roll out of the News Feed; the introduction of the privacy-obliterating Beacon product; the botched IPO and improbably successful transition to becoming a mobile software company.</div><div style="margin: 0;" class="revue-p">But as Osnos notes, the challenges faced by the company today are different both in scale and in kind. In Myanmar, the Philippines, Sri Lanka, and Germany, Facebook has been credibly linked to outbreaks of violence. Its ability to moderate the vast amount of content it ingests in a way that balances speech and safety has been mixed at best. As Osnos writes: âThese are not technical puzzles to be cracked in the middle of the night but some of the subtlest aspects of human affairs, including the meaning of truth, the limits of free speech, and the origins of violence.â</div><div style="margin: 0;" class="revue-p">Historically we have not asked tech companies to resolve these issues before they expand into new countries, even when they have no understanding of the political situation and their moderators do not speak the local language. If we have learned anything from Facebookâs travails, it is surely that they should have. But whatâs done is done.</div><div style="margin: 0;" class="revue-p">There was a time when seeing new interviews with Zuckerberg made me feel jealous. But increasingly I see the limits of asking tech CEOs questions about their work. A profile of a Zuckerberg, or a Jack Dorsey, or an Evan Spiegel, always seems to be circling around the question: <em>is this person basically a good guy?</em> I suspect thatâs one reason they sit for profiles like this: they <em>are</em> basically good guys, and a magazine writer who visits them at their homes will see this and report it back to the world at large.</div><div style="margin: 0;" class="revue-p">But lately I find myself less interested in reading tech CEOs perform their thoughtfulness. During the Alex Jones deplatforming drama, I wrote that Twitterâs dithering was frustrating because <a href="https://www.theverge.com/2018/8/17/17706256/twitter-alex-jones-third-party-apps-hard-decisions?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">the company so often substitutes thinking for action</a>. Dorsey gave several interviews during this time, and I read them all, and I learned almost nothing. It isnât that the questions were bad, or that Dorsey sidestepped them. Itâs that what he thinks is ultimately less consequential than what he <em>does</em>.</div><div style="margin: 0;" class="revue-p">Facebook, to its credit, has taken many more actions to shore up its platform over the past two years than has Twitter. (Twitter, an admittedly smaller company with far fewer resources, has enacted many of the same steps Facebook has, but only months later, as if in slow motion.) And yet influence campaigns still unfold; hate spreads virally, and the platform lurches from one crisis to another.</div><div style="margin: 0;" class="revue-p">I understand the value, from Facebookâs perspective, of regularly putting forward Zuckerberg to affirm that he is working on the problem. But I canât help but feel like we knew that already.</div><div style="margin: 0;" class="revue-p">Maybe tech platforms can be âfixed,â or maybe they canât. But either way, itâs not an oral exam. And we ought not to treat it like one.</div>
+</span>
+</td>
+</tr>
+<tr>
+<td align='center' style='padding-bottom: 56px;' valign='top'>
+<hr style='border: 0; background-color: #d8d8d8; margin: 0; margin-bottom: 0; height: 1px;'>
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 28px;' valign='top'>
+<div class='item-header' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 24px; line-height: 28px; margin: 0; margin-bottom: 0; color: #3b5998;'>Democracy</div>
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.buzzfeednews.com/article/pranavdixit/whatsapp-destroyed-village-lynchings-rainpada-india?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/467/646/thumb/original-14806-1536436164-5.jpg?1536541692" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.buzzfeednews.com/article/pranavdixit/whatsapp-destroyed-village-lynchings-rainpada-india?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">How WhatsApp Destroyed A Village</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/66akk?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.buzzfeednews.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/66akk?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Pranav Dixit and Ryan Mac turn in a richly reported story about how misinformation spread on WhatsApp led to the murders of five men who had come to a tiny Indian town to trade. Facebook has taken a handful of actions designed to reduce the virality of encrypted WhatsApp messages, but in the meantime <em>Indians are going town to town performing plays</em> in an effort to get people to stop lynching strangers:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Ever since the Rainpada lynching, these students have traveled through the district at least a couple of times each week to perform a 16-minute street play, whose Marathi title loosely translates to âDonât Play With Peopleâs Lives, Donât Fall for Rumors.â Tonightâs performance is in Dhule at a government-run hostel for girls from neighboring tribal hamlets like Rainpada.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">âItâs important to sensitize young people who have moved out of their villages to towns like Dhule about misinformation,â Shahaji Shinde, who runs a Dhule-based NGO called the Navanirmiti Sanstha, told BuzzFeed News. âThey are the ones who use Android phones and WhatsApp. They are the channels through whom misinformation reaches their villages.â</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.buzzfeednews.com/article/charliewarzel/twitter-bans-alex-jones-infowars?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/841/thumb/sub-buzz-30217-1536265775-4.jpg?1536614680" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.buzzfeednews.com/article/charliewarzel/twitter-bans-alex-jones-infowars?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">After Multiple Provocations, Twitter Has Banned Alex Jones And Infowars</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/RQJ4x?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.buzzfeednews.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/RQJ4x?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Twitter finally did the right thing, after exhausting every other option:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">After weeks of equivocation, Twitter permanently suspended the accounts of Infowars and its founder Alex Jones on Thursday, followingÂ <a href="https://www.buzzfeednews.com/article/johnpaczkowski/apple-is-removing-alex-jones-and-infowars-podcasts-from?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">similar moves</a>Â by other large tech companies, including Apple, Facebook, YouTube, and Spotify. The decision came after a series of provocations from Jones that Twitter deemed in violation of its âabusive behaviorâ rules.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">The incident that inspired Twitter to action appears to have been a series of tweets containing a nine-minute Periscope video of Jones and his camera operators confronting CNN reporter Oliver Darcy. In the video, Jones lambastes Darcy as âthe equivalent of like the Hitler Youthâ and accuses him of âsmiling like a possum that crawled out of the rear end of a dead cow.â</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.buzzfeednews.com/article/johnpaczkowski/apple-banned-alex-jones-infowars-app-store?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/840/thumb/original-8924-1536367761-2.png?1536614669" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.buzzfeednews.com/article/johnpaczkowski/apple-banned-alex-jones-infowars-app-store?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Apple Has Permanently Banned Alex Jones&#39; Infowars App From The App Store</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/O5M3q?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.buzzfeednews.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/O5M3q?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">A day after Twitter banned Jones, Apple âÂ <a href="https://www.getrevue.co/profile/caseynewton/issues/apple-crushed-alex-jones-then-tossed-him-a-lifeline-127799?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">which had previously tossed him a lifeline</a> âÂ followed suit. (People had speculated Apple kept Jones in the App Store so as not to draw attention to its duopoly in app distribution; it appears that the real answer may have been that they simply hadnât yet observed his bad behavior on his app.)</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Apple confirmed the appâs removal to BuzzFeed News, but declined to comment, pointing to itsÂ <a href="https://developer.apple.com/app-store/review/guidelines/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter#objectionable-content" target="_blank" style="color: #3b5998;text-decoration:underline;">App Store Review Guidelines</a>. The company said Infowars would not be permitted to return to the App Store.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">
+<a href="https://twitter.com/JohnPaczkowski/status/1026525208813789185?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">The first clause of those guidelines explicitly rejects</a>Â âdefamatory, discriminatory, or mean-spirited content, including references or commentary about religion, race, sexual orientation, gender, national/ethnic origin, or other targeted groups, particularly if the app is likely to humiliate, intimidate, or place a targeted individual or group in harmâs way.â</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.nytimes.com/2018/09/07/world/europe/youtube-far-right-extremism.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/221/thumb/08int-germany1-facebookJumbo.jpg?1536599937" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.nytimes.com/2018/09/07/world/europe/youtube-far-right-extremism.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">As Germans Seek News, YouTube Delivers Far-Right Tirades</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/Xjm7M?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.nytimes.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/Xjm7M?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Max Fisher and Katrin Bennhold have another good case study on how the YouTube algorithm spread misinformation and hate speech. âHow many steps are there on YouTubeâs algorithm from news story to fever swamp? âOnly two,â Mr. Serrato said. 'By the second, youâre quite knee-deep in the alt-right.'â</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Mr. Serrato scraped YouTube databases for information on every Chemnitz-related video published this year. He found that the platformâs recommendation system consistently directed people toward extremist videos on the riots â then on to far-right videos on other subjects.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Users searching for news on Chemnitz would be sent down a rabbit hole of misinformation and hate. And as interest in Chemnitz grew, it appears, YouTube funneled many Germans to extremist pages, whose view counts skyrocketed.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.cjr.org/covering_trump/press-protections-might-safeguard-googles-algorithms-even-from-trump.php?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/463/237/thumb/Trump-web-600x314.jpg?1536447796" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.cjr.org/covering_trump/press-protections-might-safeguard-googles-algorithms-even-from-trump.php?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Press protections might safeguard Googleâs algorithms, even from Trump</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/w58MK?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.cjr.org</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/w58MK?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Can the government regulate search or news algorithms? Jared Schroeder investigates:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">In theÂ <em>Herald</em>Â case, the paper refused to comply with the law. Its editors argued the law violated the First Amendment because it allowed the government to compel a newspaper to publish certain information. The Supreme Court resoundingly agreed with theÂ <em>Herald</em>. Justices explained that the government cannot force newspaper editors âto publish that which reason tells them should not be published.â</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Whatâs important in 2018, however, isnât simply that the law was unconstitutional. Justices used the decision to highlight that the government cannot compel expression. At the same time, they recognized that newspapers are businesses as well as journalistic endeavors. In one passage, the majority opinion explains that a âprivately owned newspaperâ has only two responsibilities: to publish information that is of interest to âa sufficient number of readersâand hence advertisersâto assure financial success; and, second, the journalistic integrity of its editors and publishers.â</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.washingtonpost.com/technology/2018/09/07/top-states-say-they-havent-been-invited-justice-departments-meeting-about-tech-companies/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/462/674/thumb/SU2BUFFP7II6RC2TKAIWO2HETE.jpg?1536425788" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.washingtonpost.com/technology/2018/09/07/top-states-say-they-havent-been-invited-justice-departments-meeting-about-tech-companies/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Top states say they havenât been invited to the Justice Dept.âs meeting about tech companies</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/Q2dAD?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.washingtonpost.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/Q2dAD?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Tony Romm and Brian Fung find a curious omission in Attorney General Jeff Sessionsâ plans to meet with states about tech companiesâ outsized influence:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Democratic attorneys general from key states said they have not yet been invited by the Justice Department to its upcoming review of tech companies, prompting criticism that the Trump administrationâs inquiry is a politically charged attack on the tech industry.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">U.S. Attorney General Jeff Sessions first announced on Wednesday that he wasÂ <a href="https://www.washingtonpost.com/technology/2018/09/05/justice-department-consider-allegations-censorship-facebook-twitter/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter&amp;utm_term=.d6f2e5c9d8d8" target="_blank" style="color: #3b5998;text-decoration:underline;">gathering state attorneys general</a>Â to examine whether companies like Facebook, Google and Twitter are âintentionally stifling the free exchange of ideasâ online. The goal of the meeting, the Justice Department said in a statement at the time, is toÂ <a href="https://www.washingtonpost.com/technology/2018/09/05/facebook-twitter-sandberg-dorsey-congress-tech-hearings/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter&amp;utm_term=.a4e3781b5b29" target="_blank" style="color: #3b5998;text-decoration:underline;">follow up on a hearing</a>Â that had just taken place on Capitol Hill with Facebook and Twitter and consult with âa numberâ of states to figure out if Silicon Valleyâs conduct is âhurting competition.â The meeting is tentatively scheduled for Sept. 25 in Washington.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://cpj.org/blog/2018/09/undiscoverable-how-al-jazeeras-snapchat-channel-di.php?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/847/thumb/AFP_SnapStock_1.jpg?1536614768" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://cpj.org/blog/2018/09/undiscoverable-how-al-jazeeras-snapchat-channel-di.php?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Undiscoverable: How Al-Jazeera&#39;s Snapchat channel disappeared from three Gulf nations</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/43rJk?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">cpj.org</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/43rJk?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Snap was forced to remove Al Jazeeraâs Discover channel in some parts of the world, Ahmed Zidan reports:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Search for âAl-Jazeeraâ on Snapchat, and the first result that comes up is a ubiquitous publisher channel in the appâs famed vertical layout. That is, unless you are in Saudi Arabia, the United Arab Emirates (UAE), or Bahrain. Users in these counties are instead offered a list of stores and restaurants that bear a similar name to the broadcaster.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">A clue to what happened to Al-Jazeeraâs Discover channel can be found in Snapchatâs latestÂ <a href="https://www.snap.com/en-US/privacy/transparency/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">transparency report</a>, released in May. The report reveals howÂ <a href="https://www.snap.com/en-US/privacy/transparency/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">in the second part of 2017</a>Â the company receivedâand complied withâits first governmental removal requests, all of which came from those countries. A spokesperson for Snap Inc., the parent company of the app, later confirmed to CPJ via email that the requests all related to Al-Jazeera<em>Â </em>Arabic Discover Publisher Story, and that the company removed the channel âto comply with local laws.â</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 28px;' valign='top'>
+<div class='item-header' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 24px; line-height: 28px; margin: 0; margin-bottom: 0; color: #3b5998;'>Elsewhere</div>
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.bloomberg.com/news/articles/2018-09-10/snap-loses-chief-strategy-officer-amid-company-turnaround?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Snap Strategy Officer Khan Is Leaving to Start Tech Investment Firm</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/En2WV?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.bloomberg.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/En2WV?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p">Imran Khan, who for all intents and purposes was Evan Spiegelâs No. 2, is out at Snap, Sarah FrierÂ and Nate Lanxon report. âThere is never a perfect time to say goodbye,â Khan notes. And this is true. But there are also better times to say goodbye âÂ such as, for example, the time right after you turn the company around. Or show signs of progress. Or really any time other than the literal nadir of the companyâs existence, which is arguably right now???</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.courthousenews.com/wildlife-group-exotic-pets-trade-activity-rises-on-facebook/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/842/thumb/cropped-C-in-003661.png?1536614694" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.courthousenews.com/wildlife-group-exotic-pets-trade-activity-rises-on-facebook/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Wildlife Group: Exotic Pets Trade Activity Rises on Facebook</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/NWGE8?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.courthousenews.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/NWGE8?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">I am not about to apologize for using one of these groups to purchase my large and vicious komodo dragon, Balthazar. But just so you know:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">A wildlife monitoring group says research it has conductedÂ since 2016 has found a sharp increase in the number of people belonging toÂ Facebook groups in Thailand where endangered animals are bought and sold.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">The monitoring network TRAFFIC said its researchers found 1,521 animals forÂ sale online in 12 Facebook groups in Thailand in less than a month ofÂ monitoring in 2016. Follow-up research on the same 12 groups showed that atÂ least nine were still active in July this year, with one becoming secret,Â and their overall membership had increased to 203,445 from 106,111.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.bloomberg.com/view/articles/2018-09-10/facebook-s-numbers-and-polls-of-its-users-tell-different-stories?cmpid=socialflow-twitter-business&amp;utm_campaign=socialflow-organic&amp;utm_content=business&amp;utm_medium=social&amp;utm_source=twitter">Facebook and Its Users Are Telling Different Stories</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/jK35Z?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.bloomberg.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/jK35Z?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Last week Pew had data reporting that large numbers of Americans had deleted Facebook âÂ but that barely seems to be evident in the companyâs reported usage numbers. Leonid Bershidsky wonders what gives âÂ and in so doing, makes this sharp point:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Investors and advertisers should take into account polls such as Pewâs along with Facebookâs user numbers. The combination could be a better indication of true activity levels than the companyâs bot-distorted estimates. And even if significant numbers of users are tempted to say they use Facebook less than they actually do, thatâs significant information for advertisers. If usersÂ feel guilty about logging on to Facebook and donât have a positive experience, they might be less likely to buy things advertised on it.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="http://www.pewresearch.org/fact-tank/2018/09/05/many-facebook-users-dont-understand-how-the-sites-news-feed-works/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/453/391/thumb/FT_18.08.13_FacebookNewsFeed_feature.png?1536243875" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="http://www.pewresearch.org/fact-tank/2018/09/05/many-facebook-users-dont-understand-how-the-sites-news-feed-works/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Many Facebook users don&#39;t understand its news feed</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/43xoX?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.pewresearch.org</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/43xoX?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">No one understands how the News Feed works, despite Facebookâs efforts to the contrary, according to more new data from Pew. (Also: adults who say they do understand why posts are included in their News Feed are lying! At the level of the individual post, it is unknowable to anyone who doesnât work at the company, and maybe not to anyone who works there, either.)</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">When asked whether they understand why certain posts but not others are included in their news feed, around half of U.S. adults who use Facebook (53%) say they do not â with 20% saying they do not understand the feed at all well. Older users are especially likely to say they do not understand the workings of the news feed: Just 38% of Facebook users ages 50 and older say they have a good understanding of why certain posts are included in it, compared with 59% of users ages 18 to 29.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.bloomberg.com/news/articles/2018-09-06/facebook-co-founder-says-social-networks-to-face-more-regulation?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Facebook Co-Founder Sees More Regulation for Social Networks</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/w50PX?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.bloomberg.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/w50PX?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Ousted Facebook co-founder Eduardo Saverin has sympathy for his old co-workers:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">âItâs difficult to see a company thatâs so close to my heart going through a point of public scrutiny,â said Saverin, who now lives in Singapore and invests in startups through his B Capital. âI have tremendous faith in Mark and the team that heâs built around him and, frankly, the intentions that Facebook was born out of from day one.â</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.poynter.org/news/these-fact-checkers-were-attacked-online-after-partnering-facebook?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/844/thumb/AP_17341698998418.jpg?1536614731" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.poynter.org/news/these-fact-checkers-were-attacked-online-after-partnering-facebook?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">These fact-checkers were attacked online after partnering with Facebook</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/397eA?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.poynter.org</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/397eA?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">At least three of Facebookâs 34 fact-checking partners have been trolled, doxxed or threatened for working with the social media company, Daniel Funke reports:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">âThe attacks, they were just relentless, they were persistent,â said Yvonne Chua, co-founder of Philippine fact-checking project Vera Files, whichÂ <a href="http://verafiles.org/articles/vera-files-joins-facebooks-third-party-fact-checking-program?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">joined</a>Â Facebookâs project in April. âThis is not the first time these institutions or individuals have been attacked by the trolls. But this was more sustained â every day for more than two weeks, three weeks.â</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.nytimes.com/2018/09/09/technology/pinterest-growth.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/468/488/thumb/merlin_143203095_ca5b2e50-c177-40e0-9922-3b4a5232b78d-facebookJumbo.jpg?1536556229" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.nytimes.com/2018/09/09/technology/pinterest-growth.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Pinterest Is a Unicorn. It Just Doesnât Act Like One.</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/39nKA?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.nytimes.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/39nKA?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Is Pinterest slow and smart or slow and lazy? Damned if I know, but the company now has 250 million users a month, reports Erin Griffith in this profile of Pinterest and its sincerely charming CEO, Ben Silbermann:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">The company is on track to top $700 million in revenue this year, a 50 percent increase over last year, according to a person familiar with the company. There is wide speculation that it will go public next year.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">If Pinterest continues its trajectory, it could change the narrative of what it takes to build a successful company in Silicon Valley, a meaningful feat at a time that the start-up world is seeking new templates for leaders. If it doesnât, itâll serve as another example of wasted potential, or worse, a cautionary tale.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.fastcompany.com/90231904/a-facebook-employee-tied-to-cambridge-analytica-quietly-left-facebook?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/454/388/thumb/p-1-facebook-data-researcher.jpg?1536266772" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.fastcompany.com/90231904/a-facebook-employee-tied-to-cambridge-analytica-quietly-left-facebook?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Facebook quietly parts ways with employee tied to its data scandal</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/39vAe?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.fastcompany.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/39vAe?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p">One of the absolute weirdest things about the Cambridge Analytica scandal â and there were a <em>lot</em> â is that Joseph Chancellor, who helped harvest millions of user profiles that were then sold to the data-analytics company, has worked at Facebook since 2015. Well, he doesnât any more. If you were present in the office when a group of people had cake for Joseph and wished him well on his future endeavors, and could describe the mood of said gathering, please get in touch!</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.reuters.com/article/us-facebook-singapore/facebook-to-invest-1-billion-in-first-asian-data-centre-in-singapore-idUSKCN1LM051?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/450/884/thumb/r?1536205294" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.reuters.com/article/us-facebook-singapore/facebook-to-invest-1-billion-in-first-asian-data-centre-in-singapore-idUSKCN1LM051?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Facebook to invest $1 billion in first Asian data centre in Singapore</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/O56Jq?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.reuters.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/O56Jq?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p">Fathin Ungku says Facebookâs first Asian data center will open in 2022.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.nytimes.com/2018/09/07/us/politics/alex-jones-business-infowars-conspiracy.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/462/616/thumb/jones_still_2-facebookJumbo.jpg?1536421789" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.nytimes.com/2018/09/07/us/politics/alex-jones-business-infowars-conspiracy.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Conspiracy Theories Made Alex Jones Very Rich. They May Bring Him Down. </a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/kmx5D?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.nytimes.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/kmx5D?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">How bad are things going for Alex Jones? Well, for one thing heâs running a sale!</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">The best-selling Survival Shield X-2 nascent iodine drops were discounted 40 percent, to $23.95, while Alpha Power, a product marketed as boosting testosterone and vitality to âpush back in the fight against the globalist agenda,â was half off, at $34.95.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.engadget.com/2018/09/08/tinder-gdpr-data-retrieval/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/846/thumb/dims?1536614752" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.engadget.com/2018/09/08/tinder-gdpr-data-retrieval/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">A date with my Tinder data</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/66K7e?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.engadget.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/66K7e?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Mat Smith asked to see his Tinder history and, under GDPR, was given an HTML file. I would never do this in one million years!!</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">In early Tinder chats, I used some mildly explicit words â nothing too racy, just enough to make me hate myself. Context-free, I used the word âhornyâ 23 times.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 28px;' valign='top'>
+<div class='item-header' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 24px; line-height: 28px; margin: 0; margin-bottom: 0; color: #3b5998;'>Launches</div>
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://techcrunch.com/2018/09/10/whatsapp-for-jiophone/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/834/thumb/whatsapp.jpg?1536614416" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://techcrunch.com/2018/09/10/whatsapp-for-jiophone/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">WhatsApp hits Indiaâs Jio feature phones amidst fake news violence</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/Z1n7l?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">techcrunch.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/Z1n7l?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p">Thereâs a new feature-phone version of WhatsApp for India. Itâs a move designed to expand WhatsAppâs dominance in India, and yet more evidence that growth reminds the companyâs prime directive, <a href="http://WhatsApp%20has%20scrambled%20to%20safeguard%20its%20app%20after%20numerous%20reports%20of%20rumors%20circulated%20on%20its%20app%20about%20gangs%20and%20child%20abductors%20led%20angry%20mobs%20to%20kill%20people%20in%20the%20streets.%20Five%20nomads%20were%20recently%20beaten%20to%20death%20in%20the%20rural%20village%20of%20Rainpada%20after%20residents%20watched%20inaccurate%20videos%20forwarded%20through%20WhatsApp%20about%20kidnappers%20supposedly%20rolling%20through%20the%20area,%20BuzzFeed%20reports." target="_blank" style="color: #3b5998;text-decoration:underline;">no matter what it might be leading to</a>.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://digiday.com/marketing/facebook-introduces-new-brand-safety-measures-advertisers-say-doesnt-go-far-enough/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/843/thumb/Facebook-TV-couch-art-Alternate.jpg?1536614720" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://digiday.com/marketing/facebook-introduces-new-brand-safety-measures-advertisers-say-doesnt-go-far-enough/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Facebook introduces new brand-safety measures, but advertisers say it doesn&#39;t go far enough</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/bMBAN?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">digiday.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/bMBAN?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Ever since it turned out that YouTube is <a href="https://money.cnn.com/2018/04/19/technology/youtube-ads-extreme-content-investigation/index.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">a nightmare hell pit of ad-supported extremism</a>, platforms have sought to reassure advertisers that their campaigns will not run alongside terrible things. Facebook has taken a new step in this regard:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">According to an announcement being made Sept. 10, advertisers can now see where their ads might appear on in-stream videos, including those in Watch and Instant Articles, before, during or after a campaign, so they can block specific publishers or content categories from those placements. They can also review and update from a list that Facebook regularly adds to.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Those lists, however, only let advertisers block publishers theyâre aware of, which means their ads could still appear against unsuitable content from publishers they donât know.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 28px;' valign='top'>
+<div class='item-header' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 24px; line-height: 28px; margin: 0; margin-bottom: 0; color: #3b5998;'>Takes</div>
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.wired.com/story/i-am-a-data-scientist-and-mom-but-facebook-made-me-choose/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/467/692/thumb/FB-Baby-515341750.jpg?1536542441" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.wired.com/story/i-am-a-data-scientist-and-mom-but-facebook-made-me-choose/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Why It&#39;s So Hard to Be a Working Mom. Even at Facebook.</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/PDmNO?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.wired.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/PDmNO?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Data scientist Eliza Khuner said Facebookâs family leave policies arenât nearly as liberal as theyâre made out to be:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">I love my job, but I love my baby even more. When I told Facebook I wanted to work from home part-time, HR was firm: You canât work from home, you canât work part-time, and you canât take extra unpaid leave. In mid-July, with the heartache of a break-up, I sent my resignation letter. I also wrote another note describing my agonizing choice, saying that Facebook could and should do better for families. I posted it internally, in a group for Facebook employees worldwide. I wondered if anyone would read it.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">My phone started buzzing. More than 5,500 Facebook employees reacted in support. Hundreds commented, telling me I wasnât alone. Mothers shared how they struggled to perform at work and be there for their kids, and how sad they were to miss the special moments. Fathers said they felt the strain of not being with their children. People with no kids chimed in with their support. </div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.nytimes.com/2018/09/05/opinion/facebook-sandberg-congress.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/465/527/thumb/05vaidhyanathanWeb-facebookJumbo.jpg?1536506886" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.nytimes.com/2018/09/05/opinion/facebook-sandberg-congress.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Why Facebook Will Never Be Free of Fakes</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/5Yr6a?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.nytimes.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/5Yr6a?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p">Siva Vaidhyanathanâs entire op-ed, which laments the number of fake accounts created on Facebook and suggests itâs a much higher percentage of the user base than previously reported, is based on a misunderstanding. When Facebook says that it deleted 1.3 billion accounts, it did so in almost all cases before those accounts were ever counted as active users. Bad take!</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://www.nytimes.com/2018/09/08/opinion/sunday/twitter-political-polarization.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/471/420/thumb/09Gray-facebookJumbo.jpg?1536589341" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://www.nytimes.com/2018/09/08/opinion/sunday/twitter-political-polarization.html?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Twitterâs Flawed Solution to Political Polarization</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/aGd8G?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">www.nytimes.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/aGd8G?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p"></div><div style="margin: 0;" class="revue-p">Researcher Christopher A. Bail says Twitterâs stated intention to disrupt echo chambers is likely to polarize the country further:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">We surveyed more than 1,200 Twitter-using Republicans and Democrats about their political views. Then we paid half of them to follow for one month a bot we created that retweeted messages from elected officials and other opinion leaders from the other political party.</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Instead of reducing political polarization, being exposed to opposing ideas increased it. Republicans who followed a Democratic bot for one month expressed social policy views that were substantially more conservative at the conclusion of the study. Democrats who followed a Republican bot exhibited very slight increases in liberal attitudes about social issues, but those effects were not statistically significant.</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 28px;' valign='top'>
+<div class='item-header' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 24px; line-height: 28px; margin: 0; margin-bottom: 0; color: #3b5998;'>And finally ...</div>
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<a target="_blank" style="text-decoration: none;" href="https://bengrosser.com/projects/safebook/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter"><img width="112" height="112" style="padding-bottom: 24px;padding-left: 28px;" alt="" align="right" src="https://s3.amazonaws.com/revue/items/images/003/472/845/thumb/safebook-fb-index-1200x628.png?1536614742" />
+</a><span class='item-link-title' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 20px; line-height: 28px; margin: 0; margin-bottom: 0;'><a target="_blank" style="color: #3b5998; text-decoration: none;" href="https://bengrosser.com/projects/safebook/?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter">Safebook</a></span>
+<div class='domain' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; line-height: 24px; margin: 0; margin-bottom: 0; color: #A7ADB5; text-decoration: none !important;'>
+<a target="_blank" style="color: #A7ADB5; text-decoration: none; text-transform: uppercase; font-size: 12px;" href="http://rev.vu/Ywko5?utm_campaign=Issue&amp;utm_content=domain&amp;utm_medium=email&amp;utm_source=The+Interface">bengrosser.com</a>
+&ndash;
+<a target="_blank" style="color: #3b5998; font-size: 14px; text-decoration: none;" href="http://rev.vu/Ywko5?utm_campaign=Issue&amp;utm_content=share&amp;utm_medium=email&amp;utm_source=The+Interface">Share</a>
+</div>
+<div class='item-link-description' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; display: block; margin: 0; margin-bottom: 0; margin-top: 4px;'><div style="margin: 0;" class="revue-p">In February I told you about <a href="https://www.getrevue.co/profile/caseynewton/issues/vero-and-the-pop-up-restaurant-theory-of-social-networks-99678?utm_campaign=The%20Interface&amp;utm_medium=email&amp;utm_source=Revue%20newsletter" target="_blank" style="color: #3b5998;text-decoration:underline;">Ben Grosserâs Twitter Demetricator</a>, which strips all engagement metrics from Twitter so that all tweets appear to be equal. (As if, Ben!) Today Ben wrote to introduce me to âSafebook,â a new piece of browser-extension agitprop that removes literally everything from Facebook in order to make it safe. Says Ben:</div><div style="margin: 0; display: block; Margin: 0; Margin-bottom: 14px; padding: 0 20px; border-color: #E0E4E8; border-left: 2px solid #E0E4E8; color: #7A889A; line-height: inherit;" class="revue-blockquote">Given the harms that Facebook has wrought on mental health, privacy, and democracy, what would it take to make Facebook âsafe?â Is it possible to defuse Facebookâs amplification of anxiety, division, and disinformation while still allowing users to post a status, leave a comment, or confirm a friend? WithÂ <strong>Safebook</strong>, the answer is yes! Safebook is Facebook without the content, a browser extension that hides all images, text, video, and audio on the site. Left behind are the empty containers that frame our everyday experience of social media, the boxes, columns, pop-ups and drop-downs that enable âlikes,â comments, and shares. Yet despite this removal, Facebook remains usable: you can still post a status, scroll the news feed, âwatchâ a video, Wow a photo, or unfriend a colleague. With the content hidden, can you still find your way around Facebook? If so, what does this reveal about just how ingrained the siteâs interface has become? And finally, is complete removal of all content the only way a social media network can be âsafe?â</div><div style="margin: 0;" class="revue-p">If you can answer any of Benâs questions, email me!</div>
+</div>
+
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 28px;' valign='top'>
+<div class='item-header' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-weight: 600; font-size: 24px; line-height: 28px; margin: 0; margin-bottom: 0; color: #3b5998;'>Talk to me</div>
+</td>
+</tr>
+<tr>
+<td align='left' style='padding-bottom: 42px;' valign='top'>
+<div class='item-text' style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 18px; line-height: 28px;display: block; margin: 0; margin-bottom: 0;'><div style="margin: 0;" class="revue-p">Send me tips, comments, questions, and Zuckerberg board game anecdotes: casey@theverge.com.</div>
+</div>
+</td>
+</tr>
+<tr>
+<td align='center' style='padding: 20px 0; background-color: #FAFAFB;' valign='top'>
+<table border='0' cellpadding='0' cellspacing='0' style='border-collapse: collapse;mso-table-lspace:0pt; mso-table-rspace:0pt;' width='100%'>
+<tr>
+<td align='right' valign='top' width='56%'>
+<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-size: 16px; color: #666; line-height: 36px; margin: 0; margin-bottom: 0; text-align: right;'>Did you enjoy this issue?</div>
+</td>
+<td align='left' style='padding-left: 10px;' valign='top' width='44%'>
+<table border='0' cellpadding='0' cellspacing='0' style='border-collapse: collapse;mso-table-lspace:0pt; mso-table-rspace:0pt;' width='81'>
+<tr>
+<td align='right' height='36' valign='top' width='41'>
+<img style="outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;border: 0;" width="41" height="36" alt="" src="//d3jbm9h03wxzi9.cloudfront.net/assets/email/thumbs_up-1ae5a7bdfcd3220e2b376aa0c1607bc5edaba758e5dd83b482d03965219a220b.png" />
+</td>
+<td align='left' height='36' valign='top' width='40'>
+<img style="outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;border: 0;" width="40" height="36" alt="" src="//d3jbm9h03wxzi9.cloudfront.net/assets/email/thumbs_down-e13779fa29e2935b47488fb8f82977fedcf689a0cc0cc3c19fa3c6bb14d1493b.png" />
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td align='center' style='padding-top: 28px;' valign='top'>
+<a target="_blank" style="border: 0; outline: none; text-decoration: none; -webkit-text-size-adjust:none;mso-hide:all;padding-right: 5px;" href="https://www.twitter.com/share?url=https://www.getrevue.co/profile/caseynewton/issues/the-trouble-with-mark-zuckerberg-profiles-133299&amp;via=revue&amp;text=The%20trouble%20with%20Mark%20Zuckerberg%20profiles%20by%20%40CaseyNewton&amp;related=revue"><img alt="" width="28" height="28" src="//d3jbm9h03wxzi9.cloudfront.net/assets/email/share_twitter-1d50bcd74851bdf7f9c51e5942c9ca4bef741c6a69c9380e53ea84ddf23936f6.png" />
+</a><a target="_blank" style="border: 0; outline: none; text-decoration: none; -webkit-text-size-adjust:none; mso-hide:all;" href="http://www.facebook.com/sharer/sharer.php?u=https://www.getrevue.co/profile/caseynewton/issues/the-trouble-with-mark-zuckerberg-profiles-133299"><img alt="" width="28" height="28" src="//d3jbm9h03wxzi9.cloudfront.net/assets/email/share_facebook-de794f7bb7cf43d1d511fb0ffa88ae43436a3f09811ee338a7fa38b413fb659e.png" />
+</a></td>
+</tr>
+<tr>
+<td align='center' style='padding-top: 56px;' valign='top'>
+<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-size: 16px; color: #666; line-height: 28px; color: #999; margin: 0; margin-bottom: 0;'>
+If you don't want these updates anymore, please unsubscribe <a style="color: #3b5998" href="#">here</a>
+</div>
+<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-size: 16px; color: #666; line-height: 28px; color: #999; margin: 0; margin-bottom: 0;'>
+If you were forwarded this newsletter and you like it, you can subscribe <a target="_blank" style="color: #3b5998" href="https://www.getrevue.co/profile/caseynewton?utm_campaign=Issue&amp;utm_content=forwarded&amp;utm_medium=email&amp;utm_source=The+Interface">here</a>
+</div>
+</td>
+</tr>
+<tr>
+<td align='center' style='padding: 8px 0 28px 0;' valign='top'>
+<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-size: 16px; color: #666; line-height: 28px; color: #999; margin: 0; margin-bottom: 0;'>Powered by <a target="_parent" style="color: #3b5998" href="https://www.getrevue.co/?utm_source=The Interface&amp;utm_medium=email&amp;utm_content=footerlink&amp;utm_campaign=Issue">Revue</a></div>
+</td>
+</tr>
+<tr>
+<td align='center' valign='top'>
+<div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; display: block; font-size: 16px; line-height: 28px; color: #fff; margin: 0; margin-bottom: 0;'>&nbsp;</div>
+</td>
+</tr>
+</table>
+
+          </td>
+        </tr>
+      </table>
+      <!--[if (gte mso 9)|(IE)]>
+          </td>
+        </tr>
+      </table>
+      <![endif]-->
+    </td>
+    <td width="10" valign="top">&nbsp;</td>
+  </tr>
+</table> 
+</body>
+</html></div>
+</section>
+<section id='issue-share'>
+<span class='share'>Share</span>
+<a class="twitter" target="_blank" href="https://www.twitter.com/share?url=https://www.getrevue.co/profile/caseynewton/issues/the-trouble-with-mark-zuckerberg-profiles-133299&amp;via=revue&amp;text=The%20trouble%20with%20Mark%20Zuckerberg%20profiles%20by%20%40CaseyNewton&amp;related=revue"><span class='icon-twitter'></span>
+<span class='name'>Share to Twitter</span>
+</a><a class="facebook" target="_blank" href="http://www.facebook.com/sharer/sharer.php?u=https://www.getrevue.co/profile/caseynewton/issues/the-trouble-with-mark-zuckerberg-profiles-133299"><span class='icon-facebook'></span>
+<span class='name'>Share to Facebook</span>
+</a></section>
+</section>
+<section class='profile-form'>
+<form class="new_member" id="new_member" action="/profile/caseynewton/add_subscriber" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="SpWW/i3V0t5Td74IfVYc27R3+JZGj9GQy7t3qK8iVOKmMlMd2rGxvMAw38hRDZhufyGkF/WqfTcNzrAJshQBnA==" /><input type="hidden" name="member[distinct_id]" id="member_distinct_id" />
+<div id='profile-form'>
+<div id='profile-form-fields'>
+<label for="member_email">Subscribe to our newsletter</label>
+<div class='input-group'>
+<input class="form-control" placeholder="Your email address..." title="Subscribe to the newsletter of The Interface" type="text" name="member[email]" id="member_email" />
+<div class='input-group-btn'><input type="submit" name="commit" value="Subscribe now" class="btn btn-primary" title="Subscribe to the newsletter of The Interface" /></div>
+</div>
+<span class='error-message'>
+
+
+</span>
+<div style='width: 1px; height: 1px; overflow: hidden;'>
+<label for="confirm_-IwluZ">This thingy has to be empti pwieshh</label>
+<input type="text" name="confirm_-IwluZ" id="confirm_-IwluZ" autocomplete="off" />
+</div>
+
+</div>
+</div>
+</form>
+</section>
+<script>
+  show_captcha = false;
+  var captchaCallback = function() {
+    $('#new_member').submit()
+  };
+</script>
+
+</article>
+<div class='container'>
+<footer class='terms'>
+<div class='footer-privacy'>
+<a target="_blank" href="https://www.getrevue.co/privacy/platform?ref=Revue+Profile">Privacy policy</a>
+</div>
+<div class='footer-custom'>
+</div>
+<div class='footer-powered'>
+<a target="_blank" href="https://www.getrevue.co/?ref=Revue+Profile"><span>Powered by</span>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="basic" id="Layer_1" x="0px" y="0px" width="69px" height="28px" viewBox="0 0 69 28" xml:space="preserve">
+  <path d="M64.5293352,10.7041667 C65.0574432,10.6932778 65.3370748,10.9435278 65.3487341,11.5175278 C65.4141025,14.6482778 61.2060582,14.9296389 61.2060582,14.9296389 C61.4291136,13.3777778 62.6296371,10.7436389 64.5293352,10.7041667 L64.5293352,10.7041667 Z M67.1731247,18.3427222 C66.183615,19.4257778 64.9358809,20.2513889 63.5530139,20.2803611 C60.9010055,20.3353889 61.2215402,16.9429167 61.2215402,16.9429167 C61.2215402,16.9429167 68.9206787,17.2128056 68.8088643,11.8327222 C68.7618449,9.56880556 66.6052604,8.54427778 64.6474571,8.58491667 C60.6521468,8.66833333 57.2805125,12.3923333 57.3781828,17.0982778 C57.3877396,17.5509444 57.4292161,17.9754167 57.5007008,18.3722778 C56.9821496,19.0516667 56.0666094,20.0699722 55.2370803,20.0699722 C54.781795,20.0699722 54.6111108,19.6655278 54.6111108,19.2105278 C54.6111108,15.7544722 56.2048006,12.3516944 56.2048006,10.3425 C56.2048006,9.12255556 55.3743158,8.77313889 54.3454321,8.77313889 C53.0770554,8.77313889 52.3717645,9.60088889 52.3717645,9.60088889 C53.0636759,11.5056667 50.6058615,20.0699722 48.0218975,20.0699722 C47.4106454,20.0699722 47.3039917,19.5891111 47.3039917,19.1971111 C47.3039917,16.6306389 48.8831551,12.3316667 48.8831551,10.4099722 C48.8831551,9.13286111 48.0360416,8.75369444 47.0310499,8.75369444 C45.8419945,8.75369444 45.0539418,9.60088889 45.0539418,9.60088889 C45.9052604,11.2443333 43.6670609,17.5278056 43.6670609,19.3456667 C43.6670609,21.1633333 44.6720526,22.5985278 46.4427341,22.5985278 C49.3199003,22.5985278 50.9894709,18.98225 50.9894709,18.98225 C50.9894709,18.98225 50.6058615,22.5985278 54.0992493,22.5985278 C55.8911468,22.5985278 57.3170194,21.0725278 58.0666537,20.0585 C58.9885014,21.7876944 60.7930139,22.6360556 63.2355374,22.5855 C64.9924571,22.54875 66.2531884,22.0451389 67.2291274,21.1678056 C68.7343213,19.8129167 67.7318144,17.7308056 67.1731247,18.3427222 L67.1731247,18.3427222 Z" id="logo-3"></path>
+  <path d="M26.7737202,10.6613889 C27.2463989,10.6401944 27.5780194,10.8772222 27.6036316,11.4508333 C27.7467922,14.6338889 23.4097313,14.9679444 23.4097313,14.9679444 C23.595133,13.4112222 25.0563657,10.7385833 26.7737202,10.6613889 L26.7737202,10.6613889 Z M40.7751773,8.25183333 C39.5069917,8.25183333 38.5365956,9.352 38.5365956,10.5278056 C38.5365956,12.46525 40.1209197,12.5216389 40.0922493,14.0808889 C40.0631967,15.6401389 37.5797701,20.0656944 35.9027452,20.0656944 C35.2813629,20.0656944 35.1850305,19.4376389 35.1850305,19.1428611 C35.1850305,16.1589167 36.764385,11.9 36.764385,10.4646111 C36.764385,9.11166667 35.9434571,8.76633333 34.9608283,8.76633333 C33.6624432,8.76633333 32.9456842,9.59233333 32.9456842,9.59233333 C33.3958089,10.5264444 32.953903,12.7576944 32.4514072,14.90125 C31.5830776,17.3673889 28.768795,20.3318889 26.2513463,20.3453056 C22.962856,20.3620278 23.4431801,16.8923611 23.4431801,16.8923611 C23.4431801,16.8923611 31.1772964,17.0648333 30.9355097,11.6886389 C30.8334432,9.42666667 28.6531579,8.45425 26.6968837,8.54233333 C22.7048227,8.72180556 19.5250886,12.5216389 19.7366759,17.2235 C19.9035374,20.9350556 22.6740499,22.7052778 25.6234654,22.5730556 C28.2326593,22.4552222 30.1816704,21.2733889 31.5830776,19.8959444 C31.766759,21.4402222 32.7354349,22.5901667 34.5905983,22.5901667 C39.4282438,22.5901667 43.2540166,15.6076667 43.2540166,11.2779722 C43.2540166,9.69344444 42.4260166,8.25183333 40.7751773,8.25183333 L40.7751773,8.25183333 Z" id="logo-2"></path>
+  <path d="M28.5526205,23.9979444 C27.8781025,24.3351111 26.6978393,24.9295278 24.176759,24.9295278 C16.3352244,24.9295278 14.7163047,14.8510833 14.7163047,14.8510833 C14.7163047,14.8510833 20.6525983,12.3402222 20.6525983,7.24869444 C20.6525983,2.14919444 16.5122161,0 12.3303573,0 C7.68422992,0 2.5235651,2.50327778 0.296451524,7.35233333 C-1.10954294,10.4138611 2.93030194,11.3689722 3.13080332,10.4148333 C3.78850139,7.28272222 7.27940443,2.35063889 12.3638061,2.35063889 C15.0450582,2.35063889 16.6133269,4.12183333 16.6133269,7.24947222 C16.6133269,11.1274722 12.1436177,13.1708889 10.1611579,13.8335556 C11.0426759,9.77763889 11.3523158,8.55438889 11.3523158,7.83455556 C11.3523158,6.24166667 10.4319972,5.97605556 9.4931385,5.97605556 C8.35492521,5.97605556 7.53285042,6.81061111 7.53285042,6.81061111 C8.19054848,8.01188889 7.07985873,12.2853889 6.59685873,14.0175 C6.01179224,16.1165278 5.20539058,19.2188889 4.69945429,21.1909444 C4.19351801,23.1635833 7.71806094,22.6329444 7.95411357,22.0507778 C8.21138227,21.4172778 8.88800277,19.0950278 9.5005928,16.6561111 C10.5281385,16.3356667 11.706108,15.8806667 11.706108,15.8806667 C12.2212188,19.3026944 14.9691773,28 22.8107119,28 C29.5392632,28 29.1092078,23.7198889 28.5526205,23.9979444" id="logo-1"></path>
+</svg>
+</a></div>
+</footer>
+</div>
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','//connect.facebook.net/en_US/fbevents.js');
+  
+  fbq('init', '515202235309502');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+<img height='1' src='https://www.facebook.com/tr?id=515202235309502&amp;ev=PageView&amp;noscript=1' style='display:none' width='1'>
+</noscript>
+<script src="//platform.twitter.com/oct.js" type="text/javascript"></script>
+<script type="text/javascript">twttr.conversion.trackPid('nuu2q', { tw_sale_amount: 0, tw_order_quantity: 0 });</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://analytics.twitter.com/i/adsct?txn_id=nuu2q&p_id=Twitter&tw_sale_amount=0&tw_order_quantity=0" />
+<img height="1" width="1" style="display:none;" alt="" src="//t.co/i/adsct?txn_id=nuu2q&p_id=Twitter&tw_sale_amount=0&tw_order_quantity=0" />
+</noscript>
+
+
+<section id='subscribe-bar'>
+<div id='subscribe-bar-form'><section class='profile-form'>
+<form class="new_member" id="new_member" action="/profile/caseynewton/add_subscriber" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="I+pNqcFidgT+09cjFEfVzDqzt9CXZJdQ7pRx0YJYqcfPTYhKNgYVZm2UtuM4HFF58eXrUSRBO/co4bZwn278uQ==" /><input type="hidden" name="member[distinct_id]" id="member_distinct_id" />
+<div id='profile-form'>
+<div id='profile-form-fields'>
+<label for="member_email">Subscribe to our newsletter</label>
+<div class='input-group'>
+<input class="form-control" placeholder="Your email address..." title="Subscribe to the newsletter of The Interface" type="text" name="member[email]" id="member_email" />
+<div class='input-group-btn'><input type="submit" name="commit" value="Subscribe now" class="btn btn-primary" title="Subscribe to the newsletter of The Interface" /></div>
+</div>
+<span class='error-message'>
+
+
+</span>
+<div style='width: 1px; height: 1px; overflow: hidden;'>
+<label for="confirm_aRut9A">This thingy has to be empti pwieshh</label>
+<input type="text" name="confirm_aRut9A" id="confirm_aRut9A" autocomplete="off" />
+</div>
+
+</div>
+</div>
+</form>
+</section>
+<script>
+  show_captcha = false;
+  var captchaCallback = function() {
+    $('#new_member').submit()
+  };
+</script>
+</div>
+</section>
+
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

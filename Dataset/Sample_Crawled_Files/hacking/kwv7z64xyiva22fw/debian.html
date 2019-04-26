@@ -1,0 +1,1314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Debian -- Debian security FAQ </title>
+  <link rel="author" href="mailto:webmaster@debian.org">
+  <meta name="Generator" content="WML 2.0.12 (16-Apr-2008)">
+  <meta name="Modified" content="2019-03-28 23:45:52">
+  <meta name="viewport" content="width=device-width">
+  <meta name="mobileoptimized" content="300">
+  <meta name="HandheldFriendly" content="true">
+<link href="../debian.css" rel="stylesheet" type="text/css">
+  <link href="../debian-en.css" rel="stylesheet" type="text/css" media="all">
+<link rel="search" type="application/opensearchdescription+xml" title="Debian website search" href="../search.en.xml">
+</head>
+<body>
+<div id="header">
+   <div id="upperheader">
+   <div id="logo">
+  <a href="../" title="Debian Home"><img src="../Pics/openlogo-50.png" alt="Debian" width="50" height="61"></a>
+  </div> <!-- end logo -->
+	<div id="searchbox">
+		<form name="p" method="get" action="https://search.debian.org/cgi-bin/omega">
+		<p>
+<input type="hidden" name="DB" value="en">
+			<input name="P" value="" size="27">
+			<input type="submit" value="Search">
+		</p>
+		</form>
+	</div>   <!-- end sitetools -->
+ </div> <!-- end upperheader -->
+<!--UdmComment-->
+<div id="navbar">
+<p class="hidecss"><a href="#content">Skip Quicknav</a></p>
+<ul>
+   <li><a href="../intro/about">About Debian</a></li>
+   <li><a href="../distrib/">Getting Debian</a></li>
+   <li><a href="../doc">Documentation</a></li>
+   <li><a href="../support">Support</a></li>
+   <li><a href="../devel/">Developers' Corner</a></li>
+</ul>
+</div> <!-- end navbar -->
+<p id="breadcrumbs"><a href="./">Security Information</a>
+ &#x2F;
+Debian security FAQ</p>
+</div> <!-- end header -->
+<!--/UdmComment-->
+<div id="content">
+<h1>Debian security FAQ</h1>
+<ol>
+<li> <a href="#buthow">I received a DSA via debian-security-announce, how can I upgrade the vulnerable packages?</a>
+<li> <a href="#signature">The signature on your advisories does not verify correctly!</a>
+<li> <a href="#handling">How is security handled in Debian?</a>
+<li> <a href="#oldversion">Why are you fiddling with an old version of that package?</a>
+<li> <a href="#version">The version number for a package indicates that I am still running a vulnerable version!</a>
+<li> <a href="#archismissing">I received an advisory, but the build for one processor architecture seems to be missing.</a>
+<li> <a href="#unstable">How is security handled for <tt>unstable</tt>?</a>
+<li> <a href="#testing">How is security handled for <tt>testing</tt>?</a>
+<li> <a href="#contrib">How is security handled for <tt>contrib</tt> and <tt>non-free</tt>?</a>
+<li> <a href="#sidversionisold">The advisory says unstable is fixed in version 1.2.3-1, but unstable has 1.2.5-1, what's up?</a>
+<li> <a href="#mirror">Why are there no official mirrors for security.debian.org?</a>
+<li> <a href="#missing">I've seen DSA 100 and DSA 102, now where is DSA 101?</a>
+<li> <a href="#contact">How can I reach the security team?</a>
+<li> <a href="#discover">I guess I found a security problem, what should I do?</a>
+<li> <a href="#care">What am I supposed to do with a security problem in one of my packages?</a>
+<li> <a href="#enofile">I tried to download a package listed in one of the security advisories, but I got a `file not found' error.</a>
+<li> <a href="#upload">I've got a bugfix, can I upload to security.debian.org directly?</a>
+<li> <a href="#ppu">I've got a bugfix, can I upload to proposed-updates instead?</a>
+<li> <a href="#SecurityUploadQueue">I'm pretty sure my packages are fine, how can I upload them?</a>
+<li> <a href="#help">How can I help with security?</a>
+<li> <a href="#proposed-updates">What is the scope of proposed-updates?</a>
+<li> <a href="#composing">How is the security team composed?</a>
+<li> <a href="#lifespan">How long will security updates be provided?</a>
+<li> <a href="#check">How can I check the integrity of packages?</a>
+<li> <a href="#break">What to do if a random package breaks after a security update?</a>
+<li> <a href="#cvewhat">What is a CVE identifier?</a>
+<li> <a href="#cvedsa">Does Debian issue a DSA for every CVE id?</a>
+<li> <a href="#cveget">Can Debian assign CVE identifiers?</a>
+<li> <a href="#localremote">What does <q>local (remote)</q> mean?</a>
+</ol>
+<p><em><a name="buthow">Q: I received a DSA via debian-security-announce, how can I upgrade the vulnerable packages?</a></em></p>
+<p>A: As the DSA mail says, you should upgrade the packages affected by the
+  announced vulnerability. You can do this by just upgrading (after
+  updating the list of available packages with <tt>apt-get update</tt>)
+  every package in your system with <tt>apt-get upgrade</tt> or by
+  upgrading just a particular package, with <tt>apt-get install
+  <i>package</i></tt>.</p>
+<p>The announcement mail mentions the source package in which the vulnerability
+   was present. Therefore, you should update all the binary packages from
+   that source package. To check the binary packages to update, visit
+   <tt>https://packages.debian.org/src:<i>source-package-name</i></tt> and
+   click on <i>[show ... binary packages]</i> for the distribution you
+   are updating.</p>
+<p>It may also be necessary to restart a service or a running process. The
+   command <a href="https://manpages.debian.org/checkrestart"><tt>checkrestart</tt></a>
+   included in the package
+   <a href="https://packages.debian.org/debian-goodies">debian-goodies</a>
+   might help to find which ones.</p>
+<p><em><a name="signature">Q: The signature on your advisories does not verify correctly!</a></em></p>
+<p>A: This is most likely a problem on your end. The
+   <a href="https://lists.debian.org/debian-security-announce/">debian-security-announce</a>
+   list has a filter that only allows messages with a correct signature
+   from one of the security team members to be posted.</p>
+<p>Most likely some piece of mail software on your end slightly changes
+   the message that breaks the signature. Make sure your software does
+   not do any MIME encoding or decoding, or tab/space conversions.</p>
+<p>Known culprits are fetchmail (with the mimedecode option enabled),
+   formail (from procmail 3.14 only) and evolution.</p>
+<p><em><a name="handling">Q: How is security handled in Debian?</a></em></p>
+<p>A: Once the security team receives a notification of an incident,
+   one or more members review it and consider its impact on the stable
+   release of Debian (i.e. if it's vulnerable or not).
+   If our system is vulnerable, we work on a fix for the
+   problem. The package maintainer is contacted as well, if they didn't
+   contact the security team already. Finally, the fix is tested and
+   new packages are prepared, which are then compiled on all stable
+   architectures and uploaded afterwards. After all of that is done,
+   an advisory is published.</p>
+<p><em><a name="oldversion">Q: Why are you fiddling with an old version of that package?</a></em></p>
+<p>The most important guideline when making a new package that fixes a
+   security problem is to make as few changes as possible. Our users and
+   developers are relying on the exact behaviour of a release once it is made,
+   so any change we make can possibly break someone's system. This is
+   especially true in case of libraries: make sure you never change the
+   Application Program Interface (API) or Application Binary Interface (ABI),
+   no matter how small the change is.</p>
+<p>This means that moving to a new upstream version is not a good solution,
+   instead the relevant changes should be backported. Generally upstream
+   maintainers are willing to help if needed, if not the Debian security team
+   might be able to help.</p>
+<p>In some cases it is not possible to backport a security fix, for example
+   when large amounts of source code need to be modified or rewritten. If that
+   happens it might be necessary to move to a new upstream version, but this
+   has to be coordinated with the security team beforehand.</p>
+<p><em><a name="version">Q: The version number for a package indicates that I am still running
+   a vulnerable version!</a></em></p>
+<p>A: Instead of upgrading to a new release we backport security fixes to
+   the version that was shipped in the stable release. The reason we do
+   this is to make sure that a release changes as little as possible
+   so things will not change or break unexpectedly as a result of a
+   security fix. You can check if you are running a secure version of
+   a package by looking at the package changelog, or comparing its
+   exact version number with the version indicated in the Debian
+   Security Advisory.</p>
+<p><em><a name="archismissing">Q: I received an advisory, but the build for one
+  processor architecture seems to be missing.</a></em></p>
+<p>A: Generally the Security Team releases an advisory with builds of the updated
+   packages for all architectures that Debian supports. However, some architectures
+   are slower than others and it may happen that builds for most architectures
+   are ready while some are still missing. These smaller archs represent a small
+   fraction of our user base. Depending on the urgency of the issue
+   we may decide to release the advisory forthwith. The missing builds will be
+   installed as soon as they come available, but no further notice of this will
+   be given. Of course we will never release an advisory where the i386 or amd64
+   builds are not present.</p>
+<p><em><a name="unstable">Q: How is security handled for <tt>unstable</tt>?</a></em></p>
+<p>A: Security for unstable is primarily handled by package maintainers, not
+   by the Debian Security Team. Although the security team may upload
+   high-urgency security-only fixes when maintainers are noticed to be
+   inactive, support for stable will always have priority.
+   If you want to have a secure (and stable) server you are strongly encouraged
+   to stay with stable.</p>
+<p><em><a name="testing">Q: How is security handled for <tt>testing</tt>?</a></em></p>
+<p>A: Security for testing benefits from the security efforts of the entire
+   project for unstable. However, there is a minimum two-day migration delay,
+   and sometimes security fixes can be held up by transitions. The Security
+   Team helps to move along those transitions holding back important
+   security uploads, but this is not always possible and delays may occur.
+   Especially in the months after a new stable release, when many new versions
+   are uploaded to unstable, security fixes for testing may lag behind.
+   If you want to have a secure (and stable) server you are strongly
+   encouraged to stay with stable.</p>
+<p><em><a name="contrib">Q: How is security handled for <tt>contrib</tt> and
+  <tt>non-free</tt>?</a></em></p>
+<p>A: The short answer is: it's not. Contrib and non-free aren't official
+   parts of the Debian Distribution and are not released, and thus not
+   supported by the security team. Some non-free packages are distributed
+   without source or without a license allowing the distribution of modified
+   versions. In those cases no security fixes can be made at all. If it
+   is possible to fix the problem, and the package maintainer or someone else
+   provides correct updated packages, then the security team will generally
+   process them and release an advisory.</p>
+<p><em><a name="sidversionisold">Q: The advisory says unstable is fixed in
+  version 1.2.3-1, but unstable has 1.2.5-1, what's up?</a></em></p>
+<p>A: We try to list the first version in unstable that fixed the problem.
+   Sometimes the maintainer has uploaded even newer versions in the meantime.
+   Compare the version in unstable with the version we indicate. If it's the
+   same or higher, you should be safe from this vulnerability. If you want to
+   be sure, you can check the package changelog with <tt>apt-get changelog
+   package-name</tt> and search for the entry announcing the fix.</p>
+<p><em><a name="mirror">Q: Why are there no official mirrors for security.debian.org?</a></em></p>
+<p>A: Actually, there are. There are several official mirrors, implemented
+   through DNS aliases. The purpose of security.debian.org is to make security
+   updates available as quickly and easily as possible.</p>
+<p>Encouraging the use of unofficial mirrors would add extra complexity
+   that is usually not needed and that can cause frustration if these
+   mirrors are not kept up to date.</p>
+<p><em><a name="missing">Q: I've seen DSA 100 and DSA 102, now where is DSA 101?</a></em></p>
+<p>A: Several vendors (mostly of GNU/Linux, but also of BSD
+   derivatives) coordinate security advisories for some incidents and
+   agree to a particular timeline so that all vendors are able to
+   release an advisory at the same time. This was decided in order to
+   not discriminate some vendors that need more time (e.g. when the
+   vendor has to pass packages through lengthy QA tests or has to
+   support several architectures or binary distributions). Our own
+   security team also prepares advisories in advance. Every now and
+   then, other security issues have to be dealt with before the parked
+   advisory could be released, and hence temporarily leaving out one or
+   more advisories by number.
+</p>
+<p><em><a name="contact">Q: How can I reach the security team?</a></em></p>
+<p>A: Security information can be sent to security@debian.org or
+   team@security.debian.org, both of which are read by the members of
+   the security team.
+</p>
+<p>If desired, email can be encrypted with the Debian Security
+   Contact key (key ID <a
+   href="http://pgp.surfnet.nl/pks/lookup?op=vindex&amp;search=0x0D59D2B15144766A14D241C66BAF400B05C3E651">0x0D59D2B15144766A14D241C66BAF400B05C3E651</a>). For the PGP/GPG keys of individual team members, please
+   refer to the <a href="https://keyring.debian.org/">keyring.debian.org</a>
+   keyserver.</p>
+<p><em><a name="discover">Q: I guess I found a security problem, what should I do?</a></em></p>
+<p>A: If you learn about a security problem, either in one of your own
+   packages or in someone else's please always contact the security team. If
+   the Debian security team confirms the vulnerability and other vendors are
+   likely to be vulnerable as well, they usually contact other vendors as
+   well. If the vulnerability is not yet public they will try to coordinate
+   security advisories with the other vendors, so all major distributions are
+   in sync.</p>
+<p>If the vulnerability is already publicly known, be sure to file a bug
+   report in the Debian BTS, and tag it <q>security</q>.</p>
+<p>If you are a Debian maintainer, <a href="#care">see below</a>.</p>
+<p><em><a name="care">Q: What am I supposed to do with a security problem in one of
+   my packages?</a></em></p>
+<p>A: If you learn of a security problem, either in your package or
+   someone else's please always contact the security team via email at
+   team@security.debian.org. They keep track
+   of outstanding security problems, can help maintainers with
+   security problems or fix problems on their own, are responsible for
+   sending out security advisories and maintaining
+   security.debian.org.</p>
+<p>The <a href="../doc/developers-reference/pkgs.html#bug-security">Developer's Reference</a> has complete instructions on what to do.</p>
+<p>It's particularly important that you don't upload to any other
+   distribution other than unstable without prior agreement by the
+   security team, because bypassing them will cause confusion and more
+   work.</p>
+<p><em><a name="enofile">Q: I tried to download a package listed in one of the security
+   advisories, but I got a `file not found' error.</a></em></p>
+<p>A: Whenever a newer bugfix supersedes an older package on
+   security.debian.org, chances are high that the old package will be
+   removed by the time the new one gets installed. Hence, you'll get
+   this `file not found' error. We don't want to distribute packages
+   with known security bugs longer than absolutely necessary.</p>
+<p>Please use the packages from the latest security advisories, which are
+   distributed through the <a
+   href="https://lists.debian.org/debian-security-announce/">debian-security-announce</a> mailing list. It's best to simply run
+   <code>apt-get update</code> before upgrading the package.</p>
+<p><em><a name="upload">Q: I've got a bugfix, can I upload to security.debian.org directly?</a></em></p>
+<p>A: No, you can't. The archive at security.debian.org is maintained
+   by the security team, who have to approve all packages. You should
+   instead send patches or proper source packages to the security team
+   via team@security.debian.org. They will be
+   reviewed by the security team and eventually uploaded, either with
+   or without modifications.</p>
+<p>The <a href="../doc/developers-reference/pkgs.html#bug-security">Developer's Reference</a> has complete instructions on what to do.</p>
+<p><em><a name="ppu">Q: I've got a bugfix, can I upload to proposed-updates instead?</a></em></p>
+<p>A: Technically speaking, you can. However, you should not do this,
+   since this interferes badly with the work of the security team.
+   Packages from security.debian.org will be copied into the
+   proposed-updates directory automatically. If a package with the
+   same or a higher version number is already installed into the
+   archive, the security update will be rejected by the archive
+   system. That way, the stable distribution will end up without a
+   security update for this package instead, unless the <q>wrong</q>
+   packages in the proposed-updates directory were rejected. Please contact the
+   security team instead and include all details of the vulnerability
+   and attach the source files (i.e. diff.gz and dsc files) to your mail.</p>
+<p>The <a href="../doc/developers-reference/pkgs.html#bug-security">Developer's Reference</a> has complete instructions on what to do.</p>
+<p><em><a name="SecurityUploadQueue">Q: I'm pretty sure my packages are fine,
+   how can I upload them?</a></em></p>
+<p>A: If you are very sure that your packages don't break anything, that the
+   version is sane (i.e. greater than the version in stable and less than the
+   version in testing/unstable), that you didn't change the behaviour of the
+   package, despite the corresponding security problem, that you compiled it
+   for the correct distribution (that is <code>oldstable-security</code> or
+   <code>stable-security</code>), that the package contains the original
+   source if the package is new on security.debian.org, that you can confirm
+   the patch against the most recent version is clean and only touches the
+   corresponding security problem (check with <code>interdiff -z</code> and
+   both <code>.diff.gz</code> files), that you have proofread the patch at
+   least thrice, and that <code>debdiff</code> doesn't display any changes,
+   you may upload the files into the incoming directory
+   <code>ftp://ftp.security.upload.debian.org/pub/SecurityUploadQueue</code> on the
+   security.debian.org directly. Please send a notification with all details
+   and links to team@security.debian.org as well.</p>
+<p><em><a name="help">Q: How can I help with security?</a></em></p>
+<p>A: Please review each problem before reporting it to
+   security@debian.org. If you are able to provide patches, that
+   would speed up the process. Do not simply forward bugtraq mails,
+   because we already receive them &mdash; but do provide us with
+   additional information about things reported on bugtraq.</p>
+<p>A good way to get started with security work is helping
+   out on the Debian Security Tracker (<a
+   href="https://security-tracker.debian.org/tracker/data/report">instructions</a>).</p>
+<p><em><a name="proposed-updates">Q: What is the scope of proposed-updates?</a></em></p>
+<p>A: This directory contains packages which are proposed to enter the
+   next revision of Debian stable. Whenever packages are uploaded by
+   a maintainer for the stable distribution, they end up in the
+   proposed-updates directory. Since stable is meant to be stable, no
+   automatic updates are made. The security team will upload fixed
+   packages mentioned in their advisories to stable, however they will
+   be placed in proposed-updates first. Every couple of months the
+   Stable Release Manager checks the list of packages in
+   proposed-updates and discusses whether a package is suited for
+   stable or not. This is compiled into another revision of stable
+   (e.g. 2.2r3 or 2.2r4). Packages that don't fit will probably be
+   rejected and dropped from proposed-updates as well.
+</p>
+<p>Note that the packages uploaded by maintainers (not by the security team)
+   in the proposed-updates/ directory are not supported by the security
+   team.</p>
+<p><em><a name="composing">Q: How is the security team composed?</a></em></p>
+<p>A: The Debian security team consists of
+   <a href="../intro/organization#security">several officers and secretaries</a>.
+   The security team itself appoints people to join the team.</p>
+<p><em><a name="lifespan">Q: How long will security updates be provided?</a></em></p>
+<p>A: The security team tries to support a stable distribution for
+   about one year after the next stable distribution has been
+   released, except when another stable distribution is released
+   within this year. It is not possible to support three
+   distributions; supporting two simultaneously is already difficult
+   enough.
+</p>
+<p><em><a name="check">Q: How can I check the integrity of packages?</a></em></p>
+<p>A: This process involve checking the Release file signature against
+   the <a href="https://ftp-master.debian.org/keys.html">public key</a> used for the archive. The Release file contains the
+   checksums of Packages and Sources files, which contain
+   checksums of binary and source packages. Detailed instruction on how
+   to check packages integrity can be found in the <a
+   href="../doc/manuals/securing-debian-howto/ch7#s-deb-pack-sign">Debian Securing Manual</a>.</p>
+<p><em><a name="break">Q: What to do if a random package breaks after a security update?</a></em></p>
+<p>A: First of all, you should figure out why the package breaks and
+   how it is connected to the security update, then contact the
+   security team if it is serious or the stable release manager if it
+   is less serious. We're talking about random packages that break
+   after a security update of a different package. If you can't
+   figure out what's going wrong but have a correction, talk to the
+   security team as well. You may be redirected to the stable release
+   manager though.</p>
+<p><em><a name="cvewhat">Q: What is a CVE identifier?</a></em></p>
+<p>A: The Common Vulnerabilities and Exposures project assignes
+   unique names, called CVE identifiers, to specific security
+   vulnerabilities, to make it easier to uniquely refer to a specific
+   issue. More information can be found at <a
+   href="http://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures">Wikipedia</a>.</p>
+<p><em><a name="cvedsa">Q: Does Debian issue a DSA for every CVE id?</a></em></p>
+<p>A: The Debian security team keeps track of every issued CVE identifier,
+   connect it to the relevant Debian package and assess its impact in a
+   Debian context - the fact that something is assigned a CVE id does not
+   necessarily imply that the issue is a serious threat to a Debian system.
+   This information is tracked in the
+   <a href="https://security-tracker.debian.org">Debian Security Tracker</a>
+   and for the issues that are considered serious a Debian Security Advisory
+   will be issued.</p>
+<p>Low-impact issues not qualifying for a DSA can be fixed in the next
+   release of Debian, in a point release of the current stable or oldstable
+   distributions, or are included in a DSA when that is being issued for a
+   more serious vulnerability.</p>
+<p><em><a name="cveget">Q: Can Debian assign CVE identifiers?</a></em></p>
+<p>A: Debian is a CVE Numbering Authority and can assign ids, but per
+   CVE policy only to yet-undisclosed issues. If you have an undisclosed
+   security vulnerability for software in Debian and would like to get an
+   identifier for it, contact the Debian Security Team. For cases where the
+   vulnerability is already public, we advise to follow the procedure
+   detailed in the <a
+   href="https://github.com/RedHatProductSecurity/CVE-HOWTO">CVE OpenSource Request HOWTO</a>.</p>
+<h1>Deprecated Debian security FAQ</h1>
+<p><em><a name="localremote">Q: What does <q>local (remote)</q> mean?</a></em></p>
+<p><b>The field <i>Problem type</i> in DSA mails is not used since April 2014.</b><br>
+   A: Some advisories cover vulnerabilities that cannot be identified
+   with the classic scheme of local and remote exploitability. Some
+   vulnerabilities cannot be exploited from remote, i.e. don't
+   correspond to a daemon listening to a network port. If they can be
+   exploited by special files that could be provided via the network
+   while the vulnerable service is not permanently connected with the
+   network, we write <q>local (remote)</q> in such cases.</p>
+<p>Such vulnerabilities are somewhat between local and remote
+   vulnerabilities and often cover archives that could be provided
+   through the network, e.g. as mail attachment or from a download
+   page.</p>
+<div class="clr"></div>
+</div> <!-- end content -->
+<div id="footer">
+<hr class="hidecss">
+<p>Back to the <a href="../">Debian Project homepage</a>.</p>
+<hr>
+<!--UdmComment-->
+<div id="pageLang">
+<div id="langSelector">
+This page is also available in the following languages:
+<div id="langContainer">
+ <a href="faq.da.html" title="Danish" hreflang="da" lang="da" rel="alternate">dansk</a>
+ <a href="faq.de.html" title="German" hreflang="de" lang="de" rel="alternate">Deutsch</a>
+ <a href="faq.es.html" title="Spanish" hreflang="es" lang="es" rel="alternate">espa&ntilde;ol</a>
+ <a href="faq.fr.html" title="French" hreflang="fr" lang="fr" rel="alternate">fran&ccedil;ais</a>
+ <a href="faq.it.html" title="Italian" hreflang="it" lang="it" rel="alternate">Italiano</a>
+ <a href="faq.ja.html" title="Japanese" hreflang="ja" lang="ja" rel="alternate">&#26085;&#26412;&#35486;&nbsp;(Nihongo)</a>
+ <a href="faq.pl.html" title="Polish" hreflang="pl" lang="pl" rel="alternate">polski</a>
+ <a href="faq.pt.html" title="Portuguese" hreflang="pt" lang="pt" rel="alternate">Portugu&ecirc;s</a>
+ <a href="faq.ru.html" title="Russian" hreflang="ru" lang="ru" rel="alternate">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;&nbsp;(Russkij)</a>
+ <a href="faq.fi.html" title="Finnish" hreflang="fi" lang="fi" rel="alternate">suomi</a>
+ <a href="faq.sv.html" title="Swedish" hreflang="sv" lang="sv" rel="alternate">svenska</a>
+</div>
+How to set <a href="../intro/cn">the default document language</a>
+</div></div><!--/UdmComment-->
+<hr>
+<div id="footermap">
+<!--UdmComment-->
+<p><strong><a href="/">Home</a></strong></p>
+    <ul id="footermap-cola">
+		<li><a href="../intro/about">About</a>
+		  <ul>
+		  <li><a href="../social_contract">Social Contract</a></li>
+		  <li><a href="../code_of_conduct">Code of Conduct</a></li>
+		  <li><a href="../intro/free">Free Software</a></li>
+		  <li><a href="../partners/">Partners</a></li>
+		  <li><a href="../donations">Donations</a></li>
+          <li><a href="../legal">Legal Info</a></li>
+          <li><a href="../legal/privacy">Data Privacy</a></li>
+		  <li><a href="../contact">Contact Us</a></li>
+		  </ul>
+		</li>
+        <li><a href="../intro/help">Help Debian</a></li>
+    </ul>
+	<ul id="footermap-colb">
+			<li><a href="../distrib/">Getting Debian</a>
+			  <ul>
+			  <li><a href="../distrib/netinst">Network install</a></li>
+			  <li><a href="../CD/">CD/USB ISO images</a></li>
+			  <li><a href="../CD/vendors/">CD vendors</a></li>
+			  <li><a href="../distrib/pre-installed">Pre-installed</a></li>
+			  </ul>
+			</li>
+            <li><a href="../blends/">Pure Blends</a></li>
+			<li><a href="../distrib/packages">Debian Packages</a></li>
+			<li><a href="../devel/">Developers' Corner</a></li>
+	</ul>
+	<ul id="footermap-colc">
+		<li><a href="../News/">News</a>
+		  <ul>
+		  <li><a href="../News/weekly/">Project News</a></li>
+		  <li><a href="../events/">Events</a></li>
+		  </ul>
+		</li>
+    <li><a href="../doc/">Documentation</a>
+      <ul>
+      <li><a href="../releases/">Release Info</a></li>
+      <li><a href="../releases/stable/installmanual">Installation manual</a></li>
+      <li><a href="../doc/books">Debian Books</a></li>
+      <li><a href="https://wiki.debian.org/">Debian Wiki</a></li>
+      </ul>
+    </li>
+   </ul>
+   <ul id="footermap-cold">
+    <li><a href="../support">Support</a>
+	  <ul>
+			  <li><a href="../international/">Debian International</a></li>
+			  <li><a href="../security/">Security Information</a></li>
+			  <li><a href="../Bugs/">Bug reports</a></li>
+			  <li><a href="../MailingLists/">Mailing Lists</a></li>
+			  <li><a href="https://lists.debian.org/">Mailing List Archives</a></li>
+			  <li><a href="../ports/">Ports/Architectures</a></li>
+      </ul>
+    </li>
+</ul>
+<ul id="footermap-cole">
+  <li><a href="../misc/">Miscellaneous</a></li>
+  <li><a href="../sitemap">Site map</a></li>
+  <li><a href="https://search.debian.org/">Search</a></li>
+  <li><a href="https://bits.debian.org">The Debian Blog</a></li>
+  <li><a href="https://identi.ca/debian"><img src="../Pics/identica.png"
+  alt="follow debian on identi.ca!" width="80" height="15"></a></li>
+  <li><a href="https://planet.debian.org"><img src="../Pics/planet.png"
+  alt="follow debian on planet.debian.org!" width="80" height="15"></a></li>
+</ul>
+<!--/UdmComment-->
+</div> <!-- end footermap -->
+<div id="fineprint">
+  <p>To report a problem with the web site, please e-mail our publicly archived mailing list <a href="mailto:debian-www@lists.debian.org">debian-www@lists.debian.org</a> in English. For other contact information, see the Debian <a href="../contact">contact page</a>. Web site source code is <a href="https://salsa.debian.org/webmaster-team/webwml">available</a>.</p>
+<p>
+Last Modified: Fri, Jun 1 18:42:18 UTC 2018
+<br>
+Last Built: Thu, Mar 28 23:45:52 UTC 2019
+  <br>
+  Copyright &copy; 1997-2018
+ <a href="https://www.spi-inc.org/">SPI</a> and others; See <a href="../license" rel="copyright">license terms</a><br>
+  Debian is a registered <a href="../trademark">trademark</a> of Software in the Public Interest, Inc.
+</p>
+</div>
+</div> <!-- end footer -->
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Debian -- Security Information </title>
+  <link rel="author" href="mailto:webmaster@debian.org">
+  <meta name="Generator" content="WML 2.0.12 (16-Apr-2008)">
+  <meta name="Modified" content="2019-03-30 23:29:54">
+  <meta name="viewport" content="width=device-width">
+  <meta name="mobileoptimized" content="300">
+  <meta name="HandheldFriendly" content="true">
+<link rel="alternate" type="application/rss+xml"
+ title="Debian Security Advisories (titles only)" href="dsa">
+<link rel="alternate" type="application/rss+xml"
+ title="Debian Security Advisories (summaries)" href="dsa-long">
+<link href="../debian.css" rel="stylesheet" type="text/css">
+  <link href="../debian-en.css" rel="stylesheet" type="text/css" media="all">
+<link rel="search" type="application/opensearchdescription+xml" title="Debian website search" href="../search.en.xml">
+</head>
+<body>
+<div id="header">
+   <div id="upperheader">
+   <div id="logo">
+  <a href="../" title="Debian Home"><img src="../Pics/openlogo-50.png" alt="Debian" width="50" height="61"></a>
+  </div> <!-- end logo -->
+	<div id="searchbox">
+		<form name="p" method="get" action="https://search.debian.org/cgi-bin/omega">
+		<p>
+<input type="hidden" name="DB" value="en">
+			<input name="P" value="" size="27">
+			<input type="submit" value="Search">
+		</p>
+		</form>
+	</div>   <!-- end sitetools -->
+ </div> <!-- end upperheader -->
+<!--UdmComment-->
+<div id="navbar">
+<p class="hidecss"><a href="#content">Skip Quicknav</a></p>
+<ul>
+   <li><a href="../intro/about">About Debian</a></li>
+   <li><a href="../distrib/">Getting Debian</a></li>
+   <li><a href="../doc">Documentation</a></li>
+   <li><a href="../support">Support</a></li>
+   <li><a href="../devel/">Developers' Corner</a></li>
+</ul>
+</div> <!-- end navbar -->
+<p id="breadcrumbs">
+Security Information</p>
+</div> <!-- end header -->
+<!--/UdmComment-->
+<div id="content">
+<h1>Security Information</h1>
+<ul class="toc">
+  <li><a href="#keeping-secure">Keeping your Debian system secure</a></li>
+  <li><a href="#DSAS">Recent Advisories</a></li>
+  <li><a href="#contact">Contact Information</a></li>
+</ul>
+<p>Debian takes security very seriously. We handle all security problems
+brought to our attention and ensure that they are corrected within
+a reasonable timeframe.
+Many advisories are coordinated with other free software vendors
+and are published the same day a vulnerability is made public and
+we also have a <a href="audit/">Security Audit</a> team that reviews
+the archive looking for new or unfixed security bugs.</p>
+<p>Experience has shown that <q>security through obscurity</q> does not work. Public
+disclosure allows for more rapid and better solutions to security problems. In
+that vein, this page addresses Debian's status with respect to various known
+security holes, which could potentially affect Debian.</p>
+<p>Debian also participates in security standardization efforts:
+the <a href="#DSAS">Debian Security Advisories</a> are
+<a href="cve-compatibility">CVE-Compatible</a>
+(review the <a href="crossreferences">cross references</a>)
+and Debian is represented in the Board of the
+<a href="https://oval.cisecurity.org/">Open Vulnerability Assessment Language</a> project.
+</p>
+<h2><a name="keeping-secure" id="keeping-secure">Keeping your Debian system secure</a></h2>
+<p>In order to receive the latest Debian security advisories, subscribe to
+the <a href="https://lists.debian.org/debian-security-announce/">debian-security-announce</a> mailing list.</p>
+<p>You can use <a href="https://packages.debian.org/stable/admin/apt">apt</a>
+to easily get the latest security updates.
+This requires a line such as
+</p>
+<div class="centerblock">
+<p>
+<code>deb&nbsp;http://security.debian.org/debian-security&nbsp;stretch/updates&nbsp;main&nbsp;contrib&nbsp;non-free</code>
+</p>
+</div>
+<p>
+in your <CODE>/etc/apt/sources.list</CODE> file. Then execute
+<kbd>apt-get update &amp;&amp; apt-get upgrade</kbd> to download and apply
+the pending updates.
+The security archive is signed with the normal Debian archive
+<a href="https://ftp-master.debian.org/keys.html">signing keys</a>.
+</p>
+<p>For more information about security issues in Debian, please refer to
+the <a href="faq">Security Team FAQ</a> and a manual called
+<a href="../doc/user-manuals#securing">Securing Debian</a>.</p>
+<a class="rss_logo" href="dsa">RSS</a>
+<h2><a name="DSAS" id="DSAS">Recent Advisories</a></h2>
+<p>These web pages include a condensed archive of security advisories posted to
+the <a href="https://lists.debian.org/debian-security-announce/">debian-security-announce</a> list.
+<p>
+<tt>[30 Mar 2019]</tt> <strong><a href="2019/dsa-4420">DSA-4420 thunderbird</a></strong> security update<br>
+<tt>[29 Mar 2019]</tt> <strong><a href="2019/dsa-4419">DSA-4419 twig</a></strong> security update<br>
+<tt>[28 Mar 2019]</tt> <strong><a href="2019/dsa-4418">DSA-4418 dovecot</a></strong> security update<br>
+<tt>[24 Mar 2019]</tt> <strong><a href="2019/dsa-4417">DSA-4417 firefox-esr</a></strong> security update<br>
+<tt>[24 Mar 2019]</tt> <strong><a href="2019/dsa-4416">DSA-4416 wireshark</a></strong> security update<br>
+<tt>[24 Mar 2019]</tt> <strong><a href="2019/dsa-4415">DSA-4415 passenger</a></strong> security update<br>
+<tt>[23 Mar 2019]</tt> <strong><a href="2019/dsa-4414">DSA-4414 libapache2-mod-auth-mellon</a></strong> security update<br>
+<tt>[21 Mar 2019]</tt> <strong><a href="2019/dsa-4413">DSA-4413 ntfs-3g</a></strong> security update<br>
+<tt>[20 Mar 2019]</tt> <strong><a href="2019/dsa-4412">DSA-4412 drupal7</a></strong> security update<br>
+<tt>[20 Mar 2019]</tt> <strong><a href="2019/dsa-4411">DSA-4411 firefox-esr</a></strong> security update<br>
+<tt>[20 Mar 2019]</tt> <strong><a href="2019/dsa-4410">DSA-4410 openjdk-8</a></strong> security update<br>
+<tt>[18 Mar 2019]</tt> <strong><a href="2019/dsa-4409">DSA-4409 neutron</a></strong> security update<br>
+<tt>[17 Mar 2019]</tt> <strong><a href="2019/dsa-4408">DSA-4408 liblivemedia</a></strong> security update<br>
+<tt>[12 Mar 2019]</tt> <strong><a href="2019/dsa-4407">DSA-4407 xmltooling</a></strong> security update<br>
+<tt>[12 Mar 2019]</tt> <strong><a href="2019/dsa-4406">DSA-4406 waagent</a></strong> security update<br>
+<tt>[10 Mar 2019]</tt> <strong><a href="2019/dsa-4405">DSA-4405 openjpeg2</a></strong> security update<br>
+<tt>[09 Mar 2019]</tt> <strong><a href="2019/dsa-4404">DSA-4404 chromium</a></strong> security update<br>
+<tt>[08 Mar 2019]</tt> <strong><a href="2019/dsa-4403">DSA-4403 php7.0</a></strong> security update<br>
+<tt>[05 Mar 2019]</tt> <strong><a href="2019/dsa-4402">DSA-4402 mumble</a></strong> security update<br>
+<tt>[01 Mar 2019]</tt> <strong><a href="2019/dsa-4401">DSA-4401 wordpress</a></strong> security update<br>
+<tt>[28 Feb 2019]</tt> <strong><a href="2019/dsa-4400">DSA-4400 openssl1.0</a></strong> security update<br>
+<tt>[28 Feb 2019]</tt> <strong><a href="2019/dsa-4399">DSA-4399 ikiwiki</a></strong> security update<br>
+<tt>[28 Feb 2019]</tt> <strong><a href="2019/dsa-4398">DSA-4398 php7.0</a></strong> security update<br>
+<tt>[28 Feb 2019]</tt> <strong><a href="2019/dsa-4397">DSA-4397 ldb</a></strong> security update<br>
+</p>
+<p>The latest Debian security advisories are also available in
+<a href="dsa">RDF format</a>. We also offer a
+<a href="dsa-long">second file</a> that includes the first paragraph
+of the corresponding advisory so you can see in it what the advisory is
+about.</p>
+<p>The older security advisories are also available:
+ <a href="2019/">2019</a>, <a href="2018/">2018</a>, <a href="2017/">2017</a>, <a href="2016/">2016</a>, <a href="2015/">2015</a>, <a href="2014/">2014</a>, <a href="2013/">2013</a>, <a href="2012/">2012</a>, <a href="2011/">2011</a>, <a href="2010/">2010</a>, <a href="2009/">2009</a>, <a href="2008/">2008</a>, <a href="2007/">2007</a>, <a href="2006/">2006</a>, <a href="2005/">2005</a>, <a href="2004/">2004</a>, <a href="2003/">2003</a>, <a href="2002/">2002</a>, <a href="2001/">2001</a>, <a href="2000/">2000</a>, <a href="1999/">1999</a>, <a href="1998/">1998</a>, <a href="1997/">1997</a> and <a href="undated/">undated</a> security advisories, included for posterity.</p>
+<p>Debian distributions are not vulnerable to all security problems. The
+<a href="https://security-tracker.debian.org/">Debian Security Tracker</a>
+collects all information about the vulnerability status of Debian packages,
+and can be searched by CVE name or by package.</p>
+<h2><a name="contact" id="contact">Contact Information</a></h2>
+<p>Please read the <a href="faq">Security Team FAQ</a> before contacting us,
+your question may well be answered there already!</p>
+<p>The <a href="faq#contact">contact information is in the FAQ</a> as
+well.</p>
+<div class="clr"></div>
+</div> <!-- end content -->
+<div id="footer">
+<hr class="hidecss">
+<p>Back to the <a href="../">Debian Project homepage</a>.</p>
+<hr>
+<!--UdmComment-->
+<div id="pageLang">
+<div id="langSelector">
+This page is also available in the following languages:
+<div id="langContainer">
+ <a href="index.bg.html" title="Bulgarian" hreflang="bg" lang="bg" rel="alternate">&#1041;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080;&nbsp;(B&#601;lgarski)</a>
+ <a href="index.da.html" title="Danish" hreflang="da" lang="da" rel="alternate">dansk</a>
+ <a href="index.de.html" title="German" hreflang="de" lang="de" rel="alternate">Deutsch</a>
+ <a href="index.es.html" title="Spanish" hreflang="es" lang="es" rel="alternate">espa&ntilde;ol</a>
+ <a href="index.fr.html" title="French" hreflang="fr" lang="fr" rel="alternate">fran&ccedil;ais</a>
+ <a href="index.gl.html" title="Galician" hreflang="gl" lang="gl" rel="alternate">Galego</a>
+ <a href="index.hr.html" title="Croatian" hreflang="hr" lang="hr" rel="alternate">hrvatski</a>
+ <a href="index.it.html" title="Italian" hreflang="it" lang="it" rel="alternate">Italiano</a>
+ <a href="index.ko.html" title="Korean" hreflang="ko" lang="ko" rel="alternate">&#54620;&#44397;&#50612;&nbsp;(Korean)</a>
+ <a href="index.hu.html" title="Hungarian" hreflang="hu" lang="hu" rel="alternate">magyar</a>
+ <a href="index.nl.html" title="Dutch" hreflang="nl" lang="nl" rel="alternate">Nederlands</a>
+ <a href="index.ja.html" title="Japanese" hreflang="ja" lang="ja" rel="alternate">&#26085;&#26412;&#35486;&nbsp;(Nihongo)</a>
+ <a href="index.nb.html" title="Norwegian" hreflang="nb" lang="nb" rel="alternate">norsk&nbsp;(bokm&aring;l)</a>
+ <a href="index.pl.html" title="Polish" hreflang="pl" lang="pl" rel="alternate">polski</a>
+ <a href="index.pt.html" title="Portuguese" hreflang="pt" lang="pt" rel="alternate">Portugu&ecirc;s</a>
+ <a href="index.ro.html" title="Romanian" hreflang="ro" lang="ro" rel="alternate">rom&acirc;n&#259;</a>
+ <a href="index.ru.html" title="Russian" hreflang="ru" lang="ru" rel="alternate">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;&nbsp;(Russkij)</a>
+ <a href="index.sk.html" title="Slovak" hreflang="sk" lang="sk" rel="alternate">slovenÄina</a>
+ <a href="index.fi.html" title="Finnish" hreflang="fi" lang="fi" rel="alternate">suomi</a>
+ <a href="index.sv.html" title="Swedish" hreflang="sv" lang="sv" rel="alternate">svenska</a>
+ <a href="index.vi.html" title="Vietnamese" hreflang="vi" lang="vi" rel="alternate">Ti&#7871;ng Vi&#7879;t</a>
+ <a href="index.uk.html" title="Ukrainian" hreflang="uk" lang="uk" rel="alternate">&#1091;&#1082;&#1088;&#1072;&#1111;&#1085;&#1089;&#1100;&#1082;&#1072;&nbsp;(ukrajins'ka)</a>
+ <a href="index.zh-cn.html" title="Chinese (China)" hreflang="zh-CN" lang="zh-CN" rel="alternate">&#20013;&#25991;(&#31616;)</a>
+ <a href="index.zh-hk.html" title="Chinese (Hong Kong)" hreflang="zh-HK" lang="zh-HK" rel="alternate">&#20013;&#25991;(HK)</a>
+ <a href="index.zh-tw.html" title="Chinese (Taiwan)" hreflang="zh-TW" lang="zh-TW" rel="alternate">&#20013;&#25991;(&#32321;)</a>
+</div>
+How to set <a href="../intro/cn">the default document language</a>
+</div></div><!--/UdmComment-->
+<hr>
+<div id="footermap">
+<!--UdmComment-->
+<p><strong><a href="/">Home</a></strong></p>
+    <ul id="footermap-cola">
+		<li><a href="../intro/about">About</a>
+		  <ul>
+		  <li><a href="../social_contract">Social Contract</a></li>
+		  <li><a href="../code_of_conduct">Code of Conduct</a></li>
+		  <li><a href="../intro/free">Free Software</a></li>
+		  <li><a href="../partners/">Partners</a></li>
+		  <li><a href="../donations">Donations</a></li>
+          <li><a href="../legal">Legal Info</a></li>
+          <li><a href="../legal/privacy">Data Privacy</a></li>
+		  <li><a href="../contact">Contact Us</a></li>
+		  </ul>
+		</li>
+        <li><a href="../intro/help">Help Debian</a></li>
+    </ul>
+	<ul id="footermap-colb">
+			<li><a href="../distrib/">Getting Debian</a>
+			  <ul>
+			  <li><a href="../distrib/netinst">Network install</a></li>
+			  <li><a href="../CD/">CD/USB ISO images</a></li>
+			  <li><a href="../CD/vendors/">CD vendors</a></li>
+			  <li><a href="../distrib/pre-installed">Pre-installed</a></li>
+			  </ul>
+			</li>
+            <li><a href="../blends/">Pure Blends</a></li>
+			<li><a href="../distrib/packages">Debian Packages</a></li>
+			<li><a href="../devel/">Developers' Corner</a></li>
+	</ul>
+	<ul id="footermap-colc">
+		<li><a href="../News/">News</a>
+		  <ul>
+		  <li><a href="../News/weekly/">Project News</a></li>
+		  <li><a href="../events/">Events</a></li>
+		  </ul>
+		</li>
+    <li><a href="../doc/">Documentation</a>
+      <ul>
+      <li><a href="../releases/">Release Info</a></li>
+      <li><a href="../releases/stable/installmanual">Installation manual</a></li>
+      <li><a href="../doc/books">Debian Books</a></li>
+      <li><a href="https://wiki.debian.org/">Debian Wiki</a></li>
+      </ul>
+    </li>
+   </ul>
+   <ul id="footermap-cold">
+    <li><a href="../support">Support</a>
+	  <ul>
+			  <li><a href="../international/">Debian International</a></li>
+			  <li><a href="../security/">Security Information</a></li>
+			  <li><a href="../Bugs/">Bug reports</a></li>
+			  <li><a href="../MailingLists/">Mailing Lists</a></li>
+			  <li><a href="https://lists.debian.org/">Mailing List Archives</a></li>
+			  <li><a href="../ports/">Ports/Architectures</a></li>
+      </ul>
+    </li>
+</ul>
+<ul id="footermap-cole">
+  <li><a href="../misc/">Miscellaneous</a></li>
+  <li><a href="../sitemap">Site map</a></li>
+  <li><a href="https://search.debian.org/">Search</a></li>
+  <li><a href="https://bits.debian.org">The Debian Blog</a></li>
+  <li><a href="https://identi.ca/debian"><img src="../Pics/identica.png"
+  alt="follow debian on identi.ca!" width="80" height="15"></a></li>
+  <li><a href="https://planet.debian.org"><img src="../Pics/planet.png"
+  alt="follow debian on planet.debian.org!" width="80" height="15"></a></li>
+</ul>
+<!--/UdmComment-->
+</div> <!-- end footermap -->
+<div id="fineprint">
+  <p>To report a problem with the web site, please e-mail our publicly archived mailing list <a href="mailto:debian-www@lists.debian.org">debian-www@lists.debian.org</a> in English. For other contact information, see the Debian <a href="../contact">contact page</a>. Web site source code is <a href="https://salsa.debian.org/webmaster-team/webwml">available</a>.</p>
+<p>
+Last Modified: Fri, Jun 1 18:42:18 UTC 2018
+<br>
+Last Built: Sat, Mar 30 23:29:55 UTC 2019
+  <br>
+  Copyright &copy; 1997-2019
+ <a href="https://www.spi-inc.org/">SPI</a> and others; See <a href="../license" rel="copyright">license terms</a><br>
+  Debian is a registered <a href="../trademark">trademark</a> of Software in the Public Interest, Inc.
+</p>
+</div>
+</div> <!-- end footer -->
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Debian -- The Universal Operating System </title>
+  <link rel="author" href="mailto:webmaster@debian.org">
+  <meta name="Description" content="Debian is an operating system and a distribution of Free Software. It is maintained and updated through the work of many users who volunteer their time and effort.">
+  <meta name="Generator" content="WML 2.0.12 (16-Apr-2008)">
+  <meta name="Modified" content="2019-03-31 23:26:37">
+  <meta name="viewport" content="width=device-width">
+  <meta name="mobileoptimized" content="300">
+  <meta name="HandheldFriendly" content="true">
+<link rel="alternate" type="application/rss+xml"
+ title="Debian News" href="News/news">
+<link rel="alternate" type="application/rss+xml"
+ title="Debian Project News" href="News/weekly/dwn">
+<link rel="alternate" type="application/rss+xml"
+ title="Debian Security Advisories (titles only)" href="security/dsa">
+<link rel="alternate" type="application/rss+xml"
+ title="Debian Security Advisories (summaries)" href="security/dsa-long">
+<link href="./debhome.css" rel="stylesheet" type="text/css">
+  <link href="./debian-en.css" rel="stylesheet" type="text/css" media="all">
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="Keywords" content="debian, GNU, linux, unix, open source, free, DFSG">
+<link rel="search" type="application/opensearchdescription+xml" title="Debian website search" href="./search.en.xml">
+</head>
+<body>
+<div id="header">
+   <div id="upperheader">
+   <div id="logo">
+  <a href="./" title="Debian Home"><img src="./Pics/openlogo-50.png" alt="Debian" width="50" height="61"></a>
+  </div> <!-- end logo -->
+	<div id="searchbox">
+		<form name="p" method="get" action="https://search.debian.org/cgi-bin/omega">
+		<p>
+<input type="hidden" name="DB" value="en">
+			<input name="P" value="" size="27">
+			<input type="submit" value="Search">
+		</p>
+		</form>
+	</div>   <!-- end sitetools -->
+ </div> <!-- end upperheader -->
+<!--UdmComment-->
+<div id="navbar">
+<p class="hidecss"><a href="#content">Skip Quicknav</a></p>
+<ul>
+   <li><a href="intro/about">About Debian</a></li>
+   <li><a href="distrib/">Getting Debian</a></li>
+   <li><a href="./doc">Documentation</a></li>
+   <li><a href="./support">Support</a></li>
+   <li><a href="./devel/">Developers' Corner</a></li>
+</ul>
+</div> <!-- end navbar -->
+	<p id="breadcrumbs">&nbsp; </p>
+</div> <!-- end header -->
+<!--/UdmComment-->
+<div id="content">
+<span class="download"><a href="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.8.0-amd64-netinst.iso">Download Debian 9.8<em>(64-bit PC Network installer)</em></a> </span>
+<div id="splash">
+	<h1>Debian</h1>
+</div>
+<div id="intro">
+<p>Debian is a <a href="intro/free">free</a> operating system (OS) for your computer.
+An operating system is the set of basic programs and utilities that make
+your computer run.
+</p>
+<p>Debian provides more than a pure OS: it comes with over
+51000 <a href="distrib/packages">packages</a>, precompiled software bundled
+up in a nice format for easy installation on your machine. <a href="intro/about">Read more...</a></p>
+</div>
+<div id="hometoc">
+<!--UdmComment-->
+<ul id="hometoc-cola">
+  <li><a href="intro/about">About</a>
+    <ul>
+      <li><a href="./social_contract">Social Contract</a></li>
+      <li><a href="./code_of_conduct">Code of Conduct</a></li>
+      <li><a href="./intro/free">Free Software</a></li>
+      <li><a href="./partners/">Partners</a></li>
+      <li><a href="./donations">Donations</a></li>
+      <li><a href="./legal">Legal Info</a></li>
+      <li><a href="./legal/privacy">Data Privacy</a></li>
+      <li><a href="./contact">Contact Us</a></li>
+    </ul>
+  </li>
+  <li><a href="./intro/help">Help Debian</a></li>
+</ul>
+<ul id="hometoc-colb">
+  <li><a href="distrib/">Getting Debian</a>
+    <ul>
+      <li><a href="distrib/netinst">Network install</a></li>
+      <li><a href="./CD/">CD/USB ISO images</a></li>
+      <li><a href="./CD/vendors/">CD vendors</a></li>
+      <li><a href="distrib/pre-installed">Pre-installed</a></li>
+    </ul>
+  </li>
+  <li><a href="./blends/">Pure Blends</a></li>
+  <li><a href="distrib/packages">Debian Packages</a></li>
+  <li><a href="./devel/">Developers' Corner</a></li>
+</ul>
+<ul id="hometoc-colc">
+  <li><a href="./News/">News</a>
+  <ul>
+    <li><a href="./News/weekly/">Project News</a></li>
+    <li><a href="./events/">Events</a></li>
+  </ul>
+  </li>
+  <li><a href="doc/">Documentation</a>
+    <ul>
+      <li><a href="./releases/">Release Info</a></li>
+      <li><a href="./releases/stable/installmanual">Installation manual</a></li>
+      <li><a href="doc/books">Debian Books</a></li>
+      <li><a href="https://wiki.debian.org/">Debian Wiki</a></li>
+    </ul>
+  </li>
+</ul>
+<ul id="hometoc-cold">
+  <li><a href="./support">Support</a>
+    <ul>
+      <li><a href="./international/">Debian International</a></li>
+      <li><a href="./security/">Security Information</a></li>
+      <li><a href="Bugs/">Bug reports</a></li>
+      <li><a href="./MailingLists/">Mailing Lists</a></li>
+      <li><a href="https://lists.debian.org/">Mailing List Archives</a></li>
+      <li><a href="./ports/">Ports/Architectures</a></li>
+    </ul>
+  </li>
+</ul>
+<ul id="hometoc-cole">
+  <li><a href="misc/">Miscellaneous</a></li>
+  <li><a href="./sitemap">Site map</a></li>
+  <li><a href="https://search.debian.org/">Search</a></li>
+  <li><a href="https://bits.debian.org">The Debian Blog</a></li>
+  <li><a href="https://identi.ca/debian"><img src="Pics/identica.png"
+  alt="follow debian on identi.ca!" width="80" height="15"></a></li>
+  <li><a href="https://planet.debian.org"><img src="Pics/planet.png"
+  alt="follow debian on planet.debian.org!" width="80" height="15"></a></li>
+  </ul>
+<!--/UdmComment-->
+</div> <!-- end hometoc -->
+<p class="infobar">The <a href="releases/stable/">latest stable release of Debian</a> is
+9.8. The last update to this release was made on
+February 16th, 2019. Read more about <a href="releases/">available
+versions of Debian</a>.</p>
+<h2>Getting Started</h2>
+<p>Please use the navigation bar at the top of this page to access more content.</p>
+<p>In addition, users that speak languages other than English may check the
+<a href="international/">international</a> section, and, people who use systems other
+than Intel x86 should check the <a href="ports/">ports</a> section.</p>
+<hr>
+<a class="rss_logo" href="News/news">RSS</a>
+<h2>News</h2>
+<p><tt>[31 Mar 2019]</tt> <strong><a href="News/2019/20190331">The Debian Project mourns the loss of Innocent de Marchi</a></strong><br>
+<tt>[29 Mar 2019]</tt> <strong><a href="News/2019/20190329">Handshake donates $300,000 USD to Debian</a></strong><br>
+<tt>[08 Mar 2019]</tt> <strong><a href="News/2019/20190308">The Debian Project mourns the loss of Lucy Wayland</a></strong><br>
+<tt>[16 Feb 2019]</tt> <strong><a href="News/2019/20190216">Updated Debian 9: 9.8 released</a></strong><br>
+<tt>[23 Jan 2019]</tt> <strong><a href="News/2019/20190123">Updated Debian 9: 9.7 released</a></strong><br>
+<tt>[10 Nov 2018]</tt> <strong><a href="News/2018/20181110">Updated Debian 9: 9.6 released</a></strong><br>
+</p>
+<p>For older news items see the <a href="./News/">News Page</a>.
+If you would like to receive mail whenever new Debian news comes out, subscribe to the
+<a href="MailingLists/debian-announce">debian-announce mailing list</a>.</p>
+<hr>
+<a class="rss_logo" href="security/dsa">RSS</a>
+<h2>Security Advisories</h2>
+<p><tt>[30 Mar 2019]</tt> <strong><a href="security/2019/dsa-4420">DSA-4420 thunderbird</a></strong> - security update <br>
+<tt>[29 Mar 2019]</tt> <strong><a href="security/2019/dsa-4419">DSA-4419 twig</a></strong> - security update <br>
+<tt>[28 Mar 2019]</tt> <strong><a href="security/2019/dsa-4418">DSA-4418 dovecot</a></strong> - security update <br>
+<tt>[24 Mar 2019]</tt> <strong><a href="security/2019/dsa-4417">DSA-4417 firefox-esr</a></strong> - security update <br>
+<tt>[24 Mar 2019]</tt> <strong><a href="security/2019/dsa-4416">DSA-4416 wireshark</a></strong> - security update <br>
+<tt>[24 Mar 2019]</tt> <strong><a href="security/2019/dsa-4415">DSA-4415 passenger</a></strong> - security update <br>
+<tt>[23 Mar 2019]</tt> <strong><a href="security/2019/dsa-4414">DSA-4414 libapache2-mod-auth-mellon</a></strong> - security update <br>
+<tt>[21 Mar 2019]</tt> <strong><a href="security/2019/dsa-4413">DSA-4413 ntfs-3g</a></strong> - security update <br>
+<tt>[20 Mar 2019]</tt> <strong><a href="security/2019/dsa-4412">DSA-4412 drupal7</a></strong> - security update <br>
+<tt>[20 Mar 2019]</tt> <strong><a href="security/2019/dsa-4411">DSA-4411 firefox-esr</a></strong> - security update <br>
+<tt>[20 Mar 2019]</tt> <strong><a href="security/2019/dsa-4410">DSA-4410 openjdk-8</a></strong> - security update <br>
+<tt>[18 Mar 2019]</tt> <strong><a href="security/2019/dsa-4409">DSA-4409 neutron</a></strong> - security update <br>
+<tt>[17 Mar 2019]</tt> <strong><a href="security/2019/dsa-4408">DSA-4408 liblivemedia</a></strong> - security update <br>
+</p>
+<p>For older security advisories see the <A href="./security/">
+Security Page</a>.
+If you would like to receive security advisories as soon as they're announced, subscribe to the
+<a href="https://lists.debian.org/debian-security-announce/">debian-security-announce
+mailing list</a>.</p>
+<div class="clr"></div>
+</div> <!-- end content -->
+<div id="footer">
+  <hr class="hidecss">
+  <!--UdmComment-->
+<div id="pageLang">
+<div id="langSelector">
+This page is also available in the following languages:
+<div id="langContainer">
+ <a href="index.ar.html" title="Arabic" hreflang="ar" lang="ar" rel="alternate">&#1593;&#1585;&#1576;&#1610;&#1577;&nbsp;(Arabiya)</a>
+ <a href="index.bg.html" title="Bulgarian" hreflang="bg" lang="bg" rel="alternate">&#1041;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080;&nbsp;(B&#601;lgarski)</a>
+ <a href="index.ca.html" title="Catalan" hreflang="ca" lang="ca" rel="alternate">catal&agrave;</a>
+ <a href="index.cs.html" title="Czech" hreflang="cs" lang="cs" rel="alternate">&#269;esky</a>
+ <a href="index.da.html" title="Danish" hreflang="da" lang="da" rel="alternate">dansk</a>
+ <a href="index.de.html" title="German" hreflang="de" lang="de" rel="alternate">Deutsch</a>
+ <a href="index.el.html" title="Greek" hreflang="el" lang="el" rel="alternate">&#917;&#955;&#955;&#951;&#957;&#953;&#954;&#940;&nbsp;(Ellinika)</a>
+ <a href="index.es.html" title="Spanish" hreflang="es" lang="es" rel="alternate">espa&ntilde;ol</a>
+ <a href="index.eo.html" title="Esperanto" hreflang="eo" lang="eo" rel="alternate">Esperanto</a>
+ <a href="index.fa.html" title="Persian" hreflang="fa" lang="fa" rel="alternate">&#x0641;&#x0627;&#x0631;&#x0633;&#x06cc;&nbsp;(Farsi)</a>
+ <a href="index.fr.html" title="French" hreflang="fr" lang="fr" rel="alternate">fran&ccedil;ais</a>
+ <a href="index.gl.html" title="Galician" hreflang="gl" lang="gl" rel="alternate">Galego</a>
+ <a href="index.hy.html" title="Armenian" hreflang="hy" lang="hy" rel="alternate">&#1344;&#1377;&#1397;&#1381;&#1408;&#1381;&#1398;&nbsp;(hayeren)</a>
+ <a href="index.hr.html" title="Croatian" hreflang="hr" lang="hr" rel="alternate">hrvatski</a>
+ <a href="index.id.html" title="Indonesian" hreflang="id" lang="id" rel="alternate">Indonesia</a>
+ <a href="index.it.html" title="Italian" hreflang="it" lang="it" rel="alternate">Italiano</a>
+ <a href="index.he.html" title="Hebrew" hreflang="he" lang="he" rel="alternate">&#1506;&#1489;&#1512;&#1497;&#1514;&nbsp;(ivrit)</a>
+ <a href="index.ko.html" title="Korean" hreflang="ko" lang="ko" rel="alternate">&#54620;&#44397;&#50612;&nbsp;(Korean)</a>
+ <a href="index.lt.html" title="Lithuanian" hreflang="lt" lang="lt" rel="alternate">Lietuvi&#371;</a>
+ <a href="index.hu.html" title="Hungarian" hreflang="hu" lang="hu" rel="alternate">magyar</a>
+ <a href="index.nl.html" title="Dutch" hreflang="nl" lang="nl" rel="alternate">Nederlands</a>
+ <a href="index.ja.html" title="Japanese" hreflang="ja" lang="ja" rel="alternate">&#26085;&#26412;&#35486;&nbsp;(Nihongo)</a>
+ <a href="index.nb.html" title="Norwegian" hreflang="nb" lang="nb" rel="alternate">norsk&nbsp;(bokm&aring;l)</a>
+ <a href="index.pl.html" title="Polish" hreflang="pl" lang="pl" rel="alternate">polski</a>
+ <a href="index.pt.html" title="Portuguese" hreflang="pt" lang="pt" rel="alternate">Portugu&ecirc;s</a>
+ <a href="index.ro.html" title="Romanian" hreflang="ro" lang="ro" rel="alternate">rom&acirc;n&#259;</a>
+ <a href="index.ru.html" title="Russian" hreflang="ru" lang="ru" rel="alternate">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;&nbsp;(Russkij)</a>
+ <a href="index.sk.html" title="Slovak" hreflang="sk" lang="sk" rel="alternate">slovenÄina</a>
+ <a href="index.fi.html" title="Finnish" hreflang="fi" lang="fi" rel="alternate">suomi</a>
+ <a href="index.sv.html" title="Swedish" hreflang="sv" lang="sv" rel="alternate">svenska</a>
+ <a href="index.ta.html" title="Tamil" hreflang="ta" lang="ta" rel="alternate">&#2980;&#2990;&#3007;&#2996;&#3021;&nbsp;(Tamil)</a>
+ <a href="index.vi.html" title="Vietnamese" hreflang="vi" lang="vi" rel="alternate">Ti&#7871;ng Vi&#7879;t</a>
+ <a href="index.tr.html" title="Turkish" hreflang="tr" lang="tr" rel="alternate">T&uuml;rk&ccedil;e</a>
+ <a href="index.uk.html" title="Ukrainian" hreflang="uk" lang="uk" rel="alternate">&#1091;&#1082;&#1088;&#1072;&#1111;&#1085;&#1089;&#1100;&#1082;&#1072;&nbsp;(ukrajins'ka)</a>
+ <a href="index.zh-cn.html" title="Chinese (China)" hreflang="zh-CN" lang="zh-CN" rel="alternate">&#20013;&#25991;(&#31616;)</a>
+ <a href="index.zh-hk.html" title="Chinese (Hong Kong)" hreflang="zh-HK" lang="zh-HK" rel="alternate">&#20013;&#25991;(HK)</a>
+ <a href="index.zh-tw.html" title="Chinese (Taiwan)" hreflang="zh-TW" lang="zh-TW" rel="alternate">&#20013;&#25991;(&#32321;)</a>
+</div>
+How to set <a href="./intro/cn">the default document language</a>
+</div></div><!--/UdmComment-->
+<hr>
+<!--UdmComment-->
+<div id="fineprint">
+  <p>To report a problem with the web site, please e-mail our publicly archived mailing list <a href="mailto:debian-www@lists.debian.org">debian-www@lists.debian.org</a> in English. For other contact information, see the Debian <a href="./contact">contact page</a>. Web site source code is <a href="https://salsa.debian.org/webmaster-team/webwml">available</a>.</p>
+<p>
+Last Modified: Fri, Mar 22 19:25:09 UTC 2019
+<br>
+Last Built: Sun, Mar 31 23:26:37 UTC 2019
+  <br>
+  Copyright &copy; 1997-2019
+ <a href="https://www.spi-inc.org/">SPI</a> and others; See <a href="./license" rel="copyright">license terms</a><br>
+  Debian is a registered <a href="./trademark">trademark</a> of Software in the Public Interest, Inc.
+</p>
+</div>
+<!--/UdmComment-->
+</div> <!-- end footer -->
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Debian -- Security Information </title>
+  <link rel="author" href="mailto:webmaster@debian.org">
+  <meta name="Generator" content="WML 2.0.12 (16-Apr-2008)">
+  <meta name="Modified" content="2019-03-30 23:29:54">
+  <meta name="viewport" content="width=device-width">
+  <meta name="mobileoptimized" content="300">
+  <meta name="HandheldFriendly" content="true">
+<link rel="alternate" type="application/rss+xml"
+ title="Debian Security Advisories (titles only)" href="dsa">
+<link rel="alternate" type="application/rss+xml"
+ title="Debian Security Advisories (summaries)" href="dsa-long">
+<link href="../debian.css" rel="stylesheet" type="text/css">
+  <link href="../debian-en.css" rel="stylesheet" type="text/css" media="all">
+<link rel="search" type="application/opensearchdescription+xml" title="Debian website search" href="../search.en.xml">
+</head>
+<body>
+<div id="header">
+   <div id="upperheader">
+   <div id="logo">
+  <a href="../" title="Debian Home"><img src="../Pics/openlogo-50.png" alt="Debian" width="50" height="61"></a>
+  </div> <!-- end logo -->
+	<div id="searchbox">
+		<form name="p" method="get" action="https://search.debian.org/cgi-bin/omega">
+		<p>
+<input type="hidden" name="DB" value="en">
+			<input name="P" value="" size="27">
+			<input type="submit" value="Search">
+		</p>
+		</form>
+	</div>   <!-- end sitetools -->
+ </div> <!-- end upperheader -->
+<!--UdmComment-->
+<div id="navbar">
+<p class="hidecss"><a href="#content">Skip Quicknav</a></p>
+<ul>
+   <li><a href="../intro/about">About Debian</a></li>
+   <li><a href="../distrib/">Getting Debian</a></li>
+   <li><a href="../doc">Documentation</a></li>
+   <li><a href="../support">Support</a></li>
+   <li><a href="../devel/">Developers' Corner</a></li>
+</ul>
+</div> <!-- end navbar -->
+<p id="breadcrumbs">
+Security Information</p>
+</div> <!-- end header -->
+<!--/UdmComment-->
+<div id="content">
+<h1>Security Information</h1>
+<ul class="toc">
+  <li><a href="#keeping-secure">Keeping your Debian system secure</a></li>
+  <li><a href="#DSAS">Recent Advisories</a></li>
+  <li><a href="#contact">Contact Information</a></li>
+</ul>
+<p>Debian takes security very seriously. We handle all security problems
+brought to our attention and ensure that they are corrected within
+a reasonable timeframe.
+Many advisories are coordinated with other free software vendors
+and are published the same day a vulnerability is made public and
+we also have a <a href="audit/">Security Audit</a> team that reviews
+the archive looking for new or unfixed security bugs.</p>
+<p>Experience has shown that <q>security through obscurity</q> does not work. Public
+disclosure allows for more rapid and better solutions to security problems. In
+that vein, this page addresses Debian's status with respect to various known
+security holes, which could potentially affect Debian.</p>
+<p>Debian also participates in security standardization efforts:
+the <a href="#DSAS">Debian Security Advisories</a> are
+<a href="cve-compatibility">CVE-Compatible</a>
+(review the <a href="crossreferences">cross references</a>)
+and Debian is represented in the Board of the
+<a href="https://oval.cisecurity.org/">Open Vulnerability Assessment Language</a> project.
+</p>
+<h2><a name="keeping-secure" id="keeping-secure">Keeping your Debian system secure</a></h2>
+<p>In order to receive the latest Debian security advisories, subscribe to
+the <a href="https://lists.debian.org/debian-security-announce/">debian-security-announce</a> mailing list.</p>
+<p>You can use <a href="https://packages.debian.org/stable/admin/apt">apt</a>
+to easily get the latest security updates.
+This requires a line such as
+</p>
+<div class="centerblock">
+<p>
+<code>deb&nbsp;http://security.debian.org/debian-security&nbsp;stretch/updates&nbsp;main&nbsp;contrib&nbsp;non-free</code>
+</p>
+</div>
+<p>
+in your <CODE>/etc/apt/sources.list</CODE> file. Then execute
+<kbd>apt-get update &amp;&amp; apt-get upgrade</kbd> to download and apply
+the pending updates.
+The security archive is signed with the normal Debian archive
+<a href="https://ftp-master.debian.org/keys.html">signing keys</a>.
+</p>
+<p>For more information about security issues in Debian, please refer to
+the <a href="faq">Security Team FAQ</a> and a manual called
+<a href="../doc/user-manuals#securing">Securing Debian</a>.</p>
+<a class="rss_logo" href="dsa">RSS</a>
+<h2><a name="DSAS" id="DSAS">Recent Advisories</a></h2>
+<p>These web pages include a condensed archive of security advisories posted to
+the <a href="https://lists.debian.org/debian-security-announce/">debian-security-announce</a> list.
+<p>
+<tt>[30 Mar 2019]</tt> <strong><a href="2019/dsa-4420">DSA-4420 thunderbird</a></strong> security update<br>
+<tt>[29 Mar 2019]</tt> <strong><a href="2019/dsa-4419">DSA-4419 twig</a></strong> security update<br>
+<tt>[28 Mar 2019]</tt> <strong><a href="2019/dsa-4418">DSA-4418 dovecot</a></strong> security update<br>
+<tt>[24 Mar 2019]</tt> <strong><a href="2019/dsa-4417">DSA-4417 firefox-esr</a></strong> security update<br>
+<tt>[24 Mar 2019]</tt> <strong><a href="2019/dsa-4416">DSA-4416 wireshark</a></strong> security update<br>
+<tt>[24 Mar 2019]</tt> <strong><a href="2019/dsa-4415">DSA-4415 passenger</a></strong> security update<br>
+<tt>[23 Mar 2019]</tt> <strong><a href="2019/dsa-4414">DSA-4414 libapache2-mod-auth-mellon</a></strong> security update<br>
+<tt>[21 Mar 2019]</tt> <strong><a href="2019/dsa-4413">DSA-4413 ntfs-3g</a></strong> security update<br>
+<tt>[20 Mar 2019]</tt> <strong><a href="2019/dsa-4412">DSA-4412 drupal7</a></strong> security update<br>
+<tt>[20 Mar 2019]</tt> <strong><a href="2019/dsa-4411">DSA-4411 firefox-esr</a></strong> security update<br>
+<tt>[20 Mar 2019]</tt> <strong><a href="2019/dsa-4410">DSA-4410 openjdk-8</a></strong> security update<br>
+<tt>[18 Mar 2019]</tt> <strong><a href="2019/dsa-4409">DSA-4409 neutron</a></strong> security update<br>
+<tt>[17 Mar 2019]</tt> <strong><a href="2019/dsa-4408">DSA-4408 liblivemedia</a></strong> security update<br>
+<tt>[12 Mar 2019]</tt> <strong><a href="2019/dsa-4407">DSA-4407 xmltooling</a></strong> security update<br>
+<tt>[12 Mar 2019]</tt> <strong><a href="2019/dsa-4406">DSA-4406 waagent</a></strong> security update<br>
+<tt>[10 Mar 2019]</tt> <strong><a href="2019/dsa-4405">DSA-4405 openjpeg2</a></strong> security update<br>
+<tt>[09 Mar 2019]</tt> <strong><a href="2019/dsa-4404">DSA-4404 chromium</a></strong> security update<br>
+<tt>[08 Mar 2019]</tt> <strong><a href="2019/dsa-4403">DSA-4403 php7.0</a></strong> security update<br>
+<tt>[05 Mar 2019]</tt> <strong><a href="2019/dsa-4402">DSA-4402 mumble</a></strong> security update<br>
+<tt>[01 Mar 2019]</tt> <strong><a href="2019/dsa-4401">DSA-4401 wordpress</a></strong> security update<br>
+<tt>[28 Feb 2019]</tt> <strong><a href="2019/dsa-4400">DSA-4400 openssl1.0</a></strong> security update<br>
+<tt>[28 Feb 2019]</tt> <strong><a href="2019/dsa-4399">DSA-4399 ikiwiki</a></strong> security update<br>
+<tt>[28 Feb 2019]</tt> <strong><a href="2019/dsa-4398">DSA-4398 php7.0</a></strong> security update<br>
+<tt>[28 Feb 2019]</tt> <strong><a href="2019/dsa-4397">DSA-4397 ldb</a></strong> security update<br>
+</p>
+<p>The latest Debian security advisories are also available in
+<a href="dsa">RDF format</a>. We also offer a
+<a href="dsa-long">second file</a> that includes the first paragraph
+of the corresponding advisory so you can see in it what the advisory is
+about.</p>
+<p>The older security advisories are also available:
+ <a href="2019/">2019</a>, <a href="2018/">2018</a>, <a href="2017/">2017</a>, <a href="2016/">2016</a>, <a href="2015/">2015</a>, <a href="2014/">2014</a>, <a href="2013/">2013</a>, <a href="2012/">2012</a>, <a href="2011/">2011</a>, <a href="2010/">2010</a>, <a href="2009/">2009</a>, <a href="2008/">2008</a>, <a href="2007/">2007</a>, <a href="2006/">2006</a>, <a href="2005/">2005</a>, <a href="2004/">2004</a>, <a href="2003/">2003</a>, <a href="2002/">2002</a>, <a href="2001/">2001</a>, <a href="2000/">2000</a>, <a href="1999/">1999</a>, <a href="1998/">1998</a>, <a href="1997/">1997</a> and <a href="undated/">undated</a> security advisories, included for posterity.</p>
+<p>Debian distributions are not vulnerable to all security problems. The
+<a href="https://security-tracker.debian.org/">Debian Security Tracker</a>
+collects all information about the vulnerability status of Debian packages,
+and can be searched by CVE name or by package.</p>
+<h2><a name="contact" id="contact">Contact Information</a></h2>
+<p>Please read the <a href="faq">Security Team FAQ</a> before contacting us,
+your question may well be answered there already!</p>
+<p>The <a href="faq#contact">contact information is in the FAQ</a> as
+well.</p>
+<div class="clr"></div>
+</div> <!-- end content -->
+<div id="footer">
+<hr class="hidecss">
+<p>Back to the <a href="../">Debian Project homepage</a>.</p>
+<hr>
+<!--UdmComment-->
+<div id="pageLang">
+<div id="langSelector">
+This page is also available in the following languages:
+<div id="langContainer">
+ <a href="index.bg.html" title="Bulgarian" hreflang="bg" lang="bg" rel="alternate">&#1041;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080;&nbsp;(B&#601;lgarski)</a>
+ <a href="index.da.html" title="Danish" hreflang="da" lang="da" rel="alternate">dansk</a>
+ <a href="index.de.html" title="German" hreflang="de" lang="de" rel="alternate">Deutsch</a>
+ <a href="index.es.html" title="Spanish" hreflang="es" lang="es" rel="alternate">espa&ntilde;ol</a>
+ <a href="index.fr.html" title="French" hreflang="fr" lang="fr" rel="alternate">fran&ccedil;ais</a>
+ <a href="index.gl.html" title="Galician" hreflang="gl" lang="gl" rel="alternate">Galego</a>
+ <a href="index.hr.html" title="Croatian" hreflang="hr" lang="hr" rel="alternate">hrvatski</a>
+ <a href="index.it.html" title="Italian" hreflang="it" lang="it" rel="alternate">Italiano</a>
+ <a href="index.ko.html" title="Korean" hreflang="ko" lang="ko" rel="alternate">&#54620;&#44397;&#50612;&nbsp;(Korean)</a>
+ <a href="index.hu.html" title="Hungarian" hreflang="hu" lang="hu" rel="alternate">magyar</a>
+ <a href="index.nl.html" title="Dutch" hreflang="nl" lang="nl" rel="alternate">Nederlands</a>
+ <a href="index.ja.html" title="Japanese" hreflang="ja" lang="ja" rel="alternate">&#26085;&#26412;&#35486;&nbsp;(Nihongo)</a>
+ <a href="index.nb.html" title="Norwegian" hreflang="nb" lang="nb" rel="alternate">norsk&nbsp;(bokm&aring;l)</a>
+ <a href="index.pl.html" title="Polish" hreflang="pl" lang="pl" rel="alternate">polski</a>
+ <a href="index.pt.html" title="Portuguese" hreflang="pt" lang="pt" rel="alternate">Portugu&ecirc;s</a>
+ <a href="index.ro.html" title="Romanian" hreflang="ro" lang="ro" rel="alternate">rom&acirc;n&#259;</a>
+ <a href="index.ru.html" title="Russian" hreflang="ru" lang="ru" rel="alternate">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;&nbsp;(Russkij)</a>
+ <a href="index.sk.html" title="Slovak" hreflang="sk" lang="sk" rel="alternate">slovenÄina</a>
+ <a href="index.fi.html" title="Finnish" hreflang="fi" lang="fi" rel="alternate">suomi</a>
+ <a href="index.sv.html" title="Swedish" hreflang="sv" lang="sv" rel="alternate">svenska</a>
+ <a href="index.vi.html" title="Vietnamese" hreflang="vi" lang="vi" rel="alternate">Ti&#7871;ng Vi&#7879;t</a>
+ <a href="index.uk.html" title="Ukrainian" hreflang="uk" lang="uk" rel="alternate">&#1091;&#1082;&#1088;&#1072;&#1111;&#1085;&#1089;&#1100;&#1082;&#1072;&nbsp;(ukrajins'ka)</a>
+ <a href="index.zh-cn.html" title="Chinese (China)" hreflang="zh-CN" lang="zh-CN" rel="alternate">&#20013;&#25991;(&#31616;)</a>
+ <a href="index.zh-hk.html" title="Chinese (Hong Kong)" hreflang="zh-HK" lang="zh-HK" rel="alternate">&#20013;&#25991;(HK)</a>
+ <a href="index.zh-tw.html" title="Chinese (Taiwan)" hreflang="zh-TW" lang="zh-TW" rel="alternate">&#20013;&#25991;(&#32321;)</a>
+</div>
+How to set <a href="../intro/cn">the default document language</a>
+</div></div><!--/UdmComment-->
+<hr>
+<div id="footermap">
+<!--UdmComment-->
+<p><strong><a href="/">Home</a></strong></p>
+    <ul id="footermap-cola">
+		<li><a href="../intro/about">About</a>
+		  <ul>
+		  <li><a href="../social_contract">Social Contract</a></li>
+		  <li><a href="../code_of_conduct">Code of Conduct</a></li>
+		  <li><a href="../intro/free">Free Software</a></li>
+		  <li><a href="../partners/">Partners</a></li>
+		  <li><a href="../donations">Donations</a></li>
+          <li><a href="../legal">Legal Info</a></li>
+          <li><a href="../legal/privacy">Data Privacy</a></li>
+		  <li><a href="../contact">Contact Us</a></li>
+		  </ul>
+		</li>
+        <li><a href="../intro/help">Help Debian</a></li>
+    </ul>
+	<ul id="footermap-colb">
+			<li><a href="../distrib/">Getting Debian</a>
+			  <ul>
+			  <li><a href="../distrib/netinst">Network install</a></li>
+			  <li><a href="../CD/">CD/USB ISO images</a></li>
+			  <li><a href="../CD/vendors/">CD vendors</a></li>
+			  <li><a href="../distrib/pre-installed">Pre-installed</a></li>
+			  </ul>
+			</li>
+            <li><a href="../blends/">Pure Blends</a></li>
+			<li><a href="../distrib/packages">Debian Packages</a></li>
+			<li><a href="../devel/">Developers' Corner</a></li>
+	</ul>
+	<ul id="footermap-colc">
+		<li><a href="../News/">News</a>
+		  <ul>
+		  <li><a href="../News/weekly/">Project News</a></li>
+		  <li><a href="../events/">Events</a></li>
+		  </ul>
+		</li>
+    <li><a href="../doc/">Documentation</a>
+      <ul>
+      <li><a href="../releases/">Release Info</a></li>
+      <li><a href="../releases/stable/installmanual">Installation manual</a></li>
+      <li><a href="../doc/books">Debian Books</a></li>
+      <li><a href="https://wiki.debian.org/">Debian Wiki</a></li>
+      </ul>
+    </li>
+   </ul>
+   <ul id="footermap-cold">
+    <li><a href="../support">Support</a>
+	  <ul>
+			  <li><a href="../international/">Debian International</a></li>
+			  <li><a href="../security/">Security Information</a></li>
+			  <li><a href="../Bugs/">Bug reports</a></li>
+			  <li><a href="../MailingLists/">Mailing Lists</a></li>
+			  <li><a href="https://lists.debian.org/">Mailing List Archives</a></li>
+			  <li><a href="../ports/">Ports/Architectures</a></li>
+      </ul>
+    </li>
+</ul>
+<ul id="footermap-cole">
+  <li><a href="../misc/">Miscellaneous</a></li>
+  <li><a href="../sitemap">Site map</a></li>
+  <li><a href="https://search.debian.org/">Search</a></li>
+  <li><a href="https://bits.debian.org">The Debian Blog</a></li>
+  <li><a href="https://identi.ca/debian"><img src="../Pics/identica.png"
+  alt="follow debian on identi.ca!" width="80" height="15"></a></li>
+  <li><a href="https://planet.debian.org"><img src="../Pics/planet.png"
+  alt="follow debian on planet.debian.org!" width="80" height="15"></a></li>
+</ul>
+<!--/UdmComment-->
+</div> <!-- end footermap -->
+<div id="fineprint">
+  <p>To report a problem with the web site, please e-mail our publicly archived mailing list <a href="mailto:debian-www@lists.debian.org">debian-www@lists.debian.org</a> in English. For other contact information, see the Debian <a href="../contact">contact page</a>. Web site source code is <a href="https://salsa.debian.org/webmaster-team/webwml">available</a>.</p>
+<p>
+Last Modified: Fri, Jun 1 18:42:18 UTC 2018
+<br>
+Last Built: Sat, Mar 30 23:29:55 UTC 2019
+  <br>
+  Copyright &copy; 1997-2019
+ <a href="https://www.spi-inc.org/">SPI</a> and others; See <a href="../license" rel="copyright">license terms</a><br>
+  Debian is a registered <a href="../trademark">trademark</a> of Software in the Public Interest, Inc.
+</p>
+</div>
+</div> <!-- end footer -->
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

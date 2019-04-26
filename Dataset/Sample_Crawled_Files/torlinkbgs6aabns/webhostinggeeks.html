@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Science | WebHostingGeeks.com: Kako da: instalirate skriptu Nmap</title>
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="copyright" content="Web Hosting Geeks">
+	<link rel="stylesheet" type="text/css" media="screen" href="http://science.webhostinggeeks.com/css.php?n=css_perfect" />
+	<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NDH4JG');</script>
+<!-- End Google Tag Manager -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>	
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDH4JG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="back"><a href="http://webhostinggeeks.com/">Back to site</a></div>
+<div class="container">
+<div class="header_container">
+<div class="header">
+<div class="header_logo"><img alt="Web Hosting Geeks | Web Hosting Experts" src="https://webhostinggeeks.com/images/new_design/logo.png" class="logoImage" height="95" width="220"></a></div>
+<div class="header_slogan">Since 2004, our University project has become the Internet's most widespread web hosting directory. Here we like to talk a lot about web servers, web development, networking and security services. It is, after all, our expertise. To make things better we've launched this science section with the free access to educational resources and important scientific material translated to different languages.</div>
+</div>
+</div>
+
+
+	
+
+<div class="vice_title"></div>
+<div class="links">
+
+	
+		Source: <a rel="nofollow" href="http://www.skullsecurity.org/blog/2010/how-to-install-an-nmap-script-2" >
+			http://www.skullsecurity.org/blog/2010/how-to-install-an-nmap-script-2</a>
+	
+
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+</div>
+
+
+<h1><span>Kako da: instalirate skriptu&#160;Nmap</span>
+</h1>
+
+<div class="pre">
+<style>
+body p+p {
+text-indent: 0em;
+}
+</style>
+
+<style>
+body
+{background-color:#000000; 
+}
+</style>
+
+
+<style>
+.sadrzaj {
+text-align: justify;
+background: white;
+margin-left: auto;
+margin-right: auto;
+border-width: 0;
+padding: 0 0 0 0;
+width: 650px;
+font: 11px Verdana,Arial,Helvetica,sans-serif;
+color:rgb(192, 192, 192);
+} </style>
+<div class="sadrzaj">   
+
+<div style="background-color:#252422;1px solid black;padding:20px;">
+
+
+<p>Hej svima,
+
+<p>Äesto uhvatim sebe da objaÅ¡njavam ljudima kako da instaliraju skriptu koja nije ukljuÄena u Nmap. Umesto da ga piÅ¡em iznova i iznova, to je brz tutorijal.
+
+<h4><font color=#989C50>Korak 1: Shvatiti gde se skripte  Äuvaju</font></h4>
+
+<p>Prvo, morate da saznate gde su skripte  instalirane. NajlakÅ¡i naÄin da to uradite jeste da pretraÅ¾ujete ha harddrive-r za * NSE datoteku.</p>
+
+<p>Windows:</p>
+<pre><div style="background-color:#3A3936;border:1px solid #000000;padding:5px;">Windows Key + F, *.nse</div></pre>
+
+
+<p>Linux:</p>
+<pre><div style="background-color:#3A3936;border:1px solid #000000;padding:5px;">find / -name '*.nse'
+locate *.nse</div></pre>
+<p><img src="http://www.skullsecurity.org/blogdata/installing-scripts-1.png" /></p>
+<p>UobiÄajena mesta su:</p>
+<pre><div style="background-color:#3A3936;border:1px solid #000000;padding:5px;">c:\Program Files\Nmap\Scripts
+/usr/share/nmap/scripts
+/usr/local/share/nmap/scripts</div></pre>
+<p>Dok ste u njoj, u istoj fascikli kao "skripti", trebalo bi da postoji joÅ¡ jedan folder pod nazivom
+
+'nselib ', koji sadrÅ¾i fajlove sa imenima * Lua.. To je mesto gde idu biblioteke obiÄno.</p>
+
+<h4><font color=#989C50>Korak 2: Dobiti skriptu + biblioteke</font></h4>
+
+<p>ObiÄno Äu Vam dati link ka Nse. fajlu. Sve Å¡to treba da uradite je da ga preuzmete i kopirate ga u jednu od navedenih direktorijuma. Ako postoje biblioteke koje idu sa njim (. Lua files(.Lua fajlovi)), kopirajte ih u folder nselib.</p>
+
+<p>Ili, moÅ¾da Äete moÄi da ih preuzmete sa sajta Nmap, obiÄno u <a rel="nofollow" href="http://nmap.org/svn/scripts/" target="_blank"><font color=#989C50><U>scripts folder</U></font></a>  .</p>
+
+<p><img src="http://www.skullsecurity.org/blogdata/installing-scripts-2.png" /></p>
+
+
+<h4><font color=#989C50>Korak 3: AÅ¾uriranje  baza podataka skripti (opciono )</font></h4>
+
+<p>Ako Å¾elite da pokrenete skriptu pomoÄu dÅ¾oker znaka ili kategorije, morate da pokrenete Nmap scenario aÅ¾uiranu komandu:
+
+<br/>$ nmap -- skript-updatedb</p>
+
+<p>Napomena: Ako ste u redu sa Äime se daje puni naziv skripta, ovo nije neophodno.</p>
+
+<h4><font color=#989C50>Korak 4: Pokreni ga</font></h4>
+
+<p>Poslednji korak je da pokrenete skriptu. Bilo da ste na komandne ili da koristite Zenmap, argument je isti: - skripta &lt;scriptname></p>
+
+<p><img src="http://www.skullsecurity.org/blogdata/installing-scripts-3.png" /></p>
+
+<h4><font color=#989C50>ZakljuÄak</font></h4>
+
+<p>Dakle, u osnovi, moÅ¾ete naÄi putanju gde su saÄuvane skripte, kopirajte tu skriptu, i pokrenite je. Jednostavno!</p>
+
+<p>Sada mogu da se poveÅ¾em na ovaj post kad god piÅ¡em novi scenario! :)</p>
+
+<p>Ron</p></div></div><br><br><br><br>
+</div>
+
+<div class="published for_li">Published (Last edited): 29-04-2013
+
+	
+		, source: <a rel="nofollow" href="http://www.skullsecurity.org/blog/2010/how-to-install-an-nmap-script-2" >
+			http://www.skullsecurity.org/blog/2010/how-to-install-an-nmap-script-2
+		</a>
+	
+
+
+
+
+	
+
+
+	
+
+
+	
+</div>
+
+</div>
+
+
+<div class="container">
+
+<div id="Footer">
+
+<div class="left-footer">
+<div class="left-footer-block">
+<h4><a href="https://webhostinggeeks.com">Web Hosting Geeks</a></h4>
+<a href="https://webhostinggeeks.com/providers">Hosting Providers</a><br>
+<a href="https://webhostinggeeks.com/blog/">Geeks' Blog</a><br>
+<a href="https://answers.webhostinggeeks.com/">Talk to the experts</a><br>
+<a href="https://webhostinggeeks.com/guides/">Free Hosting Guides</a><br>
+<a href="https://webhostinggeeks.com/providers-registration">Register Hosting Company</a><br>
+<a href="https://webhostinggeeks.com/contact-usâ>Contacts Us</a><br>
+<a href="https://webhostinggeeks.com/terms-of-use">Terms of Use</a><br>
+<a href="https://webhostinggeeks.com/privacy">Privacy Policy</a><br>
+</div>
+<div class="left-footer-block">
+<h4><a href="https://webhostinggeeks.com/best-hosting">Best Web Hosting</a></h4>
+<a href="https://webhostinggeeks.com/best-shared-hosting">Shared</a><br>
+<a href="https://webhostinggeeks.com/best-vps-hosting">VPS</a><br>
+<a href="https://webhostinggeeks.com/best-dedicated-hosting">Dedicated</a><br>
+<a href="https://webhostinggeeks.com/best-reseller-hosting">Reseller</a><br>
+<a href="https://webhostinggeeks.com/best-ecommerce-hostingâ>E-commerce</a><br>
+<a href="https://webhostinggeeks.com/best-blog-hosting">Blog Hosting</a><br>
+<a href="https://webhostinggeeks.com/best-unix-hosting">Unix</a><br>
+<a href="https://webhostinggeeks.com/best-windows-hosting">Windows</a><br>
+</div>
+<div class="left-footer-block">
+<h4><a href="https://webhostinggeeks.com/reviews">Web Hosting Reviews</a><br></h4>
+<a href="https://webhostinggeeks.com/providers/inmotion-hosting">Inmotion Hosting</a><br>
+<a href="https://webhostinggeeks.com/providers/web-hosting-hub">WebHostingHub</a><br>
+<a href="https://webhostinggeeks.com/providers/ipage">iPage</a><br>
+<a href="https://webhostinggeeks.com/providers/fatcow">FatCow</a><br>
+<a href="https://webhostinggeeks.com/providers/hostgator">HostGator</a><br>
+<a href="https://webhostinggeeks.com/providers/arvixe">Arvixe</a><br>
+<a href="http://webhostinggeeks.com/providers/greengeeks">GreenGeeks</a><br>
+<a href="http://webhostinggeeks.com/providers/godaddy">GoDaddy</a><br>
+</div>
+</div>
+
+<div class="right-footer" id="footer_social">
+Copyright &copy; 2004 &ndash; 2019 WebHostingGeeks.com.<br />
+Independent reviews and ratings of web hosting services by real customers.
+<br /><br />
+<g:plusone size="medium" annotation="inline" width="265" href="https://webhostinggeeks.com/"></g:plusone>
+</div>
+    
+</div><br /><br /></div>
+
+</body>
+</html>
+
+
+#####EOF#####
+
+
