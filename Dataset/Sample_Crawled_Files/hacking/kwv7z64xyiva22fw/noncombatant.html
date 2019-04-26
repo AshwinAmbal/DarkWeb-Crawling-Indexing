@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Security As A Class Of Interface Guarantee</title>
+<link rel="alternate" type="application/rss+xml" href="/feed/" title="Noncombatant.org"/>
+<link rel="stylesheet" href="/style.css"/>
+<meta name="author" content="Chris Palmer">
+<body>
+<div class="marginbox">
+<nav>
+<a href="/">Noncombatant</a> ð
+<a href="/about/">About</a> ð¤
+<a href="/publications/">Other Writing</a> ð§
+<a href="https://instagram.com/fugueish">Instagram</a> ð¸
+<a href="https://noncombatant.bandcamp.com/">Bandcamp</a> ðµ
+</nav>
+<h1>Security As A Class Of Interface Guarantee</h1>
+
+<time>10 August 2014 23:45 UTC</time>
+
+<div id="toc"></div>
+
+<p>This post is anÂ attempt to pin down my intuition that an âinterfaceâ, broadly
+defined, can be a productive conceptual frame for a wide variety of security
+problems and solutions. I canât promise that this post makes total sense; itâs
+just thinking out loud at this point.</p>
+
+<p>There are many ways to understand software security engineering. One
+(all-too-)prevalent view is of security as a cat-and-mouse game: by hook or by
+crook, any little thing you can do to attack or avoid being attacked counts as
+âsecurity engineeringâ. Especially for defenders, this view leads directly to
+failure. Itâs analogous to micro-optimizing a fragment of code (a) before
+profiling it to see if itâs really a hot spot; (b) without testing to see if the
+micro-optimizations help or hurt; and (c) without any quantified performance
+target.</p>
+
+<p>For example, consider a web application firewall (WAF). People often buy
+these to âsecureâ their web applications, saying things like, âHey, even if the
+web application is well-engineered, <a
+href="http://en.wiktionary.org/wiki/belt_and_suspenders">belt and suspenders,
+right</a>?! Belt and suspenders!â But ask: How much does the WAF cost to buy?
+How much does it cost to install, configure, and run? Who looks at its logs and
+reports, and how much does that personâs time cost? (Donât forget the
+opportunity cost.)</p>
+
+<p>How does the WAF affect the applicationâs performance and reliability?
+Possibly not well.</p>
+
+<p>How much attack surface does the WAF itself create and expose? Often, a WAF
+can create significant new risk. I once found an XSS vulnerability in a web
+application, and ran a demonstration exploit so I could document that it worked.
+No big surprise there. After a while, a guy came up to me and said he was he WAF
+operator for that app, and did these weird pop-ups he kept seeing have anything
+to do with my security testing? I didnât even know the app was (supposedly)
+being protected by a WAF, but I had accidentally exploited both the app and the
+WAF in one shot.</p>
+
+<p>AÂ correct WAF configuration is equivalent to fixing the bug in the original
+application. Why not just do that?</p>
+
+<p>I want to forget all about both belts and suspenders; instead, I want to buy
+pants that actually fit.</p>
+
+<aside>A note on terminology: In this blog post, Iâll use the
+termÂ <strong>interface</strong> to mean any of:Â user interface, programming
+language syntax and semantics, in-process API, system call, RPC and network
+protocol, orÂ <a href="https://eprint.iacr.org/2007/399.pdf">ceremony</a>. Iâll
+useÂ <strong>guarantee</strong> to include design contracts with explicit
+non-guarantees. Iâll useÂ <strong>caller</strong> to mean any of: human
+programmer, human user, call-site in source code, or requesting network protocol
+peer. AÂ <strong>callee</strong> is a person who receives a message (e.g. an
+individual or the operator of a remoteÂ service), an API or library
+implementation or other in-process called function, or an RPC or network
+protocol respondent. AnÂ <strong>interface definition</strong> is any
+programmatic function signature (including identifiers and type annotations),
+type semantics, visual <a
+href="http://en.wikipedia.org/wiki/Semiotic_engineering">semiotics</a>Â of a GUI
+or <a href="http://en.wikipedia.org/wiki/Command-line_interface">CLI</a>, et c.
+that attempts to communicate the meaning and guarantees of the interface to
+callers. TheÂ <strong>primary interface definition</strong> is the immediately
+accessibleÂ surface of the interface itself, e.g. a function or method
+declaration, an IDL specification or other code generation/specification system
+for network protocols, the grammar of a programming language, or aÂ user-facing
+GUI or CLI. A <strong>secondary interface definition</strong> is supplementary
+material; usually documentation, annotation, post-facto errata, entries in
+issueÂ trackers, commit log messages, et c.</aside>
+
+<h2>Security Is Part Of Every Interface</h2>
+
+<p>I prefer to think of security as a class of interface guarantee. In
+particular, security guarantees are a kind of correctness guarantee. At every
+interface of every kindâââuser interface, programming language syntax and
+semantics, in-process APIs, kernel APIs, RPC and network protocols, ceremoniesâââ<a href="http://en.wikipedia.org/wiki/Design_by_contract">explicit and implicit
+design guarantees</a> (promises, contracts) are in place, and determine the
+degree of âsecurityâ (however defined) the system can possibly achieve.</p>
+
+<p>Design guarantees might or might not actually hold in the implementationâââsoftware tends to haveÂ bugs, after all. Callers and callees can sometimes (but
+not always) defend themselves against untrustworthy callees and callers
+(respectively) in various ways that depend on the circumstances and on the
+nature of caller and callee. In this sense an interface is an <a
+href="http://en.wikipedia.org/wiki/Attack_surface">attack surface</a>âââbut
+properly constructed, it can also be aÂ <strong>defense surface</strong>.</p>
+
+<p>Here are some example security guarantees in hypothetical and real
+interfaces:</p>
+
+<ul>
+
+<li><p>The functionÂ <code>bool isValidEmailAddress(String address, Set
+knownTLDs)</code> returns true if the email address is syntactically valid for
+SMTP addresses according to RFC 3696,Â and if the domain part is in a known
+top-level domain.</p></li>
+
+<li><p>All array accesses are checked at run time; an attempt to use an index
+that is less than zero or greater than or equal to the length of the array
+causes anÂ <code>ArrayIndexOutOfBoundsException</code> to be thrown. (From the <a
+href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-10.html#jls-10.4">Java
+Language Specification</a>.)</p></li>
+
+<li><p>DNS queries and responses can be read, copied, deleted, altered, and
+forged by an attacker on any network segment between client and server.</p></li>
+
+<li><p>Within a single goroutine, the happens-before order is the order
+expressed by the program. (From the <a href="http://golang.org/ref/mem">Go
+language documentation</a>.)</p></li>
+
+</ul>
+
+<h2>The Interface Perception Gap</h2>
+
+<p>The true technical security guarantee that an interfaceâs implementation
+provides is not necessarily the same as the guarantee the caller perceives. Iâll
+call this the <strong>interface perception gap</strong>, for lack of a
+less-awful term. The gap could existÂ for many reasons, including at least:</p>
+
+<ul>
+
+<li><p>the guarantee is implicit (i.e. not inÂ the interface definition)</p></li>
+
+<li><p>the guarantee is explicit, but the caller did not read or understand the
+interface definition</p>
+
+<ul>
+
+<li><p>possibly because the interface definition is too complex for the caller
+to understand</p></li>
+
+<li><p>possibly because the guarantee is not in the callerâs mental model of the
+interface or of the callerâs own requirements</p></li>
+
+</ul>
+</li>
+
+<li><p>the interface misuses terms in its own definition</p></li>
+
+<li><p>the interface definition is so poor that the caller must imagine their
+own implicit definition</p></li>
+
+</ul>
+
+<p>Gaps in contracts tend, over time, to become implicit guarantees and
+non-guarantees. It can be possible to assertÂ new technical guarantees in the
+gaps. Consider <a
+href="http://en.wikipedia.org/wiki/Address_space_layout_randomization">address
+space layout randomization</a> (ASLR). The executable loaders of operating
+systems never specified the precise location in memory of the program text,
+heap, stack, libraries, et c. in memory; this freed up implementors to randomize
+those locations to thwart exploit developers, cat-and-mouse style. When it was
+invented, ASLR was a decent way to buy some time (a couple years at most) for
+the authors of programs written in unsafe languages to fix their bugs or port to
+safe languages. However, it was never going to be possible for ASLR to fully
+solve the problems of unsafe languages, for many reasons, including at
+least:</p>
+
+<ul>
+
+<li><p>ASLR was a new technical guarantee retrofitted into the interface
+perception gap of pre-existing executable loaders that had to be <em>compatible
+with existing code</em>, and thus not all program components could be randomized
+with a high degree of entropy.</p>
+
+<ul>
+
+<li>And ASLR is an all-or-nothing affair: If the attacker can reliably locate
+<em>any</em> executable code, they can almost certainly find gadgets useful for
+exploitation there.</li>
+
+</ul>
+</li>
+
+<li><p>Programs generally must be recompiled with new options, or at least with
+old options previouslyÂ thought of as being exclusively for dynamically-loadable
+libraryÂ codeâââthat is, there wasnât <em>enough</em> of a perception gap in the
+toolchainsâ interfaces! As a result, the guarantee of ASLR is stillÂ not
+ubiquitous, more than a decade later.</p></li>
+
+<li><p>Many program errors are still exploitable due to the limited granularity
+of what program parts can be efficiently randomizedâââthere is an implicit
+guarantee of run-time efficiency that extreme ASLR couldÂ violate.</p>
+
+<ul>
+
+<li>Sometimes even coarse-grained ASLR violates certain extreme performance
+requirements.</li>
+
+</ul>
+</li>
+
+<li><p>In applications that give attackers significant but not
+directlyÂ malicious control over run-time behaviorâââfor example, as any dynamic
+programming environment like a web browserÂ <em>must</em> doâââthe <a
+href="https://www.blackhat.com/presentations/bh-europe-07/Sotirov/Presentation/bh-eu-07-sotirov-apr19.pdf">attacker
+can significantly reduce the effective entropy of ASLR</a>, thus weakening the
+already-weak guarantee.</p></li>
+
+<li><p>Previously low-severity bugs, like single-word out-of-bounds read errors,
+become information leaks that can undo all the benefits of ASLR and enable an
+attacker to craft a reliable exploit. The implied âinterfaceâ of an
+out-of-bounds read primitive changes: while an OOB read should be guaranteed not
+to happen, the âguaranteeâ changesÂ from âlikely possible but mostly harmlessâ to
+âthere goes ASLR... now all those ROP exploits are back in scope.â
+Oops.</p></li>
+
+</ul>
+
+<p>Perhaps because ASLR was not (to my knowledge) clearly documented as a
+temporary cat-and-mouse game, engineers have come to rely on it as being the
+thing that makes the continued use of unsafe languages acceptable. Unsafe (and
+untyped) languages will always be guaranteed to be unsafe, and we should have
+used the time ASLR bought us to aggressively replace our software with
+equivalents implemented in safe languages.Â Instead, we linger in a zone of
+ambiguity, taking the (slight) performance hit of ASLR yet not effectively
+gaining much safety from it.</p>
+
+<p>Sometimes, interface perception gaps are surfaced, and the interface and
+implementation change to close the gap. A classic example is the <a
+href="http://bugs.python.org/issue13703">denial-of-service problem in hash
+tables</a>: If an attacker can influence or completely control the keys of the
+pairs inserted into a hash table, they can cause the performance to degrade from
+the (widely perceivedâââbut usually explicitly disclaimed!) ~ <em>O</em>(1)
+performance guarantee for hash table lookup. Defenders can either explicitly
+claim the performance guarantee by randomizing the hash functionÂ in a way the
+attacker cannot predict, or (if they specified a more abstract interface) switch
+to an implementation (such as a red-black tree) that does not suffer from the
+problem.</p>
+
+<h2>The Importance Of Explicit Guarantees</h2>
+
+<p>The technical strength of a security mechanism is limited when it is not
+backed by an explicit contract.Â Explicit, understandable, tested, and enforced
+guarantees, which could reasonably fit into the callerâs mental model, are
+best.</p>
+
+<p>A guarantee that is not also perceived by its callers is limited in
+effectiveness. Consider an interface for a map data structure: If the
+implementation is guaranteed to be a sorted tree, callers can trust that they
+can iterate over the keys in sorted order without having to do any extra work.
+But if they donât understand that part of the interface definition, they might
+mistakenly waste time and space by extracting all the keys into an array and
+pointlessly re-sorting it. The problem is reversed if the interface is
+explicitly defined to be (say) a hash table, but the caller does not realize
+that.</p>
+
+<p>Similarly, a security guarantee that callers do not perceiveâââbut which is
+presentâââcan cause callers to miscalculate their risk as being higher than it
+is. While it might seem that is OK, because callers will âerr on the side of
+cautionâ, in fact the misperception can have an opportunity cost. (In a sense, a
+self-denial-of-service.)</p>
+
+<p>A non-guarantee that is not perceived can also become dangerous. For example,
+<a
+href="http://www.chromium.org/Home/chromium-security/security-faq#TOC-Why-aren-t-physically-local-attacks-in-Chrome-s-threat-model-">although
+documentation explicitly disclaims it</a>, users often perceive that programs
+can maintain (e.g.) confidentiality for the userâs data even when the underlying
+platform is underÂ the physical control of an attacker. Such anÂ attackerâs
+capabilities tend to beÂ well outside the usersâ mental models; and in any case,
+documentation (a secondary interface definition) is a poor substitute for a
+user-visible interface definition in the GUI (a primary definition).</p>
+
+<p>Interface misperceptions are sometimesÂ widely orÂ strongly held, and can
+become implicit or even explicit guarantees, and can force brittleness or even
+breakage into the interface. AsÂ an extreme example, consider the User Account
+Control feature introduced in Windows Vista. After it was released, Microsoft
+publishedÂ a blog post (a secondary interface definition) andÂ <a
+href="http://blogs.technet.com/b/markrussinovich/archive/2007/02/12/638372.aspx">tried
+to roll back the expectations</a> that callers developed when reading the
+primary definitions (the GUI and <a
+href="http://en.wikipedia.org/wiki/User_Account_Control#Requesting_elevation">aspects
+of the API</a>):</p>
+
+<blockquote>It should be clear then, that neither UAC elevations nor Protected
+Mode IE define new Windows security boundaries. Microsoft has been communicating
+this but I want to make sure that the point is clearly heard. Further, as Jim
+Allchin pointed out in his blog post Security Features vs Convenience, Vista
+makes tradeoffs between security and convenience, and both UAC and Protected
+Mode IE have design choices that required paths to be opened in the IL wall for
+application compatibility and ease of use.</blockquote>
+
+<p>Perhaps the core problem with UAC, Integrity Levels, and User Interface
+Privilege Isolation is that one interface, the security principal (in Windows,
+represented by the <a
+href="http://msdn.microsoft.com/en-us/library/Aa374909.aspx">access token</a>),
+is too hard to composeÂ with another interface: the traditional
+multi-process/single principal windowing environment for presenting user
+interfaces.Â Modern platforms require aÂ <a
+href="http://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features">2-part
+security principal</a>Â (see the Background section in that document), composable
+with a user interface paradigm thatÂ allows users to distinguish the many
+cooperating principals. (Consider the <a
+href="https://www.usenix.org/legacy/event/sec04/tech/full_papers/shapiro/shapiro.pdf">EROS
+Trusted Windowing System</a>Â as an example alternative.)</p>
+
+<h2>Donât Imagine Interfaces Or Guarantees</h2>
+
+<p>At the beginning of this blog post, I poked a little fun at WAFs. Making fun
+of WAFsÂ is traditional picnicÂ banterÂ in my tribeÂ (application security
+engineers), so I feel itÂ is only fair to put a littleÂ sacred cow hamburger on
+the grill, too. Here are 2 examples.</p>
+
+<p><a
+href="http://rdist.root.org/2010/01/07/timing-independent-array-comparison/">Constant-time
+array comparison</a> to defeat <a
+href="http://en.wikipedia.org/wiki/Timing_attack">timing side-channel
+attacks</a>. Consider for example the HMAC defense against CSRF: <code>token =
+HMAC_SHA256(secret_key, session_token + action_name)</code>. It should be
+computationally infeasible for the attacker to ever guess or learn the token
+value, but a timing side-channel, such as that introduced by a naÃ¯ve byte array
+comparison allows the attacker to guess the token in a feasible amount of time
+and attempts (proportional to N = number of bits in token). A canonical solution
+is to use an array comparison function that always takes the same amount of
+time, rather than returning as soon as it finds a mismatch.</p>
+
+<p>The trouble with this is that, apart from the code being slightly subtle,
+there is no interface guaranteeing that the code will indeed take the same
+amount of time on all inputs. Several things are permissible, given the
+documented interfaces between the programmer and the ultimate execution
+context:</p>
+
+<ul>
+
+<li><p>the compiler might find a way to optimize the function;</p></li>
+
+<li><p>the CPUâs <code>XOR</code> instruction might not take the same amount of
+time to compute all inputs; or</p></li>
+
+<li><p>the machine (real, or virtual!) might even transform and optimize the
+code before running it.</p>
+
+<ul>
+
+<li>For example, some processor cores accept code from one instruction set as
+input, but transform it to another instruction set before running it in the
+processor core.</li>
+
+</ul>
+</li>
+
+</ul>
+
+<p>Does the expected timing guarantee still hold, given these interfaces and
+their non-guarantee? As Lawson says, the solution is fragile and you have to
+test it every time the execution environment changes.</p>
+
+<p>An additional, essentially fatal problem is that many real-world applications
+are implemented in very high-level languages like Python and Java, where there
+are even more layers of abstraction and therefore even less of a constant-time
+interface guarantee.</p>
+
+<p>An alternative solution, which I learned from Brad Hill, is to forget about
+trying to run in constant time, and instead to <a
+href="https://www.isecpartners.com/blog/2011/february/double-hmac-verification.aspx">blind
+the attacker by making what timing information they learn useless</a>. Rather
+than directly comparing the timing-sensitive tokens (say, SAML blob signatures
+or CSRF tokens), HMAC the received blob and the expected blob again (with a new,
+separate HMAC key), and then compare those HMAC outputs (with any comparison
+function you want, evenÂ <code>memcmp</code>). The attacker may indeed observe a
+timing side-channelâââbut the timing information will be random relative to the
+input. This is due to the straightforward, documented, and tested interface
+guarantee of the HMAC function as a pseudo-random function. And it works as
+expected in <em>any</em> language, on any computing substrate.</p>
+
+<p>Consider another cryptography-related security conundrum: the supposed need
+to clear secrets from RAM when the secrets are no longer needed, or even to
+encrypt the RAM (presumably decrypting it in registers?). This is supposedÂ to
+ensure that live process RAM never hits the disk (as in e.g. swap space), nor is
+available to an attacker who can read the contents of RAM. The usual threat
+scenario invoked to warrant this type of defense is that of a physically-local
+forensic attacker, usually of relatively high capability (e.g. capable of
+performing a <a href="http://en.wikipedia.org/wiki/Cold_boot_attack">cold boot
+attack</a> or a live memory dump). The goal is to not reveal secrets (e.g. Top
+Secret documents, passwords, encryption keys, et c.) to such an attacker.</p>
+
+<p>The trouble with this goal is that there can beÂ no interface guarantee that
+clearing memory in one area will fully erase all copies of the data. The virtual
+memory managers of modern operating systems, and the dynamic heap allocators of
+modern language run-times, in fact guarantee very little in the way of memory
+layout or deterministic behavior. Instead they provide guarantees of
+more-or-less high performance, which additional security guarantees could
+complicate or render infeasible.</p>
+
+<ul>
+
+<li><p>If you <a
+href="http://linux.die.net/man/3/realloc"><code>realloc</code></a> memory, the
+userland run-time or the kernel might make a copy that you can no longer
+reliably reference (so you canât reliably clear it).</p></li>
+
+<li><p>When you free memory, the kernel might not zero the pages out until the
+last second before giving them to the next requestor. Thus, the time window in
+which they are prone to discovery by the forensic attacker increases.</p></li>
+
+<li><p>Kernel APIs like <a
+href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man2/mlock.2.html"><code>mlock</code></a>,
+which purport to lock memory into physical RAM pages (stopping the pages from
+being swapped out to disk), doÂ not necessarily work the way you expect, or even
+at all.</p></li>
+
+<li><p>In a garbage-collected run-time, essentially any amount of copying,
+moving, and reallocating is possible. There can be no guarantee that a piece of
+data is stored in exactly 1 location in RAM, and that you can clear it.</p></li>
+
+<li><p>The same holds for virtual machines, of course.</p></li>
+
+</ul>
+
+<p>Essentially, there can be no guarantee that a high-capability forensic
+attacker cannot find secrets in RAM or swapped-out process memory; the more
+complex the operating system and run-time, the less likely it is that you can
+even probabilistically defeat such an attacker.</p>
+
+<p>The most you can realistically do in the general case is mitigate the
+problems with full disk encryption and whatever degree of physical security you
+can get. In specific cases, such as cryptographic keys, you can keep the keys in
+a tamper-resistant, tamper-evident <a
+href="http://en.wikipedia.org/wiki/Hardware_security_module">hardware security
+module</a>.</p>
+
+<h2>âConclusionâ</h2>
+
+<p>This post is partly an attempt to investigateÂ why the âsecurity vs.
+convenienceâ dichotomyÂ is false. I think itâs worse than a false dichotomy,
+really; itâs a fundamental misconception of what security is and of what an
+interface isâââand of what âconvenienceâ (an impoverishedÂ view of usability)
+is.</p>
+
+<p>But also itâs an attempt to re-frame security engineering in a wayÂ that
+allows usÂ toÂ imagine more and better solutions to security problems. For
+example, when you frame your interface as an attack surface, you find yourself
+ever-so-slightly in a panic mode, and focus on how to make the surface as small
+as possible. Inevitably, this tends to lead to cat-and-mouseism and poor
+usability, seeming to reinforce the false dichotomy. If the panic is acute, it
+can even lead to nonsensical and undefendable interfaces, and a proliferation of
+false boundaries (as we saw with Windows UAC).</p>
+
+<p>If instead we frame an interface as a defense surface, we are in a mindset
+that allows us to treat the interface as a shield: built for defense,
+<em>testable</em>, <em>tested</em>, covering the body; but also light-weight
+enough to carry and use effectively. It might seem like a semantic game; but in
+my experience, thinking of a boundary as a place to buildÂ a point of strength
+rather than thinking of it as something that must inevitably fall to attack
+leads to solutions that in fact withstand attack better while also functioning
+better for friendlyÂ callers.</p>
+
+<p>The safest interface is still no interfaceâââdonât multiply interfaces
+unnecessarily. But when you must expose something, expose a well-tested shield
+rather than merely trying to narrow your profile or hide behind a tree.</p>
+
+<h2>And Now, Your Moment Of Zen</h2>
+
+<p><a
+href="https://twitter.com/rootkovska/status/498227129969295360">https://twitter.com/rootkovska/status/498227129969295360</a></p>
+
+<script src="/toc.js"></script>
+<hr/>
+<footer>
+<p>No comments, <a href="mailto:chris@noncombatant.org">but you can email
+me</a>.</p>
+<p>Noncombatant.org by <a xmlns:cc="http://creativecommons.org/ns#"
+href="https://noncombatant.org/about/" property="cc:attributionName"
+rel="cc:attributionURL">Chris Palmer</a> is in the Creative Commons, under the
+terms of the <a rel="license"
+href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike
+4.0 International License</a>.
+</footer>
+</div>
+</body>
+
+
+
+#####EOF#####
+
+

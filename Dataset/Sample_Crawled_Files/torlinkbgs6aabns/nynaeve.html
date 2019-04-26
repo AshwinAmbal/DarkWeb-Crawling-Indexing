@@ -1,0 +1,1065 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title> Nynaeve</title>
+
+<link rel="stylesheet" href="http://www.nynaeve.net/wp-content/themes/default/style.css" type="text/css" media="screen" />
+<link rel="pingback" href="http://www.nynaeve.net/xmlrpc.php" />
+
+<style type="text/css" media="screen">
+
+	#page { background: url("http://www.nynaeve.net/wp-content/themes/default/images/kubrickbg-ltr.jpg") repeat-y top; border: none; }
+
+</style>
+
+
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Nynaeve &raquo; Feed" href="http://www.nynaeve.net/?feed=rss2" />
+<link rel="alternate" type="application/rss+xml" title="Nynaeve &raquo; Comments Feed" href="http://www.nynaeve.net/?feed=comments-rss2" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www.nynaeve.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.1.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='http://www.nynaeve.net/wp-includes/css/dist/block-library/style.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='https://api.w.org/' href='http://www.nynaeve.net/index.php?rest_route=/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.nynaeve.net/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.nynaeve.net/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.1.1" />
+</head>
+<body class="home blog">
+<div id="page">
+
+
+<div id="header" role="banner">
+	<div id="headerimg">
+		<h1><a href="http://www.nynaeve.net/">Nynaeve</a></h1>
+		<div class="description">Adventures in Windows debugging and reverse engineering.</div>
+	</div>
+</div>
+<hr />
+
+	<div id="content" class="narrowcolumn" role="main">
+
+	
+		
+			<div class="post-486 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-486">
+				<h2><a href="http://www.nynaeve.net/?p=486" rel="bookmark" title="Permanent Link to NWScript JIT engine:  Wrap-up (for now)">NWScript JIT engine:  Wrap-up (for now)</a></h2>
+				<small>August 24th, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: Performance considerations" href="http://www.nynaeve.net/?p=483">Yesterday</a>, I provided a brief performance overview of the MSIL JIT backend versus my implementation of an interpretive VM for various workloads.</p>
+<p>Today, I&#8217;ll mostly pontificate on conclusions from the JIT project.  It has certainly been an interesting foray into .NET, program analysis, and code generation; the JIT engine is actually my first non-trivial .NET project.  I have to admit that .NET turned out to not be as bad as I thought that it would be (as much as I thought I wouldn&#8217;t have said that); that being said, I don&#8217;t see myself abandoning C++ anytime soon.</p>
+<p>Looking back, I do think that it was worth going with MSIL (.NET) as the first JIT backend.  Even though I was picking up .NET Reflection for the first time, aside from some initial frustrations with referencing /clr mixed types from emitted code, things turned out relatively smooth.  I suspect that writing the JIT against another backend, such as LLVM, would have likely taken much more time invested to reach a fully functional state, especially with full support for cleaning up lingering state if the script program aborted at any point in time.</p>
+<p><a title="Justin's blog" href="http://qstuff.blogspot.com">Justin</a> is working on a LLVM JIT backend for the JIT system, though, so we&#8217;ll have to see how it turns out.  I do suspect that it&#8217;s probably the case that LLVM may offer slightly better performance in the end, due to more flexibility in cutting out otherwise extraneous bits in the JIT&#8217;d native code that .NET insists on (such as the P/Invoke wrapper code, thin as it may be).</p>
+<p>That being said, the .NET JIT didn&#8217;t take an inordinate amount of time to write, and it fully supports turning IL into optimized x86, amd64, and ia64 code (Andrew Rogers&#8217;s 8-year-old Itanium workstation migrated to my office at work, and I tried it the JIT engine out on ia64 on the weekend using it &#8212; the JIT system <em>did</em> actually function correctly, without any additional development work necessary, which makes me happy).  There was virtually no architecture-specific code that I had to write to make that happen, which in many respects says something impressive about using MSIL as a code generation backend.</p>
+<p>MSIL was easy to work with as a target language for the JIT system, and the fact that the JIT optimizes the output freed me from many of the complexities that would be involved had I attempted to target x86 or amd64 machine code directly.  While there&#8217;s still some (thin) overhead introduced by P/Invoke stubs and the like in the actual machine code emitted by the .NET JIT, the code quality is enough that it performs quite well at the end of the day.</p>
+<p>Oh, and if you&#8217;re curious, you can <a title="NWScriptAsm_gui_TestScript.zip - Test Script" href="http://www.nynaeve.net/Skywing/nwn2/jit/NWScriptAsm_gui_TestScript.zip">check out</a> an example NWScript assembly and its associated IL.  Note that this is the 64-bit version of the assembly, as you can see from the action service handler call stubs.  For fun, I&#8217;ve heard that you can even turn it into C# using Reflector (though without scopes defined, it will probably be a bit of a pain to wade through).</p>
+<p>All in all, the JIT engine was a fun vacation project to work on.  Next steps might be to work on patching the JIT backend into the stock NWN2 server (currently it operates in my ground-up server implementation), but that&#8217;s a topic for another day.</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=486#respond">No Comments &#187;</a></p>
+			</div>
+
+		
+			<div class="post-483 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-483">
+				<h2><a href="http://www.nynaeve.net/?p=483" rel="bookmark" title="Permanent Link to NWScript JIT engine: Performance considerations">NWScript JIT engine: Performance considerations</a></h2>
+				<small>August 23rd, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: MSIL backend support for SAVE_STATE" href="http://www.nynaeve.net/?p=479">Last time</a>, we learned how SAVE_STATEs are supported by the MSIL JIT backend.  This time, we&#8217;ll touch on everybody&#8217;s favorite topic &#8212; performance.</p>
+<p>After all, the whole point of the JIT project is to improve performance of scripts; there wouldn&#8217;t be much point in using it over the interpretive VM if it wasn&#8217;t faster.</p>
+<p>So, just how much faster is the MSIL JIT backend than my reference interpretive NWScriptVM?  Let&#8217;s find out (when using the &#8220;direct fast&#8221; action service call mechanism)&#8230;</p>
+<p>The answer, as it so often turns out to be, depends.  Some workloads yield significantly greater performance, while other workloads yield comparatively similar performance.</p>
+<p><u><em>Computational workloads</em></u></p>
+<p>Scripts that are computationally-heavy in NWScript are where the JIT system really excels.  For example, consider the following script program fragment:</p>
+<pre>int g_randseed = 0;
+
+int rand()
+{
+	return g_randseed =
+   (g_randseed * 214013 + 2531101) >> 16;
+}
+
+// StartingConditional is the entry point.
+int StartingConditional(
+  int i,
+  object o,
+  string s)
+{
+  for (i = 0; i < 1000000; i += 1)
+    i += rand( ) ^ 0xabcdef / (rand( ) | 0x1); 
+
+  return i;
+}</pre>
+<p>Here, I compared 1000000 iterations of invoking this script's entry point, once via the JIT engine's C API, and once via the NWScriptVM's API.</p>
+<p>When using the interpretive VM, this test took over a whopping <em>five minutes</em> to complete on my test system; ouch!  Using the MSIL JIT on .NET 4.0, on the same system, yields an execution time on the order of just fourteen seconds, by comparison; this represents an improvement of almost 21.42 times faster execution than the interpretive VM.</p>
+<p><u><em>Action service-bound workloads (non-string-based)</em></u></p>
+<p>While that is an impressive-looking result, most scripts are not exclusively computationally-bound, but rather make heavy use of action service handlers exported by the script host.  For example, consider a second test program, structured along the lines of this:</p>
+<pre> vector v;
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );
+ v = Vector( 1.0, 2.0, 3.0 );</pre>
+<p>In this context, Vector is an action service handler.  With the interpretive VM in use, 1000000 iterations of this program consume on the order of thirty seconds.</p>
+<p>By comparison, the MSIL JIT backend clocks in at approximately ten seconds.  That's still a significant improvement, but not quite as earth-shattering as over 21 times faster execution speed.  The reduction here stems from the fact that most of the work is offloaded to the script host and not the JIT'd code; in effect, the only gain we get is a reduction in make-work overhead related to the stack-based VM execution environment, rather than any boost to raw computational performance.</p>
+<p><u><em>Action service-bound workloads (string-based with one argument)</em></u></p>
+<p>It is possible to construct a "worst case" script program that receives almost no benefit from the JIT system.  This can be done by writing a script program that spends almost all of its time passing strings to action service handlers, and receiving strings back from action service handlers.</p>
+<p>Consider a program along the lines of this:</p>
+<pre> StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );
+ StringToInt( IntToString( i ) + s );</pre>
+<p>When executed with the interpretive script VM, this program took approximately 70 seconds to complete the 1000000 iterations that I've been using as a benchmark.  The MSIL JIT backend actually clocks in as just a smidgeon <em>slower</em>, at roughly 75-76 seconds on average (on my test machine).</p>
+<p>Why is the JIT'd code (ever) slower than the interpretive VM?  Well, this turns out to relate to the fact that I used System.String to represent a string in the JIT engine.  While convenient, this does have some drawbacks, because a conversion is required in order to map between the std::string objects used by action service handlers (and the VM stack object) and the System.String objects used by the JIT'd code.</p>
+<p>If a script program spends most of its time interfacing exclusively with action service calls that take and return strings, performance suffers due to the marshalling conversions involved.</p>
+<p><u><em>Action service-bound workloads (string-based with more than one argument)</em></u></p>
+<p>Not all action service calls related to strings are created equal, however.  The more parameters passed to the action service call, the better the JIT'd code does in comparison to the script VM.  The StringToInt / IntToString conversion case is an extreme example; even a minor change to use GetSubString calls shows a significant change in results, for example:</p>
+<pre> s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );
+ s = GetSubString( s, 1, 1 );</pre>
+<p>In this test, the interpretive VM clocks in at approximately 30 seconds, whereas the JIT'd code finishes in nearly half the time, at around 15.5 seconds on average.</p>
+<p><u><em>Performance conclusions</em></u></p>
+<p>While the actual performance characteristics will vary significantly depending on the workload, most scripts <u>will</u> see a noticible performance increase.</p>
+<p>Except for worst-case scenarios involving single-string action service handler, it's reasonable to postulate that most scripts have a reasonable chance at running twice as fast under the JIT than the VM if they are exclusively action service handler-bound.</p>
+<p>Furthermore, any non-trivial, non-action-service-call instructions in a script will tend to heavily tip the scales in favor of the JIT engine; for general purpose data processing (including general flow control related logic such as if statements and loops), the interpretive VM simply can't keep up with the execution speed benefits offered by native code execution.</p>
+<p>Now, it's important to note that in the case of NWN1 and NWN2, not all performance problems are caused by scripts; naturally, replacing the script VM with a JIT system will do nothing to alleviate those issues.  However, for modules that are heavy on script execution, the JIT system offers significant benefits (and equally importantly, creates significant headroom to enable even more complex scripting without compromising server performance).</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=483#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+			<div class="post-479 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-479">
+				<h2><a href="http://www.nynaeve.net/?p=479" rel="bookmark" title="Permanent Link to NWScript JIT engine: MSIL backend support for SAVE_STATE">NWScript JIT engine: MSIL backend support for SAVE_STATE</a></h2>
+				<small>August 22nd, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: JIT intrinsics, and JITÃ¢â¬â¢d action service handler calls, part 4: Direct fast action calls" href="http://www.nynaeve.net/?p=473">Yesterday</a>, I described how the fast action call mechanism improves action call performance for JIT&#8217;d programs.  For today&#8217;s NWScript adventure, let&#8217;s dig into how SAVE_STATE operations (script situations) are supported in the MSIL JIT backend.</p>
+<p>As you may recall, SAVE_STATE operations (codified by I_SAVE_STATE in the IR instruction set and OP_STORE_STATE/OP_STORE_STATEALL in the NWScript instruction set) are used to allow a copy of the script execution environment&#8217;s current execution context to be &#8220;forked off&#8221; for later use.  This is easy to implement in the interpretive script VM environment, but something more elaborate is required for the JIT backend.</p>
+<p>The NWScript analyzer promotes resume labels for SAVE_STATE operations into first class subroutines; in the MSIL backend, these subroutines are then emitted as IL-level subroutines.  When a SAVE_STATE instruction is encountered, the following steps are taken:</p>
+<ol>
+<li>The backend emits IL instructions to save the state of all local variables shared with the resume subroutine.  This is performed by boxing copies of these locals into an array< Object ^ >.</li>
+<li>The backend sets up a call to a method on the main script class (ScriptProgram), CloneScriptProgram.  This method allocates a new ScriptProgram instance derived from the current ScriptProgram object and prepares it for use as a saved state clone.  This entails duplicating the contents of all global variables in the parent ScriptProgram object and resetting the various runtime guard counters (such as the recursion depth) to their default, zero values.</li>
+<li>The backend sets up a call to a JIT intrinsic, Intrinsic_StoreState.  This intrinsic takes the boxed local variable array, the cloned ScriptProgram object, and a &#8220;resume method id&#8221;.  All of these values are stored into a new <em>NWScriptSavedState</em> object that is hung off of the overarching NWScriptProgram object.</li>
+</ol>
+<p>Once these steps have been taken, a future action service handler will call an API to receive the last saved state.  This API will return the most recently constructed NWScriptSavedState object.</p>
+<p>Eventually, the script host may opt to execute the saved state.  This is known as executing a &#8220;script situation&#8221;; to accomplish this, the script host passes the NWScriptSavedState object to the NWScriptProgram object (indirected through a C-level API), asking the NWScriptProgram object to call the resume label with the saved state.</p>
+<p>For performance reasons, the NWScriptProgram object does not attempt to call the resume label via a Reflection invocation attempt.  Instead, a dispatcher method on the INWScriptGeneratedProgram interface implemented by the ScriptProgram type, <em>ExecuteScriptSituation</em>, is invoked.  (Here, the ScriptProgram instance that was created by the CloneScriptProgram call earlier is used, ensuring that a copy of the current global variables is referenced.)</p>
+<p>As you&#8217;ll recall, ExecuteScriptSituation has a signature looking something like this:</p>
+<pre> //
+ // Execute a script situation (resume label).
+ //
+
+ void
+ ExecuteScriptSituation(
+  __in UInt32 ScriptSituationId,
+  __in array< Object ^ > ^ Locals
+  );</pre>
+<p>Internally, ExecuteScriptSituation is implemented as essentially a large &#8220;switch&#8221; block that switches on the mysterious ScriptSituationId parameter (corresponding to the &#8220;resume method id&#8221; that was passed to Intrinsic_StoreState).  This parameter identifies which resume subroutine in the script program should be executed.  (When emitting IL code for subroutine, the first resume subroutine is assigned resume method id 0; the next is assigned resume method id 1, and so forth.)</p>
+<p>If the ScriptSituationId matches a legal case branch that was emitted into ExecuteScriptSituation, additional code to unbox the Locals array contents into parameters follows.  These parameters are simply passed to the resume subroutine for that case statement.  At this point, the resume globals are set to their correct values (by virtue of the fact that the &#8216;this&#8217; pointer is set to the cloned ScriptProgram instance), and the resume locals are, similarly, set up correctly as subroutine parameters.</p>
+<p>The rest, as they say, is history; the resume label continues on as normal, executing whatever operations it wishes.</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=479#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+			<div class="post-473 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-473">
+				<h2><a href="http://www.nynaeve.net/?p=473" rel="bookmark" title="Permanent Link to NWScript JIT engine: JIT intrinsics, and JITÃ¢â¬â¢d action service handler calls, part 4: Direct fast action calls">NWScript JIT engine: JIT intrinsics, and JITÃ¢â¬â¢d action service handler calls, part 4: Direct fast action calls</a></h2>
+				<small>August 21st, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: JIT intrinsics, and JITÃ¢â¬â¢d action service handler calls, part 3: Fast action calls" href="http://www.nynaeve.net/?p=398">Previously</a>, I explained how the &#8216;fast&#8217; action service call interface worked &#8212; and why it doesn&#8217;t always live up to its namesake.</p>
+<p>This time, we&#8217;ll examine the no-holds-barred, non-verifiable direct fast action call path.  This action service call mechanism is designed for maximum performance at the expense of type-safe, verifiable IL; as you&#8217;ll see, several punches are pulled in the name of performance here.</p>
+<p>The direct fast action call mechanism operates on a similar principle to the regular fast action call mechanism that we saw previously.  however, instead of doing the work to package up parameters into a boxed array and performing the final conversion to native types in a generic fashion at runtime, the direct fast action call system takes a different approach &#8212; deal with these tasks at compile time, using static typing.</p>
+<p>In both cases, we&#8217;ll end up calling through the OnExecuteActionFromJITFast C++ virtual interface function on the INWScriptActions interface, but how we get there is quite different with the direct fast call interface.</p>
+<p>Now, recall again that the OnExecuteActionFromJITFast interface is essentially structured in such a way to combine every VM stack manipulation operation <em>and</em> the actual call to the action service handler into a single call to native code.  This is accomplished by passing two arrays to OnExecuteActionFromJITFast &#8212; a &#8220;command&#8221; (ULONG) array, describing the underlying operations to perform, and a &#8220;command parameter&#8221; (uintptr_t) array, describing data to perform the operations upon.</p>
+<p>Where the direct fast action service call mechanism differs from the (normal) fast action call service mechanism is in how these two arrays are built.  In the direct fast mechanism, the JIT&#8217;d code actually packages parameters up itself without relying on the intrinsic &#8212; no more boxing or array allocations.</p>
+<p>In order to accomplish this, the direct call interface creates a custom value type for each action service call.  This value type, named something like NWScript.JITCode.&#038;ltScriptName&gt;. DirectActionServiceCmdDescriptors. ExecuteActionService_&lt;ServiceName&gt;, accomplishes a dual purpose.  It represents both the &#8220;command&#8221; <em>and</em> &#8220;command parameter&#8221; arrays that will be used to call OnExecuteActionFromJITFast.  Conversely, each of the individual fields in the value type need to remain strongly typed so that they can be accessed by generated code without involving boxing or other low-performance constructs.</p>
+<p>Essentially, the value type is constructed so that it can be accessed using strongly typed individual fields in .NET, but accessed as two arrays &#8212; one of ULONGs, and one of uintptr_ts, in native code.  Let&#8217;s look at an example:</p>
+<p>Say we have an action that we would like to call, with the following source-level prototype in NWScript:</p>
+<pre>string IntToString(int nInteger);</pre>
+<p>The command and parameter arrays that we&#8217;ll want to set up for a call to OnExecuteActionFromJITFast would be as follows:</p>
+<table border="1">
+<caption>Fast action commands</caption>
+<thead>
+</thead>
+<tbody>
+<tr>
+<th id="Cmd">Cmds (NWFASTACTION_CMD)</th>
+<th id="CmdParam">CmdParams (uintptr_t)</th>
+<th id="Comment">Description</th>
+</tr>
+<tr>
+<td headers="Cmd">NWFASTACTION_PUSHINT</td>
+<td headers="CmdParam">(nInteger value)</td>
+<td headers="Comment">Push nInteger on the stack</td>
+</tr>
+<tr>
+<td headers="Cmd">NWFASTACTION_CALL</td>
+<td headers="CmdParam"><em>(None)</em></td>
+<td headers="Comment">Invoke OnAction_IntToString</td>
+</tr>
+<tr>
+<td headers="Cmd">NWFASTACTION_POPSTRING</td>
+<td headers="CmdParam">&#038;ReturnString</td>
+<td headers="Comment">Pop return value string from the stack</td>
+</tr>
+</tbody>
+</table>
+<p>Both of Cmds and CmdParams represent parallel arrays from the point of view of the native code in OnExecuteActionFromJITFast.  The data structure that the direct fast action call mechanism used to represent these two arrays would thus be akin to the following:</p>
+<pre>[StructLayout(LayoutKind::Sequential)]
+value struct CmdDesc
+{
+  // &Cmd_0 represents the
+  // "Cmds" array:
+
+  // NWFASTACTION_PUSHINT
+  System::UInt32  Cmd_0;
+  // NWFASTACTION_CALL
+  System::UInt32  Cmd_1;
+  // NWFASTACTION_POPSTRING
+  System::UInt32  Cmd_2;
+  // Padding for alignment.  If
+  // there were an odd number of
+  // commands, we must introduce
+  // an alignment field here on
+  // 64-bit platforms.
+#ifdef _WIN64
+  System::UInt32  CmdPadding_Tail;
+#endif
+  
+  // &CmdParam_0 represents
+  // the "CmdParams" array:
+
+  // nInteger
+  System::UInt64  CmdParam_0;
+  // ReturnString
+  NeutralString * CmdParam_Ret_1;
+
+  // Floating point fields are
+  // represented as a System::Single
+  // with an optional System::Int32
+  // padding field on 64-bit systems.
+
+  // Remaining fields are storage
+  // for strings if we had any.
+
+  // CmdParam_Ret_1 points to
+  // StringStorage_0.
+  NeutralString   StringStorage_0;
+};</pre>
+<p>The <em>NeutralString</em> type represents the data format for a string that is passed cross-module to and from the script host; internally, it is simply a pair of (char * String, size_t Length), allocated from the process heap.  A set of JIT intrinsics are used to allocate and delete NeutralStrings should they be referenced for an action service call.</p>
+<p>From a .NET perspective, the following wrapper suffices for the NeutralString (layout-compatible with the actual C++ structure):</p>
+<pre>
+[StructLayout(LayoutKind::Sequential)]
+public value struct NeutralString
+{
+  System::IntPtr StrPtr;
+  System::IntPtr Length;
+};</pre>
+<p>With this structure layout in place, the backend generates IL instructions to load the appropriate constants into each of the Cmd_[n] fields.  Then, the CmdParam_[n] fields are set up, followed by the CmdParam_Ret_[n] fields.</p>
+<p>(If a NeutralString is referenced, intrinsic calls to translate to and from System::String ^&#8217;s are made as necessary.)</p>
+<p>Finally, the backend generates a call to OnExecuteActionFromJITFast.  One interesting optimization that is performed here is a <em>de-virtualization</em> of the function call.</p>
+<p>Normally, OnExecuteActionFromJITFast involves loading a <em>this</em> pointer from a storage location, then loading a virtual function table entry for the target function.  However, the backend takes advantage of the fact that the INWScriptActions object associated with a particular script cannot go away while the script&#8217;s code can be used.  Instead of making a normal virtual function call, the <em>this</em> pointer, and the address of the OnExecuteActionFromJITFast virtual function are hardwired into the emitted IL as immediate constant operands.</p>
+<p>(This does make the generated assembly specific to the process that it executes within; the resultant assembly can still be disassembled for debugging purposes, however.)</p>
+<p>After the OnExecuteActionFromJITFast call returns, IL is generated to check if the action call failed.  If so, then an exception is raised.  (Unlike the standard action call interface, the script abort flag on the NWScriptProgram is not tested for performance purposes.  Instead, OnExecuteActionFromJITFast must return false to abort the script.)</p>
+<p>IL code is then emitted to move any return value data from its storage locations in the value structure to the appropriate IL local variable(s), if any.</p>
+<p>Finally, if any strings were involved in the action parameter or return values, the emitted IL code is wrapped in an exception handler that releases any allocated native strings (then rethrowing the exception upwards).</p>
+<p>Due to the amount of code generated for a direct fast action service call, all of the logic I have outlined is placed into a stub routine (similar to how one might see a system call stub for a conventional operating system).  Calls to the stub are then made whenever an I_ACTION instruction is encountered, assuming that the call does not involve any engine structures.</p>
+<p>Overall, the direct fast action call interface provides superior performance to the other two action call mechanisms; even in worst case scenarion environments, such as repeated action service calls involving a small number of string parameters, profiling has shown execution times on the order of 79% as compared to a script assembly emitted with the standard action service call system.  In most cases, the performance improvement is even greater.</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=473#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+			<div class="post-398 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-398">
+				<h2><a href="http://www.nynaeve.net/?p=398" rel="bookmark" title="Permanent Link to NWScript JIT engine: JIT intrinsics, and JIT&#8217;d action service handler calls, part 3: Fast action calls">NWScript JIT engine: JIT intrinsics, and JIT&#8217;d action service handler calls, part 3: Fast action calls</a></h2>
+				<small>August 20th, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: JIT intrinsics, and JIT'd action service handler calls, part 2: Standard action calls" href="http://www.nynaeve.net/?p=389">Yesterday</a>, we learned how the standard action service call path operates in the MSIL JIT backend for the NWScript JIT engine.  This time, we&#8217;ll examine the &#8216;fast&#8217; action service call path.</p>
+<p>As I alluded to last time, the fast action service call path attempts to cut down on the overhead of making multiple managed/native transitions for each action service handler call.  While a standard path action service call may need to make multiple managed/native transitions depending on the count of arguments to a particular action service call, a fast action service call makes only one managed/native transition.</p>
+<p>The fast action service call interface has two components:</p>
+<ol>
+<li>An extension, <em>INWScriptActions::OnExecuteActionFromJITFast</em>, to the C++-level interface that NWNScriptJIT.dll (and the interpretive NWScriptVM) use to communciate with the script host.  This extension comes in the form of a new interface API that takes an action service ordinal to invoke, a count of source-level arguments to the action, and a list of commands and parameters.  The commands and parameters describe a set of push or pop operations to perform on the VM stack in order to set up a call/return pair to the action service handler.  These operations all happen entirely in native code, embedded in the script host.</li>
+<li>A new JIT intrinsic on the INWScriptProgram interface, <em>Intrinsic_ExecuteActionServiceFast</em>, which returns the action service handler&#8217;s return value (boxed), if any, takes an array of (boxed) arguments to pass to the action service handler.<.li>
+</ol>
+<p>It&#8217;s important to note that the current version of the fast action service call interface isn&#8217;t quite as fast as one would hope, due to in no small part the fact that it sticks to verifiable IL.  In fact, it&#8217;s not always faster than the standard path, which is why it&#8217;s currently only used if there are six or more VMStackPush/Pop<T> intrinsic calls that would be needed in addition to the ExecuteActionService intrinsic.</p>
+<p>Internally, Intrinsic_ExecuteActionServiceFast essentially looks at a set of data tables provided by the script host which describe the effective prototype of each action handler.  Based on this information, it translates the managed parameter array into a command and parameter array to pass to the C++-level INWScriptActions::OnExecuteActionFromJITFast API and calls the script host.</p>
+<p>Next, the script host then does all of the associated operations (pushing items onto the VM stack, calling the action service handler, and popping the return value, if any, off the VM stack) &#8220;locally&#8221;.  Finally, Intrinsic_ExecuteActionServiceFast repackages any return value into its managed equivalent and returns back to the JIT&#8217;d program code.</p>
+<p>If all of that sounded like a mouthful, it certainly was &#8212; there is extra overhead here; the fast action service mechanism is competing with the overhead of managed/native code.</p>
+<p>Before we continue, let&#8217;s look at how this all plays out in the underlying IL.  Here&#8217;s the same &#8220;Hello, world&#8221; subroutine we had before:</p>
+<pre>void PrintHello()
+{
+	PrintString( "Hello, world (from NWScript)." );
+}</pre>
+<p>If I were to override the cost/benefit heuristics in the JIT engine and force it to always use the fast action service handler call interface, we will see the following IL emitted:</p>
+<pre>  IL_0025:  ldstr      "Hello, world (from NWScript)."
+  IL_002a:  stloc.1
+  IL_002b:  ldarg.0
+  IL_002c:  ldfld      m_ProgramJITIntrinsics
+  IL_0031:  ldc.i4     0x1
+  IL_0036:  conv.u4
+  IL_0037:  ldc.i4     0x1
+  IL_003c:  conv.u4
+  IL_003d:  ldc.i4     0x1
+  IL_0042:  newarr     [mscorlib]System.Object
+  IL_0047:  stloc.2
+  IL_0048:  ldloc.2
+  IL_0049:  ldc.i4     0x0
+  IL_004e:  ldloc.1
+  IL_004f:  stelem.ref
+  IL_0050:  ldloc.2
+  IL_0051:  callvirt   instance object
+ Intrinsic_ExecuteActionServiceFast(uint32,
+                                    uint32,
+                                    object[])
+  IL_0056:  ldnull
+  IL_0057:  stloc.2
+  IL_0058:  pop</pre>
+<p>We have the following operations going on here:</p>
+<pre>
+String ^ s = "Hello, world (from NWScript)";
+array< Object ^ > ^ a = gcnew array< Object ^ >{ s };
+m_ProgramJITIntrinsics->ExecuteActionServiceFast( 1, 1, a );
+</pre>
+<p>Clearly, the fast action service path as it is implemented today is a tradeoff.  When there are a large number of parameters and return values (this isn&#8217;t as uncommon as you think when you consider that NWScript passes and returns structures, such as &#8216;vector&#8217; (3 floats), by value), the overhead of the fast action service call mechanism appears to be less than that of many managed/native switches (at least under .NET 4.0 on amd64).</p>
+<p>However, when fewer intrinsic calls (leading to managed/native switches) are involved, then the standard path ends up winning out.</p>
+<p>Now, there are some improvements that could be made here on the JIT side of things, above and beyond the fast action call mechanism.  If we look at the generated logic and examine it under the profiler, the bulk of the overhead involved in the fast action service call interface as it&#8217;s implemented in its prototype stage today comes from the need to allocate an array of object GC pointers, box arguments up to place them into the array, unboxing the array contents when copying the array contents to create the command table for OnExecuteActionFromJIT, and boxing/unboxing the return value from Intrinsic_ExecuteActionFast.</p>
+<p>All of these are limitations of the JIT (intrinsic) interface and not the C++-level interface; furthermore, essentially all of these steps could be eliminated if the JIT backend could avoid the usage of the object GC pointer array in the variadic intrinsic call.  While I was unable to find a clean way to do this in verifiable IL (without interposing a large amount of automatically generated C++/CLI code emitted by some other generation program), it <em>is</em> possible to circumvent much of this overhead &#8212; if we are willing to emit non-verifiable IL.</p>
+<p>This leads us to the next topic, <em>direct fast action service handler calls</em>, which we&#8217;ll discuss in detail in the next post.</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=398#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+			<div class="post-389 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-389">
+				<h2><a href="http://www.nynaeve.net/?p=389" rel="bookmark" title="Permanent Link to NWScript JIT engine: JIT intrinsics, and JIT&#8217;d action service handler calls, part 2: Standard action calls">NWScript JIT engine: JIT intrinsics, and JIT&#8217;d action service handler calls, part 2: Standard action calls</a></h2>
+				<small>August 19th, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: JIT intrinsics, and JIT'd action service handler calls, part 1" href="http://www.nynaeve.net/?p=386">Last time</a>, I outlined the general usage of the JIT intrinsics emitted by the MSIL backend for the NWScript JIT engine, and how they relate to action service calls.  Today, let&#8217;s take a closer at how an action service handler is actually called in NWScript in the wild.</p>
+<p>The MSIL backend currently supports three action call mechanisms (the &#8216;standard&#8217; intrinsic, and the &#8216;fast&#8217; intrinsic, and the (mostly) intrinsic-less &#8216;direct fast&#8217; system); we&#8217;ll take a look at the &#8216;standard&#8217; path first.</p>
+<p>The standard action service path involves several the operation of at least one, but most probably several different intrinsics.  In the standard path, the generated MSIL code is responsible for performing each fundamental step of the action service call operation distinctly; that is, the MSIL code pushes each parameter onto the VM stack in right to left order, making a call to the appropriate Intrinsic_VMStackPush<T> function for each parameter type.  Internally, these intrinsics place data on the &#8216;dummy&#8217; VM stack object that will be passed to an action service handler.</p>
+<p>Once all of the parameters are pushed on the stack, a call is made to Intrinsic_ExecuteActionService, which makes the transition to the action service handler itself.  (Actually, it calls a dispatcher routine, which then calls the handler based on an index supplied, but we can ignore that part for now.)</p>
+<p>Finally, if the action service handler had any return values, the generated MSIL code again invokes intrinsics to remove the return values from the VM stack and transfer them into MSIL locals so that they can be acted on.</p>
+<p>Thus, the standard action service handler path is very much a direct translation into MSIL of the underlying steps the NWScript VM would take when interpreting the instructions leading up to an action call.  If we look at the actual IL for an action call, we can see this in action (pardon the pun).</p>
+<p>Consider the following NWScript source text:</p>
+<pre>void PrintHello()
+{
+	PrintString( "Hello, world (from NWScript)." );
+}</pre>
+<p>The generated IL for this subroutine&#8217;s call to PrintHello looks something like as so (for NWN2):</p>
+<pre>
+.method private instance void
+NWScriptSubroutine_PrintHello() cil managed
+{
+  // Code size       93 (0x5d)
+  .maxstack  6
+  .locals init (uint32 V_0,
+           string V_1)
+
+// ...
+
+  IL_0025:  ldstr      "Hello, world (from NWScript)."
+  IL_002a:  stloc.1
+  IL_002b:  ldarg.0
+  IL_002c:  ldfld      m_ProgramJITIntrinsics
+  IL_0031:  ldarg.0
+  IL_0032:  ldfld      m_ProgramJITIntrinsics
+  IL_0037:  ldloc.1
+  IL_0038:  callvirt   instance void
+Intrinsic_VMStackPushString(string)
+  IL_003d:  ldc.i4     0x1
+  IL_0042:  conv.u4
+  IL_0043:  ldc.i4     0x1
+  IL_0048:  conv.u4
+  IL_0049:  callvirt   instance void
+Intrinsic_ExecuteActionService(uint32,
+                               uint32)
+</pre>
+<p>In essence, the generated code makes the following calls:</p>
+<pre>
+String ^ s = "Hello, world (from NWScript)';
+m_ProgramJITIntrinsics->VMStackPushString( s );
+// PrintString is action ordinal 1,
+// and takes one source-level argument.
+m_ProgramJITIntrinsics->ExecuteActionService( 1, 1 );
+</pre>
+<p>If PrintString happened to return a value, we would have seen a call to VMStackPop* here (or potentially several calls, if several return values were placed on the VM stack).</p>
+<p>While the standard call path is functional, it does have its downsides.  Internally, each of the intrinsics actually goes through several levels of indirection:</p>
+<ol>
+<li>First the JIT code calls the .NET interface INWScriptProgram intrinsic method.</li>
+<li>The INWScriptProgram intrinsic&#8217;s ultimate implementation in the JIT core module, NWNScriptJIT.dll, calls into a C++-level interface, <em>INWScriptStack</em> or <em>INWScriptActions</em>, depending on the intrinsic.  This indirection takes us cross-module from NWNScriptJIT.dll to the script host, such as NWNScriptConsole.exe or NWN2Server.exe.</li>
+<li>Finally, the implementation of INWScriptStack or INWScriptActions performs the requested operation as normal.</li>
+</ol>
+<p>Most of these indirection levels are fairly thin, but they involve a managed/native transition, which involves marshalling and some additional C++/CLI interop expense (particularly when NWScript strings are involved).</p>
+<p>The fast action service handler interface, which we&#8217;ll discuss next time, attempts to address the repeated managed/native transitions by combining the various steps of an action service call into one transacted managed/native transition.</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=389#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+			<div class="post-386 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-386">
+				<h2><a href="http://www.nynaeve.net/?p=386" rel="bookmark" title="Permanent Link to NWScript JIT engine: JIT intrinsics, and JIT&#8217;d action service handler calls, part 1">NWScript JIT engine: JIT intrinsics, and JIT&#8217;d action service handler calls, part 1</a></h2>
+				<small>August 18th, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: Under the hood of a generated MSIL subroutine" href="http://www.nynaeve.net/?p=453">Previously</a>, I demonstrated how a simple NWScript subroutine could be translated into MSIL, and then to native instructions by the CLR JIT.  We still have a large piece of functionality to cover, however, which is calling action service handlers (extension points) from JIT&#8217;d code.  In order to understand how action service handlers work, we need to delve into a side-topic first &#8212; JIT intrinsics.</p>
+<p>In certain circumstances, the MSIL backend for the NWScript JIT engine utilizes a series of <em>NWScript JIT intrinsics</em> in IL that it generates when producing the IL-level representation of a script program.  Simply put, these JIT intrinsics faciliate operations that must either invoke native code or that are too complex or unwieldy to desirably inline in the form of IL instructions in the generated instruction stream.  The bulk of the JIT intrinsics deal with interfacing with action service handlers, which as you recall, are the main I/O extension points used by the script program to communciate with the code running in the &#8220;outside world&#8221; (or at least the script host itself).</p>
+<p>In order to understand why these intrinsics are useful, however, we need to understand more about how action service handlers are called.  Using the NWScript VM that I wrote as a reference, an action service handler simply receives a pointer to a C++ object representing the current VM stack.  The action service handler then pops any parameter values off of the VM stack, and pushes the return values of the action back, in accordance with the standard action calling convention defined by the <a title="ACTION opcode" href="http://www.nynaeve.net/Skywing/nwn2/Documentation/ncs.html#ACTION">NWScript ACTION opcode</a>.</p>
+<p>Now, were the action handler to be called by the NWScript VM, it would be passed the actual execution stack in use by the VM as the program&#8217;s main data store, and that would be that.</p>
+<p>Recall, however, that the NWScript JIT engine is designed to be a drop-in replacement for the interpretive NWScript VM.  That means that it must ultimately use the same VM-stack calling convention for action service handler calls.  This is advantageous as there are a great number of action service calls exposed by the NWN2 API (over a thousand), and rewriting these to use a new calling convention would be a painful undertaking.</p>
+<p>Furthermore, reusing the same calling convention allows each action service handler call to be used by <em>both</em> the JIT and the VM in the same program, which allows for possibilities such as background JIT with cutover, or simply a defense against the JIT having a bug or simply not being available (perhaps .NET 4.0 isn&#8217;t installed &#8212; the core server itself does not require it).</p>
+<p>Thus, in order to make an action service handler call, the MSIL JIT backend needs to call various C++ functions to place items on a VM stack object that can be passed to an action service handler&#8217;s real implementation.  (In the case of the JIT system, I simply create a &#8216;dummy&#8217; VM stack that only ever contains parameters and return values for the current action service handler.)</p>
+<p>However, the IL code emitted by the NWScript JIT cannot easily directly interface with the VM stack object (which is written in native C++).  The solution I selected for this problem was to create the set of JIT intrinsics that I made reference to previously; these JIT intrinsics, implemented in C++/CLI code, expose the mechanisms necessary to invoke an action service handler to NWScript in the form of a safe/verifiable .NET interface.  (Actually, the reality is a little bit more complex than that, but this is a close approximation.)</p>
+<p>For performance reasons (recall that action service calls are to NWScript as system calls are to a native program), the NWScript JIT backend exposes three distinct mechanisms to call into an action service handler.  Most of these mechanisms heavily rely on various special-purpose JIT intrinsics, as we&#8217;ll see shortly:</p>
+<ul>
+<li>A &#8220;standard&#8221; action service call mechanism, corresponding of a series of intrinsics for each VM stack operation (i.e. push a value on the VM stack, pop a value off the VM stack, call the action service handler).  The standard action service call mechanism is invoked when an action service call has five or fewer combined parameters and return values, or if the action service call involves an engine structure.</li>
+<li>A &#8220;fast&#8221; action service call mechanism, corresponding of a single unified intrinsic that combines pushing parameters onto the VM stack, calling the action service handler, and popping any return values off the stack.  If verifiable IL is desired, the fast action service call mechanism is invoked when an action service call has six or more combined parameters and return values and does not involve any engine structures.</li>
+<li>A &#8220;direct fast&#8221; action service call mechanism, which generates direct, devirtualized calls to the raw C++-level interface used by the NWScript host to expose action service handlers.  The direct fast action service call mechanism is the fastest action call mechanism by a large margin, but the emitted IL is non-verifiable (and in fact specific and customized to the instance of the NWScript host process).  Like the ordinary fast action service call mechanism, the direct fast action service call does not support action service calls that involve engine structures.  If non-verifiable IL is acceptable the direct fast action service call mechanism is always used unless an engine structure is involved.</li>
+</ul>
+<p>Why the distinction at six combined parameters and return values with respect to the &#8220;fast&#8221; action service call mechanism?  Well, profiling determined that the fast mechanism is actually only faster than the standard mechanism &#8212; in the current implementation &#8212; if there are seven or more intrinsics being called at once (six parameter or return value VM stack operations, plus the actual action call intrinsic).  We&#8217;ll get into more details as to why this is the case next time.  All three action service handler invocation mechanisms perform the same effect at the end of the day, however.</p>
+<p>For the most part, the .NET-level interface exposed by the JIT intrinsics system is relatively simple.  There is an interface class (INWScriptProgram) that exposes a set of APIs along the line of these:</p>
+<pre>//
+// Push an integer value onto the VM stack (for an action call).
+//
+
+void
+Intrinsic_VMStackPushInt(
+	__in Int32 i
+	);
+
+//
+// Pop an integer value off of the VM stack (for an action call).
+//
+
+Int32
+Intrinsic_VMStackPopInt(
+	);
+
+// ...
+
+//
+// Execute a call to the script host's action service handler.
+//
+
+void
+Intrinsic_ExecuteActionService(
+	__in UInt32 ActionId,
+	__in UInt32 NumArguments
+	);
+
+// ...
+
+//
+// Execute a fast call to the script host's action service handler.
+//
+
+Object ^
+Intrinsic_ExecuteActionServiceFast(
+	__in UInt32 ActionId,
+	__in UInt32 NumArguments,
+	__in ... array< Object ^ > ^ Arguments
+	);
+</pre>
+<p>When a piece of generated code needs to access some extended functionality present in a JIT intrinsic, all that needs to be done is to set up a call to the appropriate JIT intrinsic interface method on the JIT intrinsics interface instance that is handed to each main script program class.  This allows complex functionality to be written in C++/CLI versus directly implemented as raw, emitted IL.</p>
+<p>Aside from logic to support action service handler invocation, there are several additional pieces of functionality exposed as JIT intrinsics.  Specifically, comparison and creation logic for engine structures is offloaded to JIT intrinsics, as well as a portion of the code to set up a saved state object for an I_SAVE_STATE instruction.</p>
+<p>On that note, next time we&#8217;ll dig in deeper as to what actually goes on for a JIT&#8217;d action service handler call under the hood, including how the above JIT intrinics work and how they are used.</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=386#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+			<div class="post-453 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-453">
+				<h2><a href="http://www.nynaeve.net/?p=453" rel="bookmark" title="Permanent Link to NWScript JIT engine: Under the hood of a generated MSIL subroutine">NWScript JIT engine: Under the hood of a generated MSIL subroutine</a></h2>
+				<small>August 17th, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: Generating a .NET assembly for a JIT'd script" href="http://www.nynaeve.net/?p=435">Yesterday</a>, I expounded on the basics of how assemblies for scripts are structured, and how variables, subroutines, and IR instructions are managed throughout this process.</p>
+<p>Nothing beats a good concrete example, though, so let&#8217;s examine a sample subroutine, both in NWScript source text form, and then again in MSIL form, and finally in JIT&#8217;d amd64 form.</p>
+<p><u><em>Example subroutine</em></u></p>
+<p>For the purposes of this example, we&#8217;ll take the following simple NWScript subroutine:</p>
+<pre>
+int g_randseed = 0;
+
+int rand()
+{
+	return g_randseed =
+     (g_randseed * 214013 + 2531101) >> 16;
+}</pre>
+<p>Here, we have a global variable, <em>g_randseed</em>, that is used by our random number generator.  Because this is a global variable, it will be stored as an instance variable on the main program class of the script program, as we&#8217;ll see when we crack open the underlying IL for this subroutine:</p>
+<p><u><em>MSIL version</em></u></p>
+<pre>.method private instance int32  
+NWScriptSubroutine_rand() cil managed
+{
+  // Code size       110 (0x6e)
+  .maxstack  8
+  .locals init (int32 V_0,
+           uint32 V_1,
+           int32 V_2,
+           int32 V_3,
+           int32 V_4)
+  IL_0000:  ldarg.0
+  IL_0001:  ldarg.0
+  IL_0002:  ldfld      uint32 m_CallDepth
+  IL_0007:  ldc.i4.1
+  IL_0008:  add
+  IL_0009:  dup
+  IL_000a:  stloc.1
+  IL_000b:  stfld      uint32 m_CallDepth
+  IL_0010:  ldloc.1
+  IL_0011:  ldc.i4     0x80
+  IL_0016:  clt.un
+  IL_0018:  brtrue.s   IL_0025
+  IL_001a:  ldstr      "Maximum call depth exceeded."
+  IL_001f:  newobj     instance void
+                        System.Exception::.ctor(string)
+  IL_0024:  throw
+<span style="color:red">  IL_0025:  ldarg.0
+  IL_0026:  ldfld      int32 m__NWScriptGlobal4
+  IL_002b:  stloc.2</span>
+<span style="color:green">  IL_002c:  ldc.i4     0x343fd
+  IL_0031:  stloc.3
+  IL_0032:  ldloc.2
+  IL_0033:  ldloc.3
+  IL_0034:  mul
+  IL_0035:  stloc.s    V_4</span>
+<span style="color:blue">  IL_0037:  ldc.i4     0x269f1d
+  IL_003c:  stloc.2
+  IL_003d:  ldloc.s    V_4
+  IL_003f:  ldloc.2
+  IL_0040:  add
+  IL_0041:  stloc.3</span>
+<span style="color:teal">  IL_0042:  ldc.i4     0x10
+  IL_0047:  stloc.s    V_4
+  IL_0049:  ldloc.3
+  IL_004a:  ldloc.s    V_4
+  IL_004c:  shr
+  IL_004d:  stloc.2</span>
+<span style="color:darkorchid">  IL_004e:  ldloc.2
+  IL_004f:  stloc.3
+  IL_0050:  ldarg.0
+  IL_0051:  ldloc.3
+  IL_0052:  stfld      int32 m__NWScriptGlobal4</span>
+<span style="color:darkorange">  IL_0057:  ldloc.2
+  IL_0058:  stloc.0
+  IL_0059:  br         IL_005e</span>
+  IL_005e:  ldarg.0
+  IL_005f:  ldarg.0
+  IL_0060:  ldfld      uint32 m_CallDepth
+  IL_0065:  ldc.i4.m1
+  IL_0066:  add
+  IL_0067:  stfld      uint32 m_CallDepth
+<span style="color:darkorange">  IL_006c:  ldloc.0
+  IL_006d:  ret</span>
+}
+// end of method
+// ScriptProgram::NWScriptSubroutine_rand
+</pre>
+<p>That&#8217;s a lot of code!  (Actually, it turns out to be not that much when the IL is JIT&#8217;d, as we&#8217;ll see.)</p>
+<p>Right away, you&#8217;ll probably notice some additional instrumentation in the generated subroutine; there is an instance variable on the main program class, m_CallDepth, that is being used.  This is part of the best-effort instrumentation that the JIT backend inserts into JIT&#8217;d programs so as to catch obvious programming mistakes before they take down the script host completely.</p>
+<p>In this particular case, the JIT&#8217;d code is instrumented to keep track of the current call depth in an instance variable on the main program class, m_CallDepth.  Should the current call depth exceed a maximum limit (which, incidentally, is the same limit that the interpretive VM imposes), the a System.Exception is raised to abort the script program.</p>
+<p>This brings up a notable point, in that the generated IL code is designed to be safely aborted at any time by raising a System.Exception.  An exception handler wrapping the entry point catches the exception, and the default return code for the script is returned up to the caller if a script is aborted in this way.</p>
+<p>Looking back to the generated code, we can see that the basic operations that we would expect are all there; there is code to <span style="color:red">load the current value of g_randseed</span> (m__NWScriptGlobal4 in this case), <span style="color:green">multiply it with a fixed constant</span> (0x343fd, or 214013 as we see in the NWScript source text), then <span style="color:blue">perform the addition</span> and <span style="color:teal">right shift</span>, before finally <span style="color:darkorchid">storing the result back to g_randseed</span> (m__NWScriptGlobal4 again) and <span style="color:darkorange">returning</span>.  (Whew, that&#8217;s it!)</p>
+<p>Even though there are a lot of loads and stores here still, most of these actually disappear once the CLR JIT compiles the MSIL to native code.  To see this in action, let&#8217;s look at the same code, now translated into amd64 instructions by the CLR JIT.  Here, I used !sos.u from the sos.dll debugger extensions (the instructions are colored using the same coloring scheme as I used above):</p>
+<pre>0:007> !u 000007ff`001cbac0
+Normal JIT generated code
+NWScriptSubroutine_rand()
+Begin 000007ff001cbac0, size 7e
+push    rbx
+push    rdi
+sub     rsp,28h
+mov     rdx,rcx
+mov     eax,dword ptr [rdx+1Ch]
+lea     ecx,[rax+1]
+mov     dword ptr [rdx+1Ch],ecx
+xor     eax,eax
+cmp     ecx,80h
+setb    al
+test    eax,eax
+je      000007ff`001cbb07
+<span style="color:red">mov     eax,dword ptr [rdx+34h]</span>
+<span style="color:green">imul    eax,eax,343FDh</span>
+<span style="color:blue">lea     ecx,[rax+269F1Dh]</span>
+<span style="color:teal">sar     ecx,10h</span>
+<span style="color:darkorchid">mov     dword ptr [rdx+34h],ecx</span>
+mov     eax,dword ptr [rdx+1Ch]
+dec     eax
+mov     dword ptr [rdx+1Ch],eax
+<span style="color:darkorange">mov     eax,ecx
+add     rsp,28h
+pop     rdi
+pop     rbx
+ret</span>
+lea     rdx,[000007ff`001f3fd8]
+mov     ecx,70000005h
+call    clr!JIT_StrCns
+mov     rbx,rax
+lea     rcx,[mscorlib_ni+0x4c6d28]
+call    clr!JIT_TrialAllocSFastMP_InlineGetThread
+mov     rdi,rax
+mov     rdx,rbx
+mov     rcx,rdi
+call    mscorlib_ni+0x376e20
+  (System.Exception..ctor(System.String)
+mov     rcx,rdi
+call    clr!IL_Throw
+nop
+</pre>
+<p>(If you&#8217;re curious, this was generated with the .NET 4 JIT.)</p>
+<p>Essentially each and every one of the fundamental operations was turned into just a single amd64 instruction by the JIT compiler &#8212; not bad at all!  (The rest of the code you see here is the recursion guard.)</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=453#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+			<div class="post-435 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-435">
+				<h2><a href="http://www.nynaeve.net/?p=435" rel="bookmark" title="Permanent Link to NWScript JIT engine: Generating a .NET assembly for a JIT&#8217;d script">NWScript JIT engine: Generating a .NET assembly for a JIT&#8217;d script</a></h2>
+				<small>August 16th, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: MSIL JIT backend overview and design goals" href="http://www.nynaeve.net/?p=417">Last time</a>, I outlined the MSIL JIT backend from a high level, and described some of how its external interface functions.</p>
+<p>While knowing how the MSIL JIT backend works from the outside is all well and good, most of the interesting parts are in the internals.  This time, let&#8217;s dig in deeper and see how the MSIL code generation process in the JIT backend functions (and what a generated script assembly might look like).</p>
+<p><u><em>Script assemblies</em></u></p>
+<p>As I mentioned, the backend generates a new .NET assembly for each script passed to NWScriptGenerateCode.  This API creates a new <em>NWScriptProgram</em> object, which represents an execution environment for the JIT&#8217;d script program.</p>
+<p>When a NWScriptProgram object is created, it consumes an IR representation for a script program and begins to create the MSIL version of that script, contained within a single .NET assembly tied to that NWScriptProgram instance.  Each script assembly contains a single module; that module then contains a series of classes used in the MSIL representation of the script.  The NWScriptProgram object internally maintains references to the script assembly and exposes a API to allow the script to then be invoked by the user.</p>
+<p><u><em>Main program class</em></u></p>
+<p>Each generated NWScript program contains a main class, with a name of the form NWScript.JITCode.&lt;script name&gt;.ScriptProgram.  This class, generated via Reflection, derives from a standard interface (NWScript.IGeneratedScriptProgram).  This interface exports a set of standard APIs used to call a script:</p>
+<pre>
+//
+// Define the interface that a
+// JIT'd program implements.
+//
+
+public interface class
+IGeneratedScriptProgram
+{
+
+ //
+ // Execute the script and return the
+ // entry point return value, if any.
+ //
+
+ Int32
+ ExecuteScript(
+  __in UInt32 ObjectSelf,
+  __in array< Object ^ > ^ ScriptParameters,
+  __in Int32 DefaultReturnCode
+  );
+
+ //
+ // Execute a script situation (resume label).
+ //
+
+ void
+ ExecuteScriptSituation(
+  __in UInt32 ScriptSituationId,
+  __in array< Object ^ > ^ Locals
+  );
+
+};</pre>
+<p>When it comes time to execute the script, the NWScriptProgram object calls the IGeneratedScriptProgram::ExecuteScript method on the script&#8217;s main class.  A set of parameters may be passed to the script in boxed form; these parameters are the .NET type equivalents of the NWScript IR parameters to the script&#8217;s entry point symbol.</p>
+<p><u><em>Variable types</em></u></p>
+<p>Each NWScript IR type has an associated distinct (strong typed) .NET type.  The NWScript IR only deals with scalar (non-aggregate) types, so it is simple to map IR types to .NET types.  The following mapping is defined for that purpose:</p>
+<table border="1">
+<caption>NWScript type mappings</caption>
+<thead>
+</thead>
+<tbody>
+<tr>
+<th id="NWScriptType">NWScript Type</th>
+<th id="IRType">IR Type</th>
+<th id="NETType">.NET Type</th>
+</tr>
+<tr>
+<td headers="NWScriptType">int</td>
+<td headers="IRType">ACTIONTYPE_INT</td>
+<td headers="NETType">System.Int32</td>
+</tr>
+<tr>
+<td headers="NWScriptType">float</td>
+<td headers="IRType">ACTIONTYPE_FLOAT</td>
+<td headers="NETType">System.Single</td>
+</tr>
+<tr>
+<td headers="NWScriptType">object</td>
+<td headers="IRType">ACTIONTYPE_OBJECT</td>
+<td headers="NETType">System.UInt32</td>
+</tr>
+<tr>
+<td headers="NWScriptType">string</td>
+<td headers="IRType">ACTIONTYPE_STRING</td>
+<td headers="NETType">System.String</td>
+</tr>
+<tr>
+<td headers="NWScriptType">void</td>
+<td headers="IRType">ACTIONTYPE_VOID</td>
+<td headers="NETType">System.Void</td>
+</tr>
+<tr>
+<td headers="NWScriptType">Engine structs (event, talent, etc)</td>
+<td headers="IRType">ACTIONTYPE_ENGINE_0 &#8230; ACTIONTYPE_ENGINE_9</td>
+<td headers="NETType">NWScript.NWScriptEngineStructure0 &#8230; NWScript.NWScriptEngineStructure9</td>
+</tr>
+</tbody>
+</table>
+<p>At the IR-level, user defined structures do not exist and are simply individual scalar variables, drawn from one of the above fundamental types.  (The NWScript.NWScriptEngineStructure[0-9] types simply wrap a C++ reference counted pointer to a script-host-defined data structure.  There&#8217;s a bit more to it, but for the most part, then can be thought of in that fashion.)</p>
+<p><u><em>Subroutine structure</em></u></p>
+<p>The JIT backend turns each IR-level subroutine into a class instance method on the main program type during code generation.  IR parameters and return values translate directly to .NET parameters and return values, such that a .NET subroutine equivalent simply takes parameters and returns values as one would naturally expect.</p>
+<p>If there was a script debug symbol table available during the IR generation phase, the .NET subroutines are even given recognizable names corresponding to their source level names (note that reading the NWScript symbol table is optional; a script can still be JIT&#8217;d even without symbol names).  For example, consider the following NWScript source level function:</p>
+<pre>void PrintMessage(string s)
+{
+ ...
+}</pre>
+<p>The backend emits a function prototype for this NWScript function like so (were we to disassembly the resultant assembly with ILDasm):</p>
+<p>.method private instance void  NWScriptSubroutine_PrintMessage(string A_1) cil managed<br />
+[&#8230;]</p>
+<p>There is one catch with this model of directly converting parameters and return types to .NET equivalents; if a script subroutine returns a structure in source level, this turns into multiple scalar return values in the NWScript IR.  However, .NET methods cannot return more than one value.</p>
+<p>If an IR subroutine does return more than one value, the backend generates a .NET structure type to contain the return value.  The fields on the structure correspond to the return values.  When it comes time to return a value from such a subroutine, the backend generates code to load the return value variables into the return structure fields, then returns an instance of the return structure.</p>
+<p>Similarly, when a subroutine returning multiple return values is invoked, the caller immediately unpacks the structure&#8217;s contents into their local variables.</p>
+<p><u><em>Globals, locals, and other variables</em></u></p>
+<p>There are several classes of IR variables that the backend concerns itself with.  These <em>variable classes</em> describe how the variable is stored.  The backend supports several different storage mechanisms for variables, as outlined in the following mapping table:</p>
+<table border="1">
+<caption>NWScript IR variable class mappings</caption>
+<thead>
+</thead>
+<tbody>
+<tr>
+<th id="IRType">IR variable class</th>
+<th id="NETType">.NET variable storage mechanism</th>
+</tr>
+<tr>
+<td headers="IRType">NWScriptVariable::Global</td>
+<td headers="NETType">Instance member variable on program class</td>
+</tr>
+<tr>
+<td headers="IRType">NWScriptVariable::Local</td>
+<td headers="NETType">IL local (LocalBuilder ^)</td>
+</tr>
+<tr>
+<td headers="IRType">NWScriptVariable::CallParameter</td>
+<td headers="NETType">IL local (LocalBuilder ^)</td>
+</tr>
+<tr>
+<td headers="IRType">NWScriptVariable::CallReturnValue</td>
+<td headers="NETType">IL local (LocalBuilder ^)</td>
+</tr>
+<tr>
+<td headers="IRType">NWScriptVariable::ReturnValue</td>
+<td headers="NETType">IL local (LocalBuilder ^) (*type may be an aggregate return type as described above)</td>
+</tr>
+<tr>
+<td headers="IRType">NWScriptVariable::Constant</td>
+<td headers="NETType">Immediate constant operand</td>
+</tr>
+<tr>
+<td headers="IRType">NWScriptVariable::Parameter</td>
+<td headers="NETType">IL argument slot (first is slot 1, etc)</td>
+</tr>
+</tbody>
+</table>
+<p>Except for aggregate return types (as noted above), IR variables always take on their direct .NET equivalents for their corresponding IR types.</p>
+<p><u><em>Translating IR instructions to MSIL instructions</em></u></p>
+<p>With this mapping in place, translating IR instructions to .NET instructions becomes more or less straightforward; one need only load the corresponding parameter variables to an IR instruction onto the IL execution stack, emit the appropriate IL opcode, and then store the top of the IL execution stack to the result variable of the IR instruction.</p>
+<p>For example, the I_XOR instruction can be mapped to MSIL by generating a load for the two IR parameter variables (using a helper that emits the correct code depending on the class of variable), then generating an OpCodes::Xor instruction, and finally, generating a store (again using a helper that emits the correct code for the destination variable class) to the IR result variable.  A similar process can be performed for most data-processing IR instructions to create their MSIL equivalents.</p>
+<p><u><em>Local variable management</em></u></p>
+<p>While it would be possible to simply create every IL-level variable corresponding to a &#8220;local-like&#8221; IR variable up front at the start of every subroutine, the MSIL backend avoids doing this so as to conserve local variable slots.  Instead, a <em>local variable pool</em> is maintained while generating MSIL code for IR instructions.  The local variable pool can be thought of as a stack of LocalBuilder instances, grouped by their associated types, which are available for use.</p>
+<p>IR variables that have been flagged by the code analysis phase as local to a particular control flow (meaning, that their lifetimes are constrained to a single control flow) are eligible to be allocated from the current local variable pool, when it comes time to instantiate said variable (in the form of a <em>I_CREATE</em> IR instructions).</p>
+<p>If there is a free IL local of the given type available in the local pool, that IL local is checked out of the local pool and used for the lifetime of the given IR variable (until a <em>I_DELETE</em> IR instruction causes the IL local to be freed back to the local pool).</p>
+<p>Only &#8220;local-like&#8221; variables that are constrained within a single control flow may be pooled in this fashion; other variables have fixed assignments (either at first use, or in the case of a variable created in multiple control flows and then merged, up front at subroutine entry).  Temporary, internal variables created by code generation but not present in the IR generally also fall into the category of poolable IL variables.</p>
+<p>This restriction is in place to ensure that IR variables always map to consistent IL locals when merging between control flows.  For example, consider two divergent control flows which both create an IR variable (call it variable V), and then merge together later, causing the IR variable V to be merged across the control flows.  In this case, for the merge to be seamless, the IR variable V must be allocated to the same IL local (call it local L) in all such merging branches.  The simplest way to ensure this is to not pool IR variables that aren&#8217;t local to a control flow (and thus do not participate in merging).</p>
+<p>Fortunately, many temporary variables created during calculations tend to be local to a control flow, thus allowing for notable savings from variable pooling.</p>
+<p>Pooling of locals is important given that not all temporary variables might be removed by the code analysis phase, and NWScript programs emit large quantities of temporary variables (in the form of copies to the top of stack for use as a NWScript instruction operand).</p>
+<p>At this point, most of the basics of the MSIL code generator have been covered at a high level (with the exception of action service handler calls &#8212; we&#8217;ll get to those later).  Next time, we&#8217;ll look at an example subroutine (in NWScript source text and then MSIL forms) in order to see how everything fits together.  Stay tuned!  (There is, in fact, light at the end of the NWScript tunnel.)</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=435#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+			<div class="post-417 post type-post status-publish format-standard hentry category-programming tag-nwn2" id="post-417">
+				<h2><a href="http://www.nynaeve.net/?p=417" rel="bookmark" title="Permanent Link to NWScript JIT engine: MSIL JIT backend overview and design goals">NWScript JIT engine: MSIL JIT backend overview and design goals</a></h2>
+				<small>August 15th, 2010 <!-- by Skywing --></small>
+
+				<div class="entry">
+					<p><a title="NWScript JIT engine: IR instruction raising" href="http://www.nynaeve.net/?p=412">Yesterday</a>, we examined the IR instruction raising process, at a high level.  With a basic understanding of both how the IR is generated, and the <a title="NWScript JIT engine: Intermediate Representation (IR) design"  href="http://www.nynaeve.net/?p=380">IR design itself</a>, we can begin to talk about the JIT backends supported by the JIT system.</p>
+<p>The first supported JIT backend is the MSIL JIT backend, which emits a .NET assembly (containing pure MSIL/CIL).  The code generation process is performed via standard System.Reflection.Emit calls; one .NET assembly is created for each script program JIT&#8217;d (such that there may be many assemblies for a script host using multiple scripts).</p>
+<p>There are two supporting components for this backend; a mixed C++/CLI DLL that defines most of the JIT system&#8217;s logic (NWNScriptJIT.dll), and a pure/verifiable C++/CLI DLL that describes interfaces referenced by the JIT&#8217;d code (NWNScriptJITIntrinsics.dll), created to work around an issue with referencing mixed mode CLR types in Reflection-emitted code.  We&#8217;ll discuss the NWNScriptJITIntrinsics.dll module in further detail in a later post.</p>
+<p>The backend encapsulates both logic to generate an assembly for a script, and supporting logic to serve as an execution environment for the generated assembly.  To that end, the MSIL JIT backend (NWNScriptJIT.dll) exposes an external C API that can be used to generate JIT&#8217;d code for a script, and then repeatedly invoke the script.</p>
+<p>Before we go into details as the extenal API that the JIT backend exposes, it&#8217;s important to understand the design philosophies behind the MSIL JIT backend, which are the following:</p>
+<ul>
+<li>The JIT backend should be agnostic to the underlying action service call API exposed by a script host.  The action service call API prototypes are provided to the JIT backend from the script host via datatables at runtime.  This ensures maximum flexibility for the backend.</li>
+<li>The backend should support efficient re-use of JIT&#8217;d code.  In particular, the preferred and supported paradigm is to generate code for a script once during program execution, and then reuse the same code many times.</li>
+<li>The backend should support all NWScript programs that are compiler-generated (i.e. it should be feature complete from a language perspective).</li>
+<li>The backend should be compatible with the NWScriptVM logic that I had written, for easy drop-in replacement (or side by side execution).</li>
+<li>The backend should support the creation of &#8220;best-effort&#8221; safeguards to protect the script host from trivial programming errors (such as unbounded recursion or infinite loops) in a script program.  These safeguards are best effort only with respect to resource consumption denial of service issues; it is accepted that a maliciously constructed script may be able to perform at most a denial of service attack against the script host (such as by resource consumption), but the script must not be able to execute arbitrary native instructions on the host.
+<p>In the future, a more strict quota system could be created, but the usage scenarios for the script program do not require it at this time (in the case of NWN-derived programs, any user who can supply an arbitrary script to a server (scripts are server-side) can control the behavior of the game world within the server completely; scripts merely need defend against a module malicious builder attempting to gain code execution against an end-user client in a scenario such as a downloadable single player module).
+</ul>
+<p>With these principles in mind, let&#8217;s take a look at the backend from the perspective of its external interface first.  Although several APIs are exposed, the two most interesting are <em>NWScriptGenerateCode</em>, which takes raw NWScript instructions and produces an abstract <em>NWSCRIPT_JITPROGRAM</em> handle, and <em>NWScriptExecuteScript</em>, which takes a NWSCRIPT_JITPROGRAM handle and executes the underlying script using a given set of parameters.</p>
+<p>The prototypes for these APIs are as follows:</p>
+<pre>//
+// Generate a JIT'd native program handle
+// for a script program, given an
+// analyzer instance which represents a
+// representation of the program's
+// function.
+//
+// The program may be re-used
+// across multiple executions.  However, the script
+// program itself is single threaded and
+// does not support concurrent execution
+// across multiple threads.
+//
+// The routine returns TRUE on success,
+// else FALSE on failure.
+//
+
+BOOLEAN
+NWSCRIPTJITAPI
+NWScriptGenerateCode(
+ __in NWScriptReaderState * Script,
+ __in_ecount( ActionCount ) PCNWACTION_DEFINITION ActionDefs,
+ __in NWSCRIPT_ACTION ActionCount,
+ __in ULONG AnalysisFlags,
+ __in_opt IDebugTextOut * TextOut,
+ __in ULONG DebugLevel,
+ __in INWScriptActions * ActionHandler,
+ __in NWN::OBJECTID ObjectInvalid,
+ __in_opt PCNWSCRIPT_JIT_PARAMS CodeGenParams,
+ __out PNWSCRIPT_JITPROGRAM GeneratedProgram
+ );
+
+//
+// Execute a script program,
+// returning the results to the caller.
+//
+
+int
+NWSCRIPTJITAPI
+NWScriptExecuteScript(
+ __in NWSCRIPT_JITPROGRAM GeneratedProgram,
+ __in INWScriptStack * VMStack,
+ __in NWN::OBJECTID ObjectSelf,
+ __in_ecount_opt( ParamCount ) const NWScriptParamString * Params,
+ __in size_t ParamCount,
+ __in int DefaultReturnCode,
+ __in ULONG Flags
+ );
+</pre>
+<p>(For the curious, you can peek ahead and examine <a title="NWNScriptJIT.cpp" href="http://www.nynaeve.net/Skywing/nwn2/jit/NWNScriptJIT.cpp">the full API set and associated comments</a> (C++/CLI source); all functions defined in this source module are public APIs exposed by NWNScriptJIT.dll.)</p>
+<p>Internally, both of these routines are thin wrappers around a C++/CLI class called <em>NWScriptProgram</em>, which represents the code generator and execution environment for a NWScript program.  (The <em>NWScriptProgram</em> object instance created by NWScriptGenerateCode is returned to the caller in the form of a GCHandle cast to a <em>NWSCRIPT_JITPROGRAM</em> opaque type.)</p>
+<p>This interface is explicitly designed to allow convenient use from C/C++ applications that are not integrated with the CLR.  Although in its most optimized form, the backend generates code specific to a particular instance of a script host&#8217;s process, the backend does expose the capability to save the generated script assemblies to disk for debugging purposes.</p>
+<p>There are several C++-level interfaces that the caller provides to the backend; <em>IDebugTextOut</em> (which simply abstracts the concept of a debug console print), <em>INWScriptStack</em> (which abstracts the concept of placing items on a VM stack or pulling them off a VM stack), and <em>INWScriptActions</em>, which facilitates interfacing with action service handler implementations, plus management of engine structure types.</p>
+<p>The IDebugTextOut and INWScriptActions objects have lifetimes at least exceeding that of a NWSCRIPT_JITPROGRAM handle, whereas the INWScriptStack object has a lifetime at least exceeding that of a NWScriptExecuteScript invocation.</p>
+<p>(Recall that as a design guideline, the JIT system should be compatible with action service handlers written against the interpretive script VM.  Thus, the JIT system must place items on a dummy VM stack in order to interface with an action service handler in order for a compatible call interface to be retained, hence the INWScriptStack interface.)</p>
+<p>In conventional usage, a script host will typically generate code for a script via NWScriptGenerateCode, and then make many repeated calls to the script&#8217;s generated code via NWScriptExecuteScript over the lifetime of the script host.  Parameters are passed in the form of strings that are internally converted to their final types before calling the script entry point according to the standard conversion conventions for NWScript parameterized scripts.  If the script program returns a value (only <em>int</em>-typed return values from entry point symbols are supported by the script compiler), then the return value of the script is returned from NWScriptExecuteScript; otherwise, the DefaultReturnCode parameter is returned.</p>
+<p>Similarly, a set of APIs exist to deal with concepts such as aborting an executing script, or dealing with script saved states.  This enables the JIT backend to support the same feature set that the interpretive NWScriptVM system does.</p>
+<p>Next time, we&#8217;ll look at how the generated assembly representing a complete script program is made, including how the various fundamental data types are represented in MSIL and how the generated code corresponding to a given script is laid out structurally.</p>
+				</div>
+
+				<p class="postmetadata">Tags: <a href="http://www.nynaeve.net/?tag=nwn2" rel="tag">NWN2</a><br /> Posted in <a href="http://www.nynaeve.net/?cat=4" rel="category">Programming</a> |   <a href="http://www.nynaeve.net/?p=417#comments">1 Comment &#187;</a></p>
+			</div>
+
+		
+		<div class="navigation">
+			<div class="alignleft"><a href="http://www.nynaeve.net/?paged=2" >&laquo; Older Entries</a></div>
+			<div class="alignright"></div>
+		</div>
+
+	
+	</div>
+
+	<div id="sidebar" role="complementary">
+		<ul>
+						<li>
+				<form method="get" id="searchform" action="http://www.nynaeve.net/">
+<label class="hidden" for="s">Search for:</label>
+<div><input type="text" value="" name="s" id="s" />
+<input type="submit" id="searchsubmit" value="Search" />
+</div>
+</form>
+			</li>
+
+			<!-- Author information is disabled per default. Uncomment and fill in your details if you want to use it.
+			<li><h2>Author</h2>
+			<p>A little something about you, the author. Nothing lengthy, just an overview.</p>
+			</li>
+			-->
+
+					</ul>
+		<ul role="navigation">
+			<li class="pagenav"><h2>Pages</h2><ul><li class="page_item page-item-2"><a href="http://www.nynaeve.net/?page_id=2">About Me</a></li>
+<li class="page_item page-item-67"><a href="http://www.nynaeve.net/?page_id=67">Post Directory</a></li>
+<li class="page_item page-item-240"><a href="http://www.nynaeve.net/?page_id=240">Projects</a></li>
+<li class="page_item page-item-168"><a href="http://www.nynaeve.net/?page_id=168">Virtual Machine KD Extensions</a></li>
+</ul></li>
+			<li><h2>Archives</h2>
+				<ul>
+					<li><a href='http://www.nynaeve.net/?m=201008'>August 2010</a></li>
+	<li><a href='http://www.nynaeve.net/?m=201007'>July 2010</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200903'>March 2009</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200902'>February 2009</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200810'>October 2008</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200807'>July 2008</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200802'>February 2008</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200712'>December 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200711'>November 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200710'>October 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200709'>September 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200708'>August 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200707'>July 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200706'>June 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200705'>May 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200704'>April 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200702'>February 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200701'>January 2007</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200612'>December 2006</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200611'>November 2006</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200610'>October 2006</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200609'>September 2006</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200608'>August 2006</a></li>
+	<li><a href='http://www.nynaeve.net/?m=200607'>July 2006</a></li>
+				</ul>
+			</li>
+
+			<li class="categories"><h2>Categories</h2><ul>	<li class="cat-item cat-item-6"><a href="http://www.nynaeve.net/?cat=6" title="Topics related to the blogosphere(tm).">Blogging</a> (12)
+</li>
+	<li class="cat-item cat-item-2"><a href="http://www.nynaeve.net/?cat=2" title="Debugging techinques, analysis of problems I have encountered, and soforth.">Debugging</a> (95)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.nynaeve.net/?cat=7" title="Networking-related topics.">Networking</a> (6)
+</li>
+	<li class="cat-item cat-item-10"><a href="http://www.nynaeve.net/?cat=10" >NT Internals</a> (47)
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.nynaeve.net/?cat=4" title="General programming topics.">Programming</a> (59)
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.nynaeve.net/?cat=8" title="Reverse engineering of software.">Reverse Engineering</a> (34)
+</li>
+	<li class="cat-item cat-item-3"><a href="http://www.nynaeve.net/?cat=3" title="Security-related discussions, especially relating to software programming security issues.">Security</a> (18)
+</li>
+	<li class="cat-item cat-item-1"><a href="http://www.nynaeve.net/?cat=1" title="Topics that don&#039;t go anywhere else live here.">Uncategorized</a> (11)
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.nynaeve.net/?cat=5" title="General Windows-related topics.">Windows</a> (154)
+</li>
+</ul></li>		</ul>
+		<ul>
+							<li id="linkcat-11" class="linkcat"><h2>Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blogs.msdn.com/doronh" title="Doron Holan&#8217;s blog on KMDF, driver development, and debugging.">A Hole In My Head</a></li>
+<li><a href="http://www.alex-ionescu.com/" title="Alex&#8217;s blog about programming and reverse engineering.">Alex Ionescu</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/" title="Dmitry Vostokov&#8217;s excellent blog on various analysis techniques for post-mortem crash dump debugging.">Dump Analysis Blog</a></li>
+<li><a href="http://www.joelonsoftware.com/" title="Joel Spolsky&#8217;s blog on software development.">Joel on Software</a></li>
+<li><a href="http://www.kernelmustard.com" title="A blog on Windows Driver Development by Steve Dispensa.">Kernel Mustard</a></li>
+<li><a href="http://blogs.msdn.com/larryosterman/" title="Larry Osterman&#8217;s blog on various interesting Windows topics.">Larry Osterman&#8217;s blog</a></li>
+<li><a href="http://www.matasano.com/log/" title="Software security and security vulnerability insights from the Matasano team.">Matasano Chargen</a></li>
+<li><a href="http://blogs.msdn.com/ntdebugging" title="Advanced Windows Debugging and Troubleshooting tips from the Microsoft CPR Team">Microsoft CPR Team Blog</a></li>
+<li><a href="http://qstuff.blogspot.com/" title="Justin Olbrantz&#8217;s blog on programming, language, and more.">Q &amp; Stuff</a></li>
+<li><a href="http://blogs.msdn.com/michkap/" title="Michael Kaplan&#8217;s blog on NLS and localization-related topics.">Softing It All Out</a></li>
+<li><a href="http://metasploit.blogspot.com/" title="The Metasploit team&#8217;s blog">The Metasploit Blog</a></li>
+<li><a href="http://blogs.msdn.com/oldnewthing/" title="Raymond Chen&#8217;s Windows development-related blog.">The Old New Thing</a></li>
+<li><a href="http://zeroflag.wordpress.com" title="Yoni&#8217;s blog on x86-related topics.">The Zero Flag</a></li>
+
+	</ul>
+</li>
+<li id="linkcat-12" class="linkcat"><h2>Other</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.uninformed.org" title="Informative information for the uninformed &#8211; a journal on reverse engineering and exploitation technologies.">Uninformed</a></li>
+<li><a href="http://www.valhallalegends.com" title="An organization of technically oriented individuals (of which I am a member).">Valhalla Legends</a></li>
+<li><a href="http://www.valhallalegends.com/Skywing" title="Some programs written by me that may be of interest.">Various software by Skywing</a></li>
+
+	</ul>
+</li>
+
+				<li><h2>Meta</h2>
+				<ul>
+										<li><a href="http://www.nynaeve.net/wp-login.php">Log in</a></li>
+					<li><a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional">Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
+					<li><a href="http://gmpg.org/xfn/"><abbr title="XHTML Friends Network">XFN</abbr></a></li>
+					<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress</a></li>
+									</ul>
+				</li>
+			
+					</ul>
+	</div>
+
+
+
+<hr />
+<div id="footer" role="contentinfo">
+<!-- If you'd like to support WordPress, having the "powered by" link somewhere on your blog is the best way; it's our only promotion or advertising. -->
+	<p>
+		Nynaeve is proudly powered by
+		<a href="http://wordpress.org/">WordPress</a>
+		<br /><a href="http://www.nynaeve.net/?feed=rss2">Entries (RSS)</a>
+		and <a href="http://www.nynaeve.net/?feed=comments-rss2">Comments (RSS)</a>.
+		<!-- 22 queries. 1.294 seconds. -->
+	</p>
+</div>
+</div>
+
+<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/kubrick/ -->
+
+		<script type='text/javascript' src='http://www.nynaeve.net/wp-includes/js/wp-embed.min.js?ver=5.1.1'></script>
+</body>
+</html>
+
+<!-- Dynamic Page Served (once) in 1.295 seconds -->
+
+
+
+#####EOF#####
+
+

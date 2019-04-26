@@ -1,0 +1,2097 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head id="Head1"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<!--share begin -->
+<meta property="og:title" content="Security Advisory - Two Vulnerabilities in Huawei PCManager Product">
+<meta property="og:description" content="">
+<meta property="og:image" content="//www-file.huawei.com/-/media/cnbg/images/home/logo_tab_top_nav_main_huawei.png">
+<meta property="og:url" content="https://www.huawei.com/en/psirt/security-advisories/huawei-sa-20190109-01-pcmanager-en">
+<meta property="og:site_name" content="huawei">
+<!--share end -->
+<!-- add twitter meta begin -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Security Advisory - Two Vulnerabilities in Huawei PCManager Product">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="//www-file.huawei.com/-/media/cnbg/images/home/logo_tab_top_nav_main_huawei.png">
+<!-- add twitter meta end -->
+
+<link rel="canonical" href="https://www.huawei.com/en/psirt/security-advisories/huawei-sa-20190109-01-pcmanager-en">
+<meta name="google-site-verification" content="wqACMoaM-tJAtTNspMBb0JCRVzOL4wcawL0B9QAcJPw">
+<meta name="msvalidate.01" content="9B78E6BE82A5A69C61096A84EA718DB6">
+<meta name="baidu-site-verification" content="mXsUjBxk6j">
+
+
+ <link rel="stylesheet" href="/Assets/corp/v1/css/css-css-en.min.css?ver=201903310001" type="text/css" media="screen, project, print">
+
+<link rel="stylesheet" type="text/css" href="/Assets/corp/v2/css/en/common/common-combin.css?ver=201903310001">
+<link rel="stylesheet" type="text/css" href="/Assets/corp/v2/css/en/header-hack.css?ver=201903310001">
+
+  <!--[if lt IE 10]>
+	    <link rel="stylesheet" href="/Assets/corp/v2/css/en/ie8-hack.css" />
+    <![endif]-->
+    <style type="text/css">
+        .corporate-pb .col-sm-9 { margin: 0 auto; float: none; width: 83.33333333%; }
+    </style><meta name="google-site-verification" content="wqACMoaM-tJAtTNspMBb0JCRVzOL4wcawL0B9QAcJPw">
+<meta name="msvalidate.01" content="9B78E6BE82A5A69C61096A84EA718DB6">
+<meta name="baidu-site-verification" content="mXsUjBxk6j">
+
+
+
+    <!--[if lt IE 9 ]>
+      <script type="text/javascript" src="/Assets/CBG/js/html5shiv.min.js" ></script>
+      <script type="text/javascript" src="/Assets/CBG/js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="Shortcut Icon" href="/Assets/corp/v2/img/img_ent_en_logo_ico.png"><title>
+	Security Advisory - Two Vulnerabilities in Huawei PCManager Product
+</title></head>
+<body>
+    
+    <div class="browsehappy ReadPolicy">
+<p>This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies. <a href="/en/privacy-policy" target="_blank">Read our privacy policy (update in May 2018) &gt;</a><a href="javascript:void(0)" class="close" title="close"></a></p>
+</div>
+    <form method="post" action="/en/psirt/security-advisories/huawei-sa-20190109-01-pcmanager-en" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTkzMTQ5ODQ3N2RkbYZ6uMBQKTDZHEmTDnb2HLnJ6WM=">
+</div>
+</form>
+    <div id="container">
+        
+
+<input type="hidden" id="hidLanguage" value="en">
+<input type="hidden" id="SearchUrl" value="/en/searchresult">
+<input type="hidden" id="hisSearch" value='SEARCH HISTORY'>
+<input type="hidden" id="rememberChoice" value='Remember my choice for next time?'>
+<input type="hidden" id="yes" value='Yes'>
+<input type="hidden" id="no" value='No'>
+
+<div class="nav-gblnav hidden-xs  hidden-sm">
+    <input type="hidden" id="hidUserStatusUrl" value="/en/user">
+    <div class="nav-height">
+        <div class="container">
+            <span>
+                
+                    <a href="javascript:;" class="navbar-toggle corporate-link" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" onclick="">
+                        Corporate
+                        <em class="hwic_down"></em>
+                    </a>
+                
+            </span>
+            <div class="nav-fr">
+                <span>
+                    <a href="javascript:;" class="navbar-toggle worldwide-link" data-toggle="collapse" data-target="#worldwide" aria-expanded="false" aria-controls="worldwide" onclick="ga('send', 'event', 'header', 'worldwide');">
+                        <span class="hwic_browser"></span>
+                        <b>
+                            Worldwide
+                        </b>
+                        <em class="hwic_down"></em>
+                    </a>
+                </span>
+                
+                        <span class="login" data-id='{12469A50-8689-499F-A6DB-1A94FA0C8859}'>
+                            
+                                <a href="https://www.huawei.com/en/my-huawei/login?redirect=http%3a%2f%2fwww.huawei.com%2fen%2fpsirt%2fsecurity-advisories%2fhuawei-sa-20190109-01-pcmanager-en" onclick="ga('send', 'event', 'header', 'login');">
+                                    <em class="hwic_lock" style=""></em>
+                                    <b>
+                                        Sign in
+                                    </b>
+                                </a>
+                            
+                        </span>
+                    
+                        <span class="login" data-id='{BC39FD1E-A3A5-4B51-BC77-1FA92CE2EA34}'>
+                            
+                                <a href="https://www.huawei.com/en/my-huawei" onclick="ga('send', 'event', 'header', 'myhuawei');">
+                                    <em class="hwic_lock" style="display:none;"></em>
+                                    <b>
+                                        My Huawei
+                                    </b>
+                                </a>
+                            
+                        </span>
+                    
+                        <span class="login" data-id='{EA252A79-57F6-4A35-A13B-875A3ACC5E08}'>
+                            
+                                <a href="https://www.huawei.com/en/loginoutUnion.aspx?rediurl=http%3a%2f%2fwww.huawei.com%2fen%2fpsirt%2fsecurity-advisories%2fhuawei-sa-20190109-01-pcmanager-en" onclick="ga('send', 'event', 'header', 'logout');">
+                                    <em class="hwic_lock" style="display:none;"></em>
+                                    <b>
+                                        Sign out
+                                    </b>
+                                </a>
+                            
+                        </span>
+                    
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="corporate">
+            <div class="corporate-dropdown navbar-collapse collapse" id="navbar" aria-expanded="true">
+                <ul class="clearfix">
+                    
+                            <li class=''>
+                                
+                                    <h3>
+                                        <a>
+                                            Corporate
+                                            <em class="hwic_right"></em>
+                                        </a>
+                                    </h3>
+                                    <a>
+                                        <p>About Huawei, Press &amp; Events , and More</p>
+                                    </a>
+
+                                
+                            </li>
+                        
+                            <li class='iconfont-flash'>
+                                
+                                    <h3>
+                                        <a href="https://consumer.huawei.com" onclick="ga('send', 'event', 'header', 'consumer');" target="_blank">
+                                            Consumer
+                                            <em class="hwic_right"></em>
+                                        </a>
+                                    </h3>
+                                    <a href="https://consumer.huawei.com" onclick="ga('send', 'event', 'header', 'consumer');" target="_blank">
+                                        <p>Smartphones, PC, Tablets, Wearables and More</p>
+                                    </a>
+
+                                
+                            </li>
+                        
+                            <li class='iconfont-flash'>
+                                
+                                    <h3>
+                                        <a href="https://e.huawei.com/en/?ic_medium=hwdc&amp;ic_source=corp_header_allwayson&amp;source=corp_header" onclick="ga('send', 'event', 'header', 'enterprise');" target="_blank">
+                                            Enterprise
+                                            <em class="hwic_right"></em>
+                                        </a>
+                                    </h3>
+                                    <a href="https://e.huawei.com/en/?ic_medium=hwdc&amp;ic_source=corp_header_allwayson&amp;source=corp_header" onclick="ga('send', 'event', 'header', 'enterprise');" target="_blank">
+                                        <p>Products, Solutions and Services for Enterprise</p>
+                                    </a>
+
+                                
+                            </li>
+                        
+                            <li class='iconfont-flash'>
+                                
+                                    <h3>
+                                        <a href="http://carrier.huawei.com/en" onclick="ga('send', 'event', 'header', 'carriers');">
+                                            Carrier
+                                            <em class="hwic_right"></em>
+                                        </a>
+                                    </h3>
+                                    <a href="http://carrier.huawei.com/en" onclick="ga('send', 'event', 'header', 'carriers');">
+                                        <p>Products, Solutions and Services for Carrier</p>
+                                    </a>
+
+                                
+                            </li>
+                        
+                </ul>
+            </div>
+            <div class="worldwide-dropdown navbar-collapse collapse" id="worldwide" aria-expanded="true">
+
+                <div class="worldwide-contact">
+                    <div class="worldwide-language"><span class="hwic_browser"></span>Huawei Global - <a link="/en/" href="javascript:void(0)" style="text-decoration:underline;">English</a></div>
+                    <ul class="clearfix">
+                        <li>
+                                    <span>Australia</span> -
+                    <a link="/au/" href="javascript:void(0)">English </a>
+                                </li>
+                                <li>
+                                    <span>Belarus</span> -
+                    <a link="/by/" href="javascript:void(0)">PÑÑÑÐºÐ¸Ð¹</a>
+                                </li>
+                                <li>
+                                    <span>Brazil</span> -
+                    <a link="/br/" href="javascript:void(0)">Portuguese</a>
+                                </li>
+                                <li>
+                                    <span>Canada</span> -
+                    <a link="/ca/" href="javascript:void(0)">English </a>
+                                </li>
+                                <li>
+                                    <span>China</span> -
+                    <a link="/cn/" href="javascript:void(0)">ç®ä½ä¸­æ</a>
+                                </li>
+                <li>
+                                    <span>France</span> -
+                    <a link="/fr/" href="javascript:void(0)">FranÃ§ais</a>
+                                </li>
+                         <li>
+                                    <span>Germany</span> -
+                    <a link="/de/" href="javascript:void(0)">Deutsch</a>
+                                </li>
+       <li>
+                                    <span>Italy</span> -
+                    <a link="/it/" href="javascript:void(0)">Italiano</a>
+                                </li>
+                                <li>
+                                    <span>Japan</span> -
+                    <a link="/jp/" href="javascript:void(0)">æ¥æ¬èª</a>
+                                </li>
+                                   <li>
+                                    <span>Kazakstan </span> -
+                    <a link="/kz/" href="javascript:void(0)">ÑÑÑÑÐºÐ¸Ð¹</a>
+                                </li>
+                                <li>
+                                    <span>Malaysia </span> -
+                    <a link="/my/" href="javascript:void(0)">English</a>
+                                </li>
+                                <li>
+                                    <span>Mexico</span> -
+                    <a link="/mx/" href="javascript:void(0)">EspaÃ±ol</a>
+                                </li>
+                        <li>
+                                    <span>Myanmar</span> -
+                    <a link="/mm/" href="javascript:void(0)">á»ááá¹áá¬</a>
+                                </li>
+                                 <li>
+                                    <span>New Zealand</span> -
+                    <a link="/nz/" href="javascript:void(0)">English</a>
+                                </li>
+                                <li>
+                                    <span>Russia</span> -
+                    <a link="/ru/" href="javascript:void(0)">ÑÑÑÑÐºÐ¸Ð¹</a>
+                                </li>
+                                <li>
+                                    <span>South Africa</span> -
+                    <a link="/za/" href="javascript:void(0)">English </a>
+                                </li>
+                                <li>
+                                    <span>Spain</span> -
+                    <a link="/es/" href="javascript:void(0)">EspaÃ±ol</a>
+                                </li>
+                                <li>
+                                    <span>Switzerland</span> -
+                    <a link="/ch-en/" href="javascript:void(0)">English </a>
+                                </li>   
+                         <li>
+                                    <span>Thailand</span> -
+                    <a link="/th/" href="javascript:void(0)">à¸ à¸²à¸©à¸²à¹à¸à¸¢</a>
+                                </li>                   
+                                <li>
+                                    <span>Turkey</span> -
+                    <a link="/tr/" href="javascript:void(0)">TÃ¼rkiye</a>
+                                </li>
+                                                                <li>
+                                    <span>Ukraine</span> -
+                    <a link="/ua/" href="javascript:void(0)">Ð£ÐºÑÐ°ÑÐ½ÑÑÐºÐ° </a>
+                                </li>
+                                <li>
+                                    <span>United Kingdom</span> -
+                    <a link="/uk/" href="javascript:void(0)">English </a>
+                                </li>
+                                <li>
+                                    <span>United States</span> -
+                    <a link="/us/" href="javascript:void(0)">English </a>
+                                </li>
+    <li>
+                                    <span>Uzbekistan</span> -
+                    <a link="/uz/" href="javascript:void(0)">ÑÑÑÑÐºÐ¸Ð¹ </a>
+                                </li>
+                                <li>
+                                    <span>Vietnam</span> -
+                    <a link="/vn/" href="javascript:void(0)">Tiáº¿ng Viá»t</a>
+                                </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<header>
+    <div id="hw1_global_nav">
+        <nav>
+            <div class="container">
+                <div id="hw1_logo">
+                    <a href="https://www.huawei.com/en/">
+                        <img src="//www-file.huawei.com/-/media/corporate/images/home/logo/huawei_logo.png" alt="huawei logo"></a>
+                </div>
+                <div class="nav-contact  hidden-xs  hidden-sm">
+                    <ul class="clearfix">
+                        
+                                <li>
+                                    
+                                        <span class="hwic_mobile-nav"></span>
+                                        <a href="javascript:;" onclick="ga('send', 'event', 'navbar', 'b2c');" class="navbar-toggle " target="">
+                                            Phones, PC &amp; More
+                                            <em class="hwic_down"></em></a>
+                                        <div class="primary-nav-consumer-open  navbar-collapse">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <img class="lazy img-radius" data-original="~/media/CORPORATE/Images/home/head-pic/nav_p30pro260.jpg" alt="Huawei">
+                        <div class="see-more">
+                          <a href="https://consumer.huawei.com/en/phones/p30-pro/" onclick="ga('send', 'event', 'navbar', 'b2c', 'p30pro');" target="_blank">See More <em class="hwic_right"></em></a>
+                        </div>
+                      </div>
+                      <div class="col-sm-7">
+                        <div class="list-icon">
+                          <div class="row">
+                            <div class="col-sm-4 external-link">
+                              <a href="https://consumer.huawei.com/en/phones/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'navbar', 'b2c', 'phones');" target="_blank">
+												<em class="hwic_mobile-navbar"></em>
+												<p>Phones<em class="hwic_open-in-new3"></em></p>
+								  				
+											</a>
+                            </div>
+                            <div class="col-sm-4 external-link">
+                              <a href="https://consumer.huawei.com/en/laptops/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'navbar', 'b2c', 'laptop');" target="_blank">
+												<em class="hwic_pc-navbar"></em>
+											<p>Laptops<em class="hwic_open-in-new3"></em></p>
+												</a>
+                            </div>
+							<div class="col-sm-4 external-link">
+                              <a href="https://consumer.huawei.com/en/tablets/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'navbar', 'b2c', 'tablet');" target="_blank">
+												<em class="hwic_tablets-navbar"></em>
+											<p>Tablets<em class="hwic_open-in-new3"></em></p>
+												</a>
+                            </div>  
+                            <div class="col-sm-4 external-link">
+                              <a href="https://consumer.huawei.com/en/wearables/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'navbar', 'b2c', 'Wearables');" target="_blank">
+												<em class="hwic_Wearables-navbar"></em>
+											<p>Wearables <em class="hwic_open-in-new3"></em></p>
+											</a>
+                            </div>
+
+                            <div class="col-sm-4 external-link">
+                              <a href="https://consumer.huawei.com/en/accessories/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'navbar', 'b2c', 'accessories');" target="_blank">
+												<em class="hwic_accessories-navbar"></em>
+											<p>Accessories<em class="hwic_open-in-new3"></em></p>
+												</a>
+                            </div>
+							
+                            <div class="col-sm-4 external-link">
+                              <a href="https://consumer.huawei.com/en/smart-home/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'navbar', 'b2c', 'smarthome');" target="_blank">
+												<em class="hwic_smarthome-navbar"></em>
+											<p>Smart Home<em class="hwic_open-in-new3"></em></p>
+												</a>
+                            </div>
+                            
+                          </div>
+                          <span class="external-link"><a href="https://consumer.huawei.com" onclick="ga('send', 'event', 'navbar', 'b2c', 'consumerhome');" target="_blank">See all products at <span class="link-red">consumer.huawei.com</span></a><em class="hwic_open-in-new3"></em></span>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="card-cl2">
+                          <h3>Need Support ?</h3>
+                          <ul class="clearfix">
+                            <li class="external-link"><a href="https://consumer.huawei.com/en/support/phones/" onclick="ga('send', 'event', 'navbar', 'b2c', 'productsupport');" target="_blank">Product Support<em class="hwic_open-in-new3"></em></a></li>
+                            <li class="external-link"><a href="https://consumer.huawei.com/en/support/service-center/index.htm" onclick="ga('send', 'event', 'navbar', 'b2c', 'servicecenters');" target="_blank">Service Centers<em class="hwic_open-in-new3"></em></a></li>
+                            <li class="external-link"><a href="https://consumer.huawei.com/en/contact-us/index.htm?tag=hotline" onclick="ga('send', 'event', 'navbar', 'b2c', 'callus');" target="_blank">Call Us<em class="hwic_open-in-new3"></em></a></li>
+                          </ul>
+							<span class="external-link"><a href="https://consumer.huawei.com/en/support/index.htm" onclick="ga('send', 'event', 'navbar', 'b2c', 'supportcenter');" target="_blank">Go to <span class="link-red">Full Support</span></a><em class="hwic_open-in-new3"></em></span>
+                          <div class="bg-support container-fluid">
+                            <div class="row">
+                              <div class=""></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                                    
+                                </li>
+                                
+                            
+                                <li>
+                                    
+                                        <span class="hwic_solutions-nav"></span>
+                                        <a href="javascript:;" onclick="ga('send', 'event', 'navbar', 'b2b');" class="navbar-toggle " target="">
+                                            For Business 
+                                            <em class="hwic_down"></em></a>
+                                        <div class="primary-nav-enterprise-open  navbar-collapse collapse">
+                  <div class="nav-for-tab">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm-6 center-block">
+                          <ul class="" role="tablist">
+                            <li role="presentation" class="active">
+                              <a href="#FOR-ENTERPRISE" aria-controls="FOR-ENTERPRISE" role="tab" data-toggle="tab" onclick="ga('send', 'event', 'navbar', 'b2b', 'enterprisetab');">FOR ENTERPRISE</a>
+                            </li>
+                            <li role="presentation">
+                              <a href="#FOR-CARRIERS" aria-controls="FOR-CARRIERS" role="tab" data-toggle="tab" onclick="ga('send', 'event', 'navbar', 'b2b', 'carriertab');">FOR CARRIER</a>
+                            </li>
+                            <li role="presentation">
+                              <a href="#HUAWEI-CLOUD" aria-controls="HUAWEI-CLOUD" role="tab" data-toggle="tab" onclick="ga('send', 'event', 'navbar', 'b2b', 'cloudtab');">HUAWEI CLOUD</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                      <div role="tabpanel" class="for-tab-one tab-pane fade in active" id="FOR-ENTERPRISE">
+                        <div class="container">
+                          <div class="row">
+							 <div class="col-sm-9">
+								 <div class="row">
+								 	<div class="col-sm-4">
+                                  <h3>Products</h3>
+                                  <ul>
+                                    <li class="external-link"><a href="http://e.huawei.com/en/products/enterprise-networking/switches?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-switches');" target="_blank">Switches<em class="hwic_open-in-new3"></em></a></li>
+                                    <li class="external-link"><a href="http://e.huawei.com/en/products/enterprise-networking/routers?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-routers');" target="_blank">Routers<em class="hwic_open-in-new3"></em></a></li>
+                                    <li class="external-link"><a href="http://e.huawei.com/en/products/enterprise-networking/wlan?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-wlan');" target="_blank">WLAN<em class="hwic_open-in-new3"></em></a></li>
+                                    <li class="external-link"><a href="https://e.huawei.com/en/products/cloud-computing-dc/storage?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-storage');" target="_blank">Storage<em class="hwic_open-in-new3"></em></a></li>
+                                    <li class="external-link"><a href="http://e.huawei.com/en/products-and-solutions?pos=products" class="see-all" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-seeallproduct');" target="_blank">See All<em class="hwic_open-in-new3"></em></a></li>
+                                  </ul>
+                                </div>
+									<div class="col-sm-4">
+										  <h3>Solutions</h3>
+										  <ul>
+											<li class="external-link"><a href="http://e.huawei.com/en/solutions/business-needs/data-center?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-datacenter');" target="_blank">Cloud Data Center<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://e.huawei.com/en/solutions/business-needs/enterprise-network?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-enterprisenetwork');" target="_blank">Enterprise Networking<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="https://e.huawei.com/en/solutions/hic?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-intelligentomputing');" target="_blank">Intelligent Computing<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://e.huawei.com/en/products-and-solutions?pos=Industries" class="link-red" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-industries');" target="_blank">Solutions by Industry<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://e.huawei.com/en/products-and-solutions?pos=solutions" class="see-all" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-seeallsolutions');" target="_blank">See All<em class="hwic_open-in-new3"></em></a></li>
+										  </ul>
+										</div>
+									<div class="col-sm-4">
+										  <h3>Services</h3>
+										  <ul>
+                                                                                        <li class="external-link"><a href="http://support.huawei.com/learning/en/newindex.html?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-learningservice');" target="_blank">Training and Certification<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://e.huawei.com/en/services/digital-transformation-journey/advisory-implementation?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-advioryimplementservice');" target="_blank">ICT Lifecycle Services<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://support.huawei.com/enterprise/en/index.html" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-supportservice');" target="_blank">Technology Services<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://e.huawei.com/en/services/industries-solutions?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-industryservices');" target="_blank">Industry Solution Services<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://e.huawei.com/en/services?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" class="see-all" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-seeallservices');" target="_blank">See All<em class="hwic_open-in-new3"></em></a></li>
+										  </ul>
+										</div>
+								 </div>
+							 	 
+							<span class="external-link"><a href="http://e.huawei.com/en/?ic_medium=hwdc&ic_source=corp_nav_allwayson&source=corp_nav" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-home');" target="_blank">See all offerings at <span class="link-red">e.huawei.com</span></a><em class="hwic_open-in-new3"></em></span>
+							 </div>
+                             <div class="col-sm-3">
+                              <div class="card-cl2">
+                                <h3>Need Support ?</h3>
+                                <ul class="clearfix">
+                                  <li class="external-link"><a href="http://support.huawei.com/enterprise/en/index.html" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-productsupport');" target="_blank">Product Support<em class="hwic_open-in-new3"></em></a></li>
+                                  <li class="external-link"><a href="http://support.huawei.com/enterprise/en/software/index.html" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-softwaredownload');" target="_blank">Software Download<em class="hwic_open-in-new3"></em></a></li>
+                                  <li class="external-link"><a href="http://forum.huawei.com/enterprise/index.html?lang=en" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-techinicalforum');" target="_blank">Community<em class="hwic_open-in-new3"></em></a></li>
+                                  <li class="external-link"><a href="http://support.huawei.com/enterprise/en/tool/" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-tools');" target="_blank">Tools<em class="hwic_open-in-new3"></em></a></li>
+                                </ul>
+                                <span class="external-link"><a href="http://support.huawei.com/enterprise/en/index.html" target="_blank">Go to <span class="link-red" onclick="ga('send', 'event', 'navbar', 'b2b', 'ent-supprotcenter');">Full Support</span></a><em class="hwic_open-in-new3"></em></span>
+                                <div class="bg-support container-fluid">
+                                  <div class="row">
+                                    <div></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+							
+                          </div>
+                        </div>
+
+                      </div>
+                      <div role="tabpanel" class="for-tab-one tab-pane fade" id="FOR-CARRIERS">
+                        <div class="container">
+                          <div class="row">
+							<div class="col-sm-9">
+								<div class="row">
+									<div class="col-sm-4">
+									  <h3>Products</h3>
+								      <ul>
+											<li class="external-link"><a href="http://carrier.huawei.com/en/products/wireless-network" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-wireless');" target="_blank">Wireless Network<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://carrier.huawei.com/en/products/fixed-network" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-fixednetwork');" target="_blank">Fixed Network<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://carrier.huawei.com/en/products/core-network" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-corenetwork');" target="_blank">Cloud Core Network<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://carrier.huawei.com/en/products/carrier-software" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-carriersoftware');" target="_blank">Carrier Software<em class="hwic_open-in-new3"></em></a></li>
+											<li class="external-link"><a href="http://carrier.huawei.com/en/products" class="see-all" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-seeallproducts');" target="_blank">See All<em class="hwic_open-in-new3"></em></a></li>
+										  </ul>
+									</div>
+									 <div class="col-sm-4">
+									  <h3>Solutions</h3>
+									  <ul>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/solutions?id={0EFE6359-D999-4141-B1B0-F002203117C9}" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-cloudpowered');" target="_blank">Service Cloudification<em class="hwic_open-in-new3"></em></a></li>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/solutions?id={D61969C0-A809-4135-9DC8-10B6439394F1}" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-cloudenabled');" target="_blank">Equipment Cloudification<em class="hwic_open-in-new3"></em></a></li>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/solutions?id={31D5CEF7-6202-4415-A1EA-6121D041849E}" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-allcloudnetwork');" target="_blank">Network Cloudification<em class="hwic_open-in-new3"></em></a></li>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/solutions?id={BAF7EF27-8473-46B7-A8DB-DC40505A0CFA}" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-maximizevalue');" target="_blank">Maximizing Network Value<em class="hwic_open-in-new3"></em></a></li>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/solutions" class="see-all" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-seeallsolutions');" target="_blank">See All<em class="hwic_open-in-new3"></em></a></li>
+									  </ul>
+									</div>
+									 <div class="col-sm-4">
+									  <h3>Services</h3>
+									  <ul>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/services/consulting-service" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-consutlingservice');" target="_blank">Consulting Service<em class="hwic_open-in-new3"></em></a></li>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/services/system-integration-service" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-integrateservice');" target="_blank">System Integration Service<em class="hwic_open-in-new3"></em></a></li>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/services/managed-services" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-managedservice');" target="_blank">Managed Services<em class="hwic_open-in-new3"></em></a></li>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/services/learning-solutions" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-learningservice');" target="_blank">Learning Service<em class="hwic_open-in-new3"></em></a></li>
+										<li class="external-link"><a href="http://carrier.huawei.com/en/services" class="see-all" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-seeallservices');" target="_blank">See All<em class="hwic_open-in-new3"></em></a></li>
+									  </ul>
+									</div>
+								</div>  
+								<span class="external-link"><a href="http://carrier.huawei.com/en/" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-home');" target="_blank">See all offerings at <span class="link-red">carrier.huawei.com</span></a><em class="hwic_open-in-new3"></em></span>
+							</div>
+                            <div class="col-sm-3">
+                              <div class="card-cl2">
+                                <h3>Need Support ?</h3>
+                                <ul class="clearfix">
+                                  <li class="external-link"><a href="http://support.huawei.com/carrier/navi#col=product" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-productsupport');" target="_blank">Product Support<em class="hwic_open-in-new3"></em></a></li>
+                                  <li class="external-link"><a href="http://support.huawei.com/groupspace/?lang=en" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-groupspace');" target="_blank">Group Space<em class="hwic_open-in-new3"></em></a></li>
+                                  <li class="external-link"><a href="http://support.huawei.com/carrier/navi?coltype=news#col=bulletin" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-bulletin');" target="_blank">Bulletins<em class="hwic_open-in-new3"></em></a></li>
+                                  <li class="external-link"><a href="http://support.huawei.com/carrier/navi#col=other/pigeon&path=PAN-DE" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-documentation');" target="_blank">Documentation Express<em class="hwic_open-in-new3"></em></a></li>
+                                </ul>
+                                <span class="external-link"><a href="http://support.huawei.com/carrier/en/hwe/index.html" onclick="ga('send', 'event', 'navbar', 'b2b', 'car-supporthome');" target="_blank">Go to <span class="link-red">Full Support</span></a><em class="hwic_open-in-new3"></em></span>
+                                <div class="bg-support container-fluid">
+                                  <div class="row">
+                                    <div></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div role="tabpanel" class="for-tab-one tab-pane fade" id="HUAWEI-CLOUD">
+                        <div class="container">
+                          <div class="row">
+							<div class="col-sm-9">
+								<div class="row">
+									
+									<div class="col-sm-4 text-center"><span class="lazy-loaded"><a href="https://www.huaweicloud.com/en-us/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-home');" target="_blank">
+									  <img class="center-block lazy" data-original="//www-file.huawei.com/-/media/corp/index/nav-contact_02.png " alt="Huawei"></a></span>
+									  <a href="https://intl.huaweicloud.com/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-home');" target="_blank">Grow with Intelligence ></a>
+									</div>
+									<div class="col-sm-8">
+										<div class="row">
+											<div class="col-sm-6">
+											  <h3>Products</h3>
+											  <ul>
+												<li class="external-link"><a href="https://www.huaweicloud.com/en-us/product/ecs.html?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-ecs');" target="_blank">Elastic Cloud Server<em class="hwic_open-in-new3"></em></a></li>
+												<li class="external-link"><a href="https://www.huaweicloud.com/en-us/product/rds.html?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-rds');" target="_blank">Relational Database Service<em class="hwic_open-in-new3"></em></a></li>
+												
+												<li class="external-link"><a href="https://www.huaweicloud.com/en-us/product/pipeline.html?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-devcloud');" target="_blank">DevCloud<em class="hwic_open-in-new3"></em></a></li>
+												<li class="external-link"><a href="https://www.huaweicloud.com/en-us/product/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" class="see-all" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-seeallproduct');" target="_blank">See All<em class="hwic_open-in-new3"></em></a></li>
+											  </ul>
+											</div>
+											<div class="col-sm-6">
+											  <h3>Solutions</h3>
+											  <ul>
+												<li class="external-link"><a href="https://www.huaweicloud.com/en-us/solution/businesscloud/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-eCommercesolution');" target="_blank">Self-built e-Commerce Solution<em class="hwic_open-in-new3"></em></a></li>
+												<li class="external-link"><a href="https://www.huaweicloud.com/en-us/solution/gamecloud/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-industrysolution');" target="_blank">Gaming Solution<em class="hwic_open-in-new3"></em></a></li>
+                                                <li class="external-link"><a href="https://www.huaweicloud.com/en-us/solution/highperformance/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-highperformancesolution');" target="_blank">High Performance Computing <em class="hwic_open-in-new3"></em></a></li>
+                                                <li class="external-link"><a href="https://www.huaweicloud.com/en-us/solution/sap/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-saponcloudsolution');" target="_blank">SAP On Cloud Solution<em class="hwic_open-in-new3"></em></a></li>
+												<li class="external-link"><a href="https://www.huaweicloud.com/en-us/solution/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" class="see-all" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-seeallsolutions');" target="_blank">See All<em class="hwic_open-in-new3"></em></a></li>
+											  </ul>
+											</div>
+										</div>
+										<span class="external-link"><a href="https://intl.huaweicloud.com?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-home');" target="_blank">See all offerings at  <span class="link-red">www.huaweicloud.com</span></a><em class="hwic_open-in-new3"></em></span>
+									</div>
+									
+								</div>
+								
+							</div>
+                            <div class="col-sm-3">
+                              <div class="card-cl2">
+                                <h3>Need Support ?</h3>
+                                <ul class="clearfix">
+                                  <li class="external-link"><a href="https://www.huaweicloud.com/en-us/about/protection.html?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-supportserviceassurance');" target="_blank">Service Assurance System<em class="hwic_open-in-new3"></em></a></li>
+                                </ul>
+                                <span class="external-link"><a href="https://support.huaweicloud.com/en-us/?utm_medium=menu&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'navbar', 'b2b', 'hwcloud-fullsupport');" target="_blank">Go to <span class="link-red">Full Support</span></a><em class="hwic_open-in-new3"></em></span>
+                                <div class="bg-support container-fluid">
+                                  <div class="row">
+                                    <div></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                                    
+                                </li>
+                                </ul><ul class='clearfix'>
+                            
+                                <li>
+                                    
+                                        <span class=""></span>
+                                        <a href="javascript:;" onclick="ga('send', 'event', 'navbar', 'industryinsights');" class="navbar-toggle " target="">
+                                            Industry Insights 
+                                            <em class="hwic_down"></em></a>
+                                        
+<div class="primary-nav-insights-open  navbar-collapse collapse">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h3>Research</h3>
+                <ul>
+                    <li><a href="https://www.huawei.com/minisite/giv/en/index.html" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'giv');">Global Industry Vision</a></li>
+                    <li><a href="https://www.huawei.com/minisite/gci/en/index.html" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'gci');">Global Connectivity Index</a></li>
+                    <li><a href="https://www.huawei.com/minisite/gci/en/digital-spillover/index.html" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'spillover');">Digital Spillover</a></li>
+                    <li><a href="/en/industry-insights?name=research" class="see-all" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'seeallresearch');">See All</a></li>
+                </ul>
+                <span><a href="/en/industry-insights" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'home');">See all <span class="link-red">Industry Insights</span></a></span>
+            </div>
+            <div class="col-sm-3">
+                <h3>Technology</h3>
+                <ul>
+                    <li><a href="https://www.huawei.com/minisite/iot/en/" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'iot');">IoT</a></li>
+                    <li><a href="/en/industry-insights/outlook/mobile-broadband/5g" onclick="ga('send', 'event', 'navbar', 'industryinsights', '5G');">5G</a></li>
+                    <li><a href="/en/industry-insights/technology/digital-transformation" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'digitalization');">Digital Transformation</a></li>
+                    <li><a href="/en/industry-insights?name=technology" class="see-all" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'seealltechnologies');">See All</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h3>Outlook</h3>
+                <ul>
+                    
+                    <li class="external-link"><a href="http://e.huawei.com/topic/leading-new-ict-en/" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'newict');" target="_blank">Leading New ICT<em class="hwic_open-in-new3"></em></a></li>
+                    <li class="external-link"><a href="http://carrier.huawei.com/en/spotlight" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'newgrowth');" target="_blank">ROADS to New Growth<em class="hwic_open-in-new3"></em></a></li>
+                    <li><a href="/en/industry-insights/outlook/mobile-broadband" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'mobilebroadband');">Fully Connected with Wireless</a></li>
+                    <li><a href="/en/industry-insights?name=outlook" class="see-all" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'seealloutlook');">See All</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h3>Innovation</h3>
+                <ul>
+                    <li class="external-link"><a href="http://innovationresearch.huawei.com/IPD/hirp/portal/index.html" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'hirp');" target="_blank">Huawei Innovation Research Program<em class="hwic_open-in-new3"></em></a></li>
+                    <li class="external-link"><a href="/en/industry-insights/outlook/mobile-broadband/xlabs" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'wirelessxLabs');">Wireless X Labs</a></li>
+                    <li class="external-link"><a href="/en/industry-insights/innovation/ilab" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'ilab');">iLab</a></li>
+                    <li><a href="/en/industry-insights?name=innovation" class="see-all" onclick="ga('send', 'event', 'navbar', 'industryinsights', 'seeallinnovation');">See All</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+                                    
+                                </li>
+                                
+                            
+                                <li>
+                                    
+                                        <span class=""></span>
+                                        <a href="javascript:;" onclick="ga('send', 'event', 'navbar', 'abouthuawei');" class="navbar-toggle " target="">
+                                            About Huawei
+                                            <em class="hwic_down"></em></a>
+                                        <div class="about-huawei-open navbar-collapse collapse">
+<div class="container">
+<div class="row">
+<div class="col-sm-6">
+<h3 class="iconfont-flash"><a href="/en/about-huawei" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'abouthuaweihome');">About Huawei <em class="hwic_right"></em></a></h3>
+<div class="row">
+<div class="col-sm-6">
+<ul>
+    <li><a href="/en/about-huawei/corporate-information" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'corporateinfo');">Corporate Information</a></li>
+    <li><a href="/en/about-huawei/corporate-governance/corporate-governance" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'governance');">Corporate Governance</a></li>
+    <li><a href="/en/about-huawei/executives" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'executives');">Executives</a></li>
+    <li><a href="/en/about-huawei/sustainability" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'sustainability');">Sustainability</a></li>
+</ul>
+</div>
+<div class="col-sm-6">
+<ul>
+    <li><a href="/en/about-huawei/cyber-security" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'cybersecurity');">Cyber Security</a></li>
+    <li><a href="/en/about-huawei/public-policy" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'publicpolicy');">Public Policy</a></li>
+    <li><a href="/en/about-huawei/bond-investor-relations" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'bondinvestor');">Bond Investor Relations</a></li>
+    <li><a href="/en/about-huawei/industry-analysts" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'analysts');">Industry Analysts</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-sm-3">
+<h3 class="iconfont-flash"><a href="/en/press-events" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'pressandevent');">Press &amp; Events <em class="hwic_right"></em></a></h3>
+<ul>
+    <li><a href="/en/press-events/news" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'news');">News</a></li>
+    <li><a href="/en/press-events/events" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'events');">Events</a></li>
+    <li class="external-link"><a href="/en/facts" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'huaweifacts');" target="_blank">Huawei Facts<em class="hwic_open-in-new3"></em></a></li>
+    <li><a href="/en/press-events/annual-report" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'annualreport');">Annual Reports</a></li>
+    <li><a href="/en/press-events/media-kit" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'mediakit');">Media Kits</a></li>
+</ul>
+</div>
+<div class="col-sm-3">
+<h3 class="iconfont-flash"><a href="/en/about-huawei/publications" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'publication');">Publications <em class="hwic_right"></em></a></h3>
+<ul>
+    <li><a href="/en/about-huawei/publications/winwin-magazine" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'winwin');"><i>WinWin</i></a></li>
+    <li><a href="/en/about-huawei/publications/communicate" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'communicate');"><i>Communicate</i></a></li>
+    <li class="external-link"><a href="http://e.huawei.com/en/publications/global/ict_insights" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'ictinsight');" target="_blank"><i>ICT Insights</i><em class="hwic_open-in-new3"></em></a></li>
+</ul>
+<h3 class="iconfont-flash"><a href="/en/about-huawei/cases" onclick="ga('send', 'event', 'navbar', 'abouthuawei', 'cases');">Case Studies<em class="hwic_right"></em></a></h3>
+</div>
+</div>
+</div>
+</div>
+                                    
+                                </li>
+                                
+                            
+                    </ul>
+                </div>
+                <div class="search ">
+                    <a href="javascript:;" class="js-search-btn-open nav-search-btn hidden-xs hidden-sm" data-target="#js-search-input-box" title="Search">
+                        <span class="hwic_search sear-btn"></span>
+                    </a>
+                    <a href="javascript:;" class="search-btn hidden-xs hidden-sm" title="Search"><span class="hwic_search"></span></a>
+                    <div class="search-open" id="js-search-input-box">
+                        <div class="overlay-box container-fluid"></div>
+                        <div class="search-box">
+                            <div class="search-input">
+                                <label for="js-search-input-popup" class="hidden">Keywords to search</label>
+                                <input type="text" name="Search" id="js-search-input-popup" class="js-search-input-popup" placeholder="Search" onkeypress="javascript:if(event.keyCode=='13') return search();" onfocus="ga('send', 'event', 'search', 'focus', '');">
+                                <a href="javascript:;" class="hwic_search moblie-search-btn visible-xs visible-sm" title="Search"></a>
+                            </div>
+                            <a href="javascript:;" class="moblie-search-close js-search-btn-close" title="Close">
+                                <span class="hwic_cross"></span>
+                            </a>
+                            <a href="javascript:;" class="search-close js-search-btn-close" title="Close">
+                                <span class="hwic_cross"></span>
+                            </a>
+                        </div>
+                        
+                        <div class="results-box js-results-box">
+                            <div class="search_results">
+
+                                <div class="results2" style="display: none;">
+                                    <h3>SEARCH HISTORY</h3>
+                                    <ul id="historyUl"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="hw1_masthead_rightside visible-xs visible-sm">
+                    <ul class="clearfix">
+                        <li class="hw1_search dropdown">
+                            <a href="javascript:;" class="js-search-btn-open hwic_search" data-target="#js-search-input-box" title="Search"></a>
+                        </li>
+                        <li class="hw1_show_more visible-sm visible-xs">
+                            <a href="javascript:;" class="js-mobile-nav-open-btn" data-target="#hw1_mob_nav_container" title="Menu">
+                                <span class="hwic_dehaze"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div id="hw1_mob_nav_container">
+        <div class="mob_nav_open  visible-xs visible-sm">
+            
+<ul>
+                <li>
+                    <a href="javascript:;" class="navbar-toggle primary-nav-consumer-mob" data-toggle="collapse" data-target="#primary-nav-consumer-mob" aria-expanded="false" aria-controls="primary-nav-consumer-mob">Phones, PC & More <em class="hwic_down"></em></a>
+                    <ul class="primary-nav-consumer-mob  navbar-collapse collapse" id="primary-nav-consumer-mob" aria-expanded="true">
+                        <li><a href="https://consumer.huawei.com/en/phones/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'mobilenav', 'b2c', 'phones');" target="_blank">Phones</a></li>
+						<li><a href="https://consumer.huawei.com/en/laptops/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'mobilenav', 'b2c', 'laptops');" target="_blank">Laptops</a></li>
+						<li><a href="https://consumer.huawei.com/en/tablets/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'mobilenav', 'b2c', 'tablets');" target="_blank">Tablets</a></li>
+                        <li><a href="https://consumer.huawei.com/en/wearables/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'mobilenav', 'b2c', 'Wearables');" target="_blank">Wearables</a></li> 
+                        <li><a href="https://consumer.huawei.com/en/accessories/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'mobilenav', 'b2c', 'accessories');" target="_blank">Accessories</a></li>
+						<li><a href="https://consumer.huawei.com/en/smart-home/?ic_medium=hwdc&ic_source=corp_header_consumer" onclick="ga('send', 'event', 'mobilenav', 'b2c', 'smarthome');" target="_blank">Smart Home</a></li>
+                        <li><a href="https://consumer.huawei.com/en/support/" onclick="ga('send', 'event', 'mobilenav', 'b2c', 'support');" target="_blank">Support</a></li>                        
+                        <li class="nav-mob-link">Go to <a href="https://consumer.huawei.com" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'b2c', 'consumerhome');" target="_blank">consumer.huawei.com</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" class="navbar-toggle primary-nav-enterprise-mob" data-toggle="collapse" data-target="#primary-nav-enterprise-mob" aria-expanded="false" aria-controls="primary-nav-enterprise-mob">For Business <em class="hwic_down"></em></a>
+                    <ul class="primary-nav-enterprise-mob  navbar-collapse collapse" id="primary-nav-enterprise-mob" aria-expanded="true">
+                        <li>
+                            <h3>ENTERPRISE</h3>
+                        </li>
+                        <li>
+                            <a href="http://e.huawei.com/en/products-solutions-list?productsSolutions=products" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'ent-allproducts');" target="_blank">Products</a>
+                        </li>
+                        <li>
+                            <a href="http://e.huawei.com/en/products-solutions-list?productsSolutions=solutions" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'ent-allsolutions');" target="_blank">Solutions</a>
+                        </li>
+						<li>
+                            <a href="http://e.huawei.com/en/services" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'ent-allservices');" target="_blank">Services</a>
+                        </li>
+                        <li>
+                            <a href="http://support.huawei.com/enterprise/en/index.html" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'ent-support');" target="_blank">Support</a>
+                        </li>
+                        <li class="nav-mob-link">Go to <a href="http://e.huawei.com/en/" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'ent-home');" target="_blank">e.huawei.com</a>
+                        </li>
+                        <li>
+                            <h3>CARRIER</h3>
+                        </li>
+                        <li>
+                            <a href="http://carrier.huawei.com/en/products" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'car-allproducts');" target="_blank">Products</a>
+                        </li>
+                        <li>
+                            <a href="http://carrier.huawei.com/en/solutions" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'car-allsolutions');" target="_blank">Solutions</a>
+                        </li>
+						<li>
+                            <a href="http://carrier.huawei.com/en/services" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'car-allservices');" target="_blank">Services</a>
+                        </li>
+                        <li>
+                            <a href="http://support.huawei.com/carrier/en/hwe/index.html" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'car-support');" target="_blank">Support</a>
+                        </li>
+                        <li class="nav-mob-link">Go to <a href="http://carrier.huawei.com/en/" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'car-home');" target="_blank">carrier.huawei.com</a>
+                        </li>
+                        <li>
+                            <h3>HUAWEI CLOUD</h3>
+                        </li>
+						<li>
+                            <a href="http://www.huaweicloud.com/en-us/product/" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'hwcloud-allproducts');" target="_blank">Products</a>
+                        </li>
+                        <li>
+                            <a href="http://www.huaweicloud.com/en-us/solution/" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'hwcloud-allsolutions');" target="_blank">Solutions</a>
+                        </li>
+                        <li>
+                            <a href="http://support.huaweicloud.com/en-us/" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'hwcloud-support');" target="_blank">Support</a>
+                        </li>
+                        <li class="nav-mob-link">Go to <a href="https://intl.huaweicloud.com" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'b2b', 'hwcloud-home');" target="_blank">huaweicloud.com</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <a href="javascript:;" class="navbar-toggle primary-nav-insights-mob" data-toggle="collapse" data-target="#primary-nav-insights-mob" aria-expanded="false" aria-controls="primary-nav-insights-mob">Industry Insights <em class="hwic_down"></em></a>
+                    <ul class="primary-nav-insights-mob navbar-collapse collapse" id="primary-nav-insights-mob" aria-expanded="true">
+						
+                        <li><h3>Research</h3></li>
+						<li><a href="http://www.huawei.com/minisite/gci/en/index.html" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'gci');">Global Connectivity Index</a></li>
+                        <li><a href="http://www.huawei.com/minisite/gci/en/digital-spillover/index.html" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'spillover');">Digital Spillover</a></li>
+                        <li><a href="/en/industry-insights?name=research" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'seeallresearch');">See All</a></li>
+						
+						<li><h3>Technology</h3></li>
+						<li><a href="/en/industry-insights/technology/digital-transformation" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'digitalization');">Digital Transformation</a></li>
+                        <li><a href="http://www.huawei.com/minisite/iot/en/" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'iot');">IoT(Internet of Things)</a></li>
+                        <li><a href="https://carrier.huawei.com/en/spotlight/5g" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', '5G');">5G</a></li>
+                        <li><a href="/en/industry-insights?name=technology" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'seealltechnologies');">See All</a></li>
+						<li><h3>Outlook</h3></li>
+                       
+    					<li><a href="http://e.huawei.com/topic/leading-new-ict-en/" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'newict');" target="_blank">Leading New ICT</a></li>
+   					 	<li><a href="http://carrier.huawei.com/en/spotlight" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'newgrowth');" target="_blank">ROADS to New Growth</a></li>
+    					<li><a href="/en/industry-insights/outlook/mobile-broadband" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'mobilebroadband');">Fully Connected with Wireless</a></li>
+                        <li><a href="/en/industry-insights?name=outlook" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'seealloutlook');">See All</a></li>
+						<li><h3>Innovation</h3></li>
+						<li><a href="http://innovationresearch.huawei.com/IPD/hirp/portal/index.html" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'hirp');" target="_blank">Huawei Innovation Research Program</a></li>
+    					<li class="external-link"><a href="/en/industry-insights/outlook/mobile-broadband/xlabs" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'wirelessxLabs');">Wireless X Labs</a></li>
+                                        <li><a href="/en/industry-insights/innovation/ilab" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'ilab');">iLab</a></li>
+    					<li><a href="/en/industry-insights?name=innovation" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'industryinsights', 'seeallinnovation');">See All</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" class="navbar-toggle about-huawei-mob" data-toggle="collapse" data-target="#about-huawei-mob" aria-expanded="false" aria-controls="about-huawei-mob">About Huawei <em class="hwic_down"></em></a>
+                    <ul class="about-huawei-mob navbar-collapse collapse" id="about-huawei-mob" aria-expanded="true">
+                        <li><h3>About Huawei</h3></li>
+                        <li><a href="/en/about-huawei/corporate-information" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'corporateinfo');">Corporate Information</a></li>
+                        <li><a href="/en/about-huawei/corporate-governance/corporate-governance" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'governance');">Corporate Governance</a></li>
+                        <li><a href="/en/about-huawei/executives" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'executives');">Executives</a></li>
+                        <li><a href="/en/about-huawei/sustainability" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'sustainability');">Sustainability</a></li>
+                        <li><a href="/en/about-huawei/cyber-security" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'cybersecurity');">Cyber Security</a></li>
+                        <li><a href="/en/about-huawei/public-policy" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'publicpolicy');">Public Policy</a></li>
+                        <li><a href="/en/about-huawei/bond-investor-relations" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'bondinvestor');">Bond Investor Relations</a></li>
+                        <li><a href="/en/about-huawei/industry-analysts" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'analysts');">Industry Analysts</a></li>
+    					<li><a href="/en/about-huawei" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'seeallabout');">See All</a></li>
+						<li><h3>Press & Events</h3></li>
+                        <li><a href="/en/press-events/news" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'news');">News</a></li>
+                        <li><a href="/en/press-events/events" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'events');">Events</a></li>
+                        <li><a href="https://www.huawei.com/facts/" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'huaweifacts');">Huawei Facts</a></li>
+                        <li><a href="/en/press-events/annual-report" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'annualreport');">Annual Reports</a></li>
+                        <li><a href="/en/press-events/media-kit" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'mediakit');">Media Kits</a></li>
+    					<li><a href="/en/press-events" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'seeallpressevent');">See All</a></li>
+						<li><h3>Publications</h3></li>
+                        <li><a href="/en/about-huawei/publications/winwin-magazine" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'winwin');"><i>WinWin</i></a></li>
+                        <li><a href="/en/about-huawei/publications/communicate" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'communicate');"><i>Communications</i></a></li>
+                        <li><a href="http://e.huawei.com/en/publications/global/ict_insights" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'ictinsight');" target="_blank"><i>ICT Insights</i></a></li>
+    					<li><a href="/en/about-huawei/publications" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'seeallpublications');">See All</a></li>
+						<li><h3>Case Studies</h3></li>
+    					<li><a href="/en/about-huawei/cases" class="link-red" onclick="ga('send', 'event', 'mobilenav', 'abouthuawei', 'cases');">See All</a></li>
+                        
+                    </ul>
+                </li>
+            </ul>
+
+            
+                <div class="mob_login" id="login_mob">
+                    <a href="https://www.huawei.com/en/my-huawei/login?redirect=http%3a%2f%2fwww.huawei.com%2fen%2fpsirt%2fsecurity-advisories%2fhuawei-sa-20190109-01-pcmanager-en" id="indexheader_0_loginUrl_mob" data-id="true"><em class="hwic_lock"></em>
+                        Sign in
+                    </a>
+                </div>
+            
+            
+                <div class="mob_login" id="logout_mob" style="display: none;">
+                    <a href="https://www.huawei.com/en/loginoutUnion.aspx?rediurl=http%3a%2f%2fwww.huawei.com%2fen%2fpsirt%2fsecurity-advisories%2fhuawei-sa-20190109-01-pcmanager-en" id="indexheader_0_logoutUrl_mob" data-id="true">
+                        Sign out
+                    </a>
+                </div>
+            
+        </div>
+        <div class="nav-posti">
+            <div class="corporate-link-mob mob-corporate-open navbar-collapse collapse" id="corporate-link-mob" aria-expanded="true">
+                <ul>
+                    
+                            <li>
+                                
+                                    <h3>
+                                        <a>
+                                            Corporate
+                                            <em class="hwic_to_right" style='display:none;'></em>
+                                        </a>
+                                    </h3>
+                                    <p>About Huawei, Press &amp; Events , and More</p>
+                                
+                            </li>
+                        
+                            <li>
+                                
+                                    <h3>
+                                        <a href="https://consumer.huawei.com" target="_blank">
+                                            Consumer
+                                            <em class="hwic_to_right" style=''></em>
+                                        </a>
+                                    </h3>
+                                    <p>Smartphones, PC, Tablets, Wearables and More</p>
+                                
+                            </li>
+                        
+                            <li>
+                                
+                                    <h3>
+                                        <a href="https://e.huawei.com/en/?ic_medium=hwdc&amp;ic_source=corp_header_allwayson&amp;source=corp_header" target="_blank">
+                                            Enterprise
+                                            <em class="hwic_to_right" style=''></em>
+                                        </a>
+                                    </h3>
+                                    <p>Products, Solutions and Services for Enterprise</p>
+                                
+                            </li>
+                        
+                            <li>
+                                
+                                    <h3>
+                                        <a href="http://carrier.huawei.com/en">
+                                            Carrier
+                                            <em class="hwic_to_right" style=''></em>
+                                        </a>
+                                    </h3>
+                                    <p>Products, Solutions and Services for Carrier</p>
+                                
+                            </li>
+                        
+                </ul>
+            </div>
+            <div class="corporate-link-mob mob-worldwide-open navbar-collapse collapse" id="worldwide-link-mob" aria-expanded="true">
+                <ul>
+    <li><a link="/en/" href="javascript:void(0)"><span class="hwic_browser"></span>Global - English</a></li>
+    <li>
+    <em class="icon-icon-australia"></em>
+    <span>Australia</span>-
+    <a link="/au/" href="javascript:void(0)">English </a>
+    </li>
+    <li>
+    <em class="icon-icon-republic"></em>
+    <span>Belarus</span>-
+    <a link="/by/" href="javascript:void(0)">PÑÑÑÐºÐ¸Ð¹</a>
+    </li>
+    <li>
+    <em class="icon-icon-brazil"></em>
+    <span>Brazil</span>-
+    <a link="/br/" href="javascript:void(0)">Portuguese</a>
+    </li>
+    <li>
+    <em class="icon-icon-canada"></em>
+    <span>Canada</span>-
+    <a link="/ca/" href="javascript:void(0)">English </a>
+    </li>
+    <li>
+    <em class="icon-icon-china"></em>
+    <span>China</span>-
+    <a link="/cn/" href="javascript:void(0)">ç®ä½ä¸­æ</a>
+    </li>
+    <li>
+    </li>
+    <li>
+    <em class="icon-icon-deutschland"></em>
+    <span>China</span>-
+    <a link="/de/" href="javascript:void(0)">Germany</a>
+    </li>
+    <li>
+    <em class="icon-icon-japan"></em>
+    <span>Japan</span>-
+    <a link="/jp/" href="javascript:void(0)">æ¥æ¬èª</a>
+    </li>
+    <li>
+    <em class="icon-icon-malaysia"></em>
+    <span>Malaysia </span>-
+    <a link="/my/" href="javascript:void(0)">English</a>
+    </li>
+    <li>
+    <em class="icon-icon-mexico"></em>
+    <span>Mexico</span>-
+    <a link="/mx/" href="javascript:void(0)">Spanish</a>
+    </li>
+    <li>
+    </li>
+    <li>
+    <em class="icon-icon-myanmar"></em>
+    <span>Myanmar</span>-
+    <a link="/mm/" href="javascript:void(0)">á»ááá¹áá¬</a>
+    </li>
+    <li>
+    <em class="icon-icon-russia"></em>
+    <span>Russia</span>-
+    <a link="/ru/" href="javascript:void(0)">ÑÑÑÑÐºÐ¸Ð¹</a>
+    </li>
+    <li>
+    <em class="icon-icon-south-africa"></em>
+    <span>South Africa</span>-
+    <a link="/za/" href="javascript:void(0)">English </a>
+    </li>
+    <li>
+    <em class="icon-icon-spain"></em>
+    <span>Spain</span>-
+    <a link="/es/" href="javascript:void(0)">Spanish</a>
+    </li>
+    <li>
+    <em class="icon-icon-switzerland"></em>
+    <span>Switzerland</span>-
+    <a link="/ch-en/" href="javascript:void(0)">English </a>
+    </li>
+    <li>
+    <em class="icon-icon-kingdom"></em>
+    <span>Thailand</span>-
+    <a link="/th/" href="javascript:void(0)">à¸ à¸²à¸©à¸²à¹à¸à¸¢</a>
+    </li>
+    <li>
+    </li>
+    <li>
+    <em class="icon-icon-turkey"></em>
+    <span>Turkey</span>-
+    <a link="/tr/" href="javascript:void(0)">T&uuml;rkiye</a>
+    </li>
+    <li>
+    <em class="icon-icon-united-kingdom"></em>
+    <span>United Kingdom</span>-
+    <a link="/uk/" href="javascript:void(0)">English </a>
+    </li>
+    <li>
+    <em class="icon-icon-united-states"></em>
+    <span>United States</span>-
+    <a link="/us/" href="javascript:void(0)">English </a>
+    </li>
+<li>
+    
+    <span>Uzbekistan</span>-
+    <a link="/uz/" href="javascript:void(0)">ÑÑÑÑÐºÐ¸Ð¹ </a>
+    </li>
+    <li>
+    <em class="icon-icon-vietnam"></em>
+    <span>Vietnam</span>-
+    <a link="/vn/" href="javascript:void(0)">Tiáº¿ng Viá»t</a>
+    </li>
+    <li>
+    <em></em>
+    <span>Huawei Global</span>-
+    <a link="/en/" href="javascript:void(0)">English </a>
+    </li>
+</ul>
+            </div>
+        </div>
+        <div class="mob-nav-corporate">
+            <span><a href="javascript:;" class="navbar-toggle corporate-link-mob" data-toggle="collapse" data-target="#corporate-link-mob" aria-expanded="false" aria-controls="corporate-link-mob">Corporate<em class="hwic_top"></em></a></span>
+            <ul>
+                <li><span class="hwic_browser"></span><a href="javascript:;" class="navbar-toggle worldwide-link-mob" data-toggle="collapse" data-target="#worldwide-link-mob" aria-expanded="false" aria-controls="worldwide-link-mob">
+                    Worldwide
+                    <em class="hwic_top"></em></a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="visible-xs visible-sm hw_space"></div>
+
+        <!--HWDocContent-->
+        
+<!--HWDocMeta-->
+<meta name="APP_ID" content=""><!--AppID-->
+<meta name="DOC_ID" content="{9FA3A9B9-D9AA-4094-8D97-524ADC0B826C}"><!--ID-->
+<meta name="RESERVE_FIELD3" content="{9FA3A9B9-D9AA-4094-8D97-524ADC0B826C}"><!--ID-->
+<meta name="DRETITLE" content="Security Advisory - Two Vulnerabilities in Huawei PCManager Product"><!--Title-->
+<meta name="DREDATE" content="04/04/2019"><!--PublishData-->
+<meta name="DOC_LANGUAGE" content="en"><!--Language-->
+<meta name="RESERVE_FIELD2" content="psirt"><!--category-->
+<meta name="DOC_MODIFY_DATE" content="1554336000">
+
+<meta name="RESERVE_FIELD21" content="sitecore\z00334090"><!--Authors-->
+<meta name="DOC_AUTHORS" content="sitecore\z00334090"><!--Authors-->
+<meta name="RESERVE_FIELD20" content=""><!--SecurityGroup-->
+<meta name="DOC_GROUPS" content=""><!--SecurityGroup-->
+<meta name="RESERVE_FIELD11" content="04/04/2019"><!--PublishData-->
+<meta name="RESERVE_NUM_FIELD2" content="04/04/2019"><!--PublishData-->
+<meta name="RESERVE_NUM_FIELD1" content="04/04/2019"><!--PublishData-->
+<meta name="RESERVE_FIELD28" content="04/04/2019"><!--PublishData-->
+<meta name="DREDATE_YEAR_MONTH" content="2019-04"><!--PublishDataFormat-->
+<meta name="RESERVE_FIELD12" content=""><!--Deadline-->
+<meta name="RESERVE_NUM_FIELD3" content=""><!--Deadline-->
+<meta name="RESERVE_FIELD13" content=""><!--Sitename-->
+<meta name="RESERVE_FIELD19" content=""><!--Keywords-->
+<meta name="DOC_KEYWORDS" content=""><!--Keywords-->
+<meta name="DOC_DESCRIPTION" content=""><!--Description-->
+<meta name="RESERVE_FIELD31" content="/sitecore/content/CORPORATE/Home/psirt/security-advisories/2019/huawei-sa-20190109-01-pcmanager-en"><!--CategoryNode-->
+
+<meta name="RESERVE_FIELD32" content=""><!--ImagePath-->
+<!--/HWDocMeta-->
+        
+
+<div class="container">
+    <div id="breadcrumb_nav" class="hidden-xs">
+        <ul>
+            
+                   <li><a href="/en">Home</a></li>
+                   
+                    <li><a href="/en/psirt"><em class="hwic_to_right"></em>PSIRT</a></li>             
+                
+                    <li><a href="/en/psirt/security-advisories"><em class="hwic_to_right"></em>Security Advisories</a></li>             
+                
+        </ul>
+    </div>
+    <div id="breadcrumb_nav_mob" class="visible-xs">
+            <ul>
+                
+                <li><a href="/en/psirt/security-advisories"><em class="hwic_to_left"></em>Security Advisories</a></li>
+                
+            </ul>
+    </div>
+</div>
+
+<div class="container corporate-pb">
+    <div class="row">
+        <!--left sta-->
+        <div class="col-sm-9 psiet-detail">
+            <h1 class="bor-btom">
+                Security Advisory - Two Vulnerabilities in Huawei PCManager Product
+            </h1>
+            <div class="share_nullbox" id="top_pc_share_nullbox" style="display: none;">
+                <!--PCåäº«å¼å§-->
+                
+                <!--PCåäº«ç»æ-->
+            </div>
+            <ul>
+                <li id="indexmain_0_liSaNo">
+                    SA No:huawei-sa-20190109-01-pcmanager
+                </li>
+                <li id="indexmain_0_liInieialReleaseDate">
+                    Initial Release Date:
+                    Jan 09, 2019
+                  
+                   
+                </li>
+                <li id="indexmain_0_liLastReleaseDate">
+                    Last Release Date:
+                     Apr 04, 2019
+                   
+                </li>
+            </ul>
+            <br>
+            
+            
+                <div class="psirt-list-out">
+                    
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Summary" data-collapse="Summary" class="on">
+                                            <i class="down_1 down ">&nbsp;</i><span>
+                                                Summary
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo active ">
+                                        <p class="dAbstract" style="margin: 4pt 0cm; line-height: 150%;">There is a privilege escalation vulnerability in Huawei PCManager product. Successful exploitation may cause the attacker to obtain a higher privilege. (Vulnerability ID: HWPSIRT-2018-11141) </p>
+<p>&nbsp;This vulnerability has been assigned a Common Vulnerabilities and Exposures (CVE) ID: CVE-2019-5241.</p>
+<p>&nbsp;</p>
+<p> </p>
+<p>There is a code execution vulnerability in Huawei PCManager product. Successful exploitation may cause the attacker to execute code and read/write memory. (Vulnerability ID: HWPSIRT-2018-11152)</p>
+<p>&nbsp;This vulnerability has been assigned a Common Vulnerabilities and Exposures (CVE) ID: CVE-2019-5242.</p>
+<p>&nbsp;</p>
+<p> </p>
+<p>&nbsp;Huawei has released software updates to fix these vulnerabilities. This advisory is available at the following link:</p>
+<p><a href="http://www.huawei.com/en/psirt/security-advisories/huawei-sa-20190109-01-pcmanager-en"><span style="color: #0070c0;">http://www.huawei.com/en/psirt/security-advisories/huawei-sa-20190109-01-pcmanager-en</span></a></p>
+<p><br>
+</p>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Software Versions and Fixes" data-collapse="Software Versions and Fixes" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Software Versions and Fixes
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <table border="0" cellspacing="0" cellpadding="0" width="0" style="width: 16cm; border-collapse: collapse;">
+    <tbody>
+        <tr>
+            <td valign="top" style="border: 1pt solid windowtext; padding: 0cm 5.4pt;">
+            <p style="margin: 4pt 0cm;">Product Name</p>
+            </td>
+            <td valign="top" style="width: 165.2pt; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0cm 5.4pt;">
+            <p style="margin: 4pt 0cm;">Affected Version</p>
+            </td>
+            <td valign="top" style="width: 185.95pt; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0cm 5.4pt;">
+            <p style="margin: 4pt 0cm;">Resolved Product and Version</p>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2" valign="top" style="border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+            <p style="margin: 4pt 0cm;">PCManager</p>
+            </td>
+            <td valign="top" style="width: 165.2pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+            <p style="margin: 4pt 0cm;">The versions before<br>
+            PCManager 9.0.1.70 (China)</p>
+            </td>
+            <td valign="top" style="width: 185.95pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+            <p style="margin: 4pt 0cm;">PCManager 9.0.2.20 </p>
+            <p><br>
+            </p>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" style="width: 165.2pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+            <p style="margin: 4pt 0cm;">The versions before<br>
+            PCManager 9.0.1.66 (Oversea)</p>
+            </td>
+            <td valign="top" style="width: 185.95pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+            <p style="margin: 4pt 0cm;">PCManager 9.0.1.80</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<br>
+<br>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Impact" data-collapse="Impact" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Impact
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <p class="dText" style="margin: 4pt 0cm;">HWPSIRT-2018-11141:</p>
+<p class="dText" style="margin: 4pt 0cm;">By exploiting this vulnerability, an attacker can obtain a higher privilege.</p>
+<p class="dText" style="margin: 4pt 0cm;">HWPSIRT-2018-11152:</p>
+<p class="dText" style="margin: 4pt 0cm;">By exploiting this vulnerability, an attacker can execute code and read/write memory.</p>
+<br>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Vulnerability Scoring Details" data-collapse="Vulnerability Scoring Details" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Vulnerability Scoring Details
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <p class="dText">The vulnerability classification has been performed by using the CVSSv3 scoring system (<a href="http://www.first.org/cvss/specification-document">http://www.first.org/cvss/specification-document</a>).</p>
+<p class="dText" style="margin: 4pt 0cm;">HWPSIRT-2018-11141 and HWPSIRT-2018-11152:</p>
+<p class="dText" style="margin: 4pt 0cm;">Base Score: 7.3 (AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H)</p>
+<p class="dText" style="margin: 4pt 0cm;">Temporal Score: 6.8 (E:F/RL:O/RC:C)</p>
+<br>
+<br>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Technique Details" data-collapse="Technique Details" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Technique Details
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <p class="dText" style="margin: 4pt 0cm;">HWPSIRT-2018-11141:</p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">This vulnerability can be exploited only when the following conditions are present:</p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">The attacker has successfully tricked a user into installing the malicious application.</p>
+<p> </p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">Vulnerability details:</p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">There is a privilege escalation vulnerability in Huawei PCManager product. Successful exploitation may cause the attacker to obtain a higher privilege.</p>
+<p> </p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">HWPSIRT-2018-11152:</p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">This vulnerability can be exploited only when the following conditions are present:</p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">The attacker has successfully tricked a user into installing the malicious application.</p>
+<p> </p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">Vulnerability details:</p>
+<p> </p>
+<p class="dText" style="margin: 4pt 0cm;">There is a code execution vulnerability in Huawei PCManager product. Successful exploitation may cause the attacker to execute code and read/write memory.</p>
+<p><br>
+</p>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Temporary Fix" data-collapse="Temporary Fix" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Temporary Fix
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        None
+<p><br>
+</p>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Obtaining Fixed Software" data-collapse="Obtaining Fixed Software" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Obtaining Fixed Software
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <p>1.The product that supports automatic update will receive a system update prompt. You can install the update to fix the vulnerability.<br>
+<span style="color: #0070c0;"></span></p>
+<p class="dText">2. Customers should obtain upgrades through Huawei consumer business official website. </p>
+<p> </p>
+<p class="dText">China: <a href="https://consumer.huawei.com/cn/support/"><span style="color: #0070c0;">https://consumer.huawei.com/cn/support/</span></a></p>
+<p> </p>
+<p class="dText" style="text-indent: 33pt;">&nbsp; &nbsp;<a href="http://www.honor.cn/support/"><span style="color: #0070c0;">http://www.honor.cn/support/</span></a></p>
+<p> </p>
+<p class="dText">Oversea: <a href="https://consumer.huawei.com/en/support"><span style="color: #0070c0;">https://consumer.huawei.com/en/support</span></a></p>
+<p><br>
+</p>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Source" data-collapse="Source" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Source
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <p class="dText" style="margin: 4pt 0cm;">This vulnerability was reported to Huawei PSIRT by Amit Rapaport of Microsoft Corp. Huawei would like to thank Amit Rapaport for working with us and coordinated vulnerability disclosure to protect our customers.</p>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Revision History" data-collapse="Revision History" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Revision History
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <p class="dText" style="margin: 4pt 0cm;">2019-04-04 V1.3&nbsp;UPDATED&nbsp;Updated "Summary" and&nbsp;"Software Versions and Fixes"</p>
+<p class="dText" style="margin: 4pt 0cm;">2019-02-02 V1.2&nbsp;UPDATED&nbsp;Updated "Obtaining Fixed Software" and&nbsp;"Software Versions and Fixes"</p>
+<p class="dText" style="margin: 4pt 0cm;">2019-01-30 V1.1 UPDATED Updated the Software Versions and Fixes</p>
+<p class="dText" style="margin: 4pt 0cm;">2019-01-09 V1.0 INITIAL</p>
+<p><br>
+</p>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="FAQs" data-collapse="FAQs" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                FAQs
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <p>None</p>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Huawei Security Procedures" data-collapse="Huawei Security Procedures" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Huawei Security Procedures
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        <p><span style="line-height: 150%;">Huawei adheres to protecting the ultimate interests of users with best efforts and the principle of responsible disclosure and deal with product security issues through our response mechanism.</span></p>
+<p><span style="line-height: 150%;">To enjoy Huawei PSIRT services and obtain Huawei product vulnerability information, please visit&nbsp;</span><a href="http://www.huawei.com/en/psirt" style="line-height: 150%;"><span style="color: #0070c0;">http://www.huawei.com/en/psirt</span></a><span style="line-height: 150%;">.</span></p>
+<p style="line-height: 150%;"> To report a security vulnerability in Huawei products and solutions, please send it to&nbsp;<a href="file:///D:/SVN/06%20%E8%A7%84%E8%8C%83%E5%92%8C%E6%A8%A1%E6%9D%BF/00%20SA%E6%A8%A1%E6%9D%BF/01%20%E7%BD%91%E7%AB%99SA%E6%A8%A1%E6%9D%BF/PSIRT@huawei.com"><span style="color: #0070c0;">PSIRT@huawei.com</span></a>. For details, please visit <a href="http://www.huawei.com/en/psirt/report-vulnerabilities"><span style="color: #0070c0;">http://www.huawei.com/en/psirt/report-vulnerabilities</span></a>.</p>
+                                    </div>
+                                </div>
+                            
+                        
+                            
+                                <div class="psirt-set-out">
+                                    <div class="expand-moreb" id="js_read_more_product">
+                                        <a href="javascript:void(0)" data-expand="Declaration" data-collapse="Declaration" class="">
+                                            <i class="down_1  ">&nbsp;</i><span>
+                                                Declaration
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="moreinfo  ">
+                                        This document is provided on an "AS IS" basis and does not imply any kind of guarantee or warranty, either express or implied, including the warranties of merchantability or fitness for a particular purpose. In no event shall Huawei or any of its directly or indirectly controlled subsidiaries or its suppliers be liable for any damages whatsoever including direct, indirect, incidental, consequential, loss of business profits or special damages. Your use of the document, by whatsoever means, will be totally at your own risk. Huawei is entitled to amend or update this document from time to time.
+                                    </div>
+                                </div>
+                            
+                        
+                </div>
+            
+            <div class="share_nullbox">
+                <!--PCåäº«å¼å§-->
+                
+                <!--PCåäº«ç»æ-->
+            </div>
+        </div>
+        <!--left end-->
+        <!--right sta-->
+        <div class="col-sm-3 hidden-xs no-bold">
+            
+            
+        </div>
+        <!--right end-->
+    </div>
+</div>
+
+        <!--add by 20150930-->
+        
+        
+        
+        
+        <!--add by 20150930-->
+        <!--/HWDocContent-->
+    </div>
+    <div class="share_nullbox">
+        <!--PCåäº«å¼å§-->
+        <!--PCåäº«ç»æ-->
+        <!--ææºåäº«å¼å§-->
+        
+        <!--ææºåäº«ç»æ-->
+    </div>
+    
+
+
+<footer>
+    <div id="footer">
+        <div class="container">
+           
+            
+            <div class="footer-nav">
+               
+                <div class="row">
+                    
+
+                            <div class="col-sm-12 col-md-3">
+                                
+                                    <h3 class="iconfont-flash ">
+                                        <a href="/en/press-events" onclick="ga('send', 'event', 'footernav', 'pressandevent');" target="_self">Press & Events<em class="hwic_to_right"></em></a>
+                                    </h3>
+                                
+                                <ul class="clearfix">
+                                    
+
+                                            <li class=''>
+                                                
+                                                    <a href="/en/press-events/news" onclick="ga('send', 'event', 'footernav', 'news');" target="_self">
+                                                        News
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class=''>
+                                                
+                                                    <a href="/en/press-events/events" onclick="ga('send', 'event', 'footernav', 'events');" target="_self">
+                                                        Events
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="/en/facts" onclick="ga('send', 'event', 'footernav', 'huaweifacts');" target="_self">
+                                                        Huawei Facts<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class=''>
+                                                
+                                                    <a href="/en/press-events/annual-report" onclick="ga('send', 'event', 'footernav', 'annualreport');" target="_self">
+                                                        Annual Reports
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class=''>
+                                                
+                                                    <a href="/en/press-events/media-kit" onclick="ga('send', 'event', 'footernav', 'mediakit');" target="_self">
+                                                        Media Kits
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+                                </ul>
+                            </div>
+
+                        
+
+                            <div class="col-sm-12 col-md-3">
+                                
+                                    <h3 class="link-flash">
+                                        <a href="http://partner.huawei.com/web/worldwide/home" onclick="ga('send', 'event', 'footernav', 'partner');" target="_blank">Partners<em class="icon-open-in-new"></em> </a>
+                                    </h3>
+                                
+                                <ul class="clearfix">
+                                    
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="http://partner.huawei.com/web/worldwide/solution-partner-overview" onclick="ga('send', 'event', 'footernav', 'solutionpartner');" target="_blank">
+                                                        Solution Partners<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="http://partner.huawei.com/web/worldwide/channel-partner-overview" onclick="ga('send', 'event', 'footernav', 'channelpartner');" target="_blank">
+                                                        Channel Partners<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="http://partner.huawei.com/web/worldwide/service-partner-overview" onclick="ga('send', 'event', 'footernav', 'servicepartner');" target="_blank">
+                                                        Service Partners<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+                                </ul>
+                            </div>
+
+                        
+
+                            <div class="col-sm-12 col-md-3">
+                                
+                                    <h3 class="iconfont-flash ">
+                                        Support
+                                    </h3>
+                                
+                                <ul class="clearfix">
+                                    
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="https://consumer.huawei.com/en/support/" onclick="ga('send', 'event', 'footernav', 'consumersupport');" target="_blank">
+                                                        Consumer Support<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="http://support.huawei.com/enterprise/en/index.html" onclick="ga('send', 'event', 'footernav', 'enterprisesupport');" target="_blank">
+                                                        Enterprise Support<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="http://support.huawei.com/carrier/en/hwe/index.html" onclick="ga('send', 'event', 'footernav', 'carriersupport');" target="_blank">
+                                                        Carrier Support<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class=''>
+                                                
+                                                    <a href="/en/psirt" onclick="ga('send', 'event', 'footernav', 'psirt');" target="_self">
+                                                        Security Bulletins
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class=''>
+                                                
+                                                    <a href="/en/products-lifecycle" onclick="ga('send', 'event', 'footernav', 'eox');" target="_self">
+                                                        Product Lifecycle
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+                                </ul>
+                            </div>
+
+                        
+
+                            <div class="col-sm-12 col-md-2">
+                                
+                                    <h3 class="iconfont-flash ">
+                                        Portals
+                                    </h3>
+                                
+                                <ul class="clearfix">
+                                    
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="http://career.huawei.com" onclick="ga('send', 'event', 'footernav', 'careers');" target="_blank">
+                                                        Careers<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="http://developer.huawei.com/en/" onclick="ga('send', 'event', 'footernav', 'developers');" target="_blank">
+                                                        Developers<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="http://scs.huawei.com/supplier/index.html" onclick="ga('send', 'event', 'footernav', 'supplier');" target="_blank">
+                                                        Suppliers<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+
+                                            <li class='external-link'>
+                                                
+                                                    <a href="https://blog.huawei.com/ " onclick="ga('send', 'event', 'footernav', 'hwblog');" target="_blank">
+                                                        Huawei Blog<em class="hwic_open-in-new3"></em>
+                                                    </a>
+                                                
+                                            </li>
+
+                                        
+                                </ul>
+                            </div>
+
+                        
+                    
+                    <div class="col-sm-1">
+                        <ul class="social">
+                            
+<li><a href="http://www.linkedin.com/company/huawei" class="linkedin hwic_linkedin" onclick="ga('send', 'event', 'footernav', 'linkedin');" target="_blank"></a></li>
+<li><a href="http://www.facebook.com/Huawei" class="facebook hwic_facebook" onclick="ga('send', 'event', 'footernav', 'facebook');" target="_blank"></a></li>
+<li><a href="http://www.twitter.com/Huawei" class="twitter hwic_twitter" onclick="ga('send', 'event', 'footernav', 'twitter');" target="_blank"></a></li>
+<li><a href="http://www.youtube.com/Huawei" class="youtube hwic_youtube" onclick="ga('send', 'event', 'footernav', 'youtube');" target="_blank"></a></li>
+<li><a href="http://www.instagram.com/huawei/" class="instagram hwic_icon_instagram" onclick="ga('send', 'event', 'footernav', 'instagram');" target="_blank"></a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="others-nav">
+                    
+
+                            <h3 class="iconfont-flash ">
+                                
+                                    Others
+                                
+                            </h3>
+                            <div class="row">
+                                
+
+                                        <div class="col-sm-3 col-xs-6">
+                                            <ul class="clearfix">
+                                                <li class='external-link'>
+                                                    
+                                                        <a href="https://intl.huaweicloud.com/?utm_medium=footer&utm_source=corp_huawei&utm_campaign=allwayson" onclick="ga('send', 'event', 'footernav', 'hwcloud');" target="_blank">
+                                                            Huawei Cloud<em class="hwic_open-in-new3"></em>
+                                                        </a>
+                                                    
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    
+
+                                        <div class="col-sm-3 col-xs-6">
+                                            <ul class="clearfix">
+                                                <li class='external-link'>
+                                                    
+                                                        <a href="http://solar.huawei.com/eu" onclick="ga('send', 'event', 'footernav', 'fusionsolar');" target="_blank">
+                                                            FusionSolar Smart PV<em class="hwic_open-in-new3"></em>
+                                                        </a>
+                                                    
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    
+
+                                        <div class="col-sm-3 col-xs-6">
+                                            <ul class="clearfix">
+                                                <li class='external-link'>
+                                                    
+                                                        <a href="http://www.huaweimarine.com/en/" onclick="ga('send', 'event', 'footernav', 'huaweimarine');" target="_blank">
+                                                            Huawei Marine<em class="hwic_open-in-new3"></em>
+                                                        </a>
+                                                    
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    
+
+                                        <div class="col-sm-3 col-xs-6">
+                                            <ul class="clearfix">
+                                                <li class='external-link'>
+                                                    
+                                                        <a href="https://www.hihonor.com/global/" onclick="ga('send', 'event', 'footernav', 'honor');" target="_blank">
+                                                            Honor Official Site<em class="hwic_open-in-new3"></em>
+                                                        </a>
+                                                    
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    
+                            </div>
+
+                        
+                </div>
+            </div>
+        </div>
+        <div class="copy">
+            <div class="container">
+                <div class="row">
+                    
+                    <div class="col-sm-4">
+                        <span>
+                            
+                                <span id="indexfooter_0_tCopyRight">Â©2019 Huawei Technologies Co., Ltd.</span>
+                                
+                        </span>
+                    </div>
+                    
+                    <div class="col-sm-8">
+                        <ul>
+                            
+
+                                    <li>
+                                        
+                                            
+                                            <a href="/en/contact-us" onclick="ga('send', 'event', 'footernav', 'contact');" target="_self">
+                                                Contact
+                                            </a>
+                                        
+                                    </li>
+
+                                
+
+                                    <li>
+                                        
+                                            |
+                                            <a href="/en/legal" onclick="ga('send', 'event', 'footernav', 'termsofuse');" target="_self">
+                                                Terms of Use
+                                            </a>
+                                        
+                                    </li>
+
+                                
+
+                                    <li>
+                                        
+                                            |
+                                            <a href="/en/privacy-policy" onclick="ga('send', 'event', 'footernav', 'privacy');" target="_self">
+                                                Privacy
+                                            </a>
+                                        
+                                    </li>
+
+                                
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    
+     <script type="text/javascript" src="/Assets/corp/v1/js/single/default_nocache_v2_01.min.js?ver=201903310001"></script>
+<script type="text/javascript" src="/Assets/corp/v1/js/single/default_nocache_v2_02.min.js?ver=201903310001"></script>
+<script type="text/javascript" src="/Assets/corp/v2/js/common/common.min.js?ver=201903310001"></script>
+     
+
+
+    <script type="text/javascript">
+        function LoadPageData() {
+            $(".btn-more-botom").hide();
+            var url = "";
+            var ret = /\?sc_itemid/;
+            var path = window.location.href;
+            var Count = 0
+            if (ret.exec(path) == "?sc_itemid") {
+                url = path + "&d=ws";
+            } else {
+                url = "?d=ws";
+            }
+
+            //url = "?d=ws";
+            //å·²å è½½çæ°é
+            if ($(".row.publications .col-sm-2.col-xs-6").length >= 18) {
+                Count = $(".row.publications .col-sm-2.col-xs-6").length;
+                url = url + "&hasCount=" + Count;
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    beforeSend: function () {
+                        $("#waiting").css("display", "block");
+                    },
+                    success: function (html) {
+                        $(".btn-more-botom").show();
+                        if ($($.trim(html)).find(".col-sm-2.col-xs-6").length < 18) {
+                            $(".btn-more-botom").hide();
+                        }
+                        $(".row.solCategory .col-sm-12").append(html);
+                        if ($(".col-sm-2.col-xs-6").length >= $("#CountId").val()) {
+                            $(".btn-more-botom").hide();
+                        }
+                        $("#waiting").css("display", "none");
+                    },
+                    error: function (responseText) {
+
+                    }
+                });
+            } else {
+                Count = $(".segment.previous .row .col-sm-6").length
+                url = url + "&hasCount=" + Count;
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    beforeSend: function () {
+                        $("#waiting").css("display", "block");
+                    },
+                    success: function (html) {
+                        $(".btn-more-botom").show();
+                        if ($($.trim(html)).find(".item.col-sm-6").length < 10) {
+                            $(".btn-more-botom").hide();
+                        }
+                        $(".segment.previous").append(html);
+                        if ($(".segment.previous .row .col-sm-6").length >= $("#CountId").val()) {
+                            $(".btn-more-botom").hide();
+                        }
+                        $("#waiting").css("display", "none");
+                    },
+                    error: function (responseText) {
+
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+
+            if ($(".row.publications .col-sm-2.col-xs-6").length < 18 && $(".segment.previous .row .col-sm-6").length < 8) {
+                $(".btn-more-botom").hide();
+            }
+
+            //ç¹å»âå è½½æ´å¤â
+            $(".btn-more-botom").click(function () {
+                LoadPageData();
+            });
+        });
+        //å»æå¹¿åå¾çèªå¸¦çå®½åº¦åé«åº¦
+        $(function () {
+            $(".removeWH").removeAttr("width").removeAttr("height");
+            $(".removeImgWH").removeAttr("width").removeAttr("height");
+            var listImg = $(".removeImgWH");
+            listImg.each(function (i) {
+                var strSrc = listImg[i].src;
+                var path = strSrc.split('?');
+                listImg[i].src = path[0];
+            });
+        });
+        function IsPageEditor() {
+            if (typeof Sitecore == "undefined") {
+                return false;
+            }
+            if (typeof Sitecore.PageModes == "undefined" || Sitecore.PageModes == null) {
+                return false;
+            }
+            return Sitecore.PageModes.PageEditor != null;
+        }
+        $(".row .col-xs-7 h3 a").each(function (i) {
+            //debugger;
+            if ($.trim($(this).attr("href")) == "" && IsPageEditor() == false) {
+                var xx = $(this).html();
+                $(this).replaceWith(xx);
+            }
+
+        })
+        $(".row .col-sm-3 h3 a").each(function (i) {
+            //debugger;
+            if ($.trim($(this).attr("href")) == "" && IsPageEditor() == false) {
+                var xx = $(this).html();
+                $(this).replaceWith(xx);
+            }
+
+        })
+        window.onload = function () {
+            if ($.trim($(".moreinfo").html()).length == 0) {
+                $("#js_read_more_product").hide();
+            }
+            $(".lt-img-rt-tx .container .more a").each(function (i) {
+                if ($.trim($(this).attr("href")) == "" && IsPageEditor() == false) {
+                    $(".lt-img-rt-tx .container .more").hide();
+                }
+                else {
+                    $(".lt-img-rt-tx .container .more").show();
+                }
+            })
+        };
+    </script>
+    
+    
+    
+    <!-- åä¸ºçæµéç»è®¡jsï¼å«å æã start -->
+    
+
+
+
+<script type="text/javascript">
+    function checkDomain() {
+        (function (url, win, doc, myName) {
+            win[myName] = win[myName] || function () {
+                (win[myName].q = win[myName].q || []).push(arguments);
+            };
+            setTimeout(function () {
+                var iframe = document.createElement('iframe');
+                (iframe.frameElement || iframe).style.cssText = 'display:none';
+                iframe.src = 'javascript:false';
+                var where = document.getElementsByTagName('script')[0];
+                where.parentNode.insertBefore(iframe, where);
+                var doc = iframe.contentWindow.document;
+                doc.open().write('<body onload="' +
+                    'var js = document.createElement(\'script\');' +
+                    'js.src = \'' + url + '?hr=' + new Date().getTime() + '\';' +
+                    'document.body.appendChild(js);">');
+                doc.close();
+            }, 0);
+        }(location.protocol + '//app.huawei.com/hwa-c/configresource/js/general/ha_f.js', window, document, 'ha'));
+
+        ha("set", "siteId", "www");
+    }
+      
+    var hwa_DisablHwa = document.domain != "www.huawei.com" || $("#hidDisableHwa").val() == "1";
+    !hwa_DisablHwa && checkDomain();
+</script>
+
+
+
+<script type="text/javascript">
+    var utag_data = {
+        site_name: "WWW", 
+        site_type: "website" 
+    }
+</script>
+<script type="text/javascript">
+    (function (a, b, c, d) {
+        a = ((navigator.languages && navigator.languages.length) ? navigator.languages[0] : (navigator.browserLanguage || navigator.userLanguage || navigator.language || 'en')).toLowerCase() == "zh-cn" ? '//tags.tiqcdn.cn/utag/huawei/main/prod/utag.js' : '//tags.tiqcdn.com/utag/huawei/main/prod/utag.js';
+        b = document; c = 'script'; d = b.createElement(c); d.src = a; d.type = 'text/java' + c; d.async = true;
+        a = b.getElementsByTagName(c)[0]; a.parentNode.insertBefore(d, a);
+    })();</script>
+
+<script type="text/javascript">
+    function callTealium(fileName, fileUrl, materialNumber) {
+        if (typeof (utag) != "undefined" && typeof (utag.link) != "undefined") {
+            utag.link({
+                "download_file_name": fileName,
+                "download_file_url": fileUrl,  
+                "download_material_number": materialNumber
+            });
+        }
+    }
+</script>
+
+    <!-- js end -->
+    
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

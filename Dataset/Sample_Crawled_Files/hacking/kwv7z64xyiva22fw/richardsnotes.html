@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Richard&#039;s Notes | Notes, photographs, and other collectible fragments</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="https://richardsnotes.org/xmlrpc.php">
+	<!--[if lt IE 9]>
+		<script src="https://s2.wp.com/wp-content/themes/pub/mckinley/js/html5.js"></script>
+	<![endif]-->
+	
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9yaWNoYXJkc25vdGVzLm9yZw%3D%3D"
+		+ "&id=39198564"
+		+ "&time=1554398011";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//rwanderman.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Richard&#039;s Notes &raquo; Feed" href="https://richardsnotes.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Richard&#039;s Notes &raquo; Comments Feed" href="https://richardsnotes.org/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s2.wp.com/_static/??-eJx9UcuOwjAM/KENFiuoekF8S5MYMI3TKHZU+vebtloOuyiXaDyaGT8CczJuiopRgYtJodwpCszJTWyEKeDypzo4kS/4bAs0osATNQ1uNFvVklO8USRd3uAtpuhC8TWrEuBJFGyYtkibh7yA6BLwwBRb8W7KWHlOg64KRk8DBuQqa9lm8nfUvfWOjeKraeHU/TZa4aNu31x8P6i1KaOIqS9TYaOPOtt/305DKhbYjRTrJ2yz3QK+JJDHvFqufDmeT13f96fu+/kDAcOw7w==?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='mckinley-raleway-css'  href='https://fonts.googleapis.com/css?family=Raleway:400,700,800,900' type='text/css' media='all' />
+<link rel='stylesheet' id='mckinley-open-sans-css'  href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,800,700' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s1.wp.com/_static/??-eJx9jdEKwjAMRX/IGh3zoQ/it2wl1mialDZD9vdWhrAh+nYuuecGntkFFUMxSJPLPEWSChEFC7XDD9yHWnewcu2GCSvkaYQUHiSMM1SbGZcmgagtIx/4mti8V8caBiOVTXBXHqj8UwuOrLFhhNZaxbd0Sedj733XHfypv78AjpReRw==?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-5-1' href='https://s2.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h&cssminify=yes' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-6-1' href='https://s0.wp.com/_static/??/wp-content/mu-plugins/actionbar/actionbar.css,/wp-content/themes/h4/global.css?m=1516985148j&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyF0FEKwjAMBuAL2RVdh0/iWWqNI3VNa5M69PRWmIhQFQJ5yAf5Ez0nheSmcgTWvtalQL4trfO80r+ACjhmK9AFpBd2kQRInjZFlgDMdoTGNMQDTqAKQ66ApK45xYb7jIR0RZj/Mg+SrDurDIx3aB3C6Z35+wcWtQ+79TCYTd9vjfEPs3xy+Q=='></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1530132353h&cssminify=yes' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://rwanderman.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel='shortlink' href='https://wp.me/2EtkU' />
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Richard&#039;s Notes" />
+<meta property="og:description" content="Notes, photographs, and other collectible fragments" />
+<meta property="og:url" content="https://richardsnotes.org/" />
+<meta property="og:site_name" content="Richard&#039;s Notes" />
+<meta property="og:image" content="https://secure.gravatar.com/blavatar/2889964a0333ec95792de0499c6abd61?s=200&amp;ts=1554398011" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@rwanderman" />
+<meta name="twitter:site" content="@rwanderman" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/2889964a0333ec95792de0499c6abd61?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/2889964a0333ec95792de0499c6abd61?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/2889964a0333ec95792de0499c6abd61?s=114" />
+<link rel='openid.server' href='https://rwanderman.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://rwanderman.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://richardsnotes.org/osd.xml" title="Richard&#039;s Notes" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+				<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Richard&#039;s Notes" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Notes, photographs, and other collectible fragments" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://richardsnotes.org/feed/;icon-uri=https://secure.gravatar.com/blavatar/2889964a0333ec95792de0499c6abd61?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Notes, photographs, and other collectible fragments" />
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s0.wp.com/?custom-css=1&#038;csblog=2EtkU&#038;cscache=6&#038;csrev=6" />
+		</head>
+
+<body class="home blog mp6 customizer-styles-applied single-author highlander-enabled highlander-light infinite-scroll">
+	<div id="page" class="hfeed site">
+		<header id="masthead" class="site-header" role="banner">
+
+			<a class="home-link" href="https://richardsnotes.org/" title="Richard&#039;s Notes" rel="home">
+				<h1 class="site-title">Richard&#039;s Notes</h1>
+				<h2 class="site-description">Notes, photographs, and other collectible fragments</h2>
+			</a>
+
+		</header><!-- #masthead .site-heder -->
+
+		<div id="navbar" class="clear navbar">
+			<div class="menu-toggle"></div><!-- .menu-toggle -->
+			<nav id="site-navigation" class="main-navigation navigation" role="navigation">
+				<a class="screen-reader-text skip-link" href="#content" title="Skip to content">Skip to content</a>
+				<div class="menu-archives-container"><ul id="menu-archives" class="nav-menu"><li id="menu-item-6560" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-6560"><a href="https://richardsnotes.org/" aria-current="page">Home</a></li>
+<li id="menu-item-6561" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6561"><a href="https://richardsnotes.org/about/">About</a></li>
+<li id="menu-item-6562" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6562"><a href="https://richardsnotes.org/curated-posts/">Curated Posts</a></li>
+<li id="menu-item-7264" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7264"><a href="https://richardsnotes.org/archives/">Archives</a></li>
+</ul></div>			</nav><!-- #site-navigation .main-navigation .navigation -->
+		</div><!-- #navbar .clear .navbar -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+			
+<article id="post-13083" class="post-13083 post type-post status-publish format-standard hentry category-photography">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2019/03/05/march2019/" rel="bookmark">March 2019</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2019/03/05/march2019/" title="Permalink to March 2019" rel="bookmark"><time class="entry-date" datetime="2019-03-05T14:59:04-04:00">March 5, 2019</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/photography/" rel="category tag">Photography</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2019/03/05/march2019/#comments">View all 8 comments</a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<p>Richard Samuel Wanderman of Warren, CT died March 2, 2019 at Danbury Hospital. Born in Hicksville, NY, Richard completed an MFA at University of Oregon where he later taught art and design.  A man of varied interests, Richard successfully pursued careers in art, technology and education. He was an avid outdoorsman and maintained sections of the Appalachian Trail with Connecticut AMC and Mass AMC. He is survived by his wife, Anne Latham Wanderman, two stepdaughters: Jessica Darling and Bonnie Darling and granddaughter, Erin Shea. A gathering to celebrate his life will be planned for the spring. </p>
+<p>The immediate family wishes to acknowledge the outpouring of support and love from the wider family and a cornucopia of wonderful friends. As you followed Richard through his illness and many setbacks, your emails and texts were a constant flow of love and support. Every one of them was read to him. We cried. We laughed. We mourned. Many of you gave freely of time, energy, and substantial help. Richard was surprised and then deeply moved by your responses to his illness. A gathering to celebrate his contributions to our lives will be planned for the spring. </p>
+<p>Family and friends will be grateful for the sharing of your sentiments and stories here on this blog. </p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13083-5ca63b3b13a07' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13083&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13083-5ca63b3b13a07&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13083-5ca63b3b13a07'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13081" class="post-13081 post type-post status-publish format-standard hentry category-event category-ideas category-people category-process category-story tag-biopsy tag-brain-cancer tag-brain-tumor tag-glioblastoma tag-hospital tag-richard-wanderman">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/12/16/brain-cancer/" rel="bookmark">Brain Cancer</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/12/16/brain-cancer/" title="Permalink to Brain Cancer" rel="bookmark"><time class="entry-date" datetime="2018-12-16T18:00:54-04:00">December 16, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/event/" rel="category tag">Event</a>, <a href="https://richardsnotes.org/category/ideas/" rel="category tag">Ideas</a>, <a href="https://richardsnotes.org/category/people/" rel="category tag">People</a>, <a href="https://richardsnotes.org/category/process/" rel="category tag">Process</a>, <a href="https://richardsnotes.org/category/story/" rel="category tag">Story</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/biopsy/" rel="tag">biopsy</a>, <a href="https://richardsnotes.org/tag/brain-cancer/" rel="tag">brain cancer</a>, <a href="https://richardsnotes.org/tag/brain-tumor/" rel="tag">brain tumor</a>, <a href="https://richardsnotes.org/tag/glioblastoma/" rel="tag">Glioblastoma</a>, <a href="https://richardsnotes.org/tag/hospital/" rel="tag">hospital</a>, <a href="https://richardsnotes.org/tag/richard-wanderman/" rel="tag">Richard Wanderman</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/12/16/brain-cancer/#comments">View all 20 comments</a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<p>Dictation sucks. My wife is currently typing (and editing) as I speak. Maybe some day I&#8217;ll be able to do this again, but right now I can&#8217;t. It sucks.</p>
+<p>This is going to be a tough post to write. The short of it is I have a brain tumor. We&#8217;ve done a biopsy and it&#8217;s a <a href="https://en.wikipedia.org/wiki/Glioblastoma">glioblastoma</a>, deep in my brain and inoperable, but I thought it was time that I let people know what&#8217;s going on.</p>
+<p>This has all come on relatively quickly; we didn&#8217;t know what I had last week, but I was definitely feeling woozy and uncoordinated. On December 1st, not feeling well, I drove to New Milford for an unrelated blood test. While taking blood, the techie remarked that I looked like shit. He took my blood pressure which was very low, and then advised me that I shouldn&#8217;t drive home. But I did, stopping at my primary care doctor&#8217;s office. I was immediately waved in by the nurse who I&#8217;ve known for 25 years. She sent me home to collect my wife and check in at the emergency room at New Milford Hospital. After 7 hours attended by the fabulous Dr. Chu, a CAT scan and MRI, we got the bad news. Brain tumor. BRAIN TUMOR!</p>
+<p>After the initial diagnosis I was on a steroid drug, and it helped me feel better. I  talked and walked more easily. The tumor seems to be in the motor area of my brain although we donât know much more than that yet. I&#8217;m off the steroid now. Lots of other chemicals are swimming around in my blood. I&#8217;m a little loopy now.</p>
+<p>On Tuesday, December 3rd, we met with Dr. Altorelli, our long time and wonderful physician. He showed us the MRI, explained what had been learned and laid out the general plan for the upcoming weeks. He was extremely reassuring about adhering to quality of life issues that will obviously be relevant in the upcoming months. I didn&#8217;t know how he could be blunt and kindly at the same time, but he was.</p>
+<p>On Friday, December 7th, we were sent to Yale/New Haven Hospital emergency room. Unbeknownst to us, ER&#8217;s are routinely used for diagnoses. It was very busy; my bed was in the hall which gave an interesting view of comings, goings and all kinds of strange activities. Various technicians, nurses and doctors arrived at bedside with all kinds of vague (to us) communications. Finally, they ordered their own MRI, which resulted in admission to the hospital. We already had an appointment for the following Tuesday for a biopsy and wished we&#8217;d been able to return home before the scary event. Most likely, it was best to be in the hospital for monitoring and preparation, but it sucked. No one in the three-bed room got any sleep, or knew what the heck was going on with them.</p>
+<p><a data-flickr-embed="true" href="https://www.flickr.com/photos/richardspics/46294548992/in/dateposted/" title="To the OR"><img src="https://farm5.staticflickr.com/4823/46294548992_93c7f8ed28_c.jpg" width="600" height="800" alt="To the OR" class="aligncenter"></a></p>
+<p></p>
+<p>On Tuesday December 11th, Bonnie (daughter) arrived at the hospital to be with us for the duration. She took point and steadied the elders throughout the pre-op interviews and preps. Once in Smilow Cancer Center, things seemed to go more smoothly and quickly. Everyone on the team introduced themselves and were very reassuring both with words and physical contact. They tell me that after I went to sleep, they slipped a needle through my skull and then deep into my left midbrain, then took samples of the monster in my head. They identified the tumor as a glioblastoma, but further testing will give more detailed information that will drive treatment.</p>
+<p><a data-flickr-embed="true" href="https://www.flickr.com/photos/richardspics/46342749971/in/photostream/" title="Post OR"><img src="https://farm5.staticflickr.com/4814/46342749971_3bdbebdee5_z.jpg" width="480" height="640" alt="Post OR" class="aligncenter"></a></p>
+<p></p>
+<p>When the results are final from the the biopsy, we will meet with doctors who specialize in treatment using chemicals and radiation. We are also hoping for some immunotherapy. We have the appointments at Yale/New Haven right after Christmas. Soon we will have appointments at Memorial Sloan Kettering for second opinions.</p>
+<p>We&#8217;ve been home for two days. The most frustrating symptom is the loss of typing and sometimes word retrieval. I don&#8217;t mind not driving since my chauffeur (Anne) is right here.</p>
+<p>I get tired by mid day, but the sofa in front of the wood stove is very nice.</p>
+<p>I&#8217;m going to use this blog to share information. Link to it and/or pass it around.<br />
+So, that&#8217;s it for now. I&#8217;ll update you as I know more.</p>
+<p>Stay tuned.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13081-5ca63b3b1614b' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13081&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13081-5ca63b3b1614b&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13081-5ca63b3b1614b'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13077" class="post-13077 post type-post status-publish format-standard hentry category-photography tag-magic tag-magician tag-ricky-jay">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/11/26/remembering-ricky-jay/" rel="bookmark">Remembering Ricky Jay</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/11/26/remembering-ricky-jay/" title="Permalink to Remembering Ricky Jay" rel="bookmark"><time class="entry-date" datetime="2018-11-26T11:41:31-04:00">November 26, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/photography/" rel="category tag">Photography</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/magic/" rel="tag">magic</a>, <a href="https://richardsnotes.org/tag/magician/" rel="tag">magician</a>, <a href="https://richardsnotes.org/tag/ricky-jay/" rel="tag">Ricky Jay</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/11/26/remembering-ricky-jay/#comments">View all 2 comments</a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<p>I published a note on the magician <a href="https://richardsnotes.org/2009/02/05/ricky-jay/">Ricky Jay</a> ten years ago and I&#8217;m sorry to say that he died two days ago.</p>
+<p><a href="https://www.nytimes.com/2018/11/25/obituaries/ricky-jay-dead.html">Ricky Jay, Gifted Magician, Actor and Author, Is Dead at 70</a></p>
+<p>Few would take issue with the fact that <a href="https://en.wikipedia.org/wiki/Ricky_Jay">Ricky Jay</a> was the greatest sleight of hand magician of all time. He was not only a great magician but he was a great historian and story-teller and his magic was usually accompanied by stories of the great magicians of yesteryear who invented the tricks he was doing.</p>
+<p>Here&#8217;s the full David Mamet piece: Ricky Jay and his 52 Assistants:</p>
+<div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='1120' height='630' src='https://www.youtube.com/embed/FtgUSUHnzLI?version=3&#038;rel=1&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+<p>You can find out takes of this performance on YouTube with individual tricks in it as well.</p>
+<p>I&#8217;ve been a fan of Ricky Jay&#8217;s for a long time and I&#8217;m going to miss him.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13077-5ca63b3b16e09' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13077&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13077-5ca63b3b16e09&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13077-5ca63b3b16e09'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13073" class="post-13073 post type-post status-publish format-standard hentry category-photography tag-andrew-allan-jpn tag-cedar tag-fog tag-ricoh-gr tag-tree">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/11/26/mountain-cedar/" rel="bookmark">Mountain cedar</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/11/26/mountain-cedar/" title="Permalink to Mountain cedar" rel="bookmark"><time class="entry-date" datetime="2018-11-26T09:13:38-04:00">November 26, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/photography/" rel="category tag">Photography</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/andrew-allan-jpn/" rel="tag">Andrew Allan Jpn</a>, <a href="https://richardsnotes.org/tag/cedar/" rel="tag">cedar</a>, <a href="https://richardsnotes.org/tag/fog/" rel="tag">fog</a>, <a href="https://richardsnotes.org/tag/ricoh-gr/" rel="tag">Ricoh GR</a>, <a href="https://richardsnotes.org/tag/tree/" rel="tag">tree</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/11/26/mountain-cedar/#comments">View all 2 comments</a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<p><a href="https://www.flickr.com/photos/jamstairs/45124355505/in/pool-32842155@N00" title="Mountain cedar"><img src="https://farm5.staticflickr.com/4914/45124355505_ed4d152d63_k.jpg" class="aligncenter" height="1357" width="2048" alt="Mountain cedar"></a></p>
+<p>Flickr member <a href="https://www.flickr.com/photos/jamstairs/">Andrew Allan Jpn</a> took this terrific image of cedar trees in fog in Nara, Japan with a Ricoh GR.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13073-5ca63b3b17783' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13073&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13073-5ca63b3b17783&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13073-5ca63b3b17783'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13071" class="post-13071 post type-post status-publish format-standard hentry category-art category-photography category-story category-video tag-ikea tag-photograph tag-story-2">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/11/21/the-story-behind-that-ikea-photo-of-amsterdam/" rel="bookmark">The Story Behind That IKEA Photo of&nbsp;Amsterdam</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/11/21/the-story-behind-that-ikea-photo-of-amsterdam/" title="Permalink to The Story Behind That IKEA Photo of&nbsp;Amsterdam" rel="bookmark"><time class="entry-date" datetime="2018-11-21T09:06:11-04:00">November 21, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/art/" rel="category tag">Art</a>, <a href="https://richardsnotes.org/category/photography/" rel="category tag">Photography</a>, <a href="https://richardsnotes.org/category/story/" rel="category tag">Story</a>, <a href="https://richardsnotes.org/category/video/" rel="category tag">Video</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/ikea/" rel="tag">Ikea</a>, <a href="https://richardsnotes.org/tag/photograph/" rel="tag">photograph</a>, <a href="https://richardsnotes.org/tag/story-2/" rel="tag">story</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/11/21/the-story-behind-that-ikea-photo-of-amsterdam/#respond"><span class="leave-reply">Leave a comment</span></a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='1120' height='630' src='https://www.youtube.com/embed/pD0EPtBGuOU?version=3&#038;rel=1&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+<p></p>
+<p><em><a href="https://www.ikea.com/us/en/catalog/products/20150946/">VILSHULT</a> is an IKEA ready-to-hang photo of Amsterdam that has been sold over 427,000 times. After many of my friends asked me why I bought such a âmediocreâ photo for my living room, I decided to find out how this photo was made and how it ended up on IKEAâs shelves and in almost half a million households. What I learned was fascinating.</p>
+<p>I made the 14-minute documentary short film above about my quest to learn the story behind this popular IKEA photo of my hometown.</em></p>
+<p>More of the backstory at Petapixel: <a href="https://petapixel.com/2018/11/20/the-story-behind-that-ikea-photo-of-amsterdam/">The Story Behind That IKEA Photo of Amsterdam</a>.</p>
+<p>Great story, very well done.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13071-5ca63b3b19024' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13071&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13071-5ca63b3b19024&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13071-5ca63b3b19024'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13067" class="post-13067 post type-post status-publish format-standard hentry category-photography tag-billboard tag-new-york tag-ron-bautista">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/11/17/timing/" rel="bookmark">Timing</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/11/17/timing/" title="Permalink to Timing" rel="bookmark"><time class="entry-date" datetime="2018-11-17T09:30:27-04:00">November 17, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/photography/" rel="category tag">Photography</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/billboard/" rel="tag">billboard</a>, <a href="https://richardsnotes.org/tag/new-york/" rel="tag">New York</a>, <a href="https://richardsnotes.org/tag/ron-bautista/" rel="tag">Ron Bautista</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/11/17/timing/#comments">View all 2 comments</a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<p><a href="https://www.flickr.com/photos/bautistany/44076725100/" title="Untitled"><img src="https://farm5.staticflickr.com/4915/44076725100_da7622fd75_h.jpg" width="1600" height="1067" alt="Untitled" class="aligncenter"></a></p>
+<p></p>
+<p>My Flickr contact <a href="https://www.flickr.com/photos/bautistany/">Ron Bautista</a> posted this perfectly timed image of a woman walking in front of a billboard in New York.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13067-5ca63b3b1b069' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13067&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13067-5ca63b3b1b069&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13067-5ca63b3b1b069'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13065" class="post-13065 post type-post status-publish format-standard hentry category-photography tag-anton-flow tag-flipped tag-high-contrast tag-shadow">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/11/07/people/" rel="bookmark">People</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/11/07/people/" title="Permalink to People" rel="bookmark"><time class="entry-date" datetime="2018-11-07T10:58:03-04:00">November 7, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/photography/" rel="category tag">Photography</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/anton-flow/" rel="tag">anton flow</a>, <a href="https://richardsnotes.org/tag/flipped/" rel="tag">flipped</a>, <a href="https://richardsnotes.org/tag/high-contrast/" rel="tag">high contrast</a>, <a href="https://richardsnotes.org/tag/shadow/" rel="tag">shadow</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/11/07/people/#respond"><span class="leave-reply">Leave a comment</span></a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<p><a href="https://www.flickr.com/photos/the-flow-show/44994376504/" title="people"><img src="https://farm2.staticflickr.com/1957/44994376504_904bce1b69_h.jpg" width="1600" height="1055" alt="people" class="aligncenter"></a></p>
+<p></p>
+<p>My Flickr contact <a href="https://www.flickr.com/photos/the-flow-show/">anton flow</a> posted this great (flipped?) image of shadows of legs. Brilliant idea.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13065-5ca63b3b1cb3c' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13065&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13065-5ca63b3b1cb3c&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13065-5ca63b3b1cb3c'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13063" class="post-13063 post type-post status-publish format-standard hentry category-apple category-hiking category-photography tag-dellenback-trail tag-gary-sharp tag-high-contrast tag-iphone tag-iphone-xs">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/11/06/dune-in-shades-of-gray/" rel="bookmark">Dune in shades of&nbsp;gray</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/11/06/dune-in-shades-of-gray/" title="Permalink to Dune in shades of&nbsp;gray" rel="bookmark"><time class="entry-date" datetime="2018-11-06T12:28:51-04:00">November 6, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/apple/" rel="category tag">Apple</a>, <a href="https://richardsnotes.org/category/hiking/" rel="category tag">Hiking</a>, <a href="https://richardsnotes.org/category/photography/" rel="category tag">Photography</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/dellenback-trail/" rel="tag">Dellenback Trail</a>, <a href="https://richardsnotes.org/tag/gary-sharp/" rel="tag">Gary Sharp</a>, <a href="https://richardsnotes.org/tag/high-contrast/" rel="tag">high contrast</a>, <a href="https://richardsnotes.org/tag/iphone/" rel="tag">iPhone</a>, <a href="https://richardsnotes.org/tag/iphone-xs/" rel="tag">iPhone XS</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/11/06/dune-in-shades-of-gray/#comments">View all 2 comments</a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<p><a href="https://www.flickr.com/photos/59452503@N00/30784972667/" title="Untitled"><img src="https://farm2.staticflickr.com/1931/30784972667_7a8c1d6ad4_h.jpg" width="1600" height="1200" alt="Untitled" class="aligncenter"></a></p>
+<p></p>
+<p>My Flickr contact and friend <a href="http://www.flickr.com/photos/59452503@N00/">Gary Sharp</a> posted this amazing image of dunes on the Dellenback Trail on the Oregon coast.</p>
+<p>The iPhone Xs camera is really something with a new level of detail I&#8217;ve not seen on any iPhone camera before it.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13063-5ca63b3b1e467' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13063&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13063-5ca63b3b1e467&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13063-5ca63b3b1e467'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13059" class="post-13059 post type-post status-publish format-standard hentry category-people category-process category-video tag-alex-honnold tag-climbing tag-el-capitan tag-ted">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/11/03/alex-honnold-at-ted/" rel="bookmark">Alex Honnold at&nbsp;TED</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/11/03/alex-honnold-at-ted/" title="Permalink to Alex Honnold at&nbsp;TED" rel="bookmark"><time class="entry-date" datetime="2018-11-03T10:05:54-04:00">November 3, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/people/" rel="category tag">People</a>, <a href="https://richardsnotes.org/category/process/" rel="category tag">Process</a>, <a href="https://richardsnotes.org/category/video/" rel="category tag">Video</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/alex-honnold/" rel="tag">Alex Honnold</a>, <a href="https://richardsnotes.org/tag/climbing/" rel="tag">climbing</a>, <a href="https://richardsnotes.org/tag/el-capitan/" rel="tag">El Capitan</a>, <a href="https://richardsnotes.org/tag/ted/" rel="tag">TED</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/11/03/alex-honnold-at-ted/#respond"><span class="leave-reply">Leave a comment</span></a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='1120' height='630' src='https://www.youtube.com/embed/6iM6M_7wBMc?version=3&#038;rel=1&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></div>
+<p></p>
+<p>Alex Honnold who free soloed El Capitan describes how he prepared and did it.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13059-5ca63b3b1efcd' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13059&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13059-5ca63b3b1efcd&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13059-5ca63b3b1efcd'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+<article id="post-13056" class="post-13056 post type-post status-publish format-standard hentry category-people category-video tag-alex-honnold tag-climbing tag-el-capitan tag-rock-climbing tag-yosemite">
+
+	<header class="entry-header">
+
+		
+
+					<h1 class="entry-title">
+				<a href="https://richardsnotes.org/2018/11/01/what-if-he-falls/" rel="bookmark">What if he&nbsp;falls?</a>
+			</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://richardsnotes.org/2018/11/01/what-if-he-falls/" title="Permalink to What if he&nbsp;falls?" rel="bookmark"><time class="entry-date" datetime="2018-11-01T08:50:04-04:00">November 1, 2018</time></a></span><span class="categories-links"><a href="https://richardsnotes.org/category/people/" rel="category tag">People</a>, <a href="https://richardsnotes.org/category/video/" rel="category tag">Video</a></span><span class="tags-links"><a href="https://richardsnotes.org/tag/alex-honnold/" rel="tag">Alex Honnold</a>, <a href="https://richardsnotes.org/tag/climbing/" rel="tag">climbing</a>, <a href="https://richardsnotes.org/tag/el-capitan/" rel="tag">El Capitan</a>, <a href="https://richardsnotes.org/tag/rock-climbing/" rel="tag">Rock Climbing</a>, <a href="https://richardsnotes.org/tag/yosemite/" rel="tag">Yosemite</a></span><span class="author vcard"><a class="url fn n" href="https://richardsnotes.org/author/rwanderman/" title="View all posts by rwanderman" rel="author">rwanderman</a></span>
+							<span class="comments-link">
+					<a href="https://richardsnotes.org/2018/11/01/what-if-he-falls/#respond"><span class="leave-reply">Leave a comment</span></a>				</span><!-- .comments-link -->
+			
+					</div><!-- .entry-meta -->
+
+	</header><!-- .entry-header -->
+
+			<div class="entry-content">
+			<p><a href="https://www.nytimes.com/video/players/offsite/index.html?videoId=100000006186870">What if He Falls?</a></p>
+<p></p>
+<p>Elizabeth Chai Vasarhelyi and Jimmy Chin produced, directed, and shot the movie Free Solo, about Alex Honnold&#8217;s free solo of the Freerider route on El Capitan in Yosemite Valley, California. This behind the scenes piece for The New York Times is incredible and the movie will no doubt be incredible as well.</p>
+<p>Zoom it out. Wow!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-39198564-13056-5ca63b3b1fb0c' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=39198564&amp;post_id=13056&amp;origin=rwanderman.wordpress.com&amp;obj_id=39198564-13056-5ca63b3b1fb0c&amp;domain=richardsnotes.org' data-name='like-post-frame-39198564-13056-5ca63b3b1fb0c'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+	
+	
+</article><!-- #post -->
+
+	<nav id="nav-below" class="paging-navigation" role="navigation">
+		<h1 class="screen-reader-text">Post navigation</h1>
+		<div class="nav-links">
+			
+									<div class="previous"><a href="https://richardsnotes.org/page/2/" ><span class="meta-nav">&larr;</span> Older posts</a></div>
+				
+				
+					</div>
+
+	</nav><!-- #nav-below -->
+
+	
+		</div><!-- #content .site-content -->
+	</div><!-- #primary .content-area -->
+
+		</div><!-- #main -->
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+
+			
+	<div id="secondary" class="sidebar-container" role="complementary">
+		<div class="widget-area">
+			<aside id="text-2" class="widget widget_text"><h3 class="widget-title">About Richard</h3>			<div class="textwidget"><p>I&#8217;ve been publishing online in one form or another since the early days of the web. I started this site in 2003 with a self-hosted install of WordPress and more recently migrated most of the old content here.</p>
+<p>This site primarily features photography but I&#8217;m interested in many things and you&#8217;ll see an occasional video embed or story here as well.</p>
+<p>I use <a href="http://www.flickr.com/photos/richardspics/">Flickr</a> to host my photography, some of which is embedded here. I also embed other Flickr members&#8217; work as I find and want to share it further than Flickr.</p>
+<p>Thanks for stopping by.</p>
+</div>
+		</aside><aside id="rss_links-5" class="widget widget_rss_links"><h3 class="widget-title">Subscribe (RSS)</h3><ul><li><a href="https://richardsnotes.org/feed/" title="Subscribe to Posts">RSS - Posts</a></li><li><a href="https://richardsnotes.org/comments/feed/" title="Subscribe to Comments">RSS - Comments</a></li></ul>
+</aside><aside id="search-4" class="widget widget_search"><h3 class="widget-title">Search</h3><form role="search" method="get" class="search-form" action="https://richardsnotes.org/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form></aside><aside id="recent-comments-3" class="widget widget_recent_comments"><h3 class="widget-title">Recent Comments</h3>				<ul id="recentcomments">
+											<li class="recentcomments">
+							<a href='http://www.ricklepage.com/' rel='external nofollow' class='url'>ricklepage</a> on <a href="https://richardsnotes.org/2019/03/05/march2019/comment-page-1/#comment-43082">March 2019</a>						</li>
+
+												<li class="recentcomments">
+							<a href='http://www.ricklepage.com/' rel='external nofollow' class='url'>ricklepage</a> on <a href="https://richardsnotes.org/2019/03/05/march2019/comment-page-1/#comment-43079">March 2019</a>						</li>
+
+												<li class="recentcomments">
+							<a href='http://www.sarahdoow.com' rel='external nofollow' class='url'>Sarah</a> on <a href="https://richardsnotes.org/2019/03/05/march2019/comment-page-1/#comment-42986">March 2019</a>						</li>
+
+												<li class="recentcomments">
+							Scott James on <a href="https://richardsnotes.org/2019/03/05/march2019/comment-page-1/#comment-42924">March 2019</a>						</li>
+
+												<li class="recentcomments">
+							<a href='http://gravatar.com/sanfordshapiro' rel='external nofollow' class='url'>sanfordshapiro</a> on <a href="https://richardsnotes.org/2019/03/05/march2019/comment-page-1/#comment-42754">March 2019</a>						</li>
+
+										</ul>
+				</aside><aside id="wp_tag_cloud-3" class="widget wp_widget_tag_cloud"><h3 class="widget-title">Tags</h3><div style="overflow:hidden"><a href="https://richardsnotes.org/tag/appalachian-trail/" class="tag-cloud-link tag-link-146951 tag-link-position-1" style="font-size: 14.484210526316pt;" aria-label="Appalachian Trail (207 items)">Appalachian Trail</a>
+<a href="https://richardsnotes.org/tag/apple/" class="tag-cloud-link tag-link-291 tag-link-position-2" style="font-size: 15.663157894737pt;" aria-label="Apple (252 items)">Apple</a>
+<a href="https://richardsnotes.org/tag/architecture/" class="tag-cloud-link tag-link-2290 tag-link-position-3" style="font-size: 15.957894736842pt;" aria-label="Architecture (265 items)">Architecture</a>
+<a href="https://richardsnotes.org/tag/bokeh/" class="tag-cloud-link tag-link-434032 tag-link-position-4" style="font-size: 9.6210526315789pt;" aria-label="bokeh (97 items)">bokeh</a>
+<a href="https://richardsnotes.org/tag/canon-5d/" class="tag-cloud-link tag-link-747123 tag-link-position-5" style="font-size: 13.452631578947pt;" aria-label="Canon 5D (177 items)">Canon 5D</a>
+<a href="https://richardsnotes.org/tag/flower/" class="tag-cloud-link tag-link-5993 tag-link-position-6" style="font-size: 11.536842105263pt;" aria-label="flower (130 items)">flower</a>
+<a href="https://richardsnotes.org/tag/france/" class="tag-cloud-link tag-link-4704 tag-link-position-7" style="font-size: 8pt;" aria-label="France (74 items)">France</a>
+<a href="https://richardsnotes.org/tag/gary-sharp/" class="tag-cloud-link tag-link-10711235 tag-link-position-8" style="font-size: 11.094736842105pt;" aria-label="Gary Sharp (122 items)">Gary Sharp</a>
+<a href="https://richardsnotes.org/tag/high-contrast/" class="tag-cloud-link tag-link-410081 tag-link-position-9" style="font-size: 13.010526315789pt;" aria-label="high contrast (165 items)">high contrast</a>
+<a href="https://richardsnotes.org/tag/hiking/" class="tag-cloud-link tag-link-7815 tag-link-position-10" style="font-size: 15.221052631579pt;" aria-label="Hiking (235 items)">Hiking</a>
+<a href="https://richardsnotes.org/tag/ice/" class="tag-cloud-link tag-link-157212 tag-link-position-11" style="font-size: 10.652631578947pt;" aria-label="ice (113 items)">ice</a>
+<a href="https://richardsnotes.org/tag/iphone/" class="tag-cloud-link tag-link-106595 tag-link-position-12" style="font-size: 12.863157894737pt;" aria-label="iPhone (163 items)">iPhone</a>
+<a href="https://richardsnotes.org/tag/japan/" class="tag-cloud-link tag-link-2062 tag-link-position-13" style="font-size: 14.336842105263pt;" aria-label="Japan (201 items)">Japan</a>
+<a href="https://richardsnotes.org/tag/landscape/" class="tag-cloud-link tag-link-11201 tag-link-position-14" style="font-size: 15.221052631579pt;" aria-label="landscape (235 items)">landscape</a>
+<a href="https://richardsnotes.org/tag/los-angeles/" class="tag-cloud-link tag-link-25270 tag-link-position-15" style="font-size: 9.3263157894737pt;" aria-label="Los Angeles (92 items)">Los Angeles</a>
+<a href="https://richardsnotes.org/tag/macintosh/" class="tag-cloud-link tag-link-797 tag-link-position-16" style="font-size: 9.0315789473684pt;" aria-label="Macintosh (89 items)">Macintosh</a>
+<a href="https://richardsnotes.org/tag/new-york/" class="tag-cloud-link tag-link-4614 tag-link-position-17" style="font-size: 15.221052631579pt;" aria-label="New York (235 items)">New York</a>
+<a href="https://richardsnotes.org/tag/opinion/" class="tag-cloud-link tag-link-352 tag-link-position-18" style="font-size: 10.505263157895pt;" aria-label="opinion (112 items)">opinion</a>
+<a href="https://richardsnotes.org/tag/photography/" class="tag-cloud-link tag-link-436 tag-link-position-19" style="font-size: 22pt;" aria-label="Photography (668 items)">Photography</a>
+<a href="https://richardsnotes.org/tag/process/" class="tag-cloud-link tag-link-9719 tag-link-position-20" style="font-size: 12.421052631579pt;" aria-label="Process (150 items)">Process</a>
+<a href="https://richardsnotes.org/tag/reflection/" class="tag-cloud-link tag-link-8408 tag-link-position-21" style="font-size: 15.073684210526pt;" aria-label="reflection (227 items)">reflection</a>
+<a href="https://richardsnotes.org/tag/ricoh-gr/" class="tag-cloud-link tag-link-3973588 tag-link-position-22" style="font-size: 20.231578947368pt;" aria-label="Ricoh GR (513 items)">Ricoh GR</a>
+<a href="https://richardsnotes.org/tag/ricoh-gr-ii/" class="tag-cloud-link tag-link-357258013 tag-link-position-23" style="font-size: 8pt;" aria-label="Ricoh GR II (75 items)">Ricoh GR II</a>
+<a href="https://richardsnotes.org/tag/social-software-2/" class="tag-cloud-link tag-link-37719224 tag-link-position-24" style="font-size: 8.7368421052632pt;" aria-label="social software (85 items)">social software</a>
+<a href="https://richardsnotes.org/tag/sony-rx100/" class="tag-cloud-link tag-link-94988743 tag-link-position-25" style="font-size: 10.063157894737pt;" aria-label="Sony RX100 (103 items)">Sony RX100</a>
+<a href="https://richardsnotes.org/tag/story-2/" class="tag-cloud-link tag-link-345486 tag-link-position-26" style="font-size: 9.9157894736842pt;" aria-label="story (101 items)">story</a>
+<a href="https://richardsnotes.org/tag/street-photography/" class="tag-cloud-link tag-link-239933 tag-link-position-27" style="font-size: 13.452631578947pt;" aria-label="street photography (176 items)">street photography</a>
+<a href="https://richardsnotes.org/tag/uk/" class="tag-cloud-link tag-link-8199 tag-link-position-28" style="font-size: 9.1789473684211pt;" aria-label="UK (91 items)">UK</a>
+<a href="https://richardsnotes.org/tag/urban-landscape/" class="tag-cloud-link tag-link-656752 tag-link-position-29" style="font-size: 8.5894736842105pt;" aria-label="urban landscape (83 items)">urban landscape</a>
+<a href="https://richardsnotes.org/tag/video/" class="tag-cloud-link tag-link-412 tag-link-position-30" style="font-size: 17.726315789474pt;" aria-label="Video (347 items)">Video</a></div></aside><aside id="categories-4" class="widget widget_categories"><h3 class="widget-title">Categories</h3><form action="https://richardsnotes.org" method="get"><label class="screen-reader-text" for="cat">Categories</label><select  name='cat' id='cat' class='postform' >
+	<option value='-1'>Select Category</option>
+	<option class="level-0" value="291">Apple&nbsp;&nbsp;(283)</option>
+	<option class="level-0" value="2290">Architecture&nbsp;&nbsp;(329)</option>
+	<option class="level-0" value="177">Art&nbsp;&nbsp;(109)</option>
+	<option class="level-0" value="5034">climbing&nbsp;&nbsp;(13)</option>
+	<option class="level-0" value="9486049">Collections&nbsp;&nbsp;(63)</option>
+	<option class="level-0" value="5784">Event&nbsp;&nbsp;(75)</option>
+	<option class="level-0" value="7815">Hiking&nbsp;&nbsp;(326)</option>
+	<option class="level-0" value="374">Ideas&nbsp;&nbsp;(313)</option>
+	<option class="level-0" value="190">Movies&nbsp;&nbsp;(28)</option>
+	<option class="level-0" value="18">Music&nbsp;&nbsp;(43)</option>
+	<option class="level-0" value="660">People&nbsp;&nbsp;(407)</option>
+	<option class="level-0" value="436">Photography&nbsp;&nbsp;(2,851)</option>
+	<option class="level-0" value="838103">Postage Stamps&nbsp;&nbsp;(8)</option>
+	<option class="level-0" value="9719">Process&nbsp;&nbsp;(369)</option>
+	<option class="level-0" value="14448">Quotations&nbsp;&nbsp;(19)</option>
+	<option class="level-0" value="4927">Social Software&nbsp;&nbsp;(122)</option>
+	<option class="level-0" value="2622">Story&nbsp;&nbsp;(190)</option>
+	<option class="level-0" value="6">Technology&nbsp;&nbsp;(144)</option>
+	<option class="level-0" value="412">Video&nbsp;&nbsp;(565)</option>
+</select>
+</form>
+<script type='text/javascript'>
+/* <![CDATA[ */
+(function() {
+	var dropdown = document.getElementById( "cat" );
+	function onCatChange() {
+		if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {
+			dropdown.parentNode.submit();
+		}
+	}
+	dropdown.onchange = onCatChange;
+})();
+/* ]]> */
+</script>
+
+			</aside>		</div><!-- .widget-area -->
+	</div><!-- #secondary .sidebar-container -->
+
+
+			<div class="site-info ">
+								<p class="left"></p>
+				<p class="right"><a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a></p>
+			</div><!-- .site-info -->
+
+		</footer><!-- #colophon .site-footer -->
+
+	</div><!-- #page -->
+
+			<script type="text/javascript">
+		//<![CDATA[
+		var infiniteScroll = JSON.parse( decodeURIComponent( '%7B%22settings%22%3A%7B%22id%22%3A%22content%22%2C%22ajaxurl%22%3A%22https%3A%5C%2F%5C%2Frichardsnotes.org%5C%2F%3Finfinity%3Dscrolling%22%2C%22type%22%3A%22click%22%2C%22wrapper%22%3Atrue%2C%22wrapper_class%22%3A%22infinite-wrap%22%2C%22footer%22%3A%22page%22%2C%22click_handle%22%3A%221%22%2C%22text%22%3A%22Older%20posts%22%2C%22totop%22%3A%22Scroll%20back%20to%20top%22%2C%22currentday%22%3A%2201.11.18%22%2C%22order%22%3A%22DESC%22%2C%22scripts%22%3A%5B%5D%2C%22styles%22%3A%5B%5D%2C%22google_analytics%22%3Afalse%2C%22offset%22%3A0%2C%22history%22%3A%7B%22host%22%3A%22richardsnotes.org%22%2C%22path%22%3A%22%5C%2Fpage%5C%2F%25d%5C%2F%22%2C%22use_trailing_slashes%22%3Atrue%2C%22parameters%22%3A%22%22%7D%2C%22query_args%22%3A%7B%22error%22%3A%22%22%2C%22m%22%3A%22%22%2C%22p%22%3A0%2C%22post_parent%22%3A%22%22%2C%22subpost%22%3A%22%22%2C%22subpost_id%22%3A%22%22%2C%22attachment%22%3A%22%22%2C%22attachment_id%22%3A0%2C%22name%22%3A%22%22%2C%22pagename%22%3A%22%22%2C%22page_id%22%3A0%2C%22second%22%3A%22%22%2C%22minute%22%3A%22%22%2C%22hour%22%3A%22%22%2C%22day%22%3A0%2C%22monthnum%22%3A0%2C%22year%22%3A0%2C%22w%22%3A0%2C%22category_name%22%3A%22%22%2C%22tag%22%3A%22%22%2C%22cat%22%3A%22%22%2C%22tag_id%22%3A%22%22%2C%22author%22%3A%22%22%2C%22author_name%22%3A%22%22%2C%22feed%22%3A%22%22%2C%22tb%22%3A%22%22%2C%22paged%22%3A0%2C%22meta_key%22%3A%22%22%2C%22meta_value%22%3A%22%22%2C%22preview%22%3A%22%22%2C%22s%22%3A%22%22%2C%22sentence%22%3A%22%22%2C%22title%22%3A%22%22%2C%22fields%22%3A%22%22%2C%22menu_order%22%3A%22%22%2C%22embed%22%3A%22%22%2C%22category__in%22%3A%5B%5D%2C%22category__not_in%22%3A%5B%5D%2C%22category__and%22%3A%5B%5D%2C%22post__in%22%3A%5B%5D%2C%22post__not_in%22%3A%5B%5D%2C%22post_name__in%22%3A%5B%5D%2C%22tag__in%22%3A%5B%5D%2C%22tag__not_in%22%3A%5B%5D%2C%22tag__and%22%3A%5B%5D%2C%22tag_slug__in%22%3A%5B%5D%2C%22tag_slug__and%22%3A%5B%5D%2C%22post_parent__in%22%3A%5B%5D%2C%22post_parent__not_in%22%3A%5B%5D%2C%22author__in%22%3A%5B%5D%2C%22author__not_in%22%3A%5B%5D%2C%22posts_per_page%22%3A10%2C%22ignore_sticky_posts%22%3Afalse%2C%22suppress_filters%22%3Afalse%2C%22cache_results%22%3Afalse%2C%22update_post_term_cache%22%3Atrue%2C%22lazy_load_term_meta%22%3Atrue%2C%22update_post_meta_cache%22%3Atrue%2C%22post_type%22%3A%22%22%2C%22nopaging%22%3Afalse%2C%22comments_per_page%22%3A%2250%22%2C%22no_found_rows%22%3Afalse%2C%22order%22%3A%22DESC%22%7D%2C%22last_post_date%22%3A%222018-11-01%2008%3A50%3A04%22%2C%22stats%22%3A%22blog%3D39198564%26v%3Dwpcom%26tz%3D-4%26user_id%3D0%26subd%3Drwanderman%26x_pagetype%3Dinfinite-click%22%7D%7D' ) );
+		//]]>
+		</script>
+		<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/rwanderman.wordpress.com\/public.api\/connect\/?action=request&domain=richardsnotes.org","logoutURL":"https:\/\/rwanderman.wordpress.com\/wp-login.php?action=logout&_wpnonce=38cab5525b","homeURL":"https:\/\/richardsnotes.org\/","postID":"13083","gravDefault":"mystery","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1551752381j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="39198564" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://richardsnotes.org" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Richard&#039;s Notes" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="9e445bd00e" /><input type="hidden" name="_wp_http_referer" value="/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<link rel='stylesheet' id='all-css-0-3' href='https://s0.wp.com/_static/??-eJx9y00KgCAQQOELNQ39QovoLKJDWJOKo0W3jxYtgmj5Hnx4BNDeJXIJtwyB82ydYCQJ3ondCXZryH+cUosU+M21ij4LMS6UgtIrPOMPJctkYFbMFM933Wzaxqqr234YuqZdLqDRROg=?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"39198564","siteName":"Richard's Notes","siteURL":"https:\/\/richardsnotes.org","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/2889964a0333ec95792de0499c6abd61?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/mckinley","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Frichardsnotes.org%2F2019%2F03%2F05%2Fmarch2019%2F&signup_flow=account&domain=richardsnotes.org","themeURL":"","xhrURL":"https:\/\/richardsnotes.org\/wp-admin\/admin-ajax.php","nonce":"27b1b17b50","isSingular":"","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"ef480b4a38\" \/>","referer":"https:\/\/richardsnotes.org\/","canFollow":"1","feedID":"24112376","statusMessage":"","customizeLink":"https:\/\/rwanderman.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Frwanderman.wordpress.com%2F","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: McKinley","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 1,054 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Frichardsnotes.org%2F2019%2F03%2F05%2Fmarch2019%2F&signup_flow=account&domain=richardsnotes.org\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/richardsnotes.org\/wp-admin\/admin-ajax.php","nonce":"fe690db059","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"white","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/rwanderman.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Frichardsnotes.org%2F2018%2F11%2F01%2Fwhat-if-he-falls%2F","blog_id":"39198564","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=39198564&v=wpcom&tz=-4&user_id=0&subd=rwanderman","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyVUNFuwyAM/KFRuk7VtIdp30LAaU3BMAxp8/dzoiWqpi7a3g777nyHvmZlE1Wgqj1rBwNayLed5yd9t4pN5dBOSKwDXoD1Z4MGZ0MuQNkgI/VIWMcVLFwkG5oTIzmK0ZyAQzIO3C4iPeJEw4nKeL9eztUzRCHl1uloL0gBxlnxjf9I99JI/PsANw7oNlsZJzFUZ8oUq0IRpNIApeCUdp3906EWYy+8JbIVE02iFW2wC3BOxDiAGiRXejD57bP52qfOg60/7RfvWa4NM9RZML+z+G/Ft6akxhC0h5qlqloGovmI78/H48v+9fB22Psv8ev5XA=='></script>
+<script type='text/javascript' src='https://platform.twitter.com/widgets.js?ver=20111117'></script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyVy0sOQEAMANALqcZnluIsmGbSUTUZRdyerZVYvsXDM8G0qpEaLjsk2QPrhnayGWUYZZjmkbOHxIRKB2VSzxrKuBX456bvx0IewiBC+XrrWf3SVc61deOquo03DQdDyw=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script type="text/javascript">
+			jQuery.extend( infiniteScroll.settings.scripts, ["jquery-core","jquery-migrate","jquery","postmessage","mobile-useragent-info","jquery_inview","jetpack_resize","spin","jquery.spin","grofiles-cards","wpgroho","jquery.autoresize","highlander-comments","devicepx","jetpack_likes_queuehandler","the-neverending-homepage","imagesloaded","masonry","mckinley-script","flexslider-script","wpcom-masterbar-js","wpcom-masterbar-tracks-js","wpcom-actionbar-bar","jetpack-responsive-videos-min-script","swfobject","videopress","jetpack-carousel","twitter-widgets","twitter-widgets-infinity","twitter-widgets-pending","tiled-gallery"] );
+			jQuery.extend( infiniteScroll.settings.styles, ["wpcom-smileys","jetpack_likes","the-neverending-homepage","wp-block-library","wpcom-core-compat-playlist-styles","wpcom-text-widget-styles","mp6hacks","wpcom-bbpress2-staff-css","flexslider","genericons","mckinley-style","noticons","geo-location-flair","reblogging","a8c-global-print","wpcom-actionbar-bar","h4-global","mckinley-raleway","mckinley-open-sans","highlander-comments","highlander-comments-ie7","jetpack-responsive-videos-style","jetpack-carousel","tiled-gallery"] );
+		</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20190321#ver=20190321' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'39198564','blog_tz':'-4','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'39198564','v':'wpcom','tz':'-4','user_id':'0','subd':'rwanderman'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGRVYVNrSFguN3FwSmQ5RGtNX3VQcj1yVzhiflM1THQtLGFdQ2toOXYlSFhdeUYlMzNZSm9JazBKSVN6dHMmX0xbfkFzdT81JUoyZzB2LFhyQm84MV1YWmRmem8sUWQvTWk3ZUMsaj1vMU1UMkFYQS5GR3dMZkkuLlZCN3VZVHpRWU1PNElzektmQ1h3TGIzMWZVVzIlX2hlMVkwaW1oWVF2bk1mTFJ6UG9KRGZjPU1STXdDa2VzUGxbVz1ZaG0/bGlqdnhPTmh+L05fUnBoT25BW1JdW2dJUS1lWHZVY0tqOGNTNUk4RG5iMWZ5Yz9WMzlsNXpfWzA9UVptL1JmbVlKRU5oNkxvdkdsanlXcGF6R0k0Yz91UA=='}]);
+_stq.push([ 'clickTrackerInit', '39198564', '0' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+
+
+#####EOF#####
+
+

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bazel - a fast, scalable, multi-language and extensible build system" - Bazel</title>
+
+    <script>
+      var current_url = window.location.href;
+      
+      // Do a shortcut so that be.bazel.build redirect to the build encyclopedia
+      var be_url = new RegExp("^https?://be(\.bazel.build)?/?");
+      if (be_url.test(current_url)) {
+        window.location.replace(current_url.replace(be_url, "https://docs.bazel.build/be/overview.html"));
+      }
+      var be_url = new RegExp("^https?://be(\.bazel.build)?/([a-zA-Z0-9_-]+)([/#](.*))?");
+      if (be_url.test(current_url)) {
+        window.location.replace(current_url.replace(be_url, "https://docs.bazel.build/be/$2.html#$4"));
+      }
+      // And a short to code reviews
+      var cr_url = new RegExp("^https?://cr(\.bazel.build)?/([0-9]+)")
+      if (cr_url.test(current_url)) {
+        window.location.replace(current_url.replace(cr_url, "https://bazel-review.googlesource.com/c/$2"));
+      }
+      // Code review dashboard
+      var cr_url = new RegExp("^https?://cr(\.bazel.build)?/?")
+      if (cr_url.test(current_url)) {
+        window.location.replace(current_url.replace(cr_url, "https://bazel-review.googlesource.com/"));
+      }
+    </script>
+
+    <link rel="canonical" href="/">
+
+    <!-- Webfont -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <!-- Bootstrap -->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+    <!-- metadata -->
+    <meta name="og:title" content="Bazel - a fast, scalable, multi-language and extensible build system"">
+    <meta name="og:image" content="https://bazel.build/images/bazel-og-image.png">
+  </head>
+
+  <body class="body-home">
+        <nav id="common-nav" class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+            <img class="navbar-logo" src="/images/bazel-navbar.svg">
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="https://github.com/bazelbuild/bazel">
+                <span class="hidden-sm">GitHub</span>
+                <span class="nav-icon visible-sm"><i class="fa fa-github"></i></span>
+              </a>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-right" action="/search.html" id="cse-search-box">
+            <div class="form-group">
+              <input type="hidden" name="cx" value="009927877080525621790:2pxlpaexqpc">
+              <input type="hidden" name="cof" value="FORID:10">
+              <input type="hidden" name="ie" value="UTF-8">
+              <input type="search" name="q" id="q" class="form-control input-sm" placeholder="Search">
+            </div>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="https://docs.bazel.build">Documentation</a>
+            </li>
+            <li>
+              <a href="/contributing.html">Contribute</a>
+            </li>
+            <li>
+              <a href="https://blog.bazel.build">
+                <span class="hidden-sm">Blog</span>
+                <span class="nav-icon visible-sm"><i class="fa fa-rss"></i></span>
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com/bazelbuild">
+                <span class="visible-xs">Twitter</span>
+                <span><i class="nav-icon fa fa-twitter hidden-xs"></i></span>
+              </a>
+            </li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/bazel">
+                <span class="visible-xs">StackOverflow</span>
+                <span><i class="nav-icon fa fa-stack-overflow hidden-xs"></i></span>
+              </a>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+
+    <div class="home">
+  <div class="landing-section hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          <p class="hero-tagline">{Fast, Correct} - Choose two</p>
+          <h1 class="hero-title">Build and test software of any size, quickly and reliably</h1>
+          <p class="cta-buttons">
+            <a class="btn btn-lg"
+               id="btn-install"
+               href="https://docs.bazel.build/install.html">
+               Get Bazel
+            </a>
+            <a class="btn btn-success btn-lg cta-main"
+               href="https://docs.bazel.build/getting-started.html">
+               Get Started
+            </a>
+          </p>
+        </div>
+        <div class="col-sm-4 hidden-xs">
+          <img src="images/bazel-icon.svg"
+               title="Bazel"
+               alt="Bazel logo"
+               class="logo img-responsive" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="landing-section features">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Why Bazel?</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <h3>Speed up your builds and tests</h3>
+          <p>
+            Bazel only rebuilds what is necessary.
+            With advanced local and distributed caching, optimized dependency analysis and parallel execution, you get fast and incremental builds.
+          </p>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <h3>One tool, multiple languages</h3>
+          <p>Build and test Java, C++, Android, iOS, Go and a wide variety of other language platforms.
+            Bazel runs on Windows, macOS, and Linux.
+          </p>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-sm-6 col-md-3">
+          <h3>Scalable</h3>
+          <p>
+            Bazel helps you scale your organization, codebase and Continuous Integration system.
+            It handles codebases of any size, in multiple repositories or a huge monorepo.
+          </p>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <h3>Extensible to your needs</h3>
+          <p>
+            Easily add support for new languages and platforms with Bazel's familiar extension language.
+            Share and re-use language rules written by the growing Bazel community.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="landing-section users">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Trusted by industry leaders</h2>
+        </div>
+      </div>
+
+      <div class="row logos">
+        <div class="col-sm-6 col-md-2 user-logo-container">
+          <img class="user-logo" src="images/user-logos/braintree.svg" alt="Braintree logo" title="Braintree, a PayPal service"/>
+        </div>
+        <div class="col-sm-6 col-md-2 user-logo-container">
+          <img class="user-logo" src="images/user-logos/dropbox.svg" alt="Dropbox logo" title="Dropbox"/>
+        </div>
+        <div class="col-sm-6 col-md-2 user-logo-container">
+          <img class="user-logo" src="images/user-logos/google.svg" alt="Google logo" title="Google"/>
+        </div>
+        <div class="col-sm-6 col-md-2 user-logo-container">
+          <img class="user-logo square" src="images/user-logos/huawei.png" alt="Huawei logo" title="Huawei"/>
+        </div>
+        <div class="col-sm-6 col-md-2 user-logo-container">
+          <img class="user-logo" src="images/user-logos/stripe.svg" alt="Stripe logo" title="Stripe"/>
+        </div>
+        <div class="col-sm-6 col-md-2 user-logo-container">
+          <img class="user-logo" src="images/user-logos/twosigma.svg" alt="Two Sigma logo" title="Two Sigma"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <blockquote>
+            <p>
+              Bazel is the common build tool throughout Pinterest and has been instrumental in achieving fast, reproducible builds across our programming languages and platforms.
+            </p>
+            <footer><cite>Rahul Malik</cite>, Software Engineer</footer>
+            <div class="user-logo-container">
+              <img class="user-logo square" src="images/user-logos/pinterest.svg" alt="Pinterest logo" title="Pinterest"/>
+            </div>
+          </blockquote>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <blockquote>
+            <p>
+              Bazel provides a seamless and consistent build interface for different languages in a single system. It increased our productivity significantly.
+              We love it!
+            </p>
+            <footer><cite>Maosong Fu</cite>, Engineering Manager</footer>
+            <div class="user-logo-container">
+              <img class="user-logo" src="images/user-logos/heron.svg" alt="Heron logo" title="Heron"/>
+            </div>
+          </blockquote>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <blockquote>
+            <p>By switching to bazel we not only eliminated the overhead of maintaining multiple build systems, but also massively sped up our build and testing infrastructure.</p>
+            <footer><cite>Michal Witkowski</cite>, Principal Tech Lead</footer>
+            <div class="user-logo-container">
+              <img class="user-logo" src="images/user-logos/improbable.svg" alt="Improbable logo" title="Improbable.io"/>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="landing-section get-started">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Get Started</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <h3>Java</h3>
+          <p>Follow our <a href="https://docs.bazel.build/tutorial/java.html">Build Java tutorial</a>.
+          </p>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <h3>C++</h3>
+          <p>Follow our <a href="https://docs.bazel.build/tutorial/cpp.html">Build C++ tutorial</a>.
+          </p>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <h3>Android</h3>
+          <p>Follow our <a href="https://docs.bazel.build/tutorial/android-app.html">mobile app tutorial</a>.
+          </p>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <h3>iOS</h3>
+          <p>Follow our <a href="https://docs.bazel.build/tutorial/ios-app.html">mobile app tutorial</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="beta">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>
+            <b>Beta:</b>
+            When you build software with Bazel, you're running the same code that has been refined and tested for years at Google to build heavy-duty, mission-critical infrastructure, services, and applications.
+            However, Bazel is not yet covered by a deprecation policy, may be subject to backward-incompatible changes, and is missing some features.
+            Consequently, Bazel is released in 'Beta'.
+            See the <a href="/roadmap.html">product roadmap</a> to learn about the path toward a stable 1.0 release.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var installBtn = document.getElementById("btn-install");
+  if (navigator.appVersion.indexOf("Win") != -1) {
+    installBtn.href = "https://docs.bazel.build/install-windows.html";
+  } else if (navigator.appVersion.indexOf("Mac") != -1) {
+    installBtn.href = "https://docs.bazel.build/install-os-x.html";
+  } else if (navigator.appVersion.indexOf("Linux") != -1) {
+    installBtn.href = "https://docs.bazel.build/install-ubuntu.html";
+  }
+</script>
+
+
+        <footer class="footer">
+      <div class="container">
+  <div class="row">
+    <div class="col-sm-4 col-md-2">
+      <p>About</p>
+      <ul class="list-unstyled">
+        <li><a href="https://github.com/bazelbuild/bazel/wiki/Bazel-Users">Who's Using Bazel?</a></li>
+        <li><a href="/roadmap.html">Roadmap</a></li>
+        <li><a href="/contributing.html">Contribute</a></li>
+        <li><a href="/governance.html">Governance Plan</a></li>
+        <li><a href="https://policies.google.com/privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="col-sm-4 col-md-2">
+      <p>Support</p>
+      <ul class="list-unstyled">
+        <li><a href="http://stackoverflow.com/questions/tagged/bazel">Stack Overflow</a></li>
+        <li><a href="https://github.com/bazelbuild/bazel/issues">Issue Tracker</a></li>
+        <li><a href="https://docs.bazel.build">Documentation</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/support.html">Support Policy</a></li>
+      </ul>
+    </div>
+    <div class="col-sm-4 col-md-2">
+      <p>Stay Connected</p>
+      <ul class="list-unstyled">
+        <li><a href="https://twitter.com/bazelbuild">Twitter</a></li>
+        <li><a href="https://blog.bazel.build">Blog</a></li>
+        <li><a href="https://github.com/bazelbuild/bazel">GitHub</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/bazel-discuss">Discussion group</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="text-muted">&copy; 2019 Google</p>
+    </div>
+  </div>
+</div>
+
+    </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+<!-- Anchor JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+    <script>
+      // Automatically add anchors and links to all header elements that don't already have them.
+      anchors.add();
+    </script>
+
+    <script>
+      var shiftWindow = function() {
+        if (location.hash.length !== 0) {
+          window.scrollBy(0, -50);
+        }
+      };
+      window.addEventListener("hashchange", shiftWindow);
+
+      var highlightCurrentSidebarNav = function() {
+        var href = location.pathname;
+        var item = $('#sidebar-nav [href$="' + href + '"]');
+        if (item) {
+          var li = item.parent();
+          li.addClass("active");
+
+          if (li.parent() && li.parent().is("ul")) {
+            do {
+              var ul = li.parent();
+              if (ul.hasClass("collapse")) {
+                ul.collapse("show");
+              }
+              li = ul.parent();
+            } while (li && li.is("li"));
+          }
+        }
+      };
+
+      $(document).ready(function() {
+        // Scroll to anchor of location hash, adjusted for fixed navbar.
+        window.setTimeout(function() {
+          shiftWindow();
+        }, 1);
+
+        // Flip the caret when submenu toggles are clicked.
+        $(".sidebar-submenu").on("show.bs.collapse", function() {
+          var toggle = $('[href$="#' + $(this).attr('id') + '"]');
+          if (toggle) {
+            toggle.addClass("dropup");
+          }
+        });
+        $(".sidebar-submenu").on("hide.bs.collapse", function() {
+          var toggle = $('[href$="#' + $(this).attr('id') + '"]');
+          if (toggle) {
+            toggle.removeClass("dropup");
+          }
+        });
+
+        // Highlight the current page on the sidebar nav.
+        highlightCurrentSidebarNav();
+      });
+    </script>
+
+    <!-- Google Analytics tracking code -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-61082125-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+  </body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,196 @@
+<html>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type'>
+    <meta content='Thomas Ptacek, Sean Devlin, and Alex Balducci' name='author'>
+    <title>The Cryptopals Crypto Challenges</title>
+    <link href='/static/bootstrap.css' media='all' rel='stylesheet' type='text/css'>
+    <link href='/static/app.css' media='all' rel='stylesheet' type='text/css'>
+    <link href='//cloud.typography.com/6817512/661724/css/fonts.css' rel='stylesheet' type='text/css'>
+    <link href='//cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css' rel='stylesheet' type='text/css'>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js'></script>
+    <style>
+      body { 
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-md-12'>
+          <h3>
+            <a href='/'>the cryptopals crypto challenges</a>
+          </h3>
+        </div>
+      </div>
+<div class='row'>
+  <div class='col-md-2'>
+    <ul class='nav nav-pills nav-stacked'>
+      <li>
+        <a href='/sets/1'>Set 1: Basics</a>
+      </li>
+      <li>
+        <a href='/sets/2'>Set 2: Block crypto</a>
+      </li>
+      <li>
+        <a href='/sets/3'>Set 3: Block & stream crypto</a>
+      </li>
+      <li>
+        <a href='/sets/4'>Set 4: Stream crypto and randomness</a>
+      </li>
+      <li>
+        <a href='/sets/5'>Set 5: Diffie-Hellman and friends</a>
+      </li>
+      <li>
+        <a href='/sets/6'>Set 6: RSA and DSA</a>
+      </li>
+      <li>
+        <a href='/sets/7'>Set 7: Hashes</a>
+      </li>
+      <li>
+        <a href='/sets/8'>Set 8: Abstract Algebra</a>
+      </li>
+    </ul>
+  </div>
+  <div class='col-md-10'>
+    <h2>Welcome to the challenges</h2>
+    <div class='panel panel-danger'>
+      <div class='panel-heading'>
+        <h3 class='panel-title'>Work in progress.</h3>
+      </div>
+      <div class='panel-body'>
+        <p>
+          This site will host all eight sets of our crypto challenges, with
+          solutions in most mainstream languages.
+        </p>
+        <p>
+          But: it doesn't yet. If we waited to hit "publish" until everything
+          was here, we might be writing this in 2015. So we're publishing
+          as we go. In particular: give us a little time on the challenge
+          solutions.
+        </p>
+      </div>
+    </div>
+    <p>
+      We can't introduce these any better than
+      <a href='https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/'>Maciej Ceglowski</a>
+      did, so read that blog post first.
+    </p>
+    <p>
+      We've built a collection of 48 exercises that demonstrate attacks on real-world crypto.
+    </p>
+    <p>
+      This is a different way to learn about crypto than taking a class or reading a book. We give you problems to solve. They're derived from weaknesses in real-world systems and modern cryptographic constructions. We give you enough info to learn about the underlying crypto concepts yourself. When you're finished, you'll not only have learned a good deal about how cryptosystems are built, but you'll also understand how they're attacked.
+    </p>
+    <h4>What Are The Rules?</h4>
+    <p>
+      There aren't any! For several years, we ran these challenges over email, and asked participants not to share
+      their results. <i>The honor system worked beautifully!</i> But now we're ready to set aside the ceremony and
+      just publish the challenges for everyone to work on.
+    </p>
+    <h4>
+      How Much Math Do I Need To Know?
+    </h4>
+    <p>
+      If you have any trouble with the math in these problems, you should be able to find a local 9th grader to help you out. It turns out that many modern crypto attacks don't involve much hard math.
+    </p>
+    <h4>
+      How Much Crypto Do I Need To Know?
+    </h4>
+    <p>
+      None. That's the point.
+    </p>
+    <h4>
+      So What Do I Need To Know?
+    </h4>
+    <p>
+      You'll want to be able to code proficiently in any language. We've received submissions in C, C++, Python, Ruby, Perl, Visual Basic, X86 Assembly, Haskell, and Lisp. Surprise us with another language. Our friend Maciej says these challenges are a good way to learn a new language, so maybe now's the time to pick up Clojure or Rust.
+    </p>
+    <h4>
+      What Should I Expect?
+    </h4>
+    <p>
+      Right now, we have eight sets. They get progressively harder. Again: these are based off real-world vulnerabilities. None of them are "puzzles". They're not designed to trip you up. Some of the attacks are clever, though, and if you're not familiar with crypto cleverness... well, you should like solving puzzles. An appreciation for early-90's MTV hip-hop can't hurt either.
+    </p>
+    <h4>
+      Can You Give Us A Long-Winded Indulgent Description For Why You'Ve Chosen To Do This?
+    </h4>
+    <p>
+      <i>It turns out that we can.</i>
+    </p>
+    <p>
+      If you're not that familiar with crypto already, or if your familiarity comes mostly from things like Applied Cryptography, this fact may surprise you: most crypto is fatally broken. The systems we're relying on today that aren't known to be fatally broken are in a state of just waiting to be fatally broken. Nobody is sure that TLS 1.2 or SSH 2 or OTR are going to remain safe as designed.
+    </p>
+    <p>
+      The current state of crypto software security is similar to the state of software security in the 1990s. Specifically: until around 1995, it was not common knowledge that software built by humans might have trouble counting. As a result, nobody could size a buffer properly, and humanity incurred billions of dollars in cleanup after a decade and a half of emergency fixes for memory corruption vulnerabilities.
+    </p>
+    <p>
+      Counting is not a hard problem. But cryptography is. There are just a few things you can screw up to get the size of a buffer wrong. There are tens, probably hundreds, of obscure little things you can do to take a cryptosystem that should be secure even against an adversary with more CPU cores than there are atoms in the solar system, and make it solveable with a Perl script and 15 seconds. Don't take our word for it: do the challenges and you'll see.
+    </p>
+    <p>
+      People "know" this already, but they don't really know it in their gut, and we think the reason for that is that very few people actually know how to implement the best-known attacks. So, mail us, and we'll give you a tour of them.
+    </p>
+    <h4>
+      How do I start?
+    </h4>
+    <p>
+      <a href='/sets/1'>Start here!</a>
+    </p>
+    <h4>Who did this?</h4>
+    <ul>
+      <li>Thomas Ptacek (@tqbf)</li>
+      <li>Sean Devlin (@spdevlin)</li>
+      <li>Alex Balducci (@iamalexalright)</li>
+      <li>Marcin Wielgoszewski (@marcinw)</li>
+    </ul>
+    <p>
+      Cryptopals is maintained and expanded (from Set 8 on) by Sean Devlin, in conjunction with the <a href="https://www.nccgroup.trust/us/our-services/security-consulting/cryptography-services/">Cryptography Services Team</a> at <a href="https://www.nccgroup.trust/us/">NCC Group</a>.
+    </p>
+    <p>
+      We could not possibly have done this without the help of several other people. Roughly in order of
+      influence:
+    </p>
+    <ul>
+      <li>
+        <a href='http://www.rootlabs.com/'>Nate Lawson</a>
+        taught us virtually everything we know about cryptography.
+      </li>
+      <li>
+        <a href='http://trevp.net/'>Trevor Perrin</a>
+        taught Nate some of that. I can tell you a pretty compelling story about how Trevor is the
+        intellectual origin of every successful attack on TLS over the past 5 years.
+      </li>
+      <li>
+        Thai Duong and Juliano Rizzo are the godfathers of practical cryptographic software
+        security. Several things in this challenge didn't make sense to us until after Thai and
+        Juliano exploited them in mainstream software.
+      </li>
+    </ul>
+    <h4>
+      Legal
+    </h4>
+    <p>
+      Individual exercise submissions are owned by their author, and may or may not be distributed under an open source license.
+    </p>
+  </div>
+</div>
+   </div>
+   <div style="text-align:center"><a href="https://cryptoservices.github.io/">Cryptography Services</a> | <a href="https://www.nccgroup.trust/us/">NCC Group</a></div>
+  </body>
+  <script>
+    /*var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-68682-6']);
+    _gaq.push(['_trackPageview']);
+    
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();*/
+  </script>
+</html>
+
+
+#####EOF#####
+
+

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+		
+		<title>Szyfrowanie poczty w Thunderbird</title>
+
+		<link rel="icon" href="https://sekurak.pl/wp-content/themes/Sekuraq/img/favicon.ico">
+		<link rel="shortcut icon" href="https://sekurak.pl/wp-content/themes/Sekuraq/img/favicon.ico">
+
+		<link id="theme_stylesheet" rel="stylesheet" href="https://sekurak.pl/wp-content/themes/Sekuraq/style.css?1553543339">
+
+		<!--[if lte IE 8]>
+		<link rel="stylesheet"  media="screen" href=" https://sekurak.pl/wp-content/themes/Sekuraq/css/ie_NOT.css">
+		<![endif]-->
+
+		<link rel="pingback" href="https://sekurak.pl/xmlrpc.php" />
+
+				
+<!-- This site is optimized with the Yoast SEO plugin v10.0.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/" />
+<meta property="og:locale" content="pl_PL" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Szyfrowanie poczty w Thunderbird" />
+<meta property="og:description" content="Poczta elektroniczna jest niezmiernie wygodnym i popularnym sposobem komunikacji. Nagminnie jednak za poÅrednictwem e-maili przesyÅane sÄ poufne informacje. CzÄsto nie sÄ one w Å¼aden sposÃ³b chronione - mogÄ byÄ przechwytywane, a nastÄpnie odczytywane przez osoby postronne. Jednym z popularnych, a zarazem stosunkowo prostych sposobÃ³w na zapewnienie poufnoÅci e-maili, jest szyfrowanie wiadomoÅci." />
+<meta property="og:url" content="https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/" />
+<meta property="og:site_name" content="Sekurak" />
+<meta property="article:tag" content="gpg" />
+<meta property="article:tag" content="php" />
+<meta property="article:tag" content="poczta" />
+<meta property="article:tag" content="szyfrowanie" />
+<meta property="article:tag" content="thunderbird" />
+<meta property="article:section" content="Teksty" />
+<meta property="article:published_time" content="2013-01-31T10:17:02+00:00" />
+<meta property="article:modified_time" content="2017-05-11T16:15:39+00:00" />
+<meta property="og:updated_time" content="2017-05-11T16:15:39+00:00" />
+<meta property="og:image" content="https://sekurak.pl/wp-content/uploads/2013/01/enigmail_instalacja-1000x147.png" />
+<meta property="og:image:secure_url" content="https://sekurak.pl/wp-content/uploads/2013/01/enigmail_instalacja-1000x147.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Poczta elektroniczna jest niezmiernie wygodnym i popularnym sposobem komunikacji. Nagminnie jednak za poÅrednictwem e-maili przesyÅane sÄ poufne informacje. CzÄsto nie sÄ one w Å¼aden sposÃ³b chronione - mogÄ byÄ przechwytywane, a nastÄpnie odczytywane przez osoby postronne. Jednym z popularnych, a zarazem stosunkowo prostych sposobÃ³w na zapewnienie poufnoÅci e-maili, jest szyfrowanie wiadomoÅci." />
+<meta name="twitter:title" content="Szyfrowanie poczty w Thunderbird" />
+<meta name="twitter:image" content="https://sekurak.pl/wp-content/uploads/2013/01/bezpieczenstwo-poczty_img.jpg" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//sekurak.pl' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Sekurak &raquo; Szyfrowanie poczty w Thunderbird KanaÅ z komentarzami" href="https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/sekurak.pl\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='validate-engine-css-css'  href='https://sekurak.pl/wp-content/plugins/wysija-newsletters/css/validationEngine.jquery.css?ver=2.11' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-css'  href='https://sekurak.pl/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='ppc-main-css'  href='https://sekurak.pl/wp-content/plugins/posts-per-cat/assets/css/ppc.min.css?ver=4.9.10' type='text/css' media='all' />
+<style id='ppc-main-inline-css' type='text/css'>
+.ppc .attachment-60x60 {
+			width: 60px !important;
+			height: 60px !important;
+		}
+</style>
+<link rel='stylesheet' id='ppc-list-css'  href='https://sekurak.pl/wp-content/plugins/posts-per-cat/assets/css/ppc-list.min.css?ver=4.9.10' type='text/css' media='all' />
+<link rel='stylesheet' id='YoutubeShortcodeMargenn-css'  href='https://sekurak.pl/wp-content/plugins/youtube-shortcode/youtube-shortcode.css?ver=4.9.10' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='https://sekurak.pl/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='https://sekurak.pl/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://sekurak.pl/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/sekurak.pl\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Naci\u015bnij %s aby skopiowa\u0107, %s aby wklei\u0107","minimize":"Rozwi\u0144 kod"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://sekurak.pl/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<script type='text/javascript' src='https://sekurak.pl/wp-content/plugins/google-analyticator/external-tracking.min.js?ver=6.5.4'></script>
+<link rel='https://api.w.org/' href='https://sekurak.pl/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://sekurak.pl/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://sekurak.pl/wp-includes/wlwmanifest.xml" /> 
+<link rel='shortlink' href='https://sekurak.pl/?p=352' />
+<link rel="alternate" type="application/json+oembed" href="https://sekurak.pl/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsekurak.pl%2Fszyfrowanie-poczty-w-thunderbird%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://sekurak.pl/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsekurak.pl%2Fszyfrowanie-poczty-w-thunderbird%2F&#038;format=xml" />
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<!-- Google Analytics Tracking by Google Analyticator 6.5.4: http://www.videousermanuals.com/google-analyticator/ -->
+<script type="text/javascript">
+    var analyticsFileTypes = [''];
+    var analyticsSnippet = 'enabled';
+    var analyticsEventTracking = 'enabled';
+</script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+  
+	_gaq.push(['_setAccount', 'UA-38064640-1']);
+    _gaq.push(['_addDevId', 'i9k95']); // Google Analyticator App ID with Google
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+	</head>
+
+	<body class="post-template-default single single-post postid-352 single-format-standard post-szyfrowanie-poczty-w-thunderbird">
+		<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/pl_PL/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+			<header id="header">
+				<div class="wrapper">
+
+									<a class="logo" href="https://sekurak.pl/" title="Sekurak - piszemy o bezpieczeÅstwie" rel="home">Sekurak - piszemy o bezpieczeÅstwie</a>
+								<input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+				  <label for="openSidebarMenu" class="sidebarIconToggle">
+				    <div class="spinner diagonal part-1"></div>
+				    <div class="spinner horizontal"></div>
+				    <div class="spinner diagonal part-2"></div>
+				  </label>
+				  <script type="text/javascript">
+					  function toTop() {
+						  window.scroll({
+						    top: 0,
+						    behavior: 'smooth'
+						  });
+					  }
+			  		document.addEventListener('DOMContentLoaded', function () {
+			  			var body = document.getElementsByTagName('body')[0];
+			  			document.getElementById('openSidebarMenu').addEventListener('change', function(){
+			  				if(this.checked){
+								toTop();
+			  	 			    body.classList.add('noscroll');
+			  	 			}
+			  	 			else{
+			  	 			    body.classList.remove('noscroll');
+			  	 			}
+			  			});
+			  		});
+			  	</script>
+				<div class="nav-wrapper">
+					<div class="searchBox">
+	<form action="https://sekurak.pl" id="searchform" method="get">
+	        <input type="search" id="s" name="s" value="" placeholder="Wyszukaj"/>
+	        <input type="submit" value=" Szukaj" id="searchsubmit" />
+	</form>
+</div>					<nav>
+						<div class="menu-menu-container"><ul id="menu-menu" class="menu"><li id="menu-item-14830" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14830"><a href="http://sekurak.pl/offline/?ebook5">sekurak ebook</a></li>
+<li id="menu-item-11831" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11831"><a title="AktualnoÅci" href="http://sekurak.pl/?cat=7,3">AktualnoÅci</a></li>
+<li id="menu-item-153" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-153"><a href="https://sekurak.pl/teksty/">Teksty</a></li>
+<li id="menu-item-27" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-27"><a title="Kontakt" href="https://sekurak.pl/kontakt/">Kontakt</a></li>
+<li id="menu-item-11251" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11251"><a href="http://securitum.pl/audyty/?s">Audyt bezpieczeÅstwa</a></li>
+<li id="menu-item-15761" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15761"><a href="https://sekurak.pl/o-nas/">O nas</a></li>
+</ul></div>					</nav>
+				</div>
+				</div>
+			</header>
+
+			<div class="wrapper">
+
+	<div class="sidebar-mobile">
+		<div class="widget_text widget widget_custom_html"><h2 class="widgetTitle">Sekurak na Twitterze</h2><div class="textwidget custom-html-widget"><a href="https://twitter.com/sekurak"><img alt="twitter" src="https://sekurak.pl/wp-content/uploads/2019/03/tw-logo.png"></a>
+</div></div>	</div>
+
+<div id="content" role="single">
+		<article class="post-352 post type-post status-publish format-standard has-post-thumbnail hentry category-teksty tag-gpg tag-php tag-poczta tag-szyfrowanie tag-thunderbird" id="articleContent">
+		<h1>Szyfrowanie poczty w Thunderbird</h1>
+			<div class="meta">
+		31 stycznia 2013, 10:17 | <a href="https://sekurak.pl/teksty/" rel="category tag">Teksty</a> | <a href="https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/#comments">komentarzy 11</a>	</div>
+                <div class="meta">Tagi: <a href="https://sekurak.pl/tag/gpg/" rel="tag">gpg</a>, <a href="https://sekurak.pl/tag/php/" rel="tag">php</a>, <a href="https://sekurak.pl/tag/poczta/" rel="tag">poczta</a>, <a href="https://sekurak.pl/tag/szyfrowanie/" rel="tag">szyfrowanie</a>, <a href="https://sekurak.pl/tag/thunderbird/" rel="tag">thunderbird</a></div>
+<!--<font face="Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif" size="2"><b>WiÄcej newsÃ³w na FB:</b></font> <div class="fb-like" data-href="http://facebook.com/sekurak" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div><br/>-->
+<a href="http://sekurak.pl/sekurak-offline/?in"><img border="0" src="https://sekurak.pl/wp-content/uploads/2015/07/offline-maly.png" align="absmiddle"></a>
+<font face="Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif" size="3"> : zin o bezpieczeÅstwie - <a href="http://sekurak.pl/sekurak-offline/?in">pobierz w pdf/epub/mobi.</a></font><hr>
+		<div class="entry">
+			<div class = 'boxGrey'></p>
+<p><strong>Z tekstu dowiesz siÄ</strong></p>
+<ul>
+<li>Dlaczego warto szyfrowaÄ komunikacjÄ e-mail.</li>
+<li>Na jakiej zasadzie funkcjonuje szyfrowanie wiadomoÅci z wykorzystaniem oprogramowania GPG.</li>
+<li>Jaka jest rÃ³Å¼nica pomiÄdzy kluczem prywatnym a publicznym?</li>
+<li>Jak skonfigurowaÄ szyfrowanie wiadomoÅci e-mail w programie pocztowym Thunderbird (w Årodowisku Windows).</li>
+<li>Jak za pomocÄ dwÃ³ch klikniÄÄ wysyÅaÄ szyfrowane e-maile.</li>
+</ul>
+<p></div>
+<p>&nbsp;</p>
+<h2>WstÄp</h2>
+<p>Poczta elektroniczna jest niezmiernie wygodnym i popularnym sposobem komunikacji. Nagminnie jednak za poÅrednictwem e-maili przesyÅane sÄ takie poufne informacje jak:</p>
+<ul>
+<li>hasÅa dostÄpowe do systemÃ³w,</li>
+<li>dokumentacje projektowe,</li>
+<li>szczegÃ³Åowe dane osobowe klientÃ³w,</li>
+<li>inne istotne informacje (np. listy pÅac), do ktÃ³rych dostÄp powinny mieÄ tylko uprawnione osoby.</li>
+</ul>
+<p>Informacje te czÄsto nie sÄ w Å¼aden sposÃ³b chronione &#8211; mogÄ byÄ przechwytywane, a nastÄpnie odczytywane przez osoby postronne.</p>
+<p>Jednym z popularnych, a zarazem relatywnie prostych sposobÃ³w na zapewnienie poufnoÅci e-maili, jest <strong>szyfrowanie wiadomoÅci</strong>.</p>
+<p>W artykule zostanie pokazany sposÃ³b konfiguracji klienta pocztowego, umoÅ¼liwiajÄcy tworzenie i odczytywanie zaszyfrowanych informacji. W tym celu wykorzystane zostanie nastÄpujÄce oprogramowanie:</p>
+<ul>
+<li>Klient poczty <strong>Thunderbird</strong>.</li>
+<li>Oprogramowanie szyfrujÄce <strong>GPG </strong>(the GNU Privacy Guard).</li>
+<li>Dodatek do Thunderbird o nazwie <strong>Enigmail</strong>.</li>
+</ul>
+<p>Wszystkie wskazane powyÅ¼ej programy sÄ dostÄpne bezpÅatnie &#8211; rÃ³wnieÅ¼ do uÅ¼ytku komercyjnego. Co wiÄcej, obsÅuga oprogramowania moÅ¼liwa jest w jÄzyku polskim.</p>
+<p>&nbsp;</p>
+<h2>Lista oprogramowania</h2>
+<p>PoniÅ¼ej przedstawiamy listÄ oprogramowania, ktÃ³re moÅ¼na bezpÅatnie pobraÄ ze wskazanych stron producentÃ³w. W kolejnym kroku okreÅlimy w jaki sposÃ³b zainstalowaÄ i skonfigurowaÄ poniÅ¼sze aplikacje.</p>
+<h3>1. Klient poczty &#8211; Thunderbird</h3>
+<p>Jest to znany program do obsÅugi poczty, stworzony przez twÃ³rcÃ³w przeglÄdarki internetowej Firefox. Thunderbirda w polskiej wersji jÄzykowej moÅ¼na<a href="http://www.mozilla-europe.org/pl/products/thunderbird/"> pobraÄ tutaj</a>.</p>
+<h3>2. Oprogramowanie kryptograficzne &#8211; GPG (the GNU Privacy Guard)</h3>
+<p>Oprogramowanie to nie bÄdzie wykorzystywane bezpoÅrednio &#8211; odpowiednie wywoÅania wykonywane bÄdÄ bez naszego udziaÅu &#8211; poprzez program Thunderbird.</p>
+<p>WersjÄ dla systemu Windows moÅ¼na <a href="http://gpg4win.org/">pobraÄ tutaj</a></p>
+<h3>3. Enigmail &#8211; rozszerzenie do Thunderbird</h3>
+<p>Enigmail umoÅ¼liwia bardzo proste korzystanie z funkcjonalnoÅci GPG w kliencie pocztowym Thunderbird. DziÄki Enigmail nie musimy znaÄ skomplikowanej skÅadni wywoÅaÅ programu GPG.</p>
+<p>NajnowszÄ wersjÄ &#8211; zawierajÄcÄ polskie tÅumaczenie interface &#8211; moÅ¼na pobraÄ bezpÅatnie ze <a href="http://www.enigmail.net/home/index.php">strony producenta.</a></p>
+<p>&nbsp;</p>
+<h2>Instalacja oprogramowania</h2>
+<p>Klient poczty Thunderbird oraz GPG &#8211; posiadajÄ programy instalacyjne, ktÃ³re zapewniajÄ szybkÄ i niewymagajÄcÄ zaangaÅ¼owania instalacjÄ.</p>
+<p>Dodatek Enigmail moÅ¼na zainstalowaÄ poprzez wybranie w Thunderbird, z menu gÅÃ³wnego, opcji: NarzÄdzia -&gt; Dodatki, a nastÄpnie klikniÄcie przycisku &#8222;Zainstaluj&#8221;.</p>
+<p><a href="/wp-content/uploads/2013/01/enigmail_instalacja.png"><img class="aligncenter size-large wp-image-361" alt="enigmail_instalacja" src="/wp-content/uploads/2013/01/enigmail_instalacja-1000x147.png" width="1000" height="147" srcset="https://sekurak.pl/wp-content/uploads/2013/01/enigmail_instalacja-1000x147.png 1000w, https://sekurak.pl/wp-content/uploads/2013/01/enigmail_instalacja-400x59.png 400w" sizes="(max-width: 1000px) 100vw, 1000px" /></a></p>
+<p>Po wybraniu pobranego przez nas wczeÅniej pliku instalacyjnego Enigmail (np. enigmail-1.5-tb+sm.xpi) oraz restarcie Thunderbird, dodatek jest gotowy do uÅ¼ycia &#8211; dostÄpna staje siÄ nowa pozycja menu gÅÃ³wnego: OpenPGP.</p>
+<p>Zanim przejdziemy do omawiania konfiguracji Thunderbird, warto poruszyÄ kwestie dotyczÄce tzw. <strong>kluczy szyfrujÄcych</strong> wykorzystywanych w procesie szyfrowania wiadomoÅci.</p>
+<p>&nbsp;</p>
+<h2>Klucze: publiczny i prywatny</h2>
+<p>Årodowisko, ktÃ³rego konfiguracjÄ omawia artykuÅ opiera siÄ na tak zwanej kryptografii asymetrycznej. W skrÃ³cie, pojÄcie wiÄÅ¼e siÄ z wykorzystaniem dwÃ³ch kluczy szyfrujÄcych:</p>
+<ul>
+<li>Klucza publicznego</li>
+<li>Klucza prywatnego</li>
+</ul>
+<p><strong>Klucz publiczny</strong> sÅuÅ¼y do szyfrowania danych. Jego nazwa (<em>publiczny</em>) umoÅ¼liwia zapamiÄtanie, Å¼e klucz moÅ¼e byÄ publicznie dostÄpny dla wszystkich. JeÅli ktoÅ chce zaszyfrowaÄ do mnie informacjÄ &#8211; wykorzystuje mÃ³j klucz publiczny. KaÅ¼dy moÅ¼e posiadaÄ mÃ³j klucz publiczny, wiÄc kaÅ¼dy moÅ¼e zaszyfrowaÄ do mnie informacjÄ.</p>
+<p><strong>Klucz prywatny</strong> sÅuÅ¼y do deszyfrowania danych. Jego nazwa (<em>prywatny</em>) przypomina, Å¼e nie powinien byÄ znany nikomu poza wÅaÅcicielem. JeÅli chcÄ odszyfrowaÄ wysÅanÄ do mnie informacjÄ &#8211; wykorzystujÄ klucz prywatny &#8211; znany tylko mi. W ten sposÃ³b tylko ja mogÄ odszyfrowaÄ przesÅanÄ do mnie zaszyfrowanÄ wiadomoÅÄ.</p>
+<div class = 'boxBlue'>Uwaga: klucz prywatny moÅ¼e sÅuÅ¼yÄ rÃ³wnieÅ¼ do podpisu cyfrowego wiadomoÅci, a klucz publiczny do jego weryfikacji. Tu nie bÄdziemy jednak zajmowaÄ siÄ tym zagadnieniem.</div>
+<p><strong>PowyÅ¼sza para kluczy</strong> generowana jest kaÅ¼dorazowo dla uÅ¼ytkownika, ktÃ³ry chce korzystaÄ z moÅ¼liwoÅci szyfrowania wiadomoÅci. Zatem naszÄ pierwszÄ czynnoÅciÄ po zainstalowaniu odpowiedniego oprogramowania, bÄdzie wygenerowanie tej pary kluczy.</p>
+<p>&nbsp;</p>
+<h2>Konfiguracja Thunderbird &#8211; generacja kluczy</h2>
+<p>ZakÅadamy, iÅ¼ czytelnik skonfigurowaÅ juÅ¼ odpowiednie konto pocztowe (opcje: NarzÄdzia -&gt; Konfiguracja kont -&gt; Dodaj konto) i moÅ¼e wysyÅaÄ oraz odbieraÄ nieszyfrowanÄ pocztÄ.</p>
+<p>Jak wspomnieliÅmy wczeÅniej, pierwszym punktem na drodze doÂ  korzystania z szyfrowanych e-maili jest wygenerowanie pary kluczy &#8211; prywatnego i publicznego. MoÅ¼na to wykonaÄ korzystajÄc z opcji:</p>
+<p>OpenPGP -&gt; ZarzÄdzanie kluczami -&gt; Generowanie -&gt; Nowa para kluczy.</p>
+<div class = 'boxBlue'>Uwaga: Przy pierwszym odwoÅaniu opcji ZarzÄdzanie kluczami zostanie wywoÅany kreator. Na potrzeby poniÅ¼szego artykuÅu &#8211; nie sugerujemy korzystaÄ z kreatora.</div>
+<p>W oknie generowania klucza powinniÅmy uzupeÅniÄ nastÄpujÄce dane:</p>
+<ul>
+<li>HasÅo zabezpieczajÄce klucz prywatny (na formularzu &#8211; pole &#8222;szyfr&#8221;)<br />
+HasÅo powinno byÄ odpowiednio skomplikowane i trudne do odgadniÄcia.</li>
+<li>Okres waÅ¼noÅci klucza.<br />
+DomyÅlnie okres waÅ¼noÅci to 5 lat. Rekomendujemy zmieniÄ tÄ wartoÅÄ na o wiele mniejszÄ, np. 1 rok.</li>
+</ul>
+<p style="text-align: center;"><a href="http://sekurak.pl/wp-content/uploads/2013/01/enigmail_generacja_kluczy.png"><img class="size-medium wp-image-362 aligncenter" alt="enigmail_generacja_kluczy" src="http://sekurak.pl/wp-content/uploads/2013/01/enigmail_generacja_kluczy-400x396.png" width="400" height="396" srcset="https://sekurak.pl/wp-content/uploads/2013/01/enigmail_generacja_kluczy-400x396.png 400w, https://sekurak.pl/wp-content/uploads/2013/01/enigmail_generacja_kluczy-150x150.png 150w, https://sekurak.pl/wp-content/uploads/2013/01/enigmail_generacja_kluczy.png 619w" sizes="(max-width: 400px) 100vw, 400px" /></a></p>
+<p>W zwiÄzku procedurÄ generacji kluczy mogÄ nasunÄÄ siÄ nastÄpujÄce pytania:</p>
+<ul>
+<li>W jakim celu dodatkowo zabezpieczaÄ klucz prywatny?<br />
+<em>JeÅli ktoÅ uzyska dostÄp do naszego klucza prywatnego &#8211; jest m.in. w stanie odszyfrowaÄ wysÅane do nas wiadomoÅci. HasÅo to dodatkowe zabezpieczenie przed uzyskaniem dostÄpu do klucza prywatnego przez niepowoÅane osoby.<br />
+</em></li>
+</ul>
+<ul>
+<li>Co zrobiÄ w przypadku uzyskania dostÄpu do klucza prywatnego przez inne osoby?<br />
+<em>WygenerowaÄ nowÄ parÄ kluczy, oraz poprosiÄ wszystkich zainteresowanych o usuniÄcie z programÃ³w pocztowych naszego wczeÅniejszego klucza i dodanie klucza nowego. MoÅ¼e do tego sÅuÅ¼yÄ teÅ¼ certyfikat uniewaÅ¼nienia, ktÃ³ry moÅ¼e byÄ generowany przez enigmail automatycznie w drugim kroku &#8211; po wygenerowaniu kluczy.<br />
+</em></li>
+</ul>
+<ul>
+<li>Dlaczego warto zmieniÄ okres waÅ¼noÅci klucza na krÃ³tki?<br />
+<em>Procedura wymiany pary kluczy po kompromitacji (np. wykradzeniu / <em>upublicznieniu</em>) klucza prywatnego moÅ¼e byÄ uciÄÅ¼liwa. KrÃ³tki okres waÅ¼noÅci powoduje zmniejszenie przedziaÅu czasowego, w ktÃ³rym skompromitowany klucz moÅ¼e byÄ przedmiotem naduÅ¼yÄ (np. max 12 miesiÄcy, zamiast domyÅlnej wartoÅci 5 lat).<br />
+</em></li>
+</ul>
+<p>&nbsp;</p>
+<h2>Szyfrowanie danych</h2>
+<p>Jak wspomnieliÅmy wczeÅniej, aby zaszyfrowaÄ do kogoÅ wiadomoÅÄ, naleÅ¼y skorzystaÄ z klucza publicznego adresata. Klucze publiczne przekazywane sÄ najczÄÅciej w formie pliku tekstowego (umieszczanego <a title="sekurak - klucz publiczny" href="http://www.sekurak.pl/sekurak@sekurak.pl_pub.asc">na stronie www</a> lub przesyÅanego w e-mailu). Alternatywna moÅ¼liwoÅÄ to wysÅanie wysÅanie swojego klucza publicznego na jeden z tzw. serwerÃ³w kluczy (OpenPGP -&gt; ZarzÄdzanie kluczami -&gt; Prawy Przycisk Myszy na wybranym kluczu -&gt; Eksportuj klucze publiczne na serwer).</p>
+<p>Aby przetestowaÄ poprawnoÅÄ szyfrowania, wykorzystaÄ moÅ¼na nasz klucz publiczny <a title="sekurak - klucz publiczny" href="http://www.sekurak.pl/sekurak@sekurak.pl_pub.asc"><span style="text-decoration: underline;">dostÄpny tutaj</span></a> (umoÅ¼liwiajÄcy przesyÅanie szyfrowanych maili na adres: sekurak@sekurak.pl).</p>
+<p>Klucz publiczny moÅ¼na zaimportowaÄ wybierajÄc z menu gÅÃ³wnego Thunderbird:</p>
+<p>OpenPGP -&gt; ZarzÄdzanie kluczami -&gt; Plik -&gt; Importuj klucze z pliku</p>
+<p>Po zaimportowaniu klucza dostÄpny jest on na liÅcie kluczy i gotowy do uÅ¼ycia. Warto zauwaÅ¼yÄ iÅ¼ zaimportowany klucz skojarzony jest z konkretnym adresem e-mail (np. z sekurak@sekurak.pl).</p>
+<p>JeÅli chcemy zaszyfrowaÄ e-mail, wystarczy podczas tworzenia wiadomoÅci, w menu OpenPGP zaznaczyÄ opcjÄ &#8222;Szyfruj wiadomoÅÄ&#8221;. Po zredagowaniu maila i naciÅniÄciu &#8222;WyÅlij&#8221;, wiadomoÅÄ zostanie zaszyfrowana automatycznie (przy zaÅoÅ¼eniu, Å¼e wczeÅniej zaimportowaliÅmy klucz publiczny adresata do ktÃ³rego wysyÅamy e-mail).</p>
+<p><a href="/wp-content/uploads/2013/01/enigmail_tworzenie_maila.png"><img class="aligncenter size-full wp-image-365" alt="enigmail_tworzenie_maila" src="/wp-content/uploads/2013/01/enigmail_tworzenie_maila.png" width="737" height="289" srcset="https://sekurak.pl/wp-content/uploads/2013/01/enigmail_tworzenie_maila.png 737w, https://sekurak.pl/wp-content/uploads/2013/01/enigmail_tworzenie_maila-400x156.png 400w" sizes="(max-width: 737px) 100vw, 737px" /></a></p>
+<p>PodsumowujÄc: aby wysÅaÄ zaszyfrowany e-mail naleÅ¼y:</p>
+<ul>
+<li>PoprosiÄ adresata e-maila o klucz publiczny (lub pobraÄ jego klucz z jednego z zaufanych serwerÃ³w kluczy)</li>
+<li>ZaimportowaÄ klucz publiczny do Thunderbirda.</li>
+<li>Przy wysyÅaniu maila do osoby, zaznaczyÄ opcjÄ &#8222;WyÅlij z szyfrowaniem&#8221;.</li>
+</ul>
+<p>&nbsp;</p>
+<h2>Jak umoÅ¼liwiÄ innym wysyÅanie do nas szyfrowanych maili?</h2>
+<p>W skrÃ³cie &#8211; naleÅ¼y przekazaÄ swÃ³j klucz publiczny. W ogÃ³lnoÅci moÅ¼na to zrealizowaÄ z wykorzystaniem dwÃ³ch metod:</p>
+<h3>1. Za poÅrednictwem e-mail</h3>
+<p>Najprostszy sposÃ³b przekazania klucza publicznego to wysÅanie e-maila, zawierajÄcego w zaÅÄczniku klucz.</p>
+<p>PiszÄc nowy e-mail zaznaczamy opcjÄ: OpenPGP -&gt; ZaÅÄcz mÃ³j klucz publiczny.</p>
+<p>Jak wskazuje powyÅ¼sza opcja, do takiego e-maila automatycznie zostanie doÅÄczony zaÅÄcznik zawierajÄcy klucz publiczny. JeÅli adresat uÅ¼ywa Thunderbirda, wystarczy, Å¼e kliknie prawym przyciskiem myszy na zaÅÄcznik i wybierze opcjÄ &#8222;Importuj klucz OpenPGP&#8221;. W tym momencie adresat moÅ¼e wysyÅaÄ do nas szyfrowanÄ pocztÄ.</p>
+<p><a href="/wp-content/uploads/2013/01/wysylka_pubkey.png"><img class="aligncenter size-full wp-image-366" alt="wysylka_pubkey" src="/wp-content/uploads/2013/01/wysylka_pubkey.png" width="742" height="388" srcset="https://sekurak.pl/wp-content/uploads/2013/01/wysylka_pubkey.png 742w, https://sekurak.pl/wp-content/uploads/2013/01/wysylka_pubkey-400x209.png 400w" sizes="(max-width: 742px) 100vw, 742px" /></a></p>
+<h3>2. PrzekazujÄc plik</h3>
+<ul>
+<li>Wybieramy opcjÄ: OpenPGP-&gt; zarzÄdzanie kluczami.</li>
+<li>Klikamy prawym przyciskiem na naszym kluczu i wybieramy opcjÄ: eksportuj klucze do pliku.</li>
+<li>Dalej wybieramy opcjÄ: Eksportuj tylko klucze publiczne. Opcja z eksportem klucza prywatnego moÅ¼e byÄ przydatna &#8211; ale w przypadku gdy chcemy wykonaÄ kopiÄ zapasowÄ klucza.</li>
+<li>Zapisany plik dostarczamy (np. za poÅrednictwem pendrive) osobom, ktÃ³re chcÄ do nas wysyÅaÄ szyfrowanÄ korespondencjÄ.</li>
+</ul>
+<h3>3. Z wykorzystaniem serwera kluczy</h3>
+<ul>
+<li>W Thunderbird: OpenPGP -&gt; ZarzÄdzanie kluczami -&gt; Prawy Przycisk Myszy na wybranym kluczu -&gt; Eksportuj klucze publiczne na serwer</li>
+<li>Jest to elastyczna metoda wymiany kluczy, jednak koniecznie wymaga potwierdzenia czy pobrany przez nas klucz jest poprawny (patrz weryfikacja klucza &#8211; na koÅcu tekstu).</li>
+</ul>
+<p>&nbsp;</p>
+<h2>Jak odczytaÄ zaszyfrowanÄ wiadomoÅÄ?</h2>
+<p>JeÅli ktoÅ przeÅle do nas szyfrowanÄ pocztÄ, po wybraniu danego e-maila, pojawi siÄ okno z proÅbÄ o wpisanie hasÅa do klucza prywatnego (definiowaliÅmy to hasÅo przy generowaniu kluczy). Po wpisaniu poprawnego hasÅa, e-mail zostanie automatycznie odszyfrowany i pokazany w analogicznej formie jak korespondencja nieszyfrowana.</p>
+<p>&nbsp;</p>
+<h2>Jak wyglÄda zaszyfrowany mail?</h2>
+<p>Na przykÅad w ten sposÃ³b:</p>
+<p><a href="/wp-content/uploads/2013/01/zaszyfrowany_mail.png"><img alt="zaszyfrowany_mail" src="/wp-content/uploads/2013/01/zaszyfrowany_mail-1000x337.png" width="1000" height="337" /></a></p>
+<p>&nbsp;</p>
+<h2>Podsumowanie</h2>
+<p>Aby mÃ³c przesyÅaÄ i odczytywaÄ zaszyfrowane treÅci wystarczy wykonaÄ kilka prostych operacji:</p>
+<ol>
+<li>ZainstalowaÄ odpowiednie oprogramowanie.</li>
+<li>WygenerowaÄ parÄ kluczy (prywatny i publiczny).</li>
+<li>ZapamiÄtaÄ hasÅo chroniÄce klucz prywatny.</li>
+<li>UdostÄpniÄ klucz publiczny &#8211; w celu umoÅ¼liwienia wysyÅania do nas komunikacji szyfrowanej.</li>
+</ol>
+<div class = 'boxBlue'><strong>Klucz publiczny</strong> moÅ¼e (i powinien) byÄ udostÄpniany publicznie. KorzystajÄ z niego wszyscy, ktÃ³rzy chcÄ przesyÅaÄ do nas szyfrowanÄ pocztÄ</p>
+<p><strong> Klucz prywatny</strong> nie powinien byÄ nikomu udostÄpniany. SÅuÅ¼y do odszyfrowywania poczty.</div>
+<p>&nbsp;</p>
+<h2>Dodatkowe sposoby zwiÄkszajÄce bezpieczeÅstwo (dla zaawansowanych)</h2>
+<p>Przedstawiona w powyÅ¼szym tekÅcie procedura szyfrowania poczty elektronicznej, istotnie zwiÄksza bezpieczeÅstwo przesyÅanych maili. SzczegÃ³lnie w przypadku przesyÅania danych o krytycznej istotnoÅci, bezpieczeÅstwo to moÅ¼na podnieÅÄ stosujÄc poniÅ¼sze techniki.</p>
+<h3>1. Weryfikacja instalowanego oprogramowania</h3>
+<p>Aby zwiÄkszyÄ bezpieczeÅstwo caÅej procedury warto weryfikowaÄ instalowane binaria &#8211; np. poprzez kontrolÄ sumy SHA-1 czy weryfikacja podpisu cyfrowego instalowanej paczki (dla enigmail patrz np. <a href="http://www.enigmail.net/documentation/signature.php">tutaj</a>).</p>
+<h3>2. Weryfikacja importowanych kluczy</h3>
+<p>PrzekazujÄc klucze publiczne, rekomendujemy weryfikowaÄ ich autentycznoÅÄ. PrzykÅadowe sposoby weryfikacji:</p>
+<ul>
+<li>Poprzez weryfikacjÄ ID klucza (przykÅadowe ID: 0x2B8D5361).</li>
+<li>Poprzez weryfikacjÄ odcisku palca klucza (przykÅadowy odcisk: 6AA2 F30B 7536 5491 FF01 C56C 9A30 0444 2B8D 5361).</li>
+<li>W przypadku wysyÅki e-mailem klucza publicznego, powyÅ¼sze dane moÅ¼na zweryfikowaÄ np. telefonicznie.</li>
+<li>Poprzez fizyczne przekazanie klucza publicznego do osoby zainteresowanej.</li>
+</ul>
+<h3>3. Wykorzystanie oprogramowania antywirusowego</h3>
+<p>Poza ochronÄ przed wirusami stacji roboczej, oprogramowanie takie jest w stanie wykryÄ rÃ³wnieÅ¼ aplikacje typu malware, umoÅ¼liwiajÄce np. wrogie przejÄcie dostÄpu do klucza prywatnego.</p>
+<p align="right">&#8212;<em>MichaÅ Sajdak</em> (michal.sajdak&lt;at&gt;securitum.pl)</p>
+<p>WiÄcej informacji</p>
+<ul>
+<li>Alternatywna metoda szyfrowania poczty: <a href="http://en.wikipedia.org/wiki/S/MIME">S/MIME.</a></li>
+<li><a href="http://pl.wikipedia.org/wiki/Kryptografia_asymetryczna">Kryptografia asymetryczna.</a></li>
+<li><a href="http://pl.wikipedia.org/wiki/Podpis_cyfrowy">Podpis cyfrowy.</a></li>
+<li><a title="Szyfrowanie poczty w Outlook" href="http://www.securitum.pl/baza-wiedzy/publikacje/szyfrowanie-poczty-w-outlook">Szyfrowanie poczty w Outlook</a></li>
+</ul>
+<div class = 'tickListWrapper'></p>
+<ul>
+<li>Przypominamy, Å¼e informacje zawarte w tekÅcie sÅuÅ¼Ä jedynie celom edukacyjnym.</li>
+</ul>
+<p></div>
+		</div>
+
+	</article>
+	
+<div class="single_share">
+<h3 class="soc-title">SpodobaÅ Ci siÄ wpis? Podziel siÄ nim ze znajomymi:</h3>
+
+<div class="soc-item">
+<div class="fb-share-button" data-href="https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/" data-layout="box_count"></div>
+</div>
+
+
+<div class="soc-item">
+<div class="g-plusone" data-size="tall"></div>
+<script type="text/javascript">
+	window.___gcfg = {
+		lang : 'pl'
+	};
+	(function() {
+		var po = document.createElement('script');
+		po.type = 'text/javascript';
+		po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(po, s);
+	})(); 
+</script>
+</div>
+
+<div class="soc-item">
+
+<script language="javascript">
+	var wykop_url = encodeURIComponent(location.href);
+
+	var wykop_title = encodeURIComponent(document.title);
+
+	var wykop_desc = encodeURIComponent(document.getElementById('articleContent').textContent.substring(0,300));
+
+	var widget_bg = 'FFFFFF';
+
+	var widget_type = 'normal2';
+
+	var widget_url = 'https://www.wykop.pl/dataprovider/diggerwidget/?url=' + (wykop_url) + '&title=' + (wykop_title) + '&desc=' + (wykop_desc) + '&bg=' + (widget_bg) + '&type=' + (widget_type);
+
+	//document.write('<div><iframe src="' + widget_url + '" style="border:none;width:56px;height:60px;overflow:hidden;margin:0;padding:0;" frameborder="0" border="0"></iframe></div>'); 
+</script>
+
+</div>
+
+<div class="soc-item">
+<a href="https://twitter.com/share" class="twitter-share-button"
+data-url="https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/" data-lang="en"
+data-count="vertical">Tweet</a>
+<script>
+	! function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (!d.getElementById(id)) {
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//platform.twitter.com/widgets.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}
+	}(document, "script", "twitter-wjs"); 
+</script>
+</div></div>
+
+<div><div class="fb-like-box" data-href="http://www.facebook.com/sekurak" data-width="620" data-height="200" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true"></div></div>
+<br><br>
+	
+	<h2 class="commentsHeader">Komentarze</h2>
+	<div class="comments" id="comments">	
+	<ol class="commentlist">
+				<li class="comment even thread-even depth-1" id="comment-254">
+				<div id="div-comment-254" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/57a006ab332c230b3dab634e0e975e8a?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/57a006ab332c230b3dab634e0e975e8a?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">WielkiInformatyk</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			Marzec 13, 2013 | 8:46 am		</div>
+		
+		</header>
+		
+		<article>
+				<p>Åwietny poradnik, naprawdÄ mi siÄ przydaÅ.<br />
+Polecam!</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=254#respond' onclick='return addComment.moveForm( "div-comment-254", "254", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi WielkiInformatyk'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-1734">
+				<div id="div-comment-1734" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/0638900f1414ab873eb14a3319a245ea?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/0638900f1414ab873eb14a3319a245ea?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">Kuba</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			SierpieÅ 12, 2013 | 8:11 am		</div>
+		
+		</header>
+		
+		<article>
+				<p>KaÅ¼dy serwis internetowy powinien mieÄ opcjÄ szyfrowania wiadomoÅci. Podczas rejestracji moÅ¼na byÅoby podawaÄ klucz publiczny.<br />
+Nadal w wielu serwisach, po rejestracji, hasÅo wysyÅane jest na maila plaintextem&#8230;</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=1734#respond' onclick='return addComment.moveForm( "div-comment-1734", "1734", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi Kuba'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="comment-2697">
+				<div id="div-comment-2697" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/ada90f96a3a5d32448605b9d72177461?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/ada90f96a3a5d32448605b9d72177461?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">Callahan</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			PaÅºdziernik 21, 2013 | 11:15 pm		</div>
+		
+		</header>
+		
+		<article>
+				<p>Super poradnik. Znajomych w to wciÄgam. SwojÄ drogÄ tyle sÅyszymy o globalnej inwigilacji, Å¼e na przekÃ³r to zacznÄ nawet kawaÅy o Donku przesyÅaÄ zaszyfrowane. A usÅugi pocztowe to prawdziwa masakra, wszystko po goÅym http idzie. PoraÅ¼ka.</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=2697#respond' onclick='return addComment.moveForm( "div-comment-2697", "2697", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi Callahan'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-3462">
+				<div id="div-comment-3462" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/430e5bd3467d8cbf5dd20e4290bd01bc?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/430e5bd3467d8cbf5dd20e4290bd01bc?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn"><a href='http://www.quizpl.net/' rel='external nofollow' class='url'>wilk</a></span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			Luty 3, 2014 | 6:06 pm		</div>
+		
+		</header>
+		
+		<article>
+				<p>Dobry, lekki artykuÅ. SwojÄ drogÄ zamiast przyciÄÅ¼kiego gpg4win z caÅÄ jego menaÅ¼eriÄ, preferujÄ gpg4usb (choÄ aby Enigmail z niego korzystaÅ trzeba siÄ trochÄ pobawiÄ).<br />
+BTW. Nie wiem czy to wasz oficjalny klucz, czy tylko na potrzeby artykuÅu, ale wÅaÅnie upÅynÄÅa jego waÅ¼noÅÄ.</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=3462#respond' onclick='return addComment.moveForm( "div-comment-3462", "3462", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi wilk'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="comment-3939">
+				<div id="div-comment-3939" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/26c078e0d7f8f353e31005edf8cf486d?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/26c078e0d7f8f353e31005edf8cf486d?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">karol</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			Marzec 24, 2014 | 11:35 pm		</div>
+		
+		</header>
+		
+		<article>
+				<p>A jak szyfrowaÄ kluczem publicznym, ktÃ³ry na pewno jest godny zaufania, ale nie ma w sobie zakodowanego prawidÅowego adresu e-mail? Nie wnikajÄc dlaczego przyszÅy odbiorca listu taki klucz wygenerowaÅ, moim celem jest zaszyfrowanie listu jego kluczem.<br />
+Jak mam to zrobiÄ skoro o szyfrowaniu automatycznym mogÄ zapomnieÄ (adres odbiorcy jest rozny od tego w kluczu publicznym)? Importuje obcy klucz publiczny i jesli jest on jedynym obcym, to Thunderbird wybiera go jako domyÅlny (mimo nieÅcisÅoÅci formalnych)? Wydaje siÄ, Å¼e koduje, ale nie mam pojÄcia czym&#8230;</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=3939#respond' onclick='return addComment.moveForm( "div-comment-3939", "3939", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi karol'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1 parent" id="comment-4183">
+				<div id="div-comment-4183" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/8c0cb4875ae96d848d05d69963697966?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/8c0cb4875ae96d848d05d69963697966?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">Grzegorz</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			KwiecieÅ 25, 2014 | 10:47 am		</div>
+		
+		</header>
+		
+		<article>
+				<p>PrzydaÅa by siÄ jeszcze informacja jak przenieÅÄ te ustawienia na inny komputer.<br />
+Co gdy system z ktÃ³rego korzystamy nagle siÄ rozsypie ?<br />
+PrzydaÅa by siÄ informacja jak zabezpieczyÄ siÄ na taki wypadek (kopia kluczy certyfikatÃ³w oraz ponowna ich instalacja)</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=4183#respond' onclick='return addComment.moveForm( "div-comment-4183", "4183", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi Grzegorz'>Odpowiedz</a>				</div>
+		<ul class="children">
+		<li class="comment even depth-2" id="comment-4758">
+				<div id="div-comment-4758" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/770d8a9c7527ec989a2c43de1d277ef3?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/770d8a9c7527ec989a2c43de1d277ef3?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">daxoo</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			SierpieÅ 8, 2014 | 5:05 pm		</div>
+		
+		</header>
+		
+		<article>
+				<p>Thunderbird portable i zawsze mamy wszystko pod rÄkÄ</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=4758#respond' onclick='return addComment.moveForm( "div-comment-4758", "4758", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi daxoo'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+		<li class="comment odd alt thread-even depth-1" id="comment-12201">
+				<div id="div-comment-12201" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/adf03d195409b90636b353a313cd7a26?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/adf03d195409b90636b353a313cd7a26?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">Artur</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			WrzesieÅ 1, 2015 | 9:38 am		</div>
+		
+		</header>
+		
+		<article>
+				<p>Prawdziwym wyzwaniem jest uruchomienie GPG w Årodowisku firmowym gdzie krÃ³luje Microsoft &#8211; Exchange i Outlook. Microsoft z definicji nie wspiera PGP GPG i generalnie opensourocowych rozwiÄzaÅ kryptograficznych. OczywiÅcie nieodzowne staje sie uÅ¼ywanie dodatkowego softu- uÅ¼ywam Kleopatry i jakoÅ to dziaÅa, ale nie jest to moim zdaniem stabilne Årodowisko &#8211; czasem sypie bÅÄdami i trzeba restartwaÄ. Ciekawi mnie jakie sÄ wasze doswiadczenia i czy moÅ¼ecie poleicic coÅ stabilnego poza certyfikatem niekwalifikowanym X.509 &#8211; W koncu wszystie szanujÄce siÄ organizacje zwiÄzane z bezpieczeÅstwem stosujÄ PGP/GPG?</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=12201#respond' onclick='return addComment.moveForm( "div-comment-12201", "12201", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi Artur'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="comment-13851">
+				<div id="div-comment-13851" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/c5d688bb3eb1e3335b932d8e0f29edff?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/c5d688bb3eb1e3335b932d8e0f29edff?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">MikoÅaj</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			Listopad 9, 2015 | 12:07 pm		</div>
+		
+		</header>
+		
+		<article>
+				<p>@Artur W systemach od microsoft jest to moÅ¼liwe. W pracy (operator komÃ³rkowy) uÅ¼ywaliÅmy programu PGP Desktop. MoÅ¼na byÅo teÅ¼ szyfrowaÄ i podpisywaÄ pocztÄ w Outlooku uÅ¼ywajÄc karty PKI. Ale to wszystko byÅo do celÃ³w sÅuÅ¼bowych bowiem dwÃ³ch czÅonkÃ³w zarzÄdu miaÅo moÅ¼liwoÅÄ odszyfrowania kaÅ¼dego szyfrowanego maila czy pliku. Z przyczyn oczywistych do zastosowaÅ prywatnych nigdy nie zaleca siÄ rozwiÄzaÅ z zamkniÄtym kodem. To co ja mogÄ poleciÄ to Gpg4usb. Jest to projekt oparty na GPG ale caÅkowicie przenoÅny (portable) nie wymaga instalacji, nie wymaga uprawnieÅ administratora, moÅ¼na go uruchomiÄ nawet z pendriva. DziaÅajÄcy na windows i na linux. UmoÅ¼liwia podpisywanie oraz szyfrowanie ale niestety nie jednoczeÅnie. Jak ktoÅ jest zupeÅnie poczÄtkujÄcy to program jest godny polecenia. Osoby zaawansowane takÅ¼e doceniÄ prostotÄ i funkcjonalnoÅÄ tego programu. Ale uwaga, wszystko tam robi siÄ rÄcznie, nie ma Å¼adnej automatyki nie moÅ¼na powiÄzaÄ z programem pocztowym jak w przykÅadzie z artykuÅu. Szyfrowanie odbywa siÄ przez kopiuj wklej. W przypadku standardowego GPG trzeba mieÄ nieco doÅwiadczenia. W gpg4usb juÅ¼ Åatwiej siÄ nie da :)</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=13851#respond' onclick='return addComment.moveForm( "div-comment-13851", "13851", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi MikoÅaj'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-even depth-1" id="comment-16170">
+				<div id="div-comment-16170" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/480477f769c947d970c296b220017f4d?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/480477f769c947d970c296b220017f4d?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn"><a href='http://enigma.p-w.co' rel='external nofollow' class='url'>Marek</a></span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			SierpieÅ 11, 2016 | 9:56 pm		</div>
+		
+		</header>
+		
+		<article>
+				<p>Ja ze swojej strony mogÄ poleciÄ enigma.p-w.co<br />
+jako klucz do szyfrowanej wiadomoÅci uÅ¼yj dowolnego pliku np<br />
+zdjÄcie ulubionego piÅkarza z jego strony na fb<br />
+podajemy np przez telefon bÄdÅº skype drugiej osobie namiary na klucz i bez zapamiÄtywania hasÅa wymieniamy siÄ wiadomoÅciami niemoÅ¼liwymi do odszyfrowania :)<br />
+jest wiele sposobÃ³w na szyfrowanie wiadomoÅci ale to zaleÅ¼y od stopnia wtajemniczenia w steganografie itp</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=16170#respond' onclick='return addComment.moveForm( "div-comment-16170", "16170", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi Marek'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="comment-17170">
+				<div id="div-comment-17170" class="comment-body">
+				<header class="commentHeader">
+		
+		<div class="comment-author vcard">
+	  	<img alt='' src='https://secure.gravatar.com/avatar/0d49cdd475f0f3d9b201ccda74ffe227?s=32&#038;d=wavatar&#038;r=g' srcset='https://secure.gravatar.com/avatar/0d49cdd475f0f3d9b201ccda74ffe227?s=64&#038;d=wavatar&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' />		<span class="fn">Indyk</span>		</div>
+		
+
+		<div class="comment-meta commentmetadata">
+			Listopad 24, 2016 | 7:51 am		</div>
+		
+		</header>
+		
+		<article>
+				<p>Rozumiem, Å¼e po terminie waÅ¼noÅci certyfikatu lub jego uniewaÅ¼nieniu (np. po kompromitacji) maile zaszyfrowane z jego wykorzystaniem bÄdÄ nadal widoczne (moÅ¼liwe do odszyfrowania)?</p>
+		</article>
+		<a rel='nofollow' class='comment-reply-link' href='https://sekurak.pl/szyfrowanie-poczty-w-thunderbird/?replytocom=17170#respond' onclick='return addComment.moveForm( "div-comment-17170", "17170", "respond", "352" )' aria-label='Odpowiedz uÅ¼ytkownikowi Indyk'>Odpowiedz</a>				</div>
+		</li><!-- #comment-## -->
+	</ol>	
+	</div>
+ 
+
+
+<div id="respond">
+
+	<h2>Odpowiedz</h2>
+
+	<div class="cancel-comment-reply">
+		<a rel="nofollow" id="cancel-comment-reply-link" href="/szyfrowanie-poczty-w-thunderbird/#respond" style="display:none;">Kliknij tutaj, aby anulowaÄ odpowiadanie.</a>	</div>
+
+	
+	<form action="https://sekurak.pl/wp-comments-post.php" method="post" id="commentform">
+
+		
+			<div>
+				<input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+				<label for="author">ImiÄ *</label>
+			</div>
+
+			<div>
+				<input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+				<label for="email">Mail (Nie zostanie opublikowany) *</label>
+			</div>
+
+			<div>
+				<input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+				<label for="url">WWW</label>
+			</div>
+
+		
+		<!--<p>You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code class=&quot;&quot; title=&quot;&quot; data-url=&quot;&quot;&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;s&gt; &lt;strike&gt; &lt;strong&gt; &lt;pre class=&quot;&quot; title=&quot;&quot; data-url=&quot;&quot;&gt; &lt;span class=&quot;&quot; title=&quot;&quot; data-url=&quot;&quot;&gt; </code></p>-->
+
+		<div>
+			<textarea name="comment" id="comment" cols="58" rows="10" tabindex="4"></textarea>
+		</div>
+
+		<div class="submit">
+			<input name="submit" type="submit" id="submit" tabindex="5" value="WyÅlij komentarz" />
+			<input type='hidden' name='comment_post_ID' value='352' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+		</div>
+		
+		<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="34eba2c0be" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="22"/></p>
+	</form>
+
+		
+</div>
+
+
+	</div>
+
+<aside id="sidebar">
+
+    <div class="widget_text widget widget_custom_html"><h2 class="widgetTitle">Sekurak na Twitterze</h2><div class="textwidget custom-html-widget"><a href="https://twitter.com/sekurak"><img alt="twitter" src="https://sekurak.pl/wp-content/uploads/2019/03/tw-logo.png"></a>
+</div></div><div class="widget widget_wysija"><h2 class="widgetTitle">Info o Sekurak Hacking Party</h2><div class="widget_wysija_cont"><div id="msg-form-wysija-3" class="wysija-msg ajax"></div><form id="form-wysija-3" method="post" action="#wysija" class="widget_wysija">
+<p class="wysija-paragraph">
+    <label>Email <span class="wysija-required">*</span></label>
+    
+    	<input type="text" name="wysija[user][email]" class="wysija-input validate[required,custom[email]]" title="Email"  value="" />
+    
+    
+    
+    <span class="abs-req">
+        <input type="text" name="wysija[user][abs][email]" class="wysija-input validated[abs][email]" value="" />
+    </span>
+    
+</p>
+<p class="wysija-paragraph">
+    <label>Z jakiego miasta jesteÅ?</label>
+   	<textarea name="wysija[field][cf_1]" class="wysija-textarea validate[custom[onlyLetterSp]]" rows="1" placeholder=""></textarea>
+    
+    <span class="abs-req">
+        <input type="text" name="wysija[field][abs][cf_1]" class="wysija-input validated[abs][cf_1]" value="" />
+    </span>
+    
+</p>
+Zapisanych: 1169. Tu otrzymasz info o obecnych / planowanych Sekurak Hacking Party.<br />
+Okazjonalnie rÃ³wnieÅ¼ ogÃ³lne info od zaÅogi Sekuraka. 
+
+
+<input class="wysija-submit wysija-submit-field" type="submit" value="ZapisujÄ siÄ!" />
+
+    <input type="hidden" name="form_id" value="11" />
+    <input type="hidden" name="action" value="save" />
+    <input type="hidden" name="controller" value="subscribers" />
+    <input type="hidden" value="1" name="wysija-page" />
+
+    
+        <input type="hidden" name="wysija[user_list][list_ids]" value="14" />
+    
+ </form></div></div><div class="widget socialIcons">	
+	
+		<a href="https://www.facebook.com/sekurak" class="facebookIco" title="facebook"><span>&nbsp;</span></a>
+		<a href="https://twitter.com/sekurak"" title="twitter" class="twitterIco" target="_blank"><span>&nbsp;</span></a>
+		<a href="https://google.com/+sekurakPL" class="gPlusIco" title="G+"><span>&nbsp;</span></a>
+		<a href="https://feeds.feedburner.com/sekurak" class="rssIco" title="RSS"><span>&nbsp;</span></a>	
+
+
+</div><div class="widget widget_text"><h2 class="widgetTitle">Newsy na email</h2>			<div class="textwidget"><form style="border:0px solid #ccc;padding:2px;text-align:center;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=Sekurak', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"><p>Podaj swÃ³j adres e-mail. Informacje o postach przeÅlemy automatycznie.</p><br/><p><input type="text" style="width:200px" name="email"/><input type="hidden" value="Sekurak" name="uri"/><input type="hidden" name="loc" value="en_US"/>&nbsp;&nbsp;<input type="submit" value="OK!" /></p></form></div>
+		</div><div class="widget widget_text"><h2 class="widgetTitle">ArtykuÅ tygodnia</h2>			<div class="textwidget"><font color="red"><a href="http://sekurak.pl/czym-jest-analiza-ryzyka-it-wprowadzenie/">Jak zdroworozsÄdkowo podejÅÄ do analizy ryzyka IT?</a></font></div>
+		</div><div class="widget widget_text"><h2 class="widgetTitle">Facebook</h2>			<div class="textwidget"><div class="fb-like-box" data-href="https://www.facebook.com/sekurak" data-width="287" data-height="200" data-show-faces="true" data-stream="false" data-border-color="#f9f9fa" data-header="false"></div>
+</div>
+		</div><div class="widget widget_recent_entries"><h2 class="widgetTitle">W biegu</h2><ul>
+			<li class="crpw-item">
+
+				<a  href="https://sekurak.pl/facebook-pytal-niektorych-uzytkownikow-o-haslo-do-skrzynki-pocztowej-to-dla-bezpieczenstwa/" rel="bookmark" title="Permanent link to Facebook pytaÅ niektÃ³rych uÅ¼ytkownikÃ³w o hasÅo do skrzynki pocztowej (!). To dla bezpieczeÅstwa&#8230;" class="crpw-title">Facebook pytaÅ niektÃ³rych uÅ¼ytkownikÃ³w o hasÅo do skrzynki pocztowej (!). To dla bezpieczeÅstwa&#8230;</a>
+						
+			</li>
+					<li class="crpw-item">
+
+				<a  href="https://sekurak.pl/chinka-idaca-na-spotkanie-z-trumpem-miala-pendrive-z-malware-zatrzymana-przez-secret-service/" rel="bookmark" title="Permanent link to Chinka idÄca na spotkanie z Trumpem miaÅa pendrive z malware. Zatrzymana przez Secret Service" class="crpw-title">Chinka idÄca na spotkanie z Trumpem miaÅa pendrive z malware. Zatrzymana przez Secret Service</a>
+						
+			</li>
+					<li class="crpw-item">
+
+				<a  href="https://sekurak.pl/eskalacja-uprawnien-do-root-w-http-serwerze-apache-latajcie/" rel="bookmark" title="Permanent link to Eskalacja uprawnieÅ do root w HTTP serwerze Apache. Åatajcie!" class="crpw-title">Eskalacja uprawnieÅ do root w HTTP serwerze Apache. Åatajcie!</a>
+						
+			</li>
+					<li class="crpw-item">
+
+				<a  href="https://sekurak.pl/xss-w-glownej-wyszukiwarce-google/" rel="bookmark" title="Permanent link to XSS w gÅÃ³wnej wyszukiwarce Google!" class="crpw-title">XSS w gÅÃ³wnej wyszukiwarce Google!</a>
+						
+			</li>
+					<li class="crpw-item">
+
+				<a  href="https://sekurak.pl/super-lekki-prosty-i-bezpieczny-vpn-cloudflare-udostepnia-opensource-owa-implementacje-wireguard/" rel="bookmark" title="Permanent link to Super lekki, prosty i bezpieczny VPN &#8211; Cloudflare udostÄpnia opensource-owÄ implementacjÄ Wireguard" class="crpw-title">Super lekki, prosty i bezpieczny VPN &#8211; Cloudflare udostÄpnia opensource-owÄ implementacjÄ Wireguard</a>
+						
+			</li>
+		</ul>
+</div><div class="widget widget_text"><h2 class="widgetTitle">securitum.pl</h2>			<div class="textwidget"><a href="http://securitum.pl/szkolenia/">Szkolenia - bezpieczeÅstwo IT</a>
+<br><hr>
+
+<a href="http://www.securitum.pl/audyty/">Audyt bezpieczeÅstwa / testy penetracyjne</a>
+<br><hr>
+<a href="http://www.securitum.pl/oferta/szkolenia/wprowadzenie-do-bezpieczenstwa-it-szkolenie
+">Szkolenie: Wprowadzenie do bezpieczeÅstwa IT</a>
+<br><hr>
+<a href="http://sekurak.pl/ciekawa-praca-dla-pentestera/">Ciekawa praca dla pentestera</a>
+</div>
+		</div><div class="widget widget_text"><h2 class="widgetTitle">Polecamy</h2>			<div class="textwidget"><a href="http://sekurak.pl/wewnetrzny-audyt-bezpieczenstwa-w-jednostkach-publicznych/">Wymogi audytu bezpieczeÅstwa w jednostkach administracji publicznej</a><hr>
+<a href="http://sekurak.pl/bezpieczenstwo-sieci-wi-fi-czesc-1/">BezpieczeÅstwo WiFi: 9-czÄÅciowy kurs</a>
+
+</div>
+		</div><div class="widget widget_recent_comments"><h2 class="widgetTitle">Ostatnie komentarze</h2><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link"><a href='http://www.sekurak.pl' rel='external nofollow' class='url'>sekurak</a></span> o <a href="https://sekurak.pl/super-lekki-prosty-i-bezpieczny-vpn-cloudflare-udostepnia-opensource-owa-implementacje-wireguard/#comment-36747">Super lekki, prosty i bezpieczny VPN &#8211; Cloudflare udostÄpnia opensource-owÄ implementacjÄ Wireguard</a></li><li class="recentcomments"><span class="comment-author-link">Henryk</span> o <a href="https://sekurak.pl/super-lekki-prosty-i-bezpieczny-vpn-cloudflare-udostepnia-opensource-owa-implementacje-wireguard/#comment-36742">Super lekki, prosty i bezpieczny VPN &#8211; Cloudflare udostÄpnia opensource-owÄ implementacjÄ Wireguard</a></li><li class="recentcomments"><span class="comment-author-link">zero one</span> o <a href="https://sekurak.pl/trojan-bankowy-lub-ransomware-wykorzystanie-luki-w-winrar/#comment-36735">Trojan bankowy lub ransomware â wykorzystanie luki w WinRAR</a></li><li class="recentcomments"><span class="comment-author-link">Marek</span> o <a href="https://sekurak.pl/xss-w-glownej-wyszukiwarce-google/#comment-36730">XSS w gÅÃ³wnej wyszukiwarce Google!</a></li><li class="recentcomments"><span class="comment-author-link">KaÅka</span> o <a href="https://sekurak.pl/xss-w-glownej-wyszukiwarce-google/#comment-36729">XSS w gÅÃ³wnej wyszukiwarce Google!</a></li><li class="recentcomments"><span class="comment-author-link">AdLom</span> o <a href="https://sekurak.pl/protokol-http-podstawy/#comment-36723">ProtokÃ³Å http &#8211; podstawy</a></li><li class="recentcomments"><span class="comment-author-link">AdLom</span> o <a href="https://sekurak.pl/protokol-http-podstawy/#comment-36722">ProtokÃ³Å http &#8211; podstawy</a></li><li class="recentcomments"><span class="comment-author-link">kostarika</span> o <a href="https://sekurak.pl/super-lekki-prosty-i-bezpieczny-vpn-cloudflare-udostepnia-opensource-owa-implementacje-wireguard/#comment-36721">Super lekki, prosty i bezpieczny VPN &#8211; Cloudflare udostÄpnia opensource-owÄ implementacjÄ Wireguard</a></li><li class="recentcomments"><span class="comment-author-link">MichaÅ</span> o <a href="https://sekurak.pl/trojan-bankowy-lub-ransomware-wykorzystanie-luki-w-winrar/#comment-36719">Trojan bankowy lub ransomware â wykorzystanie luki w WinRAR</a></li><li class="recentcomments"><span class="comment-author-link">Wiki</span> o <a href="https://sekurak.pl/flaga-cookies-samesite-jak-dziala-i-przed-czym-zapewnia-ochrone/#comment-36711">Flaga cookies SameSite &#8211; jak dziaÅa i przed czym zapewnia ochronÄ?</a></li></ul></div><div class="widget widget_tag_cloud"><h2 class="widgetTitle">Tematy</h2><div class="tagcloud"><a href="https://sekurak.pl/tag/0-day/" class="tag-cloud-link tag-link-90 tag-link-position-1" style="font-size: 8pt;" aria-label="0-day (27 pozycji)">0-day</a>
+<a href="https://sekurak.pl/tag/android/" class="tag-cloud-link tag-link-101 tag-link-position-2" style="font-size: 15.905882352941pt;" aria-label="android (84 pozycji)">android</a>
+<a href="https://sekurak.pl/tag/anonimowosc/" class="tag-cloud-link tag-link-119 tag-link-position-3" style="font-size: 11.458823529412pt;" aria-label="anonimowoÅÄ (45 pozycji)">anonimowoÅÄ</a>
+<a href="https://sekurak.pl/tag/apple/" class="tag-cloud-link tag-link-240 tag-link-position-4" style="font-size: 10.141176470588pt;" aria-label="Apple (37 pozycji)">Apple</a>
+<a href="https://sekurak.pl/tag/atak/" class="tag-cloud-link tag-link-25 tag-link-position-5" style="font-size: 21.011764705882pt;" aria-label="atak (171 pozycji)">atak</a>
+<a href="https://sekurak.pl/tag/backdoor/" class="tag-cloud-link tag-link-217 tag-link-position-6" style="font-size: 10.141176470588pt;" aria-label="backdoor (37 pozycji)">backdoor</a>
+<a href="https://sekurak.pl/tag/bezpieczenstwo/" class="tag-cloud-link tag-link-113 tag-link-position-7" style="font-size: 17.223529411765pt;" aria-label="bezpieczeÅstwo (102 pozycji)">bezpieczeÅstwo</a>
+<a href="https://sekurak.pl/tag/bug-bounty/" class="tag-cloud-link tag-link-371 tag-link-position-8" style="font-size: 8.9882352941176pt;" aria-label="bug bounty (31 pozycji)">bug bounty</a>
+<a href="https://sekurak.pl/tag/ciekawostki/" class="tag-cloud-link tag-link-264 tag-link-position-9" style="font-size: 22pt;" aria-label="ciekawostki (200 pozycji)">ciekawostki</a>
+<a href="https://sekurak.pl/tag/exploit/" class="tag-cloud-link tag-link-74 tag-link-position-10" style="font-size: 19.364705882353pt;" aria-label="Exploit (136 pozycji)">Exploit</a>
+<a href="https://sekurak.pl/tag/facebook/" class="tag-cloud-link tag-link-99 tag-link-position-11" style="font-size: 10.141176470588pt;" aria-label="Facebook (37 pozycji)">Facebook</a>
+<a href="https://sekurak.pl/tag/google/" class="tag-cloud-link tag-link-175 tag-link-position-12" style="font-size: 14.588235294118pt;" aria-label="google (69 pozycji)">google</a>
+<a href="https://sekurak.pl/tag/hack/" class="tag-cloud-link tag-link-58 tag-link-position-13" style="font-size: 16.235294117647pt;" aria-label="hack (89 pozycji)">hack</a>
+<a href="https://sekurak.pl/tag/hacking/" class="tag-cloud-link tag-link-88 tag-link-position-14" style="font-size: 11.623529411765pt;" aria-label="hacking (46 pozycji)">hacking</a>
+<a href="https://sekurak.pl/tag/hasla/" class="tag-cloud-link tag-link-9 tag-link-position-15" style="font-size: 14.917647058824pt;" aria-label="hasÅa (73 pozycji)">hasÅa</a>
+<a href="https://sekurak.pl/tag/internet/" class="tag-cloud-link tag-link-118 tag-link-position-16" style="font-size: 18.705882352941pt;" aria-label="Internet (126 pozycji)">Internet</a>
+<a href="https://sekurak.pl/tag/ios/" class="tag-cloud-link tag-link-107 tag-link-position-17" style="font-size: 12.611764705882pt;" aria-label="iOS (53 pozycji)">iOS</a>
+<a href="https://sekurak.pl/tag/iot/" class="tag-cloud-link tag-link-787 tag-link-position-18" style="font-size: 15.905882352941pt;" aria-label="iot (84 pozycji)">iot</a>
+<a href="https://sekurak.pl/tag/iphone/" class="tag-cloud-link tag-link-106 tag-link-position-19" style="font-size: 8pt;" aria-label="iphone (27 pozycji)">iphone</a>
+<a href="https://sekurak.pl/tag/linux/" class="tag-cloud-link tag-link-122 tag-link-position-20" style="font-size: 9.9764705882353pt;" aria-label="linux (36 pozycji)">linux</a>
+<a href="https://sekurak.pl/tag/malware/" class="tag-cloud-link tag-link-149 tag-link-position-21" style="font-size: 18.047058823529pt;" aria-label="malware (115 pozycji)">malware</a>
+<a href="https://sekurak.pl/tag/metody-ochrony/" class="tag-cloud-link tag-link-21 tag-link-position-22" style="font-size: 10.141176470588pt;" aria-label="metody ochrony (37 pozycji)">metody ochrony</a>
+<a href="https://sekurak.pl/tag/microsoft/" class="tag-cloud-link tag-link-153 tag-link-position-23" style="font-size: 10.635294117647pt;" aria-label="Microsoft (40 pozycji)">Microsoft</a>
+<a href="https://sekurak.pl/tag/nsa/" class="tag-cloud-link tag-link-134 tag-link-position-24" style="font-size: 13.6pt;" aria-label="nsa (61 pozycji)">nsa</a>
+<a href="https://sekurak.pl/tag/obrona/" class="tag-cloud-link tag-link-43 tag-link-position-25" style="font-size: 8.1647058823529pt;" aria-label="obrona (28 pozycji)">obrona</a>
+<a href="https://sekurak.pl/tag/ochrona/" class="tag-cloud-link tag-link-92 tag-link-position-26" style="font-size: 8.9882352941176pt;" aria-label="ochrona (31 pozycji)">ochrona</a>
+<a href="https://sekurak.pl/tag/patronat/" class="tag-cloud-link tag-link-278 tag-link-position-27" style="font-size: 18.541176470588pt;" aria-label="patronat (121 pozycji)">patronat</a>
+<a href="https://sekurak.pl/tag/podatnosc/" class="tag-cloud-link tag-link-27 tag-link-position-28" style="font-size: 16.070588235294pt;" aria-label="podatnoÅÄ (86 pozycji)">podatnoÅÄ</a>
+<a href="https://sekurak.pl/tag/prywatnosc/" class="tag-cloud-link tag-link-173 tag-link-position-29" style="font-size: 16.729411764706pt;" aria-label="prywatnoÅÄ (94 pozycji)">prywatnoÅÄ</a>
+<a href="https://sekurak.pl/tag/ransomware/" class="tag-cloud-link tag-link-150 tag-link-position-30" style="font-size: 11.623529411765pt;" aria-label="ransomware (46 pozycji)">ransomware</a>
+<a href="https://sekurak.pl/tag/rce/" class="tag-cloud-link tag-link-349 tag-link-position-31" style="font-size: 17.058823529412pt;" aria-label="rce (99 pozycji)">rce</a>
+<a href="https://sekurak.pl/tag/root/" class="tag-cloud-link tag-link-121 tag-link-position-32" style="font-size: 9.8117647058824pt;" aria-label="root (35 pozycji)">root</a>
+<a href="https://sekurak.pl/tag/sekurak/" class="tag-cloud-link tag-link-123 tag-link-position-33" style="font-size: 11.952941176471pt;" aria-label="sekurak (48 pozycji)">sekurak</a>
+<a href="https://sekurak.pl/tag/shp/" class="tag-cloud-link tag-link-460 tag-link-position-34" style="font-size: 10.141176470588pt;" aria-label="shp (37 pozycji)">shp</a>
+<a href="https://sekurak.pl/tag/ssl/" class="tag-cloud-link tag-link-75 tag-link-position-35" style="font-size: 8pt;" aria-label="SSL (27 pozycji)">SSL</a>
+<a href="https://sekurak.pl/tag/szkolenie/" class="tag-cloud-link tag-link-155 tag-link-position-36" style="font-size: 10.470588235294pt;" aria-label="szkolenie (39 pozycji)">szkolenie</a>
+<a href="https://sekurak.pl/tag/szyfrowanie/" class="tag-cloud-link tag-link-36 tag-link-position-37" style="font-size: 11.952941176471pt;" aria-label="szyfrowanie (48 pozycji)">szyfrowanie</a>
+<a href="https://sekurak.pl/tag/testy-penetracyjne/" class="tag-cloud-link tag-link-78 tag-link-position-38" style="font-size: 8.6588235294118pt;" aria-label="testy penetracyjne (30 pozycji)">testy penetracyjne</a>
+<a href="https://sekurak.pl/tag/tor/" class="tag-cloud-link tag-link-65 tag-link-position-39" style="font-size: 8pt;" aria-label="tor (27 pozycji)">tor</a>
+<a href="https://sekurak.pl/tag/websecurity/" class="tag-cloud-link tag-link-207 tag-link-position-40" style="font-size: 14.094117647059pt;" aria-label="websecurity (65 pozycji)">websecurity</a>
+<a href="https://sekurak.pl/tag/wifi/" class="tag-cloud-link tag-link-439 tag-link-position-41" style="font-size: 8.1647058823529pt;" aria-label="wifi (28 pozycji)">wifi</a>
+<a href="https://sekurak.pl/tag/windows/" class="tag-cloud-link tag-link-147 tag-link-position-42" style="font-size: 13.270588235294pt;" aria-label="Windows (58 pozycji)">Windows</a>
+<a href="https://sekurak.pl/tag/wyciek/" class="tag-cloud-link tag-link-242 tag-link-position-43" style="font-size: 15.741176470588pt;" aria-label="wyciek (82 pozycji)">wyciek</a>
+<a href="https://sekurak.pl/tag/xss/" class="tag-cloud-link tag-link-193 tag-link-position-44" style="font-size: 11.623529411765pt;" aria-label="XSS (46 pozycji)">XSS</a>
+<a href="https://sekurak.pl/tag/zabezpieczenia/" class="tag-cloud-link tag-link-34 tag-link-position-45" style="font-size: 12.941176470588pt;" aria-label="zabezpieczenia (55 pozycji)">zabezpieczenia</a></div>
+</div><div class="widget widget_wysija"><h2 class="widgetTitle">Sekurak/Offline</h2><div class="widget_wysija_cont"><div id="msg-form-wysija-2" class="wysija-msg ajax"></div><form id="form-wysija-2" method="post" action="#wysija" class="widget_wysija">
+
+Sekurak zine nadchodzi...<br>
+Info na e-mail o nowym numerze!
+<p class="wysija-paragraph">
+    <label>Email <span class="wysija-required">*</span></label>
+    
+    	<input type="text" name="wysija[user][email]" class="wysija-input validate[required,custom[email]]" title="Email"  value="" />
+    
+    
+    
+    <span class="abs-req">
+        <input type="text" name="wysija[user][abs][email]" class="wysija-input validated[abs][email]" value="" />
+    </span>
+    
+</p>
+
+<input class="wysija-submit wysija-submit-field" type="submit" value="Zapisz siÄ!" />
+
+    <input type="hidden" name="form_id" value="3" />
+    <input type="hidden" name="action" value="save" />
+    <input type="hidden" name="controller" value="subscribers" />
+    <input type="hidden" value="1" name="wysija-page" />
+
+    
+        <input type="hidden" name="wysija[user_list][list_ids]" value="3" />
+    
+ </form></div></div>
+</aside>	</div>
+		<footer id="footer" >
+			<div class="wrapper">
+			
+			<small class="copyright">&copy;2019 Sekurak </small>
+
+			<div align="right"><small><a href="/nota-prawna">Nota prawna</a></small></div> 
+
+
+			</div>
+		</footer>
+	</div>
+	<link rel='stylesheet' id='socjalista-css'  href='https://sekurak.pl/wp-content/themes/Sekuraq/includes/socjalista/socjalista.css?ver=4.9.10' type='text/css' media='all' />
+<link rel='stylesheet' id='socjalIco-css'  href='https://sekurak.pl/wp-content/themes/Sekuraq/includes/widgets/socialIcons/socialIcons.css?ver=4.9.10' type='text/css' media='all' />
+<script type='text/javascript' src='https://sekurak.pl/wp-includes/js/wp-embed.min.js?ver=4.9.10'></script>
+<script async="async" type='text/javascript' src='https://sekurak.pl/wp-content/plugins/akismet/_inc/form.js?ver=4.1.1'></script>
+<script type='text/javascript' src='https://sekurak.pl/wp-content/plugins/wysija-newsletters/js/validate/languages/jquery.validationEngine-pl.js?ver=2.11'></script>
+<script type='text/javascript' src='https://sekurak.pl/wp-content/plugins/wysija-newsletters/js/validate/jquery.validationEngine.js?ver=2.11'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wysijaAJAX = {"action":"wysija_ajax","controller":"subscribers","ajaxurl":"https:\/\/sekurak.pl\/wp-admin\/admin-ajax.php","loadingTrans":"\u0141aduj\u0119...","is_rtl":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://sekurak.pl/wp-content/plugins/wysija-newsletters/js/front-subscribers.js?ver=2.11'></script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

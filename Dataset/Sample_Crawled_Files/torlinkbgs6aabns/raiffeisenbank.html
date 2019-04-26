@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html xml:lang="en" lang="en" class="no-js">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<title>Raiffeisen Shop</title>
+<link rel="icon" type="image/x-icon" href="/resources/webshop/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="255x255" href="/resources/webshop/img/webshop-icon.png">
+<link rel="icon" sizes="192x192" href="/resources/webshop/img/webshop-icon.png">
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="/resources/webshop/img/webshop-icon.png" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
+
+    <link rel="stylesheet" href="/resources/webshop/css/all-css.css" media="screen" />
+
+    <script src="/resources/webshop/js/all-js.js"></script>
+
+<!-- session company = DEFAULT -->
+<!-- session bsvId =  -->
+
+<!-- Piwik -->
+
+        <script type="text/javascript">
+          var _paq = _paq || [];
+          /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+          _paq.push(['setCustomVariable', 1, 'companyBusinessId', 'DEFAULT', 'page']);
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u="//statistics.r-itservices.at/analyser/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', '77']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
+        </script>
+
+<!-- End Piwik Code --></head>
+
+<body>
+
+<div id="snackbar" class="wide-container"></div>
+
+<div class="content">
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCN3kh3qt1U-axJpoL8J4pxargNi2zlrk"></script>
+
+<script>
+  $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['de-DE']);
+</script>
+
+<script>
+  var canHover = !(matchMedia('(hover: none)').matches);
+  if (canHover) {
+    document.body.classList.add('can-hover');
+  }
+</script>
+
+
+
+<script>
+  var webshopUtil = (function () {
+
+    var authData = undefined;
+
+    function isLoggedIn() {
+      return authData && authData.authenticated;
+    }
+
+    function getAuthData() {
+      return authData;
+    }
+
+    var afterAuthFunctions = [];
+    var afterAuthOnFocusFunctions = [];
+
+    function registerAfterAuthFunction(func, doOnFocus) {
+      if (doOnFocus) {
+        afterAuthOnFocusFunctions.push(func);
+      } else {
+        afterAuthFunctions.push(func);
+      }
+    }
+
+    function triggerAfterAuthFunctions(data, isFocus) {
+      if (!isFocus) {
+        authData = data;
+        $.each(afterAuthFunctions, function (index, func) {
+          func();
+        });
+      }
+      $.each(afterAuthOnFocusFunctions, function (index, func) {
+        func();
+      });
+    }
+
+    function formatDate(date) {
+      if (!(date instanceof Date)) {
+        console.error('Illegal formatDate call. date called with ' + typeof date);
+        return '';
+      } else if (typeof date.getMonth !== 'function') {
+        console.error('Illegal formatDate call. Date object not properly initialised');
+        return '';
+      } else {
+        return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
+      }
+    }
+
+    function getURLParameter(sParam) {
+      var sPageURL = window.location.search.substring(1);
+      var sURLVariables = sPageURL.split('&');
+      for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+          return window.decodeURI(sParameterName[1]);
+        }
+      }
+    }
+
+    function appendURLParameter(param, val) {
+      var queryString = window.location.search.replace("?", "");
+      var parameterListRaw = queryString == "" ? [] : queryString.split("&");
+      var parameterList = {};
+      for (var i = 0; i < parameterListRaw.length; i++) {
+        var parameter = parameterListRaw[i].split("=");
+        parameterList[parameter[0]] = parameter[1];
+      }
+      parameterList[param] = val;
+
+      var newQueryString = "?";
+      for (var item in parameterList) {
+        if (parameterList.hasOwnProperty(item)) {
+          newQueryString += item + "=" + parameterList[item] + "&";
+        }
+      }
+      newQueryString = newQueryString.replace(/&$/, "");
+      var newURL = location.origin + location.pathname + newQueryString;
+      window.history.pushState('', '', newURL);
+    }
+
+    function removeURLParameter(param) {
+      var queryString = window.location.search.replace("?", "");
+      var parameterListRaw = queryString == "" ? [] : queryString.split("&");
+      var parameterList = {};
+      for (var i = 0; i < parameterListRaw.length; i++) {
+        var parameter = parameterListRaw[i].split("=");
+        if (parameter[0] != param) {
+          parameterList[parameter[0]] = parameter[1];
+        }
+      }
+
+      var newQueryString = "?";
+      for (var item in parameterList) {
+        if (parameterList.hasOwnProperty(item)) {
+          newQueryString += item + "=" + parameterList[item] + "&";
+        }
+      }
+      newQueryString = newQueryString.replace(/&$/, "");
+      var newURL = location.origin + location.pathname + newQueryString;
+      window.history.pushState('', '', newURL);
+
+    }
+
+    function redirectToErrorPage() {
+      window.location.replace('/errorpages/500-internal-server-error.html');
+    }
+
+    function tableAlphabeticalSorter(a, b) {
+      var trimA = cleanTableRow(a).toLowerCase();
+      var trimB = cleanTableRow(b).toLowerCase();
+
+      console.log('Comparing Strings: ' + trimA + ' - ' + trimB)
+      return (trimA < trimB ? -1 : (trimA > trimB ? 1 : 0));
+    }
+
+    function cleanTableRow(input) {
+      return $('<p>' + input + '</p>').text().trim();
+    }
+
+    function tableNumberSorter(a, b) {
+      var trimA = cleanTableRow(a);
+      var trimB = cleanTableRow(b);
+      var gerA = trimA.replace(',', '.');
+      var gerB = trimB.replace(',', '.');
+
+      console.log('Comparing Number: ' + trimA + ' - ' + trimB)
+
+      if (!$.isNumeric(gerA) && !$.isNumeric(gerB)) {
+        return 0;
+      } else if (!$.isNumeric(gerA)) {
+        return 1;
+      } else if (!$.isNumeric(gerB)) {
+        return -1;
+      }
+      return gerA - gerB;
+    }
+
+    function tableDateSorter(a, b) {
+      var trimA = cleanTableRow(a);
+      var trimB = cleanTableRow(b);
+      var gerA = parseDate(trimA, 'dd.mm.yyyy');
+      var gerB = parseDate(trimB, 'dd.mm.yyyy');
+
+      console.log('Comparing Date: ' + trimA + ' - ' + trimB)
+
+      if (gerA == undefined && gerB == undefined) {
+        return 0;
+      } else if (gerA == undefined) {
+        return 1;
+      } else if (gerB == undefined) {
+        return -1;
+      }
+
+      return gerA.getTime() - gerB.getTime()
+    }
+
+    function parseDate(input, format) {
+      format = format || 'yyyy-mm-dd'; // default format
+      var parts = input.match(/(\d+)/g), i = 0, fmt = {};
+      if (parts == undefined) {
+        return null;
+      }
+      // extract date-part indexes from the format
+      format.replace(/(yyyy|dd|mm)/g, function (part) {
+        fmt[part] = i++;
+      });
+
+      return new Date(parts[fmt['yyyy']], parts[fmt['mm']] - 1, parts[fmt['dd']]);
+    }
+
+    function showSnackBar(text) {
+      var x = $('#snackbar');
+      x.html(text);
+      x.addClass('show');
+      setTimeout(function () {
+        x.removeClass('show');
+        x.html('');
+      }, 5000);
+    }
+
+    return {
+      formatDate: formatDate,
+      getURLParameter: getURLParameter,
+      appendURLParameter: appendURLParameter,
+      removeURLParameter: removeURLParameter,
+      registerAfterAuthFunction: registerAfterAuthFunction,
+      triggerAfterAuthFunctions: triggerAfterAuthFunctions,
+      isLoggedIn: isLoggedIn,
+      getAuthData: getAuthData,
+      redirectToErrorPage: redirectToErrorPage,
+      tableAlphabeticalSorter: tableAlphabeticalSorter,
+      tableNumberSorter: tableNumberSorter,
+      tableDateSorter: tableDateSorter,
+      showSnackBar: showSnackBar
+    }
+  }());
+</script>
+
+
+<script>
+  window.addEventListener("load", function () {
+    window.cookieconsent.initialise({
+      "palette": {
+        "popup": {
+          "background": "#000",
+        },
+        "button": {"background": "#fbf316", "text": '#000', "border": "#000"},
+      },
+      "content": {
+        "message": "Wir verwenden Cookies, um unsere Webseite f&uuml;r Sie m&ouml;glichst benutzerfreundlich zu gestalten. Wenn Sie fortfahren, nehmen wir an, dass Sie mit der Verwendung von Cookies einverstanden sind. F&uuml;r Details klicken Sie auf  <a href='/Disclaimer.html#datenschutz'>Weitere Informationen</a>.",
+        "dismiss": "OK"
+      },
+      "showLink": false
+    })
+  });
+
+  //fixing blank area at the bottom when rotating from portrait to landscape on mobile
+  window.addEventListener('orientationchange', function () {
+    if (window.orientation == 0 || window.orientation == 180) {
+      // Reset scroll position if in portrait mode.
+      window.scrollTo(0, 0);
+    }
+  }, false);
+
+  function getMobileOperatingSystem() {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Windows Phone must come first because its UA also contains "Android"
+    if (/windows phone/i.test(userAgent)) {
+      return "Windows Phone";
+    }
+
+    if (/android/i.test(userAgent)) {
+      return "Android";
+    }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      return "iOS";
+    }
+
+    return "unknown";
+  }
+
+  var os = getMobileOperatingSystem();
+  if (os == "Android") {
+    document.body.classList.add('os-android');
+  }
+  if (os == "iOS") {
+    document.body.classList.add('os-ios');
+  }
+
+
+</script>
+<style>@media screen and (min-device-width: 385px) {
+    .cc-window.cc-floating {
+      font-size: 14px;
+      width: 100%;
+      max-width: none;
+      flex-direction: row;
+    }
+
+    .cc-floating .cc-message {
+      width: 100%;
+      margin-bottom: 0px;
+    }
+
+    .cc-window.cc-floating .cc-compliance {
+      margin-top: -5px;
+      float: right;
+    }
+
+    .cc-link {
+      padding-left: 0px;
+    }
+
+    .cc-window.cc-floating .cc-compliance {
+      min-width: 100px;
+    }
+
+    .cc-bottom {
+      bottom: 0em;
+    }
+  }</style>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="container ws-nav-container">
+      <a href="/">
+        <div class="navbar-logo navbar-brand">
+          <div class="logo-text">
+            Raiffeisen<br>
+            <span class="logo-sub-line">SHOP</span>
+          </div>
+        </div>
+      </a>
+      <div class="nav navbar-nav navbar-right login-component-big">
+        <div class="login-div hidden">
+          <a href="">
+            <i class="fal fa-sign-in"></i>
+            <span>Login</span>
+          </a>
+        </div>
+
+        <div class="logged-in-div hidden">
+          <a href="javascript:window.location.reload();">
+            <i class="fal fa-sign-out"></i>
+            <span class="logged-in-greeting"></span>
+          </a>
+        </div>
+      </div>
+      <div class="navbar-header">
+        <div class="login-div hidden">
+          <a href="">
+            <button type="button" class="navbar-toggle nav-collapse-btn">
+              <span class="fal fa-sign-in fa-sp-big"></span>
+            </button>
+          </a>
+        </div>
+        <div class="logged-in-div hidden">
+          <a href="">
+            <button type="button" class="navbar-toggle nav-collapse-btn">
+              <span class="fal fa-sign-out fa-sp-big"></span>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script type="text/javascript">
+    //<![CDATA[
+
+    
+    var webshopLoginModule = (function () {
+        var keepAliveTimer;
+
+        function handleLoginProcess(isFocus) {
+            var data = {};
+            var referer = '';
+            if (referer && referer.length > 0) {
+                data['referer'] = referer;
+            }
+            var url = "https://antrag.raiffeisenbank.at/rest/clientAuthentication/status";
+            $.ajax({
+                'url': url,
+                xhrFields: {
+                    withCredentials: true,
+                },
+                data: data,
+                global: false
+            }).done(function(data) {
+                handleLoginStatus(data);
+                webshopUtil.triggerAfterAuthFunctions(data, isFocus);
+            });
+        }
+
+        function handleLoginStatus(data) {
+            if (data.authenticated) {
+                handleLoggedIn(data);
+            } else {
+                handleLogin(data);
+            }
+        }
+
+        function handleLoggedIn(data) {
+            checkCompanySession(data);
+            showLoggedIn(data);
+            registerKeepAlive();
+        }
+
+        function handleLogin(data) {
+            if (data.loginActive == false) {
+                hideLogin();
+            } else {
+                showLogin();
+            }
+        }
+
+        function registerKeepAlive() {
+            if (keepAliveTimer != null) {
+                window.clearTimeout(keepAliveTimer);
+                keepAliveTimer = null;
+            }
+            keepAliveTimer = window.setTimeout(function() {
+                $.ajax({
+                    url : "https://antrag.raiffeisenbank.at/keepAlive",
+                    global : false,
+                    xhrFields: {
+                        withCredentials: true
+                    }
+                });
+                registerKeepAlive();
+            }, 300000);
+        }
+
+        function hideLogin() {
+            $('.logged-in-div').addClass('hidden');
+            $('.login-div').addClass('hidden');
+        }
+
+        function showLogin() {
+            $('.logged-in-div').addClass('hidden');
+            $('.login-div').removeClass('hidden');
+            $('.login-div a').attr('href', getLoginUrl());
+        }
+
+        function getLoginUrl() {
+            return getLoginUrlForReason('WEBSHOP_ZENTRAL', 'DEFAULT');
+        }
+
+        function getLoginUrlForReason(loginSelectionName, reason) {
+            var redirectUrl = encodeURIComponent(window.location.href);
+            var url = "https://antrag.raiffeisenbank.at/rest/clientAuthentication/login?loginSelectionName=" + loginSelectionName + "&reason=" + reason + "&authSuccessRedirectUrl=" + redirectUrl;
+            return url;
+        }
+
+        function showLoggedIn(data) {
+            $('.login-div').addClass('hidden');
+            $('.logged-in-div').removeClass('hidden');
+            var name = data.authenticatedClient.firstname + " " + data.authenticatedClient.lastname;
+            $('.logged-in-greeting').html(name);
+            $('.logged-in-div a').click(function() {
+                var url = "https://antrag.raiffeisenbank.at/rest/clientAuthentication/logout";
+                $.ajax({
+                    'url': url,
+                    method: 'POST',
+                    xhrFields: {
+                        withCredentials: true
+                    }
+                }).done(function() {
+                    handleLoginProcess(true)
+                });
+            });
+        }
+
+        function checkCompanySession(data) {
+            var sessionCompanyId = "DEFAULT";
+            var loggedInCompanyId = data.authenticatedClient ? data.authenticatedClient.companyBusinessId : undefined;
+
+            //console.log('Logged-in company id = ' + loggedInCompanyId);
+            //console.log('Session company id = ' + sessionCompanyId);
+
+            if (loggedInCompanyId && loggedInCompanyId.length > 0 && sessionCompanyId != loggedInCompanyId) {
+              if (window.flagCompanySelectionPreventUselessCompanyReload) {
+                console.log('Useless reload prevented');
+              } else {
+                reloadPage(loggedInCompanyId);
+              }
+            }
+        }
+
+        function removeParam(key, sourceURL) {
+            var rtn = sourceURL.split("?")[0],
+                    param,
+                    params_arr = [],
+                    queryString = (sourceURL.indexOf("?") !== -1) ? sourceURL.split("?")[1] : "";
+            if (queryString !== "") {
+                params_arr = queryString.split("&");
+                for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+                    param = params_arr[i].split("=")[0];
+                    if (param === key) {
+                        params_arr.splice(i, 1);
+                    }
+                }
+                rtn = rtn + "?" + params_arr.join("&");
+            }
+            return rtn;
+        }
+
+        function reloadPage(loggedInCompanyId) {
+            //console.log('Reload page');
+            //console.log('Old page = ' + window.location.href);
+            webshopUtil.removeURLParameter('companyBusinessId');
+            webshopUtil.appendURLParameter('companyBusinessId', loggedInCompanyId);
+            //console.log('New page = ' + window.location.href);
+            window.location.reload();
+        }
+
+        return {
+            handleLoginProcess: handleLoginProcess,
+            getLoginUrlForReason: getLoginUrlForReason
+        };
+    }());
+
+    $(function() {
+        webshopLoginModule.handleLoginProcess(false);
+    });
+    $(window).focus(function(event) {
+        webshopLoginModule.handleLoginProcess(true);
+    });
+
+    //]]>
+</script>
+
+<div class="container">
+            <h4 style="text-align:center">WILLKOMMEN IM RAIFFEISEN SHOP</h4>
+
+<h3 style="text-align:center">f&uuml;r Nieder&ouml;sterreich und Wien</h3>
+
+<p>&nbsp;</p>
+
+</div><div class="container ws-arg-container">
+    <div class="ws-white-subcontainer ws-yellow-side">
+        <div class="row">
+            <div class="col-md-4">
+    <div class="ws-arg-box">
+        <h3><i class="fal fa-fa fa-globe fa-2x"></i> Online-Produkte</h3>
+        <p>Konto, Kredit oder Leasing? Alle online abschlieÃbaren Produkte von Raiffeisen auf einen Blick. </p>
+    </div>
+</div><div class="col-md-4">
+    <div class="ws-arg-box">
+        <h3><i class="fal fa-fa fa-ticket fa-2x"></i> ErmÃ¤Ãigte Tickets </h3>
+        <p>Mit Raiffeisen ermÃ¤Ãigt zu den besten Konzerten, Festivals, Kabaretts und mehr. </p>
+    </div>
+</div><div class="col-md-4">
+    <div class="ws-arg-box">
+        <h3><i class="fal fa-fa fa-check-square fa-2x"></i> Raiffeisen Vorteile</h3>
+        <p>Zahlreiche ErmÃ¤Ãigungen exklusiv fÃ¼r Raiffeisen Kontoinhaber und Raiffeisen Club-Mitglieder.</p>
+    </div>
+</div>        </div>
+    </div>
+</div><div class="container">
+            <h2 style="text-align:center">Bitte w&auml;hlen Sie eine Raiffeisenbank<br />
+in Nieder&ouml;sterreich oder Wien<br />
+&nbsp;</h2>
+
+</div><div class="container">
+    <div class="row">
+        
+
+
+
+
+
+<div class="col-md-6">
+    <div class="ws-rec-panel">
+            <img class="ws-rec-img" src="/dam/jcr:e832abaa-aba6-4a4b-b5ac-225bf3c1a668/nieder%C3%B6sterreich_shutterstock_607840418_neu.jpg" alt="Teaser Image" />
+        <p class="ws-rec-text">   </p>
+        <a class="btn btn-primary ws-rec-btn " href="/bankensuche.html?ws=true" role="button" target="_self">Raiffeisenbank in NiederÃ¶sterreich</a>
+    </div>
+</div>
+
+
+
+
+
+<div class="col-md-6">
+    <div class="ws-rec-panel">
+            <img class="ws-rec-img" src="/dam/jcr:2db85ee1-16c0-4c23-bc90-9ff582ed06d5/wien_shutterstock_1046467867_neu.jpg" alt="Teaser Image" />
+        <p class="ws-rec-text">   </p>
+        <a class="btn btn-primary ws-rec-btn " href="https://shop.raiffeisenbank.at?companyBusinessId=32000&ws=true" role="button" target="_self">Raiffeisenbank in Wien</a>
+    </div>
+</div>    </div>
+</div><div class="container">
+            <p>&nbsp;</p>
+
+<p style="text-align:center">Nicht aus Nieder&ouml;sterreich oder Wien? <a href="https://online.raiffeisen.at" target="_blank">Wechseln Sie zu den Angeboten einer Raiffeisenbank in Ihrer N&auml;he.&nbsp;</a></p>
+
+<p style="text-align:center">&nbsp;</p>
+
+</div></div>
+
+
+<div id="ajaxLoadingOverlay" class="ajax-indicator-wrapper" style="display: none;">
+    <div class="ajax-indicator" />
+</div>
+<script>
+    $(document).ajaxStart(function() {
+        $("#ajaxLoadingOverlay").show();
+    });
+    $(document).ajaxComplete(function() {
+        $("#ajaxLoadingOverlay").hide();
+    });
+
+    var AXIOS_CALLS = 0;
+    // Add a request interceptor
+    axios.interceptors.request.use(function (config) {
+        // Do something before request is sent
+        AXIOS_CALLS++;
+        toggleSpinner();
+        return config;
+    }, function (error) {
+        // Do something with request error
+        AXIOS_CALLS--;
+        toggleSpinner();
+        return Promise.reject(error);
+    });
+
+    // Add a response interceptor
+    axios.interceptors.response.use(function (response) {
+        // Do something with response data
+        AXIOS_CALLS--;
+        toggleSpinner();
+        return response;
+    }, function (error) {
+        // Do something with response error
+        AXIOS_CALLS--;
+        toggleSpinner();
+        return Promise.reject(error);
+    });
+
+    function toggleSpinner() {
+        if (AXIOS_CALLS < 1) {
+            $("#ajaxLoadingOverlay").hide();
+        } else {
+            $("#ajaxLoadingOverlay").show();
+        }
+    }
+
+</script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

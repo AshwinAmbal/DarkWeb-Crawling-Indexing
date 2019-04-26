@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+
+	<title>Gutenberg in Numbers &#8211; The Gutenberg block editor for WordPress is used by millions of sites â here&#039;s what they&#039;re using it for.</title>
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9ndXRlbnN0YXRzLmJsb2c%3D"
+		+ "&id=151479872"
+		+ "&time=1554359595";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//gutenstats.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Gutenberg in Numbers &raquo; Feed" href="https://gutenstats.blog/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Gutenberg in Numbers &raquo; Comments Feed" href="https://gutenstats.blog/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s0.wp.com/_static/??-eJyNjt0KwjAMhV/ILlWYeCM+y9YVzZakZUkZfXvLLgRF0Mvz83EObNmFJBbFgIvLVO4oClsOiZ0yUqwfqguqB/iOES5RYY6Wh7C4Xb3qKIHK1OJmwIRqMFLaW+M6rBXUKsWOUf4m7BH5F9GO5yTtpr4P3Ph67Ht/9t5fTvMTETxhXw==?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-editor-font-css'  href='https://fonts.googleapis.com/css?family=Noto+Serif%3A400%2C400i%2C700%2C700i&#038;ver=5.2-beta1-45048' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s1.wp.com/_static/??-eJydkEEOwiAQRS8kBU3adGM8C6WkRRkgzJDa2zu1ujAabdwQ8vPeHwY5JeGC8aW3KA2i7B2SDOUqkWZvK3Ch4ngnP3K2dxTzJrTz0VyEd13WeX6IL4qJgWwgSaMFFnVr5FA4QdK09twr8E2AIpIvgwtMxWw5h6RpIYDHaOu5L9A3DVLztJbrqH+MmRLToutStoiCT3AFxPrwjfusX/bP7ic47utaNUqp9nC+AW9appo=?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='gutenbergtheme-fonts-css'  href='https://fonts.googleapis.com/css?family=Noto+Serif%3A400%2C400italic%2C700%2C700italic&#038;subset=latin%2Clatin-ext&#038;ver=5.2-beta1-45048' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s0.wp.com/_static/??-eJx9jEsKwzAMBS9UVxiSki5Kz2IbVVGRrWAr9PpxNv1QyG4G5j1gKGqctLQ3nFNrJ3gtrothMcirW2Ql7g2hOtEUjLX8iHtI4Ho0rRhFqSNBr770aBTSfh5D/dBfbjNmbDAPQKIxyB7c882P/nKdRj9Mzw06w1UE?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFztEKwjAMBdAfsiu6Dp/Eb6k1jtQlrU3q0K+3A30QhkLgPtwDN3bOBjlM9QxiY7tbhfJ4RxdlY38BQzgWr9AR8geHxAqsi81JlEDEj7DSUjrhBKYKlAZY28wlrbjvl5DvCPNfFkGzD1dTQPC5rB/psB0Gt+v7vXPxBTjQW9A='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://gutenstats.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://gutenstats.blog/" />
+<link rel='shortlink' href='https://wp.me/PafAPK-a' />
+	<style>
+		@font-face {
+			font-family: Recoleta;
+			src: url('https://s1.wp.com/i/fonts/recoleta/400.woff2')
+		}
+	</style>
+	<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fgutenstats.blog%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fgutenstats.blog%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Gutenberg in Numbers" />
+<meta property="og:description" content="The Gutenberg block editor for WordPress is used by millions of sites â here&#039;s what they&#039;re using it for." />
+<meta property="og:url" content="https://gutenstats.blog/" />
+<meta property="og:site_name" content="Gutenberg in Numbers" />
+<meta property="og:image" content="https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png" />
+<meta property="og:image:width" content="1198" />
+<meta property="og:image:height" content="806" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:text:title" content="Gutenberg in Numbers" />
+<meta name="twitter:card" content="summary" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<meta name="twitter:app:name:iphone" content="WordPress" />
+<meta name="twitter:app:id:iphone" content="335703880" />
+<meta name="twitter:app:name:ipad" content="WordPress" />
+<meta name="twitter:app:id:ipad" content="335703880" />
+<meta name="twitter:app:name:googleplay" content="WordPress" />
+<meta name="twitter:app:id:googleplay" content="org.wordpress.android" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="search" type="application/opensearchdescription+xml" href="https://gutenstats.blog/osd.xml" title="Gutenberg in Numbers" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="Gutenberg in Numbers" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="The Gutenberg block editor for WordPress is used by millions of sites â here&#039;s what they&#039;re using it for." /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://gutenstats.blog/feed/;icon-uri=https://gutenstats.files.wordpress.com/2018/09/icon-256x256.jpg?w=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Gutenberg is the codename for the new WordPress editor. It&#039;s fast, flexible, and opens up a new world of possibilities for writing posts. It&#039;s currently beta software, which means it&#039;s being tested by thousands of different people all over the world, from big news organisations, to small businesses, to professional and personal bloggers. Try Gutenberg&hellip;" />
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+<link rel="icon" href="https://gutenstats.files.wordpress.com/2018/09/icon-256x256.jpg?w=32" sizes="32x32" />
+<link rel="icon" href="https://gutenstats.files.wordpress.com/2018/09/icon-256x256.jpg?w=192" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://gutenstats.files.wordpress.com/2018/09/icon-256x256.jpg?w=180" />
+<meta name="msapplication-TileImage" content="https://gutenstats.files.wordpress.com/2018/09/icon-256x256.jpg?w=256" />
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s1.wp.com/?custom-css=1&#038;csblog=afAPK&#038;cscache=6&#038;csrev=10" />
+		</head>
+
+<body class="home page-template-default page page-id-10 mp6 customizer-styles-applied date-hidden categories-hidden tags-hidden author-hidden comment-hidden highlander-enabled highlander-light">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#primary">Skip to content</a>
+		<header id="masthead" class="site-header">
+			<div class="site-branding">
+									<p class="site-title"><a href="https://gutenstats.blog/" rel="home">Gutenberg in Numbers</a></p>
+									<p class="site-description">The Gutenberg block editor for WordPress is used by millions of sites â here&#039;s what they&#039;re using it for.</p>
+							</div><!-- .site-branding -->
+
+			<nav id="site-navigation" class="main-navigation">
+				<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">Primary Menu</button>
+							</nav><!-- #site-navigation -->
+		</header><!-- #masthead -->
+
+	<main id="primary" class="site-main">
+
+		
+<article id="post-10" class="post-10 page type-page status-publish hentry">
+	<header class="entry-header">
+			</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		
+<p>Gutenberg is the codename for the new WordPress editor. It&#8217;s fast, flexible, and opens up a new world of possibilities for writing posts.</p>
+
+
+
+<p>It&#8217;s currently beta software, which means it&#8217;s being tested by thousands of different people all over the world, from big news organisations, to small businesses, to professional and personal bloggers.</p>
+
+
+
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link has-text-color has-background has-vivid-cyan-blue-background-color" href="https://wordpress.org/gutenberg" style="color:#ffffff;">Try Gutenberg</a></div>
+
+
+<div class="gutenstats-numbers alignfull">
+			<div class='stat'>
+				<div>
+					<span class='number' data-number='14.8'>14.8</span>
+					<span class='unit'>million</span>
+					<span class='description'>active installations</span>
+				</div>
+			</div>
+			<div class='stat'>
+				<div>
+					<span class='number' data-number='14.5'>14.5</span>
+					<span class='unit'>million</span>
+					<span class='description'>posts written*</span>
+				</div>
+			</div>
+			<div class='stat'>
+				<div>
+					<span class='number' data-number='163'>163</span>
+					<span class='unit'>thousand</span>
+					<span class='description'>written yesterday*</span>
+				</div>
+			</div></div>
+
+
+<div style="height:50px;" class="wp-block-spacer"></div>
+
+
+
+<p class="has-small-font-size">&nbsp;* The post statistics on this page are obtained from WordPress.com sites and sites running Jetpack &#8212; which report whether Gutenberg was used to author the post. The post statistics only include posts created since late August 2018. The actual number is higher.</p>
+
+
+
+<hr class="wp-block-separator" />
+
+
+
+<h2>A Few Statistics Of Note</h2>
+
+
+
+<p>The top nine blocks in usage across WordPress.com and sites running Jetpack are:</p>
+
+
+
+<ol><li>Paragraph</li><li>Image</li><li>Heading</li><li>List</li><li>Gallery (generally tied with HTML)</li><li>HTML (generally tied with Gallery)</li><li>YouTube embed</li><li>Quote</li><li>Separator</li></ol>
+
+
+
+<figure class="wp-block-image"><img data-attachment-id="84" data-permalink="https://gutenstats.blog/screen-shot-2019-01-06-at-4-06-11-pm/" data-orig-file="https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=640" data-orig-size="1198,806" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="screen-shot-2019-01-06-at-4.06.11-pm" data-image-description="" data-medium-file="https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=640?w=300" data-large-file="https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=640?w=640" src="https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=640" alt="Piechart showing the information on the top 8 Gutenberg blocks in relative order. Of interest is the fact that 60% of blocks are main body text but 20% of the page corresponds to image information (via the Image and Gallery blocks)." class="wp-image-84" srcset="https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=640 640w, https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=150 150w, https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=300 300w, https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=768 768w, https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png?w=1024 1024w, https://gutenstats.files.wordpress.com/2019/01/screen-shot-2019-01-06-at-4.06.11-pm.png 1198w" sizes="(max-width: 640px) 100vw, 640px" /></figure>
+
+
+
+<p>Of note is that web pages these days are, on the average, filled with images â via the Image block and the Gallery block â in a significant ratio of roughly 1 or more images per every three paragraph blocks.  </p>
+
+
+
+<p>The relative proportion of Gutenberg blocks indicates an attempt by the author to <em>minimize the amount of writing they need to do</em> by including:</p>
+
+
+
+<ol><li>Lots of lists.</li><li>Lots of header text.</li><li>Lots of images and galleries.</li><li>Lots of quotations (that don&#8217;t need to be written by themselves).</li><li>Lots of separators to improve legibility.</li></ol>
+
+
+
+<p>Also of note is that the dominant embed type by far is the YouTube block.  The next closest embed type is Twitter with YouTube blocks outnumbering Twitter blocks by well over 10:1. </p>
+	</div><!-- .entry-content -->
+
+	</article><!-- #post-10 -->
+
+	</main><!-- #primary -->
+
+
+<footer id="colophon" class="site-footer">
+	<div class="site-info">
+		<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+		
+			</div><!-- .site-info -->
+</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="151479872" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://gutenstats.blog" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Gutenberg in Numbers" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="131665267f" /><input type="hidden" name="_wp_http_referer" value="/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1524699534h&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"151479872","siteName":"Gutenberg in Numbers","siteURL":"https:\/\/gutenstats.blog","icon":"<img alt='' src='https:\/\/gutenstats.files.wordpress.com\/2018\/09\/icon-256x256.jpg?w=50' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"a8c\/gutenstats","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fgutenstats.blog%2F&signup_flow=account&domain=gutenstats.blog","themeURL":"","xhrURL":"https:\/\/gutenstats.blog\/wp-admin\/admin-ajax.php","nonce":"7f04033116","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"6e4c41db1b\" \/>","referer":"https:\/\/gutenstats.blog\/","canFollow":"","feedID":"87751408","statusMessage":"","customizeLink":"https:\/\/gutenstats.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fgutenstats.wordpress.com%2F","postID":"10","shortlink":"https:\/\/wp.me\/PafAPK-a","canEditPost":"","editLink":"https:\/\/wordpress.com\/page\/gutenstats.blog\/10","statsLink":"https:\/\/wordpress.com\/stats\/post\/10\/gutenstats.blog","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Gutenberg","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fgutenstats.blog%2F&signup_flow=account&domain=gutenstats.blog\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/gutenstats.blog\/wp-admin\/admin-ajax.php","nonce":"7c5eeeebfd","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/gutenstats.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fgutenstats.blog%2F","blog_id":"151479872","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=151479872&v=wpcom&tz=0&user_id=0&subd=gutenstats","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyVUN1OQzEIfiE75syiXhifBXvYGT0trYUe9e1tE7csZln0CvLx/QDwUZzPYiQGQWGilT2Vz03QO7gYpeZKbDOLQuSFFN4bNTqiTJHqb7IdKXUKPnmYW0fU0HS4C648o3GWP0t04eIiy+IO2Td1B761G06Jxb1hhYRqVHvn8kq18tTdz9g/HayiX/SWyI+bhujcndgsPrYRPm4pLNfw0J9Zv37K5pJ1JctjzU0pQiArfS93ArrmNb3c7/cP28fd824bvgGjGbGo'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'151479872','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'151479872','v':'wpcom','tz':'0','user_id':'0','post':'10','subd':'gutenstats'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1lSiYrZXhzUkM5fD1uTDNLUGt6QzVbd3FKb3Q4aWxFU0VMK3ppSG1wamM0bi81JStxN2lKP1pvVnxQRHk3W0d3VEh0SklpNENJfHppaiZjVlFtdzJJS0ovSDNESEtVXXF0YXcmbk1+WXpSOThDRltIUHpCJT9lSWp3UG1PLUJMYXxvPzQwRXg5X3NSdm9tZmY9d3RdckxxWCthbDh8N0s/SzFBTyYyLDl1Y1JGYVtGNmlmdFc5NEZwc0RaVmYwRm5MLlg/SVssVH50LERpNDF+ck5xaTNpT1M0MGFqVE1mdlZBJmh+ei0mZCZlX05VJWVKVDJhfFhDdkJwQzJ2aDNaYm85PWF+UXBYczJyNEg9PT9ML25BdktqLk5XaEk5PQ=='}]);
+_stq.push([ 'clickTrackerInit', '151479872', '10' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

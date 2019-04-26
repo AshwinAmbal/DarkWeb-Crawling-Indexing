@@ -1,0 +1,2840 @@
+<!-- Pageviews Analysis tool -->
+<!-- Copyright 2016-2018 MusikAnimal -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript">
+//<![CDATA[
+   i18nLang = "en";
+   i18nRtl = "";
+   appPath = "https://tools.wmflabs.org";
+   currentApp = "pageviews";
+  
+//]]>
+</script>
+<meta charset="utf-8">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+<link rel="shortcut icon" sizes="16x16 32x32 48x48 96x96" href="images/favicon.ico?v=3">
+<script src="https://tools.wmflabs.org/pageviews/application.js"></script>
+<script src="https://tools.wmflabs.org/pageviews/ad_block_test.js"></script>
+<link href="https://tools.wmflabs.org/pageviews/application.css" rel="stylesheet">
+<script type="text/javascript">
+//<![CDATA[
+   // language selector
+   $(document).ready(function() {
+     $('.lang-link').on('click', function(e) {
+       e.preventDefault();
+       var expiryGMT = moment().add(30, 'days').toDate().toGMTString();
+       document.cookie = 'TsIntuition_userlang=' + $(e.target).data('lang') + '; expires=' + expiryGMT + '; path=/';
+  
+       var expiryUnix = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60);
+       document.cookie = 'TsIntuition_expiry=' + expiryUnix + '; expires=' + expiryGMT + '; path=/';
+       location.reload();
+     });
+   });
+  
+//]]>
+</script>
+    <title>Pageviews Analysis</title>
+  </head>
+  <body class=" pageviews initial">
+    <div class="text-center site-notice-wrapper">
+      <div class="site-notice">
+        <!-- browser detection to display simple notice -->
+            </div>
+    </div>
+    <nav class="top-nav navbar">
+  <button class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target=".interapp-navigation" aria-expanded="false">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <div class="pull-right nav-buttons">
+          <button class="btn btn-default btn-sm btn-settings js-test-settings" data-target="#settings-modal" data-toggle="modal">
+        <span class="glyphicon glyphicon-wrench"></span>
+        Settings      </button>
+        <div class="btn-group dropdown help-btn-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-question-sign"></span>
+        Help        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+            <a href="/pageviews/faq">
+              FAQ            </a>
+          </li>
+          <li>
+            <a href="/pageviews/url_structure">
+              URL Structure            </a>
+          </li>
+                <li>
+          <a href="https://meta.wikimedia.org/wiki/Pageviews_Analysis">
+            Documentation          </a>
+        </li>
+        <li class="divider" role="separator"></li>
+        <li>
+          <a href="https://meta.wikimedia.org/wiki/Talk:Pageviews_Analysis">
+            Report an issue          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group dropdown lang-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path>
+        </svg>
+        English        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li>
+          <a href="https://translatewiki.net/w/i.php?title=Special:MessageGroupStats&group=out-pageviews">
+            Help translate          </a>
+        </li>
+        <li class="divider" role="separator"></li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="skr-arab"></a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mnw"></a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="af">Afrikaans</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="az">AzÉrbaycanca</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="id">Bahasa Indonesia</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bs">Bosanski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="br">Brezhoneg</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ca">CatalÃ </a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="da">Dansk</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="de">Deutsch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="en">English</a>
+          </li>
+                                      <li>
+            <a class="lang-link" href="#" data-lang="es">EspaÃ±ol</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="eo">Esperanto</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="eu">Euskara</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fr">FranÃ§ais</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="gl">Galego</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hr">Hrvatski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ia">Interlingua</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="it">Italiano</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sw">Kiswahili</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ku-latn">KurdÃ® (latÃ®nÃ®)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lv">LatvieÅ¡u</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lt">LietuviÅ³</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lb">LÃ«tzebuergesch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hu">Magyar</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mi">MÄori</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="nl">Nederlands</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="nb">Norsk bokmÃ¥l</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="oc">Occitan</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pcd">Picard</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pl">Polski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pt">PortuguÃªs</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pt-br">PortuguÃªs do Brasil</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ksh">Ripoarisch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ro">RomÃ¢nÄ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sl">SlovenÅ¡Äina</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fi">Suomi</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sv">Svenska</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="kab">Taqbaylit</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="vi">Tiáº¿ng Viá»t</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="tr">TÃ¼rkÃ§e</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="diq">Zazaki</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="cs">ÄeÅ¡tina</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="el">ÎÎ»Î»Î·Î½Î¹ÎºÎ¬</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ba">Ð±Ð°ÑÒ¡Ð¾ÑÑÑÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="be">Ð±ÐµÐ»Ð°ÑÑÑÐºÐ°Ñ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="be-tarask">Ð±ÐµÐ»Ð°ÑÑÑÐºÐ°Ñ (ÑÐ°ÑÐ°ÑÐºÐµÐ²ÑÑÐ°)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bg">Ð±ÑÐ»Ð³Ð°ÑÑÐºÐ¸</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mk">Ð¼Ð°ÐºÐµÐ´Ð¾Ð½ÑÐºÐ¸</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mn">Ð¼Ð¾Ð½Ð³Ð¾Ð»</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ru">ÑÑÑÑÐºÐ¸Ð¹</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sr-ec">ÑÑÐ¿ÑÐºÐ¸ (ÑÐ¸ÑÐ¸Ð»Ð¸ÑÐ°)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="tt-cyrl">ÑÐ°ÑÐ°ÑÑÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="uk">ÑÐºÑÐ°ÑÐ½ÑÑÐºÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="kk-cyrl">ÒÐ°Ð·Ð°ÒÑÐ° (ÐºÐ¸ÑÐ¸Ð»)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hy">ÕÕ¡ÕµÕ¥ÖÕ¥Õ¶</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="yi">××Ö´×××©</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="he">×¢××¨××ª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ur">Ø§Ø±Ø¯Ù</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ar">Ø§ÙØ¹Ø±Ø¨ÙØ©</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bgn">Ø¨ÙÙÚÛ Ø±Ø®Ø´Ø§ÙÛ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="azb">ØªÛØ±Ú©Ø¬Ù</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sd">Ø³ÙÚÙ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fa">ÙØ§Ø±Ø³Û</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ps">Ù¾ÚØªÙ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ckb">Ú©ÙØ±Ø¯ÛÛ ÙØ§ÙÛÙØ¯Û</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ne">à¤¨à¥à¤ªà¤¾à¤²à¥</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hi">à¤¹à¤¿à¤¨à¥à¤¦à¥</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="as">à¦à¦¸à¦®à§à¦¯à¦¼à¦¾</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bn">à¦¬à¦¾à¦à¦²à¦¾</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ta">à®¤à®®à®¿à®´à¯</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="te">à°¤à±à°²à±à°à±</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ml">à´®à´²à´¯à´¾à´³à´</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="th">à¹à¸à¸¢</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="my">áá¼ááºáá¬áá¬áá¬</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ka">á¥áá áá£áá</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="km">áá¶áá¶ááááá</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="zh-hans">ä¸­æï¼ç®ä½ï¼â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="zh-hant">ä¸­æï¼ç¹é«ï¼â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ja">æ¥æ¬èª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="yue">ç²µèª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ko">íêµ­ì´</a>
+          </li>
+              </ul>
+    </div>
+  </div>
+  <div class="navbar-collapse collapse interapp-navigation">
+    <a class="home-link pull-left" href="/pageviews"></a>
+    <ol class="interapp-links nav navbar-nav navbar-left">
+                                            <li class="interapp-links--entry active" role="presentation">
+            <a class="interapp-link interapp-link--pageviews" href="/pageviews">
+              Pageviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--langviews" href="/langviews">
+              Langviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--topviews" href="/topviews">
+              Topviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--siteviews" href="/siteviews">
+              Siteviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--massviews" href="/massviews">
+              Massviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--redirectviews" href="/redirectviews">
+              Redirect Views            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--userviews" href="/userviews">
+              Userviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--mediaviews" href="/mediaviews">
+              Mediaviews            </a>
+          </li>
+                    <li class="interapp-links--more dropdown hidden">
+        <a class="interapp-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          More          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu"></ul>
+      </li>
+    </ol>
+  </div>
+</nav>
+  <header class="site-header">
+    <h4 class="text-center">
+      <strong>
+                  Pageviews Analysis              </strong>
+      <small class="app-description">
+                  Comparison of pageviews across multiple pages              </small>
+    </h4>
+  </header>
+    <aside class="col-lg-2 col-md-2 page-selector">
+      <header class="text-center">
+        <h4>
+          Options        </h4>
+      </header>
+      <div class="page-selector--container">
+        <div class="date-selector">
+          <label for="range-input">
+            Dates          </label>
+          <div class="btn-group dropdown latest-group">
+            <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="latest-text">
+                Latest              </span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right date-latest">
+                              <li>
+                  <a href="#" data-value="10">10</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="20">20</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="30">30</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="60">60</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="90">90</a>
+                </li>
+                          </ul>
+          </div>
+          <input class="form-control aqs-date-range-selector" id="range-input">
+        </div>
+        <div class="month-selector input-daterange clearfix">
+          <label for="month-start">
+            Dates          </label>
+          <div>
+            <input class="form-control input-control month-selector-start pull-left" id="month-start" readonly="readonly">
+            <input class="form-control input-control month-selector-end pull-left" id="month-end" readonly="readonly">
+          </div>
+        </div>
+        <div>
+          <label for="date-type-select">
+            Date type          </label>
+          <select class="form-control" id="date-type-select">
+            <option value="daily">
+              Daily            </option>
+            <option value="monthly">
+              Monthly            </option>
+          </select>
+        </div>
+        <div>
+          <label for="project-input">
+            Project          </label>
+          <input class="form-control aqs-project-input" id="project-input" placeholder="en.wikipedia.org">
+        </div>
+        <div>
+          <label for="platform-select">
+            Platform          </label>
+          <select class="form-control" id="platform-select">
+            <option value="all-access">
+              All            </option>
+            <option value="desktop">
+              Desktop            </option>
+            <option value="mobile-app">
+              Mobile app            </option>
+            <option value="mobile-web">
+              Mobile web            </option>
+          </select>
+        </div>
+        <div>
+          <label for="agent-select">
+            Agent            <a class="help-link" href="/pageviews/faq#agents">
+              <span class="glyphicon glyphicon-question-sign"></span>
+            </a>
+          </label>
+          <select class="form-control" id="agent-select">
+            <option value="all-agents">
+              All            </option>
+            <option selected="selected" value="user">
+              User            </option>
+            <option value="spider">
+              Spider            </option>
+            <option value="bot">
+              Bot            </option>
+          </select>
+        </div>
+      </div>
+    </aside>
+    <main class="col-lg-8 col-md-10">
+      <div>
+        <label for="article-input">
+          Pages          <small class="text-muted num-entities-info">
+            Enter up to 10 pages          </small>
+        </label>
+        <span class="clear-pages pull-right">
+          &#x2715;
+          Clear        </span>
+        <select class="aqs-select2-selector col-lg-12 invisible" id="article-input" multiple="multiple"></select>
+      </div>
+      <div class="col-lg-12 data-links invisible">
+  <div class="chart-buttons">
+    <button class="btn btn-default btn-sm btn-chart-type chart-specific js-test-change-chart" data-target="#chart-type-modal" data-toggle="modal"><span class="glyphicon glyphicon-th"></span>
+    Chart type</button>
+    <a class="btn btn-default btn-sm permalink" href=""><span class="glyphicon glyphicon-link"></span>
+    Permalink</a>
+    <input class="permalink-copy">
+    <div class="btn-group dropdown download-btn-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-download-alt"></span>
+        Download        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a class="download-csv" href="#">
+            CSV          </a>
+        </li>
+        <li>
+          <a class="download-json" href="#">
+            JSON          </a>
+        </li>
+        <li class="chart-specific">
+          <a class="download-png" href="#">
+            PNG          </a>
+        </li>
+        <li class="divider chart-specific" role="separator"></li>
+        <li class="chart-specific">
+          <a class="print-chart" href="#">
+            <span class="glyphicon glyphicon-print"></span>
+            Print          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <span class="chart-toggles chart-specific">
+    <span class="pull-right">
+      <label class="logarithmic-scale">
+        <input class="logarithmic-scale-option" type="checkbox">
+        Logarithmic scale      </label>
+    </span>
+    <span class="pull-right">
+      <label class="begin-at-zero">
+        <input class="begin-at-zero-option" type="checkbox">
+        Begin at zero      </label>
+    </span>
+    <span class="pull-right">
+      <label class="show-labels">
+        <input class="show-labels-option" type="checkbox">
+        Show values      </label>
+    </span>
+  </span>
+</div>
+      <!-- Chart -->
+      <div class="chart-container">
+        <canvas class="aqs-chart"></canvas>
+      </div>
+      <div class="message-container col-lg-12"></div>
+    </main>
+    <aside class="col-lg-2 visible-lg-block summary-column">
+      <header class="text-center">
+        <h4>
+          Totals        </h4>
+      </header>
+      <div class="summary-column--container">
+        <div class="chart-legend col-lg-12 clearfix"></div>
+      </div>
+    </aside>
+    <div class="output col-lg-10 col-lg-offset-1">
+      <h4 class="single-page-stats text-center"></h4>
+      <h5 class="single-page-ranking text-center"></h5>
+      <div class="single-page-legend hidden-lg col-md-4 col-md-offset-4 tm"></div>
+            <div class="table-view--wrapper">
+        <table class="table table-hover table-view">
+          <thead class="table-view--header">
+            <tr>
+              <th></th>
+                              <th class="table-view--title">
+                  <span class="sort-link sort-link--title" data-type="title">
+                    <span class="col-heading">
+                      Page title                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--class">
+                  <span class="sort-link sort-link--class" data-type="class">
+                    <span class="col-heading">
+                      Class                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--views">
+                  <span class="sort-link sort-link--views" data-type="views">
+                    <span class="col-heading">
+                      Views                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--average">
+                  <span class="sort-link sort-link--average" data-type="average">
+                    <span class="col-heading">
+                      Daily average                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--edits">
+                  <span class="sort-link sort-link--edits" data-type="edits">
+                    <span class="col-heading">
+                      Edits                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--editors">
+                  <span class="sort-link sort-link--editors" data-type="editors">
+                    <span class="col-heading">
+                      Editors                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--size">
+                  <span class="sort-link sort-link--size" data-type="size">
+                    <span class="col-heading">
+                      Size                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--protection">
+                  <span class="sort-link sort-link--protection" data-type="protection">
+                    <span class="col-heading">
+                      Protection                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--watchers">
+                  <span class="sort-link sort-link--watchers" data-type="watchers">
+                    <span class="col-heading">
+                      Watchers                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                            <th>
+                <span>
+                  Links                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="output-list"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="ad_blocker_notice" style="display:none">
+  <div style="padding:20px">
+    <h3>Looks like you are using an ad blocker!</h3>
+    Pageviews Analysis shows no ads, but the ad blockers blacklist websites that collect metrics.
+    In our case, we're just trying to show you metrics, not collect them!
+    <p>
+      This issue may be resolved by simply updating your ad blocker, specifically the
+      <code>EasyPrivacy</code>
+      list.
+    </p>
+    <p>
+      Or you can manually whitelist
+      <code>
+        tools.wmflabs.org
+      </code>
+    </p>
+    <h4>AdBlock Plus</h4>
+    <p>
+      Click on the AdBlock Plus icon and select <i>Disable on tools.wmflabs.org</i>. Reload the page.
+    </p>
+    <h4>uBlock</h4>
+    <p>
+      Click on the uBlock icon and then click on the large power icon. Reload the page.
+    </p>
+  </div>
+</div>
+<div class="spacer"></div>
+<footer>
+  <hr>
+  <span>
+                Brought to you by <a href='https://en.wikipedia.org/wiki/User:MusikAnimal'>MusikAnimal</a>, <a href='https://en.wikipedia.org/wiki/User:Kaldari'>Kaldari</a>, and <a href='https://en.wikipedia.org/wiki/User:Mforns_(WMF)'>Marcel Ruiz Forns</a>.  </span>
+  <div>
+    <span class="nowrap">
+                  Hosted with <span class='heart'>&hearts;</span> on <a href='https://wikitech.wikimedia.org/wiki/Portal:Tool_Labs'>Toolforge</a>.    </span>
+    <span class="nowrap">
+                        Translations powered by <a href='https://translatewiki.net/'>translatewiki.net</a>, <a href='https://github.com/wikimedia/jquery.i18n'>jQuery.i18n</a> and <a href='https://tools.wmflabs.org/intuition/#tab-about'>Intuition</a>.    </span>
+  </div>
+  <div>
+          <a href="/pageviews/faq">FAQ</a>
+      &middot;
+      <a href="/pageviews/url_structure">URL Structure</a>
+      &middot;
+        <a href="https://github.com/MusikAnimal/pageviews">View source</a>
+    &middot;
+    <a href="https://meta.wikimedia.org/wiki/Talk:Pageviews_Analysis">Report an issue</a>
+  </div>
+</footer>
+<script type="text/javascript">
+//<![CDATA[
+  if ( !window.noAdBlockers ) {
+    var noticeContent = document.getElementById('ad_blocker_notice');
+    document.querySelector('body').innerHTML = noticeContent.innerHTML;
+  }
+  
+//]]>
+</script>
+    <div class="modal fade" id="chart-type-modal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" aria-label="Close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+          Chart types        </h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <strong class="multi-page-chart-node">
+            Pages by daily pageviews          </strong>
+          <span class="modal-chart-type">
+            <a class="js-test-line-chart" data-dismiss="modal" data-type="line" href="#">
+              <img src="images/line-chart-small.jpg" alt="Line">
+              Line            </a>
+          </span>
+          <span class="modal-chart-type">
+            <a class="js-test-bar-chart" data-dismiss="modal" data-type="bar" href="#">
+              <img src="images/bar-chart-small.jpg" alt="Bar">
+              Bar            </a>
+          </span>
+          <span class="modal-chart-type">
+            <a data-dismiss="modal" data-type="radar" href="#">
+              <img src="images/radar-chart-small.jpg" alt="Radar">
+              Radar            </a>
+          </span>
+        </div>
+        <div class="multi-page-chart-node">
+          <hr>
+          <div>
+            <strong>
+              Pages by total number of pageviews            </strong>
+            <span class="modal-chart-type">
+              <a class="js-test-pie-chart" data-dismiss="modal" data-type="pie" href="#">
+                <img src="images/pie-chart-small.jpg" alt="Pie">
+                Pie              </a>
+            </span>
+            <span class="modal-chart-type">
+              <a data-dismiss="modal" data-type="doughnut" href="#">
+                <img src="images/doughnut-chart-small.jpg" alt="Doughnut">
+                Doughnut              </a>
+            </span>
+            <span class="modal-chart-type">
+              <a data-dismiss="modal" data-type="polarArea" href="#">
+                <img src="images/polararea-chart-small.jpg" alt="Polar Area">
+                Polar Area              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">
+          Cancel        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade settings-modal" id="settings-modal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+          Settings        </h4>
+      </div>
+      <form class="modal-body">
+        <p>
+          Your settings will be remembered on the same browser and computer.        </p>
+        <fieldset class="radio-list search-method-options">
+          Search method:          <div class="radio">
+            <label>
+              <input class="js-test-prefixsearch" name="autocomplete" type="radio" value="autocomplete">
+              Autocompletion            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input class="js-test-opensearch" name="autocomplete" type="radio" value="autocomplete_redirects">
+              Autocompletion including redirects            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input name="autocomplete" type="radio" value="no_autocomplete">
+              No autocompletion            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          Localization:          <div class="checkbox">
+            <label>
+              <input class="js-test-format-numbers" name="numericalFormatting" type="checkbox">
+              Format numerical data            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-localize-dates" name="localizeDateFormat" type="checkbox">
+              Localize date format            </label>
+          </div>
+        </fieldset>
+        <fieldset class="chart-specific">
+          Chart preferences:          <div class="checkbox">
+            <label>
+              <input class="js-test-autolog" name="autoLogDetection" type="checkbox">
+              Automatically use logarithmic scale if applicable            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-begin-at-zero" name="beginAtZero" type="checkbox">
+              Always show the y-axis starting at zero            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-remember-chart" name="rememberChart" type="checkbox">
+              Remember chart preference            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-bezier-curve" name="bezierCurve" type="checkbox">
+              Use BÃ©zier curve on line charts            </label>
+          </div>
+        </fieldset>
+      </form>
+      <div class="modal-footer">
+        <button class="btn btn-default cancel-settings-btn" data-dismiss="modal" type="button">
+          Cancel        </button>
+        <button class="btn btn-primary save-settings-btn" data-dismiss="modal" type="button">
+          Save        </button>
+      </div>
+    </div>
+  </div>
+</div>
+  </body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE html>
+  <!--[if IEMobile 7]><html class="ie iem7" lang="de" dir="ltr"><![endif]-->
+  <!--[if lte IE 6]><html class="ie lt-ie9 lt-ie8 lt-ie7" lang="de" dir="ltr"><![endif]-->
+  <!--[if (IE 7)&(!IEMobile)]><html class="ie lt-ie9 lt-ie8" lang="de" dir="ltr"><![endif]-->
+  <!--[if IE 8]><html class="ie lt-ie9" lang="de" dir="ltr"><![endif]-->
+  <!--[if (gte IE 9)|(gt IEMobile 7)]><html class="ie" lang="de" dir="ltr" prefix="fb: http://ogp.me/ns/fb# og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book# profile: http://ogp.me/ns/profile# video: http://ogp.me/ns/video# product: http://ogp.me/ns/product#"><![endif]-->
+  <!--[if !IE]><!--><html lang="de" dir="ltr" prefix="fb: http://ogp.me/ns/fb# og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book# profile: http://ogp.me/ns/profile# video: http://ogp.me/ns/video# product: http://ogp.me/ns/product#"><!--<![endif]-->
+<head>
+  <title>manner.com</title>
+  <!--[if IE]><![endif]-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="utf-8" />
+<meta name="google-site-verification" content="m8YtSCtpiWE--RYxSUhBpv89FoEOjmUpRNGHyGvinrg" />
+<link rel="profile" href="http://www.w3.org/1999/xhtml/vocab" />
+<link rel="apple-touch-icon-precomposed" href="https://www.manner.com/sites/brand/themes/omega/omega/apple-touch-icon-precomposed-72x72.png" sizes="72x72" />
+<link rel="apple-touch-icon-precomposed" href="https://www.manner.com/sites/brand/themes/omega/omega/apple-touch-icon-precomposed-144x144.png" sizes="144x144" />
+<link rel="apple-touch-icon-precomposed" href="https://www.manner.com/sites/brand/themes/omega/omega/apple-touch-icon-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" href="https://www.manner.com/sites/brand/themes/omega/omega/apple-touch-icon-precomposed-114x114.png" sizes="114x114" />
+<meta http-equiv="cleartype" content="on" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<!--[if IE]><script src="https://stringencoders.googlecode.com/svn/trunk/javascript/base64.js"></script><![endif]-->
+<link rel="shortcut icon" href="https://www.manner.com/sites/brand/files/favicon_manner.png" type="image/png" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="canonical" href="https://www.manner.com/de" />
+<link rel="shortlink" href="https://www.manner.com/de" />
+<meta property="og:site_name" content="manner.com" />
+<meta property="og:type" content="food" />
+<meta property="og:url" content="https://www.manner.com/de" />
+<meta property="og:title" content="manner.com" />
+<meta property="og:description" content="Manner mag man eben" />
+<meta property="og:image" content="http://www.manner.com/sites/brand/themes/brand/logo200.png" />
+  <link type="text/css" rel="stylesheet" href="https://www.manner.com/sites/brand/files/css/css_mukeZ-6tvlT9X5fbOzsMg8NzDl1OwHNFpt2P-t6CjmU.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.manner.com/sites/brand/files/css/css_KQw20v9bZAW6vevhSuOasnG1WbXlc15mvuex_9Mdug4.css" media="all" />
+<style>#sliding-popup.sliding-popup-bottom,#sliding-popup.sliding-popup-bottom .eu-cookie-withdraw-banner,.eu-cookie-withdraw-tab{background:#404040;}#sliding-popup.sliding-popup-bottom.eu-cookie-withdraw-wrapper{background:transparent}#sliding-popup .popup-content #popup-text h1,#sliding-popup .popup-content #popup-text h2,#sliding-popup .popup-content #popup-text h3,#sliding-popup .popup-content #popup-text p,.eu-cookie-compliance-more-button,.eu-cookie-compliance-secondary-button,.eu-cookie-withdraw-tab{color:#fff !important;}.eu-cookie-withdraw-tab{border-color:#fff;}
+#sliding-popup.sliding-popup-bottom,#sliding-popup.sliding-popup-bottom .eu-cookie-withdraw-banner,.eu-cookie-withdraw-tab{background:#404040;}#sliding-popup.sliding-popup-bottom.eu-cookie-withdraw-wrapper{background:transparent}#sliding-popup .popup-content #popup-text h1,#sliding-popup .popup-content #popup-text h2,#sliding-popup .popup-content #popup-text h3,#sliding-popup .popup-content #popup-text p,.eu-cookie-compliance-more-button,.eu-cookie-compliance-secondary-button,.eu-cookie-withdraw-tab{color:#fff !important;}.eu-cookie-withdraw-tab{border-color:#fff;}
+#sliding-popup.sliding-popup-bottom,#sliding-popup.sliding-popup-bottom .eu-cookie-withdraw-banner,.eu-cookie-withdraw-tab{background:#404040;}#sliding-popup.sliding-popup-bottom.eu-cookie-withdraw-wrapper{background:transparent}#sliding-popup .popup-content #popup-text h1,#sliding-popup .popup-content #popup-text h2,#sliding-popup .popup-content #popup-text h3,#sliding-popup .popup-content #popup-text p,.eu-cookie-compliance-more-button,.eu-cookie-compliance-secondary-button,.eu-cookie-withdraw-tab{color:#fff !important;}.eu-cookie-withdraw-tab{border-color:#fff;}
+#sliding-popup.sliding-popup-bottom,#sliding-popup.sliding-popup-bottom .eu-cookie-withdraw-banner,.eu-cookie-withdraw-tab{background:#404040;}#sliding-popup.sliding-popup-bottom.eu-cookie-withdraw-wrapper{background:transparent}#sliding-popup .popup-content #popup-text h1,#sliding-popup .popup-content #popup-text h2,#sliding-popup .popup-content #popup-text h3,#sliding-popup .popup-content #popup-text p,.eu-cookie-compliance-more-button,.eu-cookie-compliance-secondary-button,.eu-cookie-withdraw-tab{color:#fff !important;}.eu-cookie-withdraw-tab{border-color:#fff;}
+</style>
+<link type="text/css" rel="stylesheet" href="https://www.manner.com/sites/brand/files/css/css_4q8un0hxbbCxagfQqYzhUDrN-sCETdTyeGD-4_AuFcU.css" media="all" />
+
+<!--[if lte IE 8]>
+<link type="text/css" rel="stylesheet" href="https://www.manner.com/sites/brand/files/css/css_47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU.css" media="all" />
+<![endif]-->
+  <script src="https://www.manner.com/sites/brand/files/js/js_4Oiy--UeHKfcIRC2sKtxCioi7uIfakfMhS1JGvzUkt8.js"></script>
+<script>window.google_analytics_uacct = "UA-45859268-1";</script>
+<script>document.cookie = 'adaptive_image=' + Math.max(screen.width, screen.height) + '; path=/';</script>
+<script src="https://www.manner.com/sites/brand/files/js/js_edpiPM8NULZOhX4-37LsQwkeoRYuoE136fYS7Qm9MQM.js"></script>
+<script src="https://www.manner.com/sites/brand/files/js/js_N6JkNedF3eKzTB4U2z7d6_hOZh4KH5IcCJ48oUPMMP0.js"></script>
+<script src="https://www.manner.com/sites/brand/files/js/js_b3FQ2OlWCf_9vd15g85z_xHLzlEPkqaZkTbwY-93M2w.js"></script>
+<script src="https://www.manner.com/sites/brand/files/js/js_6mObt1P5FtL-RpU3PNL6HUo_cirwMsPG0mrSUAIzpTo.js"></script>
+<script src="https://www.manner.com/sites/all/modules/contributed/mobile_navigation/js/mobile_menu.js?ppfbz9"></script>
+<script src="https://www.manner.com/sites/all/modules/contributed/mobile_navigation/mobile_navigation.js?ppfbz9"></script>
+<script src="https://www.manner.com/sites/brand/files/js/js_gPqjYq7fqdMzw8-29XWQIVoDSWTmZCGy9OqaHppNxuQ.js"></script>
+<script>(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","https://www.google-analytics.com/analytics.js","ga");ga("create", "UA-45859268-1", {"cookieDomain":"auto"});ga("require", "displayfeatures");ga("send", "pageview");</script>
+<script src="https://www.manner.com/sites/brand/files/js/js_liCmqVQEVd2vRrxzIoqLWsAI-RDKjUg9i15s0niwbyw.js"></script>
+<script src="https://www.manner.com/sites/brand/files/js/js_7bmZo_V4P1RSmQ5dt0giM5rvSWfxjlIXWrEHKvGooyg.js"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"de\/","ajaxPageState":{"theme":"brand","theme_token":"DgXO0MLYPwHu20cAJpRD5ai1eJBL4uCjTGp4oFJ5dHo","jquery_version":"1.10","js":{"0":1,"1":1,"2":1,"3":1,"sites\/all\/modules\/contributed\/eu_cookie_compliance\/js\/eu_cookie_compliance.js":1,"public:\/\/google_tag\/language\/google_tag.de.script.js":1,"4":1,"5":1,"sites\/all\/modules\/contributed\/jquery_update\/replace\/jquery\/1.10\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/libraries\/fitvids\/jquery.fitvids.js":1,"sites\/all\/modules\/contributed\/jquery_update\/replace\/ui\/external\/jquery.cookie.js":1,"misc\/ajax.js":1,"sites\/all\/modules\/contributed\/jquery_update\/js\/jquery_update.js":1,"sites\/all\/modules\/contributed\/admin_menu\/admin_devel\/admin_devel.js":1,"sites\/all\/modules\/contributed\/fitvids\/fitvids.js":1,"sites\/all\/modules\/contributed\/rc4_email\/js\/rc4_email.js":1,"sites\/all\/modules\/contributed\/rc4_email\/js\/rc4.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_Aplus.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_Tile.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_BigTile.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_TileLoader.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_TileList.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_Layouts.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_ResponsiveLayout.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_Main.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/jquery.touchSwipe.js":1,"sites\/all\/modules\/custom\/vi_tile_stage\/js\/vi_tile_stage_swipe.js":1,"sites\/brand\/themes\/brand\/libraries\/html5shiv\/html5shiv.js":1,"sites\/brand\/themes\/brand\/libraries\/html5shiv\/html5shiv-printshiv.js":1,"sites\/brand\/themes\/brand\/libraries\/selectivizr\/selectivizr.min.js":1,"sites\/brand\/themes\/brand\/libraries\/respond\/respond.min.js":1,"public:\/\/languages\/de_XKE_W3iqhrJ1XSbxMBE1wF9uETX0DHE-1wXiOm-VI5g.js":1,"sites\/all\/libraries\/colorbox\/jquery.colorbox-min.js":1,"sites\/all\/modules\/contributed\/colorbox\/js\/colorbox.js":1,"sites\/all\/modules\/contributed\/colorbox\/js\/colorbox_load.js":1,"sites\/all\/modules\/contributed\/colorbox\/js\/colorbox_inline.js":1,"sites\/all\/modules\/contributed\/video\/js\/video.js":1,"sites\/all\/modules\/contributed\/mobile_navigation\/js\/mobile_menu.js":1,"sites\/all\/modules\/contributed\/mobile_navigation\/mobile_navigation.js":1,"sites\/all\/modules\/contributed\/google_analytics\/googleanalytics.js":1,"6":1,"misc\/autocomplete.js":1,"sites\/all\/modules\/contributed\/search_api_autocomplete\/search_api_autocomplete.js":1,"misc\/progress.js":1,"sites\/all\/modules\/custom\/mhtml5\/widgets\/summerpromo2016\/js\/MannerVideoWheel.js":1,"https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/hammer.js\/2.0.6\/hammer.min.js":1,"sites\/all\/modules\/contributed\/colorbox_node\/colorbox_node.js":1,"sites\/brand\/themes\/brand\/js\/project.js":1,"sites\/brand\/themes\/brand\/js\/responsive-tables.js":1,"sites\/brand\/themes\/brand\/js\/brand.behaviors.hotspot.js":1,"sites\/brand\/themes\/brand\/js\/slick.js":1},"css":{"sites\/brand\/themes\/omega\/omega\/css\/modules\/system\/system.base.css":1,"sites\/brand\/themes\/omega\/omega\/css\/modules\/system\/system.menus.theme.css":1,"sites\/brand\/themes\/omega\/omega\/css\/modules\/system\/system.messages.theme.css":1,"sites\/brand\/themes\/omega\/omega\/css\/modules\/system\/system.theme.css":1,"sites\/all\/modules\/contributed\/adaptive_image\/css\/adaptive-image.css":1,"sites\/all\/modules\/contributed\/colorbox_node\/colorbox_node.css":1,"sites\/brand\/themes\/omega\/omega\/css\/modules\/comment\/comment.theme.css":1,"sites\/all\/modules\/contributed\/date\/date_api\/date.css":1,"sites\/all\/modules\/contributed\/date\/date_popup\/themes\/datepicker.1.7.css":1,"sites\/brand\/themes\/omega\/omega\/css\/modules\/field\/field.theme.css":1,"sites\/all\/modules\/contributed\/fitvids\/fitvids.css":1,"modules\/node\/node.css":1,"sites\/brand\/themes\/omega\/omega\/css\/modules\/search\/search.theme.css":1,"sites\/brand\/themes\/omega\/omega\/css\/modules\/user\/user.theme.css":1,"sites\/brand\/themes\/omega\/omega\/css\/modules\/user\/user.base.css":1,"sites\/all\/modules\/custom\/vi_tile_stage\/css\/vi_tile_stage.css":1,"sites\/all\/modules\/contributed\/views\/css\/views.css":1,"sites\/all\/libraries\/colorbox\/example1\/colorbox.css":1,"sites\/all\/modules\/contributed\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/contributed\/panels\/css\/panels.css":1,"sites\/all\/modules\/contributed\/video\/css\/video.css":1,"sites\/brand\/themes\/brand\/ds_layouts\/teaser\/teaser.css":1,"sites\/brand\/themes\/brand\/ds_layouts\/linkteaser\/linkteaser.css":1,"sites\/all\/modules\/contributed\/mobile_navigation\/mobile_navigation.css":1,"sites\/all\/modules\/contributed\/eu_cookie_compliance\/css\/eu_cookie_compliance.css":1,"sites\/all\/modules\/contributed\/search_api_autocomplete\/search_api_autocomplete.css":1,"sites\/all\/modules\/custom\/mhtml5\/widgets\/summerpromo2016\/css\/MannerVideoWheel.css":1,"2":1,"0":1,"1":1,"3":1,"sites\/brand\/themes\/manner\/css\/reset.css":1,"sites\/brand\/themes\/manner\/css\/hacks.css":1,"sites\/brand\/themes\/manner\/css\/styles.css":1,"sites\/brand\/themes\/brand\/css\/brand.normalize.css":1,"sites\/brand\/themes\/brand\/css\/brand.hacks.css":1,"sites\/brand\/themes\/brand\/css\/brand.styles.css":1,"sites\/brand\/themes\/brand\/css\/brand.special.css":1,"sites\/brand\/themes\/brand\/css\/responsive-tables.css":1,"sites\/brand\/themes\/brand\/css\/brand.no-query.css":1}},"colorbox":{"transition":"elastic","speed":"350","opacity":"0.95","slideshow":false,"slideshowAuto":true,"slideshowSpeed":"2500","slideshowStart":"start slideshow","slideshowStop":"stop slideshow","current":"{current} of {total}","previous":"\u00ab Prev","next":"Next \u00bb","close":"Close","overlayClose":true,"returnFocus":true,"maxWidth":"98%","maxHeight":"98%","initialWidth":"300","initialHeight":"250","fixed":true,"scrolling":true,"mobiledetect":false,"mobiledevicewidth":"480px"},"vi_title_stage":{"category":"home","specialcategories":["215","226","214","218","219","216","217","215","226","214","218","219","216","217"],"specialclass":"special-125jahre"},"eu_cookie_compliance":{"popup_enabled":1,"popup_agreed_enabled":0,"popup_hide_agreed":0,"popup_clicking_confirmation":0,"popup_scrolling_confirmation":0,"popup_html_info":"\u003Cdiv\u003E\n  \u003Cdiv class =\u0022popup-content info\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Cp\u003EUm Ihnen ein besseres Nutzererlebnis zu bieten und unsere Services auf unseren Websites m\u00f6glichst auf Ihre Bed\u00fcrfnisse zugeschnitten gestalten zu k\u00f6nnen, verwenden wir Cookies. Durch die weitere Benutzung unserer Website nehmen wir an, dass Sie mit der Verwendung von Cookies (Datensammlung zum Zweck der Personalisierung von Inhalten sowie Anzeigen, Einbindung sozialer Medien und Analyse der Website-Zugriffe) auf den Seiten der Josef Manner \u0026amp; Comp. AG einverstanden sind. Mehr \u00fcber Cookies und unsere Datenschutzbestimmungen finden Sie \u003Ca href=\u0022https:\/\/josef.manner.com\/de\/impressum\u0022 target=\u0022_blank\u0022\u003Ehier\u003C\/a\u003E.\u003C\/p\u003E\n          \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022agree-button eu-cookie-compliance-default-button\u0022\u003EOK\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E","use_mobile_message":false,"mobile_popup_html_info":"\u003Cdiv\u003E\n  \u003Cdiv class =\u0022popup-content info\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n                \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022agree-button eu-cookie-compliance-default-button\u0022\u003EOK\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E\n","mobile_breakpoint":"768","popup_html_agreed":"\u003Cdiv\u003E\n  \u003Cdiv class =\u0022popup-content agreed\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Ch2\u003EThank you for accepting cookies\u003C\/h2\u003E\n\u003Cp\u003EYou can now hide this message or find out more about cookies.\u003C\/p\u003E\n    \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022hide-popup-button eu-cookie-compliance-hide-button\u0022\u003EOK\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E","popup_use_bare_css":false,"popup_height":"auto","popup_width":"100%","popup_delay":1000,"popup_link":"\/de","popup_link_new_window":1,"popup_position":null,"popup_language":"de","store_consent":true,"better_support_for_screen_readers":0,"reload_page":0,"domain":"","popup_eu_only_js":0,"cookie_lifetime":"100","cookie_session":false,"disagree_do_not_show_popup":0,"method":"default","whitelisted_cookies":"","withdraw_markup":"\u003Cbutton type=\u0022button\u0022 class=\u0022eu-cookie-withdraw-tab\u0022\u003E\u003C\/button\u003E\n\u003Cdiv class=\u0022eu-cookie-withdraw-banner\u0022\u003E\n  \u003Cdiv class=\u0022popup-content info\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n          \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022eu-cookie-withdraw-button\u0022\u003E\u003C\/button\u003E\n    \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E\n","withdraw_enabled":false},"fitvids":{"custom_domains":[],"selectors":["body"],"simplifymarkup":true},"mobile_navigation":{"breakpoint":"all and (min-width: 45em) and (min-device-width: 45em), (max-device-width: 63em) and (min-width: 45em) and (orientation:landscape)","menuSelector":".l-header","menuPlugin":"accordion","showEffect":"drawer_left","showItems":"all","tabHandler":0,"menuWidth":"90","specialClasses":1,"mainPageSelector":".l-page","useMask":1},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip","trackColorbox":1},"rc4_email":{"key":"Yq68GXnxkXThrLsPLrf2wg=="},"urlIsAjaxTrusted":{"\/de\/search\/node":true},"colorbox_node":{"width":"600px","height":"600px"},"js":{"tokens":[]}});</script>
+</head>
+<body class="html front not-logged-in no-sidebars page-home i18n-de">
+<!-- Adform Tracking Code BEGIN -->
+<script type="text/javascript">
+window._adftrack = Array.isArray(window._adftrack) ? window._adftrack : (window._adftrack ? [window._adftrack] : []);
+window._adftrack.push(
+{ pm: 1504623, divider: encodeURIComponent('|'), pagename: encodeURIComponent('Website') }
+
+);
+(function () { var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://track.adform.net/serving/scripts/trackpoint/async/'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); })();
+
+</script>
+<noscript>
+<p style="margin:0;padding:0;border:0;">
+<img src="https://track.adform.net/Serving/TrackPoint/?pm=1504623&ADFPageName=Website&ADFdivider=|" width="1" height="1" alt="" />
+</p>
+</noscript>
+<!-- Adform Tracking Code END -->
+  <a href="#main-content" class="element-invisible element-focusable">Direkt zum Inhalt</a>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQ9KKXQ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>  <div class="l-page">
+  <header class="l-header" role="banner">
+    <div class="l-container">
+      <div class="l-region-wrapper first">
+          <div class="panel-pane pane-block pane-views-exp-search-view-panel-pane"   class="panel-pane pane-block pane-views-exp-search-view-panel-pane">
+  
+      
+  
+  <div class="pane-content">
+    <form class="views-exposed-form-search-view-panel-pane" action="/de/search/node" method="get" id="views-exposed-form-search-view-panel-pane" accept-charset="UTF-8"><div><div class="views-exposed-form">
+  <div class="views-exposed-widgets clearfix">
+          <div id="edit-keys-wrapper" class="views-exposed-widget views-widget-filter-search_api_views_fulltext">
+                        <div class="views-widget">
+          <div class="form-item form-type-textfield form-item-keys">
+ <input class="auto_submit form-text required error form-autocomplete" data-search-api-autocomplete-search="search_api_views_search_view" data-min-autocomplete-length="3" type="text" id="edit-keys" name="keys" value="" maxlength="128" /><input type="hidden" id="edit-keys-autocomplete" value="https://www.manner.com/de/search_api_autocomplete/search_api_views_search_view/body%3Avalue%20field_long_text_unlimited_values%3Avalue%20field_long_text_with_headline%3Afield_long_text_2%3Avalue%20field_long_text_with_headline%3Afield_text_short%20field_text_short%20title" disabled="disabled" class="autocomplete" />
+</div>
+        </div>
+              </div>
+                    <div class="views-exposed-widget views-submit-button">
+      <input type="submit" id="edit-submit-search-view" name="" value="Search" class="form-submit" />    </div>
+      </div>
+</div>
+</div></form>  </div>
+
+  
+  </div>
+      </div>
+      <div class="l-region-wrapper second">
+        <div class="panel-pane pane-custom pane-3"   class="panel-pane pane-custom pane-3">
+  
+        <h2 class="pane-title">
+      Language    </h2>
+    
+  
+  <div class="pane-content">
+    <select id="language_switch">
+<option value="de">Deutsch</option>
+<option value="en">English</option>
+<option value="sl">SlovenÅ¡Äina</option>
+<option value="cs">ÄeÅ¡tina</option>
+<option value="hu">Magyar</option>
+</select>  </div>
+
+  
+  </div>
+      </div>
+      <div class="navigation"><div class="panel-pane pane-block pane-vi-tile-stage-vi-tile-stage-filter-block"   class="panel-pane pane-block pane-vi-tile-stage-vi-tile-stage-filter-block">
+  
+        <h2 class="pane-title">
+      Content    </h2>
+    
+  
+  <div class="pane-content">
+    <div class="stage-filter"><ul class="main-menu menu"><li><a href="/de" class="filter active" data-id="home">Startseite</a></li><li class=""><a href="/de/home/manner/1"  data-id="1" class="filter ">Manner</a><ul class="level-1 menu sub-menu sub-menu-1 "><li class=""><a href="/de/home/manner/geschichte-der-manner-schnitte/17"  data-id="17" class="filter ">Geschichte der Manner Schnitte</a></li><li class=""><a href="/de/home/manner/wissenswertes/18"  data-id="18" class="filter ">Wissenswertes</a></li><li class=""><a href="/de/home/manner/neuigkeiten/19"  data-id="19" class="filter ">Neuigkeiten</a></li></ul></li><li class=""><a href="/de/home/produkte/2"  data-id="2" class="filter ">Produkte</a><ul class="level-1 menu sub-menu sub-menu-2 "><li class=""><a href="/de/home/produkte/waffeln/20"  data-id="20" class="filter ">Waffeln</a></li><li class=""><a href="/de/backen"  data-id="21" class="filter ">Kochen & Backen</a></li><li class=""><a href="/de/home/produkte/kekse-pralinen/24"  data-id="24" class="filter ">Kekse & Pralinen</a></li><li class=""><a href="/de/home/produkte/geschenke/25"  data-id="25" class="filter ">Geschenke </a></li><li class=""><a href="/de/home/produkte/eiswaffeln/27"  data-id="27" class="filter ">Eiswaffeln</a></li><li class=""><a href="/de/home/produkte/lebkuchen/26"  data-id="26" class="filter ">Lebkuchen</a></li><li class=""><a href="/de/home/produkte/ostern-mit-manner/28"  data-id="28" class="filter ">Ostern mit Manner</a></li></ul></li><li class=""><a href="/de/home/rezepte/3"  data-id="3" class="filter ">Rezepte</a></li><li class=""><a href="/de/home/freunde/4"  data-id="4" class="filter ">Freunde</a><ul class="level-1 menu sub-menu sub-menu-4 "><li class=""><a href="/de/home/freunde/twitter/7"  data-id="7" class="filter ">Twitter</a></li><li class=""><a href="/de/home/freunde/facebook/9"  data-id="9" class="filter ">Facebook</a></li><li class=""><a href="/de/home/freunde/instagram/8"  data-id="8" class="filter ">Instagram</a></li><li class=""><a href="/de/home/freunde/gewinnspiele/15"  data-id="15" class="filter ">Gewinnspiele</a></li></ul></li><li><a href="https://www.austriansupermarket.com/manner-shop/" class="shop " target="_blank">Onlineshop</a></li></ul></div>  </div>
+
+  
+  </div>
+</div>
+    </div>
+  </header>
+  
+  <div class="panel-pane pane-block pane-delta-blocks-logo"   class="panel-pane pane-block pane-delta-blocks-logo">
+  
+      
+  
+  <div class="pane-content">
+    <div class="logo-img"><a href="/de" id="logo" title="Return to the manner.com home page" class="active"><img src="https://www.manner.com/sites/brand/themes/brand/logo.png" alt="manner.com" /></a></div>  </div>
+
+  
+  </div>
+    <div class="l-main">
+    <div class="l-content" role="main">
+      <a id="main-content"></a>
+      <div class="panel-pane pane-block pane-vi-tile-stage-vi-tile-stage-block"   class="panel-pane pane-block pane-vi-tile-stage-vi-tile-stage-block">
+  
+      
+  
+  <div class="pane-content">
+    <div id="stage_container" class="">
+    <ul class="stage-tile stage-visible clearfix">
+      <li><div  class="ds-teaser node node--product node--promoted node--sticky node-teaser stage_big view-mode-teaser node--teaser node--product--teaser  clearfix">
+
+    <a href="/de/produkte/ostern-mit-manner/manni-osterhase-milchcreme">
+  <div class="field field--name-field-image field--type-image field--label-hidden spzial"><div class="field__items"><div class="field__item even"><img src="https://www.manner.com/sites/brand/files/styles/medium/public/produktabbildungen/10596_mannis_osterhase_geschenksverpackung.png?itok=1AC9BJgb" width="199" height="133" alt="Manni Geschenksverpackung" title="Manni Geschenksverpackung" /></div></div></div><div class="field field--name-title field--type-ds field--label-hidden"><div class="field__items"><div class="field__item even"><h2>Manni Osterhase Milchcreme</h2></div></div></div></a>  
+</div>
+
+
+</li><li><div  class="ds-teaser node node--news node--promoted node--sticky node-teaser stage_big view-mode-teaser node--teaser node--news--teaser  clearfix">
+
+    <a href="/de/manner/neuigkeiten/die-manner-strassenbahn-faehrt-wieder">
+  <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img src="https://www.manner.com/sites/brand/files/styles/medium/public/news/manni_strassenbahn_wagon_555x370.jpg?itok=OfSCPoEb" width="199" height="133" alt="Strassenbahn" title="Strassenbahn" /></div></div></div><div class="field field--name-title"><h2>Die Manner StraÃenbahn fÃ¤hrt wieder!</h2></div></a>  
+</div>
+
+
+</li><li><div  class="ds-teaser node node--standard node--promoted node-teaser stage_small view-mode-teaser node--teaser node--standard--teaser  clearfix">
+
+    <a href="/de/freunde/gewinnspiele/manner-rosa-winterglueck-201819">
+  <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img src="https://www.manner.com/sites/brand/files/styles/medium/public/rosa_winterglueck_555x370_at_0.jpg?itok=g4dWt8Bf" width="199" height="133" alt="Manner Rosa WinterglÃ¼ck 2018_19" title="Manner Rosa WinterglÃ¼ck 2018_19" /></div></div></div><div class="field field--name-title field--type-ds field--label-hidden"><div class="field__items"><div class="field__item even"><h2>Manner Rosa WinterglÃ¼ck 2018/19</h2></div></div></div></a>  
+</div>
+
+
+</li><li><div  class="ds-teaser node node--link node--promoted node-teaser stage_small view-mode-teaser node--teaser node--link--teaser  clearfix">
+
+  
+
+  <a href="https://www.manner.com/de/original-neapolitaner-schnitten" target="">
+  <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img class="adaptive-image" src="https://www.manner.com/sites/brand/files/styles/adaptive/adaptive-image/public/logoelement.jpg?itok=LbqqBLsU" alt="Manner ... mag man eben." title="Manner ... mag man eben." /></div></div></div><div class="field field--name-field-link field--type-link-field field--label-hidden center linktitle"><div class="field__items"><div class="field__item even">Das Original aus Wien.</div></div></div></a>
+</div></li><li><div  class="ds-teaser node node--product node--promoted node-teaser stage_small view-mode-teaser node--teaser node--product--teaser  clearfix">
+
+    <a href="/de/produkte/manner-snack-minis-testaufruf-oesterreich">
+  <div class="field field--name-field-image field--type-image field--label-hidden spzial"><div class="field__items"><div class="field__item even"><img src="https://www.manner.com/sites/brand/files/styles/medium/public/snack_minis_tester_555x370.jpg?itok=NjVSN8RL" width="199" height="133" /></div></div></div><div class="field field--name-title field--type-ds field--label-hidden"><div class="field__items"><div class="field__item even"><h2>Manner Snack Minis Testaufruf Ãsterreich</h2></div></div></div></a>  
+</div>
+
+
+</li><li><div  class="ds-teaser node node--standard node--promoted node-teaser stage_small view-mode-teaser node--teaser node--standard--teaser  clearfix">
+
+    <a href="/de/manni-der-osterhase-teil-1">
+  <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img src="https://www.manner.com/sites/brand/files/styles/medium/public/produktabbildungen/manni_stefansdom_555x370.jpg?itok=afCYB4U7" width="199" height="133" alt="St. Stephan" title="St. Stephan" /></div></div></div><div class="field field--name-title field--type-ds field--label-hidden"><div class="field__items"><div class="field__item even"><h2>Manni, der Osterhase - Teil 1</h2></div></div></div></a>  
+</div>
+
+
+</li><li><div  class="ds-teaser node node--product node--promoted node--sticky node-teaser stage_small view-mode-teaser node--teaser node--product--teaser  clearfix">
+
+    <a href="/de/produkte/kochen-backen/kochen-backen-mit-den-manner-produkten">
+  <div class="field field--name-field-image field--type-image field--label-hidden spzial"><div class="field__items"><div class="field__item even"><img src="https://www.manner.com/sites/brand/files/styles/medium/public/rezepte/backsortiment_1_555x370.jpg?itok=Cfs2kSum" width="199" height="133" alt="Manner Backsortiment" title="Manner Backsortiment" /></div></div></div><div class="field field--name-title field--type-ds field--label-hidden"><div class="field__items"><div class="field__item even"><h2>Kochen &amp; Backen - Mit den Manner Produkten</h2></div></div></div></a>  
+</div>
+
+
+</li><li><div  class="ds-teaser node node--product node--promoted node--sticky node-teaser stage_big view-mode-teaser node--teaser node--product--teaser  clearfix">
+
+    <a href="/de/produkte/manner-trink-cacao">
+  <div class="field field--name-field-image field--type-image field--label-hidden spzial"><div class="field__items"><div class="field__item even"><img src="https://www.manner.com/sites/brand/files/styles/medium/public/620_trink_cacao.png?itok=MD_06w9U" width="199" height="133" alt="Trink Cacao" title="Trink Cacao" /></div></div></div><div class="field field--name-title field--type-ds field--label-hidden"><div class="field__items"><div class="field__item even"><h2>Manner Trink Cacao</h2></div></div></div></a>  
+</div>
+
+
+</li>    </ul>
+    <h2 class="element-invisible">Seiten</h2><ul class="pager"><li class="pager__item pager__item--current">1</li>
+<li class="pager__item"><a title="Gehe zu Seite 2" href="/de/home?page=1&amp;idp=126">2</a></li>
+<li class="pager__item"><a title="Gehe zu Seite 3" href="/de/home?page=2&amp;idp=126">3</a></li>
+<li class="pager__item"><a title="Gehe zu Seite 4" href="/de/home?page=3&amp;idp=126">4</a></li>
+<li class="pager__item"><a title="Gehe zu Seite 5" href="/de/home?page=4&amp;idp=126">5</a></li>
+<li class="pager__item"><a title="Gehe zu Seite 6" href="/de/home?page=5&amp;idp=126">6</a></li>
+<li class="pager__item"><a title="Gehe zu Seite 7" href="/de/home?page=6&amp;idp=126">7</a></li>
+<li class="pager__item"><a title="Gehe zu Seite 8" href="/de/home?page=7&amp;idp=126">8</a></li>
+<li class="pager__item"><a title="Gehe zu Seite 9" href="/de/home?page=8&amp;idp=126">9</a></li>
+<li class="pager__item pager__item--ellipsis">â¦</li>
+<li class="pager__item pager__item--next"><a title="Zur nÃ¤chsten Seite" href="/de/home?page=1&amp;idp=126">nÃ¤chste âº</a></li>
+<li class="pager__item pager__item--last"><a title="Zur letzten Seite" href="/de/home?page=22&amp;idp=126">letzte Â» </a></li>
+</ul></div>
+
+<div id="stage_container_mobile" style="display:none;" class=""></div>
+
+<script type="text/javascript">
+show_stage_loader();
+</script>  </div>
+
+  
+  </div>
+          </div>
+  </div>
+
+  <footer class="l-footer" role="contentinfo">
+  <!--<footer class="l-footer-wrapper" role="contentinfo">-->
+    <div class="l-container">
+    <!--<div class="footer-inner-wrapper">-->
+      <div class="l-region-wrapper first">
+          <div class="panel-pane pane-block pane-menu-menu-footer-menu"   class="panel-pane pane-block pane-menu-menu-footer-menu">
+  
+      
+  
+  <div class="pane-content">
+    <ul class="menu"><li class="first leaf"><a href="http://josef.manner.com" title="Manner AG">Manner AG</a></li>
+<li class="leaf"><a href="http://josef.manner.com/de/kontakt" title="">Kontakt</a></li>
+<li class="leaf"><a href="http://josef.manner.com/de/impressum" title="">Impressum</a></li>
+<li class="leaf"><a href="http://josef.manner.com/de/shops" title="Shop">Shops</a></li>
+<li class="last leaf"><a href="/de/rosa-neuigkeiten-newsletteranmeldung">Newsletter</a></li>
+</ul>  </div>
+
+  
+  </div>
+      </div>
+
+      <div class="l-region-wrapper second">
+          <div class="panel-pane pane-custom pane-1"   class="panel-pane pane-custom pane-1">
+  
+      
+  
+  <div class="pane-content">
+    <ul class="menu socialmedialinks">
+<li>
+<a target="_blank" title="facebook" href="//www.facebook.com/Manner.Freunde"><img alt="facebook" title="facebook" src="/sites/brand/themes/brand/images/ico-footer-facebook.png"></a>
+</li>
+<li>
+<a target="_blank" title="instagram" href="//www.instagram.com/mannerfriends"><img alt="instagram" title="instagram" src="/sites/brand/themes/brand/images/ico-footer-instagram.png"></a>
+</li>
+</ul>  </div>
+
+  
+  </div>
+<div class="panel-pane pane-custom pane-2"   class="panel-pane pane-custom pane-2">
+  
+      
+  
+  <div class="pane-content">
+     <div class="copyright"><p>Copyright Â© Josef Manner & Comp AG.<br />Alle Rechte vorbehalten.</p></div>  </div>
+
+  
+  </div>
+      </div>
+    </div>
+  </footer>  
+</div>
+  <script>function euCookieComplianceLoadScripts() {}</script>
+<script>var eu_cookie_compliance_cookie_name = "";</script>
+<script>function euCookieComplianceLoadScripts() {}</script>
+<script>var eu_cookie_compliance_cookie_name = "";</script>
+<script src="https://www.manner.com/sites/brand/files/js/js_4MRGjqSerJEQxet46pdKTifSYprPwyhoaSNKNoRsFw4.js"></script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!-- Pageviews Analysis tool -->
+<!-- Copyright 2016-2018 MusikAnimal -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript">
+//<![CDATA[
+   i18nLang = "en";
+   i18nRtl = "";
+   appPath = "https://tools.wmflabs.org";
+   currentApp = "pageviews";
+  
+//]]>
+</script>
+<meta charset="utf-8">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+<link rel="shortcut icon" sizes="16x16 32x32 48x48 96x96" href="images/favicon.ico?v=3">
+<script src="https://tools.wmflabs.org/pageviews/application.js"></script>
+<script src="https://tools.wmflabs.org/pageviews/ad_block_test.js"></script>
+<link href="https://tools.wmflabs.org/pageviews/application.css" rel="stylesheet">
+<script type="text/javascript">
+//<![CDATA[
+   // language selector
+   $(document).ready(function() {
+     $('.lang-link').on('click', function(e) {
+       e.preventDefault();
+       var expiryGMT = moment().add(30, 'days').toDate().toGMTString();
+       document.cookie = 'TsIntuition_userlang=' + $(e.target).data('lang') + '; expires=' + expiryGMT + '; path=/';
+  
+       var expiryUnix = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60);
+       document.cookie = 'TsIntuition_expiry=' + expiryUnix + '; expires=' + expiryGMT + '; path=/';
+       location.reload();
+     });
+   });
+  
+//]]>
+</script>
+    <title>Pageviews Analysis</title>
+  </head>
+  <body class=" pageviews initial">
+    <div class="text-center site-notice-wrapper">
+      <div class="site-notice">
+        <!-- browser detection to display simple notice -->
+            </div>
+    </div>
+    <nav class="top-nav navbar">
+  <button class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target=".interapp-navigation" aria-expanded="false">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <div class="pull-right nav-buttons">
+          <button class="btn btn-default btn-sm btn-settings js-test-settings" data-target="#settings-modal" data-toggle="modal">
+        <span class="glyphicon glyphicon-wrench"></span>
+        Settings      </button>
+        <div class="btn-group dropdown help-btn-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-question-sign"></span>
+        Help        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+            <a href="/pageviews/faq">
+              FAQ            </a>
+          </li>
+          <li>
+            <a href="/pageviews/url_structure">
+              URL Structure            </a>
+          </li>
+                <li>
+          <a href="https://meta.wikimedia.org/wiki/Pageviews_Analysis">
+            Documentation          </a>
+        </li>
+        <li class="divider" role="separator"></li>
+        <li>
+          <a href="https://meta.wikimedia.org/wiki/Talk:Pageviews_Analysis">
+            Report an issue          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group dropdown lang-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path>
+        </svg>
+        English        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li>
+          <a href="https://translatewiki.net/w/i.php?title=Special:MessageGroupStats&group=out-pageviews">
+            Help translate          </a>
+        </li>
+        <li class="divider" role="separator"></li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="skr-arab"></a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mnw"></a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="af">Afrikaans</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="az">AzÉrbaycanca</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="id">Bahasa Indonesia</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bs">Bosanski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="br">Brezhoneg</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ca">CatalÃ </a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="da">Dansk</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="de">Deutsch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="en">English</a>
+          </li>
+                                      <li>
+            <a class="lang-link" href="#" data-lang="es">EspaÃ±ol</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="eo">Esperanto</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="eu">Euskara</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fr">FranÃ§ais</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="gl">Galego</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hr">Hrvatski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ia">Interlingua</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="it">Italiano</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sw">Kiswahili</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ku-latn">KurdÃ® (latÃ®nÃ®)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lv">LatvieÅ¡u</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lt">LietuviÅ³</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lb">LÃ«tzebuergesch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hu">Magyar</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mi">MÄori</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="nl">Nederlands</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="nb">Norsk bokmÃ¥l</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="oc">Occitan</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pcd">Picard</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pl">Polski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pt">PortuguÃªs</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pt-br">PortuguÃªs do Brasil</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ksh">Ripoarisch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ro">RomÃ¢nÄ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sl">SlovenÅ¡Äina</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fi">Suomi</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sv">Svenska</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="kab">Taqbaylit</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="vi">Tiáº¿ng Viá»t</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="tr">TÃ¼rkÃ§e</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="diq">Zazaki</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="cs">ÄeÅ¡tina</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="el">ÎÎ»Î»Î·Î½Î¹ÎºÎ¬</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ba">Ð±Ð°ÑÒ¡Ð¾ÑÑÑÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="be">Ð±ÐµÐ»Ð°ÑÑÑÐºÐ°Ñ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="be-tarask">Ð±ÐµÐ»Ð°ÑÑÑÐºÐ°Ñ (ÑÐ°ÑÐ°ÑÐºÐµÐ²ÑÑÐ°)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bg">Ð±ÑÐ»Ð³Ð°ÑÑÐºÐ¸</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mk">Ð¼Ð°ÐºÐµÐ´Ð¾Ð½ÑÐºÐ¸</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mn">Ð¼Ð¾Ð½Ð³Ð¾Ð»</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ru">ÑÑÑÑÐºÐ¸Ð¹</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sr-ec">ÑÑÐ¿ÑÐºÐ¸ (ÑÐ¸ÑÐ¸Ð»Ð¸ÑÐ°)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="tt-cyrl">ÑÐ°ÑÐ°ÑÑÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="uk">ÑÐºÑÐ°ÑÐ½ÑÑÐºÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="kk-cyrl">ÒÐ°Ð·Ð°ÒÑÐ° (ÐºÐ¸ÑÐ¸Ð»)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hy">ÕÕ¡ÕµÕ¥ÖÕ¥Õ¶</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="yi">××Ö´×××©</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="he">×¢××¨××ª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ur">Ø§Ø±Ø¯Ù</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ar">Ø§ÙØ¹Ø±Ø¨ÙØ©</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bgn">Ø¨ÙÙÚÛ Ø±Ø®Ø´Ø§ÙÛ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="azb">ØªÛØ±Ú©Ø¬Ù</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sd">Ø³ÙÚÙ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fa">ÙØ§Ø±Ø³Û</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ps">Ù¾ÚØªÙ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ckb">Ú©ÙØ±Ø¯ÛÛ ÙØ§ÙÛÙØ¯Û</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ne">à¤¨à¥à¤ªà¤¾à¤²à¥</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hi">à¤¹à¤¿à¤¨à¥à¤¦à¥</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="as">à¦à¦¸à¦®à§à¦¯à¦¼à¦¾</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bn">à¦¬à¦¾à¦à¦²à¦¾</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ta">à®¤à®®à®¿à®´à¯</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="te">à°¤à±à°²à±à°à±</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ml">à´®à´²à´¯à´¾à´³à´</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="th">à¹à¸à¸¢</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="my">áá¼ááºáá¬áá¬áá¬</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ka">á¥áá áá£áá</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="km">áá¶áá¶ááááá</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="zh-hans">ä¸­æï¼ç®ä½ï¼â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="zh-hant">ä¸­æï¼ç¹é«ï¼â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ja">æ¥æ¬èª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="yue">ç²µèª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ko">íêµ­ì´</a>
+          </li>
+              </ul>
+    </div>
+  </div>
+  <div class="navbar-collapse collapse interapp-navigation">
+    <a class="home-link pull-left" href="/pageviews"></a>
+    <ol class="interapp-links nav navbar-nav navbar-left">
+                                            <li class="interapp-links--entry active" role="presentation">
+            <a class="interapp-link interapp-link--pageviews" href="/pageviews">
+              Pageviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--langviews" href="/langviews">
+              Langviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--topviews" href="/topviews">
+              Topviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--siteviews" href="/siteviews">
+              Siteviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--massviews" href="/massviews">
+              Massviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--redirectviews" href="/redirectviews">
+              Redirect Views            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--userviews" href="/userviews">
+              Userviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--mediaviews" href="/mediaviews">
+              Mediaviews            </a>
+          </li>
+                    <li class="interapp-links--more dropdown hidden">
+        <a class="interapp-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          More          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu"></ul>
+      </li>
+    </ol>
+  </div>
+</nav>
+  <header class="site-header">
+    <h4 class="text-center">
+      <strong>
+                  Pageviews Analysis              </strong>
+      <small class="app-description">
+                  Comparison of pageviews across multiple pages              </small>
+    </h4>
+  </header>
+    <aside class="col-lg-2 col-md-2 page-selector">
+      <header class="text-center">
+        <h4>
+          Options        </h4>
+      </header>
+      <div class="page-selector--container">
+        <div class="date-selector">
+          <label for="range-input">
+            Dates          </label>
+          <div class="btn-group dropdown latest-group">
+            <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="latest-text">
+                Latest              </span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right date-latest">
+                              <li>
+                  <a href="#" data-value="10">10</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="20">20</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="30">30</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="60">60</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="90">90</a>
+                </li>
+                          </ul>
+          </div>
+          <input class="form-control aqs-date-range-selector" id="range-input">
+        </div>
+        <div class="month-selector input-daterange clearfix">
+          <label for="month-start">
+            Dates          </label>
+          <div>
+            <input class="form-control input-control month-selector-start pull-left" id="month-start" readonly="readonly">
+            <input class="form-control input-control month-selector-end pull-left" id="month-end" readonly="readonly">
+          </div>
+        </div>
+        <div>
+          <label for="date-type-select">
+            Date type          </label>
+          <select class="form-control" id="date-type-select">
+            <option value="daily">
+              Daily            </option>
+            <option value="monthly">
+              Monthly            </option>
+          </select>
+        </div>
+        <div>
+          <label for="project-input">
+            Project          </label>
+          <input class="form-control aqs-project-input" id="project-input" placeholder="en.wikipedia.org">
+        </div>
+        <div>
+          <label for="platform-select">
+            Platform          </label>
+          <select class="form-control" id="platform-select">
+            <option value="all-access">
+              All            </option>
+            <option value="desktop">
+              Desktop            </option>
+            <option value="mobile-app">
+              Mobile app            </option>
+            <option value="mobile-web">
+              Mobile web            </option>
+          </select>
+        </div>
+        <div>
+          <label for="agent-select">
+            Agent            <a class="help-link" href="/pageviews/faq#agents">
+              <span class="glyphicon glyphicon-question-sign"></span>
+            </a>
+          </label>
+          <select class="form-control" id="agent-select">
+            <option value="all-agents">
+              All            </option>
+            <option selected="selected" value="user">
+              User            </option>
+            <option value="spider">
+              Spider            </option>
+            <option value="bot">
+              Bot            </option>
+          </select>
+        </div>
+      </div>
+    </aside>
+    <main class="col-lg-8 col-md-10">
+      <div>
+        <label for="article-input">
+          Pages          <small class="text-muted num-entities-info">
+            Enter up to 10 pages          </small>
+        </label>
+        <span class="clear-pages pull-right">
+          &#x2715;
+          Clear        </span>
+        <select class="aqs-select2-selector col-lg-12 invisible" id="article-input" multiple="multiple"></select>
+      </div>
+      <div class="col-lg-12 data-links invisible">
+  <div class="chart-buttons">
+    <button class="btn btn-default btn-sm btn-chart-type chart-specific js-test-change-chart" data-target="#chart-type-modal" data-toggle="modal"><span class="glyphicon glyphicon-th"></span>
+    Chart type</button>
+    <a class="btn btn-default btn-sm permalink" href=""><span class="glyphicon glyphicon-link"></span>
+    Permalink</a>
+    <input class="permalink-copy">
+    <div class="btn-group dropdown download-btn-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-download-alt"></span>
+        Download        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a class="download-csv" href="#">
+            CSV          </a>
+        </li>
+        <li>
+          <a class="download-json" href="#">
+            JSON          </a>
+        </li>
+        <li class="chart-specific">
+          <a class="download-png" href="#">
+            PNG          </a>
+        </li>
+        <li class="divider chart-specific" role="separator"></li>
+        <li class="chart-specific">
+          <a class="print-chart" href="#">
+            <span class="glyphicon glyphicon-print"></span>
+            Print          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <span class="chart-toggles chart-specific">
+    <span class="pull-right">
+      <label class="logarithmic-scale">
+        <input class="logarithmic-scale-option" type="checkbox">
+        Logarithmic scale      </label>
+    </span>
+    <span class="pull-right">
+      <label class="begin-at-zero">
+        <input class="begin-at-zero-option" type="checkbox">
+        Begin at zero      </label>
+    </span>
+    <span class="pull-right">
+      <label class="show-labels">
+        <input class="show-labels-option" type="checkbox">
+        Show values      </label>
+    </span>
+  </span>
+</div>
+      <!-- Chart -->
+      <div class="chart-container">
+        <canvas class="aqs-chart"></canvas>
+      </div>
+      <div class="message-container col-lg-12"></div>
+    </main>
+    <aside class="col-lg-2 visible-lg-block summary-column">
+      <header class="text-center">
+        <h4>
+          Totals        </h4>
+      </header>
+      <div class="summary-column--container">
+        <div class="chart-legend col-lg-12 clearfix"></div>
+      </div>
+    </aside>
+    <div class="output col-lg-10 col-lg-offset-1">
+      <h4 class="single-page-stats text-center"></h4>
+      <h5 class="single-page-ranking text-center"></h5>
+      <div class="single-page-legend hidden-lg col-md-4 col-md-offset-4 tm"></div>
+            <div class="table-view--wrapper">
+        <table class="table table-hover table-view">
+          <thead class="table-view--header">
+            <tr>
+              <th></th>
+                              <th class="table-view--title">
+                  <span class="sort-link sort-link--title" data-type="title">
+                    <span class="col-heading">
+                      Page title                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--class">
+                  <span class="sort-link sort-link--class" data-type="class">
+                    <span class="col-heading">
+                      Class                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--views">
+                  <span class="sort-link sort-link--views" data-type="views">
+                    <span class="col-heading">
+                      Views                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--average">
+                  <span class="sort-link sort-link--average" data-type="average">
+                    <span class="col-heading">
+                      Daily average                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--edits">
+                  <span class="sort-link sort-link--edits" data-type="edits">
+                    <span class="col-heading">
+                      Edits                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--editors">
+                  <span class="sort-link sort-link--editors" data-type="editors">
+                    <span class="col-heading">
+                      Editors                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--size">
+                  <span class="sort-link sort-link--size" data-type="size">
+                    <span class="col-heading">
+                      Size                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--protection">
+                  <span class="sort-link sort-link--protection" data-type="protection">
+                    <span class="col-heading">
+                      Protection                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--watchers">
+                  <span class="sort-link sort-link--watchers" data-type="watchers">
+                    <span class="col-heading">
+                      Watchers                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                            <th>
+                <span>
+                  Links                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="output-list"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="ad_blocker_notice" style="display:none">
+  <div style="padding:20px">
+    <h3>Looks like you are using an ad blocker!</h3>
+    Pageviews Analysis shows no ads, but the ad blockers blacklist websites that collect metrics.
+    In our case, we're just trying to show you metrics, not collect them!
+    <p>
+      This issue may be resolved by simply updating your ad blocker, specifically the
+      <code>EasyPrivacy</code>
+      list.
+    </p>
+    <p>
+      Or you can manually whitelist
+      <code>
+        tools.wmflabs.org
+      </code>
+    </p>
+    <h4>AdBlock Plus</h4>
+    <p>
+      Click on the AdBlock Plus icon and select <i>Disable on tools.wmflabs.org</i>. Reload the page.
+    </p>
+    <h4>uBlock</h4>
+    <p>
+      Click on the uBlock icon and then click on the large power icon. Reload the page.
+    </p>
+  </div>
+</div>
+<div class="spacer"></div>
+<footer>
+  <hr>
+  <span>
+                Brought to you by <a href='https://en.wikipedia.org/wiki/User:MusikAnimal'>MusikAnimal</a>, <a href='https://en.wikipedia.org/wiki/User:Kaldari'>Kaldari</a>, and <a href='https://en.wikipedia.org/wiki/User:Mforns_(WMF)'>Marcel Ruiz Forns</a>.  </span>
+  <div>
+    <span class="nowrap">
+                  Hosted with <span class='heart'>&hearts;</span> on <a href='https://wikitech.wikimedia.org/wiki/Portal:Tool_Labs'>Toolforge</a>.    </span>
+    <span class="nowrap">
+                        Translations powered by <a href='https://translatewiki.net/'>translatewiki.net</a>, <a href='https://github.com/wikimedia/jquery.i18n'>jQuery.i18n</a> and <a href='https://tools.wmflabs.org/intuition/#tab-about'>Intuition</a>.    </span>
+  </div>
+  <div>
+          <a href="/pageviews/faq">FAQ</a>
+      &middot;
+      <a href="/pageviews/url_structure">URL Structure</a>
+      &middot;
+        <a href="https://github.com/MusikAnimal/pageviews">View source</a>
+    &middot;
+    <a href="https://meta.wikimedia.org/wiki/Talk:Pageviews_Analysis">Report an issue</a>
+  </div>
+</footer>
+<script type="text/javascript">
+//<![CDATA[
+  if ( !window.noAdBlockers ) {
+    var noticeContent = document.getElementById('ad_blocker_notice');
+    document.querySelector('body').innerHTML = noticeContent.innerHTML;
+  }
+  
+//]]>
+</script>
+    <div class="modal fade" id="chart-type-modal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" aria-label="Close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+          Chart types        </h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <strong class="multi-page-chart-node">
+            Pages by daily pageviews          </strong>
+          <span class="modal-chart-type">
+            <a class="js-test-line-chart" data-dismiss="modal" data-type="line" href="#">
+              <img src="images/line-chart-small.jpg" alt="Line">
+              Line            </a>
+          </span>
+          <span class="modal-chart-type">
+            <a class="js-test-bar-chart" data-dismiss="modal" data-type="bar" href="#">
+              <img src="images/bar-chart-small.jpg" alt="Bar">
+              Bar            </a>
+          </span>
+          <span class="modal-chart-type">
+            <a data-dismiss="modal" data-type="radar" href="#">
+              <img src="images/radar-chart-small.jpg" alt="Radar">
+              Radar            </a>
+          </span>
+        </div>
+        <div class="multi-page-chart-node">
+          <hr>
+          <div>
+            <strong>
+              Pages by total number of pageviews            </strong>
+            <span class="modal-chart-type">
+              <a class="js-test-pie-chart" data-dismiss="modal" data-type="pie" href="#">
+                <img src="images/pie-chart-small.jpg" alt="Pie">
+                Pie              </a>
+            </span>
+            <span class="modal-chart-type">
+              <a data-dismiss="modal" data-type="doughnut" href="#">
+                <img src="images/doughnut-chart-small.jpg" alt="Doughnut">
+                Doughnut              </a>
+            </span>
+            <span class="modal-chart-type">
+              <a data-dismiss="modal" data-type="polarArea" href="#">
+                <img src="images/polararea-chart-small.jpg" alt="Polar Area">
+                Polar Area              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">
+          Cancel        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade settings-modal" id="settings-modal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+          Settings        </h4>
+      </div>
+      <form class="modal-body">
+        <p>
+          Your settings will be remembered on the same browser and computer.        </p>
+        <fieldset class="radio-list search-method-options">
+          Search method:          <div class="radio">
+            <label>
+              <input class="js-test-prefixsearch" name="autocomplete" type="radio" value="autocomplete">
+              Autocompletion            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input class="js-test-opensearch" name="autocomplete" type="radio" value="autocomplete_redirects">
+              Autocompletion including redirects            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input name="autocomplete" type="radio" value="no_autocomplete">
+              No autocompletion            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          Localization:          <div class="checkbox">
+            <label>
+              <input class="js-test-format-numbers" name="numericalFormatting" type="checkbox">
+              Format numerical data            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-localize-dates" name="localizeDateFormat" type="checkbox">
+              Localize date format            </label>
+          </div>
+        </fieldset>
+        <fieldset class="chart-specific">
+          Chart preferences:          <div class="checkbox">
+            <label>
+              <input class="js-test-autolog" name="autoLogDetection" type="checkbox">
+              Automatically use logarithmic scale if applicable            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-begin-at-zero" name="beginAtZero" type="checkbox">
+              Always show the y-axis starting at zero            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-remember-chart" name="rememberChart" type="checkbox">
+              Remember chart preference            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-bezier-curve" name="bezierCurve" type="checkbox">
+              Use BÃ©zier curve on line charts            </label>
+          </div>
+        </fieldset>
+      </form>
+      <div class="modal-footer">
+        <button class="btn btn-default cancel-settings-btn" data-dismiss="modal" type="button">
+          Cancel        </button>
+        <button class="btn btn-primary save-settings-btn" data-dismiss="modal" type="button">
+          Save        </button>
+      </div>
+    </div>
+  </div>
+</div>
+  </body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!-- Pageviews Analysis tool -->
+<!-- Copyright 2016-2018 MusikAnimal -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript">
+//<![CDATA[
+   i18nLang = "en";
+   i18nRtl = "";
+   appPath = "https://tools.wmflabs.org";
+   currentApp = "pageviews";
+  
+//]]>
+</script>
+<meta charset="utf-8">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+<link rel="shortcut icon" sizes="16x16 32x32 48x48 96x96" href="images/favicon.ico?v=3">
+<script src="https://tools.wmflabs.org/pageviews/application.js"></script>
+<script src="https://tools.wmflabs.org/pageviews/ad_block_test.js"></script>
+<link href="https://tools.wmflabs.org/pageviews/application.css" rel="stylesheet">
+<script type="text/javascript">
+//<![CDATA[
+   // language selector
+   $(document).ready(function() {
+     $('.lang-link').on('click', function(e) {
+       e.preventDefault();
+       var expiryGMT = moment().add(30, 'days').toDate().toGMTString();
+       document.cookie = 'TsIntuition_userlang=' + $(e.target).data('lang') + '; expires=' + expiryGMT + '; path=/';
+  
+       var expiryUnix = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60);
+       document.cookie = 'TsIntuition_expiry=' + expiryUnix + '; expires=' + expiryGMT + '; path=/';
+       location.reload();
+     });
+   });
+  
+//]]>
+</script>
+    <title>Pageviews Analysis</title>
+  </head>
+  <body class=" pageviews initial">
+    <div class="text-center site-notice-wrapper">
+      <div class="site-notice">
+        <!-- browser detection to display simple notice -->
+            </div>
+    </div>
+    <nav class="top-nav navbar">
+  <button class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target=".interapp-navigation" aria-expanded="false">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <div class="pull-right nav-buttons">
+          <button class="btn btn-default btn-sm btn-settings js-test-settings" data-target="#settings-modal" data-toggle="modal">
+        <span class="glyphicon glyphicon-wrench"></span>
+        Settings      </button>
+        <div class="btn-group dropdown help-btn-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-question-sign"></span>
+        Help        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+            <a href="/pageviews/faq">
+              FAQ            </a>
+          </li>
+          <li>
+            <a href="/pageviews/url_structure">
+              URL Structure            </a>
+          </li>
+                <li>
+          <a href="https://meta.wikimedia.org/wiki/Pageviews_Analysis">
+            Documentation          </a>
+        </li>
+        <li class="divider" role="separator"></li>
+        <li>
+          <a href="https://meta.wikimedia.org/wiki/Talk:Pageviews_Analysis">
+            Report an issue          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group dropdown lang-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path>
+        </svg>
+        English        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li>
+          <a href="https://translatewiki.net/w/i.php?title=Special:MessageGroupStats&group=out-pageviews">
+            Help translate          </a>
+        </li>
+        <li class="divider" role="separator"></li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="skr-arab"></a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mnw"></a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="af">Afrikaans</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="az">AzÉrbaycanca</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="id">Bahasa Indonesia</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bs">Bosanski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="br">Brezhoneg</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ca">CatalÃ </a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="da">Dansk</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="de">Deutsch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="en">English</a>
+          </li>
+                                      <li>
+            <a class="lang-link" href="#" data-lang="es">EspaÃ±ol</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="eo">Esperanto</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="eu">Euskara</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fr">FranÃ§ais</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="gl">Galego</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hr">Hrvatski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ia">Interlingua</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="it">Italiano</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sw">Kiswahili</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ku-latn">KurdÃ® (latÃ®nÃ®)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lv">LatvieÅ¡u</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lt">LietuviÅ³</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="lb">LÃ«tzebuergesch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hu">Magyar</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mi">MÄori</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="nl">Nederlands</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="nb">Norsk bokmÃ¥l</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="oc">Occitan</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pcd">Picard</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pl">Polski</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pt">PortuguÃªs</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="pt-br">PortuguÃªs do Brasil</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ksh">Ripoarisch</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ro">RomÃ¢nÄ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sl">SlovenÅ¡Äina</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fi">Suomi</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sv">Svenska</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="kab">Taqbaylit</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="vi">Tiáº¿ng Viá»t</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="tr">TÃ¼rkÃ§e</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="diq">Zazaki</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="cs">ÄeÅ¡tina</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="el">ÎÎ»Î»Î·Î½Î¹ÎºÎ¬</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ba">Ð±Ð°ÑÒ¡Ð¾ÑÑÑÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="be">Ð±ÐµÐ»Ð°ÑÑÑÐºÐ°Ñ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="be-tarask">Ð±ÐµÐ»Ð°ÑÑÑÐºÐ°Ñ (ÑÐ°ÑÐ°ÑÐºÐµÐ²ÑÑÐ°)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bg">Ð±ÑÐ»Ð³Ð°ÑÑÐºÐ¸</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mk">Ð¼Ð°ÐºÐµÐ´Ð¾Ð½ÑÐºÐ¸</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="mn">Ð¼Ð¾Ð½Ð³Ð¾Ð»</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ru">ÑÑÑÑÐºÐ¸Ð¹</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sr-ec">ÑÑÐ¿ÑÐºÐ¸ (ÑÐ¸ÑÐ¸Ð»Ð¸ÑÐ°)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="tt-cyrl">ÑÐ°ÑÐ°ÑÑÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="uk">ÑÐºÑÐ°ÑÐ½ÑÑÐºÐ°</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="kk-cyrl">ÒÐ°Ð·Ð°ÒÑÐ° (ÐºÐ¸ÑÐ¸Ð»)â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hy">ÕÕ¡ÕµÕ¥ÖÕ¥Õ¶</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="yi">××Ö´×××©</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="he">×¢××¨××ª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ur">Ø§Ø±Ø¯Ù</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ar">Ø§ÙØ¹Ø±Ø¨ÙØ©</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bgn">Ø¨ÙÙÚÛ Ø±Ø®Ø´Ø§ÙÛ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="azb">ØªÛØ±Ú©Ø¬Ù</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="sd">Ø³ÙÚÙ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="fa">ÙØ§Ø±Ø³Û</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ps">Ù¾ÚØªÙ</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ckb">Ú©ÙØ±Ø¯ÛÛ ÙØ§ÙÛÙØ¯Û</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ne">à¤¨à¥à¤ªà¤¾à¤²à¥</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="hi">à¤¹à¤¿à¤¨à¥à¤¦à¥</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="as">à¦à¦¸à¦®à§à¦¯à¦¼à¦¾</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="bn">à¦¬à¦¾à¦à¦²à¦¾</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ta">à®¤à®®à®¿à®´à¯</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="te">à°¤à±à°²à±à°à±</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ml">à´®à´²à´¯à´¾à´³à´</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="th">à¹à¸à¸¢</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="my">áá¼ááºáá¬áá¬áá¬</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ka">á¥áá áá£áá</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="km">áá¶áá¶ááááá</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="zh-hans">ä¸­æï¼ç®ä½ï¼â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="zh-hant">ä¸­æï¼ç¹é«ï¼â</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ja">æ¥æ¬èª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="yue">ç²µèª</a>
+          </li>
+                            <li>
+            <a class="lang-link" href="#" data-lang="ko">íêµ­ì´</a>
+          </li>
+              </ul>
+    </div>
+  </div>
+  <div class="navbar-collapse collapse interapp-navigation">
+    <a class="home-link pull-left" href="/pageviews"></a>
+    <ol class="interapp-links nav navbar-nav navbar-left">
+                                            <li class="interapp-links--entry active" role="presentation">
+            <a class="interapp-link interapp-link--pageviews" href="/pageviews">
+              Pageviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--langviews" href="/langviews">
+              Langviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--topviews" href="/topviews">
+              Topviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--siteviews" href="/siteviews">
+              Siteviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--massviews" href="/massviews">
+              Massviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--redirectviews" href="/redirectviews">
+              Redirect Views            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--userviews" href="/userviews">
+              Userviews            </a>
+          </li>
+                                        <li class="interapp-links--entry" role="presentation">
+            <a class="interapp-link interapp-link--mediaviews" href="/mediaviews">
+              Mediaviews            </a>
+          </li>
+                    <li class="interapp-links--more dropdown hidden">
+        <a class="interapp-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          More          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu"></ul>
+      </li>
+    </ol>
+  </div>
+</nav>
+  <header class="site-header">
+    <h4 class="text-center">
+      <strong>
+                  Pageviews Analysis              </strong>
+      <small class="app-description">
+                  Comparison of pageviews across multiple pages              </small>
+    </h4>
+  </header>
+    <aside class="col-lg-2 col-md-2 page-selector">
+      <header class="text-center">
+        <h4>
+          Options        </h4>
+      </header>
+      <div class="page-selector--container">
+        <div class="date-selector">
+          <label for="range-input">
+            Dates          </label>
+          <div class="btn-group dropdown latest-group">
+            <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="latest-text">
+                Latest              </span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right date-latest">
+                              <li>
+                  <a href="#" data-value="10">10</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="20">20</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="30">30</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="60">60</a>
+                </li>
+                              <li>
+                  <a href="#" data-value="90">90</a>
+                </li>
+                          </ul>
+          </div>
+          <input class="form-control aqs-date-range-selector" id="range-input">
+        </div>
+        <div class="month-selector input-daterange clearfix">
+          <label for="month-start">
+            Dates          </label>
+          <div>
+            <input class="form-control input-control month-selector-start pull-left" id="month-start" readonly="readonly">
+            <input class="form-control input-control month-selector-end pull-left" id="month-end" readonly="readonly">
+          </div>
+        </div>
+        <div>
+          <label for="date-type-select">
+            Date type          </label>
+          <select class="form-control" id="date-type-select">
+            <option value="daily">
+              Daily            </option>
+            <option value="monthly">
+              Monthly            </option>
+          </select>
+        </div>
+        <div>
+          <label for="project-input">
+            Project          </label>
+          <input class="form-control aqs-project-input" id="project-input" placeholder="en.wikipedia.org">
+        </div>
+        <div>
+          <label for="platform-select">
+            Platform          </label>
+          <select class="form-control" id="platform-select">
+            <option value="all-access">
+              All            </option>
+            <option value="desktop">
+              Desktop            </option>
+            <option value="mobile-app">
+              Mobile app            </option>
+            <option value="mobile-web">
+              Mobile web            </option>
+          </select>
+        </div>
+        <div>
+          <label for="agent-select">
+            Agent            <a class="help-link" href="/pageviews/faq#agents">
+              <span class="glyphicon glyphicon-question-sign"></span>
+            </a>
+          </label>
+          <select class="form-control" id="agent-select">
+            <option value="all-agents">
+              All            </option>
+            <option selected="selected" value="user">
+              User            </option>
+            <option value="spider">
+              Spider            </option>
+            <option value="bot">
+              Bot            </option>
+          </select>
+        </div>
+      </div>
+    </aside>
+    <main class="col-lg-8 col-md-10">
+      <div>
+        <label for="article-input">
+          Pages          <small class="text-muted num-entities-info">
+            Enter up to 10 pages          </small>
+        </label>
+        <span class="clear-pages pull-right">
+          &#x2715;
+          Clear        </span>
+        <select class="aqs-select2-selector col-lg-12 invisible" id="article-input" multiple="multiple"></select>
+      </div>
+      <div class="col-lg-12 data-links invisible">
+  <div class="chart-buttons">
+    <button class="btn btn-default btn-sm btn-chart-type chart-specific js-test-change-chart" data-target="#chart-type-modal" data-toggle="modal"><span class="glyphicon glyphicon-th"></span>
+    Chart type</button>
+    <a class="btn btn-default btn-sm permalink" href=""><span class="glyphicon glyphicon-link"></span>
+    Permalink</a>
+    <input class="permalink-copy">
+    <div class="btn-group dropdown download-btn-group">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-download-alt"></span>
+        Download        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a class="download-csv" href="#">
+            CSV          </a>
+        </li>
+        <li>
+          <a class="download-json" href="#">
+            JSON          </a>
+        </li>
+        <li class="chart-specific">
+          <a class="download-png" href="#">
+            PNG          </a>
+        </li>
+        <li class="divider chart-specific" role="separator"></li>
+        <li class="chart-specific">
+          <a class="print-chart" href="#">
+            <span class="glyphicon glyphicon-print"></span>
+            Print          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <span class="chart-toggles chart-specific">
+    <span class="pull-right">
+      <label class="logarithmic-scale">
+        <input class="logarithmic-scale-option" type="checkbox">
+        Logarithmic scale      </label>
+    </span>
+    <span class="pull-right">
+      <label class="begin-at-zero">
+        <input class="begin-at-zero-option" type="checkbox">
+        Begin at zero      </label>
+    </span>
+    <span class="pull-right">
+      <label class="show-labels">
+        <input class="show-labels-option" type="checkbox">
+        Show values      </label>
+    </span>
+  </span>
+</div>
+      <!-- Chart -->
+      <div class="chart-container">
+        <canvas class="aqs-chart"></canvas>
+      </div>
+      <div class="message-container col-lg-12"></div>
+    </main>
+    <aside class="col-lg-2 visible-lg-block summary-column">
+      <header class="text-center">
+        <h4>
+          Totals        </h4>
+      </header>
+      <div class="summary-column--container">
+        <div class="chart-legend col-lg-12 clearfix"></div>
+      </div>
+    </aside>
+    <div class="output col-lg-10 col-lg-offset-1">
+      <h4 class="single-page-stats text-center"></h4>
+      <h5 class="single-page-ranking text-center"></h5>
+      <div class="single-page-legend hidden-lg col-md-4 col-md-offset-4 tm"></div>
+            <div class="table-view--wrapper">
+        <table class="table table-hover table-view">
+          <thead class="table-view--header">
+            <tr>
+              <th></th>
+                              <th class="table-view--title">
+                  <span class="sort-link sort-link--title" data-type="title">
+                    <span class="col-heading">
+                      Page title                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--class">
+                  <span class="sort-link sort-link--class" data-type="class">
+                    <span class="col-heading">
+                      Class                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--views">
+                  <span class="sort-link sort-link--views" data-type="views">
+                    <span class="col-heading">
+                      Views                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--average">
+                  <span class="sort-link sort-link--average" data-type="average">
+                    <span class="col-heading">
+                      Daily average                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--edits">
+                  <span class="sort-link sort-link--edits" data-type="edits">
+                    <span class="col-heading">
+                      Edits                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--editors">
+                  <span class="sort-link sort-link--editors" data-type="editors">
+                    <span class="col-heading">
+                      Editors                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--size">
+                  <span class="sort-link sort-link--size" data-type="size">
+                    <span class="col-heading">
+                      Size                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--protection">
+                  <span class="sort-link sort-link--protection" data-type="protection">
+                    <span class="col-heading">
+                      Protection                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                              <th class="table-view--watchers">
+                  <span class="sort-link sort-link--watchers" data-type="watchers">
+                    <span class="col-heading">
+                      Watchers                    </span>
+                    <span class="glyphicon glyphicon-sort"></span>
+                  </span>
+                </th>
+                            <th>
+                <span>
+                  Links                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="output-list"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="ad_blocker_notice" style="display:none">
+  <div style="padding:20px">
+    <h3>Looks like you are using an ad blocker!</h3>
+    Pageviews Analysis shows no ads, but the ad blockers blacklist websites that collect metrics.
+    In our case, we're just trying to show you metrics, not collect them!
+    <p>
+      This issue may be resolved by simply updating your ad blocker, specifically the
+      <code>EasyPrivacy</code>
+      list.
+    </p>
+    <p>
+      Or you can manually whitelist
+      <code>
+        tools.wmflabs.org
+      </code>
+    </p>
+    <h4>AdBlock Plus</h4>
+    <p>
+      Click on the AdBlock Plus icon and select <i>Disable on tools.wmflabs.org</i>. Reload the page.
+    </p>
+    <h4>uBlock</h4>
+    <p>
+      Click on the uBlock icon and then click on the large power icon. Reload the page.
+    </p>
+  </div>
+</div>
+<div class="spacer"></div>
+<footer>
+  <hr>
+  <span>
+                Brought to you by <a href='https://en.wikipedia.org/wiki/User:MusikAnimal'>MusikAnimal</a>, <a href='https://en.wikipedia.org/wiki/User:Kaldari'>Kaldari</a>, and <a href='https://en.wikipedia.org/wiki/User:Mforns_(WMF)'>Marcel Ruiz Forns</a>.  </span>
+  <div>
+    <span class="nowrap">
+                  Hosted with <span class='heart'>&hearts;</span> on <a href='https://wikitech.wikimedia.org/wiki/Portal:Tool_Labs'>Toolforge</a>.    </span>
+    <span class="nowrap">
+                        Translations powered by <a href='https://translatewiki.net/'>translatewiki.net</a>, <a href='https://github.com/wikimedia/jquery.i18n'>jQuery.i18n</a> and <a href='https://tools.wmflabs.org/intuition/#tab-about'>Intuition</a>.    </span>
+  </div>
+  <div>
+          <a href="/pageviews/faq">FAQ</a>
+      &middot;
+      <a href="/pageviews/url_structure">URL Structure</a>
+      &middot;
+        <a href="https://github.com/MusikAnimal/pageviews">View source</a>
+    &middot;
+    <a href="https://meta.wikimedia.org/wiki/Talk:Pageviews_Analysis">Report an issue</a>
+  </div>
+</footer>
+<script type="text/javascript">
+//<![CDATA[
+  if ( !window.noAdBlockers ) {
+    var noticeContent = document.getElementById('ad_blocker_notice');
+    document.querySelector('body').innerHTML = noticeContent.innerHTML;
+  }
+  
+//]]>
+</script>
+    <div class="modal fade" id="chart-type-modal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" aria-label="Close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+          Chart types        </h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <strong class="multi-page-chart-node">
+            Pages by daily pageviews          </strong>
+          <span class="modal-chart-type">
+            <a class="js-test-line-chart" data-dismiss="modal" data-type="line" href="#">
+              <img src="images/line-chart-small.jpg" alt="Line">
+              Line            </a>
+          </span>
+          <span class="modal-chart-type">
+            <a class="js-test-bar-chart" data-dismiss="modal" data-type="bar" href="#">
+              <img src="images/bar-chart-small.jpg" alt="Bar">
+              Bar            </a>
+          </span>
+          <span class="modal-chart-type">
+            <a data-dismiss="modal" data-type="radar" href="#">
+              <img src="images/radar-chart-small.jpg" alt="Radar">
+              Radar            </a>
+          </span>
+        </div>
+        <div class="multi-page-chart-node">
+          <hr>
+          <div>
+            <strong>
+              Pages by total number of pageviews            </strong>
+            <span class="modal-chart-type">
+              <a class="js-test-pie-chart" data-dismiss="modal" data-type="pie" href="#">
+                <img src="images/pie-chart-small.jpg" alt="Pie">
+                Pie              </a>
+            </span>
+            <span class="modal-chart-type">
+              <a data-dismiss="modal" data-type="doughnut" href="#">
+                <img src="images/doughnut-chart-small.jpg" alt="Doughnut">
+                Doughnut              </a>
+            </span>
+            <span class="modal-chart-type">
+              <a data-dismiss="modal" data-type="polarArea" href="#">
+                <img src="images/polararea-chart-small.jpg" alt="Polar Area">
+                Polar Area              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">
+          Cancel        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade settings-modal" id="settings-modal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+          Settings        </h4>
+      </div>
+      <form class="modal-body">
+        <p>
+          Your settings will be remembered on the same browser and computer.        </p>
+        <fieldset class="radio-list search-method-options">
+          Search method:          <div class="radio">
+            <label>
+              <input class="js-test-prefixsearch" name="autocomplete" type="radio" value="autocomplete">
+              Autocompletion            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input class="js-test-opensearch" name="autocomplete" type="radio" value="autocomplete_redirects">
+              Autocompletion including redirects            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input name="autocomplete" type="radio" value="no_autocomplete">
+              No autocompletion            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          Localization:          <div class="checkbox">
+            <label>
+              <input class="js-test-format-numbers" name="numericalFormatting" type="checkbox">
+              Format numerical data            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-localize-dates" name="localizeDateFormat" type="checkbox">
+              Localize date format            </label>
+          </div>
+        </fieldset>
+        <fieldset class="chart-specific">
+          Chart preferences:          <div class="checkbox">
+            <label>
+              <input class="js-test-autolog" name="autoLogDetection" type="checkbox">
+              Automatically use logarithmic scale if applicable            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-begin-at-zero" name="beginAtZero" type="checkbox">
+              Always show the y-axis starting at zero            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-remember-chart" name="rememberChart" type="checkbox">
+              Remember chart preference            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input class="js-test-bezier-curve" name="bezierCurve" type="checkbox">
+              Use BÃ©zier curve on line charts            </label>
+          </div>
+        </fieldset>
+      </form>
+      <div class="modal-footer">
+        <button class="btn btn-default cancel-settings-btn" data-dismiss="modal" type="button">
+          Cancel        </button>
+        <button class="btn btn-primary save-settings-btn" data-dismiss="modal" type="button">
+          Save        </button>
+      </div>
+    </div>
+  </div>
+</div>
+  </body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" class="svg no-js">
+<head>
+    <meta charset="utf-8" />
+    <!--[if IE ]>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="country" content="United States">
+        <meta name="Language" content="en">
+
+    <title>MySQL</title>
+    <link rel="stylesheet" media="all" href="https://labs.mysql.com/common/css/main-20190125.min.css" />
+            <link rel="stylesheet" media="all" href="https://labs.mysql.com/common/css/page-20190125.min.css" />
+    
+    
+    <link rel="stylesheet" media="print" href="https://labs.mysql.com/common/css/print-20190125.min.css" />
+
+            <style>
+                    #fp-banner1 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b1280-grey-gradient-background.jpg') repeat-x top; }
+            #fp-banner-image1 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b1280-mysql-ha2.en.jpg') no-repeat; }
+            #fp-banner-image1 .link-960 { left: 632px; top: 217px; width: 154px; height: 42px; }
+            #fp-banner-image1 .link-640 { left: 421px; top: 145px; width: 103px; height: 28px; }
+            #fp-banner-image1 .link-320 { left: 103px; top: 269px; width: 113px; height: 29px; }
+                    #fp-banner2 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b1280-grey-gradient-background.jpg') repeat-x top; }
+            #fp-banner-image2 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b1280-mysql-8-2x.en.jpg') no-repeat; }
+            #fp-banner-image2 .link-960 { left: 602px; top: 211px; width: 153px; height: 39px; }
+            #fp-banner-image2 .link-640 { left: 401px; top: 141px; width: 102px; height: 26px; }
+            #fp-banner-image2 .link-320 { left: 103px; top: 269px; width: 113px; height: 29px; }
+                    #fp-banner3 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b1280-grey-gradient-background.jpg') repeat-x top; }
+            #fp-banner-image3 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b1280-mysql-8-mds.en.jpg') no-repeat; }
+            #fp-banner-image3 .link-960 { left: 468px; top: 233px; width: 153px; height: 39px; }
+            #fp-banner-image3 .link-640 { left: 312px; top: 155px; width: 102px; height: 26px; }
+            #fp-banner-image3 .link-320 { left: 103px; top: 269px; width: 113px; height: 29px; }
+                    #fp-banner4 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b1280-mysql-cloud-service-back.jpg') repeat-x top; }
+            #fp-banner-image4 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b1280-mysql-cloud-service.en.jpg') no-repeat; }
+            #fp-banner-image4 .link-960 { left: 451px; top: 183px; width: 176px; height: 42px; }
+            #fp-banner-image4 .link-640 { left: 300px; top: 122px; width: 117px; height: 28px; }
+            #fp-banner-image4 .link-320 { left: 85px; top: 258px; width: 134px; height: 32px; }
+                    @media
+            only screen and (-webkit-min-device-pixel-ratio: 1.25),
+            only screen and (   min--moz-device-pixel-ratio: 1.25),
+            only screen and (     -o-min-device-pixel-ratio: 5/4),
+            only screen and (        min-device-pixel-ratio: 1.25),
+            only screen and (                min-resolution: 120dpi),
+            only screen and (                min-resolution: 1.25dppx) {
+                        #fp-banner1 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b2560-grey-gradient-background.jpg') repeat-x top; }
+                #fp-banner-image1 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b2560-mysql-ha2.en.jpg') no-repeat; }
+                        #fp-banner2 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b2560-grey-gradient-background.jpg') repeat-x top; }
+                #fp-banner-image2 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b2560-mysql-8-2x.en.jpg') no-repeat; }
+                        #fp-banner3 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b2560-grey-gradient-background.jpg') repeat-x top; }
+                #fp-banner-image3 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b2560-mysql-8-mds.en.jpg') no-repeat; }
+                        #fp-banner4 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b2560-mysql-cloud-service-back.jpg') repeat-x top; }
+                #fp-banner-image4 { background: url('https://labs.mysql.com/common/themes/sakila/banners/b2560-mysql-cloud-service.en.jpg') no-repeat; }
+                </style>
+    
+    
+            <link rel="alternate" type="application/rss+xml" title="RSS feed" href="/mysql.rss" />
+    
+                    <link rel="alternate" hreflang="en" href="https://www.mysql.com/" />
+                <link rel="alternate" hreflang="de" href="https://www.mysql.com/de/" />
+                <link rel="alternate" hreflang="fr" href="https://www.mysql.com/fr/" />
+                <link rel="alternate" hreflang="it" href="https://www.mysql.com/it/" />
+                <link rel="alternate" hreflang="ja" href="https://www.mysql.com/jp/" />
+                <link rel="alternate" hreflang="zh" href="https://www.mysql.com/cn/" />
+            
+    
+    <link rel="shortcut icon" href="https://labs.mysql.com/common/themes/sakila/favicon.ico" />
+    <script>(function(H){ H.className=H.className.replace(/\bno-js\b/,'js') })(document.documentElement)</script>
+    <script src="https://labs.mysql.com/common/js/site-20181120.min.js"></script>
+
+    
+    
+    
+    <!--[if lt IE 9]>
+        <script src="https://labs.mysql.com/common/js/polyfills/html5shiv-printshiv-3.7.2.min.js"></script>
+        <script src="https://labs.mysql.com/common/js/polyfills/respond-1.4.2.min.js"></script>
+    <![endif]-->
+    </head>
+
+<body class="no-sidebar full-page www en">
+<div class="page-wrapper">
+    <header>
+
+                        <a href="https://www.mysql.com/" aria-label="Home" title="MySQL" id="l1-home-link"></a>
+        
+        <div id="l1-nav-container">
+            <div id="l1-line1">
+                <div id="l1-auth-links">
+                    <a href="https://www.mysql.com/about/contact/"><b>Contact MySQL</b></a>
+                    <span id="l1-contact-separator">&nbsp;|&nbsp;</span>
+                    <span id="l1-contact-separator-br"><br /></span>
+                                             <a href="https://www.mysql.com/auth/login/?dest=https%3A%2F%2Fwww.mysql.com%2F">Login</a> &nbsp;|&nbsp;
+                         <a href="https://www.mysql.com/auth/register/">Register</a>
+                                    </div>
+                <div id="l1-lhs">
+                    <div id="l1-slogan">
+                        The world's most popular open source database
+                    </div>
+                    <div id="l1-search-box">
+                        <form id="l1-search-form" method="get" action="https://www.oracle.com/search/results">
+                        <input type="hidden" name="cat" value="mysql" />
+                        <input type="hidden" name="Ntk" value="SI-ALL5" />
+                        <input id="l1-search-input" type="search" class="icon-search" placeholder="Search" aria-label="Search" name="Ntt" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="l1-line2">
+                <div class="social-icons">
+                    <a aria-label="Join us on Facebook" title="Join us on Facebook" href="http://www.facebook.com/mysql"><span class="icon-facebook"></span></a>
+                    <a aria-label="Follow us on Twitter" title="Follow us on Twitter" href="https://twitter.com/mysql"><span class="icon-twitter"></span></a>
+                    <a aria-label="Follow us on LinkedIn" title="Follow us on LinkedIn" href="https://www.linkedin.com/company/mysql"><span class="icon-linkedin"></span></a>
+                    <a aria-label="Join Google+ to follow MySQL" title="Join Google+ to follow MySQL" href="https://plus.google.com/+mysql"><span class="icon-google-plus"></span></a>
+                    <a aria-label="Visit our YouTube channel" title="Visit our YouTube channel" href="http://www.youtube.com/mysqlchannel"><span class="icon-youtube"></span></a>
+                </div>
+                <ul id="l1-nav">
+                    <li class="active">
+                        <a href="/"><!-- <span class="icon-sakila"></span>  -->MySQL.com</a>
+                    </li><li>
+                        <a href="/downloads/"><!-- <span class="icon-download-thin"></span>  -->Downloads</a>
+                    </li><li>
+                        <a href="https://dev.mysql.com/doc/"><!-- <span class="icon-books"></span>  -->Documentation</a>
+                    </li><li>
+                        <a href="https://dev.mysql.com/"><!-- <span class="icon-code"></span>  -->Developer Zone</a>
+                    </li>                </ul>
+            </div>
+        </div>
+        <div id="sub-header">
+            <div id="l2-nav-container">
+                <div id="l2-nav-toggle">
+                    <span class="icon-three-bars"></span>
+                </div>
+                                                                                        <a class="button nav-button-3" href="https://dev.mysql.com/"><span class="icon-code"></span> Developer Zone</a>
+                                                                                                <a class="button nav-button-2" href="https://dev.mysql.com/doc/"><span class="icon-books"></span> Documentation</a>
+                                                                                                <a class="button nav-button-1" href="/downloads/"><span class="icon-download-thin"></span> Downloads</a>
+                                                                                                            <div id="l2-search-toggle">
+                    <span class="icon-search"></span>
+                </div>
+                <div id="l2-site-icon">
+                                                                                                                            <span class="icon-sakila"></span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                <div id="l1-section-title">
+                    <span id="l1-section-label">
+                        <a href="/">MySQL.com</a>
+                    </span>
+                </div>
+                <nav>
+                    
+
+<ul id="l2-nav">
+            	<li class=""><a  href="/products/">Products</a>
+    			</li>
+	        	<li class=""><a  href="/cloud/">Cloud</a>
+    			</li>
+	        	<li class=""><a  href="/services/">Services</a>
+    			</li>
+	        	<li class=""><a  href="/partners/">Partners</a>
+    			</li>
+	        	<li class=""><a  href="/customers/">Customers</a>
+    			</li>
+	        	<li class=""><a  href="/why-mysql/">Why MySQL?</a>
+    			</li>
+	        	<li class=""><a  href="/news-and-events/events/">News & Events</a>
+    			</li>
+	        	<li class=" last"><a  href="/buy-mysql/">How to Buy</a>
+    			</li>
+	                                    <li class="other-section"><a href="/downloads/">Downloads</a></li>
+                            <li class="other-section"><a href="https://dev.mysql.com/doc/">Documentation</a></li>
+                            <li class="other-section"><a href="https://dev.mysql.com/">Developer Zone</a></li>
+            </ul>
+                </nav>
+            </div>
+            <div id="l3-search-container"></div>
+            <div id="top-orange"><span id="section-nav">Section Menu: &nbsp; </span></div>
+        </div>
+    </header>
+        <div id="page">
+                        <div role="main" id="main">
+
+            
+                
+
+<div id="banners">
+
+    <div class="fp-banner hidden"
+         id="fp-banner1">
+        <div class="fp-banner-image" id="fp-banner-image1">
+            <a class="fp-banner-link link-960" href="https://go.oracle.com/LP=79640?elqCampaignID=172374"></a>
+            <a class="fp-banner-link link-640 hidden" href="https://go.oracle.com/LP=79640?elqCampaignID=172374"></a>
+            <a class="fp-banner-link link-320 hidden" href="https://go.oracle.com/LP=79640?elqCampaignID=172374"></a>
+        </div>
+    </div>
+    <div class="fp-banner hidden"
+         id="fp-banner2">
+        <div class="fp-banner-image" id="fp-banner-image2">
+            <a class="fp-banner-link link-960" href="/products/enterprise/database/"></a>
+            <a class="fp-banner-link link-640 hidden" href="/products/enterprise/database/"></a>
+            <a class="fp-banner-link link-320 hidden" href="/products/enterprise/database/"></a>
+        </div>
+    </div>
+    <div class="fp-banner hidden"
+         id="fp-banner3">
+        <div class="fp-banner-image" id="fp-banner-image3">
+            <a class="fp-banner-link link-960" href="/products/enterprise/document_store.html"></a>
+            <a class="fp-banner-link link-640 hidden" href="/products/enterprise/document_store.html"></a>
+            <a class="fp-banner-link link-320 hidden" href="/products/enterprise/document_store.html"></a>
+        </div>
+    </div>
+    <div class="fp-banner current"
+         id="fp-banner4">
+        <div class="fp-banner-image" id="fp-banner-image4">
+            <a class="fp-banner-link link-960" href="/cloud/"></a>
+            <a class="fp-banner-link link-640 hidden" href="/cloud/"></a>
+            <a class="fp-banner-link link-320 hidden" href="/cloud/"></a>
+        </div>
+    </div>
+
+    <div class="fp-banner-dots">
+        <div class="fp-banner-dots-center">
+            <span class="fp-banner-dots-left"></span><a
+                id="fp-dot1"
+                                href=""></a><a
+                id="fp-dot2"
+                                href=""></a><a
+                id="fp-dot3"
+                                href=""></a><a
+                id="fp-dot4"
+                class="on"                href=""></a><span class="fp-banner-dots-right"></span>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="con pad-normal" id="fp-products">
+    <div class="rw">
+        <div class="col-1-of-2 pad-tb-slight">
+            <div class="fp-product-icon">
+                <div id="fp-product-icon-enterpise"></div>
+            </div>
+            <div class="fp-product">
+                <h2><a href="/products/enterprise/">MySQL Enterprise Edition</a></h2>
+                <p>The most comprehensive set of advanced features, management tools and technical support to achieve the highest levels of MySQL scalability, security, reliability, and uptime.
+                <br /> <a href="/products/enterprise/">Learn More &raquo;</a></p>
+            </div>
+        </div>
+        <div class="col-1-of-2 pad-tb-slight">
+            <div class="fp-product-icon">
+                <div id="fp-product-icon-cloud"></div>
+            </div>
+            <div class="fp-product">
+                <h2><a href="/cloud/">Oracle MySQL Cloud Service</a></h2>
+                <p>Built on MySQL Enterprise Edition and powered by the Oracle Cloud, Oracle MySQL Cloud Service provides a simple, automated, integrated and enterprise ready MySQL cloud service, enabling organizations to increase business agility and reduce costs.
+                <br /> <a href="/cloud/">Learn More &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="rw pad-b-slight">
+        <div class="col-1-of-2 pad-tb-slight">
+            <div class="fp-product-icon">
+                <div id="fp-product-icon-cluster"></div>
+            </div>
+            <div class="fp-product">
+                <h2><a href="/products/cluster/">MySQL Cluster CGE</a></h2>
+                <p>MySQL Cluster enables users to meet the database challenges of next generation web, cloud, and communications services with uncompromising scalability, uptime and agility.
+                <br /> <a href="/products/cluster/">Learn More &raquo;</a></p>
+            </div>
+        </div>
+        <div class="col-1-of-2 pad-tb-slight">
+            <div class="fp-product-icon">
+                <div id="fp-product-icon-embedded"></div>
+            </div>
+            <div class="fp-product">
+                <h2><a href="/oem/">MySQL for OEM/ISV</a></h2>
+                <p>Over 2000 ISVs, OEMs, and VARs rely on MySQL as their products' embedded database to make their applications, hardware and appliances more competitive, bring them to market faster, and lower their cost of goods sold.
+                <br /> <a href="/oem/">Learn More &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="con pad-lr-heavy pad-tb-slight dark-blue" id="fp-content-app">
+    <div class="rw">
+            <div class="col-1-of-2 pad-slight">
+            <h2>
+                                <span class="icon-laptop"></span>
+                                Free Webinars
+            </h2>
+            <ul>
+                            <li><a href="/news-and-events/web-seminars/securing-mysql-2019/">Securing MySQL</a>
+                                    <br />Wednesday, April 10, 2019                                </li>
+                            <li><a href="/news-and-events/web-seminars/demoing-transparent-data-encryption-2019/">Demoing Transparent Data Encryption</a>
+                                    <br />Wednesday, April 24, 2019                                </li>
+                            <li><a href="/news-and-events/web-seminars/business-benefits-of-using-both-sql-and-nosql-with-the-same-database/">Business Benefits of using both SQL and NoSQL with the Same Database</a>
+                                    <br />On Demand                                </li>
+                                        <li style="list-style-image: none; list-style-type: none;">
+                    <a href="/news-and-events/web-seminars/">More &raquo;</a></li>
+                        </ul>
+        </div>
+            <div class="col-1-of-2 pad-slight">
+            <h2>
+                                <span class="icon-files"></span>
+                                White Papers
+            </h2>
+            <ul>
+                            <li><a href="/why-mysql/white-papers/mysql-document-store-top-10-reasons/">MySQL Document Store: Top 10 Reasons</a>
+                                </li>
+                            <li><a href="/why-mysql/white-papers/whats-new-mysql-8-0/">What&#039;s New in MySQL 8.0</a>
+                                </li>
+                            <li><a href="/why-mysql/white-papers/mysql-enterprise-edition-gdpr/">MySQL Enterprise Edition and EU General Data Protection Regulation (GDPR)</a>
+                                </li>
+                            <li><a href="/why-mysql/white-papers/mysql-guide-to-high-availability-solutions/">Guide to MySQL High Availability</a>
+                                </li>
+                            <li><a href="/why-mysql/white-papers/mysql-enterprise-edition-product-guide/">MySQL Enterprise Edition Product Guide</a>
+                                </li>
+                                        <li style="list-style-image: none; list-style-type: none;">
+                    <a href="/why-mysql/white-papers/">More &raquo;</a></li>
+                        </ul>
+        </div>
+        </div>
+</div>
+
+<div class="fp-logo-container">
+    <div id="fp-logos">
+        Some of our customers<br/><br/>        <div style="max-height: 270px; overflow: hidden; font-size: 10%;">
+            <a class="fp-logo-youtube" href="/customers/view/?id=750"></a>
+            <a class="fp-logo-paypal" href="/customers/view/?id=1223"></a>
+            <a class="fp-logo-google" href="/customers/view/?id=555"></a>
+            <a class="fp-logo-facebook" href="/customers/view/?id=757"></a>
+            <a class="fp-logo-twitter" href="/customers/view/?id=951"></a>
+            <a class="fp-logo-ebay" href="/customers/view/?id=961"></a>
+            <a class="fp-logo-cisco" href="/customers/"></a>
+            <a class="fp-logo-linkedin" href="/customers/view/?id=975"></a>
+            <a class="fp-logo-uber" href="/customers/view/?id=1269"></a>
+            <a class="fp-logo-tesla" href="/customers/view/?id=1288"></a>
+            <a class="fp-logo-netflix" href="/customers/view/?id=1276"></a>
+            <a class="fp-logo-github" href="/customers/view/?id=1265"></a>
+            <a class="fp-logo-walmart" href="/customers/"></a>
+            <a class="fp-logo-booking" href="/customers/view/?id=901"></a>
+            <a class="fp-logo-zappos" href="/customers/view/?id=892"></a>
+            <a class="fp-logo-hm" href="/customers/"></a>
+            <a class="fp-logo-flipkart" href="/customers/view/?id=1268"></a>
+            <a class="fp-logo-paytm" href="/customers/view/?id=1283"></a>
+            <a class="fp-logo-alibaba" href="/customers/view/?id=1289"></a>
+            <a class="fp-logo-wechat" href="/customers/view/?id=1287"></a>
+            <a class="fp-logo-tencent" href="/customers/view/?id=1282"></a>
+            <a class="fp-logo-taobao" href="/customers/view/?id=1290"></a>
+            <a class="fp-logo-airbnb" href="/customers/view/?id=1271"></a>
+            <a class="fp-logo-alcatel-lucent" href="/customers/view/?id=566"></a>
+        </div>
+    </div>
+    <br class="clear" />
+</div>
+
+
+            
+        </div>
+    </div>
+
+    <footer>
+        <div id="footer-bottom">
+                                    <div class="footer-contact">
+                <div id="footer-contact-icon">
+                    <span class="icon-call-phone"></span>
+                </div>
+                <div id="footer-contact-numbers">
+                    <strong>Contact MySQL Sales</strong><br/>
+                    USA/Canada: +1-866-221-0634 &nbsp;
+                    (<a href="https://www.mysql.com/about/contact/phone/">More Countries &raquo;</a>)
+                </div>
+                <div id="footer-contact-copyright">
+                    <a href="http://www.oracle.com/" aria-label="Oracle" title="Oracle"><span class="oracle-logo"></span></a>
+                    &nbsp; &copy; 2019, Oracle Corporation and/or its affiliates
+                </div>
+            </div>
+            <div class="social-icons">
+                <a aria-label="Join us on Facebook" title="Join us on Facebook" href="http://www.facebook.com/mysql"><span class="icon-facebook-square"></span></a>
+                <a aria-label="Follow us on Twitter" title="Follow us on Twitter" href="https://twitter.com/mysql"><span class="icon-twitter-square"></span></a>
+                <a aria-label="Follow us on LinkedIn" title="Follow us on LinkedIn" href="https://www.linkedin.com/company/mysql"><span class="icon-linkedin-square"></span></a>
+                <a aria-label="Join Google+ to follow MySQL" title="Join Google+ to follow MySQL" href="https://plus.google.com/+mysql"><span class="icon-google-plus-square"></span></a>
+                <a aria-label="Visit our YouTube channel" title="Visit our YouTube channel" href="http://www.youtube.com/mysqlchannel"><span class="icon-youtube-square"></span></a>
+            </div>
+            <br class="clear" />
+        </div>
+        <div id="footer-links">
+
+            <div id="footer-nav"></div>
+
+            <div class="links">
+                <ul>
+                    <li class="top"><a href="https://www.mysql.com/products/">Products</a></li>
+                    <li><a href="https://www.mysql.com/cloud/">Oracle MySQL Cloud Service</a></li>
+                    <li><a href="https://www.mysql.com/products/enterprise/">MySQL Enterprise Edition</a></li>
+                    <li><a href="https://www.mysql.com/products/standard/">MySQL Standard Edition</a></li>
+                    <li><a href="https://www.mysql.com/products/classic/">MySQL Classic Edition</a></li>
+                    <li><a href="https://www.mysql.com/products/cluster/">MySQL Cluster CGE</a></li>
+                    <li><a href="https://www.mysql.com/oem/">MySQL Embedded (OEM/ISV)</a></li>
+                </ul>
+            </div>
+
+            <div class="links">
+                <ul>
+                    <li class="top"><a href="https://www.mysql.com/services/">Services</a></li>
+                    <li><a href="https://www.mysql.com/training/">Training</a></li>
+                    <li><a href="https://www.mysql.com/certification/">Certification</a></li>
+                    <li><a href="https://www.mysql.com/consulting/">Consulting</a></li>
+                    <li><a href="https://www.mysql.com/support/">Support</a></li>
+                </ul>
+            </div>
+
+            <div class="links">
+                <ul>
+                    <li class="top"><a href="https://dev.mysql.com/downloads/">Downloads</a></li>
+                    <li><a href="https://dev.mysql.com/downloads/mysql/">MySQL Community Server</a></li>
+                    <li><a href="https://dev.mysql.com/downloads/cluster/">MySQL NDB Cluster</a></li>
+                    <li><a href="https://dev.mysql.com/downloads/shell/">MySQL Shell</a></li>
+                    <li><a href="https://dev.mysql.com/downloads/router/">MySQL Router</a></li>
+                    <li><a href="https://dev.mysql.com/downloads/workbench/">MySQL Workbench</a></li>
+                </ul>
+            </div>
+
+            <div class="links">
+                <ul>
+                    <li class="top"><a href="https://dev.mysql.com/doc/">Documentation</a></li>
+                    <li><a href="https://dev.mysql.com/doc/refman/en/">MySQL Reference Manual</a></li>
+                    <li><a href="https://dev.mysql.com/doc/workbench/en/">MySQL Workbench</a></li>
+                    <li><a href="https://dev.mysql.com/doc/index-cluster.html">MySQL NDB Cluster</a></li>
+                    <li><a href="https://dev.mysql.com/doc/index-connectors.html">MySQL Connectors</a></li>
+                    <li><a href="https://dev.mysql.com/doc/#topic">Topic Guides</a></li>
+                </ul>
+            </div>
+
+            <div class="links">
+                <ul>
+                    <li class="top"><a href="https://www.mysql.com/about/">About MySQL</a></li>
+                    <li><a href="https://www.mysql.com/about/contact/">Contact Us</a></li>
+                                                            <li><a href="https://www.mysql.com/buy-mysql/">How to Buy</a></li>
+                    <li><a href="https://www.mysql.com/partners/">Partners</a></li>
+                    <li><a href="https://www.mysql.com/about/jobs/">Job Opportunities</a></li>
+                    <li><a href="https://www.mysql.com/sitemap.html">Site Map</a></li>
+                </ul>
+            </div>
+
+                        <div id="footer-langs">
+                <span class="icon-earth"></span> English &nbsp;
+            (
+                                    <a data-localize-url="no" href="https://www.mysql.com/de/">Deutsch</a> |                                     <a data-localize-url="no" href="https://www.mysql.com/fr/">FranÃ§ais</a> |                                     <a data-localize-url="no" href="https://www.mysql.com/it/">Italiana</a> |                                     <a data-localize-url="no" href="https://www.mysql.com/jp/">æ¥æ¬</a> |                                     <a data-localize-url="no" href="https://www.mysql.com/cn/">ä¸­æ</a>                            )
+            </div>
+            
+            <div id="footer-logo">
+                <a href="http://www.oracle.com/" aria-label="Oracle" title="Oracle"><span class="oracle-logo"></span></a>
+                &nbsp; &copy; 2019, Oracle Corporation and/or its affiliates
+                <div class="footer-legal-links">
+                    <a href="https://www.mysql.com/about/legal/">Legal Policies</a> |
+                    <a href="http://www.oracle.com/us/legal/privacy/index.htm">Your Privacy Rights</a> |
+                    <a href="http://www.oracle.com/us/legal/terms/index.html">Terms of Use</a> |
+                    <a href="http://www.oracle.com/us/legal/third-party-trademarks/index.html">Trademark Policy</a> |
+                    <a href="http://www.oracle.com/technetwork/community/oca-486395.html">Contributor Agreement</a> |
+                    <div id="teconsent" style="display: inline-block"><script async="async" type="text/javascript" src="//consent.truste.com/notice?domain=mysql.com&c=teconsent&text=true&language=en" crossorigin=""></script></div>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+</div>
+
+        <script src="https://labs.mysql.com/common/js/metrics/s_code_remote.js"></script>
+
+                            
+            <script>
+                $(function(){
+                    var rotator = new $.rotator();
+                    rotator.init();
+                    //var slider = new $.slider();
+                    //slider.init();
+                });
+            </script>
+            
+            <script>var sc_product = 224;</script>
+        <script data-reqjq="" src="//www.oracle.com/asset/web/js/oracle-chat.js"
+            id="oracle_chat" data-scchannel="SC MYSQL" data-path="/common/chat/chat-translation-data.json"></script>
+    
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

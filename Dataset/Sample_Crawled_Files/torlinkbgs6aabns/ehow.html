@@ -1,0 +1,1046 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="google-site-verification" content="bAcwWUYbKsarTRubFQ9MOUfLNZwwaG7aL-CcLjTvCsE"><meta name="msvalidate.01" content="129B5DE6FF8DD0ECBDD457C93FF101E3"><meta property="og:site_name" content="It Still Works"><meta property="fb:admins" content><title>How to Block Pop Ups on Vista | It Still Works</title><meta name="description" content="Like other Windows operating systems, Microsoft Windows Vista features settings that can help users manage what to do with pop-ups. Pop-ups are small web browsers that often appear when you open up a new web page. While pop-ups sometimes include relevant content to what you are viewing, pop-ups often feature ..."><meta property="og:type" content="article"><meta property="og:url" content="https://itstillworks.com/block-pop-ups-vista-9106.html"><meta property="og:description" content="Like other Windows operating systems, Microsoft Windows Vista features settings that can help users manage what to do with pop-ups. Pop-ups are small web browsers that often appear when you open up a new web page. While pop-ups sometimes include relevant content to what you are viewing, pop-ups often feature ..."><meta property="og:title" content="How to Block Pop Ups on Vista"><meta property="og:image" content="//img-aws.ehowcdn.com/600x400/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/v5/64/reinstall-roboform-800x800.jpg"><link rel="canonical" href="https://itstillworks.com/block-pop-ups-vista-9106.html"><script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({article:'auto'});
+  !function (e, f, u, i) {
+    if (!document.getElementById(i)){
+      e.async = 1;
+      e.src = u;
+      e.id = i;
+      f.parentNode.insertBefore(e, f);
+    }
+  }(document.createElement('script'),
+  document.getElementsByTagName('script')[0],
+  '//cdn.taboola.com/libtrc/demandmedia-itstillworks/loader.js',
+  'tb_loader_script');
+  if(window.performance && typeof window.performance.mark == 'function')
+    {window.performance.mark('tbl_ic');}
+</script><!-- remove adblock replace script while it isn't working --><!-- <script src="/scripts/detectab.js"></script> --><link rel="stylesheet" href="//itstillworks.com/style.css" type="text/css"><link rel="shortcut icon" href="//itstillworks.com/favicon.ico" type="image/x-icon"><link rel="shortcut icon" href="//itstillworks.com/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="//itstillworks.com/favicon-32x32.png"><!-- Custom Dimension dataLayer --><script title="dataLayer" type="text/javascript">
+  var dataLayer = [] || window.dataLayer;
+
+  dataLayer.push({
+    "event": "head.template",
+    "pagetype": "Article",
+    "subpagetype": "How To",
+    "studioid": "b2211135-8d4b-4f89-b3a4-fcf4660dd76e",
+    "content_name": "How to Block Pop Ups on Vista",
+    "publish_date": "2013-04-05 10:53:58.240000",
+    "rating": "",
+    "author": "Chad Buleen",
+    "structure_rating": "","ancestor_category1": "Internet","ancestor_category2": "","category": "Science &amp; Technology","subcategory": "Technology","has_image" : "TRUE","keyword1":"Vista pop-up blocker","keyword2":"block pop-ups Vista","keyword3":"IE pop-up blocker"})
+</script><!-- End Custom Dimension dataLayer --><script type="text/javascript">
+  // Determine WebP Support
+// Adapted from https://github.com/Modernizr/Modernizr/blob/master/feature-detects/img/webp.js
+(function() {
+	webp_flag = false;
+ 	var image = new Image();
+	image.src = 'data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAAAUAgCdASoBAAEAL/3+/3+CAB/AAAFzrNsAAP5QAAAAAA==';
+	image.onload = function() {
+		webp_flag = (image.width == 1);
+	}
+})();
+
+if (typeof $ !== 'undefined'){
+	// Lazy Load Images
+	$.fn.lazyImage = function(callback) {
+		var imgLen = this.length,
+				count = 0;
+		return this.each(function() {
+			if ($(this).attr('data-src')) {
+				var imgTag = this, imgSrc = $(this).attr('data-src'), del;
+				if (webp_flag) {
+					// Checks that image is using DM Resize and is not a .gif file
+					if (imgSrc.match(/DM\-Resize/g) && imgSrc.match(/webp=1/g) && (imgSrc.indexOf('.gif') == -1)) {
+						imgSrc = imgSrc + '&format=webp&quality=80';
+					}
+				}
+				i = new Image();
+				i.onload = function() {
+					$(imgTag).attr('src',imgSrc).fadeTo(400,1,function() {
+						(count += 1) && (imgLen == count) && (typeof callback == 'function') && callback.call(this);
+					});
+				};
+				i.src = imgSrc;
+			}
+		});
+	};
+
+	// Post Load Scripts
+	function lazyScript(check, url, callback) {
+		if ( ! check() ) { return; }
+		$.ajax({
+			url: url,
+			dataType: 'script',
+			success: callback,
+			cache: true
+		});
+	};
+}
+
+
+
+// *** helper functions for removing jquery *** //
+
+// cross-browser doc ready function
+function docReady(callback) {
+	if (document.readyState != 'loading'){
+		callback();
+	} else if (document.addEventListener) {
+		document.addEventListener('DOMContentLoaded', callback);
+	} else {
+		document.attachEvent('onreadystatechange', function() {
+			if (document.readyState != 'loading')
+				callback();
+		});
+	}
+}
+
+// cross-browser add event listener (IE8)
+function addListener(el, eventName, handler) {
+	if (el && el.addEventListener)
+		el.addEventListener(eventName, handler);
+	else if (el && el.attachEvent) {
+		el.attachEvent('on' + eventName, function(){
+			handler.call(el);
+		});
+	} else
+		return false;
+		//console.error("couldn't attach event: " + eventName + " to element: " + el);
+}
+
+function removeClass(el, className){
+	if (el && el.classList)
+		el.classList.remove(className);
+	else if (el)
+		el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+	else
+		return false;
+		//console.error("couldn't remove class: " + className + " from element: " + el);
+}
+
+function addClass(el, className){
+	if (el && el.classList)
+	  el.classList.add(className);
+	else if (el)
+	  el.className += ' ' + className;
+	else
+		return false;
+		//console.error("couldn't add class: " + className + " to element: " + el);
+}
+
+function hasClass(el, className){
+	if (el && el.classList)
+	  return el.classList.contains(className);
+	else if (el)
+	  return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+	else
+		return null;
+}
+
+function getIndex(el){
+  let i = 0;
+  while (el.previousSibling != null){
+    if (el.previousSibling.nodeType == 1){
+      // only count actual elements, not text nodes
+      i++;
+    }
+    el = el.previousSibling;
+  }
+  return i;
+}
+
+//add forEach support for IE 8
+if (typeof Array.prototype.forEach != 'function') {
+  Array.prototype.forEach = function(callback){
+    for (var i = 0; i < this.length; i++){
+      callback.apply(this, [this[i], i, this]);
+    }
+  };
+}
+</script><!-- Bing Webmaster Tool Auth --><meta name="msvalidate.01" content="129B5DE6FF8DD0ECBDD457C93FF101E3"><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://itstillworks.com/block-pop-ups-vista-9106.html",
+  "url": "https://itstillworks.com/block-pop-ups-vista-9106.html",
+  "name":"How to Block Pop Ups on Vista",
+  "breadcrumb":{
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Website",
+          "@id": "https://itstillworks.com/internet/",
+          "url": "https://itstillworks.com/internet/",
+          "name": "Internet"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Website",
+          "@id": "https://itstillworks.com/",
+          "url": "https://itstillworks.com/",
+          "name": "It Still Works"
+        }
+      }
+    ]
+  },
+  "inLanguage":"en-US",
+  "mainEntity":{
+    "@type":"Article",
+    "@id": "https://itstillworks.com/block-pop-ups-vista-9106.html",
+    "url": "https://itstillworks.com/block-pop-ups-vista-9106.html",
+    "mainEntityOfPage": "true",
+    "datePublished":"",
+    "dateModified":"2019-01-10 20:10:16.746000",
+    "headline": "How to Block Pop Ups on Vista",
+    "description":"How to Block Pop Ups on Vista. Like other Windows operating systems, Microsoft Windows Vista features settings that can help users manage what to do with pop-ups. Pop-ups are small web browsers that often appear when you open up a new web page. While pop-ups sometimes include relevant content to what you are viewing, pop-ups often feature advertisements. Because pop-ups can be an annoyance, Vista allows users to easily block them. If you want to view pop-ups, you can change the pop-up blocker settings.",
+    "keywords": "Vista pop-up blocker, block pop-ups Vista, IE pop-up blocker",
+    "Publisher": {
+      "@type": "Organization",
+      "name": "It Still Works",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://itstillworks.com/images/ItStillWorks_Logo_040617.png"}
+    },
+    "Author":{
+      "@type":"person",
+      "name":"Chad Buleen"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/v5/64/reinstall-roboform-800x800.jpg",
+      "height": "400",
+      "width": "266"
+    }
+  }
+}
+</script><script type="text/javascript">
+    !function(a9,a,p,s,t,A,g){if(a[a9])return;function q(c,r){a[a9]._Q.push([c,r])}a[a9]={init:function(){q("i",arguments)},fetchBids:function(){q("f",arguments)},setDisplayBids:function(){},_Q:[]};A=p.createElement(s);A.async=!0;A.src=t;g=p.getElementsByTagName(s)[0];g.parentNode.insertBefore(A,g)}("apstag",window,document,"script","//c.amazon-adsystem.com/aax2/apstag.js");
+
+    apstag.init({
+     pubID: '3066',
+     adServer: 'googletag'
+    });
+    </script><script type="text/javascript">
+      var VIEWPORT_WIDTH = document.documentElement.clientWidth || document.body.clientWidth,
+          amzn_bid_config = {slots: []};
+
+      var googletag = googletag || {};
+      googletag.cmd = googletag.cmd || [];
+      (function() {
+        var gads = document.createElement('script');
+        gads.async = true;
+        gads.type = 'text/javascript';
+        var useSSL = 'https:' == document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') +
+          '//www.googletagservices.com/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+      })();
+
+    </script><script>
+      googletag.cmd.push(function() {
+        if (VIEWPORT_WIDTH <= 500) {
+          googletag.defineOutOfPageSlot("/6117/itstillworks.mw", "outofpage").addService(googletag.pubads());
+        } else if (VIEWPORT_WIDTH >= 728) {
+          googletag.defineOutOfPageSlot("/6117/itstillworks", "outofpage").addService(googletag.pubads());
+        } else {
+          googletag.defineOutOfPageSlot("/6117/itstillworks", "outofpage").addService(googletag.pubads());
+        }
+          googletag.pubads().enableSingleRequest();
+          googletag.pubads().collapseEmptyDivs();
+          googletag.pubads().disableInitialLoad();
+          googletag.enableServices();
+        });
+    </script></head> <body class="article"> <!-- body-top --> <!-- google tag manager --> <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WGZCHF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WGZCHF');</script> <!-- end google tag manager --><!-- partner google analytics tracking --> <script>var _gaq=[['partner._setAccount', ''],['partner._trackPageview'],['partner._trackPageLoadTime']];
+	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))
+</script> <!-- end partner google analytics tracking --><!-- end body-top --> <div class="body-wrap"> <header class="header"> <div class="header-wrapper"> <a href="//itstillworks.com" aria-label="home button" class="logo"> <svg height="30px" viewbox="0 0 488 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g transform="translate(-0.068006, 0.260441)"> <path d="M96.5479203,69.3372357 L96.5479203,28.0339533 L110.379104,28.0339533 L110.379104,69.3372357 L96.5479203,69.3372357 Z M96.5479203,23.0127699 L96.5479203,11.4316535 L110.379104,11.4316535 L110.379104,23.0127699 L96.5479203,23.0127699 Z" fill="#FFFFFF"></path> <path d="M114.85743,37.2664517 L114.85743,28.0339533 L119.687367,28.0339533 L119.687367,14.6711266 L133.225827,14.6711266 L133.225827,28.0339533 L140.324371,28.0339533 L140.324371,37.2664517 L133.225827,37.2664517 L133.225827,54.0307251 C133.225827,58.1610534 135.860338,58.2420402 140.178009,57.9180929 L140.178009,69.175262 C138.055764,69.7421698 135.860338,70.1471039 133.372189,70.1471039 C124.297761,70.1471039 119.687367,67.3125649 119.687367,57.4321719 L119.687367,37.2664517 L114.85743,37.2664517 Z" fill="#FFFFFF"></path> <path d="M162.732009,70.7140117 C151.681698,70.7140117 143.997707,65.4498679 143.924526,55.974409 L157.170263,55.974409 C157.389805,59.3758558 159.292508,61.4005265 162.805189,61.4005265 C165.512881,61.4005265 167.561946,60.3476977 167.561946,57.837106 C167.561946,54.4356593 163.244275,54.0307251 158.414337,53.2208568 C152.120783,52.1680281 144.875877,50.305331 144.875877,39.939017 C144.875877,31.4354001 152.70623,26.738164 161.853838,26.738164 C173.196872,26.738164 179.124522,31.4354001 179.636788,39.5340829 L166.610594,39.5340829 C166.24469,36.4565834 164.195626,35.8086888 161.927019,35.8086888 C159.877955,35.8086888 157.975252,36.6995439 157.975252,38.8052014 C157.975252,41.1538194 161.414753,41.6397404 165.659243,42.287635 C172.465064,43.3404638 181.100406,45.0411872 181.100406,56.5413168 C181.100406,66.4217098 172.97733,70.7140117 162.732009,70.7140117 Z" fill="#56CD27"></path> <path d="M182.797859,37.2664517 L182.797859,28.0339533 L187.627796,28.0339533 L187.627796,14.6711266 L201.166256,14.6711266 L201.166256,28.0339533 L208.2648,28.0339533 L208.2648,37.2664517 L201.166256,37.2664517 L201.166256,54.0307251 C201.166256,58.1610534 203.800767,58.2420402 208.118438,57.9180929 L208.118438,69.175262 C205.996193,69.7421698 203.800767,70.1471039 201.312618,70.1471039 C192.23819,70.1471039 187.627796,67.3125649 187.627796,57.4321719 L187.627796,37.2664517 L182.797859,37.2664517 Z" fill="#56CD27"></path> <polygon fill="#56CD27" points="213.328573 69.3372357 213.328573 28.0339533 227.159756 28.0339533 227.159756 69.3372357"></polygon> <polygon fill="#56CD27" points="213.328573 23.0127699 213.328573 11.4316535 227.159756 11.4316535 227.159756 23.0127699"></polygon> <polygon fill="#56CD27" points="233.613965 69.3372357 233.613965 11.4316535 247.811053 11.4316535 247.811053 69.3372357"></polygon> <polygon fill="#56CD27" points="254.265262 69.3372357 254.265262 11.4316535 268.46235 11.4316535 268.46235 69.3372357"></polygon> <path d="M283.844625,69.3372357 L271.916144,28.0339533 L286.186413,28.0339533 L289.845456,43.0165165 C290.650445,46.2559896 291.601797,51.277173 291.601797,51.277173 L291.748158,51.277173 C291.748158,51.277173 292.69951,46.1750028 293.504499,42.6925692 L296.724457,28.0339533 L308.433396,28.0339533 L311.653354,42.6925692 C312.458343,46.2559896 313.409694,51.4391466 313.409694,51.4391466 L313.556056,51.4391466 C313.556056,51.4391466 314.653769,46.2559896 315.385578,43.0165165 L318.97144,28.0339533 L332.948985,28.0339533 L321.093685,69.3372357 L307.774768,69.3372357 L303.969363,52.1680281 C303.237554,49.0095418 302.432565,44.4742794 302.432565,44.4742794 L302.286203,44.4742794 C302.286203,44.4742794 301.481213,49.0095418 300.749405,52.1680281 L296.944,69.3372357 L283.844625,69.3372357 Z" fill="#FFFFFF"></path> <path d="M353.893006,70.6330249 C341.452259,70.6330249 333.402364,61.3195397 333.402364,48.7665813 C333.402364,36.2136229 341.452259,26.8191509 353.893006,26.8191509 C366.333753,26.8191509 374.237286,36.2136229 374.237286,48.7665813 C374.237286,61.3195397 366.333753,70.6330249 353.893006,70.6330249 Z" fill="#FFFFFF"></path> <path d="M353.746644,60.4286846 C357.991134,60.4286846 360.18656,55.7314485 360.18656,48.7665813 C360.18656,41.8017141 357.991134,37.104478 353.746644,37.104478 C349.502154,37.104478 347.45309,41.8017141 347.45309,48.7665813 C347.45309,55.7314485 349.502154,60.4286846 353.746644,60.4286846 Z" fill="#000"></path> <path d="M392.327253,28.0339533 L392.327253,34.269939 L392.546796,34.269939 C395.547211,29.086782 399.133074,27.1430982 403.88983,27.1430982 C404.987543,27.1430982 405.719352,27.3050718 406.158437,27.5480323 L406.158437,40.5869116 L405.865713,40.5869116 C397.742637,39.0481619 392.985881,43.0975033 392.985881,52.4109886 L392.985881,69.3372357 L379.154698,69.3372357 L379.154698,28.0339533 L392.327253,28.0339533 Z" fill="#FFFFFF"></path> <polygon fill="#FFFFFF" points="434.859629 69.3372357 427.395181 54.5166461 424.541127 57.9990797 424.541127 69.3372357 410.929486 69.3372357 410.929486 11.4316535 424.541127 11.4316535 424.541127 40.3439512 433.542373 28.0339533 449.056717 28.0339533 436.61597 43.259477 450.520334 69.3372357"></polygon> <path d="M469.561652,70.7140117 C458.511341,70.7140117 450.827351,65.4498679 450.75417,55.974409 L463.999906,55.974409 C464.219449,59.3758558 466.122151,61.4005265 469.634833,61.4005265 C472.342525,61.4005265 474.391589,60.3476977 474.391589,57.837106 C474.391589,54.4356593 470.073918,54.0307251 465.243981,53.2208568 C458.950427,52.1680281 451.705521,50.305331 451.705521,39.939017 C451.705521,31.4354001 459.535874,26.738164 468.683482,26.738164 C480.026516,26.738164 485.954166,31.4354001 486.466432,39.5340829 L473.440238,39.5340829 C473.074334,36.4565834 471.025269,35.8086888 468.756663,35.8086888 C466.707598,35.8086888 464.804896,36.6995439 464.804896,38.8052014 C464.804896,41.1538194 468.244397,41.6397404 472.488887,42.287635 C479.294707,43.3404638 487.930049,45.0411872 487.930049,56.5413168 C487.930049,66.4217098 479.806973,70.7140117 469.561652,70.7140117 Z" fill="#FFFFFF"></path> <g transform="translate(0.844404, 0.384445)"> <ellipse fill="#FFFFFF" cx="41.5" cy="40" rx="41.5" ry="40"></ellipse> <g transform="translate(21.000000, 14.804204)" fill="#56CD27" fill-rule="nonzero"> <path d="M21.1579337,24.6534331 C22.1119176,24.6534331 22.937727,24.3056275 23.6343019,23.6079924 C24.3310696,22.9113211 24.6803208,22.0854153 24.6803208,21.131817 L24.6803208,3.52209799 C24.6803208,2.56801776 24.3314551,1.74269018 23.6343019,1.04601887 C22.9378234,0.348576584 22.1119176,0 21.1579337,0 C20.2038535,0 19.3785259,0.348962071 18.6814691,1.04601887 C17.9844123,1.74269018 17.6358357,2.56840325 17.6358357,3.52209799 L17.6358357,21.1319133 C17.6358357,22.0855117 17.9844123,22.9113211 18.6814691,23.6080888 C19.3785259,24.3056275 20.2041426,24.6534331 21.1579337,24.6534331 Z"></path> <path d="M40.074839,15.2158449 C38.597942,12.2628221 36.5208419,9.78635747 33.842864,7.78712572 C33.0724683,7.20022182 32.2011714,6.97085708 31.2289733,7.09912787 C30.2566788,7.2275914 29.4862831,7.68612814 28.9176898,8.47464172 C28.3306896,9.24494104 28.1064325,10.1116121 28.2436659,11.0746549 C28.3808029,12.0381796 28.835292,12.812912 29.6056877,13.3999122 C31.4025388,14.7572118 32.7928939,16.4175042 33.7737655,18.380211 C34.7552153,20.3427251 35.2453619,22.4340883 35.2453619,24.653144 C35.2453619,26.5614008 34.8739452,28.3815739 34.1312082,30.1153015 C33.3885676,31.84874 32.3839886,33.3479951 31.1181458,34.6138379 C29.852303,35.8792952 28.3534333,36.8834888 26.6197057,37.6265149 C24.8862672,38.369541 23.0657087,38.7415359 21.1580301,38.7415359 C19.2506406,38.7415359 17.4299857,38.369541 15.6965472,37.6265149 C13.9629159,36.8834888 12.4635644,35.8792952 11.1977216,34.6138379 C9.93245703,33.3479951 8.92807075,31.8488363 8.18504464,30.1153015 C7.44221126,28.3815739 7.07069821,26.5614008 7.07069821,24.653144 C7.07069821,22.4340883 7.56142311,20.3430143 8.54268017,18.380211 C9.5240336,16.4176969 10.9135213,14.7575009 12.711047,13.3999122 C13.4814427,12.8125265 13.9352573,12.0378904 14.0730688,11.0746549 C14.2105913,10.1119976 13.9860452,9.24494104 13.3989485,8.47464172 C12.8302589,7.68612814 12.0647782,7.22749503 11.1015426,7.09912787 C10.1384034,6.97076071 9.26228795,7.20022182 8.473678,7.78712572 C5.7953146,9.78635747 3.71831085,12.2628221 2.24141393,15.2158449 C0.764613387,18.1692533 0.0265022286,21.3150196 0.0265022286,24.6532403 C0.0265022286,27.5151919 0.586036552,30.2480053 1.70481608,32.8527407 C2.8239811,35.4574761 4.32786211,37.7040941 6.21751919,39.5937512 C8.10659804,41.4829264 10.3536979,42.9874821 12.958626,44.1053942 C15.5633614,45.224752 18.296464,45.7847682 21.1579337,45.7847682 C24.0194998,45.7847682 26.752506,45.224752 29.3573377,44.1053942 C31.9623622,42.9870966 34.2093657,41.4828301 36.0987337,39.5937512 C37.9878125,37.7046724 39.4916936,35.4574761 40.6106658,32.8527407 C41.7296381,30.2480053 42.2886906,27.5145173 42.2886906,24.6532403 C42.2887869,21.3149233 41.5516395,18.1691569 40.074839,15.2158449 Z"></path> </g> </g> </g> </g> </svg> </a> <ul class="navigation"> <li class="desktop-category"> <a href="/internet/" aria-label="Internet">Internet</a> </li> <li class="desktop-category"> <a href="/media/" aria-label="Media">Media</a> </li> <li class="desktop-category"> <a href="/printer/" aria-label="Printer">Printer</a> </li> <li class="desktop-category"> <a href="/social-media/" aria-label="Social Media">Social Media</a> </li> <li class="desktop-category social-icon"> <svg class="search" height="20px" viewbox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"> <path d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z" fill="#fff"></path> </svg> </li> <li class="desktop-category hamburger"> <span class="top"></span> <span class="middle"></span> <span class="bottom"></span> </li> </ul> <div class="search-container"> <h1>SEARCH</h1> <form class method="get" action="/search"> <input class="query-input" name="google_kw" type="text" aria-label="search input" placeholder="search"> <button type="submit"> <svg class="submit-btn-icon" width="17" height="17" viewbox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" alt="Search Button"> <title>Search Glass</title> <g transform="translate(1 1)" stroke-width="2" stroke="#fff" fill="none" fill-rule="evenodd"> <circle cx="6.5" cy="6.5" r="6.5"/> <path d="M11.5 11.5l3.536 3.536" stroke-linecap="square"/> </g> </svg> </button> </form> </div> <div class="navigation-container"> <ul class="navigation-block"> <li class="block-category"> <a href="/internet/" aria-label="Internet">Internet</a> </li> <li class="block-category"> <a href="/media/" aria-label="Media">Media</a> </li> <li class="block-category"> <a href="/printer/" aria-label="Printer">Printer</a> </li> <li class="block-category"> <a href="/social-media/" aria-label="Social Media">Social Media</a> </li> <li class="block-category"> <a href="/smart-devices/" aria-label="Smart Devices">Smart Devices</a> </li> <li class="block-category"> <a href="/email/" aria-label="Email">Email</a> </li> <li class="block-category"> <a href="/network/" aria-label="Network">Network</a> </li> <li class="block-category"> <a href="/hardware/" aria-label="Hardware">Hardware</a> </li> <li class="block-category"> <a href="/phone/" aria-label="Phone">Phone</a> </li> <li class="block-category"> <a href="/software/" aria-label="Software">Software</a> </li> <li class="block-category"> <form class method="get" action="/search"> <input class="query-input" name="google_kw" type="text" aria-label="search input" placeholder="search"> <button type="submit"> <svg class="submit-btn-icon" width="17" height="17" viewbox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" alt="Search Button"> <title>Search Glass</title> <g transform="translate(1 1)" stroke-width="2" stroke="#fff" fill="none" fill-rule="evenodd"> <circle cx="6.5" cy="6.5" r="6.5"/> <path d="M11.5 11.5l3.536 3.536" stroke-linecap="square"/> </g> </svg> </button> </form> </li> </ul> </div> <ul class="mobile-nav"> <li class="back-arrow"> <a href="//itstillworks.com" aria-label="back"> <span class="top-line"></span> <span class="bottom-line"></span> </a> </li> <li class="hamburger-menu hamburger"> <span class="top"></span> <span class="middle"></span> <span class="bottom"></span> </li> <li> <a href="//itstillworks.com" aria-label="home" class="home-button"> <svg height="30px" viewbox="0 0 488 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g transform="translate(-0.068006, 0.260441)"> <path d="M96.5479203,69.3372357 L96.5479203,28.0339533 L110.379104,28.0339533 L110.379104,69.3372357 L96.5479203,69.3372357 Z M96.5479203,23.0127699 L96.5479203,11.4316535 L110.379104,11.4316535 L110.379104,23.0127699 L96.5479203,23.0127699 Z" fill="#FFFFFF"></path> <path d="M114.85743,37.2664517 L114.85743,28.0339533 L119.687367,28.0339533 L119.687367,14.6711266 L133.225827,14.6711266 L133.225827,28.0339533 L140.324371,28.0339533 L140.324371,37.2664517 L133.225827,37.2664517 L133.225827,54.0307251 C133.225827,58.1610534 135.860338,58.2420402 140.178009,57.9180929 L140.178009,69.175262 C138.055764,69.7421698 135.860338,70.1471039 133.372189,70.1471039 C124.297761,70.1471039 119.687367,67.3125649 119.687367,57.4321719 L119.687367,37.2664517 L114.85743,37.2664517 Z" fill="#FFFFFF"></path> <path d="M162.732009,70.7140117 C151.681698,70.7140117 143.997707,65.4498679 143.924526,55.974409 L157.170263,55.974409 C157.389805,59.3758558 159.292508,61.4005265 162.805189,61.4005265 C165.512881,61.4005265 167.561946,60.3476977 167.561946,57.837106 C167.561946,54.4356593 163.244275,54.0307251 158.414337,53.2208568 C152.120783,52.1680281 144.875877,50.305331 144.875877,39.939017 C144.875877,31.4354001 152.70623,26.738164 161.853838,26.738164 C173.196872,26.738164 179.124522,31.4354001 179.636788,39.5340829 L166.610594,39.5340829 C166.24469,36.4565834 164.195626,35.8086888 161.927019,35.8086888 C159.877955,35.8086888 157.975252,36.6995439 157.975252,38.8052014 C157.975252,41.1538194 161.414753,41.6397404 165.659243,42.287635 C172.465064,43.3404638 181.100406,45.0411872 181.100406,56.5413168 C181.100406,66.4217098 172.97733,70.7140117 162.732009,70.7140117 Z" fill="#56CD27"></path> <path d="M182.797859,37.2664517 L182.797859,28.0339533 L187.627796,28.0339533 L187.627796,14.6711266 L201.166256,14.6711266 L201.166256,28.0339533 L208.2648,28.0339533 L208.2648,37.2664517 L201.166256,37.2664517 L201.166256,54.0307251 C201.166256,58.1610534 203.800767,58.2420402 208.118438,57.9180929 L208.118438,69.175262 C205.996193,69.7421698 203.800767,70.1471039 201.312618,70.1471039 C192.23819,70.1471039 187.627796,67.3125649 187.627796,57.4321719 L187.627796,37.2664517 L182.797859,37.2664517 Z" fill="#56CD27"></path> <polygon fill="#56CD27" points="213.328573 69.3372357 213.328573 28.0339533 227.159756 28.0339533 227.159756 69.3372357"></polygon> <polygon fill="#56CD27" points="213.328573 23.0127699 213.328573 11.4316535 227.159756 11.4316535 227.159756 23.0127699"></polygon> <polygon fill="#56CD27" points="233.613965 69.3372357 233.613965 11.4316535 247.811053 11.4316535 247.811053 69.3372357"></polygon> <polygon fill="#56CD27" points="254.265262 69.3372357 254.265262 11.4316535 268.46235 11.4316535 268.46235 69.3372357"></polygon> <path d="M283.844625,69.3372357 L271.916144,28.0339533 L286.186413,28.0339533 L289.845456,43.0165165 C290.650445,46.2559896 291.601797,51.277173 291.601797,51.277173 L291.748158,51.277173 C291.748158,51.277173 292.69951,46.1750028 293.504499,42.6925692 L296.724457,28.0339533 L308.433396,28.0339533 L311.653354,42.6925692 C312.458343,46.2559896 313.409694,51.4391466 313.409694,51.4391466 L313.556056,51.4391466 C313.556056,51.4391466 314.653769,46.2559896 315.385578,43.0165165 L318.97144,28.0339533 L332.948985,28.0339533 L321.093685,69.3372357 L307.774768,69.3372357 L303.969363,52.1680281 C303.237554,49.0095418 302.432565,44.4742794 302.432565,44.4742794 L302.286203,44.4742794 C302.286203,44.4742794 301.481213,49.0095418 300.749405,52.1680281 L296.944,69.3372357 L283.844625,69.3372357 Z" fill="#FFFFFF"></path> <path d="M353.893006,70.6330249 C341.452259,70.6330249 333.402364,61.3195397 333.402364,48.7665813 C333.402364,36.2136229 341.452259,26.8191509 353.893006,26.8191509 C366.333753,26.8191509 374.237286,36.2136229 374.237286,48.7665813 C374.237286,61.3195397 366.333753,70.6330249 353.893006,70.6330249 Z" fill="#FFFFFF"></path> <path d="M353.746644,60.4286846 C357.991134,60.4286846 360.18656,55.7314485 360.18656,48.7665813 C360.18656,41.8017141 357.991134,37.104478 353.746644,37.104478 C349.502154,37.104478 347.45309,41.8017141 347.45309,48.7665813 C347.45309,55.7314485 349.502154,60.4286846 353.746644,60.4286846 Z" fill="#000"></path> <path d="M392.327253,28.0339533 L392.327253,34.269939 L392.546796,34.269939 C395.547211,29.086782 399.133074,27.1430982 403.88983,27.1430982 C404.987543,27.1430982 405.719352,27.3050718 406.158437,27.5480323 L406.158437,40.5869116 L405.865713,40.5869116 C397.742637,39.0481619 392.985881,43.0975033 392.985881,52.4109886 L392.985881,69.3372357 L379.154698,69.3372357 L379.154698,28.0339533 L392.327253,28.0339533 Z" fill="#FFFFFF"></path> <polygon fill="#FFFFFF" points="434.859629 69.3372357 427.395181 54.5166461 424.541127 57.9990797 424.541127 69.3372357 410.929486 69.3372357 410.929486 11.4316535 424.541127 11.4316535 424.541127 40.3439512 433.542373 28.0339533 449.056717 28.0339533 436.61597 43.259477 450.520334 69.3372357"></polygon> <path d="M469.561652,70.7140117 C458.511341,70.7140117 450.827351,65.4498679 450.75417,55.974409 L463.999906,55.974409 C464.219449,59.3758558 466.122151,61.4005265 469.634833,61.4005265 C472.342525,61.4005265 474.391589,60.3476977 474.391589,57.837106 C474.391589,54.4356593 470.073918,54.0307251 465.243981,53.2208568 C458.950427,52.1680281 451.705521,50.305331 451.705521,39.939017 C451.705521,31.4354001 459.535874,26.738164 468.683482,26.738164 C480.026516,26.738164 485.954166,31.4354001 486.466432,39.5340829 L473.440238,39.5340829 C473.074334,36.4565834 471.025269,35.8086888 468.756663,35.8086888 C466.707598,35.8086888 464.804896,36.6995439 464.804896,38.8052014 C464.804896,41.1538194 468.244397,41.6397404 472.488887,42.287635 C479.294707,43.3404638 487.930049,45.0411872 487.930049,56.5413168 C487.930049,66.4217098 479.806973,70.7140117 469.561652,70.7140117 Z" fill="#FFFFFF"></path> <g transform="translate(0.844404, 0.384445)"> <ellipse fill="#FFFFFF" cx="41.5" cy="40" rx="41.5" ry="40"></ellipse> <g transform="translate(21.000000, 14.804204)" fill="#56CD27" fill-rule="nonzero"> <path d="M21.1579337,24.6534331 C22.1119176,24.6534331 22.937727,24.3056275 23.6343019,23.6079924 C24.3310696,22.9113211 24.6803208,22.0854153 24.6803208,21.131817 L24.6803208,3.52209799 C24.6803208,2.56801776 24.3314551,1.74269018 23.6343019,1.04601887 C22.9378234,0.348576584 22.1119176,0 21.1579337,0 C20.2038535,0 19.3785259,0.348962071 18.6814691,1.04601887 C17.9844123,1.74269018 17.6358357,2.56840325 17.6358357,3.52209799 L17.6358357,21.1319133 C17.6358357,22.0855117 17.9844123,22.9113211 18.6814691,23.6080888 C19.3785259,24.3056275 20.2041426,24.6534331 21.1579337,24.6534331 Z"></path> <path d="M40.074839,15.2158449 C38.597942,12.2628221 36.5208419,9.78635747 33.842864,7.78712572 C33.0724683,7.20022182 32.2011714,6.97085708 31.2289733,7.09912787 C30.2566788,7.2275914 29.4862831,7.68612814 28.9176898,8.47464172 C28.3306896,9.24494104 28.1064325,10.1116121 28.2436659,11.0746549 C28.3808029,12.0381796 28.835292,12.812912 29.6056877,13.3999122 C31.4025388,14.7572118 32.7928939,16.4175042 33.7737655,18.380211 C34.7552153,20.3427251 35.2453619,22.4340883 35.2453619,24.653144 C35.2453619,26.5614008 34.8739452,28.3815739 34.1312082,30.1153015 C33.3885676,31.84874 32.3839886,33.3479951 31.1181458,34.6138379 C29.852303,35.8792952 28.3534333,36.8834888 26.6197057,37.6265149 C24.8862672,38.369541 23.0657087,38.7415359 21.1580301,38.7415359 C19.2506406,38.7415359 17.4299857,38.369541 15.6965472,37.6265149 C13.9629159,36.8834888 12.4635644,35.8792952 11.1977216,34.6138379 C9.93245703,33.3479951 8.92807075,31.8488363 8.18504464,30.1153015 C7.44221126,28.3815739 7.07069821,26.5614008 7.07069821,24.653144 C7.07069821,22.4340883 7.56142311,20.3430143 8.54268017,18.380211 C9.5240336,16.4176969 10.9135213,14.7575009 12.711047,13.3999122 C13.4814427,12.8125265 13.9352573,12.0378904 14.0730688,11.0746549 C14.2105913,10.1119976 13.9860452,9.24494104 13.3989485,8.47464172 C12.8302589,7.68612814 12.0647782,7.22749503 11.1015426,7.09912787 C10.1384034,6.97076071 9.26228795,7.20022182 8.473678,7.78712572 C5.7953146,9.78635747 3.71831085,12.2628221 2.24141393,15.2158449 C0.764613387,18.1692533 0.0265022286,21.3150196 0.0265022286,24.6532403 C0.0265022286,27.5151919 0.586036552,30.2480053 1.70481608,32.8527407 C2.8239811,35.4574761 4.32786211,37.7040941 6.21751919,39.5937512 C8.10659804,41.4829264 10.3536979,42.9874821 12.958626,44.1053942 C15.5633614,45.224752 18.296464,45.7847682 21.1579337,45.7847682 C24.0194998,45.7847682 26.752506,45.224752 29.3573377,44.1053942 C31.9623622,42.9870966 34.2093657,41.4828301 36.0987337,39.5937512 C37.9878125,37.7046724 39.4916936,35.4574761 40.6106658,32.8527407 C41.7296381,30.2480053 42.2886906,27.5145173 42.2886906,24.6532403 C42.2887869,21.3149233 41.5516395,18.1691569 40.074839,15.2158449 Z"></path> </g> </g> </g> </g> </svg> </a> </li> <li class="header-leaderboard"> <div id="horizontal1-1" class="adcontainer"></div> </li> </ul> </div> </header> <main id="content" class="main-container"> <script>
+    googletag.cmd.push(function() {
+        googletag.pubads().setTargeting('ctype','article');
+        googletag.pubads().setTargeting('cat','internet');
+        googletag.pubads().setTargeting("envr","");
+
+        if (typeof(Krux) != "undefined") {
+           googletag.pubads().setTargeting("ksg",Krux.segments);
+           googletag.pubads().setTargeting("kuid",Krux.user);
+        }
+    });
+</script> <!-- /6117/itstillruns.mw/adhesion1-1 --> <div class="fixed-bottom-ad"> <div class="close-button">x</div> <div id="adhesion1-1" class="no-print"></div> </div> <div class="social-shares"> <ul class="social-shares-wrapper"> <li> <a class="share popup" data-event="social share" aria-label="email" data-info="Email" data-href="mailto:?subject=How%20to%20Block%20Pop%20Ups%20on%20Vista%20%7C%20It%20Still%20Works&body=I%20found%20this%20article%20on%20It%20Still%20Works%20and%20thought%20you%20would%20enjoy%20it%21%0d%0dhttp%3A//itstillworks.com/block-pop-ups-vista-9106.html" aria-label="Share via Email"> <svg class="social-svg email-svg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" role="img"><path fill="#aaa" d="M400 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM178.117 262.104C87.429 196.287 88.353 196.121 64 177.167V152c0-13.255 10.745-24 24-24h272c13.255 0 24 10.745 24 24v25.167c-24.371 18.969-23.434 19.124-114.117 84.938-10.5 7.655-31.392 26.12-45.883 25.894-14.503.218-35.367-18.227-45.883-25.895zM384 217.775V360c0 13.255-10.745 24-24 24H88c-13.255 0-24-10.745-24-24V217.775c13.958 10.794 33.329 25.236 95.303 70.214 14.162 10.341 37.975 32.145 64.694 32.01 26.887.134 51.037-22.041 64.72-32.025 61.958-44.965 81.325-59.406 95.283-70.199z"/></svg> </a> </li> <li> <a class="share popup" data-event="social share" data-info="Facebook" aria-label="facebook" data-popup-height="300" data-popup-width="600" data-href="https://www.facebook.com/sharer/sharer.php?u=http://itstillworks.com/block-pop-ups-vista-9106.html" aria-label="Share on Facebook"> <svg class="social-svg facebook-svg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" role="img"><path fill="#3b5998" d="M448 56.7v398.5c0 13.7-11.1 24.7-24.7 24.7H309.1V306.5h58.2l8.7-67.6h-67v-43.2c0-19.6 5.4-32.9 33.5-32.9h35.8v-60.5c-6.2-.8-27.4-2.7-52.2-2.7-51.6 0-87 31.5-87 89.4v49.9h-58.4v67.6h58.4V480H24.7C11.1 480 0 468.9 0 455.3V56.7C0 43.1 11.1 32 24.7 32h398.5c13.7 0 24.8 11.1 24.8 24.7z"/></svg> </a> </li> <li> <a class="popup share" data-event="social share" data-info="Twitter" aria-label="twitter" data-popup-height="400" data-popup-width="575" data-href="https://twitter.com/share?url=http://itstillworks.com/block-pop-ups-vista-9106.html&text=How%20to%20Block%20Pop%20Ups%20on%20Vista" aria-label="Share on Twitter"> <svg class="social-svg twitter-svg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" role="img"><path fill="#00aced" d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-48.9 158.8c.2 2.8.2 5.7.2 8.5 0 86.7-66 186.6-186.6 186.6-37.2 0-71.7-10.8-100.7-29.4 5.3.6 10.4.8 15.8.8 30.7 0 58.9-10.4 81.4-28-28.8-.6-53-19.5-61.3-45.5 10.1 1.5 19.2 1.5 29.6-1.2-30-6.1-52.5-32.5-52.5-64.4v-.8c8.7 4.9 18.9 7.9 29.6 8.3a65.447 65.447 0 0 1-29.2-54.6c0-12.2 3.2-23.4 8.9-33.1 32.3 39.8 80.8 65.8 135.2 68.6-9.3-44.5 24-80.6 64-80.6 18.9 0 35.9 7.9 47.9 20.7 14.8-2.8 29-8.3 41.6-15.8-4.9 15.2-15.2 28-28.8 36.1 13.2-1.4 26-5.1 37.8-10.2-8.9 13.1-20.1 24.7-32.9 34z"/></svg> </a> </li> <li> <a class="share popup" data-event="social share" data-info="Pinterest" aria-label="pinterest" data-popup-height="300" data-popup-width="700" data-href="//pinterest.com/pin/create/button/?url=http://itstillworks.com/block-pop-ups-vista-9106.html&media=http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/v5/64/reinstall-roboform-800x800.jpg&description=How%20to%20Block%20Pop%20Ups%20on%20Vista" data-pin-do="buttonPin" data-pin-config="beside" aria-label="Share on Pinterest"> <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" role="img"><path fill="#cb2027" d="M448 80v352c0 26.5-21.5 48-48 48H154.4c9.8-16.4 22.4-40 27.4-59.3 3-11.5 15.3-58.4 15.3-58.4 8 15.3 31.4 28.2 56.3 28.2 74.1 0 127.4-68.1 127.4-152.7 0-81.1-66.2-141.8-151.4-141.8-106 0-162.2 71.1-162.2 148.6 0 36 19.2 80.8 49.8 95.1 4.7 2.2 7.1 1.2 8.2-3.3.8-3.4 5-20.1 6.8-27.8.6-2.5.3-4.6-1.7-7-10.1-12.3-18.3-34.9-18.3-56 0-54.2 41-106.6 110.9-106.6 60.3 0 102.6 41.1 102.6 99.9 0 66.4-33.5 112.4-77.2 112.4-24.1 0-42.1-19.9-36.4-44.4 6.9-29.2 20.3-60.7 20.3-81.8 0-53-75.5-45.7-75.5 25 0 21.7 7.3 36.5 7.3 36.5-31.4 132.8-36.1 134.5-29.6 192.6l2.2.8H48c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48h352c26.5 0 48 21.5 48 48z"/></svg> </a> </li> <li> <a class="share popup" data-event="social share" data-info="Reddit" aria-label="reddit" data-popup-height="400" data-popup-width="850" data-href="//www.reddit.com/submit?url=http://itstillworks.com/block-pop-ups-vista-9106.html" aria-label="Share on Reddit"> <svg class="social-svg reddit-svg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512" role="img"><path fill="#ff5700" d="M201.5 305.5c-13.8 0-24.9-11.1-24.9-24.6 0-13.8 11.1-24.9 24.9-24.9 13.6 0 24.6 11.1 24.6 24.9 0 13.6-11.1 24.6-24.6 24.6zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-132.3-41.2c-9.4 0-17.7 3.9-23.8 10-22.4-15.5-52.6-25.5-86.1-26.6l17.4-78.3 55.4 12.5c0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.3 24.9-24.9s-11.1-24.9-24.9-24.9c-9.7 0-18 5.8-22.1 13.8l-61.2-13.6c-3-.8-6.1 1.4-6.9 4.4l-19.1 86.4c-33.2 1.4-63.1 11.3-85.5 26.8-6.1-6.4-14.7-10.2-24.1-10.2-34.9 0-46.3 46.9-14.4 62.8-1.1 5-1.7 10.2-1.7 15.5 0 52.6 59.2 95.2 132 95.2 73.1 0 132.3-42.6 132.3-95.2 0-5.3-.6-10.8-1.9-15.8 31.3-16 19.8-62.5-14.9-62.5zM302.8 331c-18.2 18.2-76.1 17.9-93.6 0-2.2-2.2-6.1-2.2-8.3 0-2.5 2.5-2.5 6.4 0 8.6 22.8 22.8 87.3 22.8 110.2 0 2.5-2.2 2.5-6.1 0-8.6-2.2-2.2-6.1-2.2-8.3 0zm7.7-75c-13.6 0-24.6 11.1-24.6 24.9 0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.1 24.9-24.6 0-13.8-11-24.9-24.9-24.9z"/></svg> </a> </li> </ul> </div> <div class="article-container"> <article> <div class="article-title"> <h1>How to Block Pop Ups on Vista</h1> <cite> by Chad Buleen </cite> </div> <div class="top-section" style="background-image: url(//img-aws.ehowcdn.com/600x400/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/v5/64/reinstall-roboform-800x800.jpg)"></div> <div id="section-0" class="section"> <p><p>Like other Windows operating systems, Microsoft Windows Vista features settings that can help users manage what to do with pop-ups. Pop-ups are small web browsers that often appear when you open up a new web page. While pop-ups sometimes include relevant content to what you are viewing, pop-ups often feature advertisements. Because pop-ups can be an annoyance, Vista allows users to easily block them. If you want to view pop-ups, you can change the pop-up blocker settings.</p></p> </div> <div id="section-1" class="section"> <div class="inline-ad no-print"> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <ins class="adsbygoogle" style="display:block;width:100%;height:125px;margin:0 auto;" data-ad-client="ca-pub-3235755782694080" data-ad-slot="7182359149"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </div> <div class="section section-2"> <h4>Step 1</h4> <div class="step-block"> <p class="step-content">Click on the "Start" button at the bottom of the Vista desktop home screen and then click on the "Internet Explorer" icon.</p> </div> </div><div class="section section-3"> <h4>Step 2</h4> <div class="step-block"> <p class="step-content">Click the "Tools" menu header at the top of the page. A menu will appear just below "Tools" that includes the "Pop-up Blocker" menu item. Click on "Pop-up Blocker."</p> </div> <div class="small-screen-ad" id="initial-mobile"></div> </div><div class="section section-4"> <div class="step-block"> <p class="step-content">Click on "Turn On Pop-up Blocker." Vista will now block pop-ups when they attempt to appear.</p> </div> </div> </div> <div class="section"> <h4>Tip</h4> <ul class="section__list"> <li class="section__list-item"> <span>To turn off the pop-up blocker, click "Turn Off Pop-up Blocker" in Step 3.</span> </li> </ul> </div> <div class="main-ad" id="google-article-block"> <script>
+            var adHeight = VIEWPORT_WIDTH > 1030 ? '455px' : '550px';
+        </script> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <ins id="ggads-b2211135-8d4b-4f89-b3a4-fcf4660dd76e" class="adsbygoogle" style="display:block;min-width:320px;max-width:1200px;width:100%;margin:0 auto;height:555px;overflow:hidden;" data-ad-client="ca-pub-3235755782694080" data-ad-slot="2612558748"> </ins> <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            document.getElementById('ggads-b2211135-8d4b-4f89-b3a4-fcf4660dd76e').style.height = adHeight;
+        </script> </div> <div id="adReplacement"></div> <div class="sticky-video-player"> <script type="text/javascript" src="https://content.jwplatform.com/libraries/ZgCESaYC.js"></script> <section id="jwplayer-section" class="jwplayer-section"> <h2 class="jwplayer__label"> Video of the Day </h2> <div id="jwplayerContainerOuter" class="jwplayer__container-outer"> <div id="jwplayerContainer" class="jwplayer__container"> <div id="jw-player"> </div> <div id="jwplayerClose" class="jwplayer__close"> <span class="close-x"></span> </div> <div class="jwplayer__attribution-sticky">Brought to you by <a target="_blank" rel="nofollow" href="https://www.techwalla.com/">Techwalla</a></div> </div> </div> <div class="jwplayer__attribution">Brought to you by <a target="_blank" rel="nofollow" href="https://www.techwalla.com/">Techwalla</a></div> </section> <script type="text/javascript">
+        var jwSettings = {
+            mute: true,
+            playlist: 'https://cdn.jwplayer.com/v2/playlists/feQsEK1x?format=mrss',
+            advertising: {
+              client: 'googima',
+              offset: 'pre',
+              tag: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/6117/itstillworks.jw&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=&correlator=',
+            }
+        };
+        var mobileVideoFallback = "";
+    </script> <script type="text/javascript" src="//itstillworks.com/scripts/video_player.js"></script> </div> <div id="taboola-desktop-below-article-thumbnails"></div> <div id="taboola-mobile-below-article-thumbnails"></div> <script>
+        window._taboola = window._taboola || [];
+        if (VIEWPORT_WIDTH > 768) {
+            _taboola.push({
+                mode: 'thumbnails-a',
+                container: 'taboola-desktop-below-article-thumbnails',
+                placement: 'Desktop Below Article Thumbnails',
+                target_type: 'mix'
+            });
+        } else {
+            _taboola.push({
+                mode: 'thumbnails-b',
+                container: 'taboola-mobile-below-article-thumbnails',
+                placement: 'Mobile Below Article Thumbnails',
+                target_type: 'mix'
+            });
+        }
+        var TABOOLA_RENDERED = true;
+    </script> <div class="section"> <h4>References</h4> <ul><li><a href="http://windows.microsoft.com/en-US/windows-vista/Internet-Explorer-Pop-up-Blocker-frequently-asked-questions" rel="nofollow"> <span>Microsoft: Pop-up Blocker FAQs</span> </a></li></ul> </div> <div id="author" class="section"> <h4>About the Author</h4> <p>This article was written by the It Still Works team, copy edited and fact checked through a multi-point auditing system, in efforts to ensure our readers only receive the best information. To submit your questions or ideas, or to simply learn more about It Still Works, <a rel="nofollow" href="//itstillworks.com/about-us">contact us.</a></p> </div> <h4>More Articles</h4> <div class="articles-slide-show"> <input type="radio" name="slider-How to Block Pop Ups on Vista" class="slider-nav" value="1" checked aria-label="Radio button"> <input type="radio" name="slider-How to Block Pop Ups on Vista" class="slider-nav" value="2" aria-label="Radio button"> <input type="radio" name="slider-How to Block Pop Ups on Vista" class="slider-nav" value="3" aria-label="Radio button"> <div class="slide-inner"> <div class="slide-item"> <a href="//itstillworks.com/12361826/how-to-repair-windows-vista-without-a-cd"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/photos.demandstudios.com/getty/article/178/35/78374826.jpg)"></div> <div class="slide-title">How to Repair Windows Vista Without a CD</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/file-as-doc-word-file-4685581.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a04/ev/od/file-as-doc-word-file-800x800.jpg)"></div> <div class="slide-title">How to Save an OpenOffice Writer File ...</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/turn-wireless-dell-latitude-laptop-13553.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/i6/g9/test-speed-wi_fi-router-800x800.jpg)"></div> <div class="slide-title">How to Turn on Wireless on a Dell ...</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/enable-bluetooth-lenovo-s10-7234121.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/qa/lt/determine-bluetooth-stack-800x800.jpg)"></div> <div class="slide-title">How to Enable Bluetooth in a Lenovo S10</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/create-computer-shortcut-5899688.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/photos.demandstudios.com/getty/article/176/174/86796289.jpg)"></div> <div class="slide-title">How to Create a My Computer Shortcut</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/inbox-gmail-19527.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/176/228/AA021459_XS.jpg)"></div> <div class="slide-title">How to Go to My Inbox in Gmail</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/save-final-draft-pdf-8349772.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/tk/gm/use-evernote-journal-800x800.jpg)"></div> <div class="slide-title">How to Save a Final Draft as a PDF</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/burn-dvd-windows-vista-10827.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/e6/am/erase-files-dvd_rw-800x800.jpg)"></div> <div class="slide-title">How to Burn a DVD on Windows Vista</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/install-logitech-precision-gamepad-controller-9910.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/photos.demandstudios.com/getty/article/26/183/200342351-001_XS.jpg)"></div> <div class="slide-title">How to Install a Logitech Precision ...</div> </a> </div> </div> </div> <div class="section"> <h4>Photo Credits</h4> <ul> <li> <span>Hemera Technologies/Photos.com/Getty Images</span> </li> </ul> </div> </article> <!-- SIDEBAR --> <aside> <div class="sticky-container"> <div class="link-ad-container"></div> <script>
+            ;(function() {
+                var desktopLink = '<ins class="adsbygoogle" style="display:block;min-width:280px;width:100%" data-ad-client="ca-pub-3235755782694080" data-ad-slot="3317068412" data-ad-format="link"></ins>',
+                    mobileLink = '<ins class="adsbygoogle" style="display:block;min-width:280px;width:100%" data-ad-client="ca-pub-3235755782694080" data-ad-slot="4429173097" data-ad-format="link"></ins>',
+                    linkContainer = document.querySelector('.link-ad-container');
+                if (VIEWPORT_WIDTH > 1030) {
+                    linkContainer.innerHTML = desktopLink;
+                } else {
+                    linkContainer.innerHTML = mobileLink;
+                }
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            })()
+        </script> <div id="adblock-link-unit" data-id="replacement"></div> <div class="desktop-ad side-ad card" id="initial-rightrail"></div> </div> </aside> </div> <script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({flush: true});
+</script> <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadAds = function () {
+            var amzn_bid_config = { slots: [] };
+            var ads = {
+                horizontal: {
+                    slot: '/6117/itstillworks/horizontal1-1',
+                    id: 'horizontal1-1',
+                    size: [[728, 90]],
+                },
+                rightrail: {
+                    slot: '/6117/itstillworks/rightrail1-1',
+                    id: 'initial-rightrail',
+                    size: [[300, 250], [300, 600]],
+                },
+                mobile: {
+                    slot: '/6117/itstillworks.mw/300x250_atf-slot1-1',
+                    id: 'initial-mobile',
+                    size: [[300, 250], [320, 100], [320, 50], 'fluid'],
+                },
+                adhesion: {
+                    slot: '/6117/itstillworks.mw/adhesion1-1',
+                    id: 'adhesion1-1',
+                    size: [[320, 50], [320, 100]],
+                },
+                outpage: {
+                    slot: '/6117/itstillworks/out-of-page',
+                    id: 'out-of-page',
+                    size: [],
+                }
+            }
+            if (VIEWPORT_WIDTH > 1030) {
+                googletag.cmd.push(function() {
+                    googletag.defineSlot(ads.horizontal.slot, ads.horizontal.size, ads.horizontal.id).setTargeting('loc', ['atf']).addService(googletag.pubads());
+                    googletag.defineSlot(ads.rightrail.slot, ads.rightrail.size, ads.rightrail.id).setTargeting('loc', ['atf']).addService(googletag.pubads());
+                });
+
+                amzn_bid_config.slots.push(
+                    {'slotID': ads.horizontal.id, 'sizes': ads.horizontal.size},
+                    {'slotID': ads.rightrail.id, 'sizes': ads.rightrail.size}
+                );
+                    
+                apstag.fetchBids(amzn_bid_config, function() {
+                    googletag.cmd.push(function() {
+                        try {
+                            apstag.setDisplayBids();
+                            googletag.pubads().refresh();
+                        } catch(e) {
+                            console.log('error at render_injected_display_ads apstag.setDisplayBid:', e)
+                        }
+                    });
+                });
+               
+            } else {
+                googletag.cmd.push(function() {
+                    googletag.defineSlot(ads.mobile.slot, ads.mobile.size, ads.mobile.id).setTargeting('loc', ['atf']).addService(googletag.pubads());
+                    googletag.defineSlot(ads.adhesion.slot, ads.adhesion.size, ads.adhesion.id).setTargeting('loc', ['atf']).addService(googletag.pubads());
+                });
+
+                amzn_bid_config.slots.push(
+                    {'slotID': ads.mobile.id, 'sizes': ads.mobile.size},
+                    {'slotID': ads.adhesion.id, 'sizes': ads.adhesion.size}
+                );
+
+                apstag.fetchBids(amzn_bid_config, function(bids) {
+                    googletag.cmd.push(function() {
+                        try {
+                            apstag.setDisplayBids();
+                            googletag.pubads().refresh()
+
+                        } catch(e) {
+                            console.log('error at render_injected_display_ads apstag.setDisplayBid:', e)
+                        }
+                    });
+                });
+
+                var stickyVideo = document.querySelector('.sticky-video-player')
+                if (stickyVideo) stickyVideo.remove()
+                
+            }
+        }
+        loadAds()
+    })
+</script> <script type="text/javascript">
+    // Fixed bottom ad click listener
+    document.querySelector('.fixed-bottom-ad > .close-button')
+        .addEventListener('click', function() {
+        document.querySelector('body').classList.toggle('fixed-bottom-ad-closed')
+    });
+
+    // Ad rendered event listener
+    googletag.cmd.push(function() {
+        googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+            var adName = event.slot.getAdUnitPath();
+            if (adName.includes('adhesion')) {
+                var btn = document.querySelector('.fixed-bottom-ad > .close-button');
+                btn.style.display = 'block';
+                if (btn) {
+                    addListener(btn, 'click', function() {
+                        addClass(document.querySelector('body'), 'fixed-bottom-ad-closed');
+                    });
+                }
+            }
+            if (adName.includes('300x250') && event.size[1] <= 100 && !window.partialCounter) {
+                var element = document.querySelector('#initial-mobile')
+                element.classList.add('sticky-mobile-ad')
+            } else if (adName.includes('300x250_atf-slot' + (window.currentPage + 2)) && event.size[1] <= 100) {
+                var element = document.querySelector('#mobile' + (window.currentPage + 2) + '-1')
+                element.classList.add('sticky-mobile-ad')
+            }
+        });
+    });
+</script> </main><script type="text/javascript" src="/scripts/scroll.js"></script> <script type="text/javascript">
+        var related = [{"url": "itstillworks.com/do-check-junk-mail-msn-8095865.html", "title": "How Do I Check Junk Mail on MSN?", "image_url": "http://photos.demandstudios.com/getty/article/24/239/med243006_XS.jpg", "_id": "itstillworks.com/do-check-junk-mail-msn-8095865.html", "external_url": "itstillworks.com/do-check-junk-mail-msn-8095865.html"}, {"url": "itstillworks.com/block-popups-juno-9719.html", "title": "How to Block Popups in Juno", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/ru/h3/preferred-dns-800x800.jpg", "_id": "itstillworks.com/block-popups-juno-9719.html", "external_url": "itstillworks.com/block-popups-juno-9719.html"}, {"url": "itstillworks.com/reboot-pc-vista-11550.html", "title": "How to Reboot a PC in Vista", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a04/kn/bi/reboot-lenovo-laptop-keyboard-800x800.jpg", "_id": "itstillworks.com/reboot-pc-vista-11550.html", "external_url": "itstillworks.com/reboot-pc-vista-11550.html"}, {"url": "itstillworks.com/12361826/how-to-repair-windows-vista-without-a-cd", "title": "How to Repair Windows Vista Without a CD", "image_url": "http://photos.demandstudios.com/getty/article/178/35/78374826.jpg", "_id": "itstillworks.com/12361826/how-to-repair-windows-vista-without-a-cd", "external_url": "itstillworks.com/12361826/how-to-repair-windows-vista-without-a-cd"}, {"url": "itstillworks.com/file-as-doc-word-file-4685581.html", "title": "How to Save an OpenOffice Writer File as a .doc (Word) File", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a04/ev/od/file-as-doc-word-file-800x800.jpg", "_id": "itstillworks.com/file-as-doc-word-file-4685581.html", "external_url": "itstillworks.com/file-as-doc-word-file-4685581.html"}, {"url": "itstillworks.com/turn-wireless-dell-latitude-laptop-13553.html", "title": "How to Turn on Wireless on a Dell Latitude Laptop", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/i6/g9/test-speed-wi_fi-router-800x800.jpg", "_id": "itstillworks.com/turn-wireless-dell-latitude-laptop-13553.html", "external_url": "itstillworks.com/turn-wireless-dell-latitude-laptop-13553.html"}, {"url": "itstillworks.com/enable-bluetooth-lenovo-s10-7234121.html", "title": "How to Enable Bluetooth in a Lenovo S10", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/qa/lt/determine-bluetooth-stack-800x800.jpg", "_id": "itstillworks.com/enable-bluetooth-lenovo-s10-7234121.html", "external_url": "itstillworks.com/enable-bluetooth-lenovo-s10-7234121.html"}, {"url": "itstillworks.com/create-computer-shortcut-5899688.html", "title": "How to Create a My Computer Shortcut", "image_url": "http://photos.demandstudios.com/getty/article/176/174/86796289.jpg", "_id": "itstillworks.com/create-computer-shortcut-5899688.html", "external_url": "itstillworks.com/create-computer-shortcut-5899688.html"}, {"url": "itstillworks.com/inbox-gmail-19527.html", "title": "How to Go to My Inbox in Gmail", "image_url": "http://cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/176/228/AA021459_XS.jpg", "_id": "itstillworks.com/inbox-gmail-19527.html", "external_url": "itstillworks.com/inbox-gmail-19527.html"}, {"url": "itstillworks.com/save-final-draft-pdf-8349772.html", "title": "How to Save a Final Draft as a PDF", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/tk/gm/use-evernote-journal-800x800.jpg", "_id": "itstillworks.com/save-final-draft-pdf-8349772.html", "external_url": "itstillworks.com/save-final-draft-pdf-8349772.html"}, {"url": "itstillworks.com/burn-dvd-windows-vista-10827.html", "title": "How to Burn a DVD on Windows Vista", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/e6/am/erase-files-dvd_rw-800x800.jpg", "_id": "itstillworks.com/burn-dvd-windows-vista-10827.html", "external_url": "itstillworks.com/burn-dvd-windows-vista-10827.html"}, {"url": "itstillworks.com/install-logitech-precision-gamepad-controller-9910.html", "title": "How to Install a Logitech Precision Gamepad Controller", "image_url": "http://photos.demandstudios.com/getty/article/26/183/200342351-001_XS.jpg", "_id": "itstillworks.com/install-logitech-precision-gamepad-controller-9910.html", "external_url": "itstillworks.com/install-logitech-precision-gamepad-controller-9910.html"}, {"url": "itstillworks.com/clean-external-hard-drive-6890277.html", "title": "How to Clean an External Hard Drive", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/7r/aj/unmountable-boot-volume_-800x800.jpg", "_id": "itstillworks.com/clean-external-hard-drive-6890277.html", "external_url": "itstillworks.com/clean-external-hard-drive-6890277.html"}, {"url": "itstillworks.com/turn-mcafee-antivirus-scan-6810056.html", "title": "How to Turn on My McAfee AntiVirus Scan", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/qj/gs/graphic-art-programs-computer-1.1-800x800.jpg", "_id": "itstillworks.com/turn-mcafee-antivirus-scan-6810056.html", "external_url": "itstillworks.com/turn-mcafee-antivirus-scan-6810056.html"}, {"url": "itstillworks.com/convert-max-files-pdf-5984032.html", "title": "How to Convert MAX Files to PDF", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a05/mi/jv/do-print-avery-labels-landscape_-800x800.jpg", "_id": "itstillworks.com/convert-max-files-pdf-5984032.html", "external_url": "itstillworks.com/convert-max-files-pdf-5984032.html"}, {"url": "itstillworks.com/remove-antimalware-doctor-virus-6067077.html", "title": "How to Remove Antimalware Doctor Virus", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/p1/64/do-hard-drive-start-over-800x800.jpg", "_id": "itstillworks.com/remove-antimalware-doctor-virus-6067077.html", "external_url": "itstillworks.com/remove-antimalware-doctor-virus-6067077.html"}, {"url": "itstillworks.com/movies-wont-autoplay-toshiba-laptop-6801815.html", "title": "Movies Won't Autoplay on a Toshiba Laptop", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/hf/i8/laptop-slow-internet_-800x800.jpg", "_id": "itstillworks.com/movies-wont-autoplay-toshiba-laptop-6801815.html", "external_url": "itstillworks.com/movies-wont-autoplay-toshiba-laptop-6801815.html"}, {"url": "itstillworks.com/unlock-latitude-d630-administrator-password-7510927.html", "title": "How to Unlock a Dell Latitude D630 Administrator Password", "image_url": "http://cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/152/131/89686975_XS.jpg", "_id": "itstillworks.com/unlock-latitude-d630-administrator-password-7510927.html", "external_url": "itstillworks.com/unlock-latitude-d630-administrator-password-7510927.html"}, {"url": "itstillworks.com/install-fax-services-time-warner-cable-digital-phone-service-13460.html", "title": "How to Install Fax Services With Time Warner Cable Digital Phone Service", "image_url": "http://photos.demandstudios.com/getty/article/117/181/87970019.jpg", "_id": "itstillworks.com/install-fax-services-time-warner-cable-digital-phone-service-13460.html", "external_url": "itstillworks.com/install-fax-services-time-warner-cable-digital-phone-service-13460.html"}, {"url": "itstillworks.com/manually-remove-logitech-setpoint-15005.html", "title": "How to Manually Remove Logitech SetPoint", "image_url": "http://photos.demandstudios.com/getty/article/110/224/87970042_XS.jpg", "_id": "itstillworks.com/manually-remove-logitech-setpoint-15005.html", "external_url": "itstillworks.com/manually-remove-logitech-setpoint-15005.html"}];
+        var current = {url: "itstillworks.com/block-pop-ups-vista-9106.html", title: "How to Block Pop Ups on Vista"};
+        var config = {related: related, origin: current, scrollOffset: 400};
+        var infscroll = LeafScroll(config);
+        infscroll.listen();
+      </script> <script>
+        ;(function() {
+            var popups = document.querySelectorAll('.popup.share')
+            popups.forEach(function(popup) {
+                popup.addEventListener('click', function(e) {
+                var width  = parseInt(this.getAttribute('data-popup-width')),
+                    height = parseInt(this.getAttribute('data-popup-height')),
+                    left   = (window.innerWidth - width) / 2,
+                    top    = (window.innerHeight - height) / 2,
+                    url    = this.getAttribute('data-href'),
+                    opts   = 'status=1' +
+                                    ',width=' + width +
+                                    ',height=' + height +
+                                    ',top=' + top +
+                                    ',left=' + left;
+                    window.open(url,'_blank',opts);
+                    e.preventDefault();
+                })
+            })
+        })()
+    </script> <footer class="footer"> <div class="width-wrapper"> <div class="logo"> <img src="//itstillworks.com/images/leafgroupltd.png" alt="Leaf Group"> <div class="footer--copyright"> <span>Copyright 2019 Leaf Group Ltd. / Leaf Group Media</span> </div> </div> <ul class="footer-list"> <li> <a title="about-us" href="//itstillworks.com/about-us"> <span>About Us</span> </a> </li> <li> <a title="terms-of-use" href="//itstillworks.com/terms-of-use"> <span>Terms of Use</span> </a> </li> <li> <a title="privacy-policy" href="//itstillworks.com/privacy-policy"> <span>Privacy Policy</span> </a> </li> <li> <a title="copyright-policy" href="//itstillworks.com/copyright-policy"> <span>Copyright Policy</span> </a> </li> <li> <!--
+                Ghostery Inc tag
+                cid: 374
+                pid: 46
+                --> <a id="_bapw-link" href="#" target="_blank" aria-label="ads" style="color:#fff;font:11pt Arial !important;text-decoration:none !important"><img alt="ads" id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;"><span style="vertical-align:middle !important">AdChoices</span></a> <script type="text/javascript">
+                ;(function() {
+                    var ev = document.createElement('script'); ev.type = 'text/javascript'; ev.async = true; ev.setAttribute('data-ev-tag-pid', 46); ev.setAttribute('data-ev-tag-ocid', 374);
+                    ev.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'c.betrad.com/pub/tag.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ev, s);
+                })();
+                </script> </li> </ul> </div> </footer> <script async src="//itstillworks.com/scripts/custom.js"></script> <div id="outofpage"> <script type="text/javascript">
+            googletag.cmd.push(function() { googletag.display("outofpage")});
+        </script> </div> </div> <script type="text/javascript">
+    var vglnk = { key: '9e9be8ac3deebc7b5961bfe3f93f3fe1' };
+
+    (function(d, t) {
+      var s = d.createElement(t); s.type = 'text/javascript'; s.async = true;
+      s.src = '//cdn.viglink.com/api/vglnk.js';
+      var r = d.getElementsByTagName(t)[0]; r.parentNode.insertBefore(s, r);
+    }(document, 'script'));
+  </script> </body> </html>
+
+
+#####EOF#####
+
+
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="google-site-verification" content="bAcwWUYbKsarTRubFQ9MOUfLNZwwaG7aL-CcLjTvCsE"><meta name="msvalidate.01" content="129B5DE6FF8DD0ECBDD457C93FF101E3"><meta property="og:site_name" content="It Still Works"><meta property="fb:admins" content><title>How to Allow ActiveX to Work in My Browser | It Still Works</title><meta name="description" content="ActiveX is a type of component used by Internet Explorer to launch applications in the browser. Certain applications such as the Windows Media Player (WMP) or QuickTime rely on ActiveX controls to playback video on the browser. To ensure that your browser can run applications, you have to enable the ActiveX control. ..."><meta property="og:type" content="article"><meta property="og:url" content="https://itstillworks.com/allow-activex-work-browser-11213.html"><meta property="og:description" content="ActiveX is a type of component used by Internet Explorer to launch applications in the browser. Certain applications such as the Windows Media Player (WMP) or QuickTime rely on ActiveX controls to playback video on the browser. To ensure that your browser can run applications, you have to enable the ActiveX control. ..."><meta property="og:title" content="How to Allow ActiveX to Work in My Browser"><meta property="og:image" content="//img-aws.ehowcdn.com/600x400/cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/45/185/stk323634rkn_XS.jpg"><link rel="canonical" href="https://itstillworks.com/allow-activex-work-browser-11213.html"><script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({article:'auto'});
+  !function (e, f, u, i) {
+    if (!document.getElementById(i)){
+      e.async = 1;
+      e.src = u;
+      e.id = i;
+      f.parentNode.insertBefore(e, f);
+    }
+  }(document.createElement('script'),
+  document.getElementsByTagName('script')[0],
+  '//cdn.taboola.com/libtrc/demandmedia-itstillworks/loader.js',
+  'tb_loader_script');
+  if(window.performance && typeof window.performance.mark == 'function')
+    {window.performance.mark('tbl_ic');}
+</script><!-- remove adblock replace script while it isn't working --><!-- <script src="/scripts/detectab.js"></script> --><link rel="stylesheet" href="//itstillworks.com/style.css" type="text/css"><link rel="shortcut icon" href="//itstillworks.com/favicon.ico" type="image/x-icon"><link rel="shortcut icon" href="//itstillworks.com/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="//itstillworks.com/favicon-32x32.png"><!-- Custom Dimension dataLayer --><script title="dataLayer" type="text/javascript">
+  var dataLayer = [] || window.dataLayer;
+
+  dataLayer.push({
+    "event": "head.template",
+    "pagetype": "Article",
+    "subpagetype": "How To",
+    "studioid": "d46a2878-ed69-4544-a596-36136dc3ed86",
+    "content_name": "How to Allow ActiveX to Work in My Browser",
+    "publish_date": "2013-04-05 11:05:15.686000",
+    "rating": "",
+    "author": "Kefa Olang",
+    "structure_rating": "","ancestor_category1": "Internet","ancestor_category2": "","category": "Science &amp; Technology","subcategory": "Technology","has_image" : "TRUE","keyword1":"enable ActiveX","keyword2":"Internet Explorer","keyword3":"enable plug-ins"})
+</script><!-- End Custom Dimension dataLayer --><script type="text/javascript">
+  // Determine WebP Support
+// Adapted from https://github.com/Modernizr/Modernizr/blob/master/feature-detects/img/webp.js
+(function() {
+	webp_flag = false;
+ 	var image = new Image();
+	image.src = 'data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAAAUAgCdASoBAAEAL/3+/3+CAB/AAAFzrNsAAP5QAAAAAA==';
+	image.onload = function() {
+		webp_flag = (image.width == 1);
+	}
+})();
+
+if (typeof $ !== 'undefined'){
+	// Lazy Load Images
+	$.fn.lazyImage = function(callback) {
+		var imgLen = this.length,
+				count = 0;
+		return this.each(function() {
+			if ($(this).attr('data-src')) {
+				var imgTag = this, imgSrc = $(this).attr('data-src'), del;
+				if (webp_flag) {
+					// Checks that image is using DM Resize and is not a .gif file
+					if (imgSrc.match(/DM\-Resize/g) && imgSrc.match(/webp=1/g) && (imgSrc.indexOf('.gif') == -1)) {
+						imgSrc = imgSrc + '&format=webp&quality=80';
+					}
+				}
+				i = new Image();
+				i.onload = function() {
+					$(imgTag).attr('src',imgSrc).fadeTo(400,1,function() {
+						(count += 1) && (imgLen == count) && (typeof callback == 'function') && callback.call(this);
+					});
+				};
+				i.src = imgSrc;
+			}
+		});
+	};
+
+	// Post Load Scripts
+	function lazyScript(check, url, callback) {
+		if ( ! check() ) { return; }
+		$.ajax({
+			url: url,
+			dataType: 'script',
+			success: callback,
+			cache: true
+		});
+	};
+}
+
+
+
+// *** helper functions for removing jquery *** //
+
+// cross-browser doc ready function
+function docReady(callback) {
+	if (document.readyState != 'loading'){
+		callback();
+	} else if (document.addEventListener) {
+		document.addEventListener('DOMContentLoaded', callback);
+	} else {
+		document.attachEvent('onreadystatechange', function() {
+			if (document.readyState != 'loading')
+				callback();
+		});
+	}
+}
+
+// cross-browser add event listener (IE8)
+function addListener(el, eventName, handler) {
+	if (el && el.addEventListener)
+		el.addEventListener(eventName, handler);
+	else if (el && el.attachEvent) {
+		el.attachEvent('on' + eventName, function(){
+			handler.call(el);
+		});
+	} else
+		return false;
+		//console.error("couldn't attach event: " + eventName + " to element: " + el);
+}
+
+function removeClass(el, className){
+	if (el && el.classList)
+		el.classList.remove(className);
+	else if (el)
+		el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+	else
+		return false;
+		//console.error("couldn't remove class: " + className + " from element: " + el);
+}
+
+function addClass(el, className){
+	if (el && el.classList)
+	  el.classList.add(className);
+	else if (el)
+	  el.className += ' ' + className;
+	else
+		return false;
+		//console.error("couldn't add class: " + className + " to element: " + el);
+}
+
+function hasClass(el, className){
+	if (el && el.classList)
+	  return el.classList.contains(className);
+	else if (el)
+	  return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+	else
+		return null;
+}
+
+function getIndex(el){
+  let i = 0;
+  while (el.previousSibling != null){
+    if (el.previousSibling.nodeType == 1){
+      // only count actual elements, not text nodes
+      i++;
+    }
+    el = el.previousSibling;
+  }
+  return i;
+}
+
+//add forEach support for IE 8
+if (typeof Array.prototype.forEach != 'function') {
+  Array.prototype.forEach = function(callback){
+    for (var i = 0; i < this.length; i++){
+      callback.apply(this, [this[i], i, this]);
+    }
+  };
+}
+</script><!-- Bing Webmaster Tool Auth --><meta name="msvalidate.01" content="129B5DE6FF8DD0ECBDD457C93FF101E3"><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://itstillworks.com/allow-activex-work-browser-11213.html",
+  "url": "https://itstillworks.com/allow-activex-work-browser-11213.html",
+  "name":"How to Allow ActiveX to Work in My Browser",
+  "breadcrumb":{
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Website",
+          "@id": "https://itstillworks.com/internet/",
+          "url": "https://itstillworks.com/internet/",
+          "name": "Internet"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Website",
+          "@id": "https://itstillworks.com/",
+          "url": "https://itstillworks.com/",
+          "name": "It Still Works"
+        }
+      }
+    ]
+  },
+  "inLanguage":"en-US",
+  "mainEntity":{
+    "@type":"Article",
+    "@id": "https://itstillworks.com/allow-activex-work-browser-11213.html",
+    "url": "https://itstillworks.com/allow-activex-work-browser-11213.html",
+    "mainEntityOfPage": "true",
+    "datePublished":"",
+    "dateModified":"2019-01-10 20:10:20.944000",
+    "headline": "How to Allow ActiveX to Work in My Browser",
+    "description":"How to Allow ActiveX to Work in My Browser. ActiveX is a type of component used by Internet Explorer to launch applications in the browser. Certain applications such as the Windows Media Player (WMP) or QuickTime rely on ActiveX controls to playback video on the browser. To ensure that your browser can run applications, you have to enable the ActiveX control. You can do so easily from the browsers management console.",
+    "keywords": "enable ActiveX, Internet Explorer, enable plug-ins",
+    "Publisher": {
+      "@type": "Organization",
+      "name": "It Still Works",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://itstillworks.com/images/ItStillWorks_Logo_040617.png"}
+    },
+    "Author":{
+      "@type":"person",
+      "name":"Kefa Olang"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/45/185/stk323634rkn_XS.jpg",
+      "height": "400",
+      "width": "400"
+    }
+  }
+}
+</script><script type="text/javascript">
+    !function(a9,a,p,s,t,A,g){if(a[a9])return;function q(c,r){a[a9]._Q.push([c,r])}a[a9]={init:function(){q("i",arguments)},fetchBids:function(){q("f",arguments)},setDisplayBids:function(){},_Q:[]};A=p.createElement(s);A.async=!0;A.src=t;g=p.getElementsByTagName(s)[0];g.parentNode.insertBefore(A,g)}("apstag",window,document,"script","//c.amazon-adsystem.com/aax2/apstag.js");
+
+    apstag.init({
+     pubID: '3066',
+     adServer: 'googletag'
+    });
+    </script><script type="text/javascript">
+      var VIEWPORT_WIDTH = document.documentElement.clientWidth || document.body.clientWidth,
+          amzn_bid_config = {slots: []};
+
+      var googletag = googletag || {};
+      googletag.cmd = googletag.cmd || [];
+      (function() {
+        var gads = document.createElement('script');
+        gads.async = true;
+        gads.type = 'text/javascript';
+        var useSSL = 'https:' == document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') +
+          '//www.googletagservices.com/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+      })();
+
+    </script><script>
+      googletag.cmd.push(function() {
+        if (VIEWPORT_WIDTH <= 500) {
+          googletag.defineOutOfPageSlot("/6117/itstillworks.mw", "outofpage").addService(googletag.pubads());
+        } else if (VIEWPORT_WIDTH >= 728) {
+          googletag.defineOutOfPageSlot("/6117/itstillworks", "outofpage").addService(googletag.pubads());
+        } else {
+          googletag.defineOutOfPageSlot("/6117/itstillworks", "outofpage").addService(googletag.pubads());
+        }
+          googletag.pubads().enableSingleRequest();
+          googletag.pubads().collapseEmptyDivs();
+          googletag.pubads().disableInitialLoad();
+          googletag.enableServices();
+        });
+    </script></head> <body class="article"> <!-- body-top --> <!-- google tag manager --> <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WGZCHF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WGZCHF');</script> <!-- end google tag manager --><!-- partner google analytics tracking --> <script>var _gaq=[['partner._setAccount', ''],['partner._trackPageview'],['partner._trackPageLoadTime']];
+	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))
+</script> <!-- end partner google analytics tracking --><!-- end body-top --> <div class="body-wrap"> <header class="header"> <div class="header-wrapper"> <a href="//itstillworks.com" aria-label="home button" class="logo"> <svg height="30px" viewbox="0 0 488 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g transform="translate(-0.068006, 0.260441)"> <path d="M96.5479203,69.3372357 L96.5479203,28.0339533 L110.379104,28.0339533 L110.379104,69.3372357 L96.5479203,69.3372357 Z M96.5479203,23.0127699 L96.5479203,11.4316535 L110.379104,11.4316535 L110.379104,23.0127699 L96.5479203,23.0127699 Z" fill="#FFFFFF"></path> <path d="M114.85743,37.2664517 L114.85743,28.0339533 L119.687367,28.0339533 L119.687367,14.6711266 L133.225827,14.6711266 L133.225827,28.0339533 L140.324371,28.0339533 L140.324371,37.2664517 L133.225827,37.2664517 L133.225827,54.0307251 C133.225827,58.1610534 135.860338,58.2420402 140.178009,57.9180929 L140.178009,69.175262 C138.055764,69.7421698 135.860338,70.1471039 133.372189,70.1471039 C124.297761,70.1471039 119.687367,67.3125649 119.687367,57.4321719 L119.687367,37.2664517 L114.85743,37.2664517 Z" fill="#FFFFFF"></path> <path d="M162.732009,70.7140117 C151.681698,70.7140117 143.997707,65.4498679 143.924526,55.974409 L157.170263,55.974409 C157.389805,59.3758558 159.292508,61.4005265 162.805189,61.4005265 C165.512881,61.4005265 167.561946,60.3476977 167.561946,57.837106 C167.561946,54.4356593 163.244275,54.0307251 158.414337,53.2208568 C152.120783,52.1680281 144.875877,50.305331 144.875877,39.939017 C144.875877,31.4354001 152.70623,26.738164 161.853838,26.738164 C173.196872,26.738164 179.124522,31.4354001 179.636788,39.5340829 L166.610594,39.5340829 C166.24469,36.4565834 164.195626,35.8086888 161.927019,35.8086888 C159.877955,35.8086888 157.975252,36.6995439 157.975252,38.8052014 C157.975252,41.1538194 161.414753,41.6397404 165.659243,42.287635 C172.465064,43.3404638 181.100406,45.0411872 181.100406,56.5413168 C181.100406,66.4217098 172.97733,70.7140117 162.732009,70.7140117 Z" fill="#56CD27"></path> <path d="M182.797859,37.2664517 L182.797859,28.0339533 L187.627796,28.0339533 L187.627796,14.6711266 L201.166256,14.6711266 L201.166256,28.0339533 L208.2648,28.0339533 L208.2648,37.2664517 L201.166256,37.2664517 L201.166256,54.0307251 C201.166256,58.1610534 203.800767,58.2420402 208.118438,57.9180929 L208.118438,69.175262 C205.996193,69.7421698 203.800767,70.1471039 201.312618,70.1471039 C192.23819,70.1471039 187.627796,67.3125649 187.627796,57.4321719 L187.627796,37.2664517 L182.797859,37.2664517 Z" fill="#56CD27"></path> <polygon fill="#56CD27" points="213.328573 69.3372357 213.328573 28.0339533 227.159756 28.0339533 227.159756 69.3372357"></polygon> <polygon fill="#56CD27" points="213.328573 23.0127699 213.328573 11.4316535 227.159756 11.4316535 227.159756 23.0127699"></polygon> <polygon fill="#56CD27" points="233.613965 69.3372357 233.613965 11.4316535 247.811053 11.4316535 247.811053 69.3372357"></polygon> <polygon fill="#56CD27" points="254.265262 69.3372357 254.265262 11.4316535 268.46235 11.4316535 268.46235 69.3372357"></polygon> <path d="M283.844625,69.3372357 L271.916144,28.0339533 L286.186413,28.0339533 L289.845456,43.0165165 C290.650445,46.2559896 291.601797,51.277173 291.601797,51.277173 L291.748158,51.277173 C291.748158,51.277173 292.69951,46.1750028 293.504499,42.6925692 L296.724457,28.0339533 L308.433396,28.0339533 L311.653354,42.6925692 C312.458343,46.2559896 313.409694,51.4391466 313.409694,51.4391466 L313.556056,51.4391466 C313.556056,51.4391466 314.653769,46.2559896 315.385578,43.0165165 L318.97144,28.0339533 L332.948985,28.0339533 L321.093685,69.3372357 L307.774768,69.3372357 L303.969363,52.1680281 C303.237554,49.0095418 302.432565,44.4742794 302.432565,44.4742794 L302.286203,44.4742794 C302.286203,44.4742794 301.481213,49.0095418 300.749405,52.1680281 L296.944,69.3372357 L283.844625,69.3372357 Z" fill="#FFFFFF"></path> <path d="M353.893006,70.6330249 C341.452259,70.6330249 333.402364,61.3195397 333.402364,48.7665813 C333.402364,36.2136229 341.452259,26.8191509 353.893006,26.8191509 C366.333753,26.8191509 374.237286,36.2136229 374.237286,48.7665813 C374.237286,61.3195397 366.333753,70.6330249 353.893006,70.6330249 Z" fill="#FFFFFF"></path> <path d="M353.746644,60.4286846 C357.991134,60.4286846 360.18656,55.7314485 360.18656,48.7665813 C360.18656,41.8017141 357.991134,37.104478 353.746644,37.104478 C349.502154,37.104478 347.45309,41.8017141 347.45309,48.7665813 C347.45309,55.7314485 349.502154,60.4286846 353.746644,60.4286846 Z" fill="#000"></path> <path d="M392.327253,28.0339533 L392.327253,34.269939 L392.546796,34.269939 C395.547211,29.086782 399.133074,27.1430982 403.88983,27.1430982 C404.987543,27.1430982 405.719352,27.3050718 406.158437,27.5480323 L406.158437,40.5869116 L405.865713,40.5869116 C397.742637,39.0481619 392.985881,43.0975033 392.985881,52.4109886 L392.985881,69.3372357 L379.154698,69.3372357 L379.154698,28.0339533 L392.327253,28.0339533 Z" fill="#FFFFFF"></path> <polygon fill="#FFFFFF" points="434.859629 69.3372357 427.395181 54.5166461 424.541127 57.9990797 424.541127 69.3372357 410.929486 69.3372357 410.929486 11.4316535 424.541127 11.4316535 424.541127 40.3439512 433.542373 28.0339533 449.056717 28.0339533 436.61597 43.259477 450.520334 69.3372357"></polygon> <path d="M469.561652,70.7140117 C458.511341,70.7140117 450.827351,65.4498679 450.75417,55.974409 L463.999906,55.974409 C464.219449,59.3758558 466.122151,61.4005265 469.634833,61.4005265 C472.342525,61.4005265 474.391589,60.3476977 474.391589,57.837106 C474.391589,54.4356593 470.073918,54.0307251 465.243981,53.2208568 C458.950427,52.1680281 451.705521,50.305331 451.705521,39.939017 C451.705521,31.4354001 459.535874,26.738164 468.683482,26.738164 C480.026516,26.738164 485.954166,31.4354001 486.466432,39.5340829 L473.440238,39.5340829 C473.074334,36.4565834 471.025269,35.8086888 468.756663,35.8086888 C466.707598,35.8086888 464.804896,36.6995439 464.804896,38.8052014 C464.804896,41.1538194 468.244397,41.6397404 472.488887,42.287635 C479.294707,43.3404638 487.930049,45.0411872 487.930049,56.5413168 C487.930049,66.4217098 479.806973,70.7140117 469.561652,70.7140117 Z" fill="#FFFFFF"></path> <g transform="translate(0.844404, 0.384445)"> <ellipse fill="#FFFFFF" cx="41.5" cy="40" rx="41.5" ry="40"></ellipse> <g transform="translate(21.000000, 14.804204)" fill="#56CD27" fill-rule="nonzero"> <path d="M21.1579337,24.6534331 C22.1119176,24.6534331 22.937727,24.3056275 23.6343019,23.6079924 C24.3310696,22.9113211 24.6803208,22.0854153 24.6803208,21.131817 L24.6803208,3.52209799 C24.6803208,2.56801776 24.3314551,1.74269018 23.6343019,1.04601887 C22.9378234,0.348576584 22.1119176,0 21.1579337,0 C20.2038535,0 19.3785259,0.348962071 18.6814691,1.04601887 C17.9844123,1.74269018 17.6358357,2.56840325 17.6358357,3.52209799 L17.6358357,21.1319133 C17.6358357,22.0855117 17.9844123,22.9113211 18.6814691,23.6080888 C19.3785259,24.3056275 20.2041426,24.6534331 21.1579337,24.6534331 Z"></path> <path d="M40.074839,15.2158449 C38.597942,12.2628221 36.5208419,9.78635747 33.842864,7.78712572 C33.0724683,7.20022182 32.2011714,6.97085708 31.2289733,7.09912787 C30.2566788,7.2275914 29.4862831,7.68612814 28.9176898,8.47464172 C28.3306896,9.24494104 28.1064325,10.1116121 28.2436659,11.0746549 C28.3808029,12.0381796 28.835292,12.812912 29.6056877,13.3999122 C31.4025388,14.7572118 32.7928939,16.4175042 33.7737655,18.380211 C34.7552153,20.3427251 35.2453619,22.4340883 35.2453619,24.653144 C35.2453619,26.5614008 34.8739452,28.3815739 34.1312082,30.1153015 C33.3885676,31.84874 32.3839886,33.3479951 31.1181458,34.6138379 C29.852303,35.8792952 28.3534333,36.8834888 26.6197057,37.6265149 C24.8862672,38.369541 23.0657087,38.7415359 21.1580301,38.7415359 C19.2506406,38.7415359 17.4299857,38.369541 15.6965472,37.6265149 C13.9629159,36.8834888 12.4635644,35.8792952 11.1977216,34.6138379 C9.93245703,33.3479951 8.92807075,31.8488363 8.18504464,30.1153015 C7.44221126,28.3815739 7.07069821,26.5614008 7.07069821,24.653144 C7.07069821,22.4340883 7.56142311,20.3430143 8.54268017,18.380211 C9.5240336,16.4176969 10.9135213,14.7575009 12.711047,13.3999122 C13.4814427,12.8125265 13.9352573,12.0378904 14.0730688,11.0746549 C14.2105913,10.1119976 13.9860452,9.24494104 13.3989485,8.47464172 C12.8302589,7.68612814 12.0647782,7.22749503 11.1015426,7.09912787 C10.1384034,6.97076071 9.26228795,7.20022182 8.473678,7.78712572 C5.7953146,9.78635747 3.71831085,12.2628221 2.24141393,15.2158449 C0.764613387,18.1692533 0.0265022286,21.3150196 0.0265022286,24.6532403 C0.0265022286,27.5151919 0.586036552,30.2480053 1.70481608,32.8527407 C2.8239811,35.4574761 4.32786211,37.7040941 6.21751919,39.5937512 C8.10659804,41.4829264 10.3536979,42.9874821 12.958626,44.1053942 C15.5633614,45.224752 18.296464,45.7847682 21.1579337,45.7847682 C24.0194998,45.7847682 26.752506,45.224752 29.3573377,44.1053942 C31.9623622,42.9870966 34.2093657,41.4828301 36.0987337,39.5937512 C37.9878125,37.7046724 39.4916936,35.4574761 40.6106658,32.8527407 C41.7296381,30.2480053 42.2886906,27.5145173 42.2886906,24.6532403 C42.2887869,21.3149233 41.5516395,18.1691569 40.074839,15.2158449 Z"></path> </g> </g> </g> </g> </svg> </a> <ul class="navigation"> <li class="desktop-category"> <a href="/internet/" aria-label="Internet">Internet</a> </li> <li class="desktop-category"> <a href="/media/" aria-label="Media">Media</a> </li> <li class="desktop-category"> <a href="/printer/" aria-label="Printer">Printer</a> </li> <li class="desktop-category"> <a href="/social-media/" aria-label="Social Media">Social Media</a> </li> <li class="desktop-category social-icon"> <svg class="search" height="20px" viewbox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"> <path d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z" fill="#fff"></path> </svg> </li> <li class="desktop-category hamburger"> <span class="top"></span> <span class="middle"></span> <span class="bottom"></span> </li> </ul> <div class="search-container"> <h1>SEARCH</h1> <form class method="get" action="/search"> <input class="query-input" name="google_kw" type="text" aria-label="search input" placeholder="search"> <button type="submit"> <svg class="submit-btn-icon" width="17" height="17" viewbox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" alt="Search Button"> <title>Search Glass</title> <g transform="translate(1 1)" stroke-width="2" stroke="#fff" fill="none" fill-rule="evenodd"> <circle cx="6.5" cy="6.5" r="6.5"/> <path d="M11.5 11.5l3.536 3.536" stroke-linecap="square"/> </g> </svg> </button> </form> </div> <div class="navigation-container"> <ul class="navigation-block"> <li class="block-category"> <a href="/internet/" aria-label="Internet">Internet</a> </li> <li class="block-category"> <a href="/media/" aria-label="Media">Media</a> </li> <li class="block-category"> <a href="/printer/" aria-label="Printer">Printer</a> </li> <li class="block-category"> <a href="/social-media/" aria-label="Social Media">Social Media</a> </li> <li class="block-category"> <a href="/smart-devices/" aria-label="Smart Devices">Smart Devices</a> </li> <li class="block-category"> <a href="/email/" aria-label="Email">Email</a> </li> <li class="block-category"> <a href="/network/" aria-label="Network">Network</a> </li> <li class="block-category"> <a href="/hardware/" aria-label="Hardware">Hardware</a> </li> <li class="block-category"> <a href="/phone/" aria-label="Phone">Phone</a> </li> <li class="block-category"> <a href="/software/" aria-label="Software">Software</a> </li> <li class="block-category"> <form class method="get" action="/search"> <input class="query-input" name="google_kw" type="text" aria-label="search input" placeholder="search"> <button type="submit"> <svg class="submit-btn-icon" width="17" height="17" viewbox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" alt="Search Button"> <title>Search Glass</title> <g transform="translate(1 1)" stroke-width="2" stroke="#fff" fill="none" fill-rule="evenodd"> <circle cx="6.5" cy="6.5" r="6.5"/> <path d="M11.5 11.5l3.536 3.536" stroke-linecap="square"/> </g> </svg> </button> </form> </li> </ul> </div> <ul class="mobile-nav"> <li class="back-arrow"> <a href="//itstillworks.com" aria-label="back"> <span class="top-line"></span> <span class="bottom-line"></span> </a> </li> <li class="hamburger-menu hamburger"> <span class="top"></span> <span class="middle"></span> <span class="bottom"></span> </li> <li> <a href="//itstillworks.com" aria-label="home" class="home-button"> <svg height="30px" viewbox="0 0 488 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g transform="translate(-0.068006, 0.260441)"> <path d="M96.5479203,69.3372357 L96.5479203,28.0339533 L110.379104,28.0339533 L110.379104,69.3372357 L96.5479203,69.3372357 Z M96.5479203,23.0127699 L96.5479203,11.4316535 L110.379104,11.4316535 L110.379104,23.0127699 L96.5479203,23.0127699 Z" fill="#FFFFFF"></path> <path d="M114.85743,37.2664517 L114.85743,28.0339533 L119.687367,28.0339533 L119.687367,14.6711266 L133.225827,14.6711266 L133.225827,28.0339533 L140.324371,28.0339533 L140.324371,37.2664517 L133.225827,37.2664517 L133.225827,54.0307251 C133.225827,58.1610534 135.860338,58.2420402 140.178009,57.9180929 L140.178009,69.175262 C138.055764,69.7421698 135.860338,70.1471039 133.372189,70.1471039 C124.297761,70.1471039 119.687367,67.3125649 119.687367,57.4321719 L119.687367,37.2664517 L114.85743,37.2664517 Z" fill="#FFFFFF"></path> <path d="M162.732009,70.7140117 C151.681698,70.7140117 143.997707,65.4498679 143.924526,55.974409 L157.170263,55.974409 C157.389805,59.3758558 159.292508,61.4005265 162.805189,61.4005265 C165.512881,61.4005265 167.561946,60.3476977 167.561946,57.837106 C167.561946,54.4356593 163.244275,54.0307251 158.414337,53.2208568 C152.120783,52.1680281 144.875877,50.305331 144.875877,39.939017 C144.875877,31.4354001 152.70623,26.738164 161.853838,26.738164 C173.196872,26.738164 179.124522,31.4354001 179.636788,39.5340829 L166.610594,39.5340829 C166.24469,36.4565834 164.195626,35.8086888 161.927019,35.8086888 C159.877955,35.8086888 157.975252,36.6995439 157.975252,38.8052014 C157.975252,41.1538194 161.414753,41.6397404 165.659243,42.287635 C172.465064,43.3404638 181.100406,45.0411872 181.100406,56.5413168 C181.100406,66.4217098 172.97733,70.7140117 162.732009,70.7140117 Z" fill="#56CD27"></path> <path d="M182.797859,37.2664517 L182.797859,28.0339533 L187.627796,28.0339533 L187.627796,14.6711266 L201.166256,14.6711266 L201.166256,28.0339533 L208.2648,28.0339533 L208.2648,37.2664517 L201.166256,37.2664517 L201.166256,54.0307251 C201.166256,58.1610534 203.800767,58.2420402 208.118438,57.9180929 L208.118438,69.175262 C205.996193,69.7421698 203.800767,70.1471039 201.312618,70.1471039 C192.23819,70.1471039 187.627796,67.3125649 187.627796,57.4321719 L187.627796,37.2664517 L182.797859,37.2664517 Z" fill="#56CD27"></path> <polygon fill="#56CD27" points="213.328573 69.3372357 213.328573 28.0339533 227.159756 28.0339533 227.159756 69.3372357"></polygon> <polygon fill="#56CD27" points="213.328573 23.0127699 213.328573 11.4316535 227.159756 11.4316535 227.159756 23.0127699"></polygon> <polygon fill="#56CD27" points="233.613965 69.3372357 233.613965 11.4316535 247.811053 11.4316535 247.811053 69.3372357"></polygon> <polygon fill="#56CD27" points="254.265262 69.3372357 254.265262 11.4316535 268.46235 11.4316535 268.46235 69.3372357"></polygon> <path d="M283.844625,69.3372357 L271.916144,28.0339533 L286.186413,28.0339533 L289.845456,43.0165165 C290.650445,46.2559896 291.601797,51.277173 291.601797,51.277173 L291.748158,51.277173 C291.748158,51.277173 292.69951,46.1750028 293.504499,42.6925692 L296.724457,28.0339533 L308.433396,28.0339533 L311.653354,42.6925692 C312.458343,46.2559896 313.409694,51.4391466 313.409694,51.4391466 L313.556056,51.4391466 C313.556056,51.4391466 314.653769,46.2559896 315.385578,43.0165165 L318.97144,28.0339533 L332.948985,28.0339533 L321.093685,69.3372357 L307.774768,69.3372357 L303.969363,52.1680281 C303.237554,49.0095418 302.432565,44.4742794 302.432565,44.4742794 L302.286203,44.4742794 C302.286203,44.4742794 301.481213,49.0095418 300.749405,52.1680281 L296.944,69.3372357 L283.844625,69.3372357 Z" fill="#FFFFFF"></path> <path d="M353.893006,70.6330249 C341.452259,70.6330249 333.402364,61.3195397 333.402364,48.7665813 C333.402364,36.2136229 341.452259,26.8191509 353.893006,26.8191509 C366.333753,26.8191509 374.237286,36.2136229 374.237286,48.7665813 C374.237286,61.3195397 366.333753,70.6330249 353.893006,70.6330249 Z" fill="#FFFFFF"></path> <path d="M353.746644,60.4286846 C357.991134,60.4286846 360.18656,55.7314485 360.18656,48.7665813 C360.18656,41.8017141 357.991134,37.104478 353.746644,37.104478 C349.502154,37.104478 347.45309,41.8017141 347.45309,48.7665813 C347.45309,55.7314485 349.502154,60.4286846 353.746644,60.4286846 Z" fill="#000"></path> <path d="M392.327253,28.0339533 L392.327253,34.269939 L392.546796,34.269939 C395.547211,29.086782 399.133074,27.1430982 403.88983,27.1430982 C404.987543,27.1430982 405.719352,27.3050718 406.158437,27.5480323 L406.158437,40.5869116 L405.865713,40.5869116 C397.742637,39.0481619 392.985881,43.0975033 392.985881,52.4109886 L392.985881,69.3372357 L379.154698,69.3372357 L379.154698,28.0339533 L392.327253,28.0339533 Z" fill="#FFFFFF"></path> <polygon fill="#FFFFFF" points="434.859629 69.3372357 427.395181 54.5166461 424.541127 57.9990797 424.541127 69.3372357 410.929486 69.3372357 410.929486 11.4316535 424.541127 11.4316535 424.541127 40.3439512 433.542373 28.0339533 449.056717 28.0339533 436.61597 43.259477 450.520334 69.3372357"></polygon> <path d="M469.561652,70.7140117 C458.511341,70.7140117 450.827351,65.4498679 450.75417,55.974409 L463.999906,55.974409 C464.219449,59.3758558 466.122151,61.4005265 469.634833,61.4005265 C472.342525,61.4005265 474.391589,60.3476977 474.391589,57.837106 C474.391589,54.4356593 470.073918,54.0307251 465.243981,53.2208568 C458.950427,52.1680281 451.705521,50.305331 451.705521,39.939017 C451.705521,31.4354001 459.535874,26.738164 468.683482,26.738164 C480.026516,26.738164 485.954166,31.4354001 486.466432,39.5340829 L473.440238,39.5340829 C473.074334,36.4565834 471.025269,35.8086888 468.756663,35.8086888 C466.707598,35.8086888 464.804896,36.6995439 464.804896,38.8052014 C464.804896,41.1538194 468.244397,41.6397404 472.488887,42.287635 C479.294707,43.3404638 487.930049,45.0411872 487.930049,56.5413168 C487.930049,66.4217098 479.806973,70.7140117 469.561652,70.7140117 Z" fill="#FFFFFF"></path> <g transform="translate(0.844404, 0.384445)"> <ellipse fill="#FFFFFF" cx="41.5" cy="40" rx="41.5" ry="40"></ellipse> <g transform="translate(21.000000, 14.804204)" fill="#56CD27" fill-rule="nonzero"> <path d="M21.1579337,24.6534331 C22.1119176,24.6534331 22.937727,24.3056275 23.6343019,23.6079924 C24.3310696,22.9113211 24.6803208,22.0854153 24.6803208,21.131817 L24.6803208,3.52209799 C24.6803208,2.56801776 24.3314551,1.74269018 23.6343019,1.04601887 C22.9378234,0.348576584 22.1119176,0 21.1579337,0 C20.2038535,0 19.3785259,0.348962071 18.6814691,1.04601887 C17.9844123,1.74269018 17.6358357,2.56840325 17.6358357,3.52209799 L17.6358357,21.1319133 C17.6358357,22.0855117 17.9844123,22.9113211 18.6814691,23.6080888 C19.3785259,24.3056275 20.2041426,24.6534331 21.1579337,24.6534331 Z"></path> <path d="M40.074839,15.2158449 C38.597942,12.2628221 36.5208419,9.78635747 33.842864,7.78712572 C33.0724683,7.20022182 32.2011714,6.97085708 31.2289733,7.09912787 C30.2566788,7.2275914 29.4862831,7.68612814 28.9176898,8.47464172 C28.3306896,9.24494104 28.1064325,10.1116121 28.2436659,11.0746549 C28.3808029,12.0381796 28.835292,12.812912 29.6056877,13.3999122 C31.4025388,14.7572118 32.7928939,16.4175042 33.7737655,18.380211 C34.7552153,20.3427251 35.2453619,22.4340883 35.2453619,24.653144 C35.2453619,26.5614008 34.8739452,28.3815739 34.1312082,30.1153015 C33.3885676,31.84874 32.3839886,33.3479951 31.1181458,34.6138379 C29.852303,35.8792952 28.3534333,36.8834888 26.6197057,37.6265149 C24.8862672,38.369541 23.0657087,38.7415359 21.1580301,38.7415359 C19.2506406,38.7415359 17.4299857,38.369541 15.6965472,37.6265149 C13.9629159,36.8834888 12.4635644,35.8792952 11.1977216,34.6138379 C9.93245703,33.3479951 8.92807075,31.8488363 8.18504464,30.1153015 C7.44221126,28.3815739 7.07069821,26.5614008 7.07069821,24.653144 C7.07069821,22.4340883 7.56142311,20.3430143 8.54268017,18.380211 C9.5240336,16.4176969 10.9135213,14.7575009 12.711047,13.3999122 C13.4814427,12.8125265 13.9352573,12.0378904 14.0730688,11.0746549 C14.2105913,10.1119976 13.9860452,9.24494104 13.3989485,8.47464172 C12.8302589,7.68612814 12.0647782,7.22749503 11.1015426,7.09912787 C10.1384034,6.97076071 9.26228795,7.20022182 8.473678,7.78712572 C5.7953146,9.78635747 3.71831085,12.2628221 2.24141393,15.2158449 C0.764613387,18.1692533 0.0265022286,21.3150196 0.0265022286,24.6532403 C0.0265022286,27.5151919 0.586036552,30.2480053 1.70481608,32.8527407 C2.8239811,35.4574761 4.32786211,37.7040941 6.21751919,39.5937512 C8.10659804,41.4829264 10.3536979,42.9874821 12.958626,44.1053942 C15.5633614,45.224752 18.296464,45.7847682 21.1579337,45.7847682 C24.0194998,45.7847682 26.752506,45.224752 29.3573377,44.1053942 C31.9623622,42.9870966 34.2093657,41.4828301 36.0987337,39.5937512 C37.9878125,37.7046724 39.4916936,35.4574761 40.6106658,32.8527407 C41.7296381,30.2480053 42.2886906,27.5145173 42.2886906,24.6532403 C42.2887869,21.3149233 41.5516395,18.1691569 40.074839,15.2158449 Z"></path> </g> </g> </g> </g> </svg> </a> </li> <li class="header-leaderboard"> <div id="horizontal1-1" class="adcontainer"></div> </li> </ul> </div> </header> <main id="content" class="main-container"> <script>
+    googletag.cmd.push(function() {
+        googletag.pubads().setTargeting('ctype','article');
+        googletag.pubads().setTargeting('cat','internet');
+        googletag.pubads().setTargeting("envr","");
+
+        if (typeof(Krux) != "undefined") {
+           googletag.pubads().setTargeting("ksg",Krux.segments);
+           googletag.pubads().setTargeting("kuid",Krux.user);
+        }
+    });
+</script> <!-- /6117/itstillruns.mw/adhesion1-1 --> <div class="fixed-bottom-ad"> <div class="close-button">x</div> <div id="adhesion1-1" class="no-print"></div> </div> <div class="social-shares"> <ul class="social-shares-wrapper"> <li> <a class="share popup" data-event="social share" aria-label="email" data-info="Email" data-href="mailto:?subject=How%20to%20Allow%20ActiveX%20to%20Work%20in%20My%20Browser%20%7C%20It%20Still%20Works&body=I%20found%20this%20article%20on%20It%20Still%20Works%20and%20thought%20you%20would%20enjoy%20it%21%0d%0dhttp%3A//itstillworks.com/allow-activex-work-browser-11213.html" aria-label="Share via Email"> <svg class="social-svg email-svg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" role="img"><path fill="#aaa" d="M400 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM178.117 262.104C87.429 196.287 88.353 196.121 64 177.167V152c0-13.255 10.745-24 24-24h272c13.255 0 24 10.745 24 24v25.167c-24.371 18.969-23.434 19.124-114.117 84.938-10.5 7.655-31.392 26.12-45.883 25.894-14.503.218-35.367-18.227-45.883-25.895zM384 217.775V360c0 13.255-10.745 24-24 24H88c-13.255 0-24-10.745-24-24V217.775c13.958 10.794 33.329 25.236 95.303 70.214 14.162 10.341 37.975 32.145 64.694 32.01 26.887.134 51.037-22.041 64.72-32.025 61.958-44.965 81.325-59.406 95.283-70.199z"/></svg> </a> </li> <li> <a class="share popup" data-event="social share" data-info="Facebook" aria-label="facebook" data-popup-height="300" data-popup-width="600" data-href="https://www.facebook.com/sharer/sharer.php?u=http://itstillworks.com/allow-activex-work-browser-11213.html" aria-label="Share on Facebook"> <svg class="social-svg facebook-svg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" role="img"><path fill="#3b5998" d="M448 56.7v398.5c0 13.7-11.1 24.7-24.7 24.7H309.1V306.5h58.2l8.7-67.6h-67v-43.2c0-19.6 5.4-32.9 33.5-32.9h35.8v-60.5c-6.2-.8-27.4-2.7-52.2-2.7-51.6 0-87 31.5-87 89.4v49.9h-58.4v67.6h58.4V480H24.7C11.1 480 0 468.9 0 455.3V56.7C0 43.1 11.1 32 24.7 32h398.5c13.7 0 24.8 11.1 24.8 24.7z"/></svg> </a> </li> <li> <a class="popup share" data-event="social share" data-info="Twitter" aria-label="twitter" data-popup-height="400" data-popup-width="575" data-href="https://twitter.com/share?url=http://itstillworks.com/allow-activex-work-browser-11213.html&text=How%20to%20Allow%20ActiveX%20to%20Work%20in%20My%20Browser" aria-label="Share on Twitter"> <svg class="social-svg twitter-svg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" role="img"><path fill="#00aced" d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-48.9 158.8c.2 2.8.2 5.7.2 8.5 0 86.7-66 186.6-186.6 186.6-37.2 0-71.7-10.8-100.7-29.4 5.3.6 10.4.8 15.8.8 30.7 0 58.9-10.4 81.4-28-28.8-.6-53-19.5-61.3-45.5 10.1 1.5 19.2 1.5 29.6-1.2-30-6.1-52.5-32.5-52.5-64.4v-.8c8.7 4.9 18.9 7.9 29.6 8.3a65.447 65.447 0 0 1-29.2-54.6c0-12.2 3.2-23.4 8.9-33.1 32.3 39.8 80.8 65.8 135.2 68.6-9.3-44.5 24-80.6 64-80.6 18.9 0 35.9 7.9 47.9 20.7 14.8-2.8 29-8.3 41.6-15.8-4.9 15.2-15.2 28-28.8 36.1 13.2-1.4 26-5.1 37.8-10.2-8.9 13.1-20.1 24.7-32.9 34z"/></svg> </a> </li> <li> <a class="share popup" data-event="social share" data-info="Pinterest" aria-label="pinterest" data-popup-height="300" data-popup-width="700" data-href="//pinterest.com/pin/create/button/?url=http://itstillworks.com/allow-activex-work-browser-11213.html&media=http://cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/45/185/stk323634rkn_XS.jpg&description=How%20to%20Allow%20ActiveX%20to%20Work%20in%20My%20Browser" data-pin-do="buttonPin" data-pin-config="beside" aria-label="Share on Pinterest"> <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" role="img"><path fill="#cb2027" d="M448 80v352c0 26.5-21.5 48-48 48H154.4c9.8-16.4 22.4-40 27.4-59.3 3-11.5 15.3-58.4 15.3-58.4 8 15.3 31.4 28.2 56.3 28.2 74.1 0 127.4-68.1 127.4-152.7 0-81.1-66.2-141.8-151.4-141.8-106 0-162.2 71.1-162.2 148.6 0 36 19.2 80.8 49.8 95.1 4.7 2.2 7.1 1.2 8.2-3.3.8-3.4 5-20.1 6.8-27.8.6-2.5.3-4.6-1.7-7-10.1-12.3-18.3-34.9-18.3-56 0-54.2 41-106.6 110.9-106.6 60.3 0 102.6 41.1 102.6 99.9 0 66.4-33.5 112.4-77.2 112.4-24.1 0-42.1-19.9-36.4-44.4 6.9-29.2 20.3-60.7 20.3-81.8 0-53-75.5-45.7-75.5 25 0 21.7 7.3 36.5 7.3 36.5-31.4 132.8-36.1 134.5-29.6 192.6l2.2.8H48c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48h352c26.5 0 48 21.5 48 48z"/></svg> </a> </li> <li> <a class="share popup" data-event="social share" data-info="Reddit" aria-label="reddit" data-popup-height="400" data-popup-width="850" data-href="//www.reddit.com/submit?url=http://itstillworks.com/allow-activex-work-browser-11213.html" aria-label="Share on Reddit"> <svg class="social-svg reddit-svg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512" role="img"><path fill="#ff5700" d="M201.5 305.5c-13.8 0-24.9-11.1-24.9-24.6 0-13.8 11.1-24.9 24.9-24.9 13.6 0 24.6 11.1 24.6 24.9 0 13.6-11.1 24.6-24.6 24.6zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-132.3-41.2c-9.4 0-17.7 3.9-23.8 10-22.4-15.5-52.6-25.5-86.1-26.6l17.4-78.3 55.4 12.5c0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.3 24.9-24.9s-11.1-24.9-24.9-24.9c-9.7 0-18 5.8-22.1 13.8l-61.2-13.6c-3-.8-6.1 1.4-6.9 4.4l-19.1 86.4c-33.2 1.4-63.1 11.3-85.5 26.8-6.1-6.4-14.7-10.2-24.1-10.2-34.9 0-46.3 46.9-14.4 62.8-1.1 5-1.7 10.2-1.7 15.5 0 52.6 59.2 95.2 132 95.2 73.1 0 132.3-42.6 132.3-95.2 0-5.3-.6-10.8-1.9-15.8 31.3-16 19.8-62.5-14.9-62.5zM302.8 331c-18.2 18.2-76.1 17.9-93.6 0-2.2-2.2-6.1-2.2-8.3 0-2.5 2.5-2.5 6.4 0 8.6 22.8 22.8 87.3 22.8 110.2 0 2.5-2.2 2.5-6.1 0-8.6-2.2-2.2-6.1-2.2-8.3 0zm7.7-75c-13.6 0-24.6 11.1-24.6 24.9 0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.1 24.9-24.6 0-13.8-11-24.9-24.9-24.9z"/></svg> </a> </li> </ul> </div> <div class="article-container"> <article> <div class="article-title"> <h1>How to Allow ActiveX to Work in My Browser</h1> <cite> by Kefa Olang </cite> </div> <div class="top-section" style="background-image: url(//img-aws.ehowcdn.com/600x400/cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/45/185/stk323634rkn_XS.jpg)"></div> <div id="section-0" class="section"> <p><p>ActiveX is a type of component used by Internet Explorer to launch applications in the browser. Certain applications such as the Windows Media Player (WMP) or QuickTime rely on ActiveX controls to playback video on the browser. To ensure that your browser can run applications, you have to enable the ActiveX control. You can do so easily from the browsers management console.</p></p> </div> <div id="section-1" class="section"> <div class="inline-ad no-print"> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <ins class="adsbygoogle" style="display:block;width:100%;height:125px;margin:0 auto;" data-ad-client="ca-pub-3235755782694080" data-ad-slot="7182359149"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </div> <div class="section section-2"> <h4>Step 1</h4> <div class="step-block"> <p class="step-content">Click the Windows "Start" menu and click the "Control Panel."</p> </div> </div><div class="section section-3"> <h4>Step 2</h4> <div class="step-block"> <p class="step-content">Double-click "Internet Options." This launches Internet Explorer's management console. Click the "Security" tab and click the "Custom Level" button under "Security Level for this Zone." This launches the Security Settings window.</p> </div> <div class="small-screen-ad" id="initial-mobile"></div> </div><div class="section section-4"> <h4>Step 3</h4> <div class="step-block"> <p class="step-content">Scroll down the settings window and click the "Enable" radio button under "Run ActiveX controls and plug-ins." Click the "Enable" radio button under "Script ActiveX Controls Marked Safe for Scripting."</p> </div> </div><div class="section section-5"> <div class="step-block"> <p class="step-content">Click "OK" to save the changes and click "OK" again to close Internet Options. To activate the settings, close and restart your web browser.</p> </div> </div> </div> <div class="section"> <h4>Tip</h4> <ul class="section__list"> <li class="section__list-item"> <span>Firefox does not officially support ActiveX Controls. ActiveX is not supported by Microsoft on other operating systems such as Mac or Linux.</span> </li> </ul> </div> <div class="main-ad" id="google-article-block"> <script>
+            var adHeight = VIEWPORT_WIDTH > 1030 ? '455px' : '550px';
+        </script> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <ins id="ggads-d46a2878-ed69-4544-a596-36136dc3ed86" class="adsbygoogle" style="display:block;min-width:320px;max-width:1200px;width:100%;margin:0 auto;height:555px;overflow:hidden;" data-ad-client="ca-pub-3235755782694080" data-ad-slot="2612558748"> </ins> <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            document.getElementById('ggads-d46a2878-ed69-4544-a596-36136dc3ed86').style.height = adHeight;
+        </script> </div> <div id="adReplacement"></div> <div class="sticky-video-player"> <script type="text/javascript" src="https://content.jwplatform.com/libraries/ZgCESaYC.js"></script> <section id="jwplayer-section" class="jwplayer-section"> <h2 class="jwplayer__label"> Video of the Day </h2> <div id="jwplayerContainerOuter" class="jwplayer__container-outer"> <div id="jwplayerContainer" class="jwplayer__container"> <div id="jw-player"> </div> <div id="jwplayerClose" class="jwplayer__close"> <span class="close-x"></span> </div> <div class="jwplayer__attribution-sticky">Brought to you by <a target="_blank" rel="nofollow" href="https://www.techwalla.com/">Techwalla</a></div> </div> </div> <div class="jwplayer__attribution">Brought to you by <a target="_blank" rel="nofollow" href="https://www.techwalla.com/">Techwalla</a></div> </section> <script type="text/javascript">
+        var jwSettings = {
+            mute: true,
+            playlist: 'https://cdn.jwplayer.com/v2/playlists/feQsEK1x?format=mrss',
+            advertising: {
+              client: 'googima',
+              offset: 'pre',
+              tag: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/6117/itstillworks.jw&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=&correlator=',
+            }
+        };
+        var mobileVideoFallback = "";
+    </script> <script type="text/javascript" src="//itstillworks.com/scripts/video_player.js"></script> </div> <div id="taboola-desktop-below-article-thumbnails"></div> <div id="taboola-mobile-below-article-thumbnails"></div> <script>
+        window._taboola = window._taboola || [];
+        if (VIEWPORT_WIDTH > 768) {
+            _taboola.push({
+                mode: 'thumbnails-a',
+                container: 'taboola-desktop-below-article-thumbnails',
+                placement: 'Desktop Below Article Thumbnails',
+                target_type: 'mix'
+            });
+        } else {
+            _taboola.push({
+                mode: 'thumbnails-b',
+                container: 'taboola-mobile-below-article-thumbnails',
+                placement: 'Mobile Below Article Thumbnails',
+                target_type: 'mix'
+            });
+        }
+        var TABOOLA_RENDERED = true;
+    </script> <div class="section"> <h4>References</h4> <ul><li><a href="http://help.yahoo.com/l/us/yahoo/mail/yahoomail/settings/settings-28.html" rel="nofollow"> <span>Yahoo! Help: Enabling ActiveX Controls and Plug-ins</span> </a></li><li><a href="http://support.mozilla.com/en-US/kb/ActiveX" rel="nofollow"> <span>Mozilla Support: ActiveX Information</span> </a></li></ul> </div> <div id="author" class="section"> <h4>About the Author</h4> <p>Kefa Olang has been writing articles online since April 2009. He has been published in the &#34;Celebration of Young Poets&#34; and has an associate degree in communication and media arts from Dutchess Community College, and a bachelor&#39;s degree in broadcasting and mass communication from the State University of New York, Oswego.</p> </div> <h4>More Articles</h4> <div class="articles-slide-show"> <input type="radio" name="slider-How to Allow ActiveX to Work in My Browser" class="slider-nav" value="1" checked aria-label="Radio button"> <input type="radio" name="slider-How to Allow ActiveX to Work in My Browser" class="slider-nav" value="2" aria-label="Radio button"> <input type="radio" name="slider-How to Allow ActiveX to Work in My Browser" class="slider-nav" value="3" aria-label="Radio button"> <div class="slide-inner"> <div class="slide-item"> <a href="//itstillworks.com/disable-google-malware-protection-7252217.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/ta/7p/disable-google-malware-protection-800x800.jpg)"></div> <div class="slide-title">How to Disable Google Malware Protection</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/update-google-earth-maps-6779933.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/et/0t/update-google-earth-maps-800x800.jpg)"></div> <div class="slide-title">How to Update Google Earth Maps</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/disabling-firewall-settings-dlink-router-2206.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a08/73/ec/upgrade-firmware-2wire-router-800x800.jpg)"></div> <div class="slide-title">Disabling Firewall Settings on a D-Link ...</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/safe-mode-google-chrome-20194.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/vp/fb/record-chatroulette-800x800.jpg)"></div> <div class="slide-title">How to Go to Safe Mode at Google Chrome</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/do-stop-prompt-activex-controls-5985376.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/ee/4i/can-child-going-certain-website_-800x800.jpg)"></div> <div class="slide-title">How Do I Stop the Prompt for ActiveX ...</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/turn-wireless-dell-latitude-laptop-13553.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/i6/g9/test-speed-wi_fi-router-800x800.jpg)"></div> <div class="slide-title">How to Turn on Wireless on a Dell ...</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/enable-bluetooth-lenovo-s10-7234121.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/qa/lt/determine-bluetooth-stack-800x800.jpg)"></div> <div class="slide-title">How to Enable Bluetooth in a Lenovo S10</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/set-up-linksys-wrt54g-wireless-router-comcast-broadband-14425.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a05/te/ji/make-wi_fi-connection-home-800x800.jpg)"></div> <div class="slide-title">How to Set Up Linksys WRT54G Wireless ...</div> </a> </div> <div class="slide-item"> <a href="//itstillworks.com/restore-system-default-sounds-7199994.html"> <div class="slide-image" style="background-image: url(//img-aws.ehowcdn.com/300x200/cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/j0/k3/import-rmvb-files-itunes-800x800.jpg)"></div> <div class="slide-title">How to Restore System Default Sounds</div> </a> </div> </div> </div> <div class="section"> <h4>Photo Credits</h4> <ul> <li> <span>Ciaran Griffin/Stockbyte/Getty Images</span> </li> </ul> </div> </article> <!-- SIDEBAR --> <aside> <div class="sticky-container"> <div class="link-ad-container"></div> <script>
+            ;(function() {
+                var desktopLink = '<ins class="adsbygoogle" style="display:block;min-width:280px;width:100%" data-ad-client="ca-pub-3235755782694080" data-ad-slot="3317068412" data-ad-format="link"></ins>',
+                    mobileLink = '<ins class="adsbygoogle" style="display:block;min-width:280px;width:100%" data-ad-client="ca-pub-3235755782694080" data-ad-slot="4429173097" data-ad-format="link"></ins>',
+                    linkContainer = document.querySelector('.link-ad-container');
+                if (VIEWPORT_WIDTH > 1030) {
+                    linkContainer.innerHTML = desktopLink;
+                } else {
+                    linkContainer.innerHTML = mobileLink;
+                }
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            })()
+        </script> <div id="adblock-link-unit" data-id="replacement"></div> <div class="desktop-ad side-ad card" id="initial-rightrail"></div> </div> </aside> </div> <script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({flush: true});
+</script> <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadAds = function () {
+            var amzn_bid_config = { slots: [] };
+            var ads = {
+                horizontal: {
+                    slot: '/6117/itstillworks/horizontal1-1',
+                    id: 'horizontal1-1',
+                    size: [[728, 90]],
+                },
+                rightrail: {
+                    slot: '/6117/itstillworks/rightrail1-1',
+                    id: 'initial-rightrail',
+                    size: [[300, 250], [300, 600]],
+                },
+                mobile: {
+                    slot: '/6117/itstillworks.mw/300x250_atf-slot1-1',
+                    id: 'initial-mobile',
+                    size: [[300, 250], [320, 100], [320, 50], 'fluid'],
+                },
+                adhesion: {
+                    slot: '/6117/itstillworks.mw/adhesion1-1',
+                    id: 'adhesion1-1',
+                    size: [[320, 50], [320, 100]],
+                },
+                outpage: {
+                    slot: '/6117/itstillworks/out-of-page',
+                    id: 'out-of-page',
+                    size: [],
+                }
+            }
+            if (VIEWPORT_WIDTH > 1030) {
+                googletag.cmd.push(function() {
+                    googletag.defineSlot(ads.horizontal.slot, ads.horizontal.size, ads.horizontal.id).setTargeting('loc', ['atf']).addService(googletag.pubads());
+                    googletag.defineSlot(ads.rightrail.slot, ads.rightrail.size, ads.rightrail.id).setTargeting('loc', ['atf']).addService(googletag.pubads());
+                });
+
+                amzn_bid_config.slots.push(
+                    {'slotID': ads.horizontal.id, 'sizes': ads.horizontal.size},
+                    {'slotID': ads.rightrail.id, 'sizes': ads.rightrail.size}
+                );
+                    
+                apstag.fetchBids(amzn_bid_config, function() {
+                    googletag.cmd.push(function() {
+                        try {
+                            apstag.setDisplayBids();
+                            googletag.pubads().refresh();
+                        } catch(e) {
+                            console.log('error at render_injected_display_ads apstag.setDisplayBid:', e)
+                        }
+                    });
+                });
+               
+            } else {
+                googletag.cmd.push(function() {
+                    googletag.defineSlot(ads.mobile.slot, ads.mobile.size, ads.mobile.id).setTargeting('loc', ['atf']).addService(googletag.pubads());
+                    googletag.defineSlot(ads.adhesion.slot, ads.adhesion.size, ads.adhesion.id).setTargeting('loc', ['atf']).addService(googletag.pubads());
+                });
+
+                amzn_bid_config.slots.push(
+                    {'slotID': ads.mobile.id, 'sizes': ads.mobile.size},
+                    {'slotID': ads.adhesion.id, 'sizes': ads.adhesion.size}
+                );
+
+                apstag.fetchBids(amzn_bid_config, function(bids) {
+                    googletag.cmd.push(function() {
+                        try {
+                            apstag.setDisplayBids();
+                            googletag.pubads().refresh()
+
+                        } catch(e) {
+                            console.log('error at render_injected_display_ads apstag.setDisplayBid:', e)
+                        }
+                    });
+                });
+
+                var stickyVideo = document.querySelector('.sticky-video-player')
+                if (stickyVideo) stickyVideo.remove()
+                
+            }
+        }
+        loadAds()
+    })
+</script> <script type="text/javascript">
+    // Fixed bottom ad click listener
+    document.querySelector('.fixed-bottom-ad > .close-button')
+        .addEventListener('click', function() {
+        document.querySelector('body').classList.toggle('fixed-bottom-ad-closed')
+    });
+
+    // Ad rendered event listener
+    googletag.cmd.push(function() {
+        googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+            var adName = event.slot.getAdUnitPath();
+            if (adName.includes('adhesion')) {
+                var btn = document.querySelector('.fixed-bottom-ad > .close-button');
+                btn.style.display = 'block';
+                if (btn) {
+                    addListener(btn, 'click', function() {
+                        addClass(document.querySelector('body'), 'fixed-bottom-ad-closed');
+                    });
+                }
+            }
+            if (adName.includes('300x250') && event.size[1] <= 100 && !window.partialCounter) {
+                var element = document.querySelector('#initial-mobile')
+                element.classList.add('sticky-mobile-ad')
+            } else if (adName.includes('300x250_atf-slot' + (window.currentPage + 2)) && event.size[1] <= 100) {
+                var element = document.querySelector('#mobile' + (window.currentPage + 2) + '-1')
+                element.classList.add('sticky-mobile-ad')
+            }
+        });
+    });
+</script> </main><script type="text/javascript" src="/scripts/scroll.js"></script> <script type="text/javascript">
+        var related = [{"url": "itstillworks.com/unlock-windows-firewall-protection-9960.html", "title": "How to Unlock the Windows Firewall Protection", "image_url": "https://s3-us-west-1.amazonaws.com/contentlab.studiod/getty/cache.gettyimages.com/9e8cc49868e2407fae22664e4e1118ce.jpg", "_id": "itstillworks.com/unlock-windows-firewall-protection-9960.html", "external_url": "itstillworks.com/unlock-windows-firewall-protection-9960.html"}, {"url": "itstillworks.com/stop-windows-blocking-downloads-1849.html", "title": "How Do I Stop Windows From Blocking My Downloads?", "image_url": "http://photos.demandstudios.com/getty/article/178/171/86493735_XS.jpg", "_id": "itstillworks.com/stop-windows-blocking-downloads-1849.html", "external_url": "itstillworks.com/stop-windows-blocking-downloads-1849.html"}, {"url": "itstillworks.com/disable-adblock-internet-explorer-9-21174.html", "title": "How to Disable Adblock on Internet Explorer 9", "image_url": "http://cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/184/254/89707767_XS.jpg", "_id": "itstillworks.com/disable-adblock-internet-explorer-9-21174.html", "external_url": "itstillworks.com/disable-adblock-internet-explorer-9-21174.html"}, {"url": "itstillworks.com/disable-google-malware-protection-7252217.html", "title": "How to Disable Google Malware Protection", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/ta/7p/disable-google-malware-protection-800x800.jpg", "_id": "itstillworks.com/disable-google-malware-protection-7252217.html", "external_url": "itstillworks.com/disable-google-malware-protection-7252217.html"}, {"url": "itstillworks.com/update-google-earth-maps-6779933.html", "title": "How to Update Google Earth Maps", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/et/0t/update-google-earth-maps-800x800.jpg", "_id": "itstillworks.com/update-google-earth-maps-6779933.html", "external_url": "itstillworks.com/update-google-earth-maps-6779933.html"}, {"url": "itstillworks.com/disabling-firewall-settings-dlink-router-2206.html", "title": "Disabling Firewall Settings on a D-Link Router", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a08/73/ec/upgrade-firmware-2wire-router-800x800.jpg", "_id": "itstillworks.com/disabling-firewall-settings-dlink-router-2206.html", "external_url": "itstillworks.com/disabling-firewall-settings-dlink-router-2206.html"}, {"url": "itstillworks.com/safe-mode-google-chrome-20194.html", "title": "How to Go to Safe Mode at Google Chrome", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/vp/fb/record-chatroulette-800x800.jpg", "_id": "itstillworks.com/safe-mode-google-chrome-20194.html", "external_url": "itstillworks.com/safe-mode-google-chrome-20194.html"}, {"url": "itstillworks.com/do-stop-prompt-activex-controls-5985376.html", "title": "How Do I Stop the Prompt for ActiveX Controls?", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/ee/4i/can-child-going-certain-website_-800x800.jpg", "_id": "itstillworks.com/do-stop-prompt-activex-controls-5985376.html", "external_url": "itstillworks.com/do-stop-prompt-activex-controls-5985376.html"}, {"url": "itstillworks.com/turn-wireless-dell-latitude-laptop-13553.html", "title": "How to Turn on Wireless on a Dell Latitude Laptop", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/i6/g9/test-speed-wi_fi-router-800x800.jpg", "_id": "itstillworks.com/turn-wireless-dell-latitude-laptop-13553.html", "external_url": "itstillworks.com/turn-wireless-dell-latitude-laptop-13553.html"}, {"url": "itstillworks.com/enable-bluetooth-lenovo-s10-7234121.html", "title": "How to Enable Bluetooth in a Lenovo S10", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/qa/lt/determine-bluetooth-stack-800x800.jpg", "_id": "itstillworks.com/enable-bluetooth-lenovo-s10-7234121.html", "external_url": "itstillworks.com/enable-bluetooth-lenovo-s10-7234121.html"}, {"url": "itstillworks.com/set-up-linksys-wrt54g-wireless-router-comcast-broadband-14425.html", "title": "How to Set Up Linksys WRT54G Wireless Router With Comcast Broadband", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a05/te/ji/make-wi_fi-connection-home-800x800.jpg", "_id": "itstillworks.com/set-up-linksys-wrt54g-wireless-router-comcast-broadband-14425.html", "external_url": "itstillworks.com/set-up-linksys-wrt54g-wireless-router-comcast-broadband-14425.html"}, {"url": "itstillworks.com/restore-system-default-sounds-7199994.html", "title": "How to Restore System Default Sounds", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/j0/k3/import-rmvb-files-itunes-800x800.jpg", "_id": "itstillworks.com/restore-system-default-sounds-7199994.html", "external_url": "itstillworks.com/restore-system-default-sounds-7199994.html"}, {"url": "itstillworks.com/log-router-4897462.html", "title": "How to Log on to My Router", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/ig/fn/hp-pavilion-not-connect-wireless-800x800.jpg", "_id": "itstillworks.com/log-router-4897462.html", "external_url": "itstillworks.com/log-router-4897462.html"}, {"url": "itstillworks.com/delete-windows-registry-files-manually-11573.html", "title": "How to Delete Windows Registry Files Manually", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/h0/23/install-system-speaker-driver-800x800.jpg", "_id": "itstillworks.com/delete-windows-registry-files-manually-11573.html", "external_url": "itstillworks.com/delete-windows-registry-files-manually-11573.html"}, {"url": "itstillworks.com/install-logitech-precision-gamepad-controller-9910.html", "title": "How to Install a Logitech Precision Gamepad Controller", "image_url": "http://photos.demandstudios.com/getty/article/26/183/200342351-001_XS.jpg", "_id": "itstillworks.com/install-logitech-precision-gamepad-controller-9910.html", "external_url": "itstillworks.com/install-logitech-precision-gamepad-controller-9910.html"}, {"url": "itstillworks.com/save-final-draft-pdf-8349772.html", "title": "How to Save a Final Draft as a PDF", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a07/tk/gm/use-evernote-journal-800x800.jpg", "_id": "itstillworks.com/save-final-draft-pdf-8349772.html", "external_url": "itstillworks.com/save-final-draft-pdf-8349772.html"}, {"url": "itstillworks.com/fix-cookies-computer-6613785.html", "title": "How to Fix Cookies on Your Computer", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a05/tg/ea/fix-internet-explorer-browser-problems-800x800.jpg", "_id": "itstillworks.com/fix-cookies-computer-6613785.html", "external_url": "itstillworks.com/fix-cookies-computer-6613785.html"}, {"url": "itstillworks.com/enable-cookies-watch-netflix-google-chrome-12094903.html", "title": "How to Enable Cookies to Watch Netflix on Google Chrome", "image_url": "http://cpi.studiod.com/www_ehow_com/photos.demandstudios.com/getty/article/94/177/124755342_XS.jpg", "_id": "itstillworks.com/enable-cookies-watch-netflix-google-chrome-12094903.html", "external_url": "itstillworks.com/enable-cookies-watch-netflix-google-chrome-12094903.html"}, {"url": "itstillworks.com/access-msn-email-7175554.html", "title": "How to Access MSN Email", "image_url": "http://cpi.studiod.com/www_ehow_com/i.ehow.com/images/a06/vo/tp/normal-internet-transfer-speeds_-1.1-800x800.jpg", "_id": "itstillworks.com/access-msn-email-7175554.html", "external_url": "itstillworks.com/access-msn-email-7175554.html"}, {"url": "itstillworks.com/change-default-search-engine-setting-4855851.html", "title": "How to Change Internet Explorer's Default Search Engine Setting", "image_url": "http://s3.amazonaws.com/photography.prod.demandstudios.com/a235fd7a-c96c-44cd-98de-9c8478a789ba.png", "_id": "itstillworks.com/change-default-search-engine-setting-4855851.html", "external_url": "itstillworks.com/change-default-search-engine-setting-4855851.html"}];
+        var current = {url: "itstillworks.com/allow-activex-work-browser-11213.html", title: "How to Allow ActiveX to Work in My Browser"};
+        var config = {related: related, origin: current, scrollOffset: 400};
+        var infscroll = LeafScroll(config);
+        infscroll.listen();
+      </script> <script>
+        ;(function() {
+            var popups = document.querySelectorAll('.popup.share')
+            popups.forEach(function(popup) {
+                popup.addEventListener('click', function(e) {
+                var width  = parseInt(this.getAttribute('data-popup-width')),
+                    height = parseInt(this.getAttribute('data-popup-height')),
+                    left   = (window.innerWidth - width) / 2,
+                    top    = (window.innerHeight - height) / 2,
+                    url    = this.getAttribute('data-href'),
+                    opts   = 'status=1' +
+                                    ',width=' + width +
+                                    ',height=' + height +
+                                    ',top=' + top +
+                                    ',left=' + left;
+                    window.open(url,'_blank',opts);
+                    e.preventDefault();
+                })
+            })
+        })()
+    </script> <footer class="footer"> <div class="width-wrapper"> <div class="logo"> <img src="//itstillworks.com/images/leafgroupltd.png" alt="Leaf Group"> <div class="footer--copyright"> <span>Copyright 2019 Leaf Group Ltd. / Leaf Group Media</span> </div> </div> <ul class="footer-list"> <li> <a title="about-us" href="//itstillworks.com/about-us"> <span>About Us</span> </a> </li> <li> <a title="terms-of-use" href="//itstillworks.com/terms-of-use"> <span>Terms of Use</span> </a> </li> <li> <a title="privacy-policy" href="//itstillworks.com/privacy-policy"> <span>Privacy Policy</span> </a> </li> <li> <a title="copyright-policy" href="//itstillworks.com/copyright-policy"> <span>Copyright Policy</span> </a> </li> <li> <!--
+                Ghostery Inc tag
+                cid: 374
+                pid: 46
+                --> <a id="_bapw-link" href="#" target="_blank" aria-label="ads" style="color:#fff;font:11pt Arial !important;text-decoration:none !important"><img alt="ads" id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;"><span style="vertical-align:middle !important">AdChoices</span></a> <script type="text/javascript">
+                ;(function() {
+                    var ev = document.createElement('script'); ev.type = 'text/javascript'; ev.async = true; ev.setAttribute('data-ev-tag-pid', 46); ev.setAttribute('data-ev-tag-ocid', 374);
+                    ev.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'c.betrad.com/pub/tag.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ev, s);
+                })();
+                </script> </li> </ul> </div> </footer> <script async src="//itstillworks.com/scripts/custom.js"></script> <div id="outofpage"> <script type="text/javascript">
+            googletag.cmd.push(function() { googletag.display("outofpage")});
+        </script> </div> </div> <script type="text/javascript">
+    var vglnk = { key: '9e9be8ac3deebc7b5961bfe3f93f3fe1' };
+
+    (function(d, t) {
+      var s = d.createElement(t); s.type = 'text/javascript'; s.async = true;
+      s.src = '//cdn.viglink.com/api/vglnk.js';
+      var r = d.getElementsByTagName(t)[0]; r.parentNode.insertBefore(s, r);
+    }(document, 'script'));
+  </script> </body> </html>
+
+
+#####EOF#####
+
+
+      í½{w7¸ýwò)ÎImØÍKó*[ÊÊ²x×=Ì×¯Nl^lÞÂnJ=þîïS@_ÐII³»¿säH-4P
+uC¡ðà»G/_ÿ×ËÇjM'ä§ø³áA!ÕQà÷LÈW½¿è °N§ÎüipP8ù2*¨Þ|3j]ûÑè {£ÿH¢há¿¯Æç8¿9ÇóéÂÆgÀjÿôñAÐåÞh9çµM­ÍÇ×»i|*2ûi§7ôy8'£À9ãÁ¸G'æ3«gG½ß~ù¯³ÿýåëW«³'ï>ñËàÙÏÿ¼¸ðlûÏãÞ³w¯ÏÃÇI÷>¦á¹?÷ý(p«5`­Þ}Ø|ô¸õäIçÑ£êãã5íã®÷äI­Z{ì%PËù"XFùp_zx*p-@O#u'õÛ|ù>¼Úlp¶ï÷§ãY¶9|£IpøÓüBEsõzµ©ùLýî½åx©ñLý6õç¡úÇKõ/ÿÆioÁ³¦6ÖbºÈ ÊÏ¿Æ=&{SÕÕrvù  ¤îW*ã(Ñ^È`ÝÞ|ZÍ/hîDÂÏwé(ñjÓ£p>,ZµQ­»B¿vãê¬~Ý¿9úC£ÿ"tFÕëÏô [ÕêFµZYæÑ<tûÁÔõÃhÕó` U­ÔkµÊ×±Zo6;­zëô'î»ÅOÆ³÷jL
+=6AÜ v´_«1õÈôÒËf£pø­Rf:ÜÓÈ?Ï'¾:¸Rò¯©7oïS5©ã.Vá¨ô)&ý¢¿æÅÏ{Rå»ÁjÖuªJAYÊjUVã=õWJªô]Þ[MáAî0Oy|xù´_ïíZJ®^Îzt¥&0å_àK)Xeã>¿îÂ_ëçy?pYY¬ÏÁ`¾t?tßú´Ï¥´½e ;Q*T÷ÊÔJëd½^¾ö?³Ò³ªoªo¥v±RÊQ¨	`2>½¡iÐû½L*¹ßî»°¨Dg§¦ä4él<(ÅÓ¿a0PY/P÷î)Îù )ë¥;õïÕÁ*&QÜR®ÒuKÅèlr:î÷îþöAÅ|ýðÁwyNççòûgyO¨u1ñù|LQ£ñ$PcS8+FJÿx6Tc?«1ml:¢ 7 ùn­0ºá(XfIl`1ºÛa¡mËßöâ
+G½ÞN"ùv@øÂùÌåGO3ÊG·ü£0íö¦+¦Óæ#Ù° ÂñÇ <(xõ^ýú:º+-¾Wa4ªGcT(ëñæ?ó/¥Æn<ZHÒwÉ`71si9(8ALF)ûßÊjI¾sMqàõXØWQSÜ(B?QPzWª°Ï
+¤ÂQ,râWáêÌ~ûdzº¦ÑûÒ´Ùîö~ãÌ©Ö¼¦Óhz§Óiµ³ 'Å^Ý÷ÒOÆÚÖ´½©Hz¼:ÃÑ)£Õ½®Wkm§ZG©ju¿^ÝoTÝFÝ«V«IG¨,ÌJJ`¤<f³ Ôþù¨I0Z®zÎàÔn\Ï/OÑá|yYOÑæ@)¯V¨Ï"_Lùóh9_Íúêõ(P?¡¶ÑTÛ^.ç}>?>G¼ùái,iýúÕ/)|\²Øût 0¿¯	¼v½æó(©>Z£½ðx1#éæ
+÷ÖXÎczwCJÞ*Ð*õ6³D¿
+ÔoÁÙKu²Zúû-oúþ"
+újÚVmôá8­Î4Û~øXÎÆì	öwVú!0+$ãFrP¹Î0´oK	Ë-ÀûFOø0£#JcÂYp¡ºQB<}£Kc)Wµ¯K4ôûg~´å_ÞO~|5¾8::zøW¿üÇß5óçÑÑ/GÃãþÑÉüáÑÑã£gï{þ;>zXáÕËÃ££Í¿ëGÅô{óéa,·Mßs/®i+ADKMºûùÛÏ{ÒïoE¨Çâè¯ê;<X0 ùý"ýþÌÿx©ÉwôpÃo¿ù«;¹uýy¡Éß{¯Q£kø,Q'CwÌÑ¨üí7üëAÍ/ªôçe ê¦©ø½ÑÚl|ótô¯%²çúQ´,i,;¨âùÚ7É÷óñ÷Ð^¦Ã­zlk[Vý`"=0H§=)8½÷!óE2åHMµ
+E`>z®^Âü*¤Ïæò;¤¿D¬¬;ozÔ]åÑóÿvLÃÊpOtükéÆA-~ÅÊ ÐúÁRQ ÷d2Z:xú5~ø^ïiµ#:x÷~_a7a÷tªBAòï³þe~ÁY¦%î6ãå_¥c ;²ùö;@Az=/¡fkå5òOÌô/)ãXP0s!SfBVkª´K^¹ò`è#:ÿ>Ç³¯NÓA]&ÅWªhR9#Cê'ÚlÖ®c¹¼4¥¥ÐÊñrRN¿oèE¨T}eLÖ"(^BÙ÷Ñ^Áë¿ó?>I¿h½¯AÈÂ1^Ã÷U¢Çê5®zp?ý.í±>¨¨òJðù[þA¬ÿöoÿ¦FÁ­2å
+¡B(4ûî÷U°¼Ô+Ý¦·¡s¶Ä<¥Ú3ýþe
+àÛ¼{%¯J	Þõ¸eØ©Î­D.*
+â«|´Ò<ó³
+à«Ú®HûýþcQ<aØ³`iÐºõu©øèÅóØS!,
+®eMÌ¬ù`<E`P¦TÏtCé/^Ù0 B2Üêõ6ß6>Çü ã¹ù©abòHf J«X
+­DU>îìe¨¦FR ¥éÚbÀýìObäî,`â^AÚP\Ú d¥ÓÁËPefBee¾¢úÞîZ:MåqOÍê&zIÕC÷bÎËØoà·(zá|¸Ár9_
+°I_óaó1û»<£Ï©MÒø­|Ü']2+ 8øa¨1Ú'Á¨HºõÁþA`ú·kÌªRÖ47»¾@©²´6ÍµVNû*>þ°(Kÿß¿þû¿ÏöYÅp¯.UqÏ}7ÏJÅÁñáè%ªþë¯{iq8ÆÚUR%îÃ­°Ûú_éÇ56µµPÛñ-/ F`Wèu*³ÚFk£éKÎ77úZB©¾ýcÏ]ÌWÇîñÇ-×ÈEåEÓ²¨s- ñð®Èl5Aï±ÝSQ1h¨9 uÇ(h8´Ã@`.øç«ð§²¼Àý?f­Wrghæ"àúIJÁÑ/.ÄW>?IÖpXÖºØ¶<àLÛ¿ÿÞxÄ$bØZ¯¤Tñ7Ö#­Tdîáÿ*4vO«­-þ%À(*´°Ö£c[UK)O¤^"Æ%mJhäã¶v|_1Ä¸ªJ%¿ë/K­àÕÑßß¢ßuÓ·Ì¯`C»Èd¬©wFûÊ<ý3H½ÆU¨°eµsAo@ÌàU?àZO\Ú°¾ÆÿÊ¤ÿý»÷Íá·­Â¿k3þñ,Ä\>3õÝùr¨íèÂ¿ÎÅâ¥Ë/Å¡+&|áßË 1ûl6þ¾Àm­áWo}u¸R¬åÛ¸)
+g¢\ô«éYa_Ð%Ã6È(<L_	çLl_LåïØZØ£[á1gTA*>¥AÜX_ÌÙ=}U7],p)Ê ØpÙ7±ÀÜ`zoC%ßì:ìoifkùPÒá¶ÀRHF!Áåµ¨%m××ÇÄí¯;¿Guuôºä-?5ðõ<C·]ÉbÏóË["Ïp,^^!¸5·Þ´üÀðu$ðÈÙè^4#aÙãT<©ÁKãðG¦~>)ÇÄ¶¥.ÆUØÅC)®BüµÚ~½æ6Ú¶«P|¤CÍ´n³àé£½Mõ vÓÂ%úé°2ßÖJì3D[H$~Êö3Ê±úxÈÌnlBæ-d¾ÌsÝNy´ö½8{ÇÎEª×Nªö£§ÞjÕ;­§ÏøÊ)­Z[ûÆÍRrA8_×ÇTÀÔv6f¼ë.Z½"`úóÖvg}4_¸qöp#-ñd7;ùÌ8¤U0Ýç99»ÉñoíâünÙ//Êa9*{ØòßøÝ·{F-º¨2ê÷R¯¼Üû¤_º§7o({»÷Y|ÏÆÑ~Ò ´÷é÷Ra\(ûË¡Þ÷>®­ã~¸Vm¯FÃ£1æ¹^÷sùôïûoÞ~¾t°póÛ{áÞý#³¯xð]G|MÑý!õ6nñ{ìíÝnÝUl|.üv?JÙ)'&>uíþÁí5êúSÿ#ûà~?¼ÄRjeÃ÷?Ô+¦¹ì¡~éùKWxyDªÅêìé#ü:^µÕÒ»ùý`I\Å&R^ÍÇ\¦¿Ý`Âmò×§{ùâÕëÓß>zýªe27y¬1.ß$D6×îÙ¼i¿LèUáO?ÎNÏÆýSô·ÁX¬ÂÉ<Â7%fFoú:Ù3ßùD=¥²b·7÷uZMÿîXKÕ¼#XJäwÈØ£ÌLâGñ)¤Aº7-b éNüJ- ×VÎRi-ÿä³«089y&õÆX&E!{­µÛ¡7ÇÄ2Mão@·4-Å@~È@
+o_¬ü´Þ¾¸¸pSá ¦ ÕTÞá"èìKÒM1lìl\&)dµ¤_¦[W Q,³~b6ÞJq®­(È¿´ÿ2Á»d¬$R&Æ`¨fµjl-Ìgö*^¬"#àO ÉR¡ÒªÕÚù¸éE¡¬
+sB²9YÀgÝ×d²Þ±X_i/ì3öR®õìð@µë?Ø³?Ø­Oé¬}V¾øÛ?àÎ5ÊÉ	6ç$xE,ø",ÚMÛ°R&0Ïàñt]>3AnlÑ²?ùV;ö'âüÝÖ$îO¼rìZâÊÈ¶¢òÔaÆKtPHCª6¦åñQ1M¡ÅrTÄx@^z×^=Íó>|0,Å(R+54së:n§eË,ÔAU?û?¾~îüöã?zBPV
+ÕÛøÿ'Ozg #P÷	F
+îÃñÙX¶zöGã~_TLxH;¥â ÃÅ^û(òxïÓÅÉÛùñ¯>$qt@qM]Äæ2*î+~©G(Ë¥=Ã¯	_(íµsy_×-cáGþQ]þöïó<Ü+÷'ïôN(þP¼79(~?Ù/ï¿õÍÉßiàÛ'W*[+½
+nß¿ïOîo=zW@p·uõ ae«gåb6W8dS2°9¸J4Iü±ÙT&ñ±å¸d3U7ÖbjtýßÞ¼)Æ-ÝS´ª£Þ9×pñmÙz§¡ý#¡¤[^Éù+¾E|D¿í}/¯LP´W·Íj+`:ì`¨g8«lZtæ¾aáv¹SFÅL7ÊÉìY1ªoOyüîÏ¯_\,ýE­Ëi'9	Uß:ÒD^ú[C 
+Ê_U6ñÏ$pD<:[EÄ9ÅÐ60Âóaºö½êâCAÉ4Í?À TU5:Õ!uR"
+5¿>L'3â´JaÐ~á­R'À¥È¸ÊþÜÚT±Öív+ú­d§YÎßã##|Gþ2±Ç|² ÝÃ¼gg¹P[xÁ¼ß7  ÃY÷sJ,£<J@QÉ©ºÕV§ZmUÕ­·ªFmOªµ<RýÂónËm6ÚÝzÕ+·º®çµë^³­YÅõ[õ¼nÓóÔ³Z­êzí.±©å-Å[XÅÿTöGëqÆõv«ÛÍ}´À«µ^3÷Ñ-Å[XÅÿLpø'ú0mÁZ­ávíWöÚàªÕhÖÀDVq×muÚ^«½´`­v­`x[¯7;õvyKq6±R^½áµkyØYq®ì-ÅÍXm×5ulõ¤Ùqk­Z¨0ExÛi1Ë2¥õF]bUÖÚO·Ül»ÝZ§Ú­3KV1³Zk7ë­º LÍ68¶õZ«Û±·Öh×ª^R*ª×:Ý²Uz\«7Üz·ÝnÕìâZ-Ei«ízµz³Õ DVJß^½Ö®Iß²â26ÍìH¢UwÛ«Z÷´ÍÐÑ}l³ÆìË¥§Iq­á¹]ú_m[M·ÑèkGO¥´Þ KåfÓí¶ªt^×ÚÕzË³JË;ÝNµYn²ÛÍ±ÑªÆs½[oV;åË¢ZVSÕèVé1kÆmÖêNÍ.®ºf«Öm´Ê-«Ázk·òáWm18«´j­f×£.$ÜhÔÛt-£§äÒ`^»Ü¯v­à§îÖêÕvÑñªwj`õÅÚT¦P+ôºn×ë8¬ª' É¨©°vµU÷ÊõÓÂ@º¾Óô:nVx\k{n­Ë­[¥µ6ä*3Q/Û@)m±;2`5T;Ê[-WVG·a ¡Õ-{-·j:²|Z¾Ö$½,©ÚiuÒ³n½wÓ.7]°Ðî6v±Ì|¥Ô¤o|¸Ûm6d¡X¥m|¥AoZ¹<bôÌ¬þsÑnzeJ[¤VÒ¦ËÂNÊº[ï´[°TðSw­fÕ
+y2æFË£Ç UÅEXn4Ýj£VviSE¾,sU'¬÷vU<!-ÏË-«([ÍÖñ£z{#Kî0ãÝv§	mçg§í¶êà¶gY±Í}Á%¤Ùä²UlÃ´	¨Ìi¡Ý9Àbk[µ-8fº«mÄÅåsÌICØ´Å­b!×«p.k^ö![-Ö+³¶j%lú¸Öb¸rü8Ã¦Í³Rºñã¬ØÆE-?«xAÌ'C·ô`ÔØE¬^ëÈnOYUjMZ½çm²ÖZjsiAS¤ù²è	7î¥wX}°t«K3·ëµUóºlªÚ_kÀòÑçðöLÙªg¥ÛõêF>RAPõ¬ÔþZñ?GY]H³ök=H×ze7®7sÊk½çý6òZj½Órk,¿;0äFf.¼°
+Ãä?u\ïVa(ÌÍrßlv;]H¦kEDuY5^¤Ù\øLª¶D¤U°Jîç×äShTUä%P=W¾ßí
+çn¡ ð¿,²ÔÌk¼9ÌÜççX´h¨äÅôBv!²Áy,#´2Á!j´×Í¥Ï¤¸ÙlUAUÈ=a¼Mµ#ÿ½&êJcÇÆ<;ÈõÙó<$Kå¨ »Õ®×¢8#õ}×m·ÑsÐ,³Æ¯2>OÔ®L19â:ê`©ë¢í!å:Êãü!_FiÀBÛÙÍ¥|P¤kKì(«27{ð[(æÿºd£Ûí/ëð.¤lc3ágt»ã¡§uºlµ©·<::}ì¡2f µ¡'¢îR/#°ÛVVi£ã¶[(A5YeTÆÖª£HYÑÏ%µ&ú¯Õ«ôØC ¨0V±×£`/tP¯,ÀYi®Y±Ýå°=¼¸¸)Û,9ØÆ×@uÆtFæÖj^®Ø£
+|GJµÂî4UVë}ZùèÀgjÈJ¡"-±½m¾Ç=È
+FTØj½!g¥¨ûÌ­cÍ
+í9LKí®f@­ÁZ°J3äÉQF¶«óê£y&l{"?ºX¬b*7XQÌ|Zz/B|!-×Y­XYºòº(÷PsÒèQð>£îº],¸UÌºÃëz¨àbTÛ0aÔt.Ø-ÖR£Sõê8B¬b¬d°2ëúnËÂÎé1Ü¨±×c¢ÊÒG/£Ëp´NSL5<¨$Xàv)\ Qc [mF3îa¬ñ¹¬ØRr4«ÈÏæì*ÛÈë<ñûTïj0+èæ-Ö¹Õ)ø¤Ëa (¤>Ò´ÕhÕTë¶¯GizîV¢v©7¾ß\j©ÜÍ¥â6Aa+$} ³35ëgM;W*v(´BüwÌìVl0/ë×Ý9MÈ6º ¡ë@ ãòXíë@J¡ÒºFæ9ÀRÇt»0ð¬ô¸	ZÇ
+là«É<p(,^ØAÎ =kyF,2ñ'³¢@(4+Fì1¬ ÜçÀ*e2Ï]ypÜjèAç ëCÚëBü¶ç@ÐÓEëÁSfÉ@<qþÍfÊ©çÀ*´<v)£=/±#Ü!u4P4[è@ÛIpÌ
+wñË@¶vÕÀL´`DTJF»å: x	ïb3çQ ¿,r¼H+ñàãs¨Ë9/t¥bye:_m£ÚÅ2÷pÉÌw`Z¾«iøä{èð)Ûw ¼Ó¡4óà-ÆÅ¬RùXz¢V@ïÀ*µ}V1#J|¸SÅ3sl^G;xÖPöu®zÂY`f¥!pOÚL&cvFË2áp=üÿà§É~©,ì.Ó¥)A¸ÅµãGE9ÕÿÊx¿dð¬î¥®èÄµ<ú¸ø?ËyÎE<>]q²ÁCQ£¡!\¹utDüµ6SÚõÚmÖ1ü!M,@YðhÝ²<Âyq>?±hWB¦*&Rw#¥xôPI®þ £sÜªgÅÿ×´	"ÓÆvÒk4áFbAòU¬Õ7ÕÀ¸ÞôèG§Îj¶mÙPÖ 	ÌS¥UÌ	¯Y®*üÀ´uMsdâ_øm!)éBö1"âºDÏ¢Õ3JquP¿Ê¨!hx K5+µüÌ*n¡+££-¡	ïÇñ}ÏB¼Õ9=K8q#âI"L¦TF»£LBLF¬ÒnRÄp£×-×àÄ¢âh; éÄ6êe,DløÒ]U¤^§ùàÚï,+Ì Vo£rÓiãÇY Ø:üEL«´í`â:¯¡cÛATüeË¸ÃzºUç:p ÁÐà}âô5+¢?r9láâR¤ ¯ù>°¤£
+RÜ¢Ãðµ.j®±EWF¿`í rÎá¥ ?VS! jb&/Z¨T0×¥.KÏÄ
+·¶¸¡Í\F!25Q°ôÛ × Í60ÀÂùÄÖotù6Ö1>aïÊ:D§2OTeY¢55@
+¤,O40¨­Ñ*Õä«9Ä#R´Þëbî%ÍÈð¡&TË4#Ì;5Ü t! iÉ×sc£(@8è¥eyßF»Ùd5$¸(ë¸¡P0õ&'ÿ$cðÝ&8ã»d)Å*!©#5I!¬§þJùl2y-ÄÂ6ª(ÚUdmáQÍ®á0¯jÍ.%ÄöIKÛVeVa£ÞE× b¸,ø¡¹>0³¢æ¢Ú/
+«AÌ@Óñà #FÁ|ó5²»ÁÌµÖ àz§*B]4ðÛÁ9¡ðóvÄ÷Ãâ²'7XPxjící°+¹=Í²]Q]QÞB/J(ü5¤èÊyÛT¢SzxÍ5-6*Ð×ÙD!v\XBìxù*1d+)^Df; R4ë­ÝéÊî
+#¡àì§ä'ÅuÙÏéÌ¶[mE¸8[ÜÐµµêõì`K4s,BÖ/¾Ñk-~B)dÒFîÖÓ@ÕþQr\	2(Íø|M¢*Ö¾0µ6µ¦ø4h¡) (ÜI6(Ëx%ö&ÄQ­3¸,R°``ö¸v±Å®±Ä¸bãdÊ~.^BÄÑ`á½â3A&x8]Ø[+×T!s©ó L.&ª¶a«Is:Ê±v£ /`y³Õ$2F4zF	±ûÄÜgùJ)gw	n¬ÄÓÖßÐª3¢^ì³cÀªfGü8ö\ºà(ÚåÎd9*Î%7ñc#µøðjÁêD­ãÏÝÜ¦²(kwÄ-Ê´«T"p×§¤UÅê4;c1T8µEØêËV!Þ/Ñé-U¼¨¬ø)a6fdP¬Ø÷#E)ò¦ qïí"qk$_¼x í(7|¤ÍáîÂAÓj<Î
+Æ!Þµø¯íR(L1s¤jtÙIP¢caPÇWÃ/DDç6aë!Zòú"e¤ÔçÇjDæÌÈ744'((rr¼'0ÐIs²ð6 JNqTò?O$0ÉùZe2¾9l¡jðsÉZU8Ô¿¾ äb©;¼ô¥)-Æ_ 8÷×t6uùD¿RqÏí¿nöÃ6ILäTLþ²7Ê(ëW©PXü¸Iôs(¡£µTÇ«ÿ^u:ÛtØvùe!äµþBB%S?_)kZ@?Néï©fÝaW¼[nUyßfCUy¦tâ %ù¿þ»Ã àEÍOÿÑYupæÐ<4t·ºÖÿË³
+Êz¼ÅÄÑµUÁ<êºò° þg`Þÿ.|DsîþÁt¼ß=4uý_·ú1µ<eHÄ(¿nQaz¶Z+æi¸ðgÉÒdY
+8)Z{3%DVçKÜôòlNHÞÔjizPYMbEþòrâ3Ýæó£ÚáÉã£WÇ?=¨ð¨HàéâÈíhNl1³pqOÒ¬¥êx¶ ëYLº:[©)*(9ÛD;^óôý,ÏW0òNêf:éÀh>!fñ }ÇD*9ø@ñêl:4â8LÖ.tÎ¢I¥×ÚÙZç\H"VD­sU¤ü	ÙLOô¸ÕCþÈðM2Ì¸øGÉ0$È@Än-^|T"9	ZüÓb{ã%É3øVXÆµ¢@ü®Ð»lÝ³e[¸9a!yPù|Óã=^É»³tS#]bZ6È y&SùAñË"«LÐäIk(rt?¾L é¢?Eí¼³Ç,]ÿÚÌËw ü#¢hØ¯(v}	Çô©5iz"ïHw¦ßsÞK OÖ>ðXÊ
+ú×­NÒB®üÙã[%Óqÿ±÷§¸¸p<Ý2§2gë`_Jêüº5Àp>6tõ$.fÆâ§B¾îÅzú°EÖúz×Oçê	Âçã,éBÊS# ´ÆyAÒôia×´Ü²[2ÚÐzm­kf©"¢?[ýOée{7E¹H[ÈN| $"¢ïÎ\`
+Ý¹x®ÀÑqwæ'NÅ»3wg.îÎ\$G1îÎ\°ßuwæ"9(§ôA[`X§(¶[¡Gwg.2QÅÑ\=ýKUîÎ\èÃJi¤uº"	¼;sÁþEÏØ¼;s¡nÜ¹¸;sqwæB[¸zþ$CWCÐÃ^Ü¹PòîÎ\¤G1îÎ\Ü¹HÒ5Ü¹0Ù?îÎ\|wg.îÎ\Ü¹0çAìcráîÌÅÝ»3wg.îÎ\Ä`îÎ\Qwg.â#rwg.$Ñ}âáîÌ9ÿòÿÚ+aE:íª3Ñ¿ÎæÄJDÌÐ,ªË1ú#Â]ihê«¶$,;	²µã¸ã@+ú9XO®Ñ õ]EÜDCË|$nWgÎÒïNrÕKÓ_½÷5W)ráp©Øìb¹Htèpd¹ßíjæómmýÉaÛ4åZs¹8½Ì@¾)×yIoæÒ.Wöä¶¯BzEl!üÜJó¾¹w÷!·- 7ry<÷:¤cãs×¡¦ð~Å-P9ôVëø²JÖr/ç²Á/Wd×^pØk[ç3ÅäV¶¢®ãAßÝüÂâøÞdf¡bJhÐÍlîèfü¨nhoÅÇÜn7Í+;»pî@¦lú-V¾ÓÛÑ¸	@7Çjtû| +gùAÁDææöv	!æû?p<@îx9àz¿Õ«Ñ¯WË¿æòã?¸&Ú,þKÉoÜWË¢<ýã%?þÖ>æçÓúÊ~ë[_îIå§ü9ë­ù-ñ+¦~ô®¶:qùûTøûr¾âçÜÉï`ön~Éï1¯j«öùO"ÿÍ;Úp%ýÜ2Ká|¢Ñ>öUu?O/qé7:!;XA^&ÅáR=p?æA«l!)}!N;èû>ÓIÒdQsú§FçqQöê¤&	UÕ©sµÇiÎ4pPY× ´þo$¯ÌI.í$oFç×NµÇ	 id)3ÿ}|NH«ÉOC&MÔl£Ëd9à%Gæ;ú8µþS´ËÉ6ùZí_I
+PÎÀÀNÎQ¶<â(|#÷âWôV³ä½<Õçõ¦ èQô:s}]sä\Ò+È'ÞnuÈ§äu¸Á#¦mÊ-NÂsÆRòÏpó¼ñ& ÇhD É·Vë8åP,çºä\ÍÑÕs´äqü±ÝülY ÔôU>cºiFòS§ÓKFþø@2Lþø5 ãä´¨F$qã 6øãSÔTäâ|º"OM2&$=âh/éºÀ;¨!Ó
+Ùñä/o28RUp¸Ù" Íñ-É*µÚãhK;èK¤©äpHGÃatù0>L>ðb¹fG"ñ»ò©ÙÌõlHn<æPð'~/8ÏßçyÓ -ÕU5_s;ä$Ã¤Ly|!B+-6¼ËÜÐbò'ðtºyÝÉeÅür£Å«8Wú×¸Wpc 5h:NÐ%Æ	ßÎXCÒÇ?;xgMÇBX	GÏ9í6éBç8fi¹
+?ôÓOä)sk¿rÄÝm$ÕëdU[#~;{J09&gª¨`7r´Pà&nçÜ!1S³çÀ
+kp8xï?©nHÉDø>)üò;'ëUwäðÍÆ¹þ<ýÊï¤sÇº¯ü%9ðI$Ì-®÷«ë?H°,Ç³X!,sWÑ²ÔÚT§õäÔ¹kSxb*Ü(i-}1"ôÏaDIáo"ðfCiºzÀcPmÿÀ¥z_¢ïÉH_&úóc>ÑRÅ`dëZô'-jöÒ-+BÊ&¿rReÓI~¦rRèNIy"$òÈÆíô\hÒe5±fuLò9(×á(>¹ÝBñ³Ä²BHÅÅ"%Q?!äDhrf½AÕ¨
+çS]©ß¶Î¢£¼u ÞôdÉ6IA)rMË^Ö< B?HÞ8WeíÖd½êUt'HãÝ!DÉðF:áCò|*®­â_²TÑ Ï9e·%\À¹I¸ R]Î!Ö4TgiÎ:°ôHYDZàP|ñoÝR¡é~+Î*0õ®CÇ$G C®£;hù91B CzÞ£ºHZ­BÔÁhé©ða¾×¸Ñ¬ãV2ò¥¶è¸I)¿Yñ&²EJ¶SÞbH¥Ñ¿*æ*9SùÚÜDMØÓ]¦xÏº7óKA&}-Ä<'|×úÜuÇ;lÅ>ì+[RNFX»LMÌËnp÷Êí´úÞY½Jöy£Ø#·s\I3ÃyøùI`ÜF¥ãHòÎÛ³ì:¹wQ±îõ"khÑ
+?JXd<¦¡æM$»5OäX¬ÉêÕpX,ý¨/<ÑsÉzaiñqÉ¸<£G²Ô1ê
+É­kpC^°ÔÇÑKO>YlZÿò-~ÓØÂ*°då¡ß:!L$lAs¬¶£¹$_ò.ÊiÕ«ÂH¶IÔ¾>)ÏCRFJZä°	¾®ÉÞ**d&%'¿·X10Kýþ  ÚLä3ôÃDØª$/mÝJ@[Gz-$~Bïç[6ãgFÐ½Ò±\°à7 Â°)x¡DÒë	v;Ø~FÒ.¥TeVh¼4Ôh°ûXÚ« ß'ß@nQ-ã²ÌlFDªFd}Ç¨C:ÁWæ`ù^§¬ ÒVÆtëËTIú±ÓöÈÜ%ÈÀüÓh2äúEíFP	AÐ¸¬?ýÄ½,åeZ*:0ªe¢(ZGõeëú¶sI©4ÐÉ[âE¶C¡bOH;¨"ãÿnjáEHfÈø©Êû¸®Ôû8¥Ó²tYõò^²¡® -|jK*a1²nPG` ò$ÁÜBõ­äNspJxõ0VÎÚpLÇE$¤FN'i0æf
+¥S(XpÔ/ÆÇ× &¢PÁA^ÏñÄÚÑ+®Àài°hz* `ÀÜxÛ*pF¡ív­q	AuÑÜ%	#ÚPfu-ütYsa	2)¤g¡wº¦~(ÂÑumÕ1äÑ¼Ý`\*äíÏG­
+WÕZ§|J´1ñÀÇs3DÑéAW?áaRÅ«A{"FäÓÖ@!s¸5@(Ïu=Ny©R/ìßn ¿üÀÁÜÈ0mQÕMmQ§QIe$@q ¦åôSh«×înBýÇËìéR!>ôÓè5¡é!YI^=Ù-Ì3wÄÛò=ÇNÏü&C\[ÙPS'KÕ$37¼z<NHÓãjûCuv©ÖnÊÖsYÀ¾z-I`r	9ZµvE§b ØðØ¥!I°BÅ8Ø%Ê¥8+å¼ùp).^G_¾½¯0QK8b§CÇ¿Ý l¯?Ó<?Îø}åËTC²ænèÓ` £Ñ[¶Äuzx4¨àLqzý9ê·§Úq­þñl7¼_+2¹äûy ÄÏ}¢o/açþÀKÅ5´þjå?u;ïõ|Ù^(«qd*Â]Bç«^ê?åjG"-ù>Nì¥Ý©²(º~¹r®¦s<þZý$Bô.Þ°R£@Ã!/OHzÁ2=-FÊÜ¬Ì*vÐË8e/k}­®ôÈDÍÝ©}é"#õ4NY¦XLèÁRáWOÌ-ôvÇC+ìm¢Ï$-Wisp²'3ÌàSßiîHÅ$áºJ¿_o>/gýq|³2â·rù1×õqñÎ»få"nñOjh,ñ,L|lV­ ;SuòûÚ¸Uý·ûÆÉ¸On»Åû¤hgûUåswðýXÕðû¹Cû ÐóöºðuhOî	!g0ùNrKöAÔ MlWºHÏDG0-YãÆfsÙ(×§ãRúBì½øþUîSµÆï]<!æ«ótF¤^äPb.*¦æô±e.Ij5XÎ§ºZAÖÉËå|È5¶aAMÆa$$!Nä*X2ZÍVf¶Ç´/« ðz>P=®)wæêlg\'*$ÓÍÙKS´ß/Â2B· }Íq»pÊtÀXÈMìÀDÍkÖu.9Ck¶Õ?ÎeyH÷È.Õ[-¹TYþò#]*]ô£Á·éOÒqÝðxûK=Ã·7)Äs&C<é±3áÚï|HO'+}?8çpÏÔ£ÌA}<[j®ªføÕBáÈ,` y3º{5CÌE²M/ÌL&ËnçL'¾l>-dÆªgq7*ã©ÍÍ($jÁ:fW^Øðæe@P2)Üz¡Ì ÒB¡¾b(°ðâ?>W¡ðmiÝù³¡p?Ïå1+¤#Ë 9¦(Kîêã!ùÞ¨ÏRpÅKÛÞÚÖÇûýô-Î¬óõËÄ¯^Uq#<NìÅ¢âBøf,Ö½îÖº7PË5kÞRº÷~ãÌ©â|Ã8õp³qsô¤Ø«û^AÅbX[Xìa³¤n×¬õCü7I¥ÀâÁy¶sä¦`æþnùE|¹õódncÏQrµúgÊ¹»=Î5ïÏ{+u°î¿~xù´_*ÞËÅ=Wë.®ÁäPR>aQEµ2~ÿU 3 J/26iuý¾¿tÎñr!'þeAQs£8? lTÞ¥ÛüL²}y¬y¸ï.hI¢+­ÉMÆgK¼fAXùçðøñÿ_ÇëR:Ö5C×ùv¦<Æ
+åLØ¨H÷äíé©¾NÙüUpøGþ%Ó;ªÇE0´b,_¬ôöÌÚçNOeXº3×5vÁHã=èVs¡0Á·ù¸âµ©JKÉ&º`v^&òAf6NpiA½2$?côT$­cæ½pøÅ
+á¢k¢Ñ²¡`'"é pz6ñgìÎ.å¦êÙ|ä#ÕT|³µ½Å½ÑrÚ×S_8|ü-ùÑáwí=üíZLÞ].o¹ýÝÅIÈYÒW=5föIX¹
+Ê¹rYa¢CÁãüéL¾Fßy½T+àïáãÿ¬}øALaXÌÃôûðÅu6Ü_ëb¡Yú|Næ×Z[%F	1hTX,<ËuVAL{jB»Ü¡Û¯Pe Ý{ï,°2ô§¿/ùáÇrÙ`wöÞxuÀº §`ÈPï§ÉAxoØ,NÁïµ{ /î±ÒHZz@<Qto5WyÐ?]Ì±\ ÙÓPôM*÷PÏN¹èôà^o¾:ýh¾<Xë½	Éø±J6MM3'Ð¬§Ì_¡`jYÌt')$æÊ¨Ó*¬hzjXê:ë³ÖðôSôed&47ÃÏ/RÝ"­¦g3±´cÝ£$-ãq×74½Ëè86:Nc@ b½DÛ %.ðCÒòµ@@5ÂbÌû¬b68ç*mB¾	ª7ÄÒ0½@d `$ãû ÉêÈ(pêuäÍ?<pH LÇ¹á`¥VÁËæSZ ¿=.Î6ôb.®÷PlT<×æÓ²è^=|ñâÙÑé«Ç??züêñ#M¸ã56F7A½©L|J0èQãðèN¡û#]ßàÍâpÍ¥Ðññf<u_»j±pÀH|?£9N?ÖðF"¼SA^{y>i§H óÙ¸'`úú¿á2Óö<b\Õ§~âÂØ48± £1Øî½÷¯qÿg?­|õhÑ.Láé¿±¸/ÕL\Lm:UÁ¡B"¤ùLêÃùÑ?_Ãr¹àüé+_ÁÅFô¦Ýû!n©¡@£ïð)1äq85FýÃ9ÆíLý2£áÎz©Í41|.¾¥x]à;Ð¨iõØä	ño k9!Þ;ÑqLæjPzé÷Çó$eµ®¶tnè¡Ìf\ /uÎK¨É
+G¢DvA(^}Gë|WòµØLÿê	ÿË=ðv÷À/3Mãºn¢Æ3¿òïJ*¡õç¼ÇRµÌÙÂJä½Q4%ÓpÞg£)C;{Sð6^`Â>°¼*½ÅëgÅôöµftqqq*Þbóie¬Çº\	`µS9ëT¦Í-*w¸ïÃÍbØ­Ó«xW°ú5ºûÐRVn°dùmñ*~aÌ!ÄZEEÔÂñ_ÍÙ}â2Úß­^v´ÿè²¯ô
+·Uð_V¸6;sC=ýÇÉí°(ñâ¢iªd â%ôì.ëÂ XAæÄ(
+Ð´ç3¿ïógÔf9÷áïÄf.Q«Z\¬ýgb÷ÖÔÛª¼WiN+7Ô|Fá¨c~ñÌV@<ûn¾Ö\\c« ³ÀáÙü|îìà¶¹<Jú?þßýÊ$ªôÄ?.+Îz¤]	jùvø9Hì¬|À¡ìã\\¨Zõk¡;sÐ·_r»Nè^osp®|sqÿ8v»ò¾Qé+ëï}È2ýXNo2Ýí­®
+ô =WÔ¼¹¨_í}ôº(pPÛÐÓ)tùDTNþ¸¾)÷®µ+Ü¼UÁF«¶¸	ìÖÌû¡ú/Ù|¥)Ìû¹©Èß¯JQ½EýuþÃ¹ OÔ¹uód·âûæ+D³qG4ýSâô¸'¬zkäÇcV¯ü6 ó×Â¦¹BG¬Î»Û®]®ÿ3	òÖ¯]Y®Ø¬0ë ?NßéÏÂ[.÷ËêU­^Ê8½ÿøkaÿ³ZHöû÷áeÈ9¼¨Ù²ãIS«v\0eë?r(ðûgØÆpeõÿ)7+QPy7®Lý÷8%&ëj´OX§Âÿ"Tý²PÏÔo¯^7?f`0´MÁKt>£úÙ&KABõùrÄSÇ¾¶ØÕ×0éSÚïÝC·swJìø°ß§½9$ÆäMoFúÄkVXWáðYÀ³:q¤_½!QéÖw£N>züðè9EJÐG;ä!ÞZIÝ6kFÚ:(Eo4dû3ëN:ñ!Ý/V3=O¥uW¼Kì>YÀ½R¼]D¶GÇ¹-¹/} Ë?¹sYÇu2ÚØ]ÑËQÊ7x©dHÆ·õf4,fîóåLÄcË¶ÛF|x3toPßòu+éáÄ.]©£û(·àEþmôÂÊ>ò&Ú¹Ï»ÚðÓëçÏ¤#Æ*xÎÜÒDþmtgW»`fS·dêLàüÁ]ÖÏ{¥½¦å¾b6A(Ô]9Ï¼[^³=xä[Î¼âAî\ÊrÌÚR_¸ÄÙBÌêÌÂÞ²­*NùuçûwüSy0Y#³å$þh67I©Îï÷ãÆfTk¨Txôâ¹Ð§!À8"UV9Î·G}ÙòJ^«+I¸?ý8;=÷e'³Ôÿ¤$$*ÜWoÞÚ{2Bº÷Ë»,¹ÃÕí-y¯4XóWw*Y[âg·ðq¶7©?âÿó¦]ï¹zñíÛõí2ÖËÕ¢:nßû´é5OÂ¡Òú[F ÿÍêÛ²z£	»¼áhÌÊ¾õP$óöê¡"$ cãn8(óÅÛ¨ÎèçÓ£g=Ð"dÜ/ÞlÎ\_4Î¤ñ5ã»¾Z:]é Þ?cÆv³qÈ**Ñ­Q¡!IGoÁ¼^5×WÇ°©»)Ï%íÖÊ_·oYêÝÙWpò/kC /®!7ã®0«2á6ùBxÀÂq(\"|EWZ/¾Ý#¦³,å¶¿Röå$Sµ{tO~g×º®r«VYÚÁ¬ì«÷O$Lnú¤Ãk_÷.4Û¿WêJýOEÁðÓGÅýu$ûeUÊ	¯¾â\v@{ükð²WÜîm+õüÁ¡;¢Þèá¸Öp°EJgÙ4ßz¥mDéUY@ßqç ÌGãPât·-iu'!Oã¯Ì¨´£åg	|íJÁ6õ3.ÁÄÌÉvÉhÒe0c¯ït<<3|ÄÚ§¬½£ØgmÎ O~çyIZº¡ÿöÎ}\/7Ç[ÕßM7µ¬ÍÚ6ÎZÍIAºã¯¾eÌ[»(«cYQÚµ´è«wîÏ`2)"×ñ1kØk Ò7[YKÄd
+nÁFP¨Ãm,É¥|þ\Òù÷ÿ2+¹2±bÖ7KÝaöoÄ-^eq¢Y ÷lè0ê)!Ò1l0ªT®_wÌb.núyïªù¸ÃfUªRÁuMê49)$''ÄJÖg$ÔQ¬KÝÔö\÷x¬¥]SÊµs­YhE*o¶õ1³E·}R2Y­÷ëÅv£ùsD¥âZW8ìC4n?îAÊïQ?ZZçÑGcÒ±Þt)fõRq{u¢&½Ò"ò1r²oVzcúg.ÇèÖ54(ô£>?ÑKî-YçBY~_áêMVx>JÅ÷Ö¿!¤%ßá~xñ!%î·Ú«þ! º&ä=V_Ôë@DBÙÒklêT©jpêä@M~ÓüX.¡/m¡#Àn£«ÃØÔ5([RãÜÄætqOÝ»Ì2RùMí­zp ö¯;SÇÂd{rºd2qBJä	ýKâj0ÓZÒOùÃ°ÖX,cöfáF[k+Z»úê{UÇÅ	/G¿ÿ÷ªnAÆr<Ô_åU÷ÒUvýÈHùuB(òÛòè±3îUãó/³Dï¯Ç!_ë4s*´¡£¬avêÍ§xûªp5öWìÜoèôþ rýÓñÝv;Þ
+/«	°¢y¼uw"§´|$Df>fn¢àå£'ø ÉuÈäÆ_wp¾`§1z_N+wäËÙ=û84ÒÞphôÇQ û¤Ã_¢ÏeµÃ5¶êµÍ';ÄñðÀ./;;áâôFàd8ëè>²S*-$åG}V§-6a<ô\êcWNl³qVéMSdbþT×+¹è¼íçõJ'Û6¯Õ»Ýz7Ù6ßýÛüÚ©¸%Èó¬ãp6³Ùp5tä£#Î6ÌFº@@³Ð$Æ"=·î~ÑØ:ëq~"EN0v+Ù5+·öµ³rK;gEBþ$
+p{àêX8	Ë|~ÞÿHê.¬ßhX×"úz(;q{óàÕ8Þz$á¯Û0~cbÞ´º¯·Òµø½9´x¾q4h.¤ÕÆùM?·aüÖÒö²î/FÅµsõewÎÛÃ_í©ºaÌèW©[Ä¼îÛöÚÙ¸1°pËX{nCúÕ¦áQ°»&âö£¾v:n	rç¤Ü$\ÖxA\ºm*n*-6ÉîBôGr-vog'JÑÆwÍn@çñ¨ÓmøÛÉû·"wwtì.¬Þ`0×bô:;±iÔ÷Ía³0ùP¢É×âN¿tÅkãcwaò\Å]íwbð+Ën@ô5!¦¯t.!§¤ªº%WÛÀDâ~µ	¹]üì®Ùù:Hºv¿ÂgvÎu­^ïÖ[m/qGp¶tà0î%GïóÆ>
+ÁÉºGâD2¥¶îIÀðXoã¦ °xÛümå?y»ÖãI½Ò%:/úüß®ù¢!];·ºï{{ÈÅI®ÄjøµL0w»ÎñääÄ¤'îØûóÜ@T_1mHß)6q±V%ò+í!ÆE²½ÏVìù®ºÐúà¯[Ü97²æücR|`	÷¾Àµ	Ü,ÒLalarG¦©øNÖê­¿âtºßÇé)YÝ5N\É9vgÄ!éêçâ½vn
+k'öIõµäèù	eà;Ó1®ïp3:øÐHÓÊ]1é¹e{~òT<ÏÇ£ª c¾¸I'pÈ~¾h:¶r¬nµRãørr¨ÖñÕöMü¢·ïµÓp;;'ÃìH¸ZómNÅHN}ÑX×¥·±ÍU­^Ñè½qî]ÅT6öì4¿±íú¨®EóõPv¢66ü>ÙG$5ÓjË+¶á6¶£¤"N
+úÕÛª´¦ê9'hõÈµ¾Ý»¯ìZôÞ ÌNü®tÜd;´pó):\}ÓîvÉß¼Å&}n²«òXªç4üX&åR5ªlíá½µýú¯ÅõÍ íD7ÅÊY}kÈÝî²9´ËUúêåÉ#É]öçÏ¾~;)­ÞUäª3Ld;SÒP°Ñìøcäc Ûé²S~S)yÝè®ÅðN ßfa²Uo³UûmÓM[ñæ¡ñPÏËÁ£35ê,ÈÎ©¿dô)]«íÙ¶­qáÏtJÍx)ù¹ûÔÂµ´[!>o%ï'{ÊeÅõk7éyYíêqn22B¯ãþ0SA>üFõKæV gZcUE½XÛé¦÷YN¬Gí½Æ7°5HýUNqéJ®dóàÏt?_¶ÓMspÉÙêÓåÂ¨«aAWBY6FßJuzME¡Û0ÀÒ*ÉM:(N	Hèuó®OÌÏÕÃ,24å¡ú[ÁM6ü¥sIL>öÛ¸ßtL×÷TEÕ7wFLÇ«­2¹V¸¯;Ú³@Lûmr[0A*ßPð?Z5bSr-°7ý+5$ÅÌÎMÛlêñDÜ´%¨ÒÍe7m#£ÉCÆeì!Å8sKÀf¹h²FËk)Úm¥?{dÒ§gË2«EböÄL¥¦þ¬5< ÃùÈã<æ¯µ·Ïö-ªÖcâÑçRô[ûÅa\A<töIÔwôÙ+S¸úQÊ×>kúâpÎwq©ÏÈ{}Èø8)ìú]ÍÇõÐÐ|S=çô³ÏxþæùÓ«I~ÜT7wÅ×ÄjÆM2XÉoæ¬HËÜþt%8%­tÑdZûc×Éu8ìOC93DÍ/äª%_y-m%ië/apý¸Q÷Üï]âP"øìÞ[G³V1ùÚKÓ§­´¿þ{éÄ]ÿÅ+UofS}ÍW¿sÎòÿqDÎ¶óOg=IÉy¥BOcyíÆyÑh])w:UË	ØÓ3q¡s$ü$æÎ'µq(#MêÕrnÿ/Áàþ³£ûµÚBf"ÕwdùsùÀ,º/ùQHÕéKýÙ|Xï9.ËN¯"<ëÖ~ìl¾D#!¿WlÙ7×ØoD;$ý©ñp¶?÷û×XMÉXªÓBé5¹O~iû%}O®°¸Xáð¨<s¾+Y)&Ñ,vÆN',¿w(I5çÁ¹­|ÛÐM-µû3ãTs%ukú¥I!çaÚø_ÖôàÜàè¨ãFË@Ý^M¥"¤¸ñóeO}U¶¨¬ða6S4 HË uIZô$Q®Î õJÌeÏ=8xmÃ£qHã8aA N-§Á¼xc´/_ûC	~Îø¦úö¾âüÜ,úl¥ÄEsYFô0@uJÁ9ZêQpº*(á2z^XvæêÜÜ50¸}Dz	³0Îï\v÷+\ÚT
++w>]éL½Ãìç9À©åkÒ3®QC!Ó|MÆ=+ÜxÄz/¾R!ûÔ^±*ìAÇçáÍ¯x»z#u>èLÔûà3ÚÝ {tü×³^;m[µ³AàºÞÀ(_X	×eZ5'	£L©NIÀÍ¯Âw¬ÐÍ-1-+Iâ|>Jé/ÆÝ}åëK!@+¼EyÑ&¹åVãäÞûÏiHº>¼¦;é.'ÜáÿDQf 
+
+
+#####EOF#####
+
+

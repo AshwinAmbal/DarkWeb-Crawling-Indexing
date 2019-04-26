@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://osconjunction.net/xmlrpc.php">
+
+<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>ConJunction &#8211; Organization Studies Innsbruck Community</title>
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9vc2Nvbmp1bmN0aW9uLm5ldA%3D%3D"
+		+ "&id=110225367"
+		+ "&time=1554368594";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//osconjunctionnet.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="ConJunction &raquo; Feed" href="https://osconjunction.net/feed/" />
+<link rel="alternate" type="application/rss+xml" title="ConJunction &raquo; Comments Feed" href="https://osconjunction.net/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s2.wp.com/_static/??-eJx9kEFuAjEMRS9EsIpgNBvUs0wyLhjiJIodjeb2GGhZtCWb6Nv571s2LMWFnBSTAjdXYjtRElhKyOyEKeL6q9oGkQ38j0W6osAFtUzh6h5Vz07pixLp+hIvM6UQ22xZ1oCZRMHH/Ij0daoriK4Rt0ypFx9yRetzmfTuYJxpwohsth7GZfih7vJsq3S3eF7H+1JRxNnL1Njp2QZ1uRMmrGQfb+Qf9hkJpXnAoPn7COb65OPHYT+M47gfdpcbNGqvlg==?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='ecto-opensans-merriweather-css'  href='https://fonts.googleapis.com/css?family=Open+Sans%3A400%2C700%2C700italic%2C400italic%7CMerriweather%3A300%2C700%2C700italic%2C300italic&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s2.wp.com/_static/??-eJx9jNEKwjAMRX/IGAYV9UH8li3EGkmbsqYM/97KYMwX3+7lnnNxKUCWnbOjPzlxxdImZHJDyYTV38qwFLJ0pFoPKJjNpSt1C+uwO0oNirYonYlsoEaji+WfAg8dZf6nzjypxR4jdmpXv9I93YZwuoZwOQ/h9QH6U0kf?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-3-1' href='https://s2.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h&cssminify=yes' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s0.wp.com/_static/??/wp-content/mu-plugins/actionbar/actionbar.css,/wp-content/themes/h4/global.css?m=1516985148j&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyF0FEKwjAMBuAL2RVdh0/iWWqNI3VNa5M69PRWmIhQFQJ5yAf5Ez0nheSmcgTWvtalQL4trfO80r+ACjhmK9AFpBd2kQRInjZFlgDMdoTGNMQDTqAKQ66ApK45xYb7jIR0RZj/Mg+SrDurDIx3aB3C6Z35+wcWtQ+79TCYTd9vjfEPs3xy+Q=='></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1530132353h&cssminify=yes' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://osconjunctionnet.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel='shortlink' href='https://wp.me/7suEv' />
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="ConJunction" />
+<meta property="og:description" content="Organization Studies Innsbruck Community" />
+<meta property="og:url" content="https://osconjunction.net/" />
+<meta property="og:site_name" content="ConJunction" />
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@osconjunction" />
+<meta name="twitter:site" content="@osconjunction" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s2.wp.com/i/webclip.png" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://osconjunction.net/osd.xml" title="ConJunction" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+				<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="ConJunction" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Organization Studies Innsbruck Community" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://osconjunction.net/feed/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Organization Studies Innsbruck Community" />
+	<style type="text/css">
+			.site-title a,
+		.site-description,
+		.has-header-image .site-branding .site-title a,
+		.has-header-image .site-branding .site-description,
+		.has-header-image .site-branding a {
+			color: #;
+		}
+		</style>
+
+					<style type="text/css">
+					.site-header {
+						background-image: url(https://osconjunctionnet.files.wordpress.com/2016/04/cropped-sowi-gebaude-aussen.jpg);
+						background-position: center center;
+						-webkit-background-size: cover;
+						background-size: cover;
+					}
+				</style>
+			<style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+
+<body class="home blog mp6 customizer-styles-applied group-blog has-header-image has-header-image-home widgets-hidden highlander-enabled highlander-light infinite-scroll neverending">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<header id="masthead" class="site-header" role="banner">
+					<div class="navbar">
+				<div class="navbar-action">
+					<a id="slide-menu-toggle" class="button menu-toggle slide-menu-toggle" href="#slide-menu">
+						Widgets					</a>
+				</div><!-- .navbar-action -->
+			</div><!-- .navbar -->
+		
+		<div class="site-branding">
+			<div class="inner">
+														<h1 class="site-title"><a href="https://osconjunction.net/" rel="home">ConJunction</a></h1>
+											<p class="site-description">Organization Studies Innsbruck Community</p>
+								</div><!-- /.inner -->
+		</div><!-- .site-branding -->
+
+		<a class="scroll-down" href="#content"><span class="screen-reader-text">Scroll Down</span></a>	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area inner">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+						
+				
+<article id="post-830" class="post-830 post type-post status-publish format-standard hentry category-publications tag-uberwachungskapitalismus tag-organization tag-rezension tag-shoshana-zuboff tag-surveillance-capitalism tag-the-age-of-surveillance-capitalism">
+	<header class="entry-header">
+		<h2 class="entry-title"><a href="https://osconjunction.net/2019/03/19/die-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus/" rel="bookmark">Die Verfinsterung des digitalen Traums: Shoshana Zuboffs Analyse des &#8220;Ãberwachungskapitalismus&#8221;</a></h2>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+
+		<p><em>Bei diesem Text handelt es sich um die deutsche Fassung einer Rezension, die in gekÃ¼rzter Form und auf Englisch im Journal <a href="https://journals.sagepub.com/home/org">Organization</a> zur VerÃ¶ffentlichung angenommen ist. Von Richard Weiskopf.</em></p>
+<p><a href="https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg"><img data-attachment-id="831" data-permalink="https://osconjunction.net/2019/03/19/die-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus/cover-ageofsurveillance/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg?w=324&#038;h=503" data-orig-size="435,675" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="cover-ageofsurveillance" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg?w=324&#038;h=503?w=193" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg?w=324&#038;h=503?w=435" class="alignright  wp-image-831" src="https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg?w=324&#038;h=503" alt="" width="324" height="503" srcset="https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg?w=324&amp;h=503 324w, https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg?w=97&amp;h=150 97w, https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg?w=193&amp;h=300 193w, https://osconjunctionnet.files.wordpress.com/2019/03/cover-ageofsurveillance.jpg 435w" sizes="(max-width: 324px) 100vw, 324px" /></a>Erinnern Sie sich an den Skandal, um den Ge- und Missbrauch von Facebook-Profilen durch die Firma Cambridge Analytica? Oder daran, wie vor allem um 2016 herum Horden von Menschen, meist junge, umherzogen, begeistert und wie ferngesteuert auf der Jagd nach dem âPokÃ¨monâ? Waren auch Sie Ã¼berrascht zu hÃ¶ren, dass die (Ã¶sterreichische) Post mit den Daten ihrer Kund_innen einen regen Handel betreibt? Waren Sie auch schon erstaunt darÃ¼ber, wie genau Amazon Ã¼ber Ihre WÃ¼nsche Bescheid weiÃ? Waren auch Sie schon in Versuchung, den smarten KÃ¼hlschrank Ã¼ber die Einkaufsliste entscheiden zu lassen oder das Smartphone Ã¼ber den idealen Heimweg? Erscheinen Ihnen solche PhÃ¤nomene zuweilen als unheimlich oder gar bedrohlich?</p>
+<p>Shoshana Zuboff, ihres Zeichens emeritierte Professorin fÃ¼r Business Administration in Harvard, ist in ihrem neuen Buch dieser Erfahrung nachgegangen und sie fragt nach den KrÃ¤ften, die sie hervorbringen. Das Buch ist eine Fortsetzung von <em>Work in the Age of the Smart Machine, </em>ihrem grundlegenden Werk aus dem Jahr 1988. Hier studierte sie VerÃ¤nderungen, die sich in der Arbeitswelt durch die Automatisierung und Informatisierung abzeichnen. Als eine der ersten Autor_innen erkannte sie schon damals das panoptische Potenzial der modernen Informationstechnologie. Seither sind mehr als drei Jahrzehnte vergangen. Es wurde nicht nur das Internet erfunden (und zunehmend als GeschÃ¤ftsfeld erschlossen); auch die MÃ¶glichkeiten und Potentiale der Erfassung, Speicherung und Verarbeitung von Daten haben sich exponentiell erweitert. âBig Dataâ verspricht nichts weniger als eine âRevolutionâ, die âdie Art und Weise, wie wir leben, arbeiten und denkenâ fundamental transformiert (Mayer-SchÃ¶nberger &amp; Cukier, 2013). WÃ¤hrend optimistische Szenarien die groÃartigen MÃ¶glichkeiten von âdata-rich marketsâ hervorheben (Mayer-SchÃ¶nberger &amp; Ramge, 2018), warnen Kritiker_innen vor den Gefahren, die mit der âDatafizierungâ einhergehen. Mit den neuen digitalen MÃ¶glichkeiten ist die Ãberwachung vielfÃ¤ltig und âflÃ¼chtigâ geworden (Bauman &amp; Lyon, 2013), sie dringt in alle Bereiche des Alltags vor und prÃ¤gt die âsurveillance culture(s)â (Lyon, 2018; Harding, 2018) der Gegenwart.</p>
+<p> <a href="https://osconjunction.net/2019/03/19/die-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus/#more-830" class="more-link">Continue reading <span class="screen-reader-text">&#8220;Die Verfinsterung des digitalen Traums: Shoshana Zuboffs Analyse des &#8220;Ãberwachungskapitalismus&#8221;&#8221;</span> <span class="meta-nav">&rarr;</span></a></p>
+
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<div class="entry-meta">
+			<img alt='' src='https://2.gravatar.com/avatar/e8b3c31c218fe225980c594f99308f18?s=24&#038;d=identicon&#038;r=G' class='avatar avatar-24' height='24' width='24' /> <span class="byline no-sep"><span class="author author-title vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="https://osconjunction.net/author/osrichard/">osrichard</a></span></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://osconjunction.net/category/publications/" rel="category tag">Publications</a></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://osconjunction.net/2019/03/19/die-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus/" rel="bookmark"><time class="entry-date published updated" datetime="2019-03-19T06:10:38+00:00">March 19, 2019</time></a></span><span class="comments-link"><a href="https://osconjunction.net/2019/03/19/die-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus/#respond">Leave a comment</a></span>		</div><!-- .entry-meta -->
+	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+			
+				
+<article id="post-827" class="post-827 post type-post status-publish format-standard hentry category-conjunction-day">
+	<header class="entry-header">
+		<h2 class="entry-title"><a href="https://osconjunction.net/2019/03/15/save-the-date-for-the-os-conjunction-day-2019/" rel="bookmark">Save the date for the OS ConJunction Day&nbsp;2019</a></h2>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+
+		<figure data-shortcode="caption" id="attachment_828" aria-describedby="caption-attachment-828" style="width: 551px" class="wp-caption aligncenter"><img data-attachment-id="828" data-permalink="https://osconjunction.net/2019/03/15/save-the-date-for-the-os-conjunction-day-2019/color-2413936_1920/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=551&#038;h=367" data-orig-size="1920,1280" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;2.8&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;ILCE-6000&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;60&quot;,&quot;iso&quot;:&quot;250&quot;,&quot;shutter_speed&quot;:&quot;0.02&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="color-2413936_1920" data-image-description="&lt;p&gt;Foto: Andreas Lischka on Pixabay&lt;/p&gt;
+" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=551&#038;h=367?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=551&#038;h=367?w=702" class="  wp-image-828 aligncenter" src="https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=551&#038;h=367" alt="color-2413936_1920" width="551" height="367" srcset="https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=551&amp;h=367 551w, https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=1102&amp;h=734 1102w, https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=150&amp;h=100 150w, https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=300&amp;h=200 300w, https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=768&amp;h=512 768w, https://osconjunctionnet.files.wordpress.com/2019/03/color-2413936_1920.jpg?w=1024&amp;h=683 1024w" sizes="(max-width: 551px) 100vw, 551px" /><figcaption id="caption-attachment-828" class="wp-caption-text"><span class="attribution_field hide-sm hide-md">Picture: Andreas Lischka on Pixabay</span></figcaption></figure>
+<p>This yearâs OS ConJunction Community day with the topic<strong> âCreativity and Organizingâ</strong> will take place in Innsbruck on <strong>Friday, November 29 from 3:00 p.m.</strong></p>
+<p>Information about the exact location and the program will follow soon. As always, we are looking forward to spend a good time with the Organization Studies Innsbruck community, with interesting talks, discussions and, of course, the after party.</p>
+<p>Please save the date, we are looking forward to seeing you!</p>
+
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<div class="entry-meta">
+			<img alt='' src='https://2.gravatar.com/avatar/b300c5b96fb81f61603d75de8c01eff4?s=24&#038;d=identicon&#038;r=G' class='avatar avatar-24' height='24' width='24' /> <span class="byline no-sep"><span class="author author-title vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="https://osconjunction.net/author/andistrei/">andistrei</a></span></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://osconjunction.net/category/conjunction-day/" rel="category tag">ConJunction Day</a></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://osconjunction.net/2019/03/15/save-the-date-for-the-os-conjunction-day-2019/" rel="bookmark"><time class="entry-date published updated" datetime="2019-03-15T12:38:32+00:00">March 15, 2019</time></a></span><span class="comments-link"><a href="https://osconjunction.net/2019/03/15/save-the-date-for-the-os-conjunction-day-2019/#respond">Leave a comment</a></span>		</div><!-- .entry-meta -->
+	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+			
+				
+<article id="post-822" class="post-822 post type-post status-publish format-standard hentry category-presse-co tag-christian-stegbauer tag-podcast tag-radiosendung tag-swr2 tag-swr2-forum tag-wikipedia">
+	<header class="entry-header">
+		<h2 class="entry-title"><a href="https://osconjunction.net/2019/03/12/swr2-forum-zum-thema-ist-wikipedia-noch-zu-trauen/" rel="bookmark">SWR2 Forum zum Thema Â»Ist Wikipedia noch zu&nbsp;trauen?Â«</a></h2>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+
+		<p><a href="https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg"><img data-attachment-id="825" data-permalink="https://osconjunction.net/2019/03/12/swr2-forum-zum-thema-ist-wikipedia-noch-zu-trauen/screenshot-swr2-forum2/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg" data-orig-size="1422,692" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="screenshot-swr2-forum2" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=702&#038;h=342" class="aligncenter size-large wp-image-825" src="https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=702&#038;h=342" alt="" width="702" height="342" srcset="https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=702&amp;h=342 702w, https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=1404&amp;h=684 1404w, https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=150&amp;h=73 150w, https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=300&amp;h=146 300w, https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=768&amp;h=374 768w, https://osconjunctionnet.files.wordpress.com/2019/03/screenshot-swr2-forum2.jpg?w=1024&amp;h=498 1024w" sizes="(max-width: 702px) 100vw, 702px" /></a></p>
+<p>Gemeinsam u.a. mit Kollegen <a href="http://www.fb03.uni-frankfurt.de/48057826/Prof__Dr__Christian_Stegbauer">Christian Stegbauer</a> (Uni Frankfurt) durfte ich in der Reihe SWR2 Forum eine knappe Stunde lang zum Thema &#8220;<a href="https://www.swr.de/swr2/programm/sendungen/swr2-forum/swr2-forum-veraltet-manipulativ-und-fehlerhaft/-/id=660214/did=23266806/nid=660214/1fynhly/index.html">Veraltet, manipulativ, fehlerhaft â Ist Wikipedia noch zu trauen?</a>&#8221; (<a href="https://avdlswr-a.akamaihd.net/swr/swr2/forum/2019/03/swr2-forum-20190312-ist-dem-online-lexikon-wikipedia-noch-zu-trauen.m.mp3">MP3-Download, ca. 40 MB</a>) diskutieren. Die Teilnehmenden wurden dazu virtuell aus Frankfurt, Berlin und Mainz (wo ich zum Zeitpunkt der Aufzeichnung war), zusammengeschaltet. Aus der AnkÃ¼ndigung:</p>
+<blockquote><p>Seit Jahren gehÃ¶rt sie zu den zehn beliebtesten Websites der Deutschen. Jede und jeder nutzt sie, SchÃ¼ler und Studenten kommen ohne sie nicht mehr aus, dabei lassen die meisten EintrÃ¤ge wissenschaftliche Standards vermissen, weil sie ehrenamtlich von Laien verfasst sind. [â¦] Doch seit geraumer Zeit mehren sich Zweifel an den Inhalten des unbezahlten Mitmachlexikons: Immer hÃ¤ufiger sind Artikel veraltet. Die Zahl der Autoren hat sich binnen zehn Jahren halbiert. Was ist da los?</p></blockquote>
+<p>Zumindest die Frage im Titel, ob der Wikipedia &#8220;noch zu trauen&#8221; ist, hat mich dabei schmunzeln lassen. Denn das zeigt, wie sehr sich das Bild der freien EnzyklopÃ¤die gewandelt hat. In den ersten Jahren war die Frage nÃ¤mlich, ob einem derartigen Freiwilligenprojekt Ã¼berhaupt zu trauen ist. Meine Antwort ist denn auch, dass Wikipedia-Inhalte heute wie damals exemplarisch dafÃ¼r sind, dass Wissen <em>immer</em> ausgehandelt, vorlÃ¤ufig und potentiell falsch sein kann, die Wikipedia diese Eigenschaften von Wissen aber sehr explizit und nachvollziehbar macht.</p>
+
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<div class="entry-meta">
+			<img alt='' src='https://1.gravatar.com/avatar/d804ff15bf4453e2c9f1443eb4aa8d14?s=24&#038;d=identicon&#038;r=G' class='avatar avatar-24' height='24' width='24' /> <span class="byline no-sep"><span class="author author-title vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="https://osconjunction.net/author/leonidobusch/">leonidobusch</a></span></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://osconjunction.net/category/presse-co/" rel="category tag">Presse &amp; Co</a></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://osconjunction.net/2019/03/12/swr2-forum-zum-thema-ist-wikipedia-noch-zu-trauen/" rel="bookmark"><time class="entry-date published updated" datetime="2019-03-12T10:42:48+00:00">March 12, 2019</time></a></span><span class="comments-link"><a href="https://osconjunction.net/2019/03/12/swr2-forum-zum-thema-ist-wikipedia-noch-zu-trauen/#respond">Leave a comment</a></span>		</div><!-- .entry-meta -->
+	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+			
+				
+<article id="post-804" class="post-804 post type-post status-publish format-standard hentry category-presse-co tag-autorenschwund tag-autorinnenschwund tag-diversitat tag-editormangel tag-fas tag-faz tag-frankfurter-allgemeine-sonntagszeitung tag-freiwillige tag-offenheit tag-veraltete-wikipedia tag-wikipedia">
+	<header class="entry-header">
+		<h2 class="entry-title"><a href="https://osconjunction.net/2019/03/05/wikipedia-forschung-in-der-frankfurter-allgemeinen-sonntagszeitung/" rel="bookmark">Wikipedia-Forschung in der Frankfurter Allgemeinen&nbsp;Sonntagszeitung</a></h2>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+
+		
+<figure data-shortcode="caption" id="attachment_818" aria-describedby="caption-attachment-818" style="width: 712px" class="wp-caption aligncenter"><a href="https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg"><img data-attachment-id="818" data-permalink="https://osconjunction.net/2019/03/05/wikipedia-forschung-in-der-frankfurter-allgemeinen-sonntagszeitung/faz-cover-wikipedia/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg" data-orig-size="1920,1440" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;2&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;Moto G (5)&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;1551786279&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;3.59&quot;,&quot;iso&quot;:&quot;125&quot;,&quot;shutter_speed&quot;:&quot;0.02&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="FAZ-Cover-Wikipedia" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=702&#038;h=527" class="size-large wp-image-818" src="https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=702&#038;h=527" alt="" width="702" height="527" srcset="https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=702&amp;h=527 702w, https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=1404&amp;h=1054 1404w, https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=150&amp;h=113 150w, https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=300&amp;h=225 300w, https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=768&amp;h=576 768w, https://osconjunctionnet.files.wordpress.com/2019/03/faz-cover-wikipedia.jpg?w=1024&amp;h=768 1024w" sizes="(max-width: 702px) 100vw, 702px" /></a><figcaption id="caption-attachment-818" class="wp-caption-text">Artikel Ã¼ber Wikipedia am Cover und auf S. 17 der Frankfurter Allgemeinen Sonntagszeitung vom 17. Februar 2019</figcaption></figure>
+<p>Das Thema sinkender oder stagnierender AutorInnenzahlen in der Wikipedia beschÃ¤ftigt die gemeinnÃ¼tzige Wikimedia Foundation genauso wie die Wikipedia-Forschung: was sind die Ursachen fÃ¼r die seit zehn Jahren stagnierende Zahl an Beitragenden? Wie kann der trotzdem kontinuierlich wachsende Artikelbestand dennoch aktuell gehalten werden? Und welche MÃ¶glichkeiten gibt es, fÃ¼r mehr DiversitÃ¤t unter den Freiwilligen zu sorgen? <a href="https://osconjunction.net/2019/03/05/wikipedia-forschung-in-der-frankfurter-allgemeinen-sonntagszeitung/#more-804" class="more-link">Continue reading <span class="screen-reader-text">&#8220;Wikipedia-Forschung in der Frankfurter Allgemeinen&nbsp;Sonntagszeitung&#8221;</span> <span class="meta-nav">&rarr;</span></a></p>
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<div class="entry-meta">
+			<img alt='' src='https://1.gravatar.com/avatar/d804ff15bf4453e2c9f1443eb4aa8d14?s=24&#038;d=identicon&#038;r=G' class='avatar avatar-24' height='24' width='24' /> <span class="byline no-sep"><span class="author author-title vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="https://osconjunction.net/author/leonidobusch/">leonidobusch</a></span></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://osconjunction.net/category/presse-co/" rel="category tag">Presse &amp; Co</a></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://osconjunction.net/2019/03/05/wikipedia-forschung-in-der-frankfurter-allgemeinen-sonntagszeitung/" rel="bookmark"><time class="entry-date published updated" datetime="2019-03-05T11:39:18+00:00">March 5, 2019</time></a></span><span class="comments-link"><a href="https://osconjunction.net/2019/03/05/wikipedia-forschung-in-der-frankfurter-allgemeinen-sonntagszeitung/#comments">2 Comments</a></span>		</div><!-- .entry-meta -->
+	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+			
+				
+<article id="post-815" class="post-815 post type-post status-publish format-standard hentry category-news-call-for-papers tag-call-for-papers tag-organized-creativity tag-research-in-the-sociology-of-organizations">
+	<header class="entry-header">
+		<h2 class="entry-title"><a href="https://osconjunction.net/2019/03/05/call-for-papers-organizing-creativity-in-the-innovation-journey/" rel="bookmark">Call for Papers: Â»Organizing Creativity in the Innovation&nbsp;JourneyÂ«</a></h2>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+
+		<p><a href="https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png"><img data-attachment-id="698" data-permalink="https://osconjunction.net/2018/09/10/call-for-the-international-spring-school-organized-creativity-approaching-a-phenomenon-of-uncertainty/oc-logo-large/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png" data-orig-size="2000,938" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="OC-logo-large" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=702&#038;h=329" class="aligncenter size-large wp-image-698" src="https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=702&#038;h=329" alt="" width="702" height="329" srcset="https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=702&amp;h=329 702w, https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=1404&amp;h=658 1404w, https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=150&amp;h=70 150w, https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=300&amp;h=141 300w, https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=768&amp;h=360 768w, https://osconjunctionnet.files.wordpress.com/2018/09/oc-logo-large.png?w=1024&amp;h=480 1024w" sizes="(max-width: 702px) 100vw, 702px" /></a></p>
+<p style="text-align:center;"><strong>Organizing Creativity in the Innovation Journey<br />
+</strong>INTERNATIONAL CONFERENCE, JULY 11-12, 2019,<br />
+Freie UniversitÃ¤t Berlin, Germany</p>
+<p>Demands for creativity today range well beyond typically âcreativeâ and cultural industries to most sectors of the economy and, as some would argue, even society at large. Seen as the basis for innovating new products, processes or services, creativity is no longer considered as an individual personality trait but as a subject of intentional organizing. Such organizing efforts not only occur within formal organizations like firms, schools, universities or (non-)governmental organizations, but increasingly cross organizational boundaries to include interÂ­organizational networks as well as clusters, communities and crowds. Regardless of the context in question, central challenges for organizing creativity revolve around the following themes: When and in what ways do slack or constraints foster creativity? How do organizations allow for and even foster moments of serendipity, even in highly-structured innovation processes? Does the uncertainty that characterizes creative processes hinder or stimulate creativity? What is the role of rules and regulations in reducing or inducing different kinds of uncertainty? What are the social dynamics unfolding in physical and virtual spaces for creative collaboration?</p>
+<p> <a href="https://osconjunction.net/2019/03/05/call-for-papers-organizing-creativity-in-the-innovation-journey/#more-815" class="more-link">Continue reading <span class="screen-reader-text">&#8220;Call for Papers: Â»Organizing Creativity in the Innovation&nbsp;JourneyÂ«&#8221;</span> <span class="meta-nav">&rarr;</span></a></p>
+
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<div class="entry-meta">
+			<img alt='' src='https://1.gravatar.com/avatar/d804ff15bf4453e2c9f1443eb4aa8d14?s=24&#038;d=identicon&#038;r=G' class='avatar avatar-24' height='24' width='24' /> <span class="byline no-sep"><span class="author author-title vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="https://osconjunction.net/author/leonidobusch/">leonidobusch</a></span></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://osconjunction.net/category/news-call-for-papers/" rel="category tag">News &amp; Call for Papers</a></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://osconjunction.net/2019/03/05/call-for-papers-organizing-creativity-in-the-innovation-journey/" rel="bookmark"><time class="entry-date published updated" datetime="2019-03-05T07:31:27+00:00">March 5, 2019</time></a></span><span class="comments-link"><a href="https://osconjunction.net/2019/03/05/call-for-papers-organizing-creativity-in-the-innovation-journey/#respond">Leave a comment</a></span>		</div><!-- .entry-meta -->
+	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+			
+				
+<article id="post-803" class="post-803 post type-post status-publish format-standard hentry category-talks-presentations tag-munster tag-nachwuchsworkshop tag-talks tag-vhb tag-wkorg tag-wkorg-2019">
+	<header class="entry-header">
+		<h2 class="entry-title"><a href="https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/" rel="bookmark">Innsbrucker Organisationsforschung bei WKOrg in&nbsp;MÃ¼nster</a></h2>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+
+		
+<figure class="wp-block-image"><img data-attachment-id="805" data-permalink="https://osconjunction.net/wkorg-symbolbild/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=702" data-orig-size="1900,1267" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="wkorg-symbolbild" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=702?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=702?w=702" class="wp-image-805" src="https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=702" alt="" srcset="https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=702 702w, https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=1404 1404w, https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=150 150w, https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=300 300w, https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=768 768w, https://osconjunctionnet.files.wordpress.com/2019/03/wkorg-symbolbild.jpg?w=1024 1024w" sizes="(max-width: 702px) 100vw, 702px" />
+<figcaption>Foto: Janis Floer (<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>)</figcaption>
+</figure>
+
+
+
+<p>Zum vorlÃ¤ufig letzten Mal hatte die Wissenschaftliche Kommission Organisationsforschung (WKOrg) im Verband der Hochschullehrer fÃ¼r BWL (VHB) im Februar zu einem <a href="http://org.vhbonline.org/wk-org-workshop-2019/">eigenen Workshop nach MÃ¼nster</a> geladen. Im nÃ¤chsten Jahr wird der Workshop Teil einer neugestalteten VHB-Jahrestagung sein. In MÃ¼nster jedenfalls war die Innsbrucker Organisationsforschung stark vertreten. Nicht nur durfte ich als aktueller Nachwuchsbeauftragter der WKOrg den <a href="https://osconjunctionnet.files.wordpress.com/2019/03/vhb_wk_org_nachwuchs-workshop_2019_programm_final.pdf">Nachwuchsworkshop</a> gestalten, mit folgenden BeitrÃ¤gen waren wir im Hauptprogramm vertreten:</p>
+
+
+
+<ul>
+<li>Arnold, N., &amp; <a href="https://www.uibk.ac.at/iol/organisation/team/soppe/index.html.en">Soppe, B.</a>: The waltz of the flowers: How material devices buttress the formation of organizational fields</li>
+<li><a href="https://www.uibk.ac.at/iol/organisation/team/leonhard-dobusch/index.html.en">Dobusch, L.</a>, &amp; HeimstÃ¤dt, M.: Predatory Publishing in Management Research: A Call For Open Peer Review</li>
+<li>Leybold, M.: A Communication Perspective on Organizing Openness: Analyzing the Case of the Medicines Patent Pool in the Field of the Pharmaceutical Industry</li>
+<li><a href="https://www.uibk.ac.at/iol/organisation/team/weiskopf/">Weiskopf, R.</a>: Algorithmic decision-making and the âspectogenicâ process of profiling.</li>
+</ul>
+
+
+
+<figure class="wp-block-image">
+<div data-carousel-extra='{"blog_id":110225367,"permalink":"https:\/\/osconjunction.net\/2019\/03\/02\/innsbrucker-organisationsforschung-bei-wkorg-in-munster\/"}' id='gallery-803-1' class='gallery galleryid-803 gallery-columns-3 gallery-size-thumbnail'><figure class='gallery-item'>
+			<div class='gallery-icon landscape'>
+				<a href='https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/birthe_credit_janis-floer_cc-by_4_0/'><img width="150" height="100" src="https://osconjunctionnet.files.wordpress.com/2019/03/birthe_credit_janis-floer_cc-by_4_0.jpg?w=150&#038;h=100" class="attachment-thumbnail size-thumbnail" alt="" aria-describedby="gallery-803-1-808" srcset="https://osconjunctionnet.files.wordpress.com/2019/03/birthe_credit_janis-floer_cc-by_4_0.jpg?w=150&#038;h=100 150w, https://osconjunctionnet.files.wordpress.com/2019/03/birthe_credit_janis-floer_cc-by_4_0.jpg?w=300 300w" sizes="(max-width: 150px) 100vw, 150px" data-attachment-id="808" data-permalink="https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/birthe_credit_janis-floer_cc-by_4_0/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/03/birthe_credit_janis-floer_cc-by_4_0.jpg" data-orig-size="1900,1267" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="Birthe_credit_Janis Floer_CC-BY_4_0" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/03/birthe_credit_janis-floer_cc-by_4_0.jpg?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/03/birthe_credit_janis-floer_cc-by_4_0.jpg?w=702" /></a>
+			</div>
+				<figcaption class='wp-caption-text gallery-caption' id='gallery-803-1-808'>
+				Birthe Soppe @ WKOrg 2019 (Foto: Janis Floer, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>)
+				</figcaption></figure><figure class='gallery-item'>
+			<div class='gallery-icon landscape'>
+				<a href='https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/richard_credit_janis-floer_cc-by_4_0/'><img width="150" height="100" src="https://osconjunctionnet.files.wordpress.com/2019/03/richard_credit_janis-floer_cc-by_4_0.jpg?w=150&#038;h=100" class="attachment-thumbnail size-thumbnail" alt="" aria-describedby="gallery-803-1-809" srcset="https://osconjunctionnet.files.wordpress.com/2019/03/richard_credit_janis-floer_cc-by_4_0.jpg?w=150&#038;h=100 150w, https://osconjunctionnet.files.wordpress.com/2019/03/richard_credit_janis-floer_cc-by_4_0.jpg?w=300 300w" sizes="(max-width: 150px) 100vw, 150px" data-attachment-id="809" data-permalink="https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/richard_credit_janis-floer_cc-by_4_0/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/03/richard_credit_janis-floer_cc-by_4_0.jpg" data-orig-size="1900,1267" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="Richard_credit_Janis Floer_CC-BY_4_0" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/03/richard_credit_janis-floer_cc-by_4_0.jpg?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/03/richard_credit_janis-floer_cc-by_4_0.jpg?w=702" /></a>
+			</div>
+				<figcaption class='wp-caption-text gallery-caption' id='gallery-803-1-809'>
+				Richard Weiskopf @ WKOrg 2019 (Foto: Janis Floer, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>)
+				</figcaption></figure><figure class='gallery-item'>
+			<div class='gallery-icon landscape'>
+				<a href='https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/leoco_credit_janis-floer_cc-by_4_0/'><img width="150" height="100" src="https://osconjunctionnet.files.wordpress.com/2019/03/leoco_credit_janis-floer_cc-by_4_0.jpg?w=150&#038;h=100" class="attachment-thumbnail size-thumbnail" alt="" aria-describedby="gallery-803-1-807" srcset="https://osconjunctionnet.files.wordpress.com/2019/03/leoco_credit_janis-floer_cc-by_4_0.jpg?w=150&#038;h=100 150w, https://osconjunctionnet.files.wordpress.com/2019/03/leoco_credit_janis-floer_cc-by_4_0.jpg?w=300 300w" sizes="(max-width: 150px) 100vw, 150px" data-attachment-id="807" data-permalink="https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/leoco_credit_janis-floer_cc-by_4_0/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/03/leoco_credit_janis-floer_cc-by_4_0.jpg" data-orig-size="1920,1280" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="Leo&amp;amp;Co_credit_Janis Floer_CC-BY_4_0" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/03/leoco_credit_janis-floer_cc-by_4_0.jpg?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/03/leoco_credit_janis-floer_cc-by_4_0.jpg?w=702" /></a>
+			</div>
+				<figcaption class='wp-caption-text gallery-caption' id='gallery-803-1-807'>
+				Leonhard Dobusch @ WKOrg 2019 (Foto: Janis Floer, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>)
+				</figcaption></figure>
+		</div>
+
+<img alt="" /></figure>
+
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<div class="entry-meta">
+			<img alt='' src='https://1.gravatar.com/avatar/d804ff15bf4453e2c9f1443eb4aa8d14?s=24&#038;d=identicon&#038;r=G' class='avatar avatar-24' height='24' width='24' /> <span class="byline no-sep"><span class="author author-title vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="https://osconjunction.net/author/leonidobusch/">leonidobusch</a></span></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://osconjunction.net/category/talks-presentations/" rel="category tag">Talks &amp; Presentations</a></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/" rel="bookmark"><time class="entry-date published" datetime="2019-03-02T09:15:07+00:00">March 2, 2019</time><time class="updated" datetime="2019-03-02T09:15:52+00:00">March 2, 2019</time></a></span><span class="comments-link"><a href="https://osconjunction.net/2019/03/02/innsbrucker-organisationsforschung-bei-wkorg-in-munster/#respond">Leave a comment</a></span>		</div><!-- .entry-meta -->
+	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+			
+				
+<article id="post-799" class="post-799 post type-post status-publish format-standard hentry category-presse-co category-talks-presentations tag-35c3 tag-chaos-communication-congress tag-chaos-computer-club tag-chaos-im-fernsehrat tag-fernsehrat tag-zdf-fernsehrat">
+	<header class="entry-header">
+		<h2 class="entry-title"><a href="https://osconjunction.net/2019/01/08/rund-um-den-35c3-vortrag-und-interview-in-der-fas/" rel="bookmark">Rund um den #35C3: Vortrag und Interview in der&nbsp;FAS</a></h2>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+
+		
+<figure class="wp-block-image"><img data-attachment-id="800" data-permalink="https://osconjunction.net/buehne-chaos-im-fernsehrat-1920px/" data-orig-file="https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=702" data-orig-size="1920,1150" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="buehne-chaos-im-fernsehrat-1920px" data-image-description="" data-medium-file="https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=702?w=300" data-large-file="https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=702?w=702" src="https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=702" alt="" class="wp-image-800" srcset="https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=702 702w, https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=1402 1402w, https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=150 150w, https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=300 300w, https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=768 768w, https://osconjunctionnet.files.wordpress.com/2019/01/buehne-chaos-im-fernsehrat-1920px.jpg?w=1024 1024w" sizes="(max-width: 702px) 100vw, 702px" /><figcaption>BÃ¼hne beim 35. Chaos Communication Congress (#35C3) in Leipzig</figcaption></figure>
+
+
+
+<p>Seit mittlerweile gut zwei Jahren kann ich als Vertreter fÃ¼r den Bereich &#8220;Internet&#8221; im ZDF Fernsehrat Digitalisierungsprozesse und -schmerzen in groÃen, bÃ¼rokratischen Organisationen quasi aus der NÃ¤he beobachten und auch ein kleines bisschen mitgestalten. Eine der Organisationen, die mich fÃ¼r den Fernsehrat nominiert hatten, ist der <a href="https://www.ccc.de/en/">Chaos Computer Club</a> (CCC). Dieser Verein mit Ã¼ber 9.000 computer- und technikinteressierten Hackern veranstaltet einmal im Jahr &#8211; immer zwischen Weihnachten und Silvester &#8211; einen groÃen, komplett ehrenamtlich organisierten Kongress, den Chaos Communication Congress. Dieses Mal fand der Congress bereits zum 35. Mal  &#8211; deshalb auch der Hashtag &#8220;#35C3&#8221; &#8211; statt und ich durfte einen Vortrag mit dem Titel <a href="https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9358.html">&#8220;Chaos im Fernsehrat&#8221;</a> beisteuern.</p>
+
+
+
+ <a href="https://osconjunction.net/2019/01/08/rund-um-den-35c3-vortrag-und-interview-in-der-fas/#more-799" class="more-link">Continue reading <span class="screen-reader-text">&#8220;Rund um den #35C3: Vortrag und Interview in der&nbsp;FAS&#8221;</span> <span class="meta-nav">&rarr;</span></a>
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<div class="entry-meta">
+			<img alt='' src='https://1.gravatar.com/avatar/d804ff15bf4453e2c9f1443eb4aa8d14?s=24&#038;d=identicon&#038;r=G' class='avatar avatar-24' height='24' width='24' /> <span class="byline no-sep"><span class="author author-title vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="https://osconjunction.net/author/leonidobusch/">leonidobusch</a></span></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://osconjunction.net/category/presse-co/" rel="category tag">Presse &amp; Co</a>, <a href="https://osconjunction.net/category/talks-presentations/" rel="category tag">Talks &amp; Presentations</a></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://osconjunction.net/2019/01/08/rund-um-den-35c3-vortrag-und-interview-in-der-fas/" rel="bookmark"><time class="entry-date published updated" datetime="2019-01-08T09:10:06+00:00">January 8, 2019</time></a></span><span class="comments-link"><a href="https://osconjunction.net/2019/01/08/rund-um-den-35c3-vortrag-und-interview-in-der-fas/#respond">Leave a comment</a></span>		</div><!-- .entry-meta -->
+	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+			
+			
+	<nav class="navigation posts-navigation" role="navigation">
+		<h2 class="screen-reader-text">Posts navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://osconjunction.net/page/2/" >Older posts</a></div></div>
+	</nav>
+		
+		</main><!-- #main -->
+	</div><!-- #primary.content-area.inner -->
+
+	</div><!-- #content -->
+	<div id="slide-menu" class="slide-menu">
+		
+		
+<div id="secondary" class="widget-area" role="complementary">
+	<aside id="blog_subscription-2" class="widget widget_blog_subscription jetpack_subscription_widget"><h2 class="widget-title"><label for="subscribe-field">Follow Blog via Email</label></h2>
+            <form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8"
+                  id="subscribe-blog">
+									<p>Enter your email address to follow this blog and receive notifications of new posts by email.</p>
+                    <p><input type="text" name="email" style="width: 95%; padding: 1px 2px"
+                              placeholder="Enter your email address" value=""
+                              id="subscribe-field"/></p>
+				
+                <p>
+                    <input type="hidden" name="action" value="subscribe"/>
+                    <input type="hidden" name="blog_id" value="110225367"/>
+                    <input type="hidden" name="source" value="https://osconjunction.net/"/>
+                    <input type="hidden" name="sub-type" value="widget"/>
+                    <input type="hidden" name="redirect_fragment" value="blog_subscription-2"/>
+					<input type="hidden" id="_wpnonce" name="_wpnonce" value="465f5c8196" />                    <button type="submit"
+		                		                                    >
+		                Follow                    </button>
+                </p>
+            </form>
+			
+</aside><aside id="twitter_timeline-2" class="widget widget_twitter_timeline"><h2 class="widget-title">Follow us on Twitter</h2><a class="twitter-timeline" data-height="400" data-theme="light" data-link-color="#f96e5b" data-border-color="#e8e8e8" data-lang="EN" data-partner="jetpack" data-widget-id="722890666376712194" href="https://twitter.com/722890666376712194">My Tweets</a></aside><aside id="pages-2" class="widget widget_pages"><h2 class="widget-title">Pages</h2>		<ul>
+			<li class="page_item page-item-1"><a href="https://osconjunction.net/about/">About</a></li>
+<li class="page_item page-item-12"><a href="https://osconjunction.net/people/">People</a></li>
+		</ul>
+			</aside>		<aside id="recent-posts-4" class="widget widget_recent_entries">		<h2 class="widget-title">Recent Posts</h2>		<ul>
+											<li>
+					<a href="https://osconjunction.net/2019/03/19/die-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus/">Die Verfinsterung des digitalen Traums: Shoshana Zuboffs Analyse des &#8220;Ãberwachungskapitalismus&#8221;</a>
+									</li>
+											<li>
+					<a href="https://osconjunction.net/2019/03/15/save-the-date-for-the-os-conjunction-day-2019/">Save the date for the OS ConJunction Day&nbsp;2019</a>
+									</li>
+											<li>
+					<a href="https://osconjunction.net/2019/03/12/swr2-forum-zum-thema-ist-wikipedia-noch-zu-trauen/">SWR2 Forum zum Thema Â»Ist Wikipedia noch zu&nbsp;trauen?Â«</a>
+									</li>
+											<li>
+					<a href="https://osconjunction.net/2019/03/05/wikipedia-forschung-in-der-frankfurter-allgemeinen-sonntagszeitung/">Wikipedia-Forschung in der Frankfurter Allgemeinen&nbsp;Sonntagszeitung</a>
+									</li>
+											<li>
+					<a href="https://osconjunction.net/2019/03/05/call-for-papers-organizing-creativity-in-the-innovation-journey/">Call for Papers: Â»Organizing Creativity in the Innovation&nbsp;JourneyÂ«</a>
+									</li>
+					</ul>
+		</aside><aside id="archives-4" class="widget widget_archive"><h2 class="widget-title">Archives</h2>		<ul>
+				<li><a href='https://osconjunction.net/2019/03/'>March 2019</a></li>
+	<li><a href='https://osconjunction.net/2019/01/'>January 2019</a></li>
+	<li><a href='https://osconjunction.net/2018/12/'>December 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/11/'>November 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/10/'>October 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/09/'>September 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/08/'>August 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/07/'>July 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/06/'>June 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/05/'>May 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/04/'>April 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/03/'>March 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/02/'>February 2018</a></li>
+	<li><a href='https://osconjunction.net/2018/01/'>January 2018</a></li>
+	<li><a href='https://osconjunction.net/2017/12/'>December 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/11/'>November 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/10/'>October 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/09/'>September 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/08/'>August 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/07/'>July 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/06/'>June 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/05/'>May 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/04/'>April 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/03/'>March 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/02/'>February 2017</a></li>
+	<li><a href='https://osconjunction.net/2017/01/'>January 2017</a></li>
+	<li><a href='https://osconjunction.net/2016/12/'>December 2016</a></li>
+	<li><a href='https://osconjunction.net/2016/11/'>November 2016</a></li>
+	<li><a href='https://osconjunction.net/2016/10/'>October 2016</a></li>
+	<li><a href='https://osconjunction.net/2016/09/'>September 2016</a></li>
+	<li><a href='https://osconjunction.net/2016/08/'>August 2016</a></li>
+	<li><a href='https://osconjunction.net/2016/07/'>July 2016</a></li>
+	<li><a href='https://osconjunction.net/2016/06/'>June 2016</a></li>
+	<li><a href='https://osconjunction.net/2016/05/'>May 2016</a></li>
+	<li><a href='https://osconjunction.net/2016/04/'>April 2016</a></li>
+		</ul>
+			</aside><aside id="categories-4" class="widget widget_categories"><h2 class="widget-title">Categories</h2>		<ul>
+				<li class="cat-item cat-item-485565304"><a href="https://osconjunction.net/category/conjunction-day/">ConJunction Day</a>
+</li>
+	<li class="cat-item cat-item-924"><a href="https://osconjunction.net/category/events/">Events</a>
+</li>
+	<li class="cat-item cat-item-573823166"><a href="https://osconjunction.net/category/jobs-stipends/">Jobs &amp; Stipends</a>
+</li>
+	<li class="cat-item cat-item-537041610"><a href="https://osconjunction.net/category/news-call-for-papers/">News &amp; Call for Papers</a>
+</li>
+	<li class="cat-item cat-item-488765134"><a href="https://osconjunction.net/category/open-organizing/">Open Organizing</a>
+</li>
+	<li class="cat-item cat-item-642625645"><a href="https://osconjunction.net/category/organizing-the-digital/">Organizing the Digital</a>
+</li>
+	<li class="cat-item cat-item-93092704"><a href="https://osconjunction.net/category/presse-co/">Presse &amp; Co</a>
+</li>
+	<li class="cat-item cat-item-6270"><a href="https://osconjunction.net/category/publications/">Publications</a>
+</li>
+	<li class="cat-item cat-item-16592917"><a href="https://osconjunction.net/category/researchblogs/">ResearchBlogs</a>
+</li>
+	<li class="cat-item cat-item-7255773"><a href="https://osconjunction.net/category/student-essay/">Student Essay</a>
+</li>
+	<li class="cat-item cat-item-363007"><a href="https://osconjunction.net/category/talks-presentations/">Talks &amp; Presentations</a>
+</li>
+	<li class="cat-item cat-item-488765010"><a href="https://osconjunction.net/category/teaching-os/">Teaching OS</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://osconjunction.net/category/uncategorized/">Uncategorized</a>
+</li>
+		</ul>
+			</aside><aside id="search-4" class="widget widget_search"><form role="search" method="get" class="search-form" action="https://osconjunction.net/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form></aside>	</div><!-- #secondary -->
+	</div><!-- .slide-menu -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="container">
+			<div class="blog-info">
+				<a class="blog-name" href="https://osconjunction.net/" rel="home">ConJunction</a>
+			</div><!-- .blog-info -->
+
+			<div class="blog-credits">
+				<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+				
+							</div><!-- .blog-credits -->
+		</div><!-- .container -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+		<script type="text/javascript">
+		//<![CDATA[
+		var infiniteScroll = JSON.parse( decodeURIComponent( '%7B%22settings%22%3A%7B%22id%22%3A%22main%22%2C%22ajaxurl%22%3A%22https%3A%5C%2F%5C%2Fosconjunction.net%5C%2F%3Finfinity%3Dscrolling%22%2C%22type%22%3A%22scroll%22%2C%22wrapper%22%3Atrue%2C%22wrapper_class%22%3A%22infinite-wrap%22%2C%22footer%22%3A%22page%22%2C%22click_handle%22%3A%221%22%2C%22text%22%3A%22Older%20posts%22%2C%22totop%22%3A%22Scroll%20back%20to%20top%22%2C%22currentday%22%3A%2208.01.19%22%2C%22order%22%3A%22DESC%22%2C%22scripts%22%3A%5B%5D%2C%22styles%22%3A%5B%5D%2C%22google_analytics%22%3Afalse%2C%22offset%22%3A0%2C%22history%22%3A%7B%22host%22%3A%22osconjunction.net%22%2C%22path%22%3A%22%5C%2Fpage%5C%2F%25d%5C%2F%22%2C%22use_trailing_slashes%22%3Atrue%2C%22parameters%22%3A%22%22%7D%2C%22query_args%22%3A%7B%22error%22%3A%22%22%2C%22m%22%3A%22%22%2C%22p%22%3A0%2C%22post_parent%22%3A%22%22%2C%22subpost%22%3A%22%22%2C%22subpost_id%22%3A%22%22%2C%22attachment%22%3A%22%22%2C%22attachment_id%22%3A0%2C%22name%22%3A%22%22%2C%22pagename%22%3A%22%22%2C%22page_id%22%3A0%2C%22second%22%3A%22%22%2C%22minute%22%3A%22%22%2C%22hour%22%3A%22%22%2C%22day%22%3A0%2C%22monthnum%22%3A0%2C%22year%22%3A0%2C%22w%22%3A0%2C%22category_name%22%3A%22%22%2C%22tag%22%3A%22%22%2C%22cat%22%3A%22%22%2C%22tag_id%22%3A%22%22%2C%22author%22%3A%22%22%2C%22author_name%22%3A%22%22%2C%22feed%22%3A%22%22%2C%22tb%22%3A%22%22%2C%22paged%22%3A0%2C%22meta_key%22%3A%22%22%2C%22meta_value%22%3A%22%22%2C%22preview%22%3A%22%22%2C%22s%22%3A%22%22%2C%22sentence%22%3A%22%22%2C%22title%22%3A%22%22%2C%22fields%22%3A%22%22%2C%22menu_order%22%3A%22%22%2C%22embed%22%3A%22%22%2C%22category__in%22%3A%5B%5D%2C%22category__not_in%22%3A%5B%5D%2C%22category__and%22%3A%5B%5D%2C%22post__in%22%3A%5B%5D%2C%22post__not_in%22%3A%5B%5D%2C%22post_name__in%22%3A%5B%5D%2C%22tag__in%22%3A%5B%5D%2C%22tag__not_in%22%3A%5B%5D%2C%22tag__and%22%3A%5B%5D%2C%22tag_slug__in%22%3A%5B%5D%2C%22tag_slug__and%22%3A%5B%5D%2C%22post_parent__in%22%3A%5B%5D%2C%22post_parent__not_in%22%3A%5B%5D%2C%22author__in%22%3A%5B%5D%2C%22author__not_in%22%3A%5B%5D%2C%22posts_per_page%22%3A7%2C%22ignore_sticky_posts%22%3Afalse%2C%22suppress_filters%22%3Afalse%2C%22cache_results%22%3Afalse%2C%22update_post_term_cache%22%3Atrue%2C%22lazy_load_term_meta%22%3Atrue%2C%22update_post_meta_cache%22%3Atrue%2C%22post_type%22%3A%22%22%2C%22nopaging%22%3Afalse%2C%22comments_per_page%22%3A%2250%22%2C%22no_found_rows%22%3Afalse%2C%22order%22%3A%22DESC%22%7D%2C%22last_post_date%22%3A%222019-01-08%2009%3A10%3A06%22%2C%22stats%22%3A%22blog%3D110225367%26v%3Dwpcom%26tz%3D0%26user_id%3D0%26subd%3Dosconjunctionnet%26x_pagetype%3Dinfinite%22%7D%7D' ) );
+		//]]>
+		</script>
+		<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-e8b3c31c218fe225980c594f99308f18">
+	</div>
+	<div class="grofile-hash-map-b300c5b96fb81f61603d75de8c01eff4">
+	</div>
+	<div class="grofile-hash-map-d804ff15bf4453e2c9f1443eb4aa8d14">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/osconjunctionnet.wordpress.com\/public.api\/connect\/?action=request&domain=osconjunction.net","logoutURL":"https:\/\/osconjunctionnet.wordpress.com\/wp-login.php?action=logout&_wpnonce=fc4b2879eb","homeURL":"https:\/\/osconjunction.net\/","postID":"830","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1551752381j'></script>
+		<div id="infinite-footer">
+			<div class="container">
+				<div class="blog-info">
+					<a id="infinity-blog-title" href="https://osconjunction.net/" rel="home">
+						ConJunction					</a>
+				</div>
+				<div class="blog-credits">
+					<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a> 				</div>
+			</div>
+		</div><!-- #infinite-footer -->
+		
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="110225367" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://osconjunction.net" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="ConJunction" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="131665267f" /><input type="hidden" name="_wp_http_referer" value="/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<link rel='stylesheet' id='all-css-0-3' href='https://s0.wp.com/_static/??/wp-content/mu-plugins/carousel/jetpack-carousel.css,/wp-content/mu-plugins/tiled-gallery/tiled-gallery.css?m=1524699534j&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"110225367","siteName":"ConJunction","siteURL":"https:\/\/osconjunction.net","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/ecto","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fosconjunction.net%2F2019%2F03%2F19%2Fdie-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus%2F&signup_flow=account&domain=osconjunction.net","themeURL":"","xhrURL":"https:\/\/osconjunction.net\/wp-admin\/admin-ajax.php","nonce":"7f04033116","isSingular":"","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"465f5c8196\" \/>","referer":"https:\/\/osconjunction.net\/","canFollow":"1","feedID":"47311347","statusMessage":"","customizeLink":"https:\/\/osconjunctionnet.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fosconjunctionnet.wordpress.com%2F","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Ecto","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 144 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fosconjunction.net%2F2019%2F03%2F19%2Fdie-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus%2F&signup_flow=account&domain=osconjunction.net\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/osconjunction.net\/wp-admin\/admin-ajax.php","nonce":"7c5eeeebfd","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/osconjunctionnet.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fosconjunction.net%2F2019%2F03%2F19%2Fdie-verfinsterung-des-digitalen-traums-shoshana-zuboffs-analyse-des-uberwachungskapitalismus%2F","blog_id":"110225367","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=110225367&v=wpcom&tz=0&user_id=0&subd=osconjunctionnet","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyVUMtuwzAM+6F5QtcWPQ37lMFxlFaOX7PkZPv72gUSDD0Y28m0RBKkYE3KxCAYBCzDiAsZTN+vll/g18oXlVy5UmBwNCPDV8GCNx1Gh7lDpjBRIPnZwTNXbuirXSoDoJHYMrT3DzSeKSlHYVZTNIXVRL3UFiVpM8MnBQOykghmJeSxOmBHp0dPQQ06g9dcNRWpuGDONNY8++yfDpJrFu6JjFAMTbSjDtvoHAuj21qqbbBpamlXWuB2t3WKg61XfDbc3JZaLYJmRnkIHv+UkVvgD/9+OJ9Pb8fL8XKwd4g414E='></script>
+<script type='text/javascript' src='https://platform.twitter.com/widgets.js?ver=20111117'></script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyVy0sOQEAMANALqcZnluIsmGbSUTUZRdyerZVYvsXDM8G0qpEaLjsk2QPrhnayGWUYZZjmkbOHxIRKB2VSzxrKuBX456bvx0IewiBC+XrrWf3SVc61deOquo03DQdDyw=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script type="text/javascript">
+			jQuery.extend( infiniteScroll.settings.scripts, ["jquery-core","jquery-migrate","jquery","postmessage","mobile-useragent-info","jquery_inview","jetpack_resize","spin","jquery.spin","grofiles-cards","wpgroho","jquery.autoresize","highlander-comments","devicepx","jetpack_likes_queuehandler","the-neverending-homepage","ecto-js","ecto-skip-link-focus-fix","jetpack-twitter-timeline","wpcom-masterbar-js","wpcom-masterbar-tracks-js","wpcom-actionbar-bar","jetpack-carousel","swfobject","videopress","twitter-widgets","twitter-widgets-infinity","twitter-widgets-pending","tiled-gallery"] );
+			jQuery.extend( infiniteScroll.settings.styles, ["wpcom-smileys","jetpack_likes","the-neverending-homepage","wp-block-library","wpcom-core-compat-playlist-styles","mp6hacks","wpcom-bbpress2-staff-css","genericons","ecto-style","ecto-wpcom","noticons","geo-location-flair","reblogging","a8c-global-print","wpcom-actionbar-bar","h4-global","ecto-opensans-merriweather","highlander-comments","highlander-comments-ie7","jetpack-carousel","tiled-gallery"] );
+		</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'110225367','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'110225367','v':'wpcom','tz':'0','user_id':'0','subd':'osconjunctionnet'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dQWVBaTF9oM1NSMHlWNmRlR1tvSGgra3F+eW1fc3hQWGFBRSxLNzZ5bXovUUJ5ZUlmMVFdNzhoakYubGwyd2FQfHQ4bVBOQndXK2JiWHJWYjZ3ZTFfNz9ZbkdqQkksaG10Q3g1ZituYkJWL2FwVixuT3k2dmxIdENmQnl+ZDhXajlPS0liOSZQSWdCWU5JVmVHelZGJjRtekJhS1BBQnNBd2FxV0FNZzFTTF1VUlY3V2JyejVFZ2pNRTF8ZUhSJkZHLGxldl1aSkZ8Mmg4Lg=='}]);
+_stq.push([ 'clickTrackerInit', '110225367', '0' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+<!--
+	generated in 0.154 seconds
+	85548 bytes batcached for 300 seconds
+-->
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xml:lang="en" lang="en">
+  <head>
+    <title>AUR (en) - github-desktop</title>
+	<link rel='stylesheet' type='text/css' href='/css/archweb.css' />
+	<link rel='stylesheet' type='text/css' href='/css/aurweb.css' />
+	<link rel='shortcut icon' href='/images/favicon.ico' />
+	<link rel='alternate' type='application/rss+xml' title='Newest Packages RSS' href='/rss/' />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="GUI for managing Git and GitHub." />
+  </head>
+	<body>
+		<div id="archnavbar" class="anb-aur">
+			<div id="archnavbarlogo"><h1><a href="/" title="Return to the main page">Arch Linux User Repository</a></h1></div>
+			<div id="archnavbarmenu">
+				<ul id="archnavbarlist">
+					<li id="anb-home"><a href="https://www.archlinux.org/" title="Arch news, packages, projects and more">Home</a></li>
+					<li id="anb-packages"><a href="https://www.archlinux.org/packages/" title="Arch Package Database">Packages</a></li>
+					<li id="anb-forums"><a href="https://bbs.archlinux.org/" title="Community forums">Forums</a></li>
+					<li id="anb-wiki"><a href="https://wiki.archlinux.org/" title="Community documentation">Wiki</a></li>
+					<li id="anb-bugs"><a href="https://bugs.archlinux.org/" title="Report and track bugs">Bugs</a></li>
+					<li id="anb-security"><a href="https://security.archlinux.org/" title="Arch Linux Security Tracker">Security</a></li>
+					<li id="anb-aur"><a href="/" title="Arch Linux User Repository">AUR</a></li>
+					<li id="anb-download"><a href="https://www.archlinux.org/download/" title="Get Arch Linux">Download</a></li>
+				</ul>
+			</div>
+		</div><!-- #archnavbar -->
+
+		<div id="content">
+			<div id="lang_sub">
+				<form method="post" action="/packages/github-desktop/">
+					<fieldset>
+						<div>
+							<select name="setlang" id="id_setlang">
+		<option value="ar">Ø§ÙØ¹Ø±Ø¨ÙØ©</option>
+<option value="ast">Asturianu</option>
+<option value="ca">CatalÃ </option>
+<option value="cs">ÄeskÃ½</option>
+<option value="da">Dansk</option>
+<option value="de">Deutsch</option>
+<option value="en" selected="selected">English</option>
+<option value="el">ÎÎ»Î»Î·Î½Î¹ÎºÎ¬</option>
+<option value="es">EspaÃ±ol</option>
+<option value="es_419">EspaÃ±ol (LatinoamÃ©rica)</option>
+<option value="fi">Finnish</option>
+<option value="fr">FranÃ§ais</option>
+<option value="he">×¢××¨××ª</option>
+<option value="hr">Hrvatski</option>
+<option value="hu">Magyar</option>
+<option value="it">Italiano</option>
+<option value="ja">æ¥æ¬èª</option>
+<option value="nb">Norsk</option>
+<option value="nl">Nederlands</option>
+<option value="pl">Polski</option>
+<option value="pt_BR">PortuguÃªs (Brasil)</option>
+<option value="pt_PT">PortuguÃªs (Portugal)</option>
+<option value="ro">RomÃ¢nÄ</option>
+<option value="ru">Ð ÑÑÑÐºÐ¸Ð¹</option>
+<option value="sk">SlovenÄina</option>
+<option value="sr">Srpski</option>
+<option value="tr">TÃ¼rkÃ§e</option>
+<option value="uk">Ð£ÐºÑÐ°ÑÐ½ÑÑÐºÐ°</option>
+<option value="zh_CN">ç®ä½ä¸­æ</option>
+<option value="zh_TW">æ­£é«ä¸­æ</option>
+							</select>
+							<input type="submit" value="Go" />
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div id="archdev-navbar">
+				<ul>
+											<li><a href="/">AUR Home</a></li>
+						<li><a href="/packages/">Packages</a></li>
+						<li><a href="/register/">Register</a></li>
+												<li><a href="/login/">Login</a></li>
+															</ul>
+			</div><!-- #archdev-navbar -->
+			<!-- Start of main content -->
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript">
+function collapseDependsList(list) {
+	list = $(list);
+	// Hide everything past a given limit. Don't do anything if we don't have
+	// enough items, or the link already exists.
+	var limit = 20,
+		linkid = list.attr('id') + 'link',
+		items = list.find('li').slice(limit);
+	if (items.length <= 1 || $('#' + linkid).length > 0) {
+		return;
+	}
+	items.hide();
+	list.after('<p><a id="' + linkid + '" href="#">Show Moreâ¦</a></p>');
+
+	// add link and wire it up to show the hidden items
+	$('#' + linkid).click(function(event) {
+		event.preventDefault();
+		list.find('li').show();
+		// remove the full <p/> node from the DOM
+		$(this).parent().remove();
+	});
+}
+
+function collapseComment(div) {
+	var linkid = div.attr('id') + 'link',
+		inner = div.find('div'),
+		height = inner.height(),
+		maxheight = 200;
+
+	if (height <= maxheight)
+		return;
+
+	inner.css({ 'overflow': 'hidden', 'height': maxheight + 'px' });
+	inner.addClass('collapsed');
+	inner.after('<p><a id="' + linkid + '" href="#">Show Moreâ¦</a></p>');
+
+	$('#' + linkid).click(function(event) {
+		var inner = $(this).parent().parent().find('div');
+		var newheight;
+
+		if (inner.hasClass('collapsed')) {
+			inner.css({ 'height': 'auto' });
+			newheight = inner.height();
+			inner.css({ 'height': maxheight });
+			$(this).text('Collapse');
+		} else {
+			newheight = maxheight;
+			$(this).text('Show Moreâ¦');
+		}
+
+		inner.animate({ 'height': newheight });
+		inner.toggleClass('collapsed');
+		event.preventDefault();
+	});
+}
+
+$(document).ready(function() {
+	collapseDependsList("#pkgdepslist");
+	collapseDependsList("#pkgreqslist");
+	collapseDependsList("#pkgsrcslist");
+	$(".article-content").each(function() {
+		collapseComment($(this));
+	});
+});
+</script>
+
+
+<div id="pkglist-search" class="box filter-criteria">
+<h2>Search Criteria</h2>
+
+<form action='/packages/' method='get'>
+	<p><input type='hidden' name='O' value='0' /></p>
+
+	<fieldset>
+		<legend>Enter search criteria</legend>
+		<div>
+			<label for="id_method">Search by</label>
+			<select name='SeB'>
+												<option value="nd">Name, Description</option>
+																<option value="n">Name Only</option>
+																<option value="b">Package Base</option>
+																<option value="N">Exact Name</option>
+																<option value="B">Exact Package Base</option>
+																<option value="k">Keywords</option>
+																<option value="m">Maintainer</option>
+																<option value="c">Co-maintainer</option>
+																<option value="M">Maintainer, Co-maintainer</option>
+																<option value="s">Submitter</option>
+											</select>
+		</div>
+		<div>
+			<label for="id_q">Keywords</label>
+			<input type='text' name='K' size='30' value="" maxlength='35'  />
+		</div>
+		<div>
+			<label for="id_out_of_date">Out of Date</label>
+			<select name='outdated'>
+												<option value=''>All</option>
+																<option value='on'>Flagged</option>
+																<option value='off'>Not Flagged</option>
+											</select>
+		</div>
+		<div>
+			<label for="id_sort_by">Sort by</label>
+			<select name='SB'>
+												<option value='n'>Name</option>
+																<option value='v'>Votes</option>
+																<option value='p'>Popularity</option>
+																<option value='w'>Voted</option>
+																<option value='o'>Notify</option>
+																<option value='m'>Maintainer</option>
+																<option value='l'>Last modified</option>
+											</select>
+		</div>
+		<div>
+			<label for="id_order_by">Sort order</label>
+			<select name='SO'>
+												<option value='a'>Ascending</option>
+																<option value='d'>Descending</option>
+											</select>
+		</div>
+		<div>
+			<label for="id_per_page">Per page</label>
+			<select name='PP'>
+												<option value="50">50</option>
+																<option value="100">100</option>
+																<option value="250">250</option>
+											</select>
+		</div>
+		<div>
+			<label>&nbsp;</label>
+			<input type='submit' class='button' name='do_Search' value='Go' />
+			<input type='submit' class='button' name='do_Orphans' value='Orphans' />
+		</div>
+	</fieldset>
+</form>
+</div>
+<div id="pkgdetails" class="box">
+	<h2>Package Details: github-desktop 1.6.3-1</h2>
+
+	<div id="detailslinks" class="listing">
+	<div id="actionlist">
+		<h4>Package Actions</h4>
+		<ul class="small">
+			<li>
+				<a href="https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=github-desktop">View PKGBUILD</a> /
+				<a href="https://aur.archlinux.org/cgit/aur.git/log/?h=github-desktop">View Changes</a>
+			</li>
+			<li><a href="/cgit/aur.git/snapshot/github-desktop.tar.gz">Download snapshot</a>
+			<li><a href="https://wiki.archlinux.org/index.php/Special:Search?search=github-desktop">Search wiki</a></li>
+			<li><span class="flagged"></span></li>
+						<li><a href="https://aur.archlinux.org/login/?referer=https%3A%2F%2Faur.archlinux.org%2Fpkgbase%2Fgithub-desktop%2Fflag%2F">Flag package out-of-date</a></li>
+			
+						<li><a href="https://aur.archlinux.org/login/">Vote for this package</a></li>
+			
+						<li><a href="https://aur.archlinux.org/login/">Enable notifications</a></li>
+			
+			
+			<li><span class="flagged"></span></li>
+			<li><a href="https://aur.archlinux.org/login/?referer=https%3A%2F%2Faur.archlinux.org%2Fpkgbase%2Fgithub-desktop%2Frequest%2F">Submit Request</a></li>
+
+			
+					</ul>
+	</div>
+</div>
+
+	<table id="pkginfo">
+		<tr>
+			<th>Git Clone URL: </th>
+			<td>
+				<a href="https://aur.archlinux.org/github-desktop.git">https://aur.archlinux.org/github-desktop.git</a> (read-only)
+							</td>
+		</tr>
+		<tr>
+			<th>Package Base: </th>
+			<td class="wrap"><a href="/pkgbase/github-desktop/">github-desktop</a></td>
+		</tr>
+		<tr>
+			<th>Description: </th>
+			<td class="wrap">GUI for managing Git and GitHub.</td>
+		</tr>
+		<tr>
+			<th>Upstream URL: </th>
+			<td><a href="https://desktop.github.com" title="Visit the website for github-desktop">https://desktop.github.com</a></td>
+		</tr>
+		<tr>
+			<th>Keywords: </th>
+			<td>
+<a class="keyword" href="/packages/?K=git&amp;SB=p">git</a>
+<a class="keyword" href="/packages/?K=github&amp;SB=p">github</a>
+			</td>
+		</tr>
+				<tr>
+			<th>Licenses: </th>
+			<td class="wrap">
+								<span class="related">
+										MIT									</span>
+							</td>
+		</tr>
+												<tr>
+			<th>Submitter: </th>
+			<td>mikelpint</td>
+		</tr>
+		<tr>
+			<th>Maintainer: </th>
+			<td>immackay</td>
+		</tr>
+		<tr>
+			<th>Last Packager: </th>
+			<td>immackay</td>
+		</tr>
+		<tr>
+			<th>Votes: </th>
+						<td>19</td>
+					</tr>
+		<tr>
+			<th>Popularity: </th>
+			<td>0.737263</td>
+		</tr>
+		<tr>
+			<th>First Submitted: </th>
+			<td>2017-07-22 21:26</td>
+		</tr>
+		<tr>
+			<th>Last Updated: </th>
+			<td>2019-03-08 01:55</td>
+		</tr>
+	</table>
+
+	<div id="metadata">
+		<div id="pkgdeps" class="listing">
+			<h3>Dependencies (10)</h3>
+			<ul id="pkgdepslist">
+	<li><a href="https://www.archlinux.org/packages/?q=curl" title="View packages details for curl">curl</a> <span class="virtual-dep">(<a href="/packages/curl-http2-git/" title="View packages details for curl-http2-git">curl-http2-git</a>, <a href="/packages/curl-git/" title="View packages details for curl-git">curl-git</a>)</span></li>
+	<li><a href="https://www.archlinux.org/packages/?q=gconf" title="View packages details for gconf">gconf</a> <span class="virtual-dep">(<a href="/packages/gconf-gtk2/" title="View packages details for gconf-gtk2">gconf-gtk2</a>)</span></li>
+	<li><a href="https://www.archlinux.org/packages/?q=git" title="View packages details for git">git</a> <span class="virtual-dep">(<a href="/packages/git-git/" title="View packages details for git-git">git-git</a>)</span></li>
+	<li><a href="https://www.archlinux.org/packages/?q=gnome-keyring" title="View packages details for gnome-keyring">gnome-keyring</a> </li>
+	<li><a href="https://www.archlinux.org/packages/?q=libxss" title="View packages details for libxss">libxss</a> </li>
+	<li><a href="https://www.archlinux.org/packages/?q=nodejs-lts-carbon" title="View packages details for nodejs-lts-carbon">nodejs-lts-carbon</a>  <em>(make)</em></li>
+	<li><a href="https://www.archlinux.org/packages/?q=python2" title="View packages details for python2">python2</a> <span class="virtual-dep">(<a href="/packages/pypy19/" title="View packages details for pypy19">pypy19</a>, <a href="/packages/stackless-python2/" title="View packages details for stackless-python2">stackless-python2</a>)</span> <em>(make)</em></li>
+	<li><a href="https://www.archlinux.org/packages/?q=xorg-server-xvfb" title="View packages details for xorg-server-xvfb">xorg-server-xvfb</a> <span class="virtual-dep">(<a href="/packages/xorg-server1.12-xvfb/" title="View packages details for xorg-server1.12-xvfb">xorg-server1.12-xvfb</a>, <a href="/packages/xorg-server-xvfb-git/" title="View packages details for xorg-server-xvfb-git">xorg-server-xvfb-git</a>, <a href="/packages/xorg-server1.19-xvfb-git/" title="View packages details for xorg-server1.19-xvfb-git">xorg-server1.19-xvfb-git</a>, <a href="/packages/xorg-server-xvfb-notty/" title="View packages details for xorg-server-xvfb-notty">xorg-server-xvfb-notty</a>, <a href="/packages/xorg-server-xvfb-dev/" title="View packages details for xorg-server-xvfb-dev">xorg-server-xvfb-dev</a>, <a href="/packages/xorg-server-xvfb-noudev/" title="View packages details for xorg-server-xvfb-noudev">xorg-server-xvfb-noudev</a>)</span> <em>(make)</em></li>
+	<li><a href="https://www.archlinux.org/packages/?q=yarn" title="View packages details for yarn">yarn</a> <span class="virtual-dep">(<a href="/packages/yarn-nightly/" title="View packages details for yarn-nightly">yarn-nightly</a>)</span> <em>(make)</em></li>
+	<li><a href="https://www.archlinux.org/packages/?q=hub" title="View packages details for hub">hub</a> <span class="virtual-dep">(<a href="/packages/hub-git/" title="View packages details for hub-git">hub-git</a>)</span> <em>(optional) &ndash; CLI interface for GitHub. </em></em></li>
+			</ul>
+		</div>
+		<div id="pkgreqs" class="listing">
+			<h3>Required by (0)</h3>
+		</div>
+		<div id="pkgfiles" class="listing">
+			<h3>Sources (2)</h3>
+		</div>
+				<div>
+			<ul id="pkgsrcslist">
+										<li><a href="git+https://github.com/shiftkey/desktop.git#tag=release-1.6.3-linux1">git+https://github.com/shiftkey/desktop.git#tag=release-1.6.3-linux1</a></li>
+										<li><a href="https://aur.archlinux.org/cgit/aur.git/tree/github-desktop.desktop?h=github-desktop">github-desktop.desktop</a></li>
+								</ul>
+		</div>
+			</div>
+</div>
+
+
+<div class="comments package-comments">
+	<div class="comments-header">
+		<h3>
+												<span class="text">Latest Comments</span>
+					<span class="arrow"></span>
+									</h3>
+
+					<p class="comments-header-nav">
+															<span class="page">1</span>
+																											<a class="page" href="/pkgbase/github-desktop/?O=10&amp;PP=10">2</a>
+																																	<a class="page" href="/pkgbase/github-desktop/?O=20&amp;PP=10">3</a>
+																																	<a class="page" href="/pkgbase/github-desktop/?O=30&amp;PP=10">4</a>
+																																	<a class="page" href="/pkgbase/github-desktop/?O=10&amp;PP=10">Next &rsaquo;</a>
+																																	<a class="page" href="/pkgbase/github-desktop/?O=30&amp;PP=10">Last &raquo;</a>
+																		</p>
+			</div>
+
+					<h4 id="comment-687725" class="comment-header">
+			pthalamy commented on 2019-03-27 14:38			
+			
+			
+			
+					</h4>
+		<div id="comment-687725-content" class="article-content">
+			<div>
+								<p>For some reason doing as advised by @marlock87 did not work for me. I had to manually install nvm and configure it before installing github-desktop from AUR. These are the commands I had to run:</p>
+<p>yay nvm # or whatever AUR helper you are using </p>
+<p>source /usr/share/nvm/init-nvm.sh </p>
+<p>nvm install --lts </p>
+<p>nvm use --lts </p>
+<p>yay github-desktop # or whatever AUR helper you are using </p>
+<p>nvm deactivate </p>							</div>
+		</div>
+					<h4 id="comment-675647" class="comment-header">
+			swalladge commented on 2018-12-27 05:23			
+			
+			
+			
+					</h4>
+		<div id="comment-675647-content" class="article-content">
+			<div>
+								<p>To add to @madis's comment: the new path of the binary is <code>/opt/github-desktop/github-desktop</code>. Currently launching via the .desktop file or the /usr/bin/github-desktop script is broken.</p>							</div>
+		</div>
+					<h4 id="comment-675643" class="comment-header">
+			swalladge commented on 2018-12-27 04:35			
+			
+			
+			
+					</h4>
+		<div id="comment-675643-content" class="article-content">
+			<div>
+								<p>Note that the repo url has changed to github.com/desktop/desktop. shiftkey/desktop is now shiftkey's personal fork. [EDIT: my bad; shiftkey's fork is what provides linux support. Sorry]</p>							</div>
+		</div>
+					<h4 id="comment-675367" class="comment-header">
+			madis commented on 2018-12-24 11:47			
+			
+			
+			
+					</h4>
+		<div id="comment-675367-content" class="article-content">
+			<div>
+								<p>Having this error:</p>
+<p>/usr/bin/github-desktop: line 3: /opt/github-desktop/desktop: No such file or directory</p>
+<p>on 2018-12-22 update.</p>							</div>
+		</div>
+					<h4 id="comment-670465" class="comment-header">
+			mlerota commented on 2018-11-13 15:29			
+			
+			
+			
+					</h4>
+		<div id="comment-670465-content" class="article-content">
+			<div>
+								<p>Any chance of new release soon?</p>							</div>
+		</div>
+					<h4 id="comment-659070" class="comment-header">
+			robokishan commented on 2018-08-17 19:04			
+			
+			
+			
+					</h4>
+		<div id="comment-659070-content" class="article-content">
+			<div>
+								<p>/usr/bin/github-desktop: line 3: 24926 Segmentation fault      (core dumped) LD_PRELOAD=libcurl.so.3 /opt/github-desktop/desktop "$@"</p>
+<p>after i try to run this error occured please help</p>							</div>
+		</div>
+					<h4 id="comment-650813" class="comment-header">
+			SwarupSaha commented on 2018-06-15 07:03			
+			
+			
+			
+					</h4>
+		<div id="comment-650813-content" class="article-content">
+			<div>
+								<p>please update ! Latest Version is 1.2.3</p>							</div>
+		</div>
+					<h4 id="comment-650409" class="comment-header">
+			marlock87 commented on 2018-06-12 13:51			
+			
+			
+			
+					</h4>
+		<div id="comment-650409-content" class="article-content">
+			<div>
+								<p>Building errors are due to nodejs v10 in arch repository.
+Github desktop is developed with node v8.</p>
+<p>adding nvm to makedepends and modifying build section to use nvm to change node version used during build should resolve this issue</p>
+<p>build() {</p>
+<p>cd desktop</p>
+<p>source /usr/share/nvm/init-nvm.sh</p>
+<p>nvm install --lts</p>
+<p>nvm use --lts</p>
+<p>export DISPLAY=':99.0'</p>
+<p>Xvfb :99 -screen 0 1024x768x24 &gt; /dev/null 2&gt;&amp;1 &amp;</p>
+<p>yarn install</p>
+<p>yarn build:prod</p>
+<p>nvm deactivate</p>
+<p>}</p>							</div>
+		</div>
+					<h4 id="comment-646611" class="comment-header">
+			sergey.orloff commented on 2018-05-17 19:46			
+			
+			
+			
+					</h4>
+		<div id="comment-646611-content" class="article-content">
+			<div>
+								<p>make: *** [binding.target.mk:115: Release/obj.target/binding/src/binding.o] ÐÑÐ¸Ð±ÐºÐ° 1
+make: Ð²ÑÑÐ¾Ð´ Ð¸Ð· ÐºÐ°ÑÐ°Ð»Ð¾Ð³Ð° Â«/build/github-desktop/src/desktop/node_modules/node-sass/buildÂ»
+gyp ERR! build error 
+gyp ERR! stack Error: <code>make</code> failed with exit code: 2
+gyp ERR! stack     at ChildProcess.onExit (/build/github-desktop/src/desktop/node_modules/node-gyp/lib/build.js:258:23)
+gyp ERR! stack     at ChildProcess.emit (events.js:182:13)
+gyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:235:12)
+gyp ERR! System Linux 4.16.8-1-ARCH
+gyp ERR! command "/usr/bin/node" "/build/github-desktop/src/desktop/node_modules/node-gyp/bin/node-gyp.js" "rebuild" "--verbose" "--libsass_ext=" "--libsass_cflags=" "--libsass_ldflags=" "--libsass_library="
+gyp ERR! cwd /build/github-desktop/src/desktop/node_modules/node-sass
+gyp ERR! node -v v10.1.0</p>
+<p>==&gt; ÐÐ¨ÐÐÐÐ: ÐÑÐ¾Ð¸Ð·Ð¾ÑÐµÐ» ÑÐ±Ð¾Ð¹ Ð² build().
+    ÐÑÐµÑÑÐ²Ð°Ð½Ð¸Ðµ...</p>							</div>
+		</div>
+					<h4 id="comment-646567" class="comment-header">
+			mimo commented on 2018-05-17 16:22			
+			
+			
+			
+					</h4>
+		<div id="comment-646567-content" class="article-content">
+			<div>
+								<p>==&gt; ERROR: One or more PGP signatures could not be verified!
+==&gt; ERROR: Makepkg was unable to build libcurl-openssl-1.0.</p>
+<p>help me to install github desktop</p>							</div>
+		</div>
+	</div>
+
+<script>
+$(document).ready(function() {
+	$('.edit-comment').click(function () {
+		var parent_element = this.parentElement,
+			parent_id = parent_element.id,
+			comment_id = parent_id.substr(parent_id.indexOf('-') + 1),
+			edit_form = $(parent_element).next(),
+			_this = $(this);
+		add_busy_indicator(_this);
+		$.getJSON('/rpc', {
+			type: 'get-comment-form',
+			arg: comment_id,
+			base_id: 124235,
+			pkgbase_name: "github-desktop"		}, function (data) {
+			remove_busy_indicator(_this);
+			if (data.success) {
+				edit_form.html(data.form);
+				edit_form.find('textarea').focus();
+			} else {
+				alert(data.error);
+			}
+		});
+		return false;
+	});
+
+	function add_busy_indicator(sibling) {
+		sibling.after('<img src="/images/ajax-loader.gif" class="ajax-loader" width="16" height="11" alt="Busyâ¦" />');
+	}
+
+	function remove_busy_indicator(sibling) {
+		sibling.next().remove();
+	}
+});
+</script>
+
+			<!-- End of main content -->
+
+			<div id="footer">
+								<p>aurweb <a href="https://git.archlinux.org/aurweb.git/log/?h=v4.7.0">v4.7.0</a></p>
+								<p>Copyright &copy; 2004-2019 aurweb Development Team.</p>
+				<p>AUR packages are user produced content. Any use of the provided files is at your own risk.</p>
+			</div>
+		</div>
+	</body>
+</html>
+
+
+
+#####EOF#####
+
+

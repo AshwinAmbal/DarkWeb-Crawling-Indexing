@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<meta charset="UTF-8" />
+<title>Get to know VaultPress | VaultPress | Help</title>
+<link rel="profile" href="https://gmpg.org/xfn/11" />
+<link rel="stylesheet" type="text/css" media="all" href="https://s2.wp.com/wp-content/themes/a8c/vaultpresshelp/style.css" />
+<link rel="pingback" href="https://help.vaultpress.com/xmlrpc.php" />
+<style type="text/css">
+@font-face {
+    font-family: 'Automatticons';
+    src: url('https://s2.wp.com/wp-content/themes/a8c/vaultpresshelp/fonts/automatticons-regular-webfont.eot');
+    src: url('https://s2.wp.com/wp-content/themes/a8c/vaultpresshelp/fonts/automatticons-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('https://s2.wp.com/wp-content/themes/a8c/vaultpresshelp/fonts/automatticons-regular-webfont.woff') format('woff'),
+         url('https://s2.wp.com/wp-content/themes/a8c/vaultpresshelp/fonts/automatticons-regular-webfont.ttf') format('truetype'),
+         url('https://s2.wp.com/wp-content/themes/a8c/vaultpresshelp/fonts/automatticons-regular-webfont.svg#automatticonsregular') format('svg');
+
+    font-weight: normal;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+</style>
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9oZWxwLnZhdWx0cHJlc3MuY29t"
+		+ "&id=49596611"
+		+ "&time=1554353106";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//vaultpresshelp.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel="alternate" type="application/rss+xml" title="VaultPress | Help &raquo; Feed" href="https://help.vaultpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="VaultPress | Help &raquo; Comments Feed" href="https://help.vaultpress.com/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJyNkN1OwzAMhV+ILKpEp90gniVNTeotf4pddX173AaGBiPaTeNz6i92jl6ysikyRNZhVtnPDiPpJdsUFAX0sP5SB0v0oh9jHi9A+gycjb2oXd3aMVo/j/JbDD0isR582ruGYsqqiVcPh4DxaYInCPfEg5VsKiB+yIa3jgAjGvACRm5hC44OuI6utWK4NpGQj9+DtnKSCJph1VSHIRcgUvINOAe1P+ovV22d50HzIsYqbo3jyd49XrXPrADqmBiFoVvR2tZBUjLOMKZ4J9SHN1haaAFZ1Enp9jh/ZAvKibherWkyZYO/zhZFyaLxsptL9+K/kKZX7XwajN8a3sNb1/fdqTsd+/78CRehKxs=?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFztEKwjAMBdAfsiu6Dp/Eb6k1jtQlrU3q0K+3A30QhkLgPtwDN3bOBjlM9QxiY7tbhfJ4RxdlY38BQzgWr9AR8geHxAqsi81JlEDEj7DSUjrhBKYKlAZY28wlrbjvl5DvCPNfFkGzD1dTQPC5rB/psB0Gt+v7vXPxBTjQW9A='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://vaultpresshelp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://help.vaultpress.com/get-to-know/" />
+<link rel='shortlink' href='https://wp.me/P3m6ll-cx' />
+	<style>
+		@font-face {
+			font-family: Recoleta;
+			src: url('https://s1.wp.com/i/fonts/recoleta/400.woff2')
+		}
+	</style>
+	<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fhelp.vaultpress.com%2Fget-to-know%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fhelp.vaultpress.com%2Fget-to-know%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Get to know VaultPress" />
+<meta property="og:url" content="https://help.vaultpress.com/get-to-know/" />
+<meta property="og:description" content="VaultPress is a real-time backup and security scanning service designed and built by Automattic, the same company that operates over 25 million sites on WordPress.com. This guide details some of thâ¦" />
+<meta property="article:published_time" content="2013-04-02T16:18:53+00:00" />
+<meta property="article:modified_time" content="2018-06-07T06:49:59+00:00" />
+<meta property="og:site_name" content="VaultPress | Help" />
+<meta property="og:image" content="https://secure.gravatar.com/blavatar/73ff483d655c68f6ba5ccaaa7b2bc5c3?s=200&amp;ts=1554353106" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:text:title" content="Get to know&nbsp;VaultPress" />
+<meta name="twitter:image" content="https://secure.gravatar.com/blavatar/73ff483d655c68f6ba5ccaaa7b2bc5c3?s=240" />
+<meta name="twitter:card" content="summary" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<meta name="twitter:app:name:iphone" content="WordPress" />
+<meta name="twitter:app:id:iphone" content="335703880" />
+<meta name="twitter:app:name:ipad" content="WordPress" />
+<meta name="twitter:app:id:ipad" content="335703880" />
+<meta name="twitter:app:name:googleplay" content="WordPress" />
+<meta name="twitter:app:id:googleplay" content="org.wordpress.android" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/73ff483d655c68f6ba5ccaaa7b2bc5c3?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/73ff483d655c68f6ba5ccaaa7b2bc5c3?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/73ff483d655c68f6ba5ccaaa7b2bc5c3?s=114" />
+<link rel='openid.server' href='https://vaultpresshelp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://vaultpresshelp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://help.vaultpress.com/osd.xml" title="VaultPress &#124; Help" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="VaultPress | Help" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://help.vaultpress.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/73ff483d655c68f6ba5ccaaa7b2bc5c3?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="VaultPress is a real-time backup and security scanning service designed and built by Automattic, the same company that operates over 25 million sites on WordPress.com. This guide details some of the features of VaultPress, and what you can expect as a potential or new subscriber. As always, you can contact us with anyÂ questions. Real-time Synchronization&hellip;" />
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s0.wp.com/?custom-css=1&#038;csblog=3m6ll&#038;cscache=6&#038;csrev=33" />
+		</head>
+<body class="page-template-default page page-id-777 mp6 customizer-styles-applied single-author highlander-enabled highlander-light">
+<div id="wrapper" class="hfeed">
+	<div id="a8c-dops">
+			<ul>
+				<li class="wordpresscom">
+					<a href="https://wordpress.com">
+						<strong>WordPress.com</strong>
+						<small>Create a free website.</small>
+					</a>
+				</li>
+				<li class="akismet">
+					<a href="https://akismet.com">
+						<strong>Akismet</strong>
+						<small>The anti-spam service for the web.</small>
+					</a>
+				</li>
+				<li class="polldaddy">
+					<a href="https://polldaddy.com">
+						<strong>Polldaddy</strong>
+						<small>Create surveys for the web and mobile.</small>
+					</a>
+				</li>
+				<li class="gravatar">
+					<a href="https://gravatar.com">
+						<strong>Gravatar</strong>
+						<small>A free, globally recognized avatar.</small>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div id="header">
+			<nav>
+				<ul class="main-nav">
+					<li><a id="vp-logo" href="https://vaultpress.com/">V</a></li>
+					<li><a title="Learn more about what VaultPress does, and how it works." href="https://vaultpress.com/features/">Features</a></li>
+					<li><a title="Learn more about pricing and service levels." href="https://vaultpress.com/plans/">Pricing</a></li>
+					<li><a href="https://vaultpress.com/what-theyre-saying/">Testimonials</a></li>
+					<li class="current"><a title="Get help with VaultPress." href="https://help.vaultpress.com/">Help</a></li>
+					<li><a href="https://blog.vaultpress.com/" title="The latest news about VaultPress.">Blog</a></li>
+				</ul>
+
+				<ul class="user-nav">
+					<li id="wpcc-sign-in">
+						<span class="wpcom" id="a8c-service-toggle">WordPress.com</span>
+						<a href="https://vaultpress.com/login/" class="button header_sign-in">Sign In</a>
+					</li>
+
+				</ul>
+			</nav>
+		</div>
+
+	<div id="main">
+
+		<div id="container">
+			<div id="content" role="main">
+
+			
+
+				<div id="post-777" class="post-777 page type-page status-publish hentry">
+											<h1 class="entry-title">Get to know&nbsp;VaultPress</h1>
+					
+					<div class="entry-content">
+						<p>VaultPress is a real-time backup and security scanning service designed and built by <a href="http://automattic.com/">Automattic</a>, the same company that operates over 25 million sites on WordPress.com.</p>
+<p>This guide details some of the features of VaultPress, and what you can expect as a potential or new subscriber. As always, you can <a href="http://vaultpress.com/contact/">contact us</a> with anyÂ questions.</p>
+<h3>Real-time Synchronization</h3>
+<p>The VaultPress plugin uses WordPress hooks to receive real-time alerts when information on your site changes. VaultPress then immediately syncs your changes with our servers to generate a backup for your site. Any time you update your site, VaultPress is notified and immediately gets to work making sure your changes are replicated andÂ synchronized.</p>
+<h3 id="what-do-we-backup">About our Backups</h3>
+<p>VaultPress offers two options for backups: real time backups and daily backups. We don&#8217;t provide an option for you to initiate a backup manually if you are using a daily backup option.Â In either case, you&#8217;ll never need to schedule a backup. We believe it should just happen, and you shouldn&#8217;t have to remember to have peace of mind.</p>
+<h3>What does VaultPress back up?</h3>
+<p>VaultPress will back up your WordPress database, custom post types, plugins, themes, settings, and media library uploads. We also backup the following additional files:</p>
+<p><code>/.htaccess<br />
+/wp-config.php<br />
+/robots.txt<br />
+/favicon.ico<br />
+/wp-content/languages/<br />
+/wp-includes/languages/<br />
+/apple-touch-icon.png<br />
+/apple-touch-icon-precomposed.png<br />
+/startup.png<br />
+/LiveSearchSiteAuth.xml<br />
+/BingSiteAuth.xml<br />
+/crossdomain.xml</code></p>
+<h3>Live Status</h3>
+<p>When VaultPress is activated by one of these changes, you can watch the backup live via the status bar in the <a href="http://dashboard.vaultpress.com">VaultPress dashboard</a>. The status bar describes exactly whatâs happening at that moment â whether we&#8217;re backing up a comment, a new post, a plugin setting, or something else.</p>
+<h3>Hourly Snapshots</h3>
+<p>VaultPress creates a snapshot every hour, combining your recent changes with your past backups. This allows you to browse and download a complete backup for any hour in theÂ past.</p>
+<h3>Daily Scans</h3>
+<p>Sometimes there are changes to your site that WordPress doesn&#8217;t know about &#8212; like files uploaded via FTP. To ensure a complete backup, VaultPress scans your site once a day to catch up on any changes made outside of your WordPressÂ dashboard.</p>
+<h3>Security Scanning</h3>
+<p>Sites covered by the premium plan are scanned daily for known security threats and patterns. VaultPress also takes proactive measures to fix known threats, and will notify you of any serious and potential <a title="What are these securityÂ threats?" href="https://help.vaultpress.com/security-threats/">securityÂ threats</a>.</p>
+																	</div><!-- .entry-content -->
+				</div><!-- #post-## -->
+
+				
+			<div id="comments">
+
+
+
+
+</div><!-- #comments -->
+
+
+			</div><!-- #content -->
+		</div><!-- #container -->
+
+
+		<div id="primary" class="widget-area" role="complementary">
+						<ul class="xoxo">
+
+<li id="text-5" class="widget-container widget_text">			<div class="textwidget"><div class="highlight">
+<h3 class="widget-title">Need help?</h3>
+<p>Have a question or need assistance with something?</p>
+<br />
+<p><a href="http://vaultpress.com/contact/" class="button">Contact VaultPress â</a></p>
+<br />
+<p><small>We're available Mon â Fri, 9am to 11pm Eastern</small></p>
+</div>
+</div>
+		</li>			</ul>
+		</div><!-- #primary .widget-area -->
+
+	</div><!-- #main -->
+</div><!-- #wrapper -->
+<div id="footer">
+	<div class="primary">
+		<ul id="vp-primary-footer">
+			<li><a href="https://vaultpress.com/" title="An introduction to VaultPress.">Home</a></li>
+			<li><a href="https://vaultpress.com/features/" title="Learn more about what VaultPress does, and how it works.">Features</a></li>
+			<li><a href="https://vaultpress.com/plans/" title="Learn more about pricing and service levels.">Pricing</a></li>
+			<li><a href="https://vaultpress.com/what-theyre-saying/" title="See what people are saying about VaultPress.">Testimonials</a></li>
+			<li class="current"><a href="/" title="Get help with VaultPress.">Help</a></li>
+		</ul>
+
+		<div id="a8c-attribution">
+			<span>An <a href="https://automattic.com/">Automattic</a> Team</span>
+		</div>
+	</div>
+
+	<div class="secondary">
+		<ul id="vp-secondary-footer">
+			<li><a href="/faq/" title="Answers to some common questions.">FAQ</a></li>
+			<li><a href="https://automattic.com/privacy/">Privacy</a></li>
+			<li><a href="https://vaultpress.com/contact/" title="Contact the VaultPress Safekeepers.">Contact Us</a></li>
+			<li><a href="https://blog.vaultpress.com/" title="The latest news about VaultPress.">Blog</a></li>
+			<li><a href="https://twitter.com/vaultpress/">Tweet Us</a></li>
+			<li><a href="https://facebook.com/vaultpress">Like Us</a></li>
+			<li>
+				<form action="" id="cse-search-box" class="footer-search">
+					<div>
+						<!--<input type="hidden" name="cx" value="010278390386968856457:rixc-yjxs6s">
+						<input type="hidden" name="cof" value="FORID:9">
+						<input type="hidden" name="ie" value="UTF-8">
+						<input type="text" class="placeholder" name="q" size="31" placeholder="Searchâ¦" style="background: url('https://www.google.com/cse/intl/en/images/google_site_search_watermark.gif') no-repeat scroll left center rgb(255, 255, 255);">
+						<input type="submit" class="button" name="sa" value="Go">-->
+						<label for="s" class="screen-reader-text">Search for:</label>
+						<input type="text"  size="31" id="s" name="s" value="" placeholder="Search..." size="31" style="background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+						<input type="submit" value="Go" id="searchsubmit">
+					</div>
+					<!--<input type="hidden" name="siteurl" value="localhost/wordpress/sample-help-doc-page/"><input type="hidden" name="ref"><input type="hidden" name="ss">-->
+				</form>
+				<script type="text/javascript" src="https://www.google.com/cse/brand?form=cse-search-box&amp;lang=en&amp;sitesearch=true"></script>
+			</li>
+		</ul>
+
+		<ul id="a8c-services">
+			<li><a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a></li>
+			<li><a href="https://vaultpress.com">VaultPress</a></li>
+			<li><a href="https://akismet.com">Akismet</a></li>
+			<li><a href="https://polldaddy.com">Polldaddy</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+$( '#a8c-service-toggle' ).click( function() {
+ Â  Â  Â  Â var page = $( '#wrapper' ),
+ Â  Â  Â  Â  Â  Â header = $( '#header' ),
+ Â  Â  Â  Â  Â  Â dops = $( '#a8c-dops' );
+
+ Â  Â  Â  Â $( this ).parent().toggleClass( 'active' );
+ Â  Â  Â  Â page.toggleClass( 'dropped' );
+ Â  Â  Â  Â header.toggleClass( 'dropped' );
+ Â  Â  Â  Â dops.toggleClass( 'dropped' );
+ Â  Â });
+</script>
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyVjMEOAiEMRH9Itqtxk70YvwWh0bK0YIFV/148aDyZeJvMm3lwy8YlqSgVQgGPKznM9yGUDXwhbibHdiYpEGnBAteGDS9WfER9j0lcbL7DLnKJuR+NYo6PgUl+GK3v3JysAttSUXsyaUVVesk+3Z+GqtYtpZ+OfNhO027cz+M8hyf2DFlU'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'49596611','blog_tz':'-4','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'49596611','v':'wpcom','tz':'-4','user_id':'0','post':'777','subd':'vaultpresshelp'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1lSiYrZXhzUkM5fD1uTDNLUGt6QzVbd3FKb3Q4aWxFU0VMK3ppSU9RRkVyRmw/bFF4N29ZdnF3Lnxoc0xRaWorQ09SJS14UzNlbj9xNTEsMWpEXStrakJGelQzNHlPdlk3U3AyU0JFLW1OK3BdU19UZn4vfno2QmNRNX4xLjROJVpfbG1USiVqfiZNNFpJenBsQmxubXlUSW41MHAlfCtkVT9mNlh2czAyMUxXMS0lcSttZFNIckxNL2E4KyZUdEpKU1JCL0QsSkk1NjRYVXdwTUl+ZSZBXVFDTHpITHZsSTdPNE9pY2x0Sj0xVGlYeXB4JmRdR100ckhxS2w3cT1+a1dBbEV4eiVkLkg3U3RYWFI3ODVuWWhlfnU1'}]);
+_stq.push([ 'clickTrackerInit', '49596611', '777' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
+
+
+
+#####EOF#####
+
+

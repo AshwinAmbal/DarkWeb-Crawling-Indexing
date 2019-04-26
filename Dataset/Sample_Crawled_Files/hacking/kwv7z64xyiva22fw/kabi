@@ -1,0 +1,1555 @@
+
+<!doctype html>
+
+<html>
+<link rel="alternate" type="application/rss+xml" title="Pad RSS Feed" href="feed" />
+
+        <title>KABI.tk Etherpad</title>
+        <script>
+          /*
+          |@licstart  The following is the entire license notice for the
+          JavaScript code in this page.|
+
+          Copyright 2011 Peter Martischka, Primary Technology.
+
+          Licensed under the Apache License, Version 2.0 (the "License");
+          you may not use this file except in compliance with the License.
+          You may obtain a copy of the License at
+
+             http://www.apache.org/licenses/LICENSE-2.0
+
+          Unless required by applicable law or agreed to in writing, software
+          distributed under the License is distributed on an "AS IS" BASIS,
+          WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          See the License for the specific language governing permissions and
+          limitations under the License.
+
+          |@licend  The above is the entire license notice
+          for the JavaScript code in this page.|
+          */
+        </script>
+
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="referrer" content="no-referrer">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+        <link rel="shortcut icon" href="../favicon.ico">
+
+        
+        <link href="../static/css/pad.css" rel="stylesheet">
+
+        
+        <link href="../static/custom/pad.css" rel="stylesheet">
+        
+
+        <style title="dynamicsyntax"></style>
+        <style type="text/css">.toolbar ul li.syncstatus {  display: none;  line-height: 32px;  margin-left: 10px;  font-size: 14pt;  color: #666;}</style><style type="text/css">
+#helpbubbleslink > .buttonicon{
+  background:none;
+  font-size:20px;
+  color:#666666;
+  margin-top:-5px;  
+}
+
+.grumble {
+position:absolute;
+/*background-image:url(/static/custom/bubble-sprite.png);*/
+background-image: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%01%90%00%00%01%F4%08%03%00%00%00%24%04%8B%B2%00%00%00%9CPLTE%FFf%0F%0F%B4%E9%FF%AD%7F%7F%D7%F3%FF%F5%EF%EF%FA%FE%3F%C3%EE%FF%84%3F%FFz%2F%2F%BE%EC%FF%D6%BF%BF%EB%F9%FF%99_%FF%C2%9F_%CD%F1%9F%E1%F6%1F%B9%EB%FFp%1F%DF%F5%FC%FF%EB%DF%FF%E0%CF%CF%F0%FB%AF%E6%F8%FF%CC%AF%FF%A3oo%D2%F2%8F%DC%F5%FF%B7%8FO%C8%EF%FF%8EO%FFc%0B%8B%DB%F5%FF%B5%8B%A7%E3%F7%FFp%20%FFr%237%C0%ED%C3%EC%FA%FFv)%20%B9%EB%23%BA%EB%FF%D9%C3%0B%B2%E9%FF%7F7%FF%C7%A7S%C9%EF%FF%91S)%BC%EC%FF%FF%FF%FF%5C%00%00%AF%E8%FF%FF%FF%F7%20H%19%00%00%004tRNS%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%FF%00KW%22e%00%00%1A%08IDATx%DA%ED%9Di%BF%B2%BC%AE%C6%03%08(%A88%EB%1A%EE%B3%CF%B0%F7%99%87%0B%F8%FE%DF%ED%BC%40%5D%A2%80-tH%D7n%DE%3E%F7o%E9%F5%FCM%D3%B4iB%F5%8B%A1e%B5%B3%E6%A6%0E%1AT%E1.%13gu%D0%AB%8C%C3W%3A%2F%CB%B2%2C%CBy%FAup%12%09%00%E0%F8%99%2C%AA%AA%AA%AAj%91%7C%1E%5D%D1AO2%F6%97m%D9%B2%EDe%EF%1A%12%00%D8%7Dl%AA%96m%3EvN%E8%A0%96%8E%FD%B2%EC%B0%E5%DE)%22%00v%EB%AA%C3%D6%3B%07t%D0%E3%CF*%A4%B2%D3(t%C7I%00%20%0A%AAN%0B%22%FE%3A%E8%C1%3D%E6e%AF%CD%5Dq%12%00%BBE%D5k%0B%F6NBw%1D%07*%07%8C%0EN%10%01p%0C%AA%01%0B%8E%CCu%D0M%C7j%90GY%D2%CA%01%22%00%8AA%1EU%15%14%BCu%DC%80%1C%DE%F0h%7C%84%3F%90%E3%1B%1E%8D%8Fp%07%02%EC%DF%F2(K%DAs'%02%EC%DE%F2%A8%AA%60%C7Y%075%8E%3E%2F%05l%CE%7C%D1%02%B0%A8%04l%C1YG%03%24%2C%85%2C%E4%0E%24%AA%84%2C%E2%0DDl%C1%E2%BFh%89-X%DC%17-%AAk%60Y%0A%DA%927%90u%25hk%CE%40%80%7D)l%8C%5D%04%D8U%C2%C6%D7E%A8%06.%E2%40.%9C%81%7C%88%03%F9%60%0Dd%2B%0Ed%CB%19%C8F%1C%C8%86%2F%10%E0PJ%18%DB%EC%108V%12%C66%3B%24%E0K%06%C8%17_%20%9F2%40%3E%19%03Ie%80%A4%7C%81%242%40%12%C6%40%E62%40%E6%7C%81%2Cd%80%2C%18%03)%A5%8C%2F%90J%CA%3C%10%0F%C4%03%F1%40%3C%10%0F%C4%03%F1%40%FC%B6%F7%EFl%DB%EB%13C%7Ft%E2%8FN%FC%E1%A23%87%8B%FE%F8%9D%1F%10%7FA%C5%0C%88%BF%C2e%05%C4%179%F0%03%E2%CB%80X%01%F1%85r%FC%80%F8RRV%40j%E0%3F%9C_%B0%1A%1D%7Fs%7C%C1%BA%03%118%3Eq%E09%82%D0%F1%89%13%CF%11%CE%02%3C%1Cx%B0%83%93%00%0F%07%1E%EC%60%B6%15%F2%0F%F6%3C%E2%8D%90%7F%B0%7F%D2v%DDd%FD%D7%BF8%FE%E8%F3%BA%C9%FA%EB%BF%3B%FE%E8%B3%C9%D4%E7%99%EB%CF%A2%9BL%7D%91%BB%FE%2C%1AH%CBr%BB%02%1Co%1C%00%24U%B5)%00%D7%1B%07%E0%DC%E0p%BD%B5%06N%0D%0E%D7%5Bk%00%E9%CF%FE%C9%E1%E63%40R%B4u8%DA%7C%E6%E9%8B%3A%DB%D6%E8%B7%E8%A0%D7%2F%EAd%B3%2C%FC%12%1D5A%E6%17%C8%F7'%87_%A2%E3%A5%A3%9C%B0%08%17%DB%CD%B9%A0%83DEd%AB0%7D8%F1J%D3p%95%B9%04%E5%F6%5D%F3%22J%1EN%BC%92%24*rN%3AHD%C6!%EC9%7CL%C3%83%1BH%9Aoy%8Cz%0E%1F%93%E8%C8E%07%BD%95%91-%87%FB6-3%F6H%1A%D7X%0F%F7mZ%E7%2Ct%D0%B0%8C%D9%97%40%8D%D0%F6k%C6%19%09%00%C4%9F%025B%9B%CF%D8%BE%0E%1A%92%B1_%8A%5E%B6%2F%D9%A6%F3%CDI%8A%E8e%FB%DAz%3AO%03%DE%B1%94)i%5C%B2%F4%12%00%88%D72%25%8Dk%CB%5EB%BD%3AB%92%7B%A7%C0%F1Hx%A8%23f%AF%97%D8%3D%12%A6%1E%19%D9%BC%94%B6y%C6%0B%09%00%E4%8BJ%DA%16%B9E%1D%D4%AD%E3R%8E%B2%0B'%22%80Tu%E9S%A5%A9-%1D%D4%A5c%3F%2FG%1A%A3%9B%C57%0Dc%DF8%89%B5%AB%13%EA%D0q%A6r%B4%D1%99%09%11%00%A7%A0%1Am%C1%C9%92%8E%8E%E9%08%ABr%92%F1%A8N%01PT%93%CCRu%0A%BD%E8X%96%13m%C9%80%08%24*%AF%07*%B2a%1B%88%0A%1E%1C%88%A8%E0a%89%08%A9%E7a%9F%88%1A%1Ev%88%90%06%1E%B6%89%A8%E2a%85%08%A9%8C%E7%3C%22%FB%F4xn3%B2Sk%BF%5B*3%7B%BB_%40%A4%C4W%D4%8C%EF~%1F%81%ECI%1D%10%7Bo%17%C4%1FR%B1%7Cl%F58ag%5E*4%5B%AF%7B%20%D9c%83%DB%EB%9E%87%09%3B%97R%A9%5D%AC%10%19%7F~5t%AEe%05HV*%B6%CC%0E%90%BCRl%B9%0D%20%AA%17%2C%5B%8B%96%EA%05%CB%FC%A2u%07%12%96%CA-%B4%01%24%AA%94%5Bd%1E%080%23%F5%40hf%9A%08%10%07%EA%81%04%B1A%1D7%20%CBR%83-%CD%03YW%1Alm%1A%88T%BB%13%193%9C%8CH%B5%3B%911%83%C9%08it%10%E3.%A2%C9A%8C%BA%08i%8B%20%E6%A3%88%9E%08b8%8A4%40%BEJM%F6e%16%C8g%A5%C9%3EM%02%81TO99%DB%1A%DC%C3C%AA%A7%9C%9Cm%8C%E9%20-I%BA%95t%5DC%92n!%5D'%8D!%DDpX%D7%16%D2%8D%86u%AAk%80%F4%01!%93%40%02%7D%40%02s%40%24%FB%C4%CA%9A%B1%1EB%92%7Dbe%CDT%0F!%D2s%8Ce%E1%40K%CB1%96%F9%03-%AA%25%7B%8D%CBZj%0EH%A2%13Hb%10H%A9%D5%CC%01%A9%B4%9A)%20Z7%BD%067%BEZ7%BD%067%BE%A4%B0%F6%A7%B7%22%C8%0C%90B%2F%90%C2%18%90P%2F%90%D0%14%90H%2F%90%C8%18%90T%2F%90%D4%14%90D%2F%90%C4%03%F9%7B%05R%96%BFa%9B%A5%7B%93ej%9B%E5%81x%20%1E%88%07%E2%81x%20%1E%88%07%E2%81x%20%1E%88%07%E2%81x%20%FE%E8%C4%9Fey%20%FE%F8%DD%A1%E3w%7FA%C5%EC%82%CA_%E1%B2%BA%C2%F5E%0E%CC%8A%1C%7C%19%10%BF2%20_(%C7%ACP%CE%97%92%B2*%25%F5%C5%D6%CC%8A%AD%FDs%04~%CF%11%FC%83%1Df%0Fv%FC%936VO%DA%FC%A3Of%8F%3E%FD%B3hn%CF%A2%7D%E3%00f%8D%03%7Ck%0Dn%AD5%7C%F3%19f%CDg%7C%7B%26.%11%C470%E3t%8C%D5%06%E2%5B%FC%F5%99%95%16%7F%BE%09%26%83%24%FD%09%88o%13%DBm%96%DA%C4%FAF%CA%2C%16%AC%A7V%E3%FF%A0p%87e%B3%D5%F8%7F*%DCa%ED%2C%F6~%C7%3F%AB%03b%B5%19%FF%BF%A9%03b%B5%19%BF%C2z%20%8B%E3*%94%D6%03Y%1DW%A107%B49%D0Eenhs%A0%8B%CA%5D%96U%1E%0AwYVG%1E)%2Cu%B0%3A%F0Ha%A9%83%D5%A1%60%0A%AB%B3%EC%F2PW%9Deul%DE%2F%19%3FU%3B%3D~%AA%05DUD%B7%3CzUYD%B7%3Cz%F5)%A2%FF%EF%BF%8E%CE%CF%F7%96%07%E6%B5%22%FA%FF%FC%DF%E8%FC%DC%F2p%E2%D6%8D%E1r%EF%EC%F8%EE%D6%8D%E1z%E7%EC%F8%EE%C7%88%BE%DC%C3%D9%01%F7%8F%11%7D%BD%83%B3%03%EE%1F%06%18%A6%07%00%A8%01%20%94%8C*%14%C2%FA%C4%D5%FB%00%C3%E4x%D7%11IF%95%20%B2%AA%83%EA%BA%C6%ECZ(%97%DE%7F%E2%000%93%BAg_%CEl%F3%A8%11_%0B%E5%92%FCQG%2Cu%CF%BE%8E%ED%EA%A0%9F%EB%DB%B4%B5%E2%00%C0~)%E8%25%D4%2Ct%B5%5D%1E%D7%EB%DB%24%7F%D6%B1%5B%0BzI%D0%2Ct6U%D0-%A2%BF%06%00%00%98%7D%09T%99n%BF%EC%7B%C7%3D%A2%BF%06%00%00%88%3F%05%AAL7%9F%B1%7D%1D%D7%17T%DBU%D7Wi%C2%FB%B0%9B%D02%03%07%1CMD%DF%14%BD%3A%F2a7%09%D69%0B%1D%04%9C%7Bp%DC%A5%E0%10%F6%9C%AB%A4%E1%01%3Cp%D4%C0%A9%07%C7%8F%8Ec%D4s%AE%92DG.%3A%08HWC_%05W%CBVa%FA%80%25M%C3Uv%FBou%CD%01HR%88%E8%C8%8B(y%C0%92%24Q%91s%D2A%22_%05%03V%F30%FC%12%1D%0D%10%09%C5%2CE%DC%BE%DE%2F%D0QO%7C%03%C8%E5%177%F5%13%F9x%0Ei%D0%60A%CD%84%8Fb%A5c4%90%DB7%9De%ABp%99%B6%F6%60i%BA%0CW%D9%8C%E3r%D0%AF%23%CE%8Bh%9D%B4%F6%60I%B2%8E%8A%3C6%AD%83%C6%8B%C8%C2t%20k%DC%A6a%C6%1B%CA%7D%DF%15%25%03Y%E3%26%89%8C%EE%C2h%9C%8CC(t%1A%3C%E7%93%A7%F4e%26B%A7%C1%0Bsy%0A%8DPq%5EJ%1C%04%D3%F2%CC%8FI%F3%8DNk%89%83%E0%60%7D2%A2%83de%1C%96%D2%97%BD%B4%3C%B0B%D2%F8%C6Z%FA%B27X%1F%F5%EB%209%19%AB%91%05%D9%F3%15%A3%94%1E%401%B2%20%7BQ%E8%D6A%122f%E1%84J%08%0Ay%1C%09%03%88%A3%09%95%10A%A4%F7H%98%CC%E0%60%82d2%0E%FDH%C8%14%0E%06H%94%E0%D0%8D%84%C4t%ACT%95m%AD%60%F3%9D%02%0AUe%5B%85.%1D%24%22%23S%F8%B6%CAVi%CA%D8%12%14%D3%A5)%F4%5E%C7L%F5%E3%C3%99%9D%E7%B9%B1%EA%C7%87%B1%0E%1D%F4%DE%3D%94%F7n%DA%1Aw%12%00%C8%95%F7n%DA%E8p%12z%A7%E3Rj0%C3%15%8EP%FF6W%5B%85%23%0D%EB%D8%CFK-f%B4%06%18%C0nQi1%F55%C04%A8%E3%AC%AD%3D%A6%C1*y%00'm%ED1%95W%C9%D3%90%0E%DD%0D%7D%0D%F5%20%D7%DE%D0%17%26%80%40k%B3Rs%2F%AD%A0%B5Y%A9%FA%97V%D4%BF%DB%9D%97%9Am%AE%7F%FF%0B%20%5ET%9Am%A1r%FFK%F6x%18%20b%84%87Z%22d%91%87v%22%86x(%25%D2%03%C4%0C%8F%86%88N%20fx4D%F4%011%C7C%2F%11s%3C%14%12!%BB%3Ct%121%C9C%1D%11%EAZx%0D%F2%D0%D7XKG%B7%3F%03%8D%B5%C8%7C%FEa%26%1F%D1%9F%7F%E8%C9G%C8p~n*g%87%F61z%9Arvz%3D%BF*%8D%9B%FAs-%3C%BC%C85g*%CE%B5%5E%80%EC%C9%3C%10%F5%FD%00%81%5D%60%1E%88%8A~%80d5%A0%EB%0A%EC%A6%03%BA%C2%C0NO%3A.%A5%15S%DBSV%D7%7D%94%89%9E%B2O%40%B2%D2%92ej%81%E4%95%25%CBU%02%C1%BD%A5%83y%DB*%CC%0Fqo%E9%60%DE6S%F3C%E2%B0%60%A9%5D%B4%EC-X*%16-b%B1%60)%5D%B4%2C.X%0A%16-%B2%BE%C3R%BD%D3%B2%B5%C3R%B4%D3%D2%D4Hyd%B3F5%40%8A%CA%AA%15j%80%E8%1B%D5%26%9C%1E*%89%EB%FAF%B5%09%A7%87%93%E2%FA%03%90%B0%B4l%A1%1A%20Qe%D9%22%15%40%EC%3B%88%1A%17%B1%EF%20%13%5D%84%F88%88%12%17a%E0%20%D3%5C%84%F88%88%0A%17%E1%E0%20%D3%5C%84%189%88%02%17a%E1%20%93%5C%E4%D6H%19%C4%01%08M%EF!%13p%00%12%8C%D7A%3Cr%10E%B9%88%F5%1Cdz.r%032%E7%01d%3E%15%C8%82%07%90%C54%20P8%3Cd%A2%1D%A6%10%81%C2%E1!%13%ED8V%87%DE%F1%DD%A3JP%A6%00Ys%01%B2%9E%02%84KH%9F%1A%D6%B9%84%F4Ia%FD%A9%F7%BB%7D%3BO%01r%AA%D8%D8i%12%90%25%1F%20%CB)%40%D6%7C%80%AC'%01!%3E%40h%0A%90%80%0F%90%60%3C%10F%7B%ACI%FB%2CF%7B%AC%09%FB%2Cbsl2%F9%F8%84%C9%B1%C9%C4%E3%13b%94%15N%CC%0D%D9d%85%93rC%AA%01%94%ACl%E4%86%11%40%C5%CA%C6%E9%20%DB%C5%26%CA%CAO%2C%17%9B%A8*%3F!n!dt%10a%16B%C6%06%11R9tU%8D%A5c%81%24%BC%80%24%A3%81ly%01%D9%8E%05%B2%E1%05d3%0E%080%2B%99%D9%A8%8B%5C%20%AE%98%D9%A8%8B%5Cb%17%D3GFuv1%7DdT'6%97%85%13%AF%0D%D9%5C%16N%BC6%24v%9B%AC%91%DB%2Cv%9B%AC%91%DB%2Cbu%D4%3B%E1%C0%97%D5Q%EF%84%03_b%B7%EB%1D%B9%EFe%B7%EB%1D%B9%EF%F5%40%F8%01)%D9%D98%20%15%3B%F3%40%3C%10%0F%C4%03%F1%40%3C%10%0F%C4%03q%1E%08%3C%10%EF!%1E%88%07%E2%81x%20%1E%88%07%C2%0D%88%3F%5C%F4%A7%BD%1E%88%BF%A0r%E8%82%CA_%E12%BB%C2%F5E%0E%CC%8A%1C%7C%19%10%B32%20_(%C7%AAP%CE%97%922%2B%25%F5%C5%D6%ACv%BD%FE9%02%B3M%96%7F%B0%C3%2C%A6%FB'm%3AO%B2%C6%01%F1%8F%3E%F5%D8%C2%3F%8B%FE%3D%CF%A2%7D%E3%00%0D6%BEq%80o%AD%A1%C3%02%DF%7C%E675%9F%F1%ED%99%94%DB%B4%F6L%BE%81%99%86%15k%3C%10%DF%E2%8F%CF%8A%E5%9B%60%F2%DAc%F96%B1%BC%B2%C2%DA7R%E6tY%D8%02%E2%5B%8D%B3%08%E9%BE%19%3F%ABc%93%16%10%3F%AEB%A1%83L%1FW%E1%07%BA0q%10%3F%F2%88%99%83%F8%A1%60%CC%1C%C4%8F%CDc%E6%20~%B0%24%A7%1C%E4%19%88%1F%BD%AA(IW%03%C4%0F'%B6Yl%D2%0D%C4%8F%EF%9En%0A%C7w%FB%01%F7*%EAG%15%0E%B8%B7%BAhe%EAxX%5D%B4%F2%A9%3A%9E%80%D8Z%B4%D4-Xv%17%AD%0F(%05bm%A75W%CA%C3%DENk1%5D%07%3D%2B%D9%5BH%0Fi%AF%96G%5D%03%3B%0B%E9a%B0%9B%AE%E3%05%88%8D%0A%943%D4%03%B1Q%81r%82r%20V%8E%B4B%E5%3C%EC%1CiE*t%BCx%88%F9%13%AD%A5%16%1E%E6%97%AC%B5%12%1D%2F%40%96%AE%07t%5B%05A%0B5%3A%9EwY%C6%13%91%F9L%0B%0F%E3%89%C8%22V%A3%E3%19%C8%FC7%F0%B0P%0E%A4%8A%C7sb%F8%F5Kx%7C%BA%CA%E3%F9%2C%8B%CC%F3%D0%B1%60%99%BE%A3Z%C4%D0%03d%F9%1Bx%98%8F%E8%0AyX%BD%0F%D1%C6%23w%97G%1B%C8%DC%F9%FC%C3FD_%2B%D5a%EFN%3D%D4%C6%C3%EC%9Dz%A4V%87%AD%AA%13%3Ak%E3a4%A2%07'%C5%3A%1E%80t%5C%85l%FFQ%D3*6%DFk%E2Qw%5E%85l%FE%A2i%15%5B%ECT%EB%F8%A9%5C%7C%7D%B3C_%BAn%AC.%D0%C7%E3%F5%CDN%F0%A9%EB%C6%EAC%BD%8E%1F%20%CF%3D%81(%9C%01%002%E5%F7%EC%DBL%1B%8F%8E%9E%40A%14%03%00r%E5%F7%EC%9B%5C%83%0E%EA%89%E8W%1C5%80%99b'%B9%CC%B4%E1x%8D%E8W%1C5%80X%B1%93%7C%C4%3AtPgD%BF%E1h%AEz%90)%8C%24s%8D%EE%F1%12%D1o8%AE%3Ar%85%91d%91%EB%D1A%5D%11%7D%B9%7F%FC0%00X)%DA%81%D1J%23%8E%97%88%BE%DE%3D%EB(%14%ED%C0%82B%97%8E%EB%2B%DC%7D%2F%8E%AB%92Y%A8%00%C9%83%E3i%E2%B1%EB%C5q%D5%11G%0A%90%3C8%9E.%20%E9%13%0E%BC%5CQOG%A2%1BG%3B%A278%3AtLF%A2%13%C7Kk%8D%F4%80%EE%0F%9B%8CD%3F%8E%C7%D6%1A%C9q%40%C7%24%24zq%5C%DB3%DD*H%D3%0C%FD%1F%06%00X%8D%0C%EF%F3%15t%E3x%A8%20M%F2w%3A%8A%91%E1%7DQ%E8%D6%F1%D0%C0l%10%C7%5D%CAa)%ED%26%B4%3C%E8%C7%F1Sh2%88%E3%AE%E3%B8%96v%93%60%7D%D4%AF%83n%11%7D%9E%09%7C%18%00%00g%19%26%B4%3C%C3%04%8E%5BD_%E4%C2%3AN2L%82%F5%C9%88%8Ek%DF%DE%AD%F0%92%D2%7C%ABC(%B4v%CD%C3%83%19%1A%B7%88%BE)%E4t%1C%23%A1%B5k%11%1DM%E9%20%E0%2C%81%E3G%0A%90%85%E9%C0%A9%CA6%0D%B3%DB%BF%AC%8D%F08I%E0x%D4%91G%C9%C0%A9%CA%26%89r%93%3A%08HG%04%DC%DBW%9Ce%ABp%99%B6%8E%C1%D2t%19%AE%B2%99I%11%CD%17J%8A%F1%3A%E2%BC%88%D6I%EB%18%2CI%D6Q%91%C7%86u%D44%FA%F3%20%60%B51%C3%2F%D1q%052%F9%FF%83U%0D%3F%DF%C3y%1D%0D%10%7D%BFWc%1A5%FD%5D%0B~C0%AAA%93%1A%0D%FF%7B%AC%E8%A8_%9F%23(%D2%90ea%98%A6i%FBL%3FM%D30%CC2%0Dj%94%BF%BF%BA%EF%C0%F2(J%92%A4%7D%A6%9F%24I%14%E5%B9%1E*%A4ZE%B6%BA%A4o%F2FJ%2F%AB%CC%D6%1A-%BC%19.%3E%927yc%90%7C%14%CA%B7%C4%A4P%C4%EC%1CJ%CC%86I%C3%F3%8C%19%94%DB%1E%F8%14I%CC%86I%A2S%ACP%07%A9R!%98%BB%F7d%F2%60CC0w%EF%C9%E4a%1D%C8%88%D3-Kg%5D%CAO%B7%F4%9Cu%91U%1AL%98L%A6%A1%90%09M%94%B1%0F%95T%09m%C3%BD5%24%00%80%5D%A4%A4Jh%13%ED%26%EA%A0I2V%0A%07%BC%A5%2B%2BH%9A%FB*%85%03%DE%92iwX4%5E%C6l%A5%B8%84n%BB%9A%99F%02%00q%A1%B8%84nSL%B8%E5%A5%D18B%0D%B5%D9%06.%DE_pD%1Aj%B3'%5C%BC%13%23%1C%86%91h%C31%09%09%B1%C2a%10%89V%1C%13%90%D0%08%1D%AAc%C7k%2C%D1O%04%00%0A%CDm%CE6c%CA%1BIZ%C6%C1%C0%E8%DC%A6%3CL%2F%8E%A3%81%D1%B9My%98%3E%20%1AJ%E1m%94%C8%EB(%85WV%22Or%3F%AB%B3%B1%A6%8C%DB3%B4%3Dz%03N%C6%9A2nNr%3AH%CA%3D%FE%98%7C%15%FAG%D7%ABi%C4%DF%26_%85~K9%09I%FC%AC2%C3%7D%1EH%C3S%12%00%C8%0D%F7y%08d%9E%92%90%B8%0E%0B%FD1%95%BFE%84%9D%FE%98%12o%11IT%C7%DENw%CC%BD%EAv%A5%3B%3B%DD1%85_%EB%92%A0%8E%B3%A5%D1%09J%DF%B3%038Y%1A%9D%20%FC%9E%9D%C4tX%9C-%12%AA%ECAnq%B6%88%60%C7%07%E2%B7%BB%D2%B4%DB2%BE%BB%1A%B7%DB%22%11%1E%96%A7N*%E9%1A%04%20%B6%3CuR%A8k%10%BD%D7q%D8%96%96m%7B%C0%F4%F1m8n*%CB%B69%BE%D7A%EFyp%98%A7w%98%3Eq%F2%C8a%9E%DE%7B%22%F4NG%C6c%04h%86iS%8B%8Dg%83%039%E2x%20%603%23%B7%2CW%D3%06%AD3%99%91%5BU%C5%1B%1D%E4%08%8F)D8%F1xK%84%5C%E11%9E%08%2F%1E%EF%88%D0%60%FC(YY6%F6%85T%5E%B1%B2%C18B%CC%F7W%93%F7ZL%F6W%C2%7B%AD%01%20%DCx4D%E4%81p%E3%D1%10%91%05bsb%DB%40%86(%DD%99%DC%E6%C4%B6%81%0C%B1%BF39%F5%F2%98%97%0CM%B6W%BC%FD%F3%92%FES%14%19%20%00%FE%94%2C%ED%8FT%18%01%F0%5D%B1%B4%EF%3E%1D%C4%EF%BC%5D%DDi%3CX%8C%BB%97%3B%8D%A7%9E%FB%A8%92%AD%89%DFX%D9%99%0C%26j%3D7V%DD%40%F6%C4%17%88%F8%8C%3D%3B%B3%F3%84%B7Z%3BQ%20%B6%E7x%BF%0D%EC%82.b%7B%8E%F7%DB%C0%DE%A9%83%BAt%5CJ%D6%266%A7%D5%EE%D0h%D1Z%14!%20Y%C9%DC21%20y%C5%DCr%11%206%26%19J%87%11%81l%C4%FC%DC%A3%11a%A4%23%1B!g2%10%B9l%84o%06%F2%26%1By%05r.%1D%B0%F3%7B%20%A7%CA%01%3B%BD%03%C2%F3%08K%FEP%8B%E7%11%96%C8%A1%169%B6%C3%12%DBi%F1%DFa%F5%EE%B4%9E%81%1CJG%EC0%0C%E4X9b%C7!%20x%1D%EB%C2%D6%D2%01%17%C1%EBX%17%B6%96%3C%E9x%02%B2*%9D%B1%D5%10%90%A2r%C6%8A~%20%AED%F4wq%DD%95%88%DE%19%D7%DB%40%C2%D2!%0B%FB%81D%95C%16%F5%01q!G%17%C9%D7%5D%C8%D1%FB%F3ur%D6Az%5D%C41%07yr%11r%D6A%FA%5C%C45%07yr%11r%D7Az%5C%C49%07i%BB%08%B9%EB%20%DD.%E2%9E%83%B4%5D%84%9C%CCA%06r%11%A7r%90%8E%5C%E4g%F4*%B6%EE%01%D9v%CDa%DB%B8%07d%F3%A3%83%5Cv%90%0E%17q%D2A%1E%5D%A4%7F8%B1%2B'Z%CF%40%12%17%81%24%CF%40%DA%B3%3E%1D%B2%A7%9A%A0%F6%ACO%87%EC%5E%13D%CE%EEy%3Bw%BE%0E%EEy%9Fv%BE%E4pH%7F%0D%EBn%86%F4VX'%97n%D2%DF%DE%AE%3Br%93%3Et%BB~%03%B2t%15%C8%B2%0Dd%ED*%90%F5%23%10%00%E4*%10jOL%0F%5C%05%12%5Cu%90%E3%2BVk%CDrx%C5%BA%AFY%E4%F8%8A%D5Z%B3%1C%5E%B1%EEk%D6%15%08%B9%0B%84%1E%81%04%EE%02%09~%808T%FC3X%10%E4P%F1O%7FA%10%B9%9C%15%3E%E5%86%CEf%85%8F%B9a%03d%EE2%90%F9%0F%90%85%CB%40%167%20%C0%ACt%DA%AE%D7T%40%5C9m1p%05rv%1B%C8%F9%06%E4%E46%90%D3%1DH%E86%90%F0%06%24r%1BHt%07%92%BA%0D%24%BD%01I%DC%06%92%DC%81%94%8E%DB%0DH%E5%B85%40%1Cx%E4%F9%CE2%C0%89G%9E%EF%2C%07jr%F56%FD%E5f%DD%D1%DB%F4%E7%9Bu%AA%9Dy4%D5o%97%06%C8%87%EB%40%3E%AE%40R%D7%81%A4%0D%90%C4u%20%C9%15%08%B9%0E%84%1A%20%81%EB%40%02%A0%26%B8%BF%C9*%CBfHs%E5%BC%01%A0_%B0%C9j%FA%95%BA%BF%C9%AA%AA%DC%03%E1%08%24t%1FH%088%7Fpr%3D%3C%F1%40%F8%01I%DD%07%92%02%BF%60%D7%5BU%89%07%E2%81x%20o%81%90%FB%40%08%F8%05yaU%05%00%FD%86%BC%B0%C9%0C%AB_%60%1E%88%07%E2%81x%20%1E%88%07%E2%81x%20%1E%88%07%E2%81x%20%1E%88%07%E2%81x%20%1E%C80%10%7F%B8%C8%ECp%D1%1F%BF%FB%FB%10%0F%C4%03q%08%88%2Fr%60V%E4%E0%810%03%E2%0B%E5%D8%98%AF%5Cd%09%C4%17%5B3%CA%0B%E1%9F%23%F0%CA%0B%FD%83%1Df%BB%5E%FF%A4%8D%93%7D%F8G%9F%BC%EC%F6%E8%D3%3F%8B%E6%B3%C9%F2%8D%03xm%B2%7Ck%0Dn1%DD7%9F%E1up%E2%DB3q%B2%9F%F6L%BE%81%19%0B%BB50%F3-%FEx%D8%C27%C1d%18B%7C%9BX%3E%F6%D3%26%D67R%E6r%B2%E8%5B%8D3%B2%B5o%C6%CFp%D3%EB%C7UpZ%B1%E0%07%BA%F0%5B%B1%FC%C8%23f%2B%96%1F%0A%C6%C4%9E%86%82%F9%B1y%3C%B2B%3FX%92%8D%3D%0F%96%F4%A3W%19%5C%85%F8%E1%C4%BCn%D3%FD%F8n%86!%DD%0F%B8%E7%E6%20%8F%40f%CEe%EB4%EB%02%12%3B%97%AD%07q%07%10%17w%BE%E1%2B%0F'w%BE%D1%83%8EG%20%AE%B9H%97%83%B8%E8%22%8F%0E%F2%00%C4%3D%17%E9t%10%07%5D%E4%D1A%DA%40%DCr%91n%07q%CFEZ%0E%F2%08%C45%17%E9q%10%E7%5C%A4%E5%20O%40f%0E%E5%22%DBY%3F%90%D8%A1%5Cd%13%F7%02q%2B%17Y%F5%F1p%2C%17)%DA%3A%9E%80%B8s%A2%95b%08%88%3B'Z%09%06%80%B8T%10t%E8%E7%E1TA%D0%F1I%C73%10W%9ES%5D0%0C%C4%95%E7T%1F%18%04%E2L%5C%EF%8F%E8n%C5%F5%A7%88%FE%0A%C4%95%DB%F5%F30%0Fgn%D7O%2F%3A%5E%81%E0%0F%7F%1E%7F%F0%1E%08%BE%F9%F3%F8%C6%5B%20N%E4%EB4%7B%C7%C3%8D%7C%3D%88_uP%87%12%F6%8F%40%B3%F7%3C%9Cx%04%9Aw%E8%E8%02%C2%7D%A7u%81%18%10%EE%3B%AD%0F%08%01%A9%C1%FC%01%CF%5C%88G%5D%83%F9%03%9EE%A7%0E%EAT%B2g%1CFh%2F%C6%A3%AE%81%1D%E30%12%EC%3Aut%03%E1%BC%F7%3DC%1C%08%E7%BD%EF%09%C2%40X%9Fi%85%C2%3Cx%9FiE%3D%3Az%80%B0%ADc%FC%23%C1%83s%1D%E3w%9F%0Er%CBA%E63)%1El%1Dd%11%F7%E9%E8%06%C25%13%D9%CA%F0%60%9C%89lzy%F4l%7B%99%1E0%D2A%8E%07%D7%22%C6%E0%D8%AF%A331%0C%F9%F2%90Z%B0%22%BE%3C%A4%80p%CDB2%C89%08%D7%2C%24%1F%D2%D1q%B8%C8%F5%B8w%25%C9%83%EBqo1%A8%83%9C%89%E8r%3C%F8F%F4a%1E%5D%F7!%DB%DF%C1%83iD%7F%C3%A3%03%08%CB%88Nr%F1%83m%B1%5C%90%BF%D3AN%5CO%C9%ED%AF%F8%5EO%0D%EE%AFz%AAN8v%10%D8%CA%F3%60%D9A%60%F3%9E%C7%0B%10%8E%11%7D%3E%93%E4%C14%A2%2Fb%01%1D%C4%FFj%EA%CF%08%1E%1C%AF%A6%BEEx%3C%03%F9r%FB%BC%FD%AE%E3%D3%9D%F3%F6%01%20%1C%23%3A%9D%C7%F0%E0%17%D1%83%93%A0%0E%12%8C%E8%E9%7F%5BY%CC%E6%FB1%3C%06%22z%F2OV%16%B3%C5NT%07%09E%F44%B3S%8Br%81%3C%8F%A1%88%9E%E4vjQ%3E%C4u%90%40DO%B3f%82MfxA%A3l%1C%8F%BE%88%9E%E4%8D%8E%DC%F0%82%16%E4%12%3A%E8%EDk%9D%ED%197%9B%FD%E1%BD%BB%1A%7C%AD%B39%DDu%C4%DF%FCvW%A2%8D%03%B6%ABFC%F3%D3%C3%D9%D8AW%F3%3B%18%C3%A33%A2o%8A%96%8E%93%B1%83%AE%E6wPK%03%E9%8E%11%0F8%AE%FFhf(%92%5C%C6%B9GO%BD%E2%03%8E%EB%3F%8A%0DE%92%8FXR%07%0D%BC%9D%A2%AF%96%8C%EB%8F%EB%60%A0%00%22%3D%8Cs%8F%EE%B7S%C1g%97%8E%A3%81%02%88%E4(%AD%83z%0BM(%9C%01%5D%DDv%B0%D2%BCn5~Y%8F%E3%F1Rh%12Dq%8F%8EB%F3%BA%D5%F8%A5%A4%02%EA%89%E8%DD8%AEJf%A1%C6%FD%D6%F5%93%EB%91%40%0A%11%1CW%1Dq%A4q%BFu%FD%E4z%14%90%E7%88%DE%8BC%3B%92I8%5E%22z%2F%0E%EDHF%E2%F8i%A4%DC%8A%D5%CB%3D%06%FF%9A6%24%D3p%BCD%F4%F5%EE%BD%0E-HF%E3%B8%03%D9K%E0%B8%23Q%1DK%B6%ABI8%9EKG%DF%E1%B8%23Q%1DK6E%3C%5E%07%3DGt%11%1C7)X)%DCq%A5%2BL%C3%D1%8E%E8%228%EE%3A%0A%85%3B%AE%A4%98%A4%83%DA%2Fo%9B%FD%A6%F0%83%18%60%1F*q%93m%B8%9F%8A%A3%F5%F2%B6%D9oJ%E8%D8EJ%DCd%13%ED%26%EA%A0%C7%B7%E9%B7C%2B%89%9F%24%80%F3rb4%A1%E5%19%D3q%3C%BCM%BF%1DZ%C9%E98%AD'F%93%60%7D%9A%AE%83~JGeq%A8a%A2%88%C6C%E9%A8%2C%0E5L%94%D0%B8%02%D9%97eY%CE%B3%91%7F%EFz%60w%08G%5C%98%CC%C3%EB%129%19%C7%3D%A2%2F%F2i%3A%8E%D1%88%0B%93EtT%A5%83%9A%88%FEth5N%CB%EC%1CJ%04%F94%3C%CF%94%D1%B8E%F4%A7C%ABq%3A%E2S%24%11%E4%93%E8%14%2B%D4A%C0y%22%8E%96%18d%ABK%FAf%FD%A2%F4%B2%CA%A0P%C4-%A2O%C3%D1%D6%91%17%1F%C9%9B%F5%2BH%3E%8A%5C%B5%0E%02%D2%95%A2%3F%89%1F%CB%B20L%D36%19J%D34%0C%B3%EC%E1%9F%D5%B5%3A%1EH%0A%F5%3A%F2%3C%8A%92%A4M%26H%92%24%8A%F2%5C%8B%8E%9A%D4%FFR%C5%ACVj%EA%FF%AE%1D%1Dw%20%B5%AE%FF%3F%264%3C%7C%A0%EB%3A%EA%FA%FF%01%FC%9E%E7%D2A%5DO%88%00%00%00%00IEND%AEB%60%82");
+background-repeat:no-repeat;
+z-index:99999;
+}
+
+.grumble-text {
+position:absolute;
+text-align:center;
+z-index:99999;
+display:table;
+overflow:hidden;
+text-transform:uppercase;
+font-size:14px;
+line-height:14px;
+}
+
+.ie6 .grumble-text {
+display:block;
+}
+
+.grumble-text .outer {
+display:table-cell;
+vertical-align:middle;
+color:#FFF;
+}
+
+.ie6 .grumble-text .outer {
+display:block;
+position:absolute;
+top:48%;
+left:0;
+}
+
+.ie6 .inner {
+position:relative;
+top:-50%;
+}
+
+.grumble-text50 .outer {
+padding:6px;
+}
+
+.grumble-text100 .outer {
+padding:8px;
+}
+
+.grumble-text150 .outer {
+padding:10px;
+}
+
+.grumble-text200 .outer {
+padding:12px;
+}
+
+.grumble50 {
+background-position:0 0;
+}
+
+.grumble100 {
+background-position:0 -50px;
+}
+
+.grumble150 {
+background-position:0 -150px;
+}
+
+.grumble200 {
+background-position:0 -300px;
+}
+
+.alt-grumble50 {
+background-position:-200px -150px;
+}
+
+.alt-grumble100 {
+background-position:-200px -50px;
+}
+
+.alt-grumble200 {
+background-position:-200px -300px;
+}
+
+.grumble-button {
+position:absolute;
+width:20px;
+height:12px;
+-moz-border-radius:3px;
+border-radius:3px;
+background:#FF5C00;
+color:#fff;
+text-align:center;
+font-size:.8em;
+line-height:.9em;
+-moz-box-shadow:1px 1px 1px #ccc;
+-webkit-box-shadow:1px 1px 1px #ccc;
+box-shadow:1px 1px 1px #ccc;
+cursor:pointer;
+z-index:99999;
+}
+
+</style>
+<link rel="stylesheet" href="../static/plugins/ep_chatdate/static/css/chatdate.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../static/plugins/ep_countable/static/css/countable.css"></link><link href="../static/plugins/ep_desktop_notifications/static/css/desktop_notifications.css" rel="stylesheet">
+
+        <link rel="localizations" type="application/l10n+json" href="../locales.json" />
+        <script type="text/javascript" src="../static/js/html10n.js"></script>
+        <script type="text/javascript" src="../static/js/l10n.js"></script>
+
+        <!-- head and body had been removed intentionally -->
+
+        
+        <div id="editbar" class="toolbar" title="Toolbar (Alt F9)">
+            <div id="overlay">
+                <div id="overlay-inner"></div>
+            </div>
+
+            <ul class="menu_left" role="toolbar">
+                
+                <li data-type="button" data-key="bold"><a class="grouped-left" data-l10n-id="pad.toolbar.bold.title"><button class=" buttonicon buttonicon-bold" data-l10n-id="pad.toolbar.bold.title"></button></a></li>
+<li data-type="button" data-key="italic"><a class="grouped-middle" data-l10n-id="pad.toolbar.italic.title"><button class=" buttonicon buttonicon-italic" data-l10n-id="pad.toolbar.italic.title"></button></a></li>
+<li data-type="button" data-key="underline"><a class="grouped-middle" data-l10n-id="pad.toolbar.underline.title"><button class=" buttonicon buttonicon-underline" data-l10n-id="pad.toolbar.underline.title"></button></a></li>
+<li data-type="button" data-key="strikethrough"><a class="grouped-right" data-l10n-id="pad.toolbar.strikethrough.title"><button class=" buttonicon buttonicon-strikethrough" data-l10n-id="pad.toolbar.strikethrough.title"></button></a></li><li class="separator"></li><li data-type="button" data-key="insertorderedlist"><a class="grouped-left" data-l10n-id="pad.toolbar.ol.title"><button class=" buttonicon buttonicon-insertorderedlist" data-l10n-id="pad.toolbar.ol.title"></button></a></li>
+<li data-type="button" data-key="insertunorderedlist"><a class="grouped-middle" data-l10n-id="pad.toolbar.ul.title"><button class=" buttonicon buttonicon-insertunorderedlist" data-l10n-id="pad.toolbar.ul.title"></button></a></li>
+<li data-type="button" data-key="indent"><a class="grouped-middle" data-l10n-id="pad.toolbar.indent.title"><button class=" buttonicon buttonicon-indent" data-l10n-id="pad.toolbar.indent.title"></button></a></li>
+<li data-type="button" data-key="outdent"><a class="grouped-right" data-l10n-id="pad.toolbar.unindent.title"><button class=" buttonicon buttonicon-outdent" data-l10n-id="pad.toolbar.unindent.title"></button></a></li><li class="separator"></li><li data-type="button" data-key="undo"><a class="grouped-left" data-l10n-id="pad.toolbar.undo.title"><button class=" buttonicon buttonicon-undo" data-l10n-id="pad.toolbar.undo.title"></button></a></li>
+<li data-type="button" data-key="redo"><a class="grouped-right" data-l10n-id="pad.toolbar.redo.title"><button class=" buttonicon buttonicon-redo" data-l10n-id="pad.toolbar.redo.title"></button></a></li><li class="separator"></li><li data-type="button" data-key="clearauthorship"><a class="" data-l10n-id="pad.toolbar.clearAuthorship.title"><button class=" buttonicon buttonicon-clearauthorship" data-l10n-id="pad.toolbar.clearAuthorship.title"></button></a></li>
+                <li class="separator acl-write"></li>
+<li class="acl-write font-family-icon ep_font_family fg">
+    <select id="colorpicker-picker" data-l10n-id="ep_word_edit.text_color">
+    </select>
+</li>
+<li class="acl-write font-family-icon ep_font_family bg">
+    <select id="colorpicker-picker2" data-l10n-id="ep_word_edit.background_color">
+    </select>
+</li>
+<li class="acl-write" data-l10n-id="ep_word_edit.font_size">
+    <select class="size-selection">
+        <option value="8px">8px</option>
+        <option value="9px">9px</option>
+        <option value="10px">10px</option>
+        <option value="11px">11px</option>
+        <option value="12px">12px</option>
+        <option value="14px" selected>14px</option>
+        <option value="18px">18px</option>
+        <option value="24px">24px</option>
+        <option value="36px">36px</option>
+    </select>
+</li>
+<li id="font-family" class="acl-write">
+    <select class="family-selection" data-l10n-id="ep_word_edit.font_family">
+        <option value="Arial">Arial</option>
+        <option value="Calibri">Calibri</option>
+        <option value="Times-new-roman">Times new roman</option>
+        <option value="Liberation-Mono">Liberation Mono</option>
+        <!--<option value="Courier">Courier</option>-->
+        <!--<option value="Palatino">Palatino</option>-->
+        <!--<option value="Garamond">Garamond</option>-->
+        <!--<option value="Bookman">Bookman</option>-->
+        <!--<option value="Avant-garde">Avant garde</option>-->
+    </select>
+</li>
+
+
+<style>
+
+.ep_font_color {
+  font-family:font-awesome;
+}
+.ep_font_color .buttonicon:before{
+  content:"\e81b";
+  top: 2px !important;
+  border-bottom:solid 1px red;
+}
+.color-picker {
+    width: 34px;
+    height: 30px;
+    margin-top: -1px;
+    display: none;
+}
+
+#buttonicon-text-color {
+    border-bottom: 2px solid;
+    padding-bottom: 2px;
+    margin-top: -4px;
+}
+
+.simplecolorpicker.picker {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1051; /* Above Bootstrap modal (@zindex-modal = 1050) */
+    display: none;
+    float: left;
+
+    min-width: 160px;
+    max-width: 276px; /* @popover-max-width = 276px + 7 */
+
+    padding: 5px 0 0 5px;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #fff; /* @dropdown-bg */
+
+    border: 1px solid #ccc; /* @dropdown-fallback-border */
+    border: 1px solid rgba(0, 0, 0, .15); /* @dropdown-border */
+
+    -webkit-border-radius: 4px; /* @border-radius-base */
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+}
+
+.simplecolorpicker.inline {
+    display: inline-block;
+    padding: 6px 0;
+}
+
+.simplecolorpicker span {
+    margin: 0 5px 5px 0;
+}
+
+.simplecolorpicker.icon,
+.simplecolorpicker span.color {
+    display: inline-block;
+
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.simplecolorpicker.icon:after,
+.simplecolorpicker span.color:after {
+    content: '\00a0\00a0\00a0\00a0'; /* Spaces */
+}
+
+.simplecolorpicker span.color[data-disabled]:hover {
+    cursor: not-allowed;
+    border: 1px solid transparent;
+}
+
+.simplecolorpicker span.color:hover,
+.simplecolorpicker span.color[data-selected],
+.simplecolorpicker span.color[data-selected]:hover {
+    border: 1px solid #222; /* @gray-dark */
+}
+.simplecolorpicker span.color[data-selected]:after {
+    color: #fff;
+}
+
+/* Vertical separator, replaces optgroup. */
+.simplecolorpicker span.vr {
+    border-left: 1px solid #222; /* @gray-dark */
+}
+
+.btn {
+    border: 1px solid rgb(204, 204, 204);
+    background: transparent linear-gradient(rgb(255, 255, 255), rgb(240, 240, 240)) repeat scroll 0% 0%;
+    background: -webkit-linear-gradient(#fff,#f0f0f0);
+    background: -moz-linear-gradient(#fff,#f0f0f0);
+    background: -o-linear-gradient(#fff,#f0f0f0);
+    background: -ms-linear-gradient(#fff,#f0f0f0);
+    border-radius: 3px;
+    color: rgb(204, 204, 204);
+    cursor: pointer;
+    display: inline-block;
+    min-height: 18px;
+    overflow: hidden;
+    padding: 4px 5px;
+    text-align: center;
+    min-width: 18px;
+    margin: 25px;
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
+.simplecolorpicker .btn:focus {
+    color: black;
+    position: relative;
+    top: 1px;
+}
+.ep_font_family {
+    font-family:font-awesome;
+}
+.ep_font_family > a > .buttonicon:before{
+    content:"\e81b";
+    top: 2px !important;
+}
+.family-selection{
+    margin-left:-3px;
+    border-radius: 0 3px 3px 0 !important;
+}
+
+</style>
+
+<li class="syncstatus" id="syncstatussyncing">Saving...</li><li class="syncstatus" id="syncstatusdone">Saved.</li>
+            </ul>
+            <ul class="menu_right" role="toolbar">
+                <li data-key="ep_countable-popup" data-type="button" onClick="showCountablePopup();">
+    <a id="ep_countable-a" data-l10n-id="ep_countable.show_counters.title">
+        <button class="buttonicon buttonicon-gauge" data-l10n-id="ep_countable.show_counters.title"></button>
+    </a>
+</li>
+<li class="separator"></li>
+<script type="text/javascript">
+/*
+ * The count method, trim and _decode methods are from countable.js (http://sacha.me/Countable/)
+ */
+
+/**
+ * `String.trim()` polyfill for non-supporting browsers. This is the
+ * recommended polyfill on MDN.
+ *
+ * @see     <http://goo.gl/uYveB>
+ * @see     <http://goo.gl/xjIxJ>
+ *
+ * @return  {String}  The original string with leading and trailing
+ *                    whitespace removed.
+ */
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g, '')
+  }
+}
+
+/**
+ * `ucs2decode` function from the punycode.js library.
+ *
+ * Creates an array containing the decimal code points of each Unicode
+ * character in the string. While JavaScript uses UCS-2 internally, this
+ * function will convert a pair of surrogate halves (each of which UCS-2
+ * exposes as separate characters) into a single code point, matching
+ * UTF-16.
+ *
+ * @see     <http://goo.gl/8M09r>
+ * @see     <http://goo.gl/u4UUC>
+ *
+ * @param   {String}  string   The Unicode input string (UCS-2).
+ *
+ * @return  {Array}   The new array of code points.
+ */
+function _decode (string) {
+    var output = [],
+            counter = 0,
+            length = string.length,
+            value, extra
+
+    while (counter < length) {
+        value = string.charCodeAt(counter++)
+
+        if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+            // High surrogate, and there is a next character.
+            extra = string.charCodeAt(counter++)
+
+            if ((extra & 0xFC00) == 0xDC00) {
+                // Low surrogate.
+                output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000)
+            } else {
+                // unmatched surrogate; only append this code unit, in case the next
+                // code unit is the high surrogate of a surrogate pair
+                output.push(value, extra)
+                counter--
+            }
+        } else {
+            output.push(value)
+        }
+    }
+
+    return output
+}
+
+function updateCounter() {
+    text = window.ChildAccessibleAce2Editor.registry[1].editor.exportText();
+    /**
+     * The initial implementation to allow for HTML tags stripping was created
+     * @craniumslows while the current one was created by @Rob--W.
+     *
+     * @see <http://goo.gl/Exmlr>
+     * @see <http://goo.gl/gFQQh>
+     */
+    text = text.replace(/<\/?[a-z][^>]*>/gi, '');
+
+    var trimmed = text.trim();
+
+    /**
+     * Most of the performance improvements are based on the works of @epmatsw.
+     *
+     * @see <http://goo.gl/SWOLB>
+     */
+    var paragraphs = trimmed ? (trimmed.match(/\n+/g) || []).length + 1 : 0;
+    var sentences  = trimmed ? (trimmed.match(/[.?!â¦]+.?/g) || []).length : 0;
+    var words      = trimmed ? (trimmed.replace(/['";:,.?Â¿\-!Â¡]+/g, '').match(/\S+/g) || []).length : 0;
+    var characters = trimmed ? _decode(trimmed).length : 0;
+    var all        = _decode(text).length;
+
+    $('#ep_countable-paragraphs').text(paragraphs);
+    $('#ep_countable-sentences').text(sentences);
+    $('#ep_countable-words').text(words);
+    $('#ep_countable-characters').text(characters);
+}
+function showCountablePopup() {
+    if ($('#ep_countable-popup.selected').length === 0) {
+        updateCounter();
+    }
+    $('#ep_countable-popup').toggleClass('selected');
+    $('#ep_countable-a').toggleClass('selected');
+    var i = $('#ep_countable-popup').css('width');
+    $('#ep_countable-popup').css('margin-right', "calc(16% - "+i+")");
+}
+</script>
+<li id="help_bubbles">
+  <a class="" id="helpbubbleslink" title="Help! - What does each button do?" onClick="help_bubbles()">
+    <span class="buttonicon">?</span>
+  </a>
+</li>
+<li class="separator"></li>
+
+                <li data-type="button" data-key="import_export"><a class="grouped-left" data-l10n-id="pad.toolbar.import_export.title"><button class=" buttonicon buttonicon-import_export" data-l10n-id="pad.toolbar.import_export.title"></button></a></li>
+<li data-type="button" data-key="showTimeSlider"><a class="grouped-middle" data-l10n-id="pad.toolbar.timeslider.title"><button class=" buttonicon buttonicon-history" data-l10n-id="pad.toolbar.timeslider.title"></button></a></li>
+<li data-type="button" data-key="savedRevision"><a class="grouped-right" data-l10n-id="pad.toolbar.savedRevision.title"><button class=" buttonicon buttonicon-savedRevision" data-l10n-id="pad.toolbar.savedRevision.title"></button></a></li><li class="separator"></li><li data-type="button" data-key="settings"><a class="grouped-left" data-l10n-id="pad.toolbar.settings.title"><button class=" buttonicon buttonicon-settings" data-l10n-id="pad.toolbar.settings.title"></button></a></li>
+<li data-type="button" data-key="embed"><a class="grouped-right" data-l10n-id="pad.toolbar.embed.title"><button class=" buttonicon buttonicon-embed" data-l10n-id="pad.toolbar.embed.title"></button></a></li><li class="separator"></li><li data-type="button" data-key="showusers"><a class="" data-l10n-id="pad.toolbar.showusers.title"><button class=" buttonicon buttonicon-showusers" data-l10n-id="pad.toolbar.showusers.title"></button></a></li>
+                
+            </ul>
+        </div>
+        <div id="ep_countable-popup" class="popup" style="top: 80px;">
+    <table>
+        <tr>
+            <td data-l10n-id="ep_countable.paragraphs"></td>
+            <td id="ep_countable-paragraphs"></td>
+        </tr>
+        <tr>
+            <td data-l10n-id="ep_countable.sentences"></td>
+            <td id="ep_countable-sentences"></td>
+        </tr>
+        <tr>
+            <td data-l10n-id="ep_countable.words"></td>
+            <td id="ep_countable-words"></td>
+        </tr>
+        <tr>
+            <td data-l10n-id="ep_countable.characters"></td>
+            <td id="ep_countable-characters"></td>
+        </tr>
+    </table>
+</div>
+
+
+        <div id="users">
+            
+            <div id="connectionstatus"></div>
+            <div id="myuser">
+                <div id="mycolorpicker">
+                    <div id="colorpicker"></div>
+                    <button id="mycolorpickersave" data-l10n-id="pad.colorpicker.save"></button>
+                    <button id="mycolorpickercancel" data-l10n-id="pad.colorpicker.cancel"></button>
+                    <span id="mycolorpickerpreview" class="myswatchboxhoverable"></span>
+                </div>
+                <div id="myswatchbox"><div id="myswatch"></div></div>
+                <div id="myusernameform"><input type="text" id="myusernameedit" disabled="disabled" data-l10n-id="pad.userlist.entername"></div>
+                <div id="mystatusform"><input type="text" id="mystatusedit" disabled="disabled"></div>
+            </div>
+            <div id="otherusers" aria-role="document">
+                <div id="guestprompts"></div>
+                <table id="otheruserstable" cellspacing="0" cellpadding="0" border="0">
+                    <tr><td></td></tr>
+                </table>
+                <div id="nootherusers"></div>
+            </div>
+            <div id="userlistbuttonarea"></div>
+            
+        </div>
+
+        <div id="editorcontainerbox">
+            <div id="editorcontainer" class="editorcontainer"></div>
+            <div id="editorloadingbox">
+              <div id="passwordRequired">
+                <p data-l10n-id="pad.passwordRequired">You need a password to access this pad</p>
+                <form class='passForm' method='POST'>
+                  <input id='passwordinput' type='password' name='password'><input type='submit' value='Submit'>
+                </form>
+              </div>
+              <div id="permissionDenied">
+                <p data-l10n-id="pad.permissionDenied">You do not have permission to access this pad</p>
+              </div>
+              <div id="wrongPassword">
+                <p data-l10n-id="pad.wrongPassword">Your password was wrong</p>
+              </div>
+              <div id="noCookie">
+                <p data-l10n-id="pad.noCookie">Cookie could not be found. Please allow cookies in your browser!</p>
+              </div>
+              
+              <p data-l10n-id="pad.loading" id="loading">Loading...</p>
+              
+              <noscript><strong>Sorry, you have to enable Javascript in order to use this.</strong></noscript>
+            </div>
+        </div>
+
+        <div id="settings" class="popup">
+            <h1 data-l10n-id="pad.settings.padSettings"></h1>
+            <div class="column">
+                
+                <h2 data-l10n-id="pad.settings.myView"></h2>
+                <p>
+                    <input type="checkbox" id="options-stickychat" onClick="chat.stickToScreen();">
+                    <label for="options-stickychat" data-l10n-id="pad.settings.stickychat"></label>
+                </p>
+                <p>
+                    <input type="checkbox" id="options-chatandusers" onClick="chat.chatAndUsers();">
+                    <label for="options-chatandusers" data-l10n-id="pad.settings.chatandusers"></label>
+                </p>
+                <p>
+                    <input type="checkbox" id="options-colorscheck">
+                    <label for="options-colorscheck" data-l10n-id="pad.settings.colorcheck"></label>
+                </p>
+                <p>
+                    <input type="checkbox" id="options-linenoscheck" checked>
+                    <label for="options-linenoscheck" data-l10n-id="pad.settings.linenocheck"></label>
+                </p>
+                <p>
+                    <input type="checkbox" id="options-rtlcheck">
+                    <label for="options-rtlcheck" data-l10n-id="pad.settings.rtlcheck"></label>
+                </p>
+                <p>
+  <input type="checkbox" id="options-markdown" unchecked></input> 
+  <label for="options-markdown">Show markdown</label>
+</p>
+<p>
+<input type="checkbox" id="options-desktopNotifications" checked></input> 
+<label for="options-desktopNotifications">Desktop Notifications</label>
+</p>
+
+                <table>
+                    
+                    <tr>
+                        <td>
+                            <label for="viewfontmenu" data-l10n-id="pad.settings.fontType">Font type:</label>
+                        </td>
+                        <td>
+                            <select id="viewfontmenu">
+                                <option value="normal" data-l10n-id="pad.settings.fontType.normal"></option>
+                                <option value="monospace" data-l10n-id="pad.settings.fontType.monospaced"></option>
+                                <option value="montserrat" data-l10n-id="pad.settings.fontType.montserrat"></option>
+                                <option value="opendyslexic" data-l10n-id="pad.settings.fontType.opendyslexic"></option>
+                                <option value="comicsans" data-l10n-id="pad.settings.fontType.comicsans"></option>
+                                <option value="georgia" data-l10n-id="pad.settings.fontType.georgia"></option>
+                                <option value="impact" data-l10n-id="pad.settings.fontType.impact"></option>
+                                <option value="lucida" data-l10n-id="pad.settings.fontType.lucida"></option>
+                                <option value="lucidasans" data-l10n-id="pad.settings.fontType.lucidasans"></option>
+                                <option value="palatino" data-l10n-id="pad.settings.fontType.palatino"></option>
+                                <option value="robotomono" data-l10n-id="pad.settings.fontType.robotomono"></option>
+                                <option value="tahoma" data-l10n-id="pad.settings.fontType.tahoma"></option>
+                                <option value="timesnewroman" data-l10n-id="pad.settings.fontType.timesnewroman"></option>
+                                <option value="trebuchet" data-l10n-id="pad.settings.fontType.trebuchet"></option>
+                                <option value="verdana" data-l10n-id="pad.settings.fontType.verdana"></option>
+                                <option value="symbol" data-l10n-id="pad.settings.fontType.symbol"></option>
+                                <option value="webdings" data-l10n-id="pad.settings.fontType.webdings"></option>
+                                <option value="wingdings" data-l10n-id="pad.settings.fontType.wingdings"></option>
+                                <option value="sansserif" data-l10n-id="pad.settings.fontType.sansserif"></option>
+                                <option value="serif" data-l10n-id="pad.settings.fontType.serif"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="languagemenu" data-l10n-id="pad.settings.language">Language:</label>
+                        </td>
+                        <td>
+                            <select id="languagemenu">
+                                
+                                <option value="af">Afrikaans</option>
+                                
+                                <option value="ar">Ø§ÙØ¹Ø±Ø¨ÙØ©</option>
+                                
+                                <option value="ast">asturianu</option>
+                                
+                                <option value="az">azÉrbaycanca</option>
+                                
+                                <option value="azb">ØªÙØ±Ú©Ø¬Ù</option>
+                                
+                                <option value="bcc">Ø¨ÙÙÚÛ ÙÚ©Ø±Ø§ÙÛ</option>
+                                
+                                <option value="be-tarask">Ð±ÐµÐ»Ð°ÑÑÑÐºÐ°Ñ (ÑÐ°ÑÐ°ÑÐºÐµÐ²ÑÑÐ°)â</option>
+                                
+                                <option value="bg">Ð±ÑÐ»Ð³Ð°ÑÑÐºÐ¸</option>
+                                
+                                <option value="bn">à¦¬à¦¾à¦à¦²à¦¾</option>
+                                
+                                <option value="br">brezhoneg</option>
+                                
+                                <option value="bs">bosanski</option>
+                                
+                                <option value="ca">catalÃ </option>
+                                
+                                <option value="cs">Äesky</option>
+                                
+                                <option value="da">dansk</option>
+                                
+                                <option value="de">Deutsch</option>
+                                
+                                <option value="diq">Zazaki</option>
+                                
+                                <option value="dsb">dolnoserbski</option>
+                                
+                                <option value="el">ÎÎ»Î»Î·Î½Î¹ÎºÎ¬</option>
+                                
+                                <option value="en-gb">British English</option>
+                                
+                                <option value="en">English</option>
+                                
+                                <option value="eo">Esperanto</option>
+                                
+                                <option value="es">espaÃ±ol</option>
+                                
+                                <option value="et">eesti</option>
+                                
+                                <option value="eu">euskara</option>
+                                
+                                <option value="fa">ÙØ§Ø±Ø³Û</option>
+                                
+                                <option value="fi">suomi</option>
+                                
+                                <option value="fo">fÃ¸royskt</option>
+                                
+                                <option value="fr">franÃ§ais</option>
+                                
+                                <option value="fy">Frysk</option>
+                                
+                                <option value="gl">galego</option>
+                                
+                                <option value="gu">àªà«àªàª°àª¾àª¤à«</option>
+                                
+                                <option value="he">×¢××¨××ª</option>
+                                
+                                <option value="hi">à¤¹à¤¿à¤¨à¥à¤¦à¥</option>
+                                
+                                <option value="hr">hrvatski</option>
+                                
+                                <option value="hsb">hornjoserbsce</option>
+                                
+                                <option value="hu">magyar</option>
+                                
+                                <option value="hy">ÕÕ¡ÕµÕ¥ÖÕ¥Õ¶</option>
+                                
+                                <option value="ia">interlingua</option>
+                                
+                                <option value="is">Ã­slenska</option>
+                                
+                                <option value="it">italiano</option>
+                                
+                                <option value="ja">æ¥æ¬èª</option>
+                                
+                                <option value="kab">Taqbaylit</option>
+                                
+                                <option value="km">áá¶áá¶ááááá</option>
+                                
+                                <option value="ko">íêµ­ì´</option>
+                                
+                                <option value="krc">ÐºÑÐ°ÑÐ°ÑÐ°Ð¹-Ð¼Ð°Ð»ÐºÑÐ°Ñ</option>
+                                
+                                <option value="ksh">Ripoarisch</option>
+                                
+                                <option value="ku-latn">KurdÃ® (latÃ®nÃ®)â</option>
+                                
+                                <option value="lb">LÃ«tzebuergesch</option>
+                                
+                                <option value="lt">lietuviÅ³</option>
+                                
+                                <option value="lv">latvieÅ¡u</option>
+                                
+                                <option value="map-bms">Basa Banyumasan</option>
+                                
+                                <option value="mg">Malagasy</option>
+                                
+                                <option value="mk">Ð¼Ð°ÐºÐµÐ´Ð¾Ð½ÑÐºÐ¸</option>
+                                
+                                <option value="ml">à´®à´²à´¯à´¾à´³à´</option>
+                                
+                                <option value="mn">Ð¼Ð¾Ð½Ð³Ð¾Ð»</option>
+                                
+                                <option value="mr">à¤®à¤°à¤¾à¤ à¥</option>
+                                
+                                <option value="ms">Bahasa Melayu</option>
+                                
+                                <option value="nah">NÄhuatl</option>
+                                
+                                <option value="nap">Nnapulitano</option>
+                                
+                                <option value="nb">norsk (bokmÃ¥l)â</option>
+                                
+                                <option value="nds">PlattdÃ¼Ã¼tsch</option>
+                                
+                                <option value="ne">à¤¨à¥à¤ªà¤¾à¤²à¥</option>
+                                
+                                <option value="nl">Nederlands</option>
+                                
+                                <option value="nn">norsk (nynorsk)â</option>
+                                
+                                <option value="oc">occitan</option>
+                                
+                                <option value="os">ÐÑÐ¾Ð½</option>
+                                
+                                <option value="pa">à¨ªà©°à¨à¨¾à¨¬à©</option>
+                                
+                                <option value="pl">polski</option>
+                                
+                                <option value="pms">PiemontÃ¨is</option>
+                                
+                                <option value="ps">Ù¾ÚØªÙ</option>
+                                
+                                <option value="pt-br">portuguÃªs do Brasil</option>
+                                
+                                <option value="pt">portuguÃªs</option>
+                                
+                                <option value="qqq">Message documentation</option>
+                                
+                                <option value="ro">romÃ¢nÄ</option>
+                                
+                                <option value="ru">ÑÑÑÑÐºÐ¸Ð¹</option>
+                                
+                                <option value="sco">Scots</option>
+                                
+                                <option value="sd">Ø³ÙÚÙ</option>
+                                
+                                <option value="shn">áá­áµáºáááá¸</option>
+                                
+                                <option value="sk">slovenÄina</option>
+                                
+                                <option value="sl">slovenÅ¡Äina</option>
+                                
+                                <option value="sq">shqip</option>
+                                
+                                <option value="sr-ec">ÑÑÐ¿ÑÐºÐ¸ (ÑÐ¸ÑÐ¸Ð»Ð¸ÑÐ°)â</option>
+                                
+                                <option value="sv">svenska</option>
+                                
+                                <option value="ta">à®¤à®®à®¿à®´à¯</option>
+                                
+                                <option value="tcy">à²¤à³à²³à³</option>
+                                
+                                <option value="te">à°¤à±à°²à±à°à±</option>
+                                
+                                <option value="th">à¹à¸à¸¢</option>
+                                
+                                <option value="tr">TÃ¼rkÃ§e</option>
+                                
+                                <option value="uk">ÑÐºÑÐ°ÑÐ½ÑÑÐºÐ°</option>
+                                
+                                <option value="vi">Tiáº¿ng Viá»t</option>
+                                
+                                <option value="zh-hans">ä¸­æï¼ç®ä½ï¼â</option>
+                                
+                                <option value="zh-hant">ä¸­æï¼ç¹é«ï¼â</option>
+                                
+                            </select>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div class="column">
+                
+                <h2 data-l10n-id="pad.settings.globalView"></h2>
+                
+            </div>
+        </div>
+
+        <div id="import_export" class="popup">
+            <h1 data-l10n-id="pad.importExport.import_export"></h1>
+            <div class="column acl-write">
+                
+                <h2 data-l10n-id="pad.importExport.import"></h2>
+                <div class="importmessage" id="importmessageabiword" data-l10n-id="pad.importExport.abiword.innerHTML"></div><br>
+                <form id="importform" method="post" action="" target="importiframe" enctype="multipart/form-data">
+                    <div class="importformdiv" id="importformfilediv">
+                        <input type="file" name="file" size="10" id="importfileinput">
+                        <div class="importmessage" id="importmessagefail"></div>
+                    </div>
+                    <div id="import"></div>
+                    <div class="importmessage" id="importmessagesuccess" data-l10n-id="pad.importExport.importSuccessful"></div>
+                    <div class="importformdiv" id="importformsubmitdiv">
+                        <span class="nowrap">
+                            <input type="submit" name="submit" value="Import Now" disabled="disabled" id="importsubmitinput">
+                            <div alt="" id="importstatusball" class="loadingAnimation" align="top"></div>
+                        </span>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="column" id="exportColumn">
+                <h2 data-l10n-id="pad.importExport.export"></h2>
+                
+                <a id="exportetherpada" target="_blank" class="exportlink"><div class="exporttype" id="exportetherpad" data-l10n-id="pad.importExport.exportetherpad"></div></a>
+                <a id="exporthtmla" target="_blank" class="exportlink"><div class="exporttype" id="exporthtml" data-l10n-id="pad.importExport.exporthtml"></div></a>
+                <a id="exportplaina" target="_blank" class="exportlink"><div class="exporttype" id="exportplain" data-l10n-id="pad.importExport.exportplain"></div></a>
+                <a id="exportworda" target="_blank" class="exportlink"><div class="exporttype" id="exportword" data-l10n-id="pad.importExport.exportword"></div></a>
+                <a id="exportpdfa" target="_blank" class="exportlink"><div class="exporttype" id="exportpdf" data-l10n-id="pad.importExport.exportpdf"></div></a>
+                <a id="exportopena" target="_blank" class="exportlink"><div class="exporttype" id="exportopen" data-l10n-id="pad.importExport.exportopen"></div></a>
+                <a id="exportmarkdowna" target="_blank" class="exportlink">
+  <div class="exporttype" id="exportmarkdown">Markdown</div>
+</a>
+<style>
+#exportmarkdowna:before {
+  content: "\e805";
+}
+#exportmarkdown{
+  margin-left:-4px;
+}
+</style>
+
+            </div>
+        </div>
+
+        <div id="connectivity" class="popup">
+            
+                <div class="connected visible">
+                  <h2 data-l10n-id="pad.modals.connected"></h2>
+                </div>
+                <div class="reconnecting">
+                  <h1 data-l10n-id="pad.modals.reconnecting"></h1>
+                  <p class='loadingAnimation'></p>
+                </div>
+                <div class="userdup">
+                  <h1 data-l10n-id="pad.modals.userdup"></h1>
+                  <h2 data-l10n-id="pad.modals.userdup.explanation"></h2>
+                  <p id="defaulttext" data-l10n-id="pad.modals.userdup.advice"></p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect"></button>
+                </div>
+                <div class="unauth">
+                  <h1 data-l10n-id="pad.modals.unauth"></h1>
+                  <p id="defaulttext" data-l10n-id="pad.modals.unauth.explanation"></p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect"></button>
+                </div>
+                <div class="looping">
+                  <h1 data-l10n-id="pad.modals.disconnected"></h1>
+                  <h2 data-l10n-id="pad.modals.looping.explanation"></h2>
+                  <p data-l10n-id="pad.modals.looping.cause"></p>
+                </div>
+                <div class="initsocketfail">
+                  <h1 data-l10n-id="pad.modals.initsocketfail"></h1>
+                  <h2 data-l10n-id="pad.modals.initsocketfail.explanation"></h2>
+                  <p data-l10n-id="pad.modals.initsocketfail.cause"></p>
+                </div>
+                <div class="slowcommit with_reconnect_timer">
+                  <h1 data-l10n-id="pad.modals.disconnected"></h1>
+                  <h2 data-l10n-id="pad.modals.slowcommit.explanation"></h2>
+                  <p id="defaulttext" data-l10n-id="pad.modals.slowcommit.cause"></p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect"></button>
+                </div>
+                <div class="badChangeset with_reconnect_timer">
+                  <h1 data-l10n-id="pad.modals.disconnected"></h1>
+                  <h2 data-l10n-id="pad.modals.badChangeset.explanation"></h2>
+                  <p id="defaulttext" data-l10n-id="pad.modals.badChangeset.cause"></p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect"></button>
+                </div>
+                <div class="corruptPad">
+                  <h1 data-l10n-id="pad.modals.disconnected"></h1>
+                  <h2 data-l10n-id="pad.modals.corruptPad.explanation"></h2>
+                  <p data-l10n-id="pad.modals.corruptPad.cause"></p>
+                </div>
+                <div class="deleted">
+                  <h1 data-l10n-id="pad.modals.deleted"></h1>
+                  <p data-l10n-id="pad.modals.deleted.explanation"></p>
+                </div>
+                <div class="disconnected with_reconnect_timer">
+                  
+                  <h1 data-l10n-id="pad.modals.disconnected"></h1>
+                  <h2 data-l10n-id="pad.modals.disconnected.explanation"></h2>
+                  <p id="defaulttext" data-l10n-id="pad.modals.disconnected.cause"></p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect"></button>
+                  
+                </div>
+                <form id="reconnectform" method="post" action="/ep/pad/reconnect" accept-charset="UTF-8" style="display: none;">
+                    <input type="hidden" class="padId" name="padId">
+                    <input type="hidden" class="diagnosticInfo" name="diagnosticInfo">
+                    <input type="hidden" class="missedChanges" name="missedChanges">
+                </form>
+            
+        </div>
+
+        <div id="embed" class="popup">
+            
+            <div id="embedreadonly" class="right acl-write">
+                <input type="checkbox" id="readonlyinput">
+                <label for="readonlyinput" data-l10n-id="pad.share.readonly"></label>
+            </div>
+            <h1 data-l10n-id="pad.share"></h1>
+            <div id="linkcode">
+                <h2 data-l10n-id="pad.share.link"></h2>
+                <input id="linkinput" type="text" value="" onclick="this.select()">
+            </div>
+            <br>
+            <div id="embedcode">
+                <h2 data-l10n-id="pad.share.emebdcode"></h2>
+                <input id="embedinput" type="text" value="" onclick="this.select()">
+            </div>
+            <br>
+<h2>Rss Feeds</h2>
+<p>
+<a class="rssfeed" href="../p/DK81-ShowNotes/feed" title="Pad Feed">
+<img src="../static/plugins/ep_rss/static/img/rss.gif">
+</a>
+
+</p>
+
+        </div>
+
+        <div id="chaticon" onclick="chat.show();return false;" title="Chat (Alt C)">
+            <span id="chatlabel" data-l10n-id="pad.chat"></span>
+            <span class="buttonicon buttonicon-chat"></span>
+            <span id="chatcounter">0</span>
+        </div>
+
+        <div id="chatbox">
+            <div id="titlebar"><span id ="titlelabel" data-l10n-id="pad.chat"></span>
+              <a id="titlecross" onClick="chat.hide();return false;">-&nbsp;</a>
+              <a id="titlesticky" onClick="chat.stickToScreen(true);$('#options-stickychat').prop('checked', true);return false;" title="Stick chat to screen">â&nbsp;&nbsp;</a>
+            </div>
+            <div id="chattext" class="authorColors" aria-live="polite" aria-relevant="additions removals text" role="log" aria-atomic="false">
+                <div alt="loading.." id="chatloadmessagesball" class="chatloadmessages loadingAnimation" align="top"></div>
+                <button id="chatloadmessagesbutton" class="chatloadmessages" data-l10n-id="pad.chat.loadmessages"></button>
+            </div>
+            <div id="chatinputbox">
+                <form>
+                    <input id="chatinput" type="text" maxlength="999">
+                </form>
+            </div>
+        </div>
+
+        <div id="focusprotector">&nbsp;</div>
+
+        
+
+        
+        <script type="text/javascript">
+            // @license magnet:?xt=urn:btih:8e4f440f4c65981c5bf93c76d35135ba5064d8b7&dn=apache-2.0.txt
+            (function() {
+              // Display errors on page load to the user
+              // (Gets overridden by padutils.setupGlobalExceptionHandler)
+              var originalHandler = window.onerror;
+              window.onerror = function(msg, url, line) {
+                var box   = document.getElementById('editorloadingbox');
+                box.innerHTML = '<p><b>An error occurred while loading the pad</b></p>'
+                              + '<p><b>'+msg+'</b> '
+                              + '<small>in '+ url +' (line '+ line +')</small></p>';
+                // call original error handler
+                if(typeof(originalHandler) == 'function') originalHandler.call(null, arguments);
+              };
+            })();
+            // @license-end
+        </script>
+
+        <script type="text/javascript" src="../static/js/require-kernel.js"></script>
+        <script type="text/javascript" src="../socket.io/socket.io.js"></script>
+
+        <!-- Include base packages manually (this help with debugging) -->
+        <script type="text/javascript" src="../javascripts/lib/ep_etherpad-lite/static/js/pad.js?callback=require.define"></script>
+        <script type="text/javascript" src="../javascripts/lib/ep_etherpad-lite/static/js/ace2_common.js?callback=require.define"></script>
+
+        
+        <script type="text/javascript" src="../static/custom/pad.js"></script>
+        
+
+        <!-- Bootstrap page -->
+        <script type="text/javascript">
+            // @license magnet:?xt=urn:btih:8e4f440f4c65981c5bf93c76d35135ba5064d8b7&dn=apache-2.0.txt
+            var clientVars = {};
+            (function () {
+              var pathComponents = location.pathname.split('/');
+
+              // Strip 'p' and the padname from the pathname and set as baseURL
+              var baseURL = pathComponents.slice(0,pathComponents.length-2).join('/') + '/';
+
+              require.setRootURI(baseURL + "javascripts/src");
+              require.setLibraryURI(baseURL + "javascripts/lib");
+              require.setGlobalKeyPath("require");
+
+              $ = jQuery = require('ep_etherpad-lite/static/js/rjquery').jQuery; // Expose jQuery #HACK
+              browser = require('ep_etherpad-lite/static/js/browser');
+
+              var plugins = require('ep_etherpad-lite/static/js/pluginfw/client_plugins');
+              var hooks = require('ep_etherpad-lite/static/js/pluginfw/hooks');
+
+              plugins.baseURL = baseURL;
+              plugins.update(function () {
+                hooks.plugins = plugins;
+
+                // Call documentReady hook
+                $(function() {
+                  hooks.aCallAll('documentReady');
+                });
+
+                var pad = require('ep_etherpad-lite/static/js/pad');
+                pad.baseURL = baseURL;
+                pad.init();
+              });
+
+              /* TODO: These globals shouldn't exist. */
+              pad = require('ep_etherpad-lite/static/js/pad').pad;
+              chat = require('ep_etherpad-lite/static/js/chat').chat;
+              padeditbar = require('ep_etherpad-lite/static/js/pad_editbar').padeditbar;
+              padimpexp = require('ep_etherpad-lite/static/js/pad_impexp').padimpexp;
+            }());
+            // @license-end
+        </script>
+        <div style="display:none"><a href="/javascript" data-jslicense="1">JavaScript license information</a></div>
+        <script src="../static/plugins/ep_markdown/static/js/main.js"></script>
+<script type="text/javascript">
+(function($, window){
+
+    var defaults = {
+        type: '',
+        text: '',
+        top: 0,
+        left: 0,
+        angle: 45,
+        size: 50,
+        distance: 50,
+        template: '<div class="grumble" style="display:none;filter:progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\')">&#160;</div>',
+        textTemplate: '<div class="grumble-text" style="display:none;"><div class="outer"><div class="inner">{text}</div></div></div>'
+    };
+
+    window.Bubble = function(options){
+        this.options = $.extend({},defaults,options);
+        this.context = document.body;
+        this.css = {};
+        this.create();
+    };
+
+    window.Bubble.prototype = {
+
+        create: function(){
+			var tmpl = window.Bubble.prototype.tmpl;
+            this.bubble = $( tmpl(this.options.template) );
+            this.text = $( tmpl(this.options.textTemplate, { text:this.options.text }));
+            this.setBubbleRotation();
+            this.prepare();
+        },
+
+        /*
+          the rotation is adjusted because the background image defaults to what would look like 45 degrees
+          I dont like this, the code should be agnostic of the image and style
+        */
+        setBubbleRotation: function(){
+            this.rotateDeg = this.options.angle - 45;
+            if( this.rotateDeg < 0 ){
+                this.rotateDeg += 360;
+            }
+        },
+
+        prepare: function(){
+            var isAlreadyInserted = this.bubble.get(0).parentNode;
+
+            this.applyStyles();
+
+            if( isAlreadyInserted !== this.context){
+                this.append();
+            }
+
+            this.rotate();
+        },
+
+        applyStyles: function(){
+
+            this.setPosition();
+
+            this.css.width = this.options.size;
+            this.css.height = this.options.size;
+
+            this.text
+                .css(this.css)
+                .addClass('grumble-text'+this.options.size);
+
+            this.bubble
+                .css(this.css)
+                .addClass(this.options.type+'grumble'+this.options.size);
+
+            // remember calculated position for use by external components
+            this.realLeft = this.css.left;
+            this.realTop = this.css.top;
+        },
+
+        setPosition: function(){
+            var ratio = this.options.angle/-360,
+                xRadius = Math.cos(ratio*2*Math.PI),
+                yRadius = Math.sin(ratio*2*Math.PI),
+                halfSize = this.options.size/2,
+                sizeSquared = this.options.size*this.options.size,
+                halfedHypotenuse = Math.sqrt(sizeSquared + sizeSquared)/2,
+                top = (this.options.top+halfSize) - xRadius * (this.options.distance + halfedHypotenuse),
+                left = (this.options.left-halfSize) - yRadius * (this.options.distance + halfedHypotenuse);
+
+            this.css.top = top - this.options.size;
+            this.css.left = left;
+        },
+
+        append: function(){
+            var body = this.context;
+            this.bubble.appendTo(body);
+            this.text.appendTo(body);
+        },
+
+        rotate: function(){
+            if(browser.msie === true){
+                this.ieRotate();
+            } else {
+                this.cssRotate();
+            }
+        },
+
+        cssRotate: function(){
+            this.bubble.css({
+                '-moz-transform': 'rotate('+this.rotateDeg+'deg)',
+                '-webkit-transform': 'rotate('+this.rotateDeg+'deg)',
+                'transform': 'rotate('+this.rotateDeg+'deg)'
+            });
+        },
+
+        ieRotate: function(){
+            var deg = this.rotateDeg,
+                deg2radians = Math.PI * 2 / 360,
+                rad = deg * deg2radians,
+                costheta = Math.cos(rad),
+                sintheta = Math.sin(rad),
+                element = this.bubble.get(0),
+                width, height;
+
+            // use Matrix filter
+            element.filters.item(0).M11 = costheta;
+            element.filters.item(0).M12 = -sintheta;
+            element.filters.item(0).M21 = sintheta;
+            element.filters.item(0).M22 = costheta;
+
+            width = this.bubble.width();
+            height = this.bubble.height();
+
+            // adjust position, IE rotates from center but also increases the width and height
+            this.bubble.css({
+                left: this.css.left - ((width - this.options.size)/2),
+                top: this.css.top - ((height - this.options.size)/2)
+            });
+        },
+
+        adjust: function(options){
+            $.extend(this.options,options);
+            this.prepare();
+        },
+		
+		tmpl: function(template, obj, escapeContent) {
+			for (var key in obj) {
+				if (obj[key] === null) obj[key] = '';
+				if (typeof (obj[key]) === 'object' && obj[key].length) { obj[key] = obj[key].join(', '); }
+				template = template.replace(new RegExp('{' + key + '}', 'g'), escapeContent ? escape(obj[key]) : obj[key]);
+			}
+			return template;
+		}
+		
+    };
+}($, window));
+</script>
+<script type="text/javascript">
+(function ($, Bubble) {
+
+	// $.fn.grumble.defaults references this object. $.fn.grumble.defaults should be used for extension
+	var defaults = {
+		text: '', // Accepts html
+		angle: 45, // 0-360
+		size: 50, // Default size
+		sizeRange: [50,100,150,200], // Depending on the amount of text, one of these sizes (px) will be used
+		distance: 0,
+		type: '', // this string is appended to the bubble CSS classname
+		showAfter: 0,
+		hideAfter: false,
+		hideOnClick: false,
+		hasHideButton: false,
+		buttonTemplate: '<div class="grumble-button" style="display:none" title="{hideText}">x</div>',
+		buttonHideText: 'Hide',
+		onHide: function(){},
+		onShow: function(){},
+		onBeginHide: function(){}
+	},
+	liveBubbles = [];
+
+    $.fn.grumble = function (settings) {
+
+		if( typeof settings === 'string' ){
+			this.trigger({type:settings+'.bubble'});
+			return this;
+		}
+
+		return this.each(function () {
+            var $me = $(this),
+				options = $.extend({}, $.fn.grumble.defaults, settings, $me.data('bubble') || {}),
+				offset = $me.offset(),
+				size = calculateTextHeight(options.size, options.sizeRange, options.text),
+				grumble,
+				button,
+				_private;
+
+			options.top = offset.top + ($me.height());
+			options.left = offset.left + ($me.width()/2);
+
+			_private = {
+
+				init: function(){
+					grumble = new Bubble({
+						text: options.text,
+						top: options.top,
+						left: options.left,
+						angle: options.angle,
+						size: size,
+						distance: options.distance,
+						type: options.type
+					});
+
+					if(options.hasHideButton) this.addButton();
+
+					liveBubbles.push({
+						grumble: grumble,
+						button: button,
+						onHide: function(){
+							_private.doOnBeginHideCallback();
+							_private.doOnHideCallback();
+						}
+					});
+
+					if(options.showAfter) this.createFxQueue();
+					this.showBubble();
+					if(options.hideAfter) this.hideBubble();
+					this.prepareEvents();
+				},
+
+				addButton: function(){
+					var tmpl = Bubble.prototype.tmpl;
+				
+					button = $( tmpl(options.buttonTemplate,{hideText:options.buttonHideText}))
+						.css({
+							left:grumble.realLeft+size-10,
+							top:grumble.realTop+size-10
+						})
+						.insertAfter(grumble.text);
+				},
+
+				rePositionButton: function(){
+
+					if( !button ) return;
+
+					button
+						.css({
+							left:grumble.realLeft+size-10,
+							top:grumble.realTop+size-10
+						});
+				},
+
+				createFxQueue : function(){
+					grumble.bubble.queue('fx');
+					grumble.text.queue('fx');
+					grumble.bubble.delay(options.showAfter);
+					grumble.text.delay(options.showAfter);
+					if (button) button.delay(options.showAfter);
+				},
+
+				showBubble: function(){
+					if(browser.msie === true){
+						grumble.bubble.queue('fx',function(next){
+							grumble.bubble.show();
+							next();
+						});
+						grumble.text.queue('fx',function(next){
+							grumble.text.show();
+							next();
+						});
+						if(button){
+							button.queue('fx',function(next){
+								button.show();
+								next();
+							});
+						}
+					} else {
+						grumble.bubble.fadeTo('fast',1);
+						grumble.text.fadeTo('fast',1);
+						if(button) button.fadeTo('fast',1);
+					}
+
+					grumble.bubble.queue('fx',function(next){
+						if(options.hideOnClick || options.hasHideButton) _private.hideOnClick();
+						next();
+					});
+
+					grumble.bubble.queue('fx',function(next){
+						_private.doOnShowCallback();
+						next();
+					});
+				},
+
+				hideBubble: function(){
+					grumble.bubble.delay(options.hideAfter);
+					grumble.text.delay(options.hideAfter);
+
+					grumble.bubble.queue('fx',function(next){
+						_private.doOnBeginHideCallback();
+						next();
+					});
+
+					if(browser.msie === true){
+						grumble.bubble.queue('fx',function(next){
+							grumble.bubble.hide();
+							next();
+						});
+						grumble.bubble.queue('fx',function(next){
+							grumble.text.hide();
+							next();
+						});
+						if(button){
+							button.queue('fx',function(next){
+								button.hide();
+								next();
+							});
+						}
+					} else {
+						grumble.bubble.fadeOut();
+						grumble.text.fadeOut();
+						if (button) button.fadeOut();
+					}
+
+					grumble.bubble.queue('fx',function(next){
+						_private.doOnHideCallback();
+						next();
+					});
+				},
+
+				doOnBeginHideCallback: function(){
+					options.onBeginHide(grumble, button);
+				},
+
+				doOnHideCallback: function(){
+					options.onHide(grumble, button);
+				},
+
+				doOnShowCallback: function(){
+					options.onShow(grumble, button);
+				},
+
+				hideOnClick: function(){
+					$(document.body)
+						.bind('click.bubble',function(){
+							_private.hideBubble(grumble, button);
+							//$(this).unbind('click.bubble');
+						});
+				},
+
+				prepareEvents: function(){
+					$(window).bind('resize.bubble', function(){
+						var offset = $me.offset(),
+							top = offset.top + ($me.height()),
+							left = offset.left + ($me.width()/2);
+
+						grumble.adjust({
+							top: top,
+							left: left
+						});
+
+						_private.rePositionButton();
+					});
+
+					$me.bind('hide.bubble',  function(){
+						_private.hideBubble(grumble, button);
+						$(this).unbind('hide.bubble');
+					});
+
+				}
+			};
+
+			_private.init();
+        });
+	};
+
+	$.fn.grumble.defaults = defaults;
+
+	$(document).bind('keyup.bubble',function(event){ // Pressing the escape key will stop all bubbles
+		if(event.keyCode === 27){
+			$.each(liveBubbles, function(index,object){
+				object.grumble.bubble.clearQueue().hide();
+				object.grumble.text.clearQueue().hide();
+				if(object.button) object.button.clearQueue().hide();
+				object.onHide();
+			});
+		}
+	});
+
+	function calculateTextHeight(defaultSize, range, text){
+		var el = $('<div style="position:absolute;visibilty:hidden;width:'+defaultSize+'px;">'+text+'</div>')
+					.appendTo($(document.body)),
+			height = el.outerHeight()*2+(defaultSize*0.20)/*the 20% is approx padding: could be more clever*/,
+			index = range.indexOf(defaultSize);
+
+		el.remove();
+
+		if(height >= defaultSize && range[++index]){
+			return calculateTextHeight(range[index], range, text); //WARNING: RECURSION!
+		}
+
+		return defaultSize;
+	}
+
+}(jQuery, Bubble));
+</script>
+<script type="text/javascript">
+function help_bubbles()
+{
+  $('#chaticon').grumble(
+        {
+                angle: 330,
+                distance: 30,
+                showAfter: 1000,
+                hideAfter: false,
+                buttonHideText: 'Pop!',
+                type: 'alt-',
+                hasHideButton: true,
+                text: 'Chat is down here'
+        }
+  );
+  $('.buttonicon-history').grumble(
+        {
+                text: 'Timeslider view',
+                angle: 180,
+                distance: 5,
+                showAfter: 10000,
+                hideAfter: 2000,
+        }
+  );
+  $('.buttonicon-savedRevision').grumble(
+        {
+                text: 'Save revision',
+                angle: 180,
+                distance: 5,
+                showAfter: 8000,
+                hideAfter: 2000,
+        }
+  );
+  $('.buttonicon-settings').grumble(
+        {
+                text: 'Your Settings',
+                angle: 180,
+                distance: 5,
+                showAfter: 6000,
+                hideAfter: 2000,
+        }
+  );
+  $('.buttonicon-import_export').grumble(
+        {
+                text: 'Import & Export',
+                angle: 180,
+                distance: 3,
+                showAfter: 4000,
+                hideAfter: 2000,
+        }
+  );
+  $('.buttonicon-embed').grumble(
+        {
+                text: 'Share & Embed pad',
+                angle: 180,
+                distance: 5,
+                showAfter: 2000,
+                hideAfter: 2000,
+        }
+  );
+  $('.buttonicon-showusers').grumble(
+        {
+                text: 'Who is on this pad?',
+                angle: 220,
+                distance: 5,
+                showAfter: 12000,
+                hideAfter: 2000,
+        }
+  );
+  $('.buttonicon-clearauthorship').grumble(
+        {
+                text: 'Clear author colours',
+                angle: 220,
+                distance: 5,
+                showAfter: 14000,
+                hideAfter: 2000,
+        }
+  );
+
+
+}
+</script>
+
+</html>
+
+
+
+#####EOF#####
+
+

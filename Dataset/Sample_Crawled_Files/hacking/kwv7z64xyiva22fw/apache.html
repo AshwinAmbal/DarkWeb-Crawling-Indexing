@@ -1,0 +1,1743 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Apache Subversion</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<style type="text/css">
+  @import url("/style/site.css");
+</style>
+</head>
+
+<body>
+<div id="site-banner">
+<div style="float: right; width: 379px; height: 80px; font-style: italic; 
+            text-align: center;">
+  <a href="https://www.apache.org/"
+  ><img src="/images/apache-logo.png"
+        alt="Apache Software Foundation" /></a>
+</div>
+<a href="/">
+  <img src="/images/svn-square.jpg"
+       alt="[S]"
+       style="width: 80px; height: 80px;"/>
+  <img src="/images/svn-name-banner.jpg"
+       alt="Subversion"
+       style="width: 320px; height: 80px;"/></a>
+</div> <!-- #site-banner -->
+
+<div id="site-nav">
+<div id="site-nav-menu">
+<ul>
+  <li>About Subversion
+    <ul>
+      <li><a href="/news.html">News</a></li>
+      <li><a href="/features.html">Features</a></li>
+      <li><a href="/docs/">Documentation</a></li>
+      <li><a href="/faq.html">FAQ</a></li>
+      <li><a href="/roadmap.html">Roadmap</a></li>
+      <li><a href="/security/">Security</a></li>
+      <li><a href="/quick-start">Quick Start</a></li>
+    </ul>
+  </li>
+  <li>Getting Subversion
+      <ul>
+      <!-- The ?update= parameter is used to only offer mirrors that have
+           synced after the specified date. We update it after a security
+           release when the email announcement is less than 24 hours after
+           the upload to /dist/release, in order to prevent offering mirrors
+           that don't carry the just-released artifacts. -->
+      <li><a href="/download.cgi?update=201708081800">Source Download</a></li>
+      <li><a href="/packages.html">Binary Packages</a></li>
+      <li><a href="/docs/release-notes/">Release Notes</a></li>
+    </ul>
+  </li>
+  <li>Community
+    <ul>
+      <li><a href="/mailing-lists.html">Mailing Lists</a></li>
+      <li><a href="/reporting-issues.html">Reporting Issues</a></li>
+      <li><a href="https://cwiki.apache.org/confluence/display/SVN/">Wiki</a></li>
+      <li><a href="/contributing.html">Getting Involved</a></li>
+    </ul>
+  </li>
+  <li>About the <acronym title="Apache Software Foundation">ASF</acronym>
+    <ul>
+      <li><a class="linkaway"
+             href="https://www.apache.org/licenses/">Licenses</a></li>
+      <li><a class="linkaway"
+             href="https://www.apache.org/foundation/sponsorship.html">Donate</a></li>
+      <li><a class="linkaway"
+             href="https://www.apache.org/foundation/thanks.html">Thanks</a></li>
+    </ul>
+  </li>
+</ul>
+</div> <!-- #site-nav-menu -->
+
+<div id="site-search">
+  <form action="https://www.google.com/search" method="get"
+        style="margin-top: 10px; margin-bottom: 10px; display: inline;">
+  <div style="display: inline;">
+    <input value="subversion.apache.org" name="sitesearch" type="hidden" />
+    <input name="q" id="query" type="text" placeholder="Search..."
+           style="width: 10em"
+           />
+    <input name="Search" value="Go" type="submit"/>
+  </div>
+  </form>
+</div> <!-- #site-search -->
+
+<div id="site-svnbook-block">
+<p>Read the official Subversion
+   documentation <a href="http://svnbook.org" class="linkaway">online</a>!</p>
+<p><a href="http://svnbook.org/"
+      ><img src="/images/svnbook-cover.jpg"
+            alt="Version Control With Subversion"/></a></p>
+</div> <!-- #site-svnbook-block -->
+
+<div id="copyright">
+<p>Copyright &#169; 2018 <a href="https://www.apache.org/">The Apache
+   Software Foundation</a>, Licensed under
+   the <a href="https://www.apache.org/licenses/LICENSE-2.0" >Apache
+   License, Version 2.0</a>.  Apache, Apache Subversion, and
+   the Apache feather logo are trademarks of The Apache Software
+   Foundation.  Subversion and the Apache Subversion logo are
+   registered trademarks of The Apache Software Foundation.</p>
+</div> <!-- #copyright -->
+
+</div> <!-- #site-nav -->
+
+<div id="site-content">
+<div id="site-notice">
+
+<!-- PUT SITE-WIDE NOTICES HERE AS NECESSARY -->
+
+</div> <!-- #site-notice -->
+
+
+<h1>Apache<span class="ss">&trade;</span> Subversion<span class="ss">&reg;</span></h1>
+<p style="text-align: center; font-weight: bold;
+          font-style: italic; margin-top: -2em; margin-bottom: 2em;"
+  >"Enterprise-class centralized version control for the masses"</p>
+
+<p>Welcome to <strong>subversion.apache.org</strong>, the online home
+   of the Apache Subversion&trade; software project.  Subversion is an open
+   source version control system.  Founded in 2000 by CollabNet, Inc., the
+   Subversion project and software have seen incredible success over
+   the past decade.  Subversion has enjoyed and continues to enjoy
+   widespread adoption in both the open source arena and the corporate
+   world.</p>
+
+<p>Subversion is developed as a project of the
+   <a href="https://www.apache.org/">Apache Software Foundation</a>, and as
+   such is part of a rich community of developers and users.  We're always
+   in need of individuals with a wide range of skills, and we invite you
+   to participate in the development of Apache Subversion.  Here's
+   <a href="/contributing.html">how to get started</a>.</p>
+
+<p>For helpful hints about how to get the most out of your visit to
+   this site, see the <a href="#site-overview">About This Site</a>
+   section below.</p>
+
+
+<div class="h2" id="vision">
+<h2>Our Vision
+  <a class="sectionlink" href="#vision"
+    title="Link to this section">&para;</a>
+</h2>
+
+<p>Subversion exists to be universally recognized and adopted
+   as an open-source, centralized version control system characterized
+   by its reliability as a safe haven for valuable data; the
+   simplicity of its model and usage; and its ability to support the
+   needs of a wide variety of users and projects, from individuals to
+   large-scale enterprise operations.</p>
+
+</div> <!-- #vision -->
+
+
+<div class="h2" id="news">
+<h2>News
+  <a class="sectionlink" href="#news"
+    title="Link to this section">&para;</a>
+</h2>
+
+<!-- In general, we'll keep only the most recent 3 or 4 news items here. -->
+
+<div class="h3" id="news-20190312"> 
+<h3>2019-03-12 &mdash; Apache Subversion 1.12.0-rc1 Released
+ <a class="sectionlink" href="#news-20190312"
+ title="Link to this section">&para;</a> 
+</h3> 
+ 
+<p>We are pleased to announce the release of Apache Subversion 1.12.0-rc1. This
+ release is not intended for production use, but is provided as a milestone
+ to encourage wider testing and feedback from intrepid users and maintainers.
+ Please see the
+ <a href="https://lists.apache.org/list.html?announce@subversion.apache.org">release
+ announcement</a> for more information about this release, and the
+ <a href="/docs/release-notes/1.12.html">release notes</a> and 
+ <a href="https://svn.apache.org/repos/asf/subversion/tags/1.12.0-rc1/CHANGES"> 
+ change log</a> for information about what will eventually be
+ in the 1.12.0 release.</p> 
+ 
+<p>To get this release from the nearest mirror, please visit our
+ <a href="/download.cgi#pre-releases">download page</a>.</p> 
+ 
+</div> <!-- #news-20190312 --> 
+
+<div class="h3" id="news-20190118"> 
+<h3>2019-01-18 &mdash; Apache Subversion Security Advisory
+<a class="sectionlink" href="#news-20190118"
+   title="Link to this section">&para;</a> 
+</h3> 
+
+<p>The recent releases of Apache Subversion, 1.10.4 and 1.11.1, contain a fix
+ for a moderate severity security issue <a
+ href="/security/CVE-2018-11803-advisory.txt">CVE-2018-11803</a>. This issue can
+ allow an unauthenticated user to crash the httpd process serving a Subversion
+ repository configured to allow anonymous read access. We encourage users of
+ Subversion to upgrade to the latest appropriate version as soon as reasonable.
+
+ Please see the <a
+ href="https://lists.apache.org/list.html?announce@subversion.apache.org"
+ >release announcement</a> and the <a href="/docs/release-notes/1.11"> 1.11
+ release notes</a> or <a href="/docs/release-notes/1.10">1.10 release
+ notes</a> for more information about the releases.</p>
+
+<p>To get the latest release from the nearest mirror, please visit our
+ <a href="/download.cgi#recommended-release">download page</a>.</p> 
+
+</div> <!-- #news-20190118 --> 
+
+<div class="h3" id="news-20190111"> 
+<h3>2019-01-11 &mdash; Apache Subversion 1.11.1 Released
+ <a class="sectionlink" href="#news-20190111"
+ title="Link to this section">&para;</a> 
+</h3> 
+ 
+<p>We are pleased to announce the release of Apache Subversion 1.11.1.
+ This is the most complete Subversion release to date, and we encourage
+ users of Subversion to upgrade as soon as reasonable. In addition to the
+ normal collection of bug fixes, and stability enhancements, this release
+ also addresses a security-related issue:
+ <a href="/security/CVE-2018-11803-advisory.txt">CVE-2018-11803</a>
+ Please see the
+ <a href="https://lists.apache.org/list.html?announce@subversion.apache.org"
+ >release announcement</a> and the
+ <a href="/docs/release-notes/1.11"
+ >release notes</a> for more information about this release.</p> 
+ 
+<p>To get this release from the nearest mirror, please visit our
+ <a href="/download.cgi#recommended-release">download page</a>.</p> 
+ 
+</div> <!-- #news-20190111 --> 
+
+<p style="font-style: italic; text-align:
+   right;">[Click <a href="/news.html">here</a> to see all News
+   items.]</p>
+
+</div> <!-- #news -->
+
+
+<div class="h2" id="site-overview">
+<h2>About This Site
+  <a class="sectionlink" href="#site-overview"
+    title="Link to this section">&para;</a>
+</h2>
+
+<p>This website is the central source of information about Subversion
+   and the community which gives it life.  Here, you'll find resources
+   that are useful to existing and potential Subversion users and
+   developers alike.  Want to read about Subversion's features?  Need
+   to download the latest Subversion release?  Perhaps you've thought
+   of a great enhancement and you're wondering how to share the idea
+   with the developers?  This site will help you do all that.</p>
+
+<p>Who is this site <em>not</em> aimed at?  Well, there are many
+   third-party tools which exist as part of the greater Subversion
+   ecosystem, but aren't part of the core project itself.  Subversion
+   clients such as TortoiseSVN, or Subversion's integrations into
+   various IDE's such as Eclipse and NetBeans, or the pure Java
+   implementation of Subversion called SVNKit &mdash; these are all
+   valuable pieces of the Subversion story, but each is managed as its
+   own project outside of the core Subversion offering.  This site
+   really isn't so much about those projects.</p>
+
+<p>The sections below provide a high-level overview of how this
+   website is organized, making reference to
+   the <a href="#site-nav-menu">navigation menu</a> you should find on
+   the left-hand side of each page of the website.</p>
+
+<div class="h3" id="site-overview-about">
+<h3>The "About Subversion" Section
+  <a class="sectionlink" href="#site-overview-about"
+    title="Link to this section">&para;</a>
+</h3>
+
+<p>The "About Subversion" section of the website is Information
+   Central.  You can read the latest Subversion
+   <a href="/news.html">News</a>, learn about Subversion's rich set
+   of <a href="/features.html">Features</a>, and consult various
+   sources of <a href="/docs/">Documentation</a> about Subversion and
+   the processes that govern that interactions of the Subversion
+   community.  There's a <a href="/faq.html">Frequently Asked
+   Questions (FAQ)</a> page, as well as some forward-looking material
+   in the form of a feature <a href="/roadmap.html">Roadmap</a>.</p>
+
+</div> <!-- #site-overview-about -->
+
+<div class="h3" id="site-overview-getting">
+<h3>The "Getting Subversion" Section
+  <a class="sectionlink" href="#site-overview-getting"
+    title="Link to this section">&para;</a>
+</h3>
+
+<p>Learning about Subversion is great, but the real fun is in applying
+   that knowledge.  The "Getting Subversion" section of the website is
+   all about making sure Subversion finds it way into your hands.
+   This community releases source code archives of the various
+   Subversion versions, which you can get via
+   the <a href="/source-code.html">Source Code</a> menu.  (That's also
+   a good place to look for instructions on checking out Subversion's
+   source code from the repository in which it lives.)  But if you'd
+   rather not deal with building Subversion yourself, there are a
+   number of places where you can get precompiled
+   <a href="/packages.html">Binary Packages</a> of Subversion, built
+   for various platforms.</p>
+
+</div> <!-- #site-overview-getting -->
+
+<div class="h3" id="site-overview-community">
+<h3>The "Community" Section
+  <a class="sectionlink" href="#site-overview-community"
+    title="Link to this section">&para;</a>
+</h3>
+
+<p>The other sections of the website are primarily about getting
+   &mdash; the "Community" section is where you interact and give.
+   Here, you'll learn about the <a href="/mailing-lists.html">Mailing
+   Lists</a> where Subversion-related discussions occur and about
+   the <a href="/reporting-issues.html">Issue Tracker</a> where bugs and
+   enhancement requests are reported.  We'll tell you about the
+   various ways you can be <a href="/contributing.html">Getting
+   Involved</a> with the project.</p>
+
+</div> <!-- #site-overview-community -->
+
+<div class="h3" id="site-overview-asf">
+<h3>The "About the ASF" Section
+  <a class="sectionlink" href="#site-overview-asf"
+    title="Link to this section">&para;</a>
+</h3>
+
+<!-- see https://www.apache.org/foundation/marks/pmcs -->
+<p>The rest of this site is about Subversion &mdash; but Subversion doesn't
+   operate in vaccum.  It is part of the <a href="https://www.apache.org/"
+   >Apache Software Foundation (ASF)</a>, which &mdash; in addition to the
+   servers that run this site and our mailing lists &mdash; provides financial,
+   technical, and legal backing.  The "About the ASF" section contains links
+   that relate to the <a href="https://www.apache.org/foundation/"
+   >the Foundation</a> as a whole.  It lists our
+   <a href="https://www.apache.org/foundation/thanks.html">sponsors</a> and
+   allows you to <a href="https://www.apache.org/foundation/sponsorship.html"
+   >donate</a> if you wish.</p>
+
+</div> <!-- #site-overview-asf -->
+
+</div> <!-- #site-overview -->
+
+</div> <!-- #site-content -->
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+
+
+
+#####EOF#####
+
+
+    
+<!DOCTYPE html>
+<html>
+<head>
+                            <title>Apache Subversion Wiki - Subversion - Apache Software Foundation</title>
+    
+        
+
+                        
+    
+                        
+    
+
+                
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=IE7">
+<meta charset="UTF-8">
+<meta id="confluence-context-path" name="confluence-context-path" content="/confluence">
+<meta id="confluence-base-url" name="confluence-base-url" content="https://cwiki.apache.org/confluence">
+
+<meta id="atlassian-token" name="atlassian-token" content="9efec62dba37f34913716b62bc3680171fdee591">
+
+
+<meta id="confluence-space-key" name="confluence-space-key" content="SVN">
+<script type="text/javascript">
+        var contextPath = '/confluence';
+</script>
+
+    
+
+    <meta name="confluence-request-time" content="1554355000750">
+        
+    
+        
+            <meta name="ajs-is-space-admin" content=""> <meta name="ajs-has-space-config" content="">
+            <meta name="ajs-use-keyboard-shortcuts" content="true">
+            <meta name="ajs-is-confluence-admin" content="false">
+            <meta name="ajs-connection-timeout" content="10000">
+            <script type="text/x-template" title="gliffy-webpanel-footer">
+        <div class="gliffy-webpanel-footer"><span>This Confluence installation runs a Free Gliffy License - Evaluate the <a href="http://www.gliffy.com/products/confluence-plugin/">Gliffy Confluence Plugin</a> for your Wiki!</span></div>
+</script>
+
+
+            <style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+            <meta name="ajs-discovered-plugin-features" content="$discoveredList">
+            <meta name="ajs-keyboardshortcut-hash" content="dbf28275315525476980dd90e609cfa9">
+            
+    
+    
+            <meta name="ajs-page-title" content="Apache Subversion Wiki">
+            <meta name="ajs-latest-published-page-title" content="Apache Subversion Wiki">
+            <meta name="ajs-space-name" content="Subversion">
+            <meta name="ajs-page-id" content="80450415">
+            <meta name="ajs-latest-page-id" content="80450415">
+            <meta name="ajs-content-type" content="page">
+            <meta name="ajs-parent-page-id" content="">
+            <meta name="ajs-space-key" content="SVN">
+            <meta name="ajs-max-number-editors" content="12">
+            <meta name="ajs-macro-placeholder-timeout" content="5000">
+            <meta name="ajs-jira-metadata-count" content="0">
+            <meta name="ajs-from-page-title" content="">
+            <meta name="ajs-can-remove-page" content="false">
+            <meta name="ajs-can-remove-page-hierarchy" content="false">
+            <meta name="ajs-browse-page-tree-mode" content="view">
+            <meta name="ajs-shared-drafts" content="true">
+            <meta name="ajs-context-path" content="/confluence">
+            <meta name="ajs-base-url" content="https://cwiki.apache.org/confluence">
+            <meta name="ajs-version-number" content="6.14.2">
+            <meta name="ajs-build-number" content="7901">
+            <meta name="ajs-remote-user" content="">
+            <meta name="ajs-remote-user-key" content="">
+            <meta name="ajs-remote-user-has-licensed-access" content="false">
+            <meta name="ajs-remote-user-has-browse-users-permission" content="false">
+            <meta name="ajs-current-user-fullname" content="">
+            <meta name="ajs-current-user-avatar-url" content="">
+            <meta name="ajs-current-user-avatar-uri-reference" content="/confluence/images/icons/profilepics/anonymous.svg">
+            <meta name="ajs-static-resource-url-prefix" content="/confluence/s/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/_">
+            <meta name="ajs-global-settings-attachment-max-size" content="20971520">
+            <meta name="ajs-global-settings-quick-search-enabled" content="true">
+            <meta name="ajs-user-locale" content="en_GB">
+            <meta name="ajs-enabled-dark-features" content="site-wide.shared-drafts,site-wide.synchrony,confluence.view.edit.transition,confluence-inline-comments-resolved,notification.plugin.api.enabled.com.atlassian.confluence.plugins.sharepage.api.ShareContentEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.mentions.api.ConfluenceMentionEvent,frontend.editor.v4.compatibility,notification.plugin.api.enabled.com.atlassian.confluence.event.events.security.ForgotPasswordEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.tasklist.event.SendTaskEmailEvent,file-annotations,confluence.efi.onboarding.rich.space.content,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.comment.CommentCreateEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.requestaccess.events.AccessGrantedEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.PageMoveEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.follow.FollowEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.inlinecomments.events.InlineCommentReplyEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostCreateEvent,lucene.caching.filter,confluence.table.resizable,notification.batch,confluence-inline-comments-rich-editor,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostUpdateEvent,site-wide.synchrony.opt-in,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageCreatedEvent,mobile.supported.version,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentMentionUpdateEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.hipchat.api.events.HipChatUserMapped,quick-reload-inline-comments-flags,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostMovedEvent,clc.quick.create,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.PageUpdateEvent,cql.search.screen,frontend.editor.v4,nps.survey.inline.dialog,confluence.efi.onboarding.new.templates,pdf-preview,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageMovedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.sharepage.api.ShareCustomEvent,previews.sharing,previews.versions,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentUpdateEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.attachment.AttachmentBatchUploadCompletedEvent,collaborative-audit-log,notification.plugin.api.enabled.com.atlassian.confluence.efi.emails.events.OnboardingLessUsersEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentRemoveEvent,confluence.wrap.macro,previews.conversion-service,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.comment.CommentUpdateEvent,editor.ajax.save,graphql,read.only.mode,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageEditedEvent,previews.trigger-all-file-types,notification.plugin.api.enabled.com.atlassian.confluence.plugins.inlinecomments.events.InlineCommentResolveEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.like.LikeCreatedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.inlinecomments.events.InlineCommentCreateEvent,attachment.extracted.text.extractor,notification.plugin.api.enabled.com.atlassian.confluence.plugins.requestaccess.events.AccessRequestedEvent,previews.sharing.pushstate,file-annotations.likes,v2.content.name.searcher,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.PageCreateEvent,notification.plugin.api.enabled.com.atlassian.confluence.efi.emails.events.OnboardingNoSpaceCreatedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.sharepage.api.ShareDraftEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.sharepage.api.ShareAttachmentEvent,confluence-inline-comments,confluence-inline-comments-dangling-comment">
+            <meta name="ajs-atl-token" content="9efec62dba37f34913716b62bc3680171fdee591">
+            <meta name="ajs-confluence-flavour" content="VANILLA">
+            <meta name="ajs-user-date-pattern" content="dd MMM yyyy">
+            <meta name="ajs-access-mode" content="READ_WRITE">
+            <meta name="ajs-render-mode" content="READ_WRITE">
+            <meta name="ajs-date.format" content="MMM dd, yyyy">
+    
+    <link rel="shortcut icon" href="/confluence/s/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/1/_/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/confluence/s/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/1/_/favicon.ico">
+
+<link rel="search" type="application/opensearchdescription+xml" href="/confluence/opensearch/osd.action" title="Apache Software Foundation"/>
+    
+                    
+            <meta name="ajs-create-issue-metadata-show-discovery" content="false">
+            
+
+    <script>
+window.WRM=window.WRM||{};window.WRM._unparsedData=window.WRM._unparsedData||{};window.WRM._unparsedErrors=window.WRM._unparsedErrors||{};
+WRM._unparsedData["com.atlassian.plugins.atlassian-plugins-webresource-plugin:context-path.context-path"]="\u0022\u005C/confluence\u0022";
+WRM._unparsedData["com.atlassian.confluence.plugins.confluence-hipchat-integration-plugin:discovery-javascript-data.link-active"]="{\u0022linkActive\u0022:false,\u0022conditionsMet\u0022:true,\u0022admin\u0022:false}";
+WRM._unparsedData["com.atlassian.confluence.plugins.confluence-feature-discovery-plugin:confluence-feature-discovery-plugin-resources.test-mode"]="false";
+WRM._unparsedData["com.atlassian.confluence.plugins.synchrony-interop:synchrony-status-banner-loader.synchrony-status"]="false";
+WRM._unparsedData["com.atlassian.analytics.analytics-client:policy-update-init.policy-update-data-provider"]="false";
+WRM._unparsedData["com.atlassian.analytics.analytics-client:programmatic-analytics-init.programmatic-analytics-data-provider"]="false";
+WRM._unparsedData["com.atlassian.applinks.applinks-plugin:applinks-common-exported.applinks-help-paths"]="{\u0022entries\u0022:{\u0022applinks.docs.root\u0022:\u0022https://confluence.atlassian.com/display/APPLINKS-054/\u0022,\u0022applinks.docs.diagnostics.troubleshoot.sslunmatched\u0022:\u0022SSL+and+application+link+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.oauthsignatureinvalid\u0022:\u0022OAuth+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.oauthtimestamprefused\u0022:\u0022OAuth+troubleshooting+guide\u0022,\u0022applinks.docs.delete.entity.link\u0022:\u0022Create+links+between+projects\u0022,\u0022applinks.docs.adding.application.link\u0022:\u0022Link+Atlassian+applications+to+work+together\u0022,\u0022applinks.docs.administration.guide\u0022:\u0022Application+Links+Documentation\u0022,\u0022applinks.docs.oauth.security\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.troubleshoot.application.links\u0022:\u0022Troubleshoot+application+links\u0022,\u0022applinks.docs.diagnostics.troubleshoot.unknownerror\u0022:\u0022Network+and+connectivity+troubleshooting+guide\u0022,\u0022applinks.docs.configuring.auth.trusted.apps\u0022:\u0022Configuring+Trusted+Applications+authentication+for+an+application+link\u0022,\u0022applinks.docs.diagnostics.troubleshoot.authlevelunsupported\u0022:\u0022OAuth+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.ssluntrusted\u0022:\u0022SSL+and+application+link+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.unknownhost\u0022:\u0022Network+and+connectivity+troubleshooting+guide\u0022,\u0022applinks.docs.delete.application.link\u0022:\u0022Link+Atlassian+applications+to+work+together\u0022,\u0022applinks.docs.link.applications\u0022:\u0022Link+Atlassian+applications+to+work+together\u0022,\u0022applinks.docs.diagnostics.troubleshoot.oauthproblem\u0022:\u0022OAuth+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.migration\u0022:\u0022Update+application+links+to+use+OAuth\u0022,\u0022applinks.docs.relocate.application.link\u0022:\u0022Link+Atlassian+applications+to+work+together\u0022,\u0022applinks.docs.administering.entity.links\u0022:\u0022Create+links+between+projects\u0022,\u0022applinks.docs.upgrade.application.link\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.diagnostics.troubleshoot.connectionrefused\u0022:\u0022Network+and+connectivity+troubleshooting+guide\u0022,\u0022applinks.docs.configuring.auth.oauth\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.insufficient.remote.permission\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.configuring.application.link.auth\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.diagnostics\u0022:\u0022Application+links+diagnostics\u0022,\u0022applinks.docs.configured.authentication.types\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.adding.entity.link\u0022:\u0022Create+links+between+projects\u0022,\u0022applinks.docs.diagnostics.troubleshoot.unexpectedresponse\u0022:\u0022Network+and+connectivity+troubleshooting+guide\u0022,\u0022applinks.docs.configuring.auth.basic\u0022:\u0022Configuring+Basic+HTTP+Authentication+for+an+Application+Link\u0022,\u0022applinks.docs.diagnostics.troubleshoot.authlevelmismatch\u0022:\u0022OAuth+troubleshooting+guide\u0022}}";
+WRM._unparsedData["com.atlassian.applinks.applinks-plugin:applinks-common-exported.applinks-types"]="{\u0022crowd\u0022:\u0022Crowd\u0022,\u0022confluence\u0022:\u0022Confluence\u0022,\u0022fecru\u0022:\u0022FishEye / Crucible\u0022,\u0022stash\u0022:\u0022Stash\u0022,\u0022jira\u0022:\u0022Jira\u0022,\u0022refapp\u0022:\u0022Reference Application\u0022,\u0022bamboo\u0022:\u0022Bamboo\u0022,\u0022generic\u0022:\u0022Generic Application\u0022}";
+WRM._unparsedData["com.atlassian.applinks.applinks-plugin:applinks-common-exported.entity-types"]="{\u0022singular\u0022:{\u0022refapp.charlie\u0022:\u0022Charlie\u0022,\u0022fecru.project\u0022:\u0022Crucible Project\u0022,\u0022fecru.repository\u0022:\u0022FishEye Repository\u0022,\u0022stash.project\u0022:\u0022Stash Project\u0022,\u0022generic.entity\u0022:\u0022Generic Project\u0022,\u0022confluence.space\u0022:\u0022Confluence Space\u0022,\u0022bamboo.project\u0022:\u0022Bamboo Project\u0022,\u0022jira.project\u0022:\u0022Jira Project\u0022},\u0022plural\u0022:{\u0022refapp.charlie\u0022:\u0022Charlies\u0022,\u0022fecru.project\u0022:\u0022Crucible Projects\u0022,\u0022fecru.repository\u0022:\u0022FishEye Repositories\u0022,\u0022stash.project\u0022:\u0022Stash Projects\u0022,\u0022generic.entity\u0022:\u0022Generic Projects\u0022,\u0022confluence.space\u0022:\u0022Confluence Spaces\u0022,\u0022bamboo.project\u0022:\u0022Bamboo Projects\u0022,\u0022jira.project\u0022:\u0022Jira Projects\u0022}}";
+WRM._unparsedData["com.atlassian.applinks.applinks-plugin:applinks-common-exported.authentication-types"]="{\u0022com.atlassian.applinks.api.auth.types.BasicAuthenticationProvider\u0022:\u0022Basic Access\u0022,\u0022com.atlassian.applinks.api.auth.types.TrustedAppsAuthenticationProvider\u0022:\u0022Trusted Applications\u0022,\u0022com.atlassian.applinks.api.auth.types.CorsAuthenticationProvider\u0022:\u0022CORS\u0022,\u0022com.atlassian.applinks.api.auth.types.OAuthAuthenticationProvider\u0022:\u0022OAuth\u0022,\u0022com.atlassian.applinks.api.auth.types.TwoLeggedOAuthAuthenticationProvider\u0022:\u0022OAuth\u0022,\u0022com.atlassian.applinks.api.auth.types.TwoLeggedOAuthWithImpersonationAuthenticationProvider\u0022:\u0022OAuth\u0022}";
+WRM._unparsedData["com.atlassian.confluence.plugins.confluence-license-banner:confluence-license-banner-resources.license-details"]="{\u0022daysBeforeLicenseExpiry\u0022:0,\u0022daysBeforeMaintenanceExpiry\u0022:0,\u0022showLicenseExpiryBanner\u0022:false,\u0022showMaintenanceExpiryBanner\u0022:false,\u0022renewUrl\u0022:null,\u0022salesEmail\u0022:null}";
+WRM._unparsedData["com.atlassian.confluence.plugins.confluence-search-ui-plugin:confluence-search-ui-plugin-resources.i18n-data"]="{\u0022search.ui.recent.link.text\u0022:\u0022View more recently visited\u0022,\u0022search.ui.filter.clear.selected\u0022:\u0022Clear selected items\u0022,\u0022search.ui.search.results.empty\u0022:\u0022We couldn\u005Cu0027\u005Cu0027t find anything matching \u005C\u0022{0}\u005C\u0022.\u0022,\u0022search.ui.content.name.search.items.panel.load.all.top.items.button.text\u0022:\u0022Show more app results...\u0022,\u0022search.ui.filter.space.archive.label\u0022:\u0022Search archived spaces\u0022,\u0022search.ui.filter.label\u0022:\u0022filter\u0022,\u0022search.ui.filter.contributor.button.text\u0022:\u0022Contributor\u0022,\u0022search.ui.filter.date.all.text\u0022:\u0022Any time\u0022,\u0022help.search.ui.link.title\u0022:\u0022Search tips\u0022,\u0022search.ui.filter.date.hour.text\u0022:\u0022The past day\u0022,\u0022search.ui.filters.heading\u0022:\u0022Filter by\u0022,\u0022search.ui.filter.label.input.label\u0022:\u0022Find labels...\u0022,\u0022search.ui.filter.date.month.text\u0022:\u0022The past month\u0022,\u0022search.ui.recent.items.anonymous\u0022:\u0022Start exploring. Your search results will appear here.\u0022,\u0022search.ui.input.label\u0022:\u0022Search\u0022,\u0022search.ui.search.result\u0022:\u0022{0,choice,1#{0} search result|1\u005Cu003c{0} search results}\u0022,\u0022search.ui.infinite.scroll.button.text\u0022:\u0022More results\u0022,\u0022search.ui.filter.date.button.text\u0022:\u0022Date\u0022,\u0022search.ui.filter.date.week.text\u0022:\u0022The past week\u0022,\u0022search.ui.filter.label.button.text\u0022:\u0022Label\u0022,\u0022search.ui.input.alert\u0022:\u0022Hit enter to search\u0022,\u0022search.ui.filter.no.result.text\u0022:\u0022We can\u005Cu0027\u005Cu0027t find anything matching your search\u0022,\u0022search.ui.result.subtitle.calendar\u0022:\u0022Team calendar\u0022,\u0022search.ui.filter.date.heading\u0022:\u0022Last modified within\u0022,\u0022search.ui.result.subtitle.user\u0022:\u0022User profile\u0022,\u0022search.ui.filter.contributor.input.label\u0022:\u0022Find people...\u0022,\u0022search.ui.filter.content.type.button.text\u0022:\u0022Type\u0022,\u0022search.ui.filter.space.input.label\u0022:\u0022Find spaces...\u0022,\u0022search.ui.filter.date.year.text\u0022:\u0022The past year\u0022,\u0022search.ui.filter.space.button.text\u0022:\u0022Space\u0022,\u0022search.ui.advanced.search.link.text\u0022:\u0022Advanced search\u0022,\u0022help.search.ui.link.href\u0022:\u0022Search\u0022,\u0022search.ui.generic.error\u0022:\u0022Something went wrong. Refresh the page, or contact your admin if this keeps happening.\u0022,\u0022search.ui.recent.spaces\u0022:\u0022Recent Spaces\u0022,\u0022search.ui.content.name.search.items.panel.load.all.top.items.admin.button.text\u0022:\u0022Show more settings and app results...\u0022,\u0022search.ui.recent.pages\u0022:\u0022Recently visited\u0022,\u0022search.ui.search.result.anonymous\u0022:\u0022{0,choice,1#{0} search result|1\u005Cu003c{0} search results}. Have an account? {1}Log in{2} to expand your search.\u0022,\u0022search.ui.recent.items.empty\u0022:\u0022Start exploring. Pages and spaces you\u005Cu0027\u005Cu0027ve visited recently will appear here.\u0022,\u0022search.ui.result.subtitle.space\u0022:\u0022Space\u0022,\u0022search.ui.filter.space.init.heading\u0022:\u0022recent spaces\u0022}";
+if(window.WRM._dataArrived)window.WRM._dataArrived();</script>
+<link type="text/css" rel="stylesheet" href="/confluence/s/d132895727e07f1b41184504aecca20b-CDN/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/ad4def1cc342d681b46fe11daffe170a/_/download/contextbatch/css/_super/batch.css" data-wrm-key="_super" data-wrm-batch-type="context" media="all">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/confluence/s/d132895727e07f1b41184504aecca20b-CDN/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/ad4def1cc342d681b46fe11daffe170a/_/download/contextbatch/css/_super/batch.css?conditionalComment=lt+IE+9" data-wrm-key="_super" data-wrm-batch-type="context" media="all">
+<![endif]-->
+<!--[if lte IE 9]>
+<link type="text/css" rel="stylesheet" href="/confluence/s/d132895727e07f1b41184504aecca20b-CDN/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/ad4def1cc342d681b46fe11daffe170a/_/download/contextbatch/css/_super/batch.css?conditionalComment=lte+IE+9" data-wrm-key="_super" data-wrm-batch-type="context" media="all">
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="/confluence/s/6548d37be2e4992b2d78e907caf0b920-T/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/742ab598a1285bbdde9626fae2cd756b/_/download/contextbatch/css/atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super/batch.css?confluence.table.resizable=true&amp;highlightactions=true&amp;hostenabled=true" data-wrm-key="atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super" data-wrm-batch-type="context" media="all">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/confluence/s/6548d37be2e4992b2d78e907caf0b920-T/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/742ab598a1285bbdde9626fae2cd756b/_/download/contextbatch/css/atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super/batch.css?conditionalComment=lt+IE+9&amp;confluence.table.resizable=true&amp;highlightactions=true&amp;hostenabled=true" data-wrm-key="atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super" data-wrm-batch-type="context" media="all">
+<![endif]-->
+<script type="text/javascript" src="/confluence/s/4cafd8bf0fe622203305d558c430d8ac-CDN/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/ad4def1cc342d681b46fe11daffe170a/_/download/contextbatch/js/_super/batch.js?locale=en-GB" data-wrm-key="_super" data-wrm-batch-type="context"></script>
+<script type="text/javascript" src="/confluence/s/59cae13144faa25bc464f5da19669343-T/en_GB/7901/17fbf59dc6f69bee0caf86e0cbbd7fb3bd9d8b4a/742ab598a1285bbdde9626fae2cd756b/_/download/contextbatch/js/atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super/batch.js?confluence.table.resizable=true&amp;highlightactions=true&amp;hostenabled=true&amp;locale=en-GB" data-wrm-key="atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super" data-wrm-batch-type="context"></script>
+
+    
+
+        
+    
+
+        
+        <meta name="ajs-site-title" content="Apache Software Foundation" />
+            
+    <div style="background-color:#90EE90;font-weight:bold;text-align:center"><p>This Confluence has been LDAP enabled, if you are an ASF Committer, please use your LDAP Credentials to login. Any problems file an INFRA jira ticket please.</p></div>
+
+    
+                <link rel="canonical" href="https://cwiki.apache.org/confluence/display/SVN/Apache+Subversion+Wiki">
+        <link rel="shortlink" href="https://cwiki.apache.org/confluence/x/b5PLB">
+    <meta name="wikilink" content="[SVN:Apache Subversion Wiki]">
+    <meta name="page-version" content="28">
+    <meta name="ajs-page-version" content="28">
+
+</head>
+
+    
+<body      id="com-atlassian-confluence" class="theme-default  aui-layout aui-theme-default">
+
+        
+            <div id='stp-licenseStatus-banner'></div>
+    <ul id="assistive-skip-links" class="assistive">
+    <li><a href="#title-heading">Skip to content</a></li>
+    <li><a href="#breadcrumbs">Skip to breadcrumbs</a></li>
+    <li><a href="#header-menu-bar">Skip to header menu</a></li>
+    <li><a href="#navigation">Skip to action menu</a></li>
+    <li><a href="#quick-search-query">Skip to quick search</a></li>
+</ul>
+<div id="page">
+<div id="full-height-container">
+    <div id="header-precursor">
+        <div class="cell">
+            
+                            </div>
+    </div>
+        
+
+
+
+
+
+<header id="header" role="banner">
+    <nav class="aui-header aui-dropdown2-trigger-group" role="navigation"><div class="aui-header-inner"><div class="aui-header-before"><a class=" aui-dropdown2-trigger app-switcher-trigger" aria-controls="app-switcher" aria-haspopup="true" role="button" tabindex="0" data-aui-trigger href="#app-switcher"><span class="aui-icon aui-icon-small aui-iconfont-appswitcher">Linked Applications</span></a><div id="app-switcher" class="aui-dropdown2 aui-style-default" role="menu" aria-hidden="true" data-is-switcher="true" data-environment="{&quot;isUserAdmin&quot;:false,&quot;isAppSuggestionAvailable&quot;:false,&quot;isSiteAdminUser&quot;:false}"><div role="application"><div class="app-switcher-loading">Loading&hellip;</div></div></div></div><div class="aui-header-primary"><h1 id="logo" class="aui-header-logo aui-header-logo-confluence"><a href="/confluence/"><span class="aui-header-logo-device">Apache Software Foundation</span></a></h1><ul class="aui-nav">
+                            <li>
+            
+        
+        
+<a  id="space-directory-link" href="/confluence/spacedirectory/view.action"  class=" aui-nav-imagelink"   title="Spaces">
+            <span>Spaces</span>
+    </a>
+        </li>
+                                        <li class="aui-buttons">
+            </li>
+    </ul>
+</div><div class="aui-header-secondary"><ul class="aui-nav">
+                        <li>
+        <div id="search-ui" class="aui-quicksearch dont-default-focus header-quicksearch"><input id="quick-search-query" aria-label="Search" placeholder="Search" /><div id="quick-search-alert" role="alert">Hit enter to search</div><aui-spinner size="small"></aui-spinner></div>
+    </li>
+        <li>
+            
+        <a id="help-menu-link" class="aui-nav-link aui-dropdown2-trigger aui-dropdown2-trigger-arrowless" href="#" aria-haspopup="true" aria-owns="help-menu-link-content" title="Help">
+        <span class="aui-icon aui-icon-small aui-iconfont-question-filled">Help</span>
+    </a>
+    <nav id="help-menu-link-content" class="aui-dropdown2 aui-style-default" aria-hidden="true">
+                    <div class="aui-dropdown2-section">
+                                <ul  id="help-menu-link-leading" class="aui-list-truncate section-leading first">
+                                            <li>
+        
+            
+<a  id="confluence-help-link" href="https://docs.atlassian.com/confluence/docs-614/" class="    "      title="Visit the Confluence documentation home"  target="_blank"
+>
+        Online Help
+</a>
+</li>
+                                            <li>
+    
+            
+<a  id="keyboard-shortcuts-link" href="/confluence" class="    "      title="View available keyboard shortcuts" >
+        Keyboard Shortcuts
+</a>
+</li>
+                                            <li>
+    
+            
+<a  id="feed-builder-link" href="/confluence/dashboard/configurerssfeed.action" class="    "      title="Create your custom RSS feed." >
+        Feed Builder
+</a>
+</li>
+                                            <li>
+    
+            
+<a  id="whats-new-menu-link" href="https://confluence.atlassian.com/display/DOC/Confluence+6.14+Release+Notes" class="    "      title="" >
+        Whatâs new
+</a>
+</li>
+                                            <li>
+    
+            
+<a  id="gadget-directory-link" href="/confluence" class="   user-item administration-link "      title="Browse gadgets provided by Confluence" >
+        Available Gadgets
+</a>
+</li>
+                                            <li>
+    
+            
+<a  id="confluence-about-link" href="/confluence/aboutconfluencepage.action" class="    "      title="Get more information about Confluence" >
+        About Confluence
+</a>
+</li>
+                                    </ul>
+            </div>
+            </nav>
+    
+    </li>
+        <li>
+                
+    
+    </li>
+        <li>
+            
+    </li>
+        <li>
+                                            <li>
+        
+            
+<a  id="login-link" href="/confluence/login.action?os_destination=%2Fdisplay%2FSVN%2F" class="   user-item login-link "      title="" >
+        Log in
+</a>
+</li>
+                        <li>
+    
+            
+<a  id="signup-link" href="/confluence/signup.action" class="   user-item signup-link "      title="" >
+        Sign up
+</a>
+</li>
+                        
+    </li>
+    </ul>
+</div></div><!-- .aui-header-inner--></nav><!-- .aui-header -->
+    <br class="clear">
+</header>
+    
+
+    
+    	<div class="ia-splitter">
+    		<div class="ia-splitter-left">
+    			<div class="ia-fixed-sidebar">
+                                            
+                            <div class="acs-side-bar ia-scrollable-section"><div class="acs-side-bar-space-info tipsy-enabled" data-configure-tooltip="Edit space details"><div class="avatar"><div class="space-logo" data-key="SVN" data-name="Subversion" data-entity-type="confluence.space"><div class="avatar-img-container"><div class="avatar-img-wrapper"><a href="/confluence/display/SVN/Apache+Subversion+Wiki" title="Subversion"><img class="avatar-img" src="/confluence/images/logo/default-space-logo.svg" alt="Subversion"></a></div></div></div></div><div class="space-information-container"><div class="name"><a href="/confluence/display/SVN/Apache+Subversion+Wiki" title="Subversion">Subversion</a></div><div class="flyout-handle icon aui-icon aui-icon-small aui-iconfont-edit"></div></div></div><div class="acs-side-bar-content"><div class="acs-nav-wrapper"><div class="acs-nav" data-has-create-permission="false" data-quick-links-state="hide" data-page-tree-state="null" data-nav-type="page-tree"><div class="acs-nav-sections"><div class="main-links-section "><ul class="acs-nav-list"><li class="acs-nav-item wiki current-item" data-collector-key="spacebar-pages"><a class="acs-nav-item-link tipsy-enabled" href="/confluence/collector/pages.action?key=SVN" data-collapsed-tooltip="Pages"><span class="icon"></span><span class="acs-nav-item-label">Pages</span></a></li></ul></div></div></div></div><div class="ia-secondary-container tipsy-enabled" data-tree-type="page-tree"><div class="ia-secondary-header"><h5 class="ia-secondary-header-title page-tree"><span class="icon"></span><span class="label">Page tree</span></h5></div><div class="ia-secondary-content">
+
+
+<div class="plugin_pagetree conf-macro output-inline" data-hasbody="false" data-macro-name="pagetree">
+
+        
+        
+    <ul class="plugin_pagetree_children_list plugin_pagetree_children_list_noleftspace">
+        <div class="plugin_pagetree_children">
+        </div>
+    </ul>
+
+    <fieldset class="hidden">
+        <input type="hidden" name="treeId" value="" />
+        <input type="hidden" name="treeRequestId" value="/confluence/plugins/pagetree/naturalchildren.action?decorator=none&amp;excerpt=false&amp;sort=position&amp;reverse=false&amp;disableLinks=false&amp;expandCurrent=true" />
+        <input type="hidden" name="treePageId" value="80450415" />
+
+        <input type="hidden" name="noRoot" value="false" />
+        <input type="hidden" name="rootPageId" value="80450415" />
+
+        <input type="hidden" name="rootPage" value="" />
+        <input type="hidden" name="startDepth" value="0" />
+        <input type="hidden" name="spaceKey" value="SVN" />
+
+        <input type="hidden" name="i18n-pagetree.loading" value="Loading..." />
+        <input type="hidden" name="i18n-pagetree.error.permission" value="Unable to load page tree. It seems that you do not have permission to view the root page." />
+        <input type="hidden" name="i18n-pagetree.eeror.general" value="There was a problem retrieving the page tree. Please check the server log file for more information." />
+        <input type="hidden" name="loginUrl" value="/confluence/login.action?os_destination=%2Fpages%2Fviewpage.action%3FspaceKey%3DSVN%26title%3DApache%2BSubversion%2BWiki&amp;permissionViolation=true" />
+        <input type="hidden" name="mobile" value="false" />
+
+                <fieldset class="hidden">
+                            <input type="hidden" name="ancestorId" value="80450415" />
+                    </fieldset>
+    </fieldset>
+</div>
+</div></div></div><div class="hidden"><a href="/confluence/collector/pages.action?key=SVN" id="space-pages-link"></a><script type="text/x-template" title="logo-config-content"><h2>Space Details</h2><div class="personal-space-logo-hint">Your profile picture is used as the logo for your personal space. <a href="/confluence/users/profile/editmyprofilepicture.action" target="_blank">Change your profile picture</a>.</div></script></div></div><div class="space-tools-section"><div id="space-tools-menu-additional-items" class="hidden"><div data-label="Browse pages" data-class="" data-href="/confluence/pages/reorderpages.action?key=SVN">Browse pages</div></div><button id="space-tools-menu-trigger"  class=" aui-dropdown2-trigger aui-button aui-button-subtle tipsy-enabled aui-dropdown2-trigger-arrowless " aria-controls="space-tools-menu" aria-haspopup="true" role="button" data-aui-trigger><span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span><span class="aui-button-label">Space tools</span><span class="icon aui-icon-dropdown"></span></button><div id="space-tools-menu" class="aui-dropdown2 aui-style-default space-tools-dropdown" role="menu" aria-hidden="true" data-aui-alignment="top left"><div role="application"></div></div><a class="expand-collapse-trigger aui-icon aui-icon-small aui-iconfont-chevron-double-left"></a></div>
+                    
+                        			</div>
+    		</div>
+        <!-- \#header -->
+
+            
+    
+        <div id="main" class=" aui-page-panel">
+                        <div id="main-header">
+                        
+    <div id="navigation" class="content-navigation view">
+                    <ul class="ajs-menu-bar">
+                                            
+        <li class="normal ajs-menu-item">
+        <a id="action-menu-link" class="action aui-dropdown2-trigger-arrowless aui-button aui-button-subtle ajs-menu-title aui-dropdown2-trigger" href="#" aria-haspopup="true" aria-owns="action-menu" data-container="#navigation">
+            <span>
+                                    <span class="aui-icon aui-icon-small aui-iconfont-more"></span>
+                                
+            </span>
+        </a>         <div id="action-menu" class="aui-dropdown2 aui-style-default" aria-hidden="true">
+                            <div class="aui-dropdown2-section">
+                    <ul  id="action-menu-primary"                         class="section-primary first">
+                                                    <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="view-attachments-link" href="/confluence/pages/viewpageattachments.action?pageId=80450415" rel="nofollow" class="action-view-attachments"  accessKey="t"  title="View Attachments" >
+                        <span>
+                                A<u>t</u>tachments (0)
+            </span>        </a>
+    </li>
+                                                <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="action-view-history-link" href="/confluence/pages/viewpreviousversions.action?pageId=80450415" rel="nofollow" class="action-view-history"   title="" >
+                        <span>
+                                Page History
+            </span>        </a>
+    </li>
+                                        </ul>
+                </div>
+                            <div class="aui-dropdown2-section">
+                    <ul  id="action-menu-secondary"                         class="section-secondary">
+                                                    <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="view-resolved-comments" href="/confluence" rel="nofollow" class=""   title="" >
+                        <span>
+                                Resolved comments
+            </span>        </a>
+    </li>
+                                                <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="view-page-info-link" href="/confluence/pages/viewinfo.action?pageId=80450415" rel="nofollow" class="action-view-info"   title="" >
+                        <span>
+                                Page Information
+            </span>        </a>
+    </li>
+                                                <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="view-in-hierarchy-link" href="/confluence/pages/reorderpages.action?key=SVN&amp;openId=80450415#selectedPageInHierarchy" rel="nofollow" class=""   title="" >
+                        <span>
+                                View in Hierarchy
+            </span>        </a>
+    </li>
+                                                <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="action-view-source-link" href="/confluence/plugins/viewsource/viewpagesrc.action?pageId=80450415" rel="nofollow" class="action-view-source popup-link"   title="" >
+                        <span>
+                                View Source
+            </span>        </a>
+    </li>
+                                                <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="delete-all-comments-link-link" href="/confluence/plugins/aptis/deleteAllComments/ask-user.action?pageId=80450415" rel="nofollow" class=""   title="" >
+                        <span>
+                                Delete comments
+            </span>        </a>
+    </li>
+                                                <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="action-export-pdf-link" href="/confluence/spaces/flyingpdf/pdfpageexport.action?pageId=80450415" rel="nofollow" class=""   title="" >
+                        <span>
+                                Export to PDF
+            </span>        </a>
+    </li>
+                                                <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="com-k15t-confluence-scroll-epub-launcher" href="/confluence/pages/viewpage.action?pageId=80450415" rel="nofollow" class=""   title="" >
+                        <span>
+                                Export to EPUB
+            </span>        </a>
+    </li>
+                                                <li>
+
+    
+        
+    
+                                                        
+    
+    
+            <a  id="action-export-word-link" href="/confluence/exportword?pageId=80450415" rel="nofollow" class="action-export-word"   title="" >
+                        <span>
+                                Export to Word
+            </span>        </a>
+    </li>
+                                        </ul>
+                </div>
+                    </div>
+    </li>
+            </ul>
+    </div>
+
+            
+            <div id="title-heading" class="pagetitle with-breadcrumbs">
+                
+                                    <div id="breadcrumb-section">
+                        
+    
+    
+    <ol id="breadcrumbs">
+                                        
+                        
+        <li class="first" >
+                        
+                            <span class=""><a href="/confluence/collector/pages.action?key=SVN">Pages</a></span>
+                                                                    </ol>
+
+
+                    </div>
+                
+                
+        <a href="#page-banner-end" class="assistive">Skip to end of banner</a>
+<div id="page-banner-start" class="assistive"></div>
+
+                    
+            <div id="page-metadata-banner"><ul class="banner"><li id="system-content-items" class="noprint"><a href="" title="Unrestricted" id="content-metadata-page-restrictions-hidden" class="hidden"></a></li><li class="page-metadata-item noprinthas-button"  id="content-metadata-jira-wrapper"><a href="" title="" id="content-metadata-jira" class="aui-button aui-button-subtle content-metadata-jira tipsy-disabled hidden"><span>Jira links</span></a></li></ul></div>
+            
+
+<a href="#page-banner-start" class="assistive">Go to start of banner</a>
+<div id="page-banner-end" class="assistive"></div>
+    
+
+                <h1 id="title-text" class="with-breadcrumbs">
+                                                <a href="/confluence/display/SVN/Apache+Subversion+Wiki">Apache Subversion Wiki</a>
+                                    </h1>
+            </div>
+        </div><!-- \#main-header -->
+        
+        
+
+        <div id="sidebar-container">
+                                                </div><!-- \#sidebar-container -->
+
+        
+    
+
+        
+
+
+
+
+            
+    
+
+                                
+    
+
+    
+    
+        
+    
+    
+                    
+    
+
+    
+
+    
+            
+        
+
+    
+    
+
+    
+            
+        
+
+
+
+    
+<div id="content" class="page view">
+    
+
+
+<div id="action-messages">
+                        </div>
+
+
+
+            <script type="text/x-template" title="searchResultsGrid">
+    <table class="aui">
+        <thead>
+            <tr class="header">
+                <th class="search-result-title">Page Title</th>
+                <th class="search-result-space">Space</th>
+                <th class="search-result-date">Updated</th>
+            </tr>
+        </thead>
+    </table>
+</script>
+<script type="text/x-template" title="searchResultsGridCount">
+    <p class="search-result-count">{0}</p>
+</script>
+<script type="text/x-template" title="searchResultsGridRow">
+    <tr class="search-result">
+        <td class="search-result-title"><a href="{1}" class="content-type-{2}"><span>{0}</span></a></td>
+        <td class="search-result-space"><a class="space" href="/confluence/display/{4}/" title="{3}">{3}</a></td>
+        <td class="search-result-date"><span class="date" title="{6}">{5}</span></td>
+    </tr>
+</script>
+        
+    
+            
+
+        
+                            
+    
+
+                    
+
+        
+        <a href="#page-metadata-end" class="assistive">Skip to end of metadata</a>
+<div id="page-metadata-start" class="assistive"></div>
+
+    <div class="page-metadata">
+        <ul>
+            <li class="page-metadata-modification-info">
+                
+        
+    
+        
+    
+        
+            
+            Created by <span class='author'>     <a href="    /confluence/display/~cwiki-importer
+"
+                       class="url fn"
+                            >Cwiki Import User</a></span>, last modified by <span class='editor'>     <a href="    /confluence/display/~julianfoad
+"
+                       class="url fn"
+                            >Julian Foad</a></span> on <a class='last-modified' title='Show changes' href='/confluence/pages/diffpagesbyversion.action?pageId=80450415&amp;selectedPageVersions=27&amp;selectedPageVersions=28'>Dec 04, 2018</a>
+                </li>
+        </ul>
+    </div>
+
+
+<a href="#page-metadata-start" class="assistive">Go to start of metadata</a>
+<div id="page-metadata-end" class="assistive"></div>
+
+        
+                                            
+        <div id="main-content" class="wiki-content">
+                           
+        <p>This is the official Wiki of the <a href="http://subversion.apache.org/" class="external-link" rel="nofollow">Apache Subversion</a> development community.<br/> Editing access is granted to Subversion committers and invited contributors. To get access, just mail a request with your wiki username to <a href="mailto:dev@subversion.apache.org" class="external-link" rel="nofollow">dev@</a>.</p><hr/><p><a href="/confluence/display/SVN/HowTo">HowTo</a> - Instructional pages covering a wide range of topics related to both Subversion's use and its development.</p><p><a href="/confluence/display/SVN/DesignNotes">DesignNotes</a> - Design documentation for Subversion features and enhancements.</p><p><a class="unresolved" href="#">ManyHands</a> - Pages devoted to dividing up community tasks and chores across a pool of volunteers.</p><p><a href="/confluence/display/SVN/Meetings">Meetings</a> - Agendas and notes from hackathons, Bar Camps and similar liquified events.</p><hr/><p>Prior to our use of this wiki, the Subversion project maintained design notes, how-to write-ups, and other miscellaneous bits of documentation in text files versioned alongside the Subversion source code. See <a href="/confluence/display/SVN/MigratingOurNotes">MigratingOurNotes</a> for pointers to those items and discussion around possibly migrating them into this wiki.</p><p>The content of this Wiki is licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" class="external-link" rel="nofollow">ALv2</a>.</p>
+
+                
+        
+    
+        </div>
+
+        <!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+         <rdf:Description
+    rdf:about="https://cwiki.apache.org/confluence/display/SVN/Apache+Subversion+Wiki"
+    dc:identifier="https://cwiki.apache.org/confluence/display/SVN/Apache+Subversion+Wiki"
+    dc:title="Apache Subversion Wiki"
+    trackback:ping="https://cwiki.apache.org/confluence/rpc/trackback/80450415"/>
+</rdf:RDF>
+-->
+
+                        
+    
+
+
+
+<div id="labels-section" class="pageSection group">
+    <div class="labels-section-content content-column" entityid="80450415" entitytype="page">
+	<div class="labels-content">
+		
+    <ul class="label-list label-list-right ">
+            <li class="no-labels-message">
+            No labels
+        </li>
+            </ul>
+
+    </div>
+</div>
+</div>
+        
+		
+            
+
+
+
+
+            
+        
+
+
+
+
+
+
+
+
+                        
+    
+<div id="comments-section" class="pageSection group">
+        
+    
+
+
+
+</div>
+        
+
+
+                
+    
+            
+</div>
+
+    
+
+    
+
+
+
+
+    
+    
+
+    
+    
+    
+
+
+    
+<div id="space-tools-web-items" class="hidden">
+                <div data-label="Overview" data-href="/confluence/spaces/viewspacesummary.action?key=SVN">Overview</div>
+            <div data-label="Content Tools" data-href="/confluence/pages/reorderpages.action?key=SVN">Content Tools</div>
+            <div data-label="Apps" data-href="/confluence/spaces/snippeterrors.action?key=SVN">Apps</div>
+    </div>
+        
+
+
+
+            </div><!-- \#main -->
+            
+    
+    
+        
+            
+            
+
+<div id="footer" role="contentinfo">
+    <section class="footer-body">
+
+                                                            <p class="license license-opensource">
+                    Powered by a free <b>Atlassian Confluence Open Source Project License</b> granted to Apache Software Foundation. <a href="http://www.atlassian.com/c/conf/11461">Evaluate Confluence today</a>.<br>
+                </p>
+                    
+        
+
+        <ul id="poweredby">
+            <li class="noprint">Powered by <a href="http://www.atlassian.com/software/confluence" class="hover-footer-link" rel="nofollow">Atlassian Confluence</a> <span id='footer-build-information'>6.14.2</span></li>
+            <li class="print-only">Printed by Atlassian Confluence 6.14.2</li>
+            <li class="noprint"><a href="https://support.atlassian.com/help/confluence" class="hover-footer-link" rel="nofollow">Report a bug</a></li>
+            <li class="noprint"><a href="http://www.atlassian.com/about/connected.jsp?s_kwcid=Confluence-stayintouch" class="hover-footer-link" rel="nofollow">Atlassian News</a></li>
+        </ul>
+
+        
+
+        <div id="footer-logo"><a href="http://www.atlassian.com/" rel="nofollow">Atlassian</a></div>
+
+                    
+        
+    </section>
+</div>
+
+    
+</div>
+
+</div><!-- \#full-height-container -->
+</div><!-- \#page -->
+
+    <span style="display:none;" id="confluence-server-performance">{"serverDuration": 65, "requestCorrelationId": "a257eca58bc80545"}</span>
+
+
+<script type="text/javascript">
+    AJS.BigPipe = AJS.BigPipe || {};
+    AJS.BigPipe.metrics = AJS.BigPipe.metrics || {};
+    AJS.BigPipe.metrics.pageEnd = typeof window.performance !== "undefined" && typeof window.performance.now === "function"
+                                    ? Math.ceil(window.performance.now()) : 0;
+    AJS.BigPipe.metrics.isBigPipeEnabled = 'false' === 'true';
+</script>
+</body>
+</html>
+    
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Home page of The Apache Software Foundation">
+  
+  <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicons/favicon-194x194.png" sizes="194x194">
+  <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/favicons/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/favicons/manifest.json">
+  <link rel="shortcut icon" href="/favicons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#603cba">
+  <meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+  <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+  <meta name="theme-color" content="#282661">
+
+  <title>Licenses</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,600" rel="stylesheet">
+  <link href="/css/min.bootstrap.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">  
+    
+
+    <!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements.  See the NOTICE file distributed with this work for additional information regarding copyright ownership.  The ASF licenses this file to you under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License.  You may obtain a copy of the License at . http://www.apache.org/licenses/LICENSE-2.0 . Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the specific language governing permissions and limitations under the License. -->
+
+</head>
+
+<body>
+<!-- Navigation -->  
+<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top mainmenu">
+			<div class="container">
+				<div class="navbar-header">
+					<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#mainnav-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="mainnav-collapse">
+					<ul class="nav navbar-nav navbar-justified">
+                <form class="visible-xs">
+                    <div class="input-group" style="width: 100%;">
+                        <script>
+                  (function() {
+                    var cx = '005703438322411770421:5mgshgrgx2u';
+                    var gcse = document.createElement('script');
+                    gcse.type = 'text/javascript';
+                    gcse.async = true;
+                    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                        '//cse.google.com/cse.js?cx=' + cx;
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(gcse, s);
+                  })();
+                </script>
+                      <gcse:searchbox-only></gcse:searchbox-only>
+                      </div>
+                </form>
+						<li><a href="https://apache.org/index.html#news">News</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">About&nbsp;<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="https://apache.org/foundation">Overview</a></li>
+								<li><a href="https://apache.org/foundation/how-it-works.html">Process</a></li>
+								<li><a href="https://www.apache.org/foundation/governance/">Governance</a></li>
+								<li><a href="https://www.apache.org/theapacheway/index.html">The Apache Way</a></li>
+								<li><a href="https://www.apache.org/foundation/governance/members.html">Membership</a></li>
+								<li><a href="https://community.apache.org/">Community</a></li>
+								<li><a href="https://apache.org/foundation/glossary.html">Glossary</a></li>
+								<li><a href="https://apache.org/foundation/preFAQ.html">FAQ</a></li>
+								<li><a href="https://www.apache.org/foundation/policies/conduct">Code of Conduct</a></li>
+								<li><a href="https://apache.org/foundation/contributing.html">Support Apache</a></li>
+								<li><a href="https://apache.org/press/">Media/Analysts</a></li>
+								<li><a href="https://apache.org/foundation/contact.html">Contact</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Make a Donation&nbsp;<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="https://apache.org/foundation/contributing.html">Donate Now</a></li>
+								<li><a href="https://donate.apache.org/">&nbsp;&nbsp;Via Credit Card</a></li>
+								<li><a href="https://donate.apache.org/">&nbsp;&nbsp;Via ACH</a></li>
+								<li><a href="https://donate.apache.org/">&nbsp;&nbsp;Via PayPal</a></li>
+								<li><a href="https://apache.org/foundation/contributing.html#Bitcoin">&nbsp;&nbsp;Using Bigcoin</a></li>
+								<li><a href="https://www.redbubble.com/people/comdev">Buy Swag</a></li>
+								<li><a href="https://smile.amazon.com/gp/chpf/homepage/ref=smi_se_scyc_srch_stsr?q=apache+software+foundation&orig=%2F">Shop smile.amazon.com</a></li>
+								<li><a href="https://apache.org/foundation/sponsorship.html">ASF Sponsorship</a></li>
+								<li><a href="https://apache.org/foundation/thanks#targeted-sponsors">Targeted Sponsorship</a></li>
+								<li><a href="https://apache.org/foundation/contributing.html#CorporateGiving">Corporate Giving</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdopwn-toggle" data-toggle="dropdown">The Apache Way&nbsp;<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="http://www.apache.org/theapacheway/index.html">The Apache Way</a></li>
+								<li><a href="https://s.apache.org/GhnI">Sustainable Open Source</a></li>
+								<li><a href="https://apache.org/foundation/how-it-works.html">How it Works</a></li>
+								<li><a href="https://apache.org/foundation/how-it-works.html#meritocracy">Merit</a></li>
+								<li><a href="https://blogs.apache.org/foundation/category/SuccessAtApache">Success at Apache</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdopwn-toggle" data-toggle="dropdown">Join Us&nbsp;<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="https://community.apache.org/gettingStarted/101.html">Getting Started</a></li>
+								<li><a href="https://helpwanted.apache.org/">Help Wanted</a></li>
+								<li><a href="https://www.apachecon.com/">ApacheCon</a></li>
+								<li><a href="http://community.apache.org/calendars/">Community Events</a></li>
+								<li><a href="https://apache.org/travel/">Travel Assistance</a></li>
+								<li><a href="https://community.apache.org/gsoc.html">Summer of Code</a></li>
+								<li><a href="https://www.apache.org/foundation/policies/conduct">Code of Conduct</a></li>
+								<li><a href="https://community.apache.org/contributors/etiquette">Etiquette</a></li>
+								<li class="dropdown dropdown-submenu visible-xs">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects&nbsp;<span class="caret"></span></a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="https://apache.org/index.html#projects-list">Project List</a></li>
+										<li><a href="#">How they work</a></li>
+										<li><a href="https://community.apache.org/projectIndependence.html">Independence</a></li>
+										<li><a href="https://projects.apache.org/committees.html?date">Date Founded</a></li>
+										<li><a href="https://projects.apache.org/projects.html?name">Names</a></li>
+										<li><a href="https://projects.apache.org/projects.html?category">Categories</a></li>
+										<li><a href="https://projects.apache.org/projects.html?language">Languages</a></li>
+										<li><a href="https://projects.apache.org/statistics.html">Statistics</a></li>
+										<li><a href="https://incubator.apache.org/">Apache Incubator</a></li>
+										<li><a href="https://helpwanted.apache.org/">Help Wanted</a></li>
+										<li><a href="https://apache.org/foundation/marks/">Brand Management</a></li>
+										<li><a href="https://apache.org/foundation/glossary.html">Glossary of Terms</a></li>
+									</ul>
+								</li>
+								<li class="drowpdown dropdown-submenu visible-xs">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">People&nbsp;<span class="caret"></span></a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="https://www.apache.org/foundation/how-it-works.html#roles">Roles</a></li>
+										<li><a href="https://apache.org/foundation/members.html">Members</a></li>
+										<li><a href="https://community.apache.org/contributors/">Committers</a></li>
+										<li><a href="https://apache.org/foundation/#who-runs-the-asf">Board of Directors</a></li>
+										<li><a href="https://apache.org/foundation/#who-runs-the-asf">Officers  &amp; Product VPs</a></li>
+										<li><a href="https://community.zones.apache.org/map.html">Heat Map</a></li>
+										<li><a href="https://www.apache.org/foundation/policies/conduct">Code of Conduct</a></li>
+										<li><a href="https://people.apache.org/">Committer Directory</a></li>
+									</ul>
+								</li>
+								<li class="drowpdown dropdown-submenu visible-xs">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Community&nbsp;<span class="caret"></span></a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="https://community.apache.org/about/">Community Development</a></li>
+										<li><a href="https://www.apache.org/foundation/policies/conduct">Code of Conduct</a></li>
+										<li><a href="https://community.apache.org/">Get Involved</a></li>
+										<li><a href="https://community.apache.org/mentoringprogramme.html">Mentoring</a></li>
+										<li><a href="https://helpwanted.apache.org/">Help Wanted</a></li>
+										<li><a href="https://community.apache.org/calendars/">Community Events</a></li>
+										<li><a href="https://community.apache.org/newbiefaq.html">FAQ</a></li>
+										<li><a href="https://community.apache.org/lists.html">Mailing Lists</a></li>
+									</ul>
+								</li>
+								<li class="drowpdown dropdown-submenu visible-xs">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">License&nbsp;<span class="caret"></span></a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="https://apache.org/licenses/">Apache License</a></li>
+										<li><a href="https://apache.org/foundation/license-faq.html">Licensing FAQ</a></li>
+										<li><a href="https://www.apache.org/licenses/#clas">Contributor License Agreements</a></li>
+										<li><a href="https://www.apache.org/licenses/#grants">Software Grants</a></li>
+										<li><a href="https://apache.org/foundation/marks/list/">Trademarks</a></li>
+									</ul>
+								</li>		
+								<li class="drowpdown dropdown-submenu visible-xs">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Sponsors&nbsp;<span class="caret"></span></a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="https://apache.org/foundation/sponsorship.html">Sponsor the ASF</a></li>
+										<li><a href="https://www.apache.org/foundation/thanks">Sponsor Thanks</a></li>
+										<li><a href="https://apache.org/foundation/contributing.html#CorporateGiving">Corporate Giving</a></li>
+										<li><a href="https://apache.org/foundation/contributing.html">Individual Donations</a></li>
+										<li><a href="https://www.redbubble.com/people/comdev/">Buy Stuff</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Downloads&nbsp;<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="https://www.apache.org/dist/">Distribution</a></li>
+								<li><a href="https://projects.apache.org/releases.html">Releases</a></li>
+								<li><a href="https://apache.org/dyn/closer.cgi">Mirrors</a></li>
+								<li><a href="https://status.apache.org/">Infrastructure Status</a></li>
+							</ul>
+						</li>
+						<li class="dropdown hidden-xs">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"
+                aria-hidden="true"></span><span class="sr-only">Search</span></a>
+                <ul class="dropdown-menu search-form" role="search">
+                    <div class="input-group" style="width: 100%; padding: 0 5px;">
+                        <script>
+                  (function() {
+                    var cx = '005703438322411770421:5mgshgrgx2u';
+                    var gcse = document.createElement('script');
+                    gcse.type = 'text/javascript';
+                    gcse.async = true;
+                    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                        '//cse.google.com/cse.js?cx=' + cx;
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(gcse, s);
+                  })();
+                </script>
+                      <gcse:searchbox-only></gcse:searchbox-only>
+                      </div>
+                </ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+<!-- / Navigation -->
+	<header id="main-header" class="container">
+		<div class="sideImg">
+			<a class="visible-home" href="http://apachecon.com/"><img class="img-responsive" src="/img/ApacheCon-PROMO-2019.gif" alt="ApacheCon is Coming 9-12 Sept. 2019 - Las Vegas"></a>
+			<a class="hidden-home" href="http://apache.org/"><img class="img-responsive" src="/img/ASF20thAnniversary.jpg" alt="The Apache Software Foundation"></a>
+		</div>
+		<div class="main">
+			<img class="img-responsive center-block visible-home" src="/img/ASF20thAnniversary.jpg" alt="Apache 20th Anniversary Logo">
+			<h2 class="text-center">Celebrating 20 years of community-led development "The&nbsp;Apache&nbsp;Way"</h2>
+			<ul class="nav navbar-nav navbar-justified">
+				<li class="drowpdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects&nbsp;<span class="caret hidden-sm"></span></a>
+					<ul class="dropdown-menu" role="menu">
+							<li><a href="https://apache.org/index.html#projects-list">Project List</a></li>
+							<li><a href="#">How they work</a></li>
+							<li><a href="https://community.apache.org/projectIndependence.html">Independence</a></li>
+							<li><a href="https://projects.apache.org/committees.html?date">Date Founded</a></li>
+							<li><a href="https://projects.apache.org/projects.html?name">Names</a></li>
+							<li><a href="https://projects.apache.org/projects.html?category">Categories</a></li>
+							<li><a href="https://projects.apache.org/projects.html?language">Languages</a></li>
+							<li><a href="https://projects.apache.org/statistics.html">Statistics</a></li>
+							<li><a href="https://incubator.apache.org/">Apache Incubator</a></li>
+							<li><a href="https://helpwanted.apache.org/">Help Wanted</a></li>
+							<li><a href="https://apache.org/foundation/marks/">Brand Management</a></li>
+							<li><a href="https://apache.org/foundation/glossary.html">Glossary of Terms</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">People&nbsp;<span class="caret hidden-sm"></span></a>
+					<ul class="dropdown-menu" role="menu">
+							<li><a href="https://www.apache.org/foundation/how-it-works.html#roles">Roles</a></li>
+							<li><a href="https://apache.org/foundation/members.html">Members</a></li>
+							<li><a href="https://community.apache.org/contributors/">Committers</a></li>
+							<li><a href="https://apache.org/foundation/#who-runs-the-asf">Board of Directors</a></li>
+							<li><a href="https://apache.org/foundation/#who-runs-the-asf">Officers  &amp; Product VPs</a></li>
+							<li><a href="https://community.zones.apache.org/map.html">Heat Map</a></li>
+							<li><a href="https://www.apache.org/foundation/policies/conduct">Code of Conduct</a></li>
+							<li><a href="https://people.apache.org/">Committer Directory</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Community&nbsp;<span class="caret hidden-sm"></span></a>
+					<ul class="dropdown-menu" role="menu">
+							<li><a href="https://community.apache.org/about/">Community Development</a></li>
+							<li><a href="https://www.apache.org/foundation/policies/conduct">Code of Conduct</a></li>
+							<li><a href="https://community.apache.org/">Get Involved</a></li>
+							<li><a href="https://community.apache.org/mentoringprogramme.html">Mentoring</a></li>
+							<li><a href="https://helpwanted.apache.org/">Help Wanted</a></li>
+							<li><a href="https://community.apache.org/calendars/">Community Events</a></li>
+							<li><a href="https://community.apache.org/newbiefaq.html">FAQ</a></li>
+							<li><a href="https://community.apache.org/lists.html">Mailing Lists</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">License&nbsp;<span class="caret hidden-sm"></span></a>
+					<ul class="dropdown-menu" role="menu">
+							<li><a href="https://apache.org/licenses/">Apache License</a></li>
+							<li><a href="https://apache.org/foundation/license-faq.html">Licensing FAQ</a></li>
+							<li><a href="https://www.apache.org/licenses/#clas">Contributor License Agreements</a></li>
+							<li><a href="https://www.apache.org/licenses/#grants">Software Grants</a></li>
+							<li><a href="https://apache.org/foundation/marks/list/">Trademarks</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Sponsors&nbsp;<span class="caret hidden-sm"></span></a>
+					<ul class="dropdown-menu" role="menu">
+							<li><a href="https://apache.org/foundation/sponsorship.html">Sponsor the ASF</a></li>
+							<li><a href="https://www.apache.org/foundation/thanks">Sponsor Thanks</a></li>
+							<li><a href="https://apache.org/foundation/contributing.html#CorporateGiving">Corporate Giving</a></li>
+							<li><a href="https://apache.org/foundation/contributing.html">Individual Donations</a></li>
+							<li><a href="https://www.redbubble.com/people/comdev/">Buy Stuff</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="sideImg">
+			<a href="http://apache.org/foundation/contributing.html"><img class="img-responsive" src="/img/support-apache.jpg" alt="Apache Support Logo" /></a>
+		</div>
+	</header>
+<div class="container"><style type="text/css">
+/* The following code is added by mdx_elementid.py
+   It was originally lifted from http://subversion.apache.org/style/site.css */
+/*
+ * Hide class="elementid-permalink", except when an enclosing heading
+ * has the :hover property.
+ */
+.headerlink, .elementid-permalink {
+  visibility: hidden;
+}
+h2:hover > .headerlink, h3:hover > .headerlink, h1:hover > .headerlink, h6:hover > .headerlink, h4:hover > .headerlink, h5:hover > .headerlink, dt:hover > .elementid-permalink { visibility: visible }</style>
+<style type="text/css">
+/* The following code is added by mdx_elementid.py
+   It was originally lifted from http://subversion.apache.org/style/site.css */
+/*
+ * Hide class="elementid-permalink", except when an enclosing heading
+ * has the :hover property.
+ */
+.headerlink, .elementid-permalink {
+  visibility: hidden;
+}
+h2:hover > .headerlink, h3:hover > .headerlink, h1:hover > .headerlink, h6:hover > .headerlink, h4:hover > .headerlink, h5:hover > .headerlink, dt:hover > .elementid-permalink { visibility: visible }</style>
+<h1 id="apache-licenses">Apache Licenses<a class="headerlink" href="#apache-licenses" title="Permanent link">&para;</a></h1>
+<p>The Apache Software Foundation uses various licenses to distribute
+software and documentation, to accept regular
+contributions from individuals and corporations, and to accept
+larger grants of existing software products.</p>
+<p>These licenses help us achieve our goal of providing reliable and
+long-lived software products through collaborative open source software
+development. In all cases, contributors retain full rights to use their
+original contributions for any other purpose outside of Apache while
+providing the ASF and its projects the right to distribute and build upon
+their work within Apache.</p>
+<h1 id="distributions">Licensing of ASF Products<a class="headerlink" href="#distributions" title="Permanent link">&para;</a></h1>
+<p>All software produced by The Apache Software Foundation or any of its
+projects or subjects is licensed according to the terms of the documents
+listed below.</p>
+<h3 id="2.0">Apache License, Version 2.0 (current)<a class="headerlink" href="#2.0" title="Permanent link">&para;</a></h3>
+<p><a href="LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a> (
+<a href="LICENSE-2.0.txt">TXT</a> or <a href="LICENSE-2.0.html">HTML</a> )</p>
+<p>The 2.0 version of the Apache License was approved by the ASF in 2004. The
+goals of this license revision have been to reduce the number of frequently
+asked questions, to allow the license to be reusable without modification
+by any project (including non-ASF projects), to allow the license to be
+included by reference instead of listed in every file, to clarify the
+license on submission of contributions, to require a patent license on
+contributions that necessarily infringe the contributor's own patents, and
+to move comments regarding Apache and other inherited attribution notices
+to a location outside the license terms (example <a href="example-NOTICE.txt">NOTICE
+file</a> ).</p>
+<p>All packages produced by the ASF are implicitly licensed under the Apache
+License, Version 2.0, unless otherwise explicitly stated. ASF developer
+documentation on how to apply the Apache License 2.0 to a product is covered 
+in the <a href="../dev/apply-license.html">Applying the Apache License, Version 2.0</a> instructions.</p>
+<h3 id="1.1">Apache License, Version 1.1 (historic)<a class="headerlink" href="#1.1" title="Permanent link">&para;</a></h3>
+<p><a href="LICENSE-1.1">http://www.apache.org/licenses/LICENSE-1.1</a> </p>
+<p>The 1.1 version of the Apache License was approved by the ASF in 2000. The
+primary change from the 1.0 license was in the removal of the 'advertising clause' (section
+3 of the 1.0 license); derived products are no longer required to include
+attribution in their advertising materials, only in their documentation.</p>
+<h3 id="1.0">Apache License, Version 1.0 (historic)<a class="headerlink" href="#1.0" title="Permanent link">&para;</a></h3>
+<p><a href="LICENSE-1.0">http://www.apache.org/licenses/LICENSE-1.0</a> </p>
+<p>This is the original Apache License which applies only to very old versions of
+Apache packages (such as version 1.2 of the Web server).</p>
+<h1 id="clas">Contributor License Agreements<a class="headerlink" href="#clas" title="Permanent link">&para;</a></h1>
+<p>The ASF desires that all contributors of ideas, code, or documentation to
+any Apache projects complete, sign, and submit via
+email an <a href="icla.pdf">Individual Contributor License Agreement</a> (ICLA). </p>
+<p>The purpose of this agreement is to clearly define the
+terms under which intellectual property has been contributed to the ASF and
+thereby allow us to defend the project should there be a legal dispute
+regarding the software at some future time. A signed ICLA is required to be
+on file before an individual is given commit rights to any ASF project.</p>
+<p>For a corporation that has assigned employees to work on an Apache project,
+a <a href="cla-corporate.pdf">Corporate CLA</a> (CCLA) is available for contributing
+intellectual property via the corporation, that may have been assigned as
+part of an employment agreement.</p>
+<p>Note that a Corporate CLA does not remove
+the need for every developer to sign their own ICLA as an individual, which
+covers both contributions which are owned and those that are not owned by the corporation
+signing the CCLA.</p>
+<p>The CCLA legally binds the corporation, so it must be signed by a person with
+authority to enter into legal contracts on behalf of the corporation.</p>
+<p>The ICLA is not tied to any employer you may have, so it is recommended to
+use one's personal email address in the contact details, rather than an @work
+address.</p>
+<p>Your Full name will be published unless you provide an alternative Public name.
+For example if your full name is Andrew Bernard Charles Dickens, but you wish
+to be known as Andrew Dickens, please enter the latter as your Public name.</p>
+<p>The email address and other contact details are not published.</p>
+<p>If you are submitting an ICLA in response to an invitation from a PMC, be sure to
+identify the project via the form field "notify project". Also, choose a preferred id that
+is not already in use. Apache ids must start with an alphabetic character and contain
+at least two additional alphanumeric characters (no special characters).
+You can check for ids in use <a href="http://people.apache.org/committer-index.html">here</a>.</p>
+<h1 id="grants">Software Grants<a class="headerlink" href="#grants" title="Permanent link">&para;</a></h1>
+<p>When an individual or corporation decides to donate a body of existing
+software or documentation to one of the Apache projects, they need to
+execute a formal <a href="software-grant-template.pdf">Software Grant Agreement</a> (SGA) with
+the ASF. Typically, this is done after negotiating approval with the ASF
+<a href="http://incubator.apache.org/">Incubator</a> or one of the PMCs, since the ASF
+will not accept software unless there is a viable community available to
+support a collaborative project.</p>
+<h1 id="submitting">Submitting License Agreements and Grants<a class="headerlink" href="#submitting" title="Permanent link">&para;</a></h1>
+<p>Documents may be submitted by email and signed by hand or by electronic signature.
+Postal mail hard copy and fax are no longer supported.</p>
+<p>When submitting by email, please fill the form with a pdf viewer, then
+print, sign, scan all pages into a single pdf file, 
+and attach the pdf file to an email to secretary@apache.org. </p>
+<p>If possible, send the attachment from the email address in the document.
+Please send only one document per email.</p>
+<p>If you prefer to sign electronically, please fill the form, save it locally (e.g. icla.pdf), and sign the
+file by preparing a detached PGP signature. For example,</p>
+<blockquote>
+<p>gpg --armor --detach-sign icla.pdf</p>
+</blockquote>
+<p>The above will create a file icla.pdf.asc. Send both the file (icla.pdf) and signature
+(icla.pdf.asc) as attachments in the same email to secretary@apache.org. Please send only one 
+document (file plus signature) per email. Please do not submit your public key to Apache.
+Instead, please upload your public key to pgpkeys.mit.edu. </p>
+<p>The files should be named
+icla.pdf and icla.pdf.asc for individual agreements;
+ccla.pdf and ccla.pdf.asc  for corporate agreements;
+software-grant.pdf and software-grant.pdf.asc for grants. </p>
+<p>We do not accept Zip files or other archives.
+We do not accept links to files; the files must be attached to the mail.</p>
+<p>Please note that typing your name in the field at the bottom of the document is not signing,
+regardless of the font that is used.
+Signing is either writing your signature by hand on a printed copy of the document,
+or digitally signing via gpg. Unsigned documents will not be accepted.</p>
+<p>From wikipedia.org: A signature is a handwritten (and often stylized) depiction of someone's name
+or nickname, on documents as a proof of identity and intent. </p>
+<h1 id="provenance">Provenance<a class="headerlink" href="#provenance" title="Permanent link">&para;</a></h1>
+<p>Source code (including machine-readable documentation, release notes, guides,
+test cases, run books, and scripts) in Apache repositories falls into three
+classifications (solely for the purpose of this discussion):</p>
+<h4 id="code-developed-at-apache-under-apache-governance-licensed-to-apache-by-its-developers-under-a-contributor-license-agreement-distributed-by-apache-and-licensed-to-downstream-users-under-the-apache-license">Code developed at Apache under Apache governance, licensed to Apache by its developers under a Contributor License Agreement, distributed by Apache, and licensed to downstream users under the Apache license<a class="headerlink" href="#code-developed-at-apache-under-apache-governance-licensed-to-apache-by-its-developers-under-a-contributor-license-agreement-distributed-by-apache-and-licensed-to-downstream-users-under-the-apache-license" title="Permanent link">&para;</a></h4>
+<p>This represents most code at Apache. The code contains a standard Apache license 
+header which refers to the standard Apache license in the distribution.</p>
+<h4 id="code-developed-elsewhere-licensed-to-apache-under-a-software-grant-agreement-incorporated-into-apache-projects-distributed-by-apache-and-licensed-to-downstream-users-under-the-apache-license">Code developed elsewhere, licensed to Apache under a Software Grant Agreement, incorporated into Apache projects, distributed by Apache, and licensed to downstream users under the Apache license<a class="headerlink" href="#code-developed-elsewhere-licensed-to-apache-under-a-software-grant-agreement-incorporated-into-apache-projects-distributed-by-apache-and-licensed-to-downstream-users-under-the-apache-license" title="Permanent link">&para;</a></h4>
+<p>This is code that is being brought into Apache for future development as part 
+of an Apache project. The headers on all files are changed to the standard Apache 
+header. Most incubator projects start as externally-developed code and the 
+Intellectual Property Clearance process is done as part of incubation. </p>
+<p>Code that is originally developed elsewhere and is being brought into Apache for 
+future development as part of an existing project must have the Intellectual Property 
+Clearance process done explicitly by the PMC of the receiving project, under the 
+auspices of the Incubator PMC which must approve the process. </p>
+<h4 id="code-developed-elsewhere-received-under-a-category-a-license-incorporated-into-apache-projects-distributed-by-apache-and-licensed-to-downstream-users-under-its-original-license">Code developed elsewhere, received under a Category A license, incorporated into Apache projects, distributed by Apache, and licensed to downstream users under its original license<a class="headerlink" href="#code-developed-elsewhere-received-under-a-category-a-license-incorporated-into-apache-projects-distributed-by-apache-and-licensed-to-downstream-users-under-its-original-license" title="Permanent link">&para;</a></h4>
+<p>This code retains its external identity and is being incorporated into an Apache project 
+for convenience, to avoid referencing an external repository whose contents are not 
+under control of the project. The code retains its original license; and distribution as 
+part of the Apache project explicitly calls out the license. The code retains its original 
+header which refers to its own license in the distribution. If changes are made to the 
+code while at Apache, the standard Apache header is prepended to each changed 
+file. Additionally, any legally-required notices related to the code are published in the 
+distribution.</p>
+<h1 id="crypto">Export restrictions<a class="headerlink" href="#crypto" title="Permanent link">&para;</a></h1>
+<p>For export restriction information, please consult our <a href="/licenses/exports/">ASF Export
+Classifications</a> page.</p>
+<h1 id="trademarks">Trademark and Logo Usage<a class="headerlink" href="#trademarks" title="Permanent link">&para;</a></h1>
+<p>For ASF trademark and logo usage information, please consult our <a href="/foundation/marks/">ASF
+Trademark Use Policy</a> page.</p>
+<h1 id="questions">Questions?<a class="headerlink" href="#questions" title="Permanent link">&para;</a></h1>
+<p>For answers to frequently asked licensing questions, please consult our 
+<a href="/foundation/license-faq.html">Licensing Frequently Asked Questions</a> page.</p></div>
+
+<!-- Footer -->
+
+<footer class="bg-primary">
+  <div class="container">
+			<div class="row">
+				<br />
+				<div class="col-sm-1">
+					
+				</div>
+				<div class="col-sm-2">
+		        	<h5 class="white">Community</h5>
+		        	<ul class="list-unstyled white" role="menu">
+						<li><a href="http://community.apache.org/">Overview</a></li>
+						<li><a href="/foundation/conferences.html">Conferences</a></li>
+						<li><a href="http://community.apache.org/gsoc.html">Summer of Code</a></li>
+						<li><a href="http://community.apache.org/newcomers/">Getting Started</a></li>
+						<li><a href="/foundation/how-it-works.html">The Apache Way</a></li>
+						<li><a href="/travel/">Travel Assistance</a></li>
+						<li><a href="/foundation/getinvolved.html">Get Involved</a></li>
+      		  <li><a href="/foundation/policies/conduct.html">Code of Conduct</a></li>
+						<li><a href="http://community.apache.org/newbiefaq.html">Community FAQ</a></li>
+						<li><a href="/memorials/">Memorials</a></li>
+		        	</ul>
+				</div>
+				
+				<div class="col-sm-2">
+					<h5 class="white">Innovation</h5>
+		        	<ul class="list-unstyled white" role="menu">
+						<li><a href="http://incubator.apache.org/">Incubator</a></li>
+						<li><a href="http://labs.apache.org/">Labs</a></li>
+						<li><a href="/licenses/">Licensing</a></li>
+						<li><a href="/foundation/license-faq.html">Licensing FAQ</a></li>
+						<li><a href="/foundation/marks/">Trademark Policy</a></li>
+						<li><a href="/foundation/contact.html">Contacts</a></li>
+		        	</ul>
+				</div>
+
+				<div class="col-sm-2">
+					<h5 class="white">Tech Operations</h5>
+		        <ul class="list-unstyled white" role="menu">
+  						<li><a href="/dev/">Developer Information</a></li>
+  						<li><a href="/dev/infrastructure.html">Infrastructure</a></li>
+  						<li><a href="/security/">Security</a></li>
+  						<li><a href="http://status.apache.org">Status</a></li>
+  						<li><a href="/foundation/contact.html">Contacts</a></li>
+		        </ul>
+				</div>
+
+				<div class="col-sm-2">
+					<h5 class="white">Press</h5>
+        	<ul class="list-unstyled white" role="menu">
+						<li><a href="/press/">Overview</a></li>
+						<li><a href="https://blogs.apache.org/">ASF News</a></li>
+						<li><a href="https://blogs.apache.org/foundation/">Announcements</a></li>
+						<li><a href="https://twitter.com/TheASF">Twitter Feed</a></li>
+						<li><a href="/press/#contact">Contacts</a></li>
+        	</ul>
+				</div>
+				
+				<div class="col-sm-2">
+					<h5 class="white">Legal</h5>
+        	<ul class="list-unstyled white" role="menu">
+						<li><a href="/legal/">Legal Affairs</a></li>
+						<li><a href="/legal/dmca.html">DMCA</a></li>
+						<li><a href="/licenses/">Licenses</a></li>
+						<li><a href="/foundation/marks/">Trademark Policy</a></li>
+						<li><a href="/foundation/records/">Public Records</a></li>
+            <li><a href="/foundation/policies/privacy.html">Privacy Policy</a></li>
+						<li><a href="/licenses/exports/">Export Information</a></li>
+						<li><a href="/foundation/license-faq.html">License/Distribution FAQ</a></li>
+						<li><a href="/foundation/contact.html">Contacts</a></li>
+        	</ul>
+				</div>
+
+				<div class="col-sm-1">
+				</div>
+
+			</div>
+			<hr class="col-lg-12 hr-white" />
+			<div class="row">
+				<div class="col-lg-12">
+					<p class="text-center">Copyright &#169; 2019 The Apache Software Foundation, Licensed under the <a class="white" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</p>
+					<p class="text-center">Apache and the Apache feather logo are trademarks of The Apache Software Foundation. </p>
+				</div>
+			</div>
+		</div>
+
+</footer>
+
+<!-- / Footer -->
+
+	<script src="/js/jquery-2.1.1.min.js"></script>
+	<script src="/js/bootstrap.js"></script>
+<script>
+    (function($){
+      $(document).ready(function(){
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+          event.preventDefault(); 
+          event.stopPropagation(); 
+          $(this).parent().siblings().removeClass('open');
+          $(this).parent().toggleClass('open');
+          console.log('WOrked');
+        });
+      });
+    })(jQuery);
+  </script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+
+
+
+#####EOF#####
+
+
+
+
+
+#####EOF#####
+
+

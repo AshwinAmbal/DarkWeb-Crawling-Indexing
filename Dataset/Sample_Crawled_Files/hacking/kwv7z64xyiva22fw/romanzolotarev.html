@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-gray bg-near-white serif lh-copy pa3">
+<meta charset="UTF-8">
+<meta name="generator" content="romanzolotarev.com/bin/ssg4">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make a static site with find(1), grep(1), and lowdown(1) &mdash; Roman Zolotarev</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="alternate" type="application/atom+xml" href="/rss.xml">
+<link rel="alternate" type="application/atom+xml" href="/n/rss.xml">
+<link rel="stylesheet" href="/style.css">
+<body class="mw6 w-100 center">
+
+<div class="mt3"><a href="/"><img width=60 height=60 class="w3 br-100"
+src="/rgzee-black.svg"></a></div>
+<div class="f7 mt2">
+<a href="/m/">How-tos</a>&nbsp;
+<a href="/m/code.html">Scripts</a>&nbsp;
+<a href="/m/pricing.html">Pricing</a>&nbsp;
+<a href="/m/words.html">Testimonials</a>&nbsp;
+<a href="/m/support.html">Support</a>&nbsp;
+<a href="/n/">Newsletter</a>
+</div>
+<p><em>Tested on <a href="/openbsd/">OpenBSD</a> 6.3 and 6.4</em></p>
+
+<h1 id="Make%20a%20static%20site%20with%20find(1),%20grep(1),%20and%20lowdown(1)">Make a static site with find(1), grep(1), and lowdown(1)</h1>
+
+<p><a href="/bin/ssg4">ssg</a> is a static site generator written in shell. Optionally it
+converts Markdown files to HTML with
+<a href="https://kristaps.bsd.lv/lowdown/">lowdown(1)</a>.</p>
+
+<p>Unless a page has <code>&lt;HTML&gt;</code> tag <em>ssg4</em> extracts its title from <code>&lt;H1&gt;</code>
+tag, wraps the page with <code>_header.html</code>, <code>_footer.html</code>.</p>
+
+<p>Then copies everything (excluding <code>.*</code>, <code>CVS</code>, and <code>_*</code>) from <code>src</code>
+to <code>dst</code> directory.</p>
+
+<p><a href="ssg4.png"><img src="ssg4.png" alt="ssg4" /></a>
+<em>180 LoC. <a href="ssg4.png">Enlarge, enhance, zoom!</a></em></p>
+
+<h2 id="Install">Install</h2>
+
+<p>Download and chmod it:</p>
+
+<pre>
+$ <b>mkdir -p bin</b>
+$ <b>ftp -Vo bin/ssg4 https://www.romanzolotarev.com/bin/ssg4</b>
+ssg4       100% |*********************|    4916      00:00
+$ <b>chmod +x bin/ssg4</b>
+$ <b>doas pkg_add lowdown</b>
+quirks-2.414 signed on 2018-03-28T14:24:37Z
+lowdown-0.3.1: ok
+$
+</pre>
+
+<p>lowdown(1) is optional. It&#8217;s required only if there are
+any <code>*.md</code> files.</p>
+
+<h2 id="Usage">Usage</h2>
+
+<pre>
+$ <b>mkdir src dst</b>
+$ <b>echo '# Hello, World!' > src/index.md</b>
+$ <b>ftp -Vo src/_header.html https://www.romanzolotarev.com/raw/_header.html</b>
+_header.html 100% |**************************|  3362       00:00
+$ <b>ftp -Vo src/_footer.html https://www.romanzolotarev.com/raw/_footer.html</b>
+_header.html 100% |**************************|   727       00:00
+$ <b>ftp -Vo src/favicon.png https://www.romanzolotarev.com/raw/favicon.png</b>
+favicon.png  100% |**************************|   408       00:00
+$ <b>bin/ssg4 src dst 'Test' 'http://www'</b>
+./index.md
+./favicon.png
+[ssg] 2 files, 1 url
+$ <b>find dst</b>
+dst
+dst/.files
+dst/index.html
+dst/favicon.png
+dst/sitemap.xml
+$ <b>open dst/index.html</b>
+</pre>
+
+<h2 id="Markdown%20and%20HTML%20files">Markdown and HTML files</h2>
+
+<p>HTML files from <code>src</code> have greater priority than Markdown ones.
+<em>ssg4</em> converts Markdown files from <code>src</code> to HTML in <code>dst</code> and then
+copies HTML files from <code>src</code> to <code>dst</code>. In the following example
+<code>src/a.html</code> wins:</p>
+
+<pre><code>src/a.md   -&gt; dst/a.html
+src/a.html -&gt; dst/a.html
+</code></pre>
+
+<h2 id="Favicon">Favicon</h2>
+
+<p>Make sure you have <code>/favicon.png</code> in place.</p>
+
+<p>Some browsers fetch <code>/favicon.ico</code> despite what you specified in
+the <code>&lt;LINK&gt;</code> tag, so you can use <a href="/favicon.ico">an empty one</a> (180
+bytes) as a placeholder.</p>
+
+<h2 id="Sitemap">Sitemap</h2>
+
+<p><em>ssg4</em> generates <code>sitemap.xml</code> with the list of all page.  Don&#8217;t
+forget to add absolute URL of the sitemap to your <code>robot.txt</code>.<br>For
+example:</p>
+
+<pre><code>user-agent: *
+sitemap: https://www.romanzolotarev.com/sitemap.xml
+</code></pre>
+
+<h2 id="RSS">RSS</h2>
+
+<p>To generate RSS feeds use <a href="rssg.html">rssg</a>, then add their URLs
+to <code>_header.html</code>.<br>For example:</p>
+
+<pre><code>&lt;link rel=&quot;alternate&quot; type=&quot;application/atom+xml&quot; href=&quot;/rss.xml&quot;&gt;
+</code></pre>
+
+<h2 id="Incremental%20updates">Incremental updates</h2>
+
+<p>On every run <em>ssg4</em> saves a list of files in <code>dst/.files</code> and updates
+only newer files. If no files were modified after that, <em>ssg4</em> does
+nothing.</p>
+
+<pre>
+$ <b>bin/ssg4 src dst 'Test' 'https://www'</b>
+[ssg] no files, 1 url
+$
+</pre>
+
+<p>To force the update delete <code>dst/.files</code> and re-run <em>ssg4</em>.</p>
+
+<pre>
+$ <b>rm dst/.files</b>
+$ <b>bin/ssg4 src dst 'Test' 'https://www'</b>
+index.md
+[ssg] 1 file, 1 url
+$
+</pre>
+
+<h2 id="Watch">Watch</h2>
+
+<p>Save this helper to <code>~/bin/sssg</code>. It re-runs <em>ssg4</em> with
+<a href="http://entrproject.org">entr(1)</a> on every file change.</p>
+
+<pre>
+$ <b>cat $HOME/bin/sssg</b>
+#!/bin/sh
+while :
+do
+    find . -type f ! -path '*/.*' |
+    entr -d "$HOME/bin/ssg4" . "$1" "$(date)" '//www'
+done
+$
+</pre>
+
+<p>Install entr(1):</p>
+
+<pre>
+$ <b>doas pkg_add entr</b>
+quirks-2.414 signed on 2018-03-28T14:24:37Z
+entr-4.0: ok
+$
+</pre>
+
+<p>Start the helper and keep it running:</p>
+
+<pre>
+$ <b>~/bin/s /var/www/htdocs/www</b>
+[ssg] 1 file, 1 url
+</pre>
+
+<h2 id="Upgrade">Upgrade</h2>
+
+<p><em><a href="ssg3.html">Previous version of ssg</a> has been retired.</em></p>
+
+<p>Add <code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;STYLE&gt;...&lt;/STYLE&gt;</code> with your styles and
+an empty <code>&lt;TITLE&gt;&lt;/TITLE&gt;</code> tags to <code>_header.html</code>.</p>
+
+<p><em>ssg4</em> captures page&#8217;s title from the first <code>&lt;H1&gt;</code> tag of the page
+and inject it into <code>&lt;TITLE&gt;</code>, if it&#8217;s present and empty.</p>
+
+<p>Move <code>_rss.html</code> to <code>_header.html</code>, <code>_styles.css</code> to <code>&lt;STYLE&gt;</code> tag
+in <code>_header.html</code>, and <code>_scripts.js</code> to <code>&lt;SCRIPT&gt;</code> tag.</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left"><em>ssg3</em></th>
+<th style="text-align: left"><em>ssg4</em></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">Builds 1,730 files in <strong>8.54s</strong></td>
+<td style="text-align: left">in <strong>5.43s</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">&nbsp;</td>
+<td style="text-align: left"></td>
+</tr>
+<tr>
+<td style="text-align: left">Contains basic HTML tags.</td>
+<td style="text-align: left">Contains no HTML tags.</td>
+</tr>
+<tr>
+<td style="text-align: left">wc(1) is required.</td>
+<td style="text-align: left">Doesn&#8217;t use wc(1).</td>
+</tr>
+<tr>
+<td style="text-align: left">&nbsp;</td>
+<td style="text-align: left"></td>
+</tr>
+<tr>
+<td style="text-align: left">List of feeds read from <code>_rss.html</code>,</td>
+<td style="text-align: left"><code>_rss.html</code>,</td>
+</tr>
+<tr>
+<td style="text-align: left">styles from <code>_styles.css</code>, and</td>
+<td style="text-align: left"><code>_styles.css</code>, and</td>
+</tr>
+<tr>
+<td style="text-align: left">scripts from <code>_scripts.js</code>.</td>
+<td style="text-align: left"><code>_scripts.js</code> have been removed.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="Dependencies">Dependencies</h2>
+
+<p><em>ssg4</em> depends on few programs from OpenBSD base:</p>
+
+<pre>
+$ <b>for f in $(which cat cpio date sh awk find grep printf readlink sort tee)</b>
+<i><b>do ldd "$f"</b></i>
+<i><b>done | awk '/\//{print$7}' | grep '.' | sort -u</b></i>
+/bin/cat
+/bin/cpio
+/bin/date
+/bin/sh
+/usr/bin/awk
+/usr/bin/find
+/usr/bin/grep
+/usr/bin/printf
+/usr/bin/readlink
+/usr/bin/sort
+/usr/bin/tee
+/usr/lib/libc.so.92.5
+/usr/lib/libm.so.10.1
+/usr/lib/libutil.so.13.0
+/usr/lib/libz.so.5.0
+/usr/libexec/ld.so
+</pre>
+
+<hr/>
+
+<h2 id="Users">Users</h2>
+
+<p><a href="https://blog.solobsd.org/">blog.solobsd.org</a><br>
+<a href="https://www.bloguslibrus.fr">bloguslibrus.fr</a><br>
+<a href="https://www.bsdjobs.com/">bsdjobs.com</a><br>
+<a href="https://cryogenix.net">cryogenix.net</a><br>
+<a href="https://www.dethronedemperor.com">dethronedemperor.com</a><br>
+<a href="https://grosu.nl/">grosu.nl</a><br>
+<a href="https://h3artbl33d.nl/">h3artbl33d.nl</a><br>
+<a href="https://high5.nl/">high5.nl</a><br>
+<a href="https://matthewgraybosch.com/">matthewgraybosch.com</a><br>
+<a href="https://mvidal.net/">mvidal.net</a><br>
+<a href="https://openbsd.amsterdam/?rz">openbsd.amsterdam</a><br>
+<a href="https://openbsd.space/">openbsd.space</a><br>
+<a href="https://www.romanzolotarev.com/">romanzolotarev.com</a> &mdash; obviously ;)<br>
+<a href="https://runbsd.info/">runbsd.info</a><br>
+<a href="https://www.stockersolutions.com/">stockersolutions.com</a><br></p>
+
+<hr/>
+
+<p><strong>Thanks</strong> to
+<a href="https://twitter.com/freebsdfrau/status/1075797843460288512">Devin Teske</a>
+for helping with awk(1),
+<a href="https://www.divelog.blue/">Kristaps Dzonsons</a> for
+<a href="https://kristaps.bsd.lv/lowdown/">lowdown(1)</a>, and
+<a href="http://eradman.com">Eric Radman</a> for
+<a href="http://entrproject.org">entr(1)</a>.</p>
+<hr>
+<p class="f7">
+&copy; 2008&ndash;2019
+<a href="/">Roman&nbsp;Zolotarev</a>&nbsp;
+<a href="/terms.html">User&nbsp;Agreement</a>&nbsp;
+<a href="/privacy.html">Privacy&nbsp;Policy</a>&nbsp;
+</p>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

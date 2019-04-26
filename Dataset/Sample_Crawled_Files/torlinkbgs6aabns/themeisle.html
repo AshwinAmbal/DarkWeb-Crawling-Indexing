@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head
+>
+	<meta charset="UTF-8"><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+
+	<!-- Optimize Page Hiding Snippet -->
+	<style>.async-hide { opacity: 0 !important} </style>
+	<script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+			h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+			(a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+		})(window,document.documentElement,'async-hide','dataLayer',4000,
+			{'GTM-NRLXWDH':true});</script>
+	<meta name="viewport" content="width=device-width"/>
+	
+		<meta name="twitter:card" content="product">
+		<meta name="twitter:title" content="Zelle Lite">
+		<meta name="twitter:site" content="@themeisle">
+		<meta name="twitter:description" content="WordPress theme built for the next generation of Business websites .">
+		<meta name="twitter:image" content="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2014/09/Showcase_Zerif_lite.png">
+		<meta name="twitter:image:width" content="700">
+		<meta name="twitter:image:height" content="360">
+		<meta name="twitter:data1" content="$0.00">
+		<meta name="twitter:label1" content="PRICE">
+		<meta name="twitter:data2" content="ThemeIsle">
+		<meta name="twitter:label2"
+			  content="WELCOME TO THâ ISLAND âO WORDPRESS THEMES, ME BUCKO!">
+		<meta name="twitter:domain" content="themeisle.com">
+		<link rel="author" href="https://plus.google.com/+IonutNeagu/posts"/>
+		<link rel="publisher" href="https://plus.google.com/+ThemeisleWP/posts"/>
+
+		<meta property="og:type" content="product"/>
+		<meta property="og:url" content="Zelle Lite"/>
+		<meta property="og:title" content="Zelle Lite"/>
+		<meta name="og:description" content="WordPress theme built for the next generation of Business websites .">
+
+		<meta property="og:image" content=" https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2014/09/Showcase_Zerif_lite.png"/>
+		<meta property="product:price:amount" content="0.00"/>
+		<meta property="product:price:currency" content="USD"/>
+		<meta property="product:availability" content="instock "/>
+		<meta property="product:brand" content="ThemeIsle"/>
+		<meta property="fb:app_id" content="562679543899448"/>
+
+	
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+	<link rel="pingback" href="https://themeisle.com/xmlrpc.php"/>
+	<link rel="icon" href="https://s10725.pcdn.co/wp-content/themes/themeIsle/favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="https://s10725.pcdn.co/wp-content/themes/themeIsle/favicon.ico" type="image/x-icon"/>
+
+	<!--[if lt IE 9]>
+	<script src="https://s10725.pcdn.co/wp-content/themes/themeIsle/js/html5.js" type="text/javascript"></script>
+	<![endif]-->
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-KM44RQ8');</script>
+	<!-- End Google Tag Manager -->
+	<title>Zelle Lite: #1 Free One Page WordPress Theme</title>
+<meta name="generator" content="This site uses EU VAT for EDD by Lyquidity (1.5.15) " />		<script type="text/javascript">
+		var ajaxurl = 'https://themeisle.com/wp-admin/admin-ajax.php';
+		</script>
+		
+<!-- This site is optimized with the Yoast SEO plugin v8.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Download for free Zelle Lite the #1 WordPress Theme featured on WP.org. Perfect for anything. Join our Pirate Club and get full access to premium stuff!"/>
+<link rel="canonical" href="https://themeisle.com/themes/zelle-lite/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Zelle Lite: #1 Free One Page WordPress Theme" />
+<meta property="og:description" content="Download for free Zelle Lite the #1 WordPress Theme featured on WP.org. Perfect for anything. Join our Pirate Club and get full access to premium stuff!" />
+<meta property="og:url" content="https://themeisle.com/themes/zelle-lite/" />
+<meta property="og:site_name" content="ThemeIsle" />
+<meta property="article:publisher" content="https://www.facebook.com/themeisle/" />
+<meta property="article:author" content="https://www.facebook.com/nionut" />
+<meta property="og:image" content="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2014/09/Zerif_lite.jpg" />
+<meta property="og:image:secure_url" content="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2014/09/Zerif_lite.jpg" />
+<meta property="og:image:width" content="450" />
+<meta property="og:image:height" content="500" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Download for free Zelle Lite the #1 WordPress Theme featured on WP.org. Perfect for anything. Join our Pirate Club and get full access to premium stuff!" />
+<meta name="twitter:title" content="Zelle Lite: #1 Free One Page WordPress Theme" />
+<meta name="twitter:site" content="@themeisle" />
+<meta name="twitter:image" content="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2014/09/Zerif_lite.jpg" />
+<meta name="twitter:creator" content="@themeisle" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//themeisle.com' />
+<link rel='dns-prefetch' href='//a.optmnstr.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel='dns-prefetch' href='//mllj2j8xvfl0.i.optimole.com' />
+<link rel='dns-prefetch' href='//d5jmkjjpb7yfg.cloudfront.net' />
+<link rel="alternate" type="application/rss+xml" title="ThemeIsle &raquo; Feed" href="https://themeisle.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="ThemeIsle &raquo; Comments Feed" href="https://themeisle.com/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s10725.pcdn.co\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.1.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://s10725.pcdn.co/wp-includes/css/dist/block-library/style.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='affwp-forms-css'  href='https://s10725.pcdn.co/wp-content/plugins/affiliate-wp/assets/css/forms.min.css?ver=2.2.10' type='text/css' media='all' />
+<link rel='stylesheet' id='edd-styles-css'  href='https://s10725.pcdn.co/wp-content/plugins/easy-digital-downloads/templates/edd.min.css?ver=2.9.3' type='text/css' media='all' />
+<link rel='stylesheet' id='edd-fastspring-css'  href='https://s10725.pcdn.co/wp-content/plugins/edd-fastspring/public/css/edd-fastspring-public.css?ver=1.0.14' type='text/css' media='all' />
+<style id='optm_lazyload_noscript_style-inline-css' type='text/css'>
+.optimole-no-script img[data-opt-src] { display: none !important; }
+</style>
+<link rel='stylesheet' id='edd-recurring-css'  href='https://s10725.pcdn.co/wp-content/plugins/edd-recurring/assets/css/styles.css?ver=2.7.16' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css'  href='https://s10725.pcdn.co/wp-includes/css/dashicons.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='isle_fontss-css'  href='//fonts.googleapis.com/css?family=Montserrat%3A400%2C700%7COpen+Sans%3A400%2C400italic%2C600&#038;ver=2.7.0' type='text/css' media='all' />
+<link rel='stylesheet' id='isle-css-css'  href='https://s10725.pcdn.co/wp-content/themes/themeIsle/style.css?ver=2.7.0' type='text/css' media='all' />
+<style id='isle-css-inline-css' type='text/css'>
+ .zf-feature-woocommerce-wrap {
+					background-image: url('https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2018/10/zerif-woocommerce-background-template.png');
+                    background-position: top center;
+                    background-repeat: no-repeat;
+                    background-size: 100% auto;
+				} .zf-feature-responsive-wrap {
+					background-image: url('https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2018/10/zerif-responsive-background-template.jpg');
+                    background-position: top center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+				}
+</style>
+<link rel='stylesheet' id='isle-core-css'  href='https://s10725.pcdn.co/wp-content/themes/themeIsle/css/core.css?ver=2.7.0' type='text/css' media='all' />
+<link rel='stylesheet' id='ti-free-downloads-css-css'  href='https://s10725.pcdn.co/wp-content/themes/themeIsle/css/downloads-free.css?ver=2.7.0' type='text/css' media='all' />
+<link rel='stylesheet' id='toastrcss-css'  href='https://s10725.pcdn.co/wp-content/themes/themeIsle/css/toastr.min.css?ver=5.1.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var edd_fsc = {"confirmation":"https:\/\/themeisle.com\/checkout\/purchase-confirmation\/","discount":"","rest":{"path":"fastspring\/v1","root":"https:\/\/themeisle.com\/wp-json\/","upsell":"upsells","do_upgrade":"do-upgrade","nonce":"89014e3071"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/plugins/edd-fastspring/public/js/edd-fastspring-public.js?ver=1.0.14'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var affwp_scripts = {"ajaxurl":"https:\/\/themeisle.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/plugins/affiliate-wp/assets/js/jquery.cookie.min.js?ver=1.4.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var affwp_debug_vars = {"integrations":{"edd":"Easy Digital Downloads"},"version":"2.2.10","currency":"USD"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/plugins/affiliate-wp/assets/js/tracking.min.js?ver=2.2.10'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var edd_recurring_vars = {"confirm_cancel":"Are you sure you want to cancel your subscription?","has_trial":"","total":"$0.00","total_plain":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/plugins/edd-recurring/assets/js/edd-frontend-recurring.js?ver=2.7.16'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var themeisle = {"user":{"first_name":"","last_name":"","email":""},"category":{"name":"","type":""},"product":{"name":"ZelleLite","price":"0.00","id":5999,"currency":"USD","type":"Theme_Free"},"is_demo":"no","is_checkout":"no"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/themes/themeIsle/js/events.js?ver=2.7.0'></script>
+<script type='text/javascript'>
+var mejsL10n = {"language":"en","strings":{"mejs.install-flash":"You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https:\/\/get.adobe.com\/flashplayer\/","mejs.fullscreen-off":"Turn off Fullscreen","mejs.fullscreen-on":"Go Fullscreen","mejs.download-video":"Download Video","mejs.fullscreen":"Fullscreen","mejs.time-jump-forward":["Jump forward 1 second","Jump forward %1 seconds"],"mejs.loop":"Toggle Loop","mejs.play":"Play","mejs.pause":"Pause","mejs.close":"Close","mejs.time-slider":"Time Slider","mejs.time-help-text":"Use Left\/Right Arrow keys to advance one second, Up\/Down arrows to advance ten seconds.","mejs.time-skip-back":["Skip back 1 second","Skip back %1 seconds"],"mejs.captions-subtitles":"Captions\/Subtitles","mejs.captions-chapters":"Chapters","mejs.none":"None","mejs.mute-toggle":"Mute Toggle","mejs.volume-help-text":"Use Up\/Down Arrow keys to increase or decrease volume.","mejs.unmute":"Unmute","mejs.mute":"Mute","mejs.volume-slider":"Volume Slider","mejs.video-player":"Video Player","mejs.audio-player":"Audio Player","mejs.ad-skip":"Skip ad","mejs.ad-skip-info":["Skip in 1 second","Skip in %1 seconds"],"mejs.source-chooser":"Source Chooser","mejs.stop":"Stop","mejs.speed-rate":"Speed Rate","mejs.live-broadcast":"Live Broadcast","mejs.afrikaans":"Afrikaans","mejs.albanian":"Albanian","mejs.arabic":"Arabic","mejs.belarusian":"Belarusian","mejs.bulgarian":"Bulgarian","mejs.catalan":"Catalan","mejs.chinese":"Chinese","mejs.chinese-simplified":"Chinese (Simplified)","mejs.chinese-traditional":"Chinese (Traditional)","mejs.croatian":"Croatian","mejs.czech":"Czech","mejs.danish":"Danish","mejs.dutch":"Dutch","mejs.english":"English","mejs.estonian":"Estonian","mejs.filipino":"Filipino","mejs.finnish":"Finnish","mejs.french":"French","mejs.galician":"Galician","mejs.german":"German","mejs.greek":"Greek","mejs.haitian-creole":"Haitian Creole","mejs.hebrew":"Hebrew","mejs.hindi":"Hindi","mejs.hungarian":"Hungarian","mejs.icelandic":"Icelandic","mejs.indonesian":"Indonesian","mejs.irish":"Irish","mejs.italian":"Italian","mejs.japanese":"Japanese","mejs.korean":"Korean","mejs.latvian":"Latvian","mejs.lithuanian":"Lithuanian","mejs.macedonian":"Macedonian","mejs.malay":"Malay","mejs.maltese":"Maltese","mejs.norwegian":"Norwegian","mejs.persian":"Persian","mejs.polish":"Polish","mejs.portuguese":"Portuguese","mejs.romanian":"Romanian","mejs.russian":"Russian","mejs.serbian":"Serbian","mejs.slovak":"Slovak","mejs.slovenian":"Slovenian","mejs.spanish":"Spanish","mejs.swahili":"Swahili","mejs.swedish":"Swedish","mejs.tagalog":"Tagalog","mejs.thai":"Thai","mejs.turkish":"Turkish","mejs.ukrainian":"Ukrainian","mejs.vietnamese":"Vietnamese","mejs.welsh":"Welsh","mejs.yiddish":"Yiddish"}};
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=4.2.6-78496d1'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-includes/js/mediaelement/mediaelement-migrate.min.js?ver=5.1.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/","classPrefix":"mejs-","stretching":"responsive"};
+/* ]]> */
+</script>
+<script type='text/javascript' data-cfasync="false" id="omapi-script" async="async" src='https://a.optmnstr.com/app/js/api.min.js'></script>
+<link rel='https://api.w.org/' href='https://themeisle.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://themeisle.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s10725.pcdn.co/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.1.1" />
+<link rel='shortlink' href='https://themeisle.com/?p=5999' />
+<link rel="alternate" type="application/json+oembed" href="https://themeisle.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fthemeisle.com%2Fthemes%2Fzelle-lite%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://themeisle.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fthemeisle.com%2Fthemes%2Fzelle-lite%2F&#038;format=xml" />
+<meta name="generator" content="Easy Digital Downloads v2.9.3" />
+<script
+				    id="fsc-api"
+					  src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.7.6/fastspring-builder.min.js" type="text/javascript" 
+				      data-storefront="themeisle.onfastspring.com/popup-themeisle" 
+				      data-data-callback="edd_fsc_order" 
+					  data-after-markup-callback="edd_fsc_after_markup"    
+					  data-popup-closed="edd_popup_closed"    
+					  data-decorate-callback="edd_decorate_url" >
+			 </script><!-- HFCM by 99 Robots - Snippet # 2: azera-shop-plugin-css -->
+<style type="text/css">
+.single-download.postid-6263341 #middle-content > div > div.plugin-icon { display: none; }
+.single-download.postid-6263341 #middle-content > div > div.plugin-presentation > div.action-panel { display: none; }
+.single-download.postid-6263341 #middle-content > div > div.plugin-presentation > div.preview { width: auto; }
+.single-download.postid-6263341 #main-content > div.theme-features.clearfix { display: none; }
+.single-download.postid-6263341 .two-halves { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; }
+</style>
+<!-- /end HFCM by 99 Robots -->
+<!-- HFCM by 99 Robots - Snippet # 8: sendinblue -->
+<script type="text/javascript">
+(function() {
+    window.sib = { equeue: [], client_key: "9h7xghn9k3hujs9gpv2vo" };
+    /* OPTIONAL: email for identify request*/
+    // window.sib.email_id = 'example@domain.com';
+    window.sendinblue = {}; for (var j = ['track', 'identify', 'trackLink', 'page'], i = 0; i < j.length; i++) { (function(k) { window.sendinblue[k] = function() { var arg = Array.prototype.slice.call(arguments); (window.sib[k] || function() { var t = {}; t[k] = arg; window.sib.equeue.push(t);})(arg[0], arg[1], arg[2]);};})(j[i]);}var n = document.createElement("script"),i = document.getElementsByTagName("script")[0]; n.type = "text/javascript", n.id = "sendinblue-js", n.async = !0, n.src = "https://sibautomation.com/sa.js?key=" + window.sib.client_key, i.parentNode.insertBefore(n, i), window.sendinblue.page();
+})();
+</script>
+
+<!-- /end HFCM by 99 Robots -->
+<!-- HFCM by 99 Robots - Snippet # 14: ahrefs -->
+<meta name="ahrefs-site-verification" content="b79e44f3b3b042cc7b602662c2fe0be49a8e4c663fb7e9843ac772f86b9ebd9b">
+<!-- /end HFCM by 99 Robots -->
+<meta name="generator" content="Optimole 1.1.1">
+		<style type="text/css">
+			img[data-opt-src] {
+				transition: .3s filter linear, .3s opacity linear, .3s border-radius linear;
+				-webkit-transition: .3s filter linear, .3s opacity linear, .3s border-radius linear;
+				-moz-transition: .3s filter linear, .3s opacity linear, .3s border-radius linear;
+				-o-transition: .3s filter linear, .3s opacity linear, .3s border-radius linear;
+			}
+			img[data-opt-src].optml_lazyload_img {
+				opacity: .5;
+				filter: blur(5px);
+				border-radius: 5%;
+			}
+		</style>
+		<script type="application/javascript">
+					(function(w, d){ 
+						var b = d.getElementsByTagName("head")[0];
+						var s = d.createElement("script");
+						var v = ("IntersectionObserver" in w) ? "_no_poly" : "";
+						s.async = true;  
+						s.src = "https://d5jmkjjpb7yfg.cloudfront.net/latest/optimole_lib" + v  + ".min.js"; 
+						b.appendChild(s);
+						
+					}(window, document));
+					
+					document.addEventListener( "DOMContentLoaded", function() { document.body.className = document.body.className.replace("optimole-no-script",""); } );
+		</script>		<script type="text/javascript">
+		var AFFWP = AFFWP || {};
+		AFFWP.referral_var = 'ref';
+		AFFWP.expiration = 90;
+		AFFWP.debug = 0;
+
+
+		AFFWP.referral_credit_last = 0;
+		</script>
+
+	<script> var ajaxurl = 'https://themeisle.com/wp-admin/admin-ajax.php';</script>
+			<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+.
+Click the help icon above to learn more.
+*/
+.zf-main-features-wrap {
+	background: url("https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/2016/03/zf-main-features-bg_yw4w36.jpg") top center no-repeat #fff;
+}
+.edd-fs-current-plan{
+	  text-align: center;
+    background: #eeee;
+    padding: 10px;
+    color: #7f7f7f;
+}
+.plugin-page .edd_download_purchase_form .edd-fastspring-upgrade-btn,
+.pricing-tables-new .edd_download_purchase_form .edd-fastspring-upgrade-btn{ 
+    width: 90%;
+	  margin-top:-10px; 
+    padding: 12px 0px !important;
+    font-size: 1.1rem !important;
+}
+#input_1_27{
+	font-size:14px;
+}
+
+#input_1_27 labeL{
+	
+      margin-bottom: 10px;
+}
+/* Retired themes */
+.single-download.postid-5892 #middle-content .download-actions,
+.single-download.postid-2782 #middle-content .download-actions,
+.single-download.postid-5028 #middle-content .download-actions,
+.single-download.postid-5028 #pricing-single .single-gem-pack,
+.single-download.postid-5969987 #middle-content .download-actions,
+.single-download.postid-804 #middle-content .download-actions,
+.single-download.postid-804 #pricing-single .single-gem-pack{
+display:none !important;
+}
+
+/* Retired themes */
+.single-download.postid-5651 #middle-content .download-actions,  .single-download.postid-5651 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-39120 #middle-content .download-actions,  .single-download.postid-39120 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-4546147 #middle-content .download-actions,  .single-download.postid-4546147 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-4040062 .zf-header-button, .single-download.postid-4040062 .zf-button-demo,  .single-download.postid-4040062 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-3565268 #middle-content .download-actions,  .single-download.postid-3565268 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-826 #middle-content .download-actions,  .single-download.postid-826 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-2985897 #middle-content .download-actions,  .single-download.postid-2985897 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-5001 #middle-content .download-actions,  .single-download.postid-5001 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-3265260 #middle-content .download-actions,  .single-download.postid-3265260 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-5144526 #middle-content .download-actions,  .single-download.postid-5144526 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-6171613 #middle-content .download-actions, .single-download.postid-6171613 .zf-header-button, .single-download.postid-6171613 .zf-button-demo,  .single-download.postid-6171613 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-6139623 #middle-content .download-actions,  .single-download.postid-6139623 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-3322998 #middle-content .download-actions,  .single-download.postid-3322998 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-3429921 #middle-content .download-actions,  .single-download.postid-3429921 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-3486781 #middle-content .download-actions,  .single-download.postid-3486781 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-3213764 #middle-content .download-actions,  .single-download.postid-3213764 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-4276273 #middle-content .download-actions,  .single-download.postid-4276273 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-6263341 #middle-content .download-actions,  .single-download.postid-6263341 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-1430831 #middle-content .download-actions,  .single-download.postid-1430831 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-3134444 #middle-content .download-actions,  .single-download.postid-3134444 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-3360880 #middle-content .download-actions,  .single-download.postid-3360880 #content.download-page .pricing-tables .table.single-gem-pack,
+.single-download.postid-4170 #middle-content .download-actions,  .single-download.postid-4170 #content.download-page .pricing-tables .table.single-gem-pack {
+    display: none;
+}
+
+/* hack for adding the Weglot link only on Neve LP */
+body:not(.postid-8476249) .zf-another-feature-box:first-of-type .zf-another-feature-content {
+   text-indent: -9999px;
+  line-height: 0;
+}
+
+body:not(.postid-8476249) .zf-another-feature-box:first-of-type .zf-another-feature-content:after {
+    content: "So you`re building a website that might not be written in English? No problem, this theme has you covered. Every element of the theme can be translated with free and premium plugins. Plus, you can use any RTL language.";
+    text-indent: 0;
+    display: block;
+    line-height: initial;
+
+}		</style>
+		
+</head>
+<body class="download-template-default single single-download postid-5999 optimole-no-script elementor-default" >
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KM44RQ8"
+			height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="wrapper" class="theme-page">
+
+	<header id="main-header">
+		<div class="container">
+							<a href="https://themeisle.com/" class="logo"><img
+							src="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/2016/04/logo.png"/></a>
+				<a href="https://themeisle.workable.com/j/03EFACD750" target="_blank" class="ti-is-hiring">is hiring</a>
+				
+			<nav id="main-menu">
+				<ul id="menu-top-menu" class="menu"><li id="menu-item-109" class="ti-half-submenu menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-109"><a title="WordPress Themes" href="https://themeisle.com/wordpress-themes/">WordPress Themes</a>
+<ul class="sub-menu">
+	<li id="menu-item-3744674" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3744674"><a href="#">Menu Items Left</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3744428" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744428"><a title="Blogging WordPress Themes" href="https://themeisle.com/wordpress-themes/blog/">Blog Themes</a></li>
+		<li id="menu-item-3744438" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744438"><a title="Free WordPress Themes" href="https://themeisle.com/wordpress-themes/free/">Free Themes</a></li>
+		<li id="menu-item-3744456" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744456"><a title="Business WordPress Themes" href="https://themeisle.com/wordpress-themes/business/">Business Themes</a></li>
+		<li id="menu-item-3744460" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744460"><a title="Magazine WordPress Themes" href="https://themeisle.com/wordpress-themes/magazine/">Magazine Themes</a></li>
+		<li id="menu-item-3744464" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744464"><a title="Minimal WordPress Themes" href="https://themeisle.com/wordpress-themes/minimal/">Minimal Themes</a></li>
+	</ul>
+</li>
+	<li id="menu-item-3744680" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3744680"><a href="#">Menu items right</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3744475" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744475"><a title="Portfolio WordPress Themes" href="https://themeisle.com/wordpress-themes/portfolio/">Portfolio Themes</a></li>
+		<li id="menu-item-3744465" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744465"><a title="One Page WordPress Themes" href="https://themeisle.com/wordpress-themes/one-page/">One Page Themes</a></li>
+		<li id="menu-item-3744466" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744466"><a title="Photography WordPress Themes" href="https://themeisle.com/wordpress-themes/photography/">Photography Themes</a></li>
+		<li id="menu-item-3744495" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744495"><a title="Responsive WordPress Themes" href="https://themeisle.com/wordpress-themes/responsive/">Responsive Themes</a></li>
+		<li id="menu-item-3744498" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744498"><a title="eCommerce WordPress Themes" href="https://themeisle.com/wordpress-themes/ecommerce/">Ecommerce Themes</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-2582" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2582"><a title="WordPress Plugins" href="https://themeisle.com/wordpress-plugins/">Plugins</a></li>
+<li id="menu-item-5215123" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5215123"><a href="https://themeisle.com/pricing/">Pricing</a></li>
+<li id="menu-item-147" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-147"><a rel="nofollow" href="https://themeisle.com/about-us/">About Us</a></li>
+<li id="menu-item-5021147" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5021147"><a href="http://themeisle.com/blog/">Blog</a>
+<ul class="sub-menu">
+	<li id="menu-item-6118349" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118349"><a href="http://themeisle.com/blog/create-blog-on-wordpress/">How to create a blog</a></li>
+	<li id="menu-item-6118353" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118353"><a href="https://themeisle.com/blog/how-to-make-a-website/">How to Make a WordPress Website</a></li>
+	<li id="menu-item-6118354" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118354"><a href="http://themeisle.com/blog/siteground-review-for-wordpress/">SiteGround Review</a></li>
+	<li id="menu-item-6118348" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118348"><a href="http://themeisle.com/blog/wix-vs-wordpress/">Wix vs WordPress</a></li>
+	<li id="menu-item-6118357" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118357"><a href="http://themeisle.com/blog/best-live-chat-plugins-wordpress/">Live Chat Plugins</a></li>
+	<li id="menu-item-8470452" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8470452"><a href="https://themeisle.com/blog/best-wordpress-hosting/">WordPress Hosting</a></li>
+</ul>
+</li>
+<li id="menu-item-4994924" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4994924"><a href="https://themeisle.com/contact/">Support</a>
+<ul class="sub-menu">
+	<li id="menu-item-4053281" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4053281"><a href="http://docs.themeisle.com/">Docs</a></li>
+	<li id="menu-item-4053282" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4053282"><a href="https://themeisle.com/frequently-asked-questions/">FAQ</a></li>
+	<li id="menu-item-4994925" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4994925"><a href="https://themeisle.com/contact/">Contact</a></li>
+</ul>
+</li>
+<li id="menu-item-5965409" class="menu-item-1986 menu-item menu-item-type-post_type menu-item-object-page menu-item-5965409"><a href="https://themeisle.com/purchase-history/">Login</a></li>
+</ul>			</nav><!-- end #main-menu -->
+
+							<a class="join-button" href="https://themeisle.com/pricing">Sign up</a>
+					</div><!-- end .container -->
+	</header><!-- end #main-header -->
+<style>
+
+	/* header section */
+
+	.zf-header {
+		position: relative;
+		background-image: none;
+		background-color: #39517b;
+		background-size: cover;
+	}
+
+	/* equal height pricing tables */
+
+	.match-height-pricing {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	div.table.single-gem-pack.single-theme {
+		display: flex;
+		flex-direction: column;
+	}
+
+	div.table.single-gem-pack.essential-pack {
+		display: flex;
+		flex-direction: column;
+	}
+
+	div.table.treasure-chest.growing-business-pack {
+		display: flex;
+		flex-direction: column;
+	}
+
+	div.table.treasure-chest.professional-pack {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.match-height-pricing footer {
+		margin-top: auto;
+	}
+
+	.table section {
+		flex-grow : 1;
+	}
+
+	#pricing-single strong {
+		font-weight: 600 !important;
+	}
+
+	.zf-header-title span { font-size: 23px; }
+.zf-header-title {
+font-size: 77px;
+}
+</style>
+
+<div itemscope itemtype="http://schema.org/CreativeWork">
+	<meta itemprop="name" content="Zelle Lite">
+	<meta itemprop="description" content="Multipurpose / Responsive / Excellent WordPress Theme for Creative Agencies">
+
+		<span id="new-top"></span>
+	<section id="content" class="download-page" itemscope itemtype="http://schema.org/Product">
+		<header class="section-header">
+			
+					<section id="zerif-top" class="zf-section zf-header">
+						<div class="container">
+					<div class="zf-header-info">
+						<meta itemprop="name" content="Zelle Lite"></meta>
+						<meta itemprop="brand" content="ThemeIsle"></meta>
+						<link itemprop="url" href="https://themeisle.com/themes/zelle-lite/">
+						<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+					<meta itemprop="price"
+						  content="0.00"></meta>
+					<meta itemprop="priceCurrency" content="USD"></meta>
+					<link itemprop="availability" href="http://schema.org/InStock">
+						</div>
+
+						<h1 class="zf-header-title">Zelle Lite					<span>(Former Zerif Lite)</span>						</h1>
+						<h2 class="zf-header-sutitle" itemprop="description">#1 Free One Page WordPress Theme</h2><h3 class="zf-header-under-subtitle">Multipurpose / Responsive / Excellent WordPress Theme for Creative Agencies</h3><a href="https://themeisle.com/demo/?theme=Zelle%20Lite" class="zf-header-button zf-button-demo"><button>View live demo</button></a><a href="#" class="edd-free-downloads-redirect button join-now-button join-now-button-pin join-now-red zf-button-free-download button edd-submit edd-submit edd-free-download edd-free-download-single" data-download-id="5999">Download now for free</a>
+									</div>
+									<div class="zf-header-image"><div class="zf-header-image-inner"><img itemprop="image" src="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2018/10/zerif-tablet-template.png" alt="Zelle Lite - business WordPress theme"></div></div>
+										</div>
+										<div class="zf-header-oblique"></div>											</section>
+											<!-- .zf-header -->
+
+											<section id="zf-amazing-websites" class="zf-section zf-amazing-websites"><div class="container"><div class="zf-section-title-wrap"><p class="zf-section-title-no">1</p><h2 class="zf-section-title">Some examples of what<br> you can do with <span>Zelle Lite</span>:</h2></div><div id="zf-sites-built" style="width: 940px;"><a href="#" class="control_next"></a><a href="#" class="control_prev"></a><div class="zf-sites-built-inner"><ul style="width: 4700px; margin-left: -940px;"><li class="zf-sites-built-item" style="width: 940px;"><div class="zf-sites-built-img"><img class="alignnone size-full wp-image-5813334" src="https://mllj2j8xvfl0.i.optimole.com/550/440/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2016/09/showcase_site_example_puravida.png" alt="showcase_site_example_puravida" width="550" height="440" />
+</div><div class="zf-sites-built-content"><p class="zf-sites-built-title">hervepuravida.com</p><p>Watch out, we have a badass over here! This is the site of &#8220;the man who crossed the entire Amazon with a bicycle driven boat&#8221;. So Zelle seems to be a great fit for adventurers! Herve Neukomm, the man who loves living dangerously, uses a simple version of Zelle, enough to put first his wild hobbies. He keeps the design clean and elegant, exactly the opposite of his lifestyle.</p>
+<a href="http://hervepuravida.com/index.php/en/" class="zf-button zf-button-red" title="View the site" target="_blank" rel="nofollow">View the site</a></div></li><li class="zf-sites-built-item" style="width: 940px;"><div class="zf-sites-built-img"><img class="alignnone size-full wp-image-5813337" src="https://mllj2j8xvfl0.i.optimole.com/550/440/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2016/09/showcase_site_example_ES.png" alt="showcase_site_example_es" width="550" height="440" />
+</div><div class="zf-sites-built-content"><p class="zf-sites-built-title">www.tampere.es</p><p>A non-profit society aiming to help students meet and share various experiences &#8211; the key is to encourage the real-life social networking. The site has the appearance of a friendly professionalism, with modern and elegant scrolling. Overall, a simple website that promotes strong and complex connections between the students.</p>
+<a href="http://www.tampere.es/" class="zf-button zf-button-red" title="View the site" target="_blank" rel="nofollow">View the site</a></div></li><li class="zf-sites-built-item" style="width: 940px;"><div class="zf-sites-built-img"><img class="alignnone size-full wp-image-5813343" src="https://mllj2j8xvfl0.i.optimole.com/550/440/auto/https/s10725.pcdn.co/wp-content/uploads/2017/12/showcase_site_example_template.png" alt="showcase_site_example_kinston" width="550" height="440" />
+</div><div class="zf-sites-built-content"><p class="zf-sites-built-title">www.heidishangups.com</p><p>Heidiâs Hang Ups is a business that designs jewelry boards to express your unique individuality allowing an elegant way to display your jewelry and long hanging necklaces. Each jewelry board created is one-of-a-kind and designed with you in mind.</p>
+<a href="http://www.heidishangups.com/" class="zf-button zf-button-red" title="View the site" target="_blank" rel="nofollow">View the site</a></div></li></ul></div></div></div></section><section id="zf-ribbon" class="zf-section zf-ribbon">
+<div class="container">
+<p class="zf-ribbon-title">WHY BUILD YOUR WEBSITE WITH Zelle Lite</p>
+<p class="zf-ribbon-text">30-Day Money-Back Guarantee / Security Updates / Dedicated Support</p>
+<p class="zf-ribbon-button"><a class="zf-button zf-button-white" href="#zf-ribbon-2">See All The Reasons</a></p>
+</div>
+</section>
+
+	<img class="background-background" style="display:none;"/>
+
+	<section id="zf-testimonials" class="zf-section zf-testimonials"><div class="container"><div class="zf-section-title-wrap zf-section-title-black"><p class="zf-section-title-no">2</p><h2 class="zf-section-title">What other users say <br>about <span>Zelle Lite</span>:</h2></div><div class="zf-testimonial-box-wrap"><div class="zf-testimonial-box"><div class="zf-testimonial-box-inner"><noscript><img class="alignnone size-full wp-image-5813424" src="https://mllj2j8xvfl0.i.optimole.com/150/150/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2016/09/katrinah.jpeg" alt="katrinah" width="150" height="150" /></noscript><img class="alignnone size-full wp-image-5813424" src="https://mllj2j8xvfl0.i.optimole.com/150/150/eco/https/s10725.pcdn.co/wp-content/uploads/edd/2016/09/katrinah.jpeg" data-opt-src="https://mllj2j8xvfl0.i.optimole.com/150/150/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2016/09/katrinah.jpeg" alt="katrinah" width="150" height="150" />
+<p>Beautiful theme to showcase your expertise &#8211; thank you!<br />
+Beautiful theme, thank you! I really like the simplicity of this one-page design and created a video on your theme to share this with my community on YouTube. I can see this theme being a great choice for job seekers and freelancers who want to showcase their skills, testimonials and services as a way to build their personal brand and attract new opportunities. Here&#8217;s the video if you&#8217;d like to check it out. Thank you again. : ) youtube dot com/watch?v=9jxerYVtMfg</p>
+<p class="zf-stars"><span style="width: 100%"></span></p></div><div class="zf-testimonial-in"><p>Katrinah</p>
+</div></div><div class="zf-testimonial-box"><div class="zf-testimonial-box-inner"><noscript><img class="alignnone size-full wp-image-5813464" src="https://mllj2j8xvfl0.i.optimole.com/150/150/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2016/09/jerry.jpeg" alt="jerry" width="150" height="150" /></noscript><img class="alignnone size-full wp-image-5813464" src="https://mllj2j8xvfl0.i.optimole.com/150/150/eco/https/s10725.pcdn.co/wp-content/uploads/edd/2016/09/jerry.jpeg" data-opt-src="https://mllj2j8xvfl0.i.optimole.com/150/150/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2016/09/jerry.jpeg" alt="jerry" width="150" height="150" />
+<p>Normally I don&#8217;t review themes. But this theme absolutely deserves it. Unlike most .org themes, Zelle actually has the user in mind and ( at least it seems so far ) all the functionality mapped out.</p>
+<p>You remove an image in one of the sections, the section disappears like you&#8217;d expect. If you remove all the widgets from the footer, the rest of the footer ACTUALLY spreads out&#8230;</p>
+<p>It&#8217;s honestly the little things and the attention to detail that has blown me away about this theme. I&#8217;m absolutely blown away by this theme.</p>
+<p class="zf-stars"><span style="width: 100%"></span></p></div><div class="zf-testimonial-in"><p>Jerry</p>
+</div></div></div></div></section>
+	<section id="zf-features" class="zf-section zf-features">
+		<div class="zf-feature-woocommerce-wrap">
+			<div class="container">
+				<div class="zf-section-title-wrap">
+					<p class="zf-section-title-no">3</p>
+										<h2 class="zf-section-title">Features</h2>
+				</div>
+
+				
+					<div class="zf-feature-woocommerce">
+						<p class="zf-feature-woocommerce-img"><img
+									src="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/2016/04/zf-woocommerce-big.png">
+						</p>
+                        <h2 class="zf-feature-woocommerce-title">Create an Online Store</h2><p>You can set up your on-line store in a matter of minutes. Zelle Lite's neat and clean presentation will help your sales and make your store accessible to everyone. No coding skills required.</p>					</div>
+
+					<div class="zf-features-big-image"><img src="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/edd/2018/10/zerif-woocommerce-browser-window-template.png" alt="general features zerif"></div>
+			</div>
+		</div>
+					<div class="zf-feature-responsive-wrap">
+				<div class="container">
+					<div class="zf-feature-responsive">
+						<h2 class="zf-feature-woocommerce-title">The Live Customizer in Action</h2>
+						<div class="zf-feature-responsive-text">
+							<p>Fine-tuning your website has never been easier.
+								With Zelle Lite , you can customize
+								the way your website looks, and see the changes in real time. You can adjust the
+								colors, the design details and much more.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section id="zf-ribbon-2" class="zf-section zf-ribbon">
+<div class="container">
+<p class="zf-ribbon-title">Join 471,039 Happy Customers</p>
+<p class="zf-ribbon-text">Instant Access to 30+ High-Quality Themes and 7+ Premium Plugins</p>
+<p class="zf-ribbon-button"><a class="zf-button zf-button-white" href="#pricing-single">JOIN NOW</a></p>
+</div>
+</section>
+
+		<div class="zf-another-feature">
+
+							<h2 class="zf-main-flexibility-content-title">9
+					Reasons Zelle Lite Is The Theme You've Been Looking
+					For</h2>
+
+				<p class="theme-metadata zf-theme-metadata">
+						<span>Updated: <strong><time itemprop="releaseDate"
+													 datetime="2019-01-23T13:26:48+00:00">January 23, 2019</time></strong>  |</span>
+
+					<span>Version: <strong>2.0.0</strong>  |</span>
+
+					<span>Downloads: <strong
+								itemprop="interactionCount"> 153896</strong>   |</span>
+				</p>
+				
+			<div class="container">
+				<div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-translation.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">Translation & RTL Ready</p><p class="zf-another-feature-content">So you&#8217;re building a website that might not be written in English? No problem, Zelle LiteÂ has you covered. Every element in this theme can be translated with free and premium plugins. Weglot plugin is fully supported. Plus, you can use any RTL language.</p>
+</div><div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-seo.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">SEO Friendly</p><p class="zf-another-feature-content">Search Engine Optimization is a must these days if you want your business to have a strong online presence. Zelle LiteÂ comes with an SEO-ready structure, plus a clean and optimized source code. This basically means that Google will love your site.</p>
+</div><div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-live-customizer.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">Live Customizer</p><p class="zf-another-feature-content">Fine-tuning your website has never been easier. With Zelle Lite, you can customize the way your website looks, and see the changes in real time. You can adjust the colors, the design details, the order of sections, and much more.</p>
+</div><div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-demo-data.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">1-Minute Setup & Demo Content Available</p><p class="zf-another-feature-content">Long story short, what this basically means is that, with Zelle Lite, you can get your new website installed and online in under 1 minute. No joke.</p>
+</div><div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-custom-bg.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">Custom Backgrounds</p><p class="zf-another-feature-content">Image as background? Media slider as background? Video as background? Zelle LiteÂ lets you do all. Just select the media you want to use as your background and youâre done. No extra plugins required.</p>
+</div><div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-speed.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">Optimized for speed</p><p class="zf-another-feature-content">Optimize source code, compatibility with popular caching and minification plugins. Zelle LiteÂ gives you all. Not to mention the ultra fast loading times that you get right out the box.</p>
+</div><div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-megamennu.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">Mega Menus</p><p class="zf-another-feature-content">Zelle LiteÂ comes with a powerful, responsive, and user-friendly mega menu, making it easy to arrange and organize your submenu content. Plus, you have full control over the design and structure of your menus.</p>
+</div><div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-fast-support.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">1-Click Updates & Fast Support</p><p class="zf-another-feature-content">In short, we&#8217;re going to take care of your site. Zelle LiteÂ comes equipped with excellent support and simple 1-click updates. (And you get access to the docs, forum and video tutorials as well.)</p>
+</div><div class="zf-another-feature-box"><p class=""><img class="alignnone" src="https://mllj2j8xvfl0.i.optimole.com/92/88/auto/https/s10725.pcdn.co/wp-content/uploads/2016/02/zf-icon-video-tuturial.png" alt="" width="92" height="88" /></p>
+<p class="zf-another-feature-title">Video Tutorials</p><p class="zf-another-feature-content">Want someone to guide you by the hand through the entire process of building your website with WordPress? We have video tutorials for that.</p>
+</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="zf-main-features" class="zf-section zf-main-features">
+		<div class="zf-main-features-wrap">
+			<div class="container">
+				<div class="zf-section-title-wrap">
+					<p class="zf-section-title-no">4</p>
+										<h2 class="zf-section-title">Support &amp; <br> Updates</h2>
+				</div>
+				<div class="zf-main-features-box">
+					<p class="zf-main-support">Support by Happiness Engineers</p>
+					<p class="zf-main-tickets">Tickets Handled via Email in Less Than 8 Hours</p>
+					<p class="zf-main-themes">Receive Regular Updates and New Features</p>
+					<p class="zf-main-forum">Automated Testing for Compatibility</p>
+					<p class="zf-main-video">200+ How-To Articles including Video Tutorials</p>
+				</div>
+			</div>
+		</div>
+		<div class="zf-main-parallax-wrap"><div class="container"><p class="zf-main-parallax-img"><img src="https://s10725.pcdn.co/wp-content/uploads/edd/2016/09/live_customizer_zeriflite.gif" /></p><h2 class="zf-feature-drag-drop-title">The Live Customizer in Action</h2></div></div>
+		<div class="zf-main-flexibility-wrap">
+			<div class="container">
+
+				
+				<div class="zf-main-flexibility-box-wrap">
+					<h2 class="zf-main-flexibility-content-title">Two more reasons why you should Join Now</h2>
+					<p align="center">If you are serious about your website, then you know how important quick
+						fixes are when an update breaks your website.</p>
+					<div class="zf-main-flexibility-box">
+						<h3 class="zf-main-flexibility-title">Same Day Support Reply</h3>
+						<p class="zf-main-flexibility-content">On average you should get an answer to your
+							ticket in less than 12 hours (usually under 6 hours) on business days.</p>
+					</div>
+					<div class="zf-main-flexibility-box">
+						<h3 class="zf-main-flexibility-title">Quick Fix Update</h3>
+						<p class="zf-main-flexibility-content">The PRO version can get quick fixes. Support and
+							theme updates might come with a few days delay for the free themes.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="zf-featured-on" class="zf-section zf-featured-on">
+		<div class="container">
+			<div class="zf-section-title-wrap zf-section-title-black">
+				<p class="zf-section-title-no">5</p>
+								<h2 class="zf-section-title">As<br> featured on</h2>
+			</div>
+			<div class="zf-featured-on-content">
+				<p class="zf-featured-on-content-text">We're not the only ones who
+					think Zelle Lite is great. Besides our happy customers,
+					some
+					of the most popular websites in the field have reviewed and recommended our
+					themes. Zelle Lite is well known for being a great choice
+					for anyone who wants to easily build a beautiful Business or Agency WordPress website.</p>
+				<p class="zf-featured-on-content-title">Who
+					recommends ThemeIsle</p>
+			</div>
+			<div class="zf-featured-on-logos">
+				<a class="zf-featured-logo-depot"></a>
+				<a class="zf-featured-logo-wpbeginer"></a>
+				<a class="zf-featured-logo-metrics"></a>
+				<a class="zf-featured-logo-tavern"></a>
+				<a class="zf-featured-logo-forbs"></a>
+			</div>
+		</div>
+
+	</section>
+
+	
+	</header>
+	</section>
+	<div class="faq-section">
+			</div>
+</div>
+
+<div id="zf-video-wrap" class="zf-video-wrap">
+	<a class="zf-video-close">+</a>
+	<div class="zf-video-inner">
+		<div class="zf-video-inner-in">
+			<iframe id="player" frameborder="0" allowfullscreen="1" title="YouTube video player" width="720"
+					height="405" src=""></iframe>
+		</div>
+	</div>
+</div>
+<footer id="main-footer">
+	<script type="text/javascript">
+		var post_id = 5999;
+
+				download_id = post_id;
+		localStorage["ti_payment_download_id"] = download_id;
+			</script>
+	<div class="container">
+		<div class="ti-descr">
+
+			<div itemscope itemtype="http://schema.org/Corporation">
+
+				<meta itemprop="name" content="Themeisle"></meta>
+				<link itemprop="url" href="https://themeisle.com">
+				<img itemprop="logo" style="padding-right:70px"
+					 src=" https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/uploads/2016/04/logo.png "/>
+				<meta itemprop="vatID" content="RO29109287"></meta>
+				<meta itemprop="email" content="friends@themeisle.com"></meta>
+				<meta itemprop="legalName" content="Vertigo Studio SRL"></meta>
+
+			</div>
+			<p class="ti-description">We&#8217;re here to help you develop a business with an online presence, not only to sell you a WordPress theme. Contact us andÂ we wouldÂ be glad to help.</p>
+
+		</div><!-- end .ti-descr -->
+
+		<div class="footer-widget">
+			<h5 class="footer-widget-title">Learn More</h5>
+			<ul id="menu-footer-menu1" class="menu"><li id="menu-item-1828795" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1828795"><a title="CodeinWP &#8211; Best WordPress Guides &#038; Tutorials" href="https://www.codeinwp.com/blog/">CodeinWP</a></li>
+<li id="menu-item-8486855" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8486855"><a href="https://optimole.com/">Optimole</a></li>
+<li id="menu-item-5024713" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5024713"><a title="ReviveSocial &#8211; WordPress Plugins for Social Media Marketers" href="https://revive.social/">ReviveSocial</a></li>
+<li id="menu-item-7595127" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7595127"><a href="https://www.codeinwp.com/blog/best-wordpress-hosting/">WordPress Hosting</a></li>
+<li id="menu-item-8472936" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8472936"><a href="https://www.codeinwp.com/blog/how-to-start-a-blog-from-zero/">Start a Blog</a></li>
+<li id="menu-item-8472937" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8472937"><a href="https://www.codeinwp.com/blog/best-ecommerce-platform/">Ecommerce Platforms</a></li>
+</ul>		</div><!-- end .footer-widget -->
+
+		<div class="footer-widget">
+			<h5 class="footer-widget-title">Useful Links</h5>
+
+			<ul id="menu-footer2" class="menu"><li id="menu-item-7504781" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7504781"><a href="https://themeisle.com/why-join/">Why Join</a></li>
+<li id="menu-item-8486856" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8486856"><a href="https://themeisle.com/blog/newsletter/">Newsletter</a></li>
+<li id="menu-item-4536569" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4536569"><a rel="nofollow" href="https://themeisle.com/affiliates/">Affiliates</a></li>
+<li id="menu-item-5966307" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5966307"><a href="http://docs.themeisle.com/article/248-support-policy">Support Policy</a></li>
+<li id="menu-item-4536566" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4536566"><a rel="nofollow" href="https://themeisle.com/terms/">Terms</a></li>
+<li id="menu-item-4536570" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4536570"><a rel="nofollow" href="https://themeisle.com/privacy-policy/">Privacy Notice</a></li>
+</ul>		</div><!-- end .footer-widget -->
+
+		<div class="footer-widget">
+			<h5 class="footer-widget-title">Social Links</h5>
+
+			<div class="social-media-footer" itemscope="" itemtype="http://schema.org/Organization">
+
+				<a itemprop="sameAs" href="https://www.facebook.com/themeisle/ "><span
+							class="facebook-social-icon"></span> Facebook</a>
+				<a itemprop="sameAs" href="https://twitter.com/themeisle"><span class="twitter-social-icon"></span>
+					Twitter</a>
+				<a itemprop="sameAs" href="https://www.linkedin.com/company/themeisle "><span
+							class="linkedin-social-icon"></span> Linkedin</a>
+				<a itemprop="sameAs" href=" https://plus.google.com/101223367282305144888"><span
+							class="gplus-social-icon"></span> Google Plus</a>
+				<a itemprop="sameAs" href=" https://www.youtube.com/channel/UCAQcBsP3h6p5yXgFap4LEGA"><span
+							class="ytube-social-icon"></span> YouTube</a>
+
+			</div>
+
+			<!--
+			<ul id="menu-top-menu-1" class="menu"><li class="ti-half-submenu menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-109"><a title="WordPress Themes" href="https://themeisle.com/wordpress-themes/">WordPress Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3744674"><a href="#">Menu Items Left</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744428"><a title="Blogging WordPress Themes" href="https://themeisle.com/wordpress-themes/blog/">Blog Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744438"><a title="Free WordPress Themes" href="https://themeisle.com/wordpress-themes/free/">Free Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744456"><a title="Business WordPress Themes" href="https://themeisle.com/wordpress-themes/business/">Business Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744460"><a title="Magazine WordPress Themes" href="https://themeisle.com/wordpress-themes/magazine/">Magazine Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744464"><a title="Minimal WordPress Themes" href="https://themeisle.com/wordpress-themes/minimal/">Minimal Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3744680"><a href="#">Menu items right</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744475"><a title="Portfolio WordPress Themes" href="https://themeisle.com/wordpress-themes/portfolio/">Portfolio Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744465"><a title="One Page WordPress Themes" href="https://themeisle.com/wordpress-themes/one-page/">One Page Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744466"><a title="Photography WordPress Themes" href="https://themeisle.com/wordpress-themes/photography/">Photography Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744495"><a title="Responsive WordPress Themes" href="https://themeisle.com/wordpress-themes/responsive/">Responsive Themes</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3744498"><a title="eCommerce WordPress Themes" href="https://themeisle.com/wordpress-themes/ecommerce/">Ecommerce Themes</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2582"><a title="WordPress Plugins" href="https://themeisle.com/wordpress-plugins/">Plugins</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5215123"><a href="https://themeisle.com/pricing/">Pricing</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-147"><a rel="nofollow" href="https://themeisle.com/about-us/">About Us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5021147"><a href="http://themeisle.com/blog/">Blog</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118349"><a href="http://themeisle.com/blog/create-blog-on-wordpress/">How to create a blog</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118353"><a href="https://themeisle.com/blog/how-to-make-a-website/">How to Make a WordPress Website</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118354"><a href="http://themeisle.com/blog/siteground-review-for-wordpress/">SiteGround Review</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118348"><a href="http://themeisle.com/blog/wix-vs-wordpress/">Wix vs WordPress</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6118357"><a href="http://themeisle.com/blog/best-live-chat-plugins-wordpress/">Live Chat Plugins</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8470452"><a href="https://themeisle.com/blog/best-wordpress-hosting/">WordPress Hosting</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4994924"><a href="https://themeisle.com/contact/">Support</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4053281"><a href="http://docs.themeisle.com/">Docs</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4053282"><a href="https://themeisle.com/frequently-asked-questions/">FAQ</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4994925"><a href="https://themeisle.com/contact/">Contact</a></li>
+<li class="menu-item-1986 menu-item menu-item-type-post_type menu-item-object-page menu-item-5965409"><a href="https://themeisle.com/purchase-history/">Login</a></li>
+</ul>			 -->
+		</div><!-- end .footer-widget -->
+
+	</div><!-- end .container -->
+
+	<hr>
+
+	<div class="container footer-bottom-bar">
+
+		<p class="copy">Â© Copyright 2019 ThemeIsle</p>
+		<div class="norton-seal">
+			<script type="text/javascript"
+					src="https://seal.websecurity.norton.com/getseal?host_name=themeisle.com&amp;size=XS&amp;use_flash=NO&amp;use_transparent=YES&amp;lang=en"></script>
+		</div>
+
+	</div><!-- end .container -->
+
+	<div class="modal-wrapper" id="upgrade-confirm"  >
+		<div class="modal">
+			<div class="modal-header">
+				<h6 class="modal-header-title">
+					<img class="checkout-lock-icon"
+						 src="https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/themes/themeIsle/images/checkout_icon.png"/>Upgrade confirmation
+				</h6>
+				<a href="#" class="close-modal">exit</a>
+			</div>
+			<div class="modal-body">
+				<div id="cart-contents">
+					<div class="ti-modal-product">
+						<h5 class="product-name"></h5>
+						<h5 class="product-price"><span class="product-price modal-upgrade-cost"></span>
+						</h5>
+					</div>
+
+					<div class="total-price-wrapper  modal-payment-only">
+						<h5 class="renew-interval">
+							Subscription renews every year.</h5>
+						<h5 class="next-charge-amount">The new price at renewal : <span class="modal-upgrade-new-cost"></span></h5>
+						<h5 class="next-charge"> Next charge :
+							<span class="total-price"><span class="modal-upgrade-new-charge-date"></span></span>
+						</h5>
+					</div>
+					<img class="card-logos"
+						 src=" https://mllj2j8xvfl0.i.optimole.com/auto/auto/auto/https/s10725.pcdn.co/wp-content/themes/themeIsle/images/checkout_modal_cards.png" alt="#">
+					<h6 class="upgrade-charge-info">We will automatically upgrade your account and charge the amount from your credit card.</h6>
+					<button id="upgrade-btn" class="buy-button" type="button">Upgrade for <span class="modal-upgrade-cost"></span></button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</footer><!-- end #main-footer -->
+
+</div>
+<div class="edd-free-downloads-modal-wrapper edd-free-downloads">
+	<div id="edd-free-downloads-modal">
+		<span class="dashicons dashicons-no-alt edd-free-downloads-modal-close"></span>
+		<form id="edd_free_download_form" method="post">
+			<h4><strong>Download Zelle Lite Now</strong></h4>
+			<p>And join our products update newsletter for more goodies.</p>
+			<p>
+				<label for="edd_free_download_email"
+					   class="edd-free-downloads-label">Email Address <span
+							class="edd-free-downloads-required">*</span></label>
+				<input type="text" name="edd_free_download_email" id="edd_free_download_email"
+					   class="edd-free-download-field"
+					   placeholder="Email Address"
+					   value=""/>
+			</p>
+
+			<input type="hidden" name="edd_free_download_check" value=""/>
+
+			<input type="hidden" id="edd_free_download_nonce" name="edd_free_download_nonce" value="cb4e4cc901" /><input type="hidden" name="_wp_http_referer" value="/themes/zelle-lite/" />
+			<input type="hidden" name="edd_free_download_country" id="edd_free_download_country"
+				   value="IN"/>
+
+			<input type="hidden" name="edd_action" value="free_download_process"/>
+			<input type="hidden" name="edd_free_download_id"/>
+			<button name="edd_free_download_submit" class="edd-free-download-submit edd-submit button  "><span>Download &amp; Subscribe</span>
+			</button>
+			<a href="
+			https://themeisle.com?edd_action=free_download_process&edd_free_download_nonce=cb4e4cc901&edd_free_download_id=5999&edd_free_download_check			">No
+				thanks, I just want to download the zip</a>
+
+		</form>
+	</div>
+</div>
+<!-- This site is converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com :: Campaign Title: [TI] Black Friday 2018 floating bar --><script type="text/javascript" src="https://a.optmnstr.com/app/js/api.min.js" data-campaign="xdwfryudwiih7ajw6py2" data-user="7711" data-env="production"></script><!-- / OptinMonster --><!-- This site is converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com :: Campaign Title: [TI] black friday pop-up 2018 --><script type="text/javascript" src="https://a.optmnstr.com/app/js/api.min.js" data-campaign="mkbr1cxpijhkoz30l10t" data-user="7711" data-env="production"></script><!-- / OptinMonster --><!-- This site is converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com :: Campaign Title: zelle upgrade --><div id="om-zka2gjaibgxx2cpdvjnq-holder"></div><script>var zka2gjaibgxx2cpdvjnq,zka2gjaibgxx2cpdvjnq_poll=function(){var r=0;return function(n,l){clearInterval(r),r=setInterval(n,l)}}();!function(e,t,n){if(e.getElementById(n)){zka2gjaibgxx2cpdvjnq_poll(function(){if(window['om_loaded']){if(!zka2gjaibgxx2cpdvjnq){zka2gjaibgxx2cpdvjnq=new OptinMonsterApp();return zka2gjaibgxx2cpdvjnq.init({"u":"7711.700626","staging":0,"dev":0,"beta":0});}}},25);return;}var d=false,o=e.createElement(t);o.id=n,o.src="https://a.optmnstr.com/app/js/api.min.js",o.async=true,o.onload=o.onreadystatechange=function(){if(!d){if(!this.readyState||this.readyState==="loaded"||this.readyState==="complete"){try{d=om_loaded=true;zka2gjaibgxx2cpdvjnq=new OptinMonsterApp();zka2gjaibgxx2cpdvjnq.init({"u":"7711.700626","staging":0,"dev":0,"beta":0});o.onload=o.onreadystatechange=null;}catch(t){}}}};(document.getElementsByTagName("head")[0]||document.documentElement).appendChild(o)}(document,"script","omapi-script");</script><!-- / OptinMonster --><!-- This site is converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com :: Campaign Title: Exit-Intent Discount Var A --><div id="om-zfslb8btyhxsxnn4hf6t-holder"></div><script>var zfslb8btyhxsxnn4hf6t,zfslb8btyhxsxnn4hf6t_poll=function(){var r=0;return function(n,l){clearInterval(r),r=setInterval(n,l)}}();!function(e,t,n){if(e.getElementById(n)){zfslb8btyhxsxnn4hf6t_poll(function(){if(window['om_loaded']){if(!zfslb8btyhxsxnn4hf6t){zfslb8btyhxsxnn4hf6t=new OptinMonsterApp();return zfslb8btyhxsxnn4hf6t.init({"u":"7711.803738","staging":0,"dev":0,"beta":0});}}},25);return;}var d=false,o=e.createElement(t);o.id=n,o.src="https://a.optmnstr.com/app/js/api.min.js",o.async=true,o.onload=o.onreadystatechange=function(){if(!d){if(!this.readyState||this.readyState==="loaded"||this.readyState==="complete"){try{d=om_loaded=true;zfslb8btyhxsxnn4hf6t=new OptinMonsterApp();zfslb8btyhxsxnn4hf6t.init({"u":"7711.803738","staging":0,"dev":0,"beta":0});o.onload=o.onreadystatechange=null;}catch(t){}}}};(document.getElementsByTagName("head")[0]||document.documentElement).appendChild(o)}(document,"script","omapi-script");</script><!-- / OptinMonster --><div style="position:absolute;overflow:hidden;clip:rect(0 0 0 0);height:1px;width:1px;margin:-1px;padding:0;border:0"><div class="omapi-shortcode-helper">[i]</div><div class="omapi-shortcode-parsed">[i]</div></div>		<script type="text/javascript">var xdwfryudwiih7ajw6py2_shortcode = true;var mkbr1cxpijhkoz30l10t_shortcode = true;var zka2gjaibgxx2cpdvjnq_shortcode = true;var zfslb8btyhxsxnn4hf6t_shortcode = true;</script>
+		<script type='text/javascript'>
+/* <![CDATA[ */
+var edd_scripts = {"ajaxurl":"https:\/\/themeisle.com\/wp-admin\/admin-ajax.php","position_in_cart":"","has_purchase_links":"","already_in_cart_message":"You have already added this item to your cart","empty_cart_message":"Your cart is empty","loading":"Loading","select_option":"Please select an option","is_checkout":"0","default_gateway":"paypalexpress","redirect_to_checkout":"1","checkout_page":"https:\/\/themeisle.com\/checkout\/","permalinks":"1","quantities_enabled":"","taxes_enabled":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/plugins/easy-digital-downloads/assets/js/edd-ajax.min.js?ver=2.9.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sd = {"ajax":{"action":"_edd_ti_sd_","nonce":"89014e3071"},"rest":{"voucher":"https:\/\/themeisle.com\/wp-json\/_edd_ti_sd_\/v1\/getvoucher\/","store_discount":"https:\/\/themeisle.com\/wp-json\/_edd_ti_sd_\/v1\/redeem_discount_store\/#\/"},"allow_redeem":"no"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/plugins/edd-simple-discounts/inc/js/sd-public.js'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/themes/themeIsle/js/tabs.js?ver=2.7.0'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/themes/themeIsle/js/master.js?ver=2.7.0'></script>
+<script type='text/javascript'>
+dataLayer.push({
+										 product_id : "5999",
+										 product_name: "ZelleLite", // Numele temei, pluginului
+										 product_price: "0",
+										 content_category: "Theme_Free",
+										 product_category: "Theme",
+
+						})
+</script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/themes/themeIsle/js/modernizr.custom.js?ver=2.7.0'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/themes/themeIsle/js/downloads-free.js?ver=2.7.0'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-includes/js/mediaelement/wp-mediaelement.min.js?ver=5.1.1'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/themes/themeIsle/js/template-themes-new-lp.js?ver=2.7.0'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-content/themes/themeIsle/js/toastr.min.js?ver=2.7.0'></script>
+<script type='text/javascript' src='https://s10725.pcdn.co/wp-includes/js/wp-embed.min.js?ver=5.1.1'></script>
+		<script type="text/javascript">var omapi_localized = { ajax: 'https://themeisle.com/wp-admin/admin-ajax.php?optin-monster-ajax-route=1', nonce: 'dbef62e3cb', slugs: {"xdwfryudwiih7ajw6py2":{"slug":"xdwfryudwiih7ajw6py2","mailpoet":false},"mkbr1cxpijhkoz30l10t":{"slug":"mkbr1cxpijhkoz30l10t","mailpoet":false},"zka2gjaibgxx2cpdvjnq":{"slug":"zka2gjaibgxx2cpdvjnq","mailpoet":false},"zfslb8btyhxsxnn4hf6t":{"slug":"zfslb8btyhxsxnn4hf6t","mailpoet":false}} };</script>
+		<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.eu01.nr-data.net","licenseKey":"9767e3393c","applicationID":"605644","transactionName":"MhBSZQoZVxcAUxVYDAtacVIMEVYKTkMIXwQJEB1VFw9XCA5RBQ==","queueTime":0,"applicationTime":500,"atts":"HldRE0IDRBk=","errorBeacon":"bam.eu01.nr-data.net","agent":""}</script></body>
+</html>
+
+
+
+#####EOF#####
+
+

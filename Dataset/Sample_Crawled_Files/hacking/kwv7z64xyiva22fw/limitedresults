@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en-US">
+<head class="no-js">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+	        <link rel="pingback" href="https://limitedresults.com/xmlrpc.php">
+	    <script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>Pwn the LIFX Mini white &#8211; Limited Results</title>
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Limited Results &raquo; Feed" href="https://limitedresults.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Limited Results &raquo; Comments Feed" href="https://limitedresults.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Limited Results &raquo; Pwn the LIFX Mini white Comments Feed" href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/limitedresults.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.1.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://limitedresults.com/wp-content/plugins/gutenberg/build/block-library/style.css?ver=1554272313' type='text/css' media='all' />
+<link rel='stylesheet' id='thesimplest-google-fonts-css'  href='https://fonts.googleapis.com/css?family=Poppins%3A300%2C400%2C500%2C600%2C700%2C800%7CPT+Serif%3A400%2C400i%2C700%2C700i&#038;ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bootstrap-css'  href='https://limitedresults.com/wp-content/themes/thesimplest/assets/css/bootstrap.min.css?ver=3.3.7' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-css'  href='https://limitedresults.com/wp-content/themes/thesimplest/assets/css/font-awesome.min.css?ver=4.7.0' type='text/css' media='all' />
+<link rel='stylesheet' id='thesimplest-style-css'  href='https://limitedresults.com/wp-content/themes/thesimplest/style.css?ver=5.1.1' type='text/css' media='all' />
+<script>if (document.location.protocol != "https:") {document.location = document.URL.replace(/^http:/i, "https:");}</script><script type='text/javascript' src='https://limitedresults.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://limitedresults.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<link rel='https://api.w.org/' href='https://limitedresults.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://limitedresults.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://limitedresults.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Pwn the Tuya lightbulbs' href='https://limitedresults.com/2018/11/pwn-the-tuya-lightbulbs/' />
+<link rel='next' title='Pwn the WIZ connected' href='https://limitedresults.com/2019/02/pwn-the-wiz-connected/' />
+<meta name="generator" content="WordPress 5.1.1" />
+<link rel="canonical" href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/" />
+<link rel='shortlink' href='https://limitedresults.com/?p=391' />
+<link rel="alternate" type="application/json+oembed" href="https://limitedresults.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Flimitedresults.com%2F2019%2F01%2Fpwn-the-lifx-mini-white%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://limitedresults.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Flimitedresults.com%2F2019%2F01%2Fpwn-the-lifx-mini-white%2F&#038;format=xml" />
+
+</head>
+<body data-rsssl=1 class="post-template-default single single-post postid-391 single-format-standard">
+    <div class="search-popup">
+        <span class="search-popup-close"><i class="fa fa-times"></i></span>
+        
+<form action="https://limitedresults.com/" method="get" role="search" id="searchform_topbar" class="search-top-bar-popup search-form">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input type="search" class="search-field-top-bar" id="search-field-top-bar" placeholder="Search &hellip;" value="" name="s" />
+	</label>
+	<button type="submit" class="search-submit search-top-bar-submit" id="search-top-bar-submit">
+        <span class="fa fa-search header-search-icon"></span>
+        <span class="screen-reader-text">
+            Search        </span>
+    </button>
+</form>
+    </div><!-- .search-popup -->
+
+<div id="page" class="site">
+    <div class="site-inner">
+        <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+        <header id="masthead" class="site-header" role="banner">
+
+                    <div class="container">
+                <div class="header-links">
+                                            <span class="btn-search fa fa-search icon-button-search"></span>
+                    	                                </div><!-- .header-link -->
+            </div>
+        
+        <div class="site-header-main">
+            <div class="site-branding">
+                                    <p class="site-title">
+                        <a href="https://limitedresults.com/" rel="home">
+                            Limited Results                        </a>
+                    </p>
+                                    <p class="site-description">Limited contribution to this world</p>
+                
+            </div><!-- .site-branding -->
+
+                        <div class="menu-wrapper">
+                <button id="menu-toggle" class="menu-toggle toggled-on" aria-expanded="true" aria-controls="site-navigation social-navigation">Menu</button>
+                <div id="site-header-menu" class="site-header-menu clearfix">
+
+                        <nav id="site-navigation" class="main-navigation container" role="navigation" aria-label="Primary Menu">
+				            <div class="menu-first-container"><ul id="menu-first" class="primary-menu"><li id="menu-item-97" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-97"><a href="https://limitedresults.com/">Boot</a></li>
+<li id="menu-item-110" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-110"><a href="https://limitedresults.com/posts/">Results</a>
+<ul class="sub-menu">
+	<li id="menu-item-435" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-435"><a href="https://limitedresults.com/2019/02/pwn-the-wiz-connected/">Pwn the WIZ connected</a></li>
+	<li id="menu-item-408" class="menu-item menu-item-type-post_type menu-item-object-post current-menu-item menu-item-408"><a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/" aria-current="page">Pwn the LIFX Mini white</a></li>
+	<li id="menu-item-383" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-383"><a href="https://limitedresults.com/2018/11/pwn-the-tuya-lightbulbs/">Pwn the Tuya lightbulbs</a></li>
+	<li id="menu-item-294" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-294"><a href="https://limitedresults.com/2018/10/pwn-the-yeelight-dirty/">Pwn the Yeelight</a></li>
+</ul>
+</li>
+<li id="menu-item-440" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-440"><a href="https://limitedresults.com/coms/">COMS</a>
+<ul class="sub-menu">
+	<li id="menu-item-458" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-458"><a href="https://limitedresults.com/2019/03/bsides-ljubljana0x7e3/">BSides Ljubljana::0x7E3</a></li>
+</ul>
+</li>
+<li id="menu-item-95" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-95"><a href="https://limitedresults.com/about-me/">About me</a></li>
+</ul></div>                        </nav><!-- .main-navigation -->
+                </div><!-- .site-header-menu -->
+            </div><!-- .menu-wrapper -->
+            
+        </div><!-- .site-header-main -->
+
+
+    
+</header>
+
+        <div id="content" class="site-content container">
+
+	<div id="primary" class="content-area row">
+		<main id="main" class="site-main col-md-8 col-sm-12" role="main">
+
+			
+<article id="post-391" class="post-391 post type-post status-publish format-standard hentry category-iot tag-hacking tag-hardware tag-iot tag-lifx tag-lightbulbs">
+
+	<header class="entry-header">
+		<h1 class="entry-title">Pwn the LIFX Mini white</h1>
+		<div class="entry-info">
+			<span class="posted-on">Posted on <time class="entry-date published" datetime="2019-01-23T19:24:50+00:00">January 23, 2019</time><time class="updated" datetime="2019-02-03T18:16:23+00:00">February 3, 2019</time></span><span class="author-info"> by <a href="https://limitedresults.com/author/admin/">LimitedResults</a></span>		</div>
+	</header>
+
+	
+	<div class="entry-content">
+		
+<h3>The Device</h3>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/LIFX_mini_white.png" alt="" class="wp-image-396" srcset="https://limitedresults.com/wp-content/uploads/2019/01/LIFX_mini_white.png 200w, https://limitedresults.com/wp-content/uploads/2019/01/LIFX_mini_white-186x300.png 186w" sizes="(max-width: 200px) 100vw, 200px" /><figcaption>LIFX mini White</figcaption></figure></div>
+
+
+
+<p>Bought on Amazon (30 euros).</p>
+
+
+
+<p>The lightbulb is plugged. LIFX app is installed on an Android smartphone. Wi-Fi connection is set. The lightbulb works fine. </p>
+
+
+
+<p>Wunderbar, easy setup.</p>
+
+
+
+<h3>The Teardown</h3>
+
+
+
+<p>Butcher mode activated:<br></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/tools-999x1024.png" alt="" class="wp-image-397" srcset="https://limitedresults.com/wp-content/uploads/2019/01/tools-999x1024.png 999w, https://limitedresults.com/wp-content/uploads/2019/01/tools-293x300.png 293w, https://limitedresults.com/wp-content/uploads/2019/01/tools-768x787.png 768w, https://limitedresults.com/wp-content/uploads/2019/01/tools.png 1548w" sizes="(max-width: 999px) 100vw, 999px" /><figcaption>Classic tools for hardware hacking</figcaption></figure></div>
+
+
+
+<p>Work in progress:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/fire_paste-768x1024.png" alt="" class="wp-image-398" srcset="https://limitedresults.com/wp-content/uploads/2019/01/fire_paste-768x1024.png 768w, https://limitedresults.com/wp-content/uploads/2019/01/fire_paste-225x300.png 225w, https://limitedresults.com/wp-content/uploads/2019/01/fire_paste.png 1560w" sizes="(max-width: 768px) 100vw, 768px" /><figcaption>Fireproof paste all around</figcaption></figure></div>
+
+
+
+<p>The most difficult is to clean the board and remove this paste.<br></p>
+
+
+
+<h3>The Setup</h3>
+
+
+
+<p>The major component of the module is identified as&nbsp;ESP32D0WDQ6, a SoC from ESPRESSIF.</p>
+
+
+
+<p>Datasheet is available<strong> <a href="https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf">here</a>.</strong></p>
+
+
+
+<p>SDK &amp; Tools are also available on <strong><a href="https://github.com/espressif/esptool">GitHub.</a></strong></p>
+
+
+
+<p>Some pins are soldered to easily connect with a FT2232H board. A little bit of PCB Reverse is needed.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/setup-768x1024.png" alt="" class="wp-image-399" srcset="https://limitedresults.com/wp-content/uploads/2019/01/setup-768x1024.png 768w, https://limitedresults.com/wp-content/uploads/2019/01/setup-225x300.png 225w, https://limitedresults.com/wp-content/uploads/2019/01/setup.png 1560w" sizes="(max-width: 768px) 100vw, 768px" /><figcaption>Simple setup</figcaption></figure></div>
+
+
+
+<p>Connections from top to bottom = GND, VCC 3.3V, ADBUS0, ADBUS1.</p>
+
+
+
+<p>Once VCC is powered, the LIFX LCM3 is booting:<br></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/log_boot.png" alt="" class="wp-image-400" srcset="https://limitedresults.com/wp-content/uploads/2019/01/log_boot.png 599w, https://limitedresults.com/wp-content/uploads/2019/01/log_boot-236x300.png 236w" sizes="(max-width: 599px) 100vw, 599px" /><figcaption>UART activity during boot. It connects directly to the SSID (here KabelBox-0570)</figcaption></figure></div>
+
+
+
+<h3>Vulnerability n*1: Wi-Fi credentials stored in plaintext into the firmware</h3>
+
+
+
+<p>Dumping the firmware is straightforward. ESP32 is set in Download Mode:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/download-mode.png" alt="" class="wp-image-401" srcset="https://limitedresults.com/wp-content/uploads/2019/01/download-mode.png 579w, https://limitedresults.com/wp-content/uploads/2019/01/download-mode-300x24.png 300w" sizes="(max-width: 579px) 100vw, 579px" /><figcaption>Download mode activated</figcaption></figure></div>
+
+
+
+<p>then launch the read flash command from esp-tool to access the content of the memory:</p>
+
+
+
+<pre class="wp-block-preformatted">esptool.py -p /dev/ttyUSB0 -b 460800 read_flash 0 0x200000 flash.bin</pre>
+
+
+
+<p>A simple research into the binary file flash.bin using an hex editor or even string|grep command is enough to retrieve the Wi-Fi credentials.<br></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/password.png" alt="" class="wp-image-402" srcset="https://limitedresults.com/wp-content/uploads/2019/01/password.png 983w, https://limitedresults.com/wp-content/uploads/2019/01/password-300x73.png 300w, https://limitedresults.com/wp-content/uploads/2019/01/password-768x188.png 768w" sizes="(max-width: 983px) 100vw, 983px" /><figcaption>WPA2 key is stored in plaintext (ASCII encoded)</figcaption></figure></div>
+
+
+
+<h3>Vulnerability n*2: No security settings (at all)</h3>
+
+
+
+<p>To check the device configuration , E-fuses values are dumped:<br></p>
+
+
+
+<pre class="wp-block-preformatted">espefuse.py --port /dev/ttyUSB0 summary<br></pre>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/log_efuse.png" alt="" class="wp-image-403" srcset="https://limitedresults.com/wp-content/uploads/2019/01/log_efuse.png 752w, https://limitedresults.com/wp-content/uploads/2019/01/log_efuse-300x297.png 300w" sizes="(max-width: 752px) 100vw, 752px" /><figcaption>Efuses content</figcaption></figure></div>
+
+
+
+<p>According to the values, this device is totally open (no secure boot, no flash encryption, no JTAG disabled).</p>
+
+
+
+<h3>Vulnerability n*3: Root certificate and RSA private key extracted</h3>
+
+
+
+<p>RootÂ certificate and RSA private key are present into the firmware and are used to connect to LIFX cloud.</p>
+
+
+
+<p>Oh Jesus&#8230;</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://limitedresults.com/wp-content/uploads/2019/01/Private_key.png" alt="" class="wp-image-412" srcset="https://limitedresults.com/wp-content/uploads/2019/01/Private_key.png 484w, https://limitedresults.com/wp-content/uploads/2019/01/Private_key-300x170.png 300w" sizes="(max-width: 484px) 100vw, 484px" /><figcaption>enjoy</figcaption></figure></div>
+
+
+
+<p>I decided to stop the investigation after that.</p>
+
+
+
+<h3>Conclusion<br></h3>
+
+
+
+<p>In a very <del>short</del>&nbsp;limited amount of time,&nbsp;three vulnerabilities have been discovered:</p>
+
+
+
+<ul><li>Wifi credentials of the user have been recovered (stored in plaintext into the flash memory).</li><li>No security settings. The device is completely open (no secure boot, no debug interface disabled, no flash encryption).</li><li>Root certificate and RSA private key have been extracted.</li></ul>
+
+
+
+<h3>Disclosure</h3>
+
+
+
+<ul><li><strong>24/05/2018:</strong>Â E-mail to LIFX. Want to discuss with their engineering team, asking for PGP keys.</li><li><strong>03/10/2018:</strong> No PGP keys, no feedback from LIFX during 4 months. Report finally sent via e-mail.</li><li><strong>04/10/2018:</strong> Acknowledgement from LIFX.</li><li><strong>17/10/2018</strong>: LIFX team confirms the vulnerabilities, asks for a call and a 150 days disclosure.</li><li><strong>23/10/2018</strong>: Call with LIFX team. 90 days disclosure agreement.</li><li><strong>23/01/2019:</strong> Posted.</li><li><strong>30/01/2019:</strong> LIFX statement <a href="https://www.lifx.com/pages/privacy-security"><strong>here</strong></a>.</li></ul>
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer clearfix"><span class="cat-tags-links"><span class="cat-links"><span class="cat-icon"><i class="fa fa-folder-open"></i></span><span class="screen-reader-text">Categories</span><a href="https://limitedresults.com/category/iot/" rel="category tag">iot</a></span><span class="tags-links"><span class="tags-icon"><i class="fa fa-hashtag" aria-hidden="true"></i></span><span class="screen-reader-text">Tags</span><a href="https://limitedresults.com/tag/hacking/" rel="tag">Hacking</a>, <a href="https://limitedresults.com/tag/hardware/" rel="tag">Hardware</a>, <a href="https://limitedresults.com/tag/iot/" rel="tag">iot</a>, <a href="https://limitedresults.com/tag/lifx/" rel="tag">Lifx</a>, <a href="https://limitedresults.com/tag/lightbulbs/" rel="tag">lightbulbs</a></span></span></footer></article>
+
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://limitedresults.com/2018/11/pwn-the-tuya-lightbulbs/" rel="prev"><span class="meta-nav" aria-hidden="true">Previous</span><span class="screen-reader-text">Previous post:</span> <span class="post-title">Pwn the Tuya lightbulbs</span></a></div><div class="nav-next"><a href="https://limitedresults.com/2019/02/pwn-the-wiz-connected/" rel="next"><span class="meta-nav" aria-hidden="true">Next</span><span class="screen-reader-text">Next post:</span> <span class="post-title">Pwn the WIZ connected</span></a></div></div>
+	</nav>
+<div id="comments" class="comments-area">
+
+			<h3 class="comments-title">
+			19 Replies to &ldquo;Pwn the LIFX Mini white&rdquo;		</h3>
+
+		
+		<ol class="comment-list">
+					<li id="comment-21" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-21" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/ea4b362255280d25b21ea1d0ed04fab3?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ea4b362255280d25b21ea1d0ed04fab3?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn"><a href='http://www.franzoni.eu' rel='external nofollow' class='url'>Alan</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-21">
+							<time datetime="2019-01-30T09:34:54+00:00">
+								January 30, 2019 at 9:34 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Maybe you have some valid points, but you fails to illustrate them properly. Beyond the not-so-reasonable scenario (wouldn&#8217;t you be able to tell that your bulb has been tampered with?), the analysis lacks precision.</p>
+<p>&#8220;Wi-Fi credentials stored in plaintext into the firmware&#8221;</p>
+<p>What is a &#8220;firmware&#8221;? You mean the device flash memory? The user must set its credentials, right? So, how is it possible that they&#8217;re &#8220;in the firmware&#8221;, if firmware is the software that gets uploaded by the factory?</p>
+<p>1) Wi-fi credentials stored on a device must be readable by the device somehow when it boots and it wants to connect. There&#8217;re other, less-used and more complex authentication systems (e.g. X509 cert authentication, but some WPS as well I believe to remember) that don&#8217;t rely on that, but they&#8217;re harder to setup and support. Sure, some devices provide an &#8220;encrypted partition&#8221;, but usually such partition (since the device must start without a password) is encoded with some variation over the serial number or other unique property of the device&#8230; and it&#8217;s usually not so hard to decipher. Some systems provide a secure enclave where passwords can be stored, but someway it is usually possible to get it out when you have PHYSICAL ACCESS to a device.</p>
+<p>2) No security settings; ok, this could be improved. But most of them are physical-access only settings. The scenario here is a bit different.</p>
+<p>3) Root certificate and RSA private key extracted</p>
+<p>Root certificate and private key of what? First, the fact that the certificate is in the firmware is not a problem; just the private key could be a problem.</p>
+<p>But is that certificate shared and reused between all devices? Or is it flashed per-device and/or autogenerated and trusted on first use? You say nothing about that. If it&#8217;s a single certificate that allows, with such key, ALL devices to authenticate on LIFX server, well, that&#8217;s a vulnerability! Otherwise, it&#8217;s probably a good practice.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=21#respond' data-commentid="21" data-postid="391" data-belowelement="div-comment-21" data-respondelement="respond" aria-label='Reply to Alan'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-29" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 parent">
+			<article id="div-comment-29" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">LimitedResults</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-29">
+							<time datetime="2019-01-30T18:45:02+00:00">
+								January 30, 2019 at 6:45 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks for your detailed comment.<br />
+In the second sentence, it is mentioned the Wi-Fi connection is set. The user credentials are then stored into flash memory in plaintext.<br />
+1) agree with you. Some secure storage solutions are not so resistant, some others are. Depends on the implementation.<br />
+2) We are agree, this can be improved.<br />
+3) CA is useless, we know that. But RSA private key, don&#8217;t worry, it is valuable. I decide to not give details about that. The name of the blog is Limited Results, I Hope you understand and by the way you have a pretty good analysis&#8230;</p>
+<p>I wish you the best.<br />
+Regards<br />
+LR</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=29#respond' data-commentid="29" data-postid="391" data-belowelement="div-comment-29" data-respondelement="respond" aria-label='Reply to LimitedResults'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-36" class="comment even depth-3 parent">
+			<article id="div-comment-36" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/ea4b362255280d25b21ea1d0ed04fab3?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ea4b362255280d25b21ea1d0ed04fab3?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn"><a href='https://www.franzoni.eu' rel='external nofollow' class='url'>Alan</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-36">
+							<time datetime="2019-01-31T08:20:01+00:00">
+								January 31, 2019 at 8:20 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks for your answer, LimitedResults.</p>
+<p>After reading about other comments that explain how the ESP32 actually has an easy-to-use &#8220;secure enclave&#8221; and secure boot facility (something that wasn&#8217;t stated in your analysis) , I probably get your point; it was possible (and easy) to add such encryption, but that wasn&#8217;t done.</p>
+<p>About the CA vs key: I understand your &#8220;limited results&#8221; approach, but, maybe, you could provide limited but meaningful results to your audience. If your paragraph were</p>
+<p>&#8220;Root certificate and RSA private key for a critical service are on the device&#8221;</p>
+<p>Instead of</p>
+<p>&#8220;Root certificate and RSA private key are present into the firmware.&#8221;</p>
+<p>Your would have served the very same purpose.</p>
+<p>AND&#8230;. you have dumped the unencrypted RSA private key for us, in an image. Unless it&#8217;s a dummy key (I haven&#8217;t tried parsing it, actually), you seemed to have given us the single, most important piece of private information ð</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=36#respond' data-commentid="36" data-postid="391" data-belowelement="div-comment-36" data-respondelement="respond" aria-label='Reply to Alan'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-39" class="comment byuser comment-author-admin bypostauthor odd alt depth-4">
+			<article id="div-comment-39" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">LimitedResults</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-39">
+							<time datetime="2019-01-31T16:24:16+00:00">
+								January 31, 2019 at 4:24 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi Alan,</p>
+<p>I give the key but I do not open the door for you, I am not the doorman.<br />
+I hope you understand my philosophy.<br />
+Regards<br />
+LR</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=39#respond' data-commentid="39" data-postid="391" data-belowelement="div-comment-39" data-respondelement="respond" aria-label='Reply to LimitedResults'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-31" class="comment even depth-2 parent">
+			<article id="div-comment-31" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/964fd5ec4d62c714b55bfa615eb6c30b?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/964fd5ec4d62c714b55bfa615eb6c30b?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">MackTheKnife</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-31">
+							<time datetime="2019-01-30T20:06:23+00:00">
+								January 30, 2019 at 8:06 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>The ESP32 SoC supports encryption of the flash contents as well as verification of the firmware image prior to boot.  The fact that the manufacturer didn&#8217;t bother is unconscionable.  Just enabling flash encryption would ameliorate issues 1 and 3.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=31#respond' data-commentid="31" data-postid="391" data-belowelement="div-comment-31" data-respondelement="respond" aria-label='Reply to MackTheKnife'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-32" class="comment byuser comment-author-admin bypostauthor odd alt depth-3">
+			<article id="div-comment-32" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">LimitedResults</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-32">
+							<time datetime="2019-01-30T20:11:55+00:00">
+								January 30, 2019 at 8:11 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Nice comment, I agree.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=32#respond' data-commentid="32" data-postid="391" data-belowelement="div-comment-32" data-respondelement="respond" aria-label='Reply to LimitedResults'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-22" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-22" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/cc24d56b772a1a7d206074fde3006847?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cc24d56b772a1a7d206074fde3006847?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">George Hafiz</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-22">
+							<time datetime="2019-01-30T11:06:50+00:00">
+								January 30, 2019 at 11:06 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>What is the root cert for? Connecting to LIFX cloud?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=22#respond' data-commentid="22" data-postid="391" data-belowelement="div-comment-22" data-respondelement="respond" aria-label='Reply to George Hafiz'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-27" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-27" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">LimitedResults</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-27">
+							<time datetime="2019-01-30T18:34:11+00:00">
+								January 30, 2019 at 6:34 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>CA is not important.<br />
+For the private key, it is a critical asset.<br />
+Don&#8217;t worry all concerned persons knows that&#8230;<br />
+I just published limited results here.</p>
+<p>Regards<br />
+LR</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=27#respond' data-commentid="27" data-postid="391" data-belowelement="div-comment-27" data-respondelement="respond" aria-label='Reply to LimitedResults'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-23" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-23" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/c970e43255a5ff9f22748505a0f75fc6?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c970e43255a5ff9f22748505a0f75fc6?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">NTN</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-23">
+							<time datetime="2019-01-30T12:57:38+00:00">
+								January 30, 2019 at 12:57 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>You were mercyfull with them ð</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=23#respond' data-commentid="23" data-postid="391" data-belowelement="div-comment-23" data-respondelement="respond" aria-label='Reply to NTN'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-25" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-25" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">LimitedResults</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-25">
+							<time datetime="2019-01-30T18:28:23+00:00">
+								January 30, 2019 at 6:28 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Yes I know ð</p>
+<p>Regards<br />
+LR</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=25#respond' data-commentid="25" data-postid="391" data-belowelement="div-comment-25" data-respondelement="respond" aria-label='Reply to LimitedResults'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-24" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-24" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/3475fb6a6c24008584c20654e68530e1?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/3475fb6a6c24008584c20654e68530e1?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">Loh</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-24">
+							<time datetime="2019-01-30T14:42:43+00:00">
+								January 30, 2019 at 2:42 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Fix you images loading speed, assholes.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=24#respond' data-commentid="24" data-postid="391" data-belowelement="div-comment-24" data-respondelement="respond" aria-label='Reply to Loh'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-26" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-26" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">LimitedResults</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-26">
+							<time datetime="2019-01-30T18:28:41+00:00">
+								January 30, 2019 at 6:28 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Nice to  meet you, gentleman.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=26#respond' data-commentid="26" data-postid="391" data-belowelement="div-comment-26" data-respondelement="respond" aria-label='Reply to LimitedResults'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-28" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-28" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/e23c1818211fb8d023e20d7d1a72ccce?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e23c1818211fb8d023e20d7d1a72ccce?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">Chase Johnson</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-28">
+							<time datetime="2019-01-30T18:44:41+00:00">
+								January 30, 2019 at 6:44 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Could you please share the exact pinout of the wifi module? I want to hook it up, but there are more pins than you mentioned. I&#8217;d appreciate the help so I don&#8217;t have to waste the time probing them all. Thanks!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=28#respond' data-commentid="28" data-postid="391" data-belowelement="div-comment-28" data-respondelement="respond" aria-label='Reply to Chase Johnson'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-30" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-30" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">LimitedResults</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-30">
+							<time datetime="2019-01-30T18:54:28+00:00">
+								January 30, 2019 at 6:54 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi,</p>
+<p>send me a picture of your module (for email go to contact me). If I can help, I&#8217;ll do.<br />
+Happy pwning man!</p>
+<p>Regards<br />
+LR</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=30#respond' data-commentid="30" data-postid="391" data-belowelement="div-comment-30" data-respondelement="respond" aria-label='Reply to LimitedResults'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-34" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-34" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/67740f8dc1ca16167ac58d3ccae009bf?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/67740f8dc1ca16167ac58d3ccae009bf?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">Contigo</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-34">
+							<time datetime="2019-01-30T23:17:52+00:00">
+								January 30, 2019 at 11:17 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>You should update your disclosure timeline with the date of the fix release.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=34#respond' data-commentid="34" data-postid="391" data-belowelement="div-comment-34" data-respondelement="respond" aria-label='Reply to Contigo'>Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-35" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-35" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c5244c135cfa4f43c388eb10c8662a7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">LimitedResults</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-35">
+							<time datetime="2019-01-31T06:31:51+00:00">
+								January 31, 2019 at 6:31 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Not my business.<br />
+regards<br />
+LR</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=35#respond' data-commentid="35" data-postid="391" data-belowelement="div-comment-35" data-respondelement="respond" aria-label='Reply to LimitedResults'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-37" class="comment even thread-even depth-1">
+			<article id="div-comment-37" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/cae011fad81dadb50e272652be61e55e?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cae011fad81dadb50e272652be61e55e?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn"><a href='http://www.webpro.ie/' rel='external nofollow' class='url'>Webpro</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-37">
+							<time datetime="2019-01-31T11:46:31+00:00">
+								January 31, 2019 at 11:46 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Killer hacker lightbulbs! I can see the movies already!!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=37#respond' data-commentid="37" data-postid="391" data-belowelement="div-comment-37" data-respondelement="respond" aria-label='Reply to Webpro'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-38" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-38" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/4fc49939f4fa6ddb1b2fa4a529eb31c7?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/4fc49939f4fa6ddb1b2fa4a529eb31c7?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">Ian Eiloart</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-38">
+							<time datetime="2019-01-31T13:10:19+00:00">
+								January 31, 2019 at 1:10 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p><a href="https://boingboing.net/2019/01/29/fiat-lux.html" rel="nofollow">https://boingboing.net/2019/01/29/fiat-lux.html</a> explains briefly why it matters that the lightbulb stores your wifi password in plain text, even when it&#8217;s been discarded.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=38#respond' data-commentid="38" data-postid="391" data-belowelement="div-comment-38" data-respondelement="respond" aria-label='Reply to Ian Eiloart'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-40" class="comment even thread-even depth-1">
+			<article id="div-comment-40" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/6667e9314347179ed5331d6596b91138?s=42&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6667e9314347179ed5331d6596b91138?s=84&#038;d=mm&#038;r=g 2x' class='avatar avatar-42 photo' height='42' width='42' />						<b class="fn">Andrew P.</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/#comment-40">
+							<time datetime="2019-01-31T20:05:23+00:00">
+								January 31, 2019 at 8:05 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>In the early 1970s, shortly after Intel and Texas Instruments introduced the first microprocessor chips, engineers used to joke about developing a &#8220;microprocessor-controlled hammer&#8221;.  With the advent of these light bulbs, the joke has become reality.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2019/01/pwn-the-lifx-mini-white/?replytocom=40#respond' data-commentid="40" data-postid="391" data-belowelement="div-comment-40" data-respondelement="respond" aria-label='Reply to Andrew P.'>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2019/01/pwn-the-lifx-mini-white/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://limitedresults.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200" /></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='391' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="1c36d701b9" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="68"/></p>			</form>
+			</div><!-- #respond -->
+		<script type="text/javascript">
+        jQuery( document ).ready( function( $ ) {
+            $( '.comment-form, #registerform' ).append( '<input type="hidden" name="js-spam-prevention" value="688aba295106d1f95bdddeee5a635190"/>' );
+        } );
+	</script>
+	
+</div><!-- .comments-area -->
+		</main><!-- .site-main -->
+		
+<aside id="secondary" class="sidebar widget-area col-md-4 col-sm-12" role="complementary">
+	<section id="search-2" class="widget widget_search">
+<form action="https://limitedresults.com/" method="get" role="search" id="searchform_topbar" class="search-top-bar-popup search-form">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input type="search" class="search-field-top-bar" id="search-field-top-bar" placeholder="Search &hellip;" value="" name="s" />
+	</label>
+	<button type="submit" class="search-submit search-top-bar-submit" id="search-top-bar-submit">
+        <span class="fa fa-search header-search-icon"></span>
+        <span class="screen-reader-text">
+            Search        </span>
+    </button>
+</form>
+</section>		<section id="recent-posts-2" class="widget widget_recent_entries">		<h4 class="widget-title">Recent Posts</h4>		<ul>
+											<li>
+					<a href="https://limitedresults.com/2019/03/bsides-ljubljana0x7e3/">BSides Ljubljana::0x7E3</a>
+									</li>
+											<li>
+					<a href="https://limitedresults.com/2019/02/pwn-the-wiz-connected/">Pwn the WIZ connected</a>
+									</li>
+											<li>
+					<a href="https://limitedresults.com/2019/01/pwn-the-lifx-mini-white/">Pwn the LIFX Mini white</a>
+									</li>
+											<li>
+					<a href="https://limitedresults.com/2018/11/pwn-the-tuya-lightbulbs/">Pwn the Tuya lightbulbs</a>
+									</li>
+											<li>
+					<a href="https://limitedresults.com/2018/10/pwn-the-yeelight-dirty/">Pwn the Yeelight</a>
+									</li>
+					</ul>
+		</section><section id="archives-2" class="widget widget_archive"><h4 class="widget-title">Archives</h4>		<ul>
+				<li><a href='https://limitedresults.com/2019/03/'>March 2019</a></li>
+	<li><a href='https://limitedresults.com/2019/02/'>February 2019</a></li>
+	<li><a href='https://limitedresults.com/2019/01/'>January 2019</a></li>
+	<li><a href='https://limitedresults.com/2018/11/'>November 2018</a></li>
+	<li><a href='https://limitedresults.com/2018/10/'>October 2018</a></li>
+		</ul>
+			</section><section id="categories-2" class="widget widget_categories"><h4 class="widget-title">Categories</h4>		<ul>
+				<li class="cat-item cat-item-3"><a href="https://limitedresults.com/category/iot/" >iot</a>
+</li>
+	<li class="cat-item cat-item-26"><a href="https://limitedresults.com/category/talk/" >talk</a>
+</li>
+		</ul>
+			</section></aside><!-- .sidebar .widget-area -->
+	</div><!-- content-area -->
+
+        </div><!-- .site-content -->
+        
+                <footer id="colophon" class="site-footer" role="contentinfo">
+            <div class="site-info container">
+                            <a href="https://wordpress.org/">Proudly powered by WordPress</a>
+            </div>
+        </footer>
+        
+    </div><!-- site-inner -->
+</div><!-- site -->
+
+<script type='text/javascript' src='https://limitedresults.com/wp-content/themes/thesimplest/assets/js/skip-link-focus-fix.js?ver=1.0'></script>
+<script type='text/javascript' src='https://limitedresults.com/wp-content/themes/thesimplest/assets/js/bootstrap.min.js?ver=3.3.7'></script>
+<script type='text/javascript' src='https://limitedresults.com/wp-includes/js/comment-reply.min.js?ver=5.1.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var thesimplest_screenReaderText = {"expand":"expand child menu","collapse":"collapse child menu"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://limitedresults.com/wp-content/themes/thesimplest/assets/js/main.js?ver=1.0'></script>
+<script type='text/javascript' src='https://limitedresults.com/wp-includes/js/wp-embed.min.js?ver=5.1.1'></script>
+<script async="async" type='text/javascript' src='https://limitedresults.com/wp-content/plugins/akismet/_inc/form.js?ver=4.1.1'></script>
+</body>
+</html>
+<!-- Dynamic page generated in 0.216 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2019-04-04 07:23:30 -->
+
+<!-- super cache -->
+
+
+#####EOF#####
+
+

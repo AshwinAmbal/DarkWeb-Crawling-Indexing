@@ -1,0 +1,871 @@
+<!doctype html>
+<html class="no-js " lang="en-US" prefix="og: http://ogp.me/ns#" >
+	<head>
+		<meta charset="UTF-8" /><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<script type="text/javascript">
+			var $user_agent = navigator.appVersion,
+				doc_html    = document.getElementsByTagName('html');
+
+			if ( $user_agent.indexOf('MSIE') >= 0 || $user_agent.indexOf('Trident/7') >= 0 ) {
+				doc_html[0].classList.add('browser-internet-explorer');
+			}
+		</script>
+		<title>Fuel Your Pipeline Faster - TechTarget</title>
+
+<!-- Google Tag Manager for WordPress by gtm4wp.com -->
+<script data-cfasync="false" type="text/javascript">//<![CDATA[
+	var gtm4wp_datalayer_name = "dataLayer";
+	var dataLayer = dataLayer || [];
+//]]>
+</script>
+<!-- End Google Tag Manager for WordPress by gtm4wp.com -->
+<!-- This site is optimized with the Yoast SEO Premium plugin v8.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://www.techtarget.com/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Fuel Your Pipeline Faster - TechTarget" />
+<meta property="og:url" content="https://www.techtarget.com/" />
+<meta property="og:site_name" content="TechTarget" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Fuel Your Pipeline Faster - TechTarget" />
+<meta name="twitter:image" content="https://www.techtarget.com/wp-content/uploads/2015/11/img-techtarget-pipeline.svg" />
+<script type='application/ld+json'>{"@context":"https:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/www.techtarget.com\/","name":"TechTarget","potentialAction":{"@type":"SearchAction","target":"https:\/\/www.techtarget.com\/?s={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<!-- / Yoast SEO Premium plugin. -->
+
+<link rel='dns-prefetch' href='//cdn.jsdelivr.net' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel='stylesheet' id='mesh-grid-foundation-css'  href='https://www.techtarget.com/wp-content/plugins/mesh/assets/css/mesh-grid-foundation.css?ver=1.2.5.6' type='text/css' media='all' />
+<link rel='stylesheet' id='tt-social-css'  href='https://www.techtarget.com/wp-content/plugins/techtarget-social-share/styles.min.css?ver=d44f2fe98ac1a2dae37328db131ff594' type='text/css' media='all' />
+<link rel='stylesheet' id='techtarget-css-css'  href='https://www.techtarget.com/wp-content/themes/tech-target/assets/stylesheets/techtarget.css?ver=d44f2fe98ac1a2dae37328db131ff594' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var randomized_hero_data = {"slides":[{"content":"<div class=\"small-10 medium-8 float-left lightbox-equalize\">\r\n<div style=\"margin-bottom: 18px;\"><span class=\"show-for-small-only\"><img src=\"https:\/\/www.techtarget.com\/wp-content\/uploads\/2019\/03\/TTGT-Forrester-Wave-Leader-2018-1-r1.jpg\" width=\"70\" height=\"70\" \/><\/span><\/div>\r\n<div style=\"margin-bottom: 18px;\"><span class=\"hide-for-small-only\"><img src=\"https:\/\/www.techtarget.com\/wp-content\/uploads\/2019\/03\/Forrester-Wave-2018-r1.jpg\" width=\"215\" height=\"236\" \/><\/span><\/div>\r\n<h2>Fuel Your Pipeline Faster<\/h2>\r\n<p class=\"lead\">TechTarget Named a Leader in The Forrester Wave\u2122: B2B Marketing Data Providers, Q3 2018<\/p>\r\n\n                    <a href=\"http:\/\/bit.ly\/2MXI2L5\" class=\"button fill-button\" data-text=\"Get The Report\" target=&quot;_blank&quot;>Get The Report<\/a>\n        \t\t\r\n\r\n<\/div>","image":"https:\/\/www.techtarget.com\/wp-content\/uploads\/2019\/03\/Forrester-Wave-RaceCar-2018-r1.jpg","video":null}],"default_image":"https:\/\/www.techtarget.com\/wp-content\/uploads\/2015\/11\/img-techtarget-pipeline.svg"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/plugins/duracelltomi-google-tag-manager/js/gtm4wp-contact-form-7-tracker.js?ver=1.9.2'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/plugins/duracelltomi-google-tag-manager/js/gtm4wp-form-move-tracker.js?ver=1.9.2'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/plugins/duracelltomi-google-tag-manager/js/gtm4wp-social-tracker.js?ver=1.9.2'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/themes/tech-target/assets/javascript/modernizr.js?ver=d44f2fe98ac1a2dae37328db131ff594'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/themes/tech-target/assets/javascript/jquery.inview.js?ver=d44f2fe98ac1a2dae37328db131ff594'></script>
+<script type='text/javascript' src='https://cdn.jsdelivr.net/vivus/latest/vivus.min.js?ver=0.3.1'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/themes/tech-target/assets/javascript/jquery.vide.js?ver=d44f2fe98ac1a2dae37328db131ff594'></script>
+<link rel='https://api.w.org/' href='https://www.techtarget.com/wp-json/' />
+<link rel="alternate" type="application/json+oembed" href="https://www.techtarget.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.techtarget.com%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.techtarget.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.techtarget.com%2F&#038;format=xml" />
+<!-- Start Drift By WP-Plugin: Drift -->
+<!-- Start of Async Drift Code -->
+<script>
+"use strict";
+
+!function() {
+  var t = window.driftt = window.drift = window.driftt || [];
+  if (!t.init) {
+    if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+    t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+    t.factory = function(e) {
+      return function() {
+        var n = Array.prototype.slice.call(arguments);
+        return n.unshift(e), t.push(n), t;
+      };
+    }, t.methods.forEach(function(e) {
+      t[e] = t.factory(e);
+    }), t.load = function(t) {
+      var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+      o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+      var i = document.getElementsByTagName("script")[0];
+      i.parentNode.insertBefore(o, i);
+    };
+  }
+}();
+drift.SNIPPET_VERSION = '0.3.1';
+drift.load('rg5w64chs6ee');
+</script>
+<!-- End of Async Drift Code --><!-- end: Drift Code. -->
+
+
+<!-- Marketo munchkin -->
+<script type="text/javascript">
+(function() {
+  var didInit = false;
+  function initMunchkin() {
+    if(didInit === false) {
+      didInit = true;
+      Munchkin.init('095-PCN-759');
+    }
+  }
+  var s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.async = true;
+  s.src = '//munchkin.marketo.net/munchkin.js';
+  s.onreadystatechange = function() {
+    if (this.readyState == 'complete' || this.readyState == 'loaded') {
+      initMunchkin();
+    }
+  };
+  s.onload = initMunchkin;
+  document.getElementsByTagName('head')[0].appendChild(s);
+})();
+</script>
+<!-- End Marketo munchkin -->
+
+
+
+<!--CMP start-->
+<script src="https://cdn.ttgtmedia.com/cmp/ttCmpApi.min.js"></script>
+<script src="https://cdn.ttgtmedia.com/cmp/sourcepoint/sp-config.min.js"></script>
+<!--CMP end-->
+<!-- tt -->
+<script src="https://cdn.optimizely.com/js/9829462017.js"></script>
+<script type="text/javascript" src="//fast.fonts.net/jsapi/124d48dd-e515-4302-8bfb-1d5c1e3da916.js"></script>
+
+<!-- Spoke pixel -->
+<script>
+(function() {
+var d=document,h=d.getElementsByTagName('head')[0],s=d.createElement('script'),sc = 'https:' == document.location.protocol ? 'https://' : 'http://';
+s.type='text/javascript';
+s.async=true;
+s.src=sc+'s.dpmsrv.com/dpm_b4c96d80854dd27e76d8cc9e21960eebda52e962.min.js';
+h.appendChild(s);
+})();
+</script>
+<meta name="google-site-verification" content="rZaq1jkHspRZlqJRwuEdqAuVm5wiEXePze_foZRIYqc" />
+
+<!-- Google Tag Manager for WordPress by gtm4wp.com -->
+<script data-cfasync="false" type="text/javascript">//<![CDATA[
+	dataLayer.push({"siteID":"1","siteName":"TechTarget","visitorLoginState":"logged-out","pageTitle":"Fuel Your Pipeline Faster - TechTarget","pagePostType":"frontpage","pagePostType2":"single-page","pagePostAuthor":"Christine Guarrera","pagePostDate":"November 17, 2015","pagePostDateYear":"2015","pagePostDateMonth":"11","pagePostDateDay":"17","postCountOnPage":1,"postCountTotal":1,"postID":4602,"postFormat":"standard"});//]]>
+</script>
+<script data-cfasync="false">//<![CDATA[
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.'+'js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WGRVWW');//]]>
+</script>
+<!-- End Google Tag Manager -->
+<!-- End Google Tag Manager for WordPress by gtm4wp.com --><script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0012/7034.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script><script type='text/javascript'>var dataLayer = dataLayer || [];dataLayer.push({'trackType':'ERROR 404','topicId':'0','topicName':'','siteName':'TechTarget','uidType':'page','publicationDate':'','appCode':'0','is404':'false'});</script><link rel="icon" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-270x270.png" />
+<link rel="apple-touch-icon" sizes="57x57" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-57x57.png" />
+<link rel="apple-touch-icon" sizes="60x60" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-60x60.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-180x180.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-32x32.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-32x32.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-114x114.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="https://www.techtarget.com/wp-content/uploads/2016/08/cropped-tt-favicon-1-192x192.png" />
+		<style type="text/css" id="wp-custom-css">
+			.blocky-text .large {
+font-size: 4.25rem;
+}		</style>
+		</head>
+	<body class="home page-template page-template-template-randomized-header page-template-template-randomized-header-php page page-id-4602 hide-courier offcanvas has-traditional-menu">
+	
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WGRVWW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->	<div class="off-canvas-wrapper">
+		<div class="off-canvas-wrapper-inner " data-off-canvas-wrapper>
+		
+<nav class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-position="right" role="navigation" aria-hidden="true" data-options="force-top: false">
+  <button class="close-button" aria-label="Close menu" type="button" data-close>
+    <span aria-hidden="true" class="icon-close"></span>
+  </button>
+  <ul id="menu-small-off-canvas" class="vertical menu" data-accordion-menu><li id="menu-item-55938" class="show-for-small-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-55938"><a href="https://www.techtarget.com/why-techtarget/">Why TechTarget</a>
+<ul class="vertical nested menu">
+	<li id="menu-item-54516" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-54516"><a href="https://www.techtarget.com/why-techtarget/">Overview</a></li>
+	<li id="menu-item-40639" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40639"><a href="/capability/audience-development/">Audiences</a></li>
+	<li id="menu-item-40640" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40640"><a href="/capability/data-insights/">Purchase Intent</a></li>
+	<li id="menu-item-40641" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40641"><a href="/capability/technology-marketing/">Marketing Activation</a></li>
+</ul>
+</li>
+<li id="menu-item-8113" class="show-for-small-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-8113"><a href="https://www.techtarget.com/solutions/">Solutions</a>
+<ul class="vertical nested menu">
+	<li id="menu-item-40642" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40642"><a href="https://www.techtarget.com/solutions/">Overview</a></li>
+	<li id="menu-item-40643" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40643"><a href="/solution/intent-data/">Purchase Intent Insight</a></li>
+	<li id="menu-item-40644" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40644"><a href="/solution/integrated-marketing/">Integrated Marketing</a></li>
+	<li id="menu-item-40645" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40645"><a href="/solution/account-based-marketing/">Account-Based Marketing</a></li>
+	<li id="menu-item-40646" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40646"><a href="/solution/demand-generation/">Demand Generation</a></li>
+	<li id="menu-item-40647" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40647"><a href="/solution/brand-marketing/">Brand Consideration</a></li>
+</ul>
+</li>
+<li id="menu-item-47160" class="show-for-small-only menu-item menu-item-type-custom menu-item-object-custom menu-item-47160"><a href="/products/">Products</a></li>
+<li id="menu-item-61359" class="show-for-small-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-61359"><a href="https://www.techtarget.com/customers-success/">Customers</a>
+<ul class="vertical nested menu">
+	<li id="menu-item-67392" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-67392"><a href="/testimonials/">Testimonials</a></li>
+	<li id="menu-item-67393" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-67393"><a href="/customers-success/">Customer Success</a></li>
+</ul>
+</li>
+<li id="menu-item-55939" class="show-for-medium-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-55939"><a href="https://www.techtarget.com/why-techtarget/">Why TechTarget</a>
+<ul class="vertical nested menu">
+	<li id="menu-item-54518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-54518"><a href="https://www.techtarget.com/why-techtarget/">Overview</a></li>
+	<li id="menu-item-54249" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-54249"><a href="/capability/audience-development/">Audiences</a></li>
+	<li id="menu-item-54250" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-54250"><a href="/capability/data-insights/">Purchase Intent</a></li>
+	<li id="menu-item-54251" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-54251"><a href="/capability/technology-marketing/">Marketing Activation</a></li>
+</ul>
+</li>
+<li id="menu-item-54252" class="show-for-medium-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-54252"><a href="https://www.techtarget.com/solutions/">Solutions</a>
+<ul class="vertical nested menu">
+	<li id="menu-item-54253" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-54253"><a href="https://www.techtarget.com/solutions/">Overview</a></li>
+	<li id="menu-item-54254" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-54254"><a href="/solution/intent-data/">Purchase Intent Insight</a></li>
+	<li id="menu-item-54255" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-54255"><a href="/solution/integrated-marketing/">Integrated Marketing</a></li>
+	<li id="menu-item-54256" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-54256"><a href="/solution/account-based-marketing/">Account-Based Marketing</a></li>
+	<li id="menu-item-54257" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-54257"><a href="/solution/demand-generation/">Demand Generation</a></li>
+	<li id="menu-item-54258" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-54258"><a href="/solution/brand-marketing/">Brand Consideration</a></li>
+</ul>
+</li>
+<li id="menu-item-54259" class="show-for-medium-only menu-item menu-item-type-post_type menu-item-object-page menu-item-54259"><a href="https://www.techtarget.com/products/">Products</a></li>
+<li id="menu-item-61358" class="show-for-medium-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-61358"><a href="https://www.techtarget.com/customers-success/">Customers</a>
+<ul class="vertical nested menu">
+	<li id="menu-item-67395" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-67395"><a href="/customers-success/">Customer Success</a></li>
+	<li id="menu-item-67394" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-67394"><a href="/testimonials/">Testimonials</a></li>
+</ul>
+</li>
+<li id="menu-item-8056" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8056"><a href="https://www.techtarget.com/global-markets/">Global Markets</a></li>
+<li id="menu-item-7657" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7657"><a href="/resources">Resources</a></li>
+<li id="menu-item-7658" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7658"><a href="/blog">Blog</a></li>
+<li id="menu-item-7661" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7661"><a href="https://www.techtarget.com/about-us/">About Us</a></li>
+<li id="menu-item-57141" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-57141"><a href="/events">Events</a></li>
+<li id="menu-item-43198" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-43198"><a href="https://www.techtarget.com/about-us/careers">Careers</a></li>
+<li id="menu-item-7663" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7663"><a href="/press-release">Press Room</a></li>
+<li id="menu-item-8057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8057"><a href="https://www.techtarget.com/contact-us/">Contact Us</a></li>
+<li id="menu-item-7659" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7659"><a href="https://investor.techtarget.com/CorporateProfile">Investor Relations</a></li>
+</ul></nav>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+		
+		<header id="masthead" class="site-header" role="banner">
+						<nav id="site-navigation" class="main-navigation top-bar tb-opacity-85" role="navigation">
+				<div class="top-bar-left">
+					<ul class="menu">
+						<li class="home">
+							<a href="https://www.techtarget.com/" rel="home">
+								<img class="anniversary-logo" src="https://www.techtarget.com/wp-content/themes/tech-target/assets/images/techtarget-logo-20th.gif" /><svg id="techtarget-logo" width="100%" height="100%" viewBox="0 0 390 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><g><g><path d="M11.203,152.346c2.361,-1.855 4.928,-3.167 4.928,-5.584c0,-1.762 -0.899,-2.961 -2.586,-2.961c-1.911,0 -3.073,1.387 -3.129,3.823l-3.467,0c0,-4.273 2.211,-6.934 6.652,-6.934c4.142,0 6.353,2.736 6.353,5.96c0,3.541 -2.417,5.172 -4.722,6.727c-1.443,0.918 -3.167,2.174 -3.804,3.392l8.62,0l0,3.036l-13.38,0c0.15,-3.598 2.398,-5.791 4.535,-7.459Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M21.285,150.416c0,-6.015 3.092,-9.763 7.87,-9.763c4.854,0 7.796,3.729 7.796,9.763c0,5.978 -2.942,9.782 -7.814,9.782c-4.798,0.019 -7.852,-3.785 -7.852,-9.782Zm11.768,0c0,-3.973 -1.162,-6.634 -3.898,-6.634c-2.811,0 -3.991,2.643 -3.991,6.634c0,3.954 1.18,6.671 3.991,6.671c2.774,0 3.898,-2.642 3.898,-6.671Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M48.494,152.553l-6.24,-11.525l4.142,0l2.829,5.565c0.581,1.125 1.237,2.68 1.237,2.68l0.056,0c0,0 0.712,-1.555 1.256,-2.68l2.773,-5.565l3.992,0l-6.24,11.525l0,7.252l-3.805,0l0,-7.252Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M59.926,141.028l13.792,0l0,3.204l-9.988,0l0,4.198l8.751,0l0,3.129l-8.751,0l0,5.06l10.063,0l0,3.167l-13.867,0l0,-18.758Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M81.42,141.028l3.935,0l6.615,18.777l-3.954,0l-1.255,-3.992l-6.765,0l-1.237,3.992l-3.861,0l6.522,-18.777Zm-0.544,11.862l4.948,0l-1.687,-5.416c-0.319,-0.993 -0.768,-2.886 -0.768,-2.886l-0.057,0c0,0 -0.468,1.893 -0.787,2.886l-1.649,5.416Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M93.357,141.028l8.601,0c3.617,0 6.034,2.099 6.034,5.228c0,2.211 -1.03,3.879 -3.429,4.535l0,0.075c1.724,0.506 2.624,1.499 2.867,3.785c0.263,2.661 0.15,4.666 0.806,4.966l0,0.188l-3.654,0c-0.469,-0.206 -0.525,-2.305 -0.675,-4.329c-0.15,-2.043 -1.312,-3.205 -3.673,-3.205l-3.073,0l0,7.534l-3.804,0l0,-18.777Zm3.804,8.301l4.029,0c2.08,0 3.092,-1.068 3.092,-2.567c0,-1.518 -0.974,-2.642 -2.998,-2.642l-4.142,0l0,5.209l0.019,0Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M109.529,153.995l3.729,0c0.263,2.249 1.556,3.149 4.217,3.149c1.949,0 3.654,-0.675 3.654,-2.418c0,-1.836 -1.78,-2.211 -4.648,-2.867c-3.354,-0.768 -6.427,-1.649 -6.427,-5.565c0,-3.711 3.017,-5.622 7.177,-5.622c4.216,0 6.952,2.08 7.233,5.846l-3.654,0c-0.206,-1.892 -1.686,-2.829 -3.616,-2.829c-2.043,0 -3.392,0.862 -3.392,2.211c0,1.518 1.311,1.968 4.085,2.567c3.86,0.844 7.008,1.762 7.008,5.81c0,3.804 -3.073,5.94 -7.289,5.94c-5.06,0 -7.946,-2.267 -8.077,-6.222Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M130.798,150.454c0,-5.622 3.523,-9.782 9.052,-9.782c5.528,0 9.013,4.179 9.013,9.782c0,5.603 -3.485,9.763 -9.013,9.763c-5.529,0 -9.052,-4.141 -9.052,-9.763Zm14.186,0c0,-3.748 -1.686,-6.672 -5.116,-6.672c-3.429,0 -5.191,2.905 -5.191,6.672c0,3.729 1.762,6.633 5.191,6.633c3.43,0 5.116,-2.904 5.116,-6.633Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M151.018,141.028l13.418,0l0,3.223l-9.614,0l0,4.516l8.152,0l0,3.261l-8.152,0l0,7.777l-3.804,0l0,-18.777Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M170.189,150.472c0,-5.565 3.467,-9.819 8.995,-9.819c4.61,0 7.346,2.755 7.739,6.334l-3.766,0c-0.338,-1.893 -1.762,-3.13 -3.954,-3.13c-3.467,0 -5.116,2.886 -5.116,6.615c0,3.823 1.986,6.597 5.134,6.597c2.23,0 3.804,-1.331 4.029,-3.298l3.729,0c-0.112,1.649 -0.805,3.26 -2.08,4.441c-1.293,1.199 -3.092,1.986 -5.696,1.986c-5.266,-0.018 -9.014,-4.085 -9.014,-9.726Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M189.003,141.028l3.804,0l0,15.591l8.808,0l0,3.167l-12.612,0l0,-18.758Z" style="fill:#a09f9f;fill-rule:nonzero;"/><rect x="203.245" y="141.028" width="3.804" height="18.777" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M210.01,141.028l13.793,0l0,3.204l-9.989,0l0,4.198l8.752,0l0,3.129l-8.752,0l0,5.06l10.064,0l0,3.167l-13.868,0l0,-18.758Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M226.258,141.028l3.86,0l6.24,10.475c0.6,1.031 1.312,2.624 1.312,2.624l0.056,0c0,0 -0.112,-1.949 -0.112,-3.261l0,-9.838l3.748,0l0,18.777l-3.673,0l-6.391,-10.363c-0.599,-0.993 -1.33,-2.605 -1.33,-2.605l-0.056,0c0,0 0.112,1.968 0.112,3.279l0,9.689l-3.748,0l0,-18.777l-0.018,0Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M242.936,141.028l15.085,0l0,3.204l-5.641,0l0,15.573l-3.804,0l0,-15.573l-5.64,0l0,-3.204Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M263.493,153.995l3.729,0c0.262,2.249 1.555,3.149 4.217,3.149c1.948,0 3.654,-0.675 3.654,-2.418c0,-1.836 -1.781,-2.211 -4.648,-2.867c-3.354,-0.768 -6.427,-1.649 -6.427,-5.565c0,-3.711 3.017,-5.622 7.177,-5.622c4.216,0 6.952,2.08 7.233,5.846l-3.654,0c-0.206,-1.892 -1.686,-2.829 -3.617,-2.829c-2.042,0 -3.391,0.862 -3.391,2.211c0,1.518 1.311,1.968 4.085,2.567c3.86,0.844 7.008,1.762 7.008,5.81c0,3.804 -3.073,5.94 -7.289,5.94c-5.06,0 -7.946,-2.267 -8.077,-6.222Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M280.996,153.752l0,-12.724l3.804,0l0,12.724c0,1.949 0.974,3.298 3.523,3.298c2.417,0 3.542,-1.424 3.542,-3.354l0,-12.687l3.804,0l0,12.724c0,4.01 -2.455,6.353 -7.271,6.353c-4.873,0.019 -7.402,-2.268 -7.402,-6.334Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M297.655,150.472c0,-5.565 3.467,-9.819 8.995,-9.819c4.61,0 7.346,2.755 7.739,6.334l-3.766,0c-0.337,-1.893 -1.762,-3.13 -3.954,-3.13c-3.467,0 -5.116,2.886 -5.116,6.615c0,3.823 1.986,6.597 5.135,6.597c2.23,0 3.804,-1.331 4.029,-3.298l3.729,0c-0.113,1.649 -0.806,3.26 -2.08,4.441c-1.293,1.199 -3.092,1.986 -5.697,1.986c-5.266,-0.018 -9.014,-4.085 -9.014,-9.726Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M315.476,150.472c0,-5.565 3.467,-9.819 8.995,-9.819c4.61,0 7.346,2.755 7.74,6.334l-3.767,0c-0.337,-1.893 -1.761,-3.13 -3.954,-3.13c-3.467,0 -5.116,2.886 -5.116,6.615c0,3.823 1.987,6.597 5.135,6.597c2.23,0 3.804,-1.331 4.029,-3.298l3.729,0c-0.112,1.649 -0.806,3.26 -2.08,4.441c-1.293,1.199 -3.092,1.986 -5.697,1.986c-5.266,-0.018 -9.014,-4.085 -9.014,-9.726Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M334.272,141.028l13.792,0l0,3.204l-9.988,0l0,4.198l8.752,0l0,3.129l-8.752,0l0,5.06l10.063,0l0,3.167l-13.867,0l0,-18.758Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M349.376,153.995l3.729,0c0.263,2.249 1.556,3.149 4.217,3.149c1.949,0 3.654,-0.675 3.654,-2.418c0,-1.836 -1.78,-2.211 -4.647,-2.867c-3.355,-0.768 -6.428,-1.649 -6.428,-5.565c0,-3.711 3.017,-5.622 7.177,-5.622c4.217,0 6.952,2.08 7.234,5.846l-3.655,0c-0.206,-1.892 -1.686,-2.829 -3.616,-2.829c-2.043,0 -3.392,0.862 -3.392,2.211c0,1.518 1.312,1.968 4.085,2.567c3.86,0.844 7.009,1.762 7.009,5.81c0,3.804 -3.074,5.94 -7.29,5.94c-5.079,0 -7.946,-2.267 -8.077,-6.222Z" style="fill:#a09f9f;fill-rule:nonzero;"/><path d="M366.092,153.995l3.729,0c0.262,2.249 1.555,3.149 4.216,3.149c1.949,0 3.655,-0.675 3.655,-2.418c0,-1.836 -1.781,-2.211 -4.648,-2.867c-3.354,-0.768 -6.427,-1.649 -6.427,-5.565c0,-3.711 3.017,-5.622 7.177,-5.622c4.216,0 6.952,2.08 7.233,5.846l-3.654,0c-0.206,-1.892 -1.687,-2.829 -3.617,-2.829c-2.042,0 -3.392,0.862 -3.392,2.211c0,1.518 1.312,1.968 4.086,2.567c3.86,0.844 7.008,1.762 7.008,5.81c0,3.804 -3.073,5.94 -7.289,5.94c-5.06,0 -7.946,-2.267 -8.077,-6.222Z" style="fill:#a09f9f;fill-rule:nonzero;"/></g><g><g><path d="M211.172,44.425c-0.206,0.019 -23.911,-24.642 -59.741,-24.642c-35.83,0 -59.742,24.642 -59.742,24.642l0.019,3.692c0,0 18.927,-16.06 48.329,-19.695c-8.414,4.141 -14.242,12.78 -14.242,22.787c0,13.999 11.394,25.392 25.392,25.392c14.017,0 25.411,-11.393 25.411,-25.392c0,-10.063 -5.884,-18.739 -14.392,-22.862c29.758,3.486 48.947,19.77 48.947,19.77l0,-3.692l0.019,0Zm-41.47,6.784c0,10.194 -8.302,18.496 -18.496,18.496c-10.195,0 -18.496,-8.302 -18.496,-18.496c0,-10.194 8.283,-18.496 18.496,-18.496c10.213,0 18.496,8.302 18.496,18.496Z" style="fill:#008080;fill-rule:nonzero;"/><path d="M151.206,40.153c-6.184,0 -11.206,5.022 -11.206,11.206c0,6.184 5.022,11.225 11.206,11.225c6.184,0 11.206,-5.022 11.206,-11.225c0.019,-6.165 -5.022,-11.206 -11.206,-11.206Zm0,15.647c-2.436,0 -4.423,-1.986 -4.423,-4.422c0,-2.436 1.987,-4.423 4.423,-4.423c2.436,0 4.422,1.987 4.422,4.423c0,2.436 -1.967,4.422 -4.422,4.422Z" style="fill:#008080;fill-rule:nonzero;"/><g><g><path d="M40.38,101.469l-9.126,0c0.506,-3.167 2.305,-4.966 4.947,-4.966c2.83,0 4.029,1.405 4.179,4.966Zm6.016,12.218l-2.212,-4.554c-2.155,1.349 -3.054,1.799 -4.46,2.211c-0.955,0.3 -1.855,0.394 -2.754,0.394c-2.212,0 -4.217,-1.106 -5.21,-2.811c-0.543,-0.937 -0.693,-1.762 -0.806,-3.711l15.423,0l0,-2.567c0,-6.315 -4.01,-10.663 -9.763,-10.663c-6.672,0 -11.675,5.566 -11.675,12.931c0,7.121 4.366,11.674 11.262,11.674c2.718,0 5.21,-0.562 7.665,-1.649c0.581,-0.262 1.424,-0.656 2.53,-1.255Z" style="fill:#008080;fill-rule:nonzero;"/><path d="M68.133,115.242c-2.155,0.9 -4.516,1.368 -6.821,1.368c-7.214,0 -11.881,-4.76 -11.881,-12.087c0,-7.514 4.966,-12.574 12.368,-12.574c1.294,0 2.549,0.15 3.805,0.393c1.705,0.413 2.511,0.75 4.46,1.912l-2.849,4.554c-1.743,-1.35 -2.904,-1.799 -4.703,-1.799c-3.954,0 -6.765,3.092 -6.765,7.458c0,4.16 2.511,7.008 6.109,7.008c2.005,0 3.467,-0.505 6.015,-2.005l2.193,4.854c-0.825,0.412 -1.481,0.712 -1.931,0.918Z" style="fill:#008080;fill-rule:nonzero;"/><path d="M87.416,115.935l0,-14.972c0,-2.905 -0.506,-3.954 -1.948,-3.954c-1.256,0 -2.999,1.255 -5.604,4.066l-0.805,0.843l0,14.036l-6.016,0l0,-36.523l6.016,0l0,17.072c2.811,-3.055 5.115,-4.31 8.076,-4.31c4.198,0 6.316,2.211 6.316,6.615l0,17.127l-6.035,0Z" style="fill:#008080;fill-rule:nonzero;"/></g><path d="M21.21,88.295l0,27.659l-6.316,0l0,-27.659l-9.894,0l0,-5.341l26.104,0l0,5.341l-9.894,0Z" style="fill:#008080;fill-rule:nonzero;"/></g><g><g><path d="M123.228,110.126c-0.844,0.656 -1.143,0.844 -1.556,1.05c-0.806,0.449 -1.705,0.693 -2.455,0.693c-1.499,0 -2.398,-0.899 -2.398,-2.399c0,-0.599 0.093,-1.049 0.449,-1.949l5.96,-1.948l0,4.553Zm7.87,1.593c-1.593,-0.15 -1.855,-0.506 -1.855,-2.605l0,-9.726c0,-5.097 -2.492,-7.402 -8.058,-7.402c-6.315,0 -9.913,2.343 -9.913,6.447c0,0.656 0.056,0.918 0.3,1.611l5.715,-1.255c-0.093,-0.3 -0.15,-0.394 -0.15,-0.6c0,-1.143 1.462,-2.099 3.261,-2.099c1.949,0 2.848,1.162 2.848,3.655l0,1.948l-6.615,1.893c-3.41,1.012 -4.797,2.118 -5.603,4.254c-0.243,0.75 -0.393,1.555 -0.393,2.361c0,3.711 2.811,6.315 6.765,6.315c2.361,0 4.31,-0.862 6.521,-2.867c1.049,2.062 2.005,2.549 5.003,2.549l1.256,0l0.918,-4.479Z" style="fill:#008080;fill-rule:nonzero;"/><path d="M146.015,99.763c-0.656,-0.506 -1.143,-0.693 -1.799,-0.693c-0.956,0 -2.005,0.656 -2.905,1.761c-1.105,1.35 -1.611,2.699 -1.611,4.46l0,10.682l-5.959,0l0,-23.293l5.172,0l0.262,5.097c2.249,-3.954 3.692,-5.453 5.509,-5.453c1.256,0 2.305,0.562 3.261,1.649l-1.93,5.79Z" style="fill:#008080;fill-rule:nonzero;"/><path d="M163.443,100.644c0,2.417 -1.706,4.31 -3.861,4.31c-2.155,0 -3.86,-1.893 -3.86,-4.254c0,-2.398 1.705,-4.404 3.804,-4.404c2.174,0 3.917,1.949 3.917,4.348Zm9.182,-3.486l0,-4.516l-4.722,0.3l-3.467,0c-2.211,-0.749 -3.148,-0.956 -4.854,-0.956c-6.165,0 -9.969,3.411 -9.969,8.958c0,2.211 0.712,4.104 2.061,5.715c0.544,0.656 1.012,0.994 2.062,1.799c-0.656,0.506 -1.162,0.806 -1.443,1.05c-2.268,1.499 -3.055,2.548 -3.055,3.898c0,1.405 0.956,2.305 3.261,3.167c-2.717,2.305 -3.711,3.86 -3.711,5.659c0,3.504 3.861,5.865 9.557,5.865c7.815,0 13.418,-4.197 13.418,-10.006c0,-3.767 -2.136,-5.604 -6.709,-5.604l-8.17,0c-1.162,0 -1.556,-0.149 -1.556,-0.655c0,-0.6 0.75,-1.35 2.305,-2.512c0.75,0.15 1.106,0.15 1.706,0.15c6.109,0 10.231,-3.56 10.231,-8.863c0,-1.5 -0.243,-2.305 -1.068,-3.449l4.123,0Zm-6.465,21.645c0,0.899 -0.656,1.949 -1.743,2.811c-1.405,1.161 -3.354,1.799 -5.172,1.799c-2.755,0 -4.91,-1.162 -4.91,-2.605c0,-0.6 0.394,-1.499 1.106,-2.661c0.15,-0.15 0.3,-0.45 0.506,-0.806l7.271,0c1.986,0 2.942,0.487 2.942,1.462Z" style="fill:#008080;fill-rule:nonzero;"/><path d="M189.06,101.469l-9.127,0c0.506,-3.167 2.305,-4.966 4.966,-4.966c2.793,0 4.011,1.405 4.161,4.966Zm6.015,12.218l-2.211,-4.554c-2.155,1.349 -3.055,1.799 -4.46,2.211c-0.956,0.3 -1.856,0.394 -2.755,0.394c-2.211,0 -4.198,-1.106 -5.21,-2.811c-0.543,-0.937 -0.693,-1.762 -0.805,-3.711l15.441,0l0,-2.567c0,-6.315 -4.01,-10.663 -9.782,-10.663c-6.653,0 -11.675,5.566 -11.675,12.931c0,7.121 4.367,11.674 11.263,11.674c2.698,0 5.209,-0.562 7.664,-1.649c0.562,-0.262 1.424,-0.656 2.53,-1.255Z" style="fill:#008080;fill-rule:nonzero;"/><path d="M209.785,115.036c-1.742,1.012 -3.541,1.555 -5.209,1.555c-3.111,0 -4.554,-1.611 -4.554,-5.059l0,-14.486l-3.467,0l0,-3.804l3.467,-0.6l0,-6.971l5.66,0l0,6.971l5.059,0l0,4.404l-5.059,0l0,10.363c0,2.605 0.262,3.354 1.199,3.354c0.712,0 1.555,-0.356 3.223,-1.461l1.893,4.366c-0.806,0.525 -1.556,0.956 -2.212,1.368Z" style="fill:#008080;fill-rule:nonzero;"/></g><path d="M107.055,88.295l0,27.659l-6.296,0l0,-27.659l-9.895,0l0,-5.341l26.105,0l0,5.341l-9.914,0Z" style="fill:#008080;fill-rule:nonzero;"/></g></g><path d="M207.78,33.107c-2.08,0 -3.916,-1.743 -3.916,-3.954c0,-2.193 1.818,-3.936 3.916,-3.936c2.08,0 3.898,1.743 3.898,3.936c0,2.211 -1.836,3.954 -3.898,3.954Zm0,-7.459c-1.949,0 -3.41,1.593 -3.41,3.524c0,1.93 1.461,3.523 3.41,3.523c1.931,0 3.392,-1.593 3.392,-3.523c0.019,-1.931 -1.461,-3.524 -3.392,-3.524Zm1.087,5.735l-1.386,-1.893l-0.694,0l0,1.893l-0.468,0l0,-4.441l1.349,0c1.124,0 1.649,0.412 1.649,1.199c0,0.693 -0.6,1.255 -1.274,1.293l1.443,1.93l-0.619,0l0,0.019Zm-1.312,-4.01l-0.768,0l0,1.724l0.862,0c0.768,0 1.181,-0.3 1.181,-0.937c-0.019,-0.656 -0.675,-0.787 -1.275,-0.787Z" style="fill:#008080;fill-rule:nonzero;"/></g><g><path d="M335.621,90.956c-11.993,0 -21.737,-9.745 -21.737,-21.738c0,-5.809 2.248,-11.263 6.371,-15.367c4.104,-4.103 9.557,-6.371 15.366,-6.371c11.994,0 21.738,9.745 21.738,21.738c0,5.809 -2.249,11.262 -6.371,15.366c-4.104,4.104 -9.576,6.372 -15.367,6.372Zm-0.018,-30.864c-2.437,0 -4.741,0.955 -6.466,2.679c-1.724,1.725 -2.679,4.011 -2.679,6.466c0,5.041 4.104,9.144 9.145,9.144c2.436,0 4.741,-0.955 6.465,-2.679c1.724,-1.724 2.68,-4.011 2.68,-6.465c0,-5.06 -4.104,-9.145 -9.145,-9.145Z" style="fill:#00a69f;fill-rule:nonzero;"/><g><path d="M335.621,118.615c-27.228,0 -49.397,-22.15 -49.397,-49.378c0,-27.229 22.15,-49.379 49.379,-49.379c27.228,0 49.397,22.15 49.397,49.379c0,27.228 -22.15,49.378 -49.379,49.378Zm-0.018,-86.183c-20.295,0 -36.786,16.51 -36.786,36.786c0,20.295 16.509,36.786 36.804,36.786c20.295,0 36.786,-16.51 36.786,-36.786c0,-20.276 -16.509,-36.786 -36.804,-36.786Z" style="fill:#00a69f;fill-rule:nonzero;"/><path d="M290.647,97.477l-33.301,0l0,-0.131c6.653,-7.065 16.922,-12.893 25.374,-19.827c0.112,-0.093 0.243,-0.187 0.356,-0.281c-0.394,-2.604 -0.6,-5.284 -0.6,-8.001c0,-12.874 4.61,-24.699 12.256,-33.9c-5.266,-9.258 -15.91,-15.517 -31.426,-15.517c-14.842,0 -25.111,5.266 -30.508,13.043c-4.573,6.24 -6.522,13.043 -6.522,24.137l21.907,0c0.131,-6.522 1.518,-10.813 4.291,-13.999c2.361,-2.904 5.828,-4.291 10.269,-4.291c8.04,0 12.35,4.985 12.35,12.349c0,4.723 -2.361,8.321 -6.241,11.787c-7.495,6.653 -18.589,13.587 -27.172,20.932c-9.426,7.909 -16.509,17.053 -16.79,33.001l73.777,0l0,-9.389c-3.055,-2.979 -5.753,-6.315 -8.02,-9.913Z" style="fill:#00a69f;fill-rule:nonzero;"/></g></g></g></svg>							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="top-bar-right">
+					<ul id="menu-header" class="dropdown menu traditional-menu desktop-menu" data-dropdown-menu><li id="menu-item-54514" class="hide-for-small-only hide-for-medium-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-54514"><a href="https://www.techtarget.com/why-techtarget/">Why TechTarget</a>
+<ul class="dropdown menu vertical" data-toggle>
+	<li id="menu-item-54515" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-54515"><a href="https://www.techtarget.com/why-techtarget/">Overview</a></li>
+	<li id="menu-item-40628" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40628"><a href="/capability/audience-development/">Audiences</a></li>
+	<li id="menu-item-40629" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40629"><a href="/capability/data-insights/">Purchase Intent</a></li>
+	<li id="menu-item-40630" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40630"><a href="/capability/technology-marketing/">Marketing Activation</a></li>
+</ul>
+</li>
+<li id="menu-item-4647" class="hide-for-small-only hide-for-medium-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4647"><a href="https://www.techtarget.com/solutions/">Solutions</a>
+<ul class="dropdown menu vertical" data-toggle>
+	<li id="menu-item-40631" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40631"><a href="https://www.techtarget.com/solutions/">Overview</a></li>
+	<li id="menu-item-40632" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40632"><a href="/solution/intent-data/">Purchase Intent Insight</a></li>
+	<li id="menu-item-40633" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40633"><a href="/solution/integrated-marketing/">Integrated Marketing</a></li>
+	<li id="menu-item-40634" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40634"><a href="/solution/account-based-marketing/">Account-Based Marketing</a></li>
+	<li id="menu-item-40635" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40635"><a href="/solution/demand-generation/">Demand Generation</a></li>
+	<li id="menu-item-40636" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40636"><a href="/solution/brand-marketing/">Brand Consideration</a></li>
+</ul>
+</li>
+<li id="menu-item-47154" class="hide-for-small-only hide-for-medium-only menu-item menu-item-type-custom menu-item-object-custom menu-item-47154"><a href="/products/">Products</a></li>
+<li id="menu-item-61345" class="hide-for-small-only hide-for-medium-only menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-61345"><a href="https://www.techtarget.com/customers-success/">Customers</a>
+<ul class="dropdown menu vertical" data-toggle>
+	<li id="menu-item-67379" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-67379"><a href="/customers/">Customer Success</a></li>
+	<li id="menu-item-67378" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-67378"><a href="/testimonials/">Testimonials</a></li>
+</ul>
+</li>
+<li id="menu-item-42506" class="menu-icon-globe menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-42506"><a href="#">Languages</a>
+<ul class="dropdown menu vertical" data-toggle>
+	<li id="menu-item-42507" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-42507"><a href="https://www.techtarget.fr">FranÃ§ais</a></li>
+	<li id="menu-item-42508" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-42508"><a href="https://www.techtarget.de">Deutsch</a></li>
+</ul>
+</li>
+<li class="top-bar-search"><form role="search" method="get" id="searchform-header" action="https://www.techtarget.com/">
+		<div class="input-group">
+		<span id="searchform-close-header" class="icon-close"></span>
+		<input type="text" class="input-group-field" value="" name="s" id="s-header" placeholder="Search">
+				<div class="input-group-button">
+			<button type="submit" id="searchsubmit-header" value="Search" class="button">
+				<span class="icon-search"></span>
+			</button>
+		</div>
+	</div>
+	</form>
+</li><li class="top-bar-hamburger"><a data-toggle="offCanvasRight" aria-expanded="false" aria-controls="offCanvasRight" data-force-top="false"><span class="icon-menu"></span></a></li></ul>				</div>
+			</nav>
+
+					</header>
+
+		<section class="container">
+			
+	<div id="page" role="main">
+		<div class="row extend banded">
+			
+<div class="page-header-container hide" id="random-header">
+
+	<header class="small-12 columns page-header inner-random-header background-medium-blue color-light-gray">
+		<div class="header-text small-12 columns">
+        </div>
+
+        <div class="scroll-down-arrow"></div>
+	</header>
+
+</div>
+		</div>
+
+		<div class="row extend">
+			
+									
+                
+                                
+			
+			
+					</div>
+        <div id="mesh-sections-container" class="row extend">
+			
+
+<section class="mesh_section post-6790 type-mesh_section status-publish hentry"  id="mesh-section-6790" >
+	
+	<div class="mesh-row row" >
+		
+		
+										<div class="columns small-12 medium-6"   >
+								<h4>We identify and influence the buyers who are in market for your solutions. We empower decisive actionÂ and help with strategy and execution to drive the effectiveness you seek.</h4>
+<p class="lead">TechTargetâs integrated always-on capabilities turn marketing into competitive advantage for clients around the world.</p>
+			</div>
+								<div class="columns small-12 medium-6"   >
+								<p><img class="alignnone wp-image-33734 " src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2015/11/homepage_empower_stats.png" alt="homepage_empower_stats" width="345" height="353" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2015/11/homepage_empower_stats.png 458w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2015/11/homepage_empower_stats-234x240.png 234w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2015/11/homepage_empower_stats-117x120.png 117w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2015/11/homepage_empower_stats-195x200.png 195w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2015/11/homepage_empower_stats-171x175.png 171w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 345px" /></p>
+			</div>
+		
+			</div>
+
+	</section>
+
+
+
+<section class="mesh_section post-7035 type-mesh_section status-publish hentry text-center support-home-arrow"  id="mesh-section-7035" >
+	
+	<div class="mesh-row row" >
+					<div class="small-12 columns title-row 1">
+				<h2 class="entry-title">Better marketing for better business</h2>
+			</div>
+		
+		
+						<div class="columns small-12 medium-12 maintain-padding"  >
+										<p class="lead">We help you understand whatâs happening, know whatâs working, and take action faster.</p>
+<p>
+                    <a href="/why-techtarget" class="button fill-button" data-text="View our capabilities">View our capabilities</a>
+        		<br />
+            <div class="capability-graphics text-center clearfix" data-lp-equal="medium-up" data-lp-equal-items=".columns" data-lp-equal-children=".capability-image,.capability-title">
+									
+                    <div class="small-12 medium-4 columns clickable left-side-arrow">
+                        <div class="capability-image">
+							<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-audience.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-audience.png 608w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-audience-120x118.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-audience-200x197.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-audience-300x296.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-audience-175x173.png 175w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 608px" />
+							<div class="vivus-svg vivus-inview" data-animation="cap1">
+				<svg id="cap-arrow-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 209.33 81.23">
+					<defs><style>.cls-1{fill:none;stroke:#e2e2e2;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px;}</style></defs>
+					<g id="Layer_2" data-name="Layer 2"><g id="Layer_2-2" data-name="Layer 2">
+						<path data-start="0" data-duration="50" class="cls-1" d="M2,79.23H83.48a20,20,0,0,0,20-20V33.66a20,20,0,0,1,20-20H202"/>
+						<polyline data-start="50" data-duration="12" class="cls-1" points="194.37 2 206.5 14.13 194.37 26.27"/>
+					</g></g>
+				</svg>
+			</div>                        </div>
+						<h4 class="capability-title"><a href="https://www.techtarget.com/capability/audience-development/">Audiences</a></h4>
+						                    </div>
+									
+                    <div class="small-12 medium-4 columns clickable middle-column">
+                        <div class="capability-image">
+							<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-data-insights.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-data-insights.png 608w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-data-insights-120x118.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-data-insights-200x197.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-data-insights-300x296.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-data-insights-175x173.png 175w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 608px" />
+							<div class="vivus-svg vivus-inview" data-animation="cap3">
+				<svg id="cap-arrow-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1302.43 87.2">
+					<defs><style>.cls-1{fill:none;stroke:#e2e2e2;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px;}</style></defs>
+					<g id="Layer_2" data-name="Layer 2"><g id="Layer_2-2" data-name="Layer 2">
+						<path data-start="103" data-duration="50" class="cls-1" d="M2,2V20A20,20,0,0,0,22,40H631a20,20,0,0,1,20,20V79"/>
+						<path data-start="100" data-duration="50" class="cls-1" d="M1300.43,2V20a20,20,0,0,1-20,20h-609a20,20,0,0,0-20,20V79"/>
+						<polyline data-start="150" data-duration="12" class="cls-1" points="663.56 72.24 651.43 84.37 639.3 72.24"/>
+						</g></g>
+				</svg>
+			</div>                        </div>
+						<h4 class="capability-title"><a href="https://www.techtarget.com/capability/data-insights/">Purchase Intent</a></h4>
+						                    </div>
+									
+                    <div class="small-12 medium-4 columns clickable right-side-arrow">
+                        <div class="capability-image">
+							<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-marketing-actions.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-marketing-actions.png 608w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-marketing-actions-120x118.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-marketing-actions-200x197.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-marketing-actions-300x296.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/09/techtarget-capability-marketing-actions-175x173.png 175w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 608px" />
+							<div class="vivus-svg vivus-inview" data-animation="cap2">
+				<svg id="cap-arrow-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 209.27 140.68">
+					<defs><style>.cls-1{fill:none;stroke:#e2e2e2;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px;}</style></defs>
+					<g id="Layer_2" data-name="Layer 2"><g id="Layer_2-2" data-name="Layer 2">
+						<path data-start="50" data-duration="50" class="cls-1" d="M2,2H80.32a20,20,0,0,1,20,20v84.12a20,20,0,0,0,20,20H202"/>
+						<polyline data-start="100" data-duration="12" class="cls-1" points="194.31 138.68 206.44 126.55 194.31 114.41"/>
+					</g></g>
+				</svg>
+			</div>                        </div>
+						<h4 class="capability-title"><a href="https://www.techtarget.com/capability/technology-marketing/">Marketing Activation</a></h4>
+						                    </div>
+				            </div>
+			</p>
+				</div>
+			
+			</div>
+
+	</section>
+
+
+
+<section class="mesh_section post-24864 type-mesh_section status-publish hentry text-center"  id="mesh-section-24864" >
+	
+	<div class="mesh-row row" >
+					<div class="small-12 columns title-row 1">
+				<h2 class="entry-title">Building blocks for better marketing</h2>
+			</div>
+		
+		
+						<div class="columns small-12 medium-12 text-center maintain-padding"  >
+										
+                        <div class="row solutions-list solutions-list-shortcode text-center small-up-2 medium-up-3 large-up-5">
+            				                    <div class="clickable columns solutions-list-solution post-7022 solution type-solution status-publish has-post-thumbnail hentry">
+						        <span class="circle solution-icon trigger-in-view always-visible">
+			<a href="https://www.techtarget.com/solution/intent-data/">
+				<svg class="circleFill" width="100%" height="100%" viewBox="0 0 100 100">
+					<circle cx="50" cy="50" r="48" stroke="#f0f0f0" fill="none" stroke-width="2"></circle>
+				</svg>
+
+				<img src="https://www.techtarget.com/wp-content/uploads/2016/09/techtarget-icon-intent-data.svg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Intent Data" />			</a>
+		</span>
+		                        <h5><a href="https://www.techtarget.com/solution/intent-data/">Purchase Intent Insight</a></h5>
+                    </div>
+				                    <div class="clickable columns solutions-list-solution post-7026 solution type-solution status-publish has-post-thumbnail hentry">
+						        <span class="circle solution-icon trigger-in-view always-visible">
+			<a href="https://www.techtarget.com/solution/integrated-marketing/">
+				<svg class="circleFill" width="100%" height="100%" viewBox="0 0 100 100">
+					<circle cx="50" cy="50" r="48" stroke="#f0f0f0" fill="none" stroke-width="2"></circle>
+				</svg>
+
+				<img src="https://www.techtarget.com/wp-content/uploads/2016/09/techtarget-icon-integrated-marketing.svg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" />			</a>
+		</span>
+		                        <h5><a href="https://www.techtarget.com/solution/integrated-marketing/">Integrated Marketing</a></h5>
+                    </div>
+				                    <div class="clickable columns solutions-list-solution post-7028 solution type-solution status-publish has-post-thumbnail hentry">
+						        <span class="circle solution-icon trigger-in-view always-visible">
+			<a href="https://www.techtarget.com/solution/account-based-marketing/">
+				<svg class="circleFill" width="100%" height="100%" viewBox="0 0 100 100">
+					<circle cx="50" cy="50" r="48" stroke="#f0f0f0" fill="none" stroke-width="2"></circle>
+				</svg>
+
+				<img src="https://www.techtarget.com/wp-content/uploads/2016/09/techtarget-icon-abm.svg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Account Based Marketing" />			</a>
+		</span>
+		                        <h5><a href="https://www.techtarget.com/solution/account-based-marketing/">Account-Based Marketing</a></h5>
+                    </div>
+				                    <div class="clickable columns solutions-list-solution post-7032 solution type-solution status-publish has-post-thumbnail hentry">
+						        <span class="circle solution-icon trigger-in-view always-visible">
+			<a href="https://www.techtarget.com/solution/demand-generation/">
+				<svg class="circleFill" width="100%" height="100%" viewBox="0 0 100 100">
+					<circle cx="50" cy="50" r="48" stroke="#f0f0f0" fill="none" stroke-width="2"></circle>
+				</svg>
+
+				<img src="https://www.techtarget.com/wp-content/uploads/2016/09/techtarget-icon-demand.svg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" />			</a>
+		</span>
+		                        <h5><a href="https://www.techtarget.com/solution/demand-generation/">Demand Generation</a></h5>
+                    </div>
+				                    <div class="clickable columns solutions-list-solution post-7030 solution type-solution status-publish has-post-thumbnail hentry">
+						        <span class="circle solution-icon trigger-in-view always-visible">
+			<a href="https://www.techtarget.com/solution/brand-marketing/">
+				<svg class="circleFill" width="100%" height="100%" viewBox="0 0 100 100">
+					<circle cx="50" cy="50" r="48" stroke="#f0f0f0" fill="none" stroke-width="2"></circle>
+				</svg>
+
+				<img src="https://www.techtarget.com/wp-content/uploads/2016/09/techtarget-icon-brand.svg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" />			</a>
+		</span>
+		                        <h5><a href="https://www.techtarget.com/solution/brand-marketing/">Brand Consideration</a></h5>
+                    </div>
+				                        </div>
+            
+			
+				</div>
+			
+			</div>
+
+	</section>
+
+
+
+<section class="mesh_section post-43767 type-mesh_section status-publish hentry banded background-dark"  id="mesh-section-43767" >
+	
+	<div class="mesh-row row" >
+		
+		
+										<div class="columns small-12 medium-6 background-dark trigger-in-view in-view-slide-from-left z-index"   >
+								<h3>Find the accounts that matter and contacts that convert</h3>
+<p class="lead">TechTargetâs <a href="https://www.techtarget.com/products/priority-engine">Priority Engine&#x2122;</a> makes it easy for marketers and sales to fuel their pipeline faster. View and download hundreds of new prospects each week to drive your measurable marketing and sales success.</p>
+
+                    <a href="https://www.techtarget.com/resources/priority-engine-overview-fuel-pipeline-faster/" class="button fill-button" data-text="Play video">Play video</a>
+        		
+			</div>
+								<div class="columns small-12 medium-6 background-image-column background-right background-top trigger-in-view in-view-slide-from-right hide-for-small-only"   >
+								<p><iframe src="https://players.brightcove.net/1367663370/Hy0Za2OJz_default/index.html?videoId=5779033252001" width="300" height="150" allowfullscreen="allowfullscreen"></iframe></p>
+			</div>
+		
+			</div>
+
+	</section>
+
+<section class="post-6812 mesh_section type-mesh_section status-publish hentry padded"  data-sticky-container data-sticky-on="medium">
+	    <div id="mesh-section-6812" class="row ">
+		
+							
+			
+            <div class="small-12 medium-4 columns  "  data-sticky-container>
+				<div class="sticky" data-sticky data-anchor="mesh-section-6812" data-sticky-on="large" data-margin-top="10.5">
+					
+					<h2>Leading technology companies work with us</h2>
+
+                    <a href="/why-techtarget" class="button fill-button" data-text="Learn why">Learn why</a>
+        		
+					</div>            </div>
+						
+			
+            <div class="small-12 medium-8 columns maintain-padding sticky-trigger " >
+				
+					
+					<h4 class="trigger-in-view in-view-fade-in in-view-slide-from-right in-view-delay-100 partners-title small-12 columns">Established leaders</h4>
+<div class="trigger-in-view in-view-fade-in in-view-slide-from-right in-view-delay-300">			<div class="tt-partners-list clearfix" data-equalizer>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-hpEnterprise-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-hpEnterprise-120x120.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-hpEnterprise-200x200.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-hpEnterprise-300x300.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-hpEnterprise-175x175.png 175w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-hpEnterprise.png 500w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco-120x120.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco-1024x1024.png 1024w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco-640x640.png 640w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco-900x900.png 900w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco-200x200.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco-300x300.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco-175x175.png 175w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-cisco.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1-120x120.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1-1024x1024.png 1024w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1-640x640.png 640w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1-900x900.png 900w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1-200x200.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1-300x300.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1-175x175.png 175w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-oracle-1.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel-120x120.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel-1024x1024.png 1024w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel-640x640.png 640w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel-900x900.png 900w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel-200x200.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel-300x300.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel-175x175.png 175w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-intel.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm-120x120.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm-1024x1024.png 1024w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm-640x640.png 640w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm-900x900.png 900w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm-200x200.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm-300x300.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm-175x175.png 175w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/12/partner-logo-ibm.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/11/partner-logo-symantec-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/11/partner-logo-symantec-120x120.png 120w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/11/partner-logo-symantec-200x200.png 200w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/11/partner-logo-symantec-300x300.png 300w, https://6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com/wp-content/uploads/2016/11/partner-logo-symantec-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-symantec.png 500w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-microsoft-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="Microsoft" srcset="https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-microsoft-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-microsoft-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-microsoft-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-microsoft-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-microsoft.png 500w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-citrix.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-sas.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/08/image-9@2x-120x20.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/08/image-9@2x-120x20.png 120w, https://www.techtarget.com/wp-content/uploads/2016/08/image-9@2x-200x33.png 200w, https://www.techtarget.com/wp-content/uploads/2016/08/image-9@2x-300x49.png 300w, https://www.techtarget.com/wp-content/uploads/2016/08/image-9@2x-175x29.png 175w, https://www.techtarget.com/wp-content/uploads/2016/08/image-9@2x.png 378w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-vmware-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="vmware" srcset="https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-vmware-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-vmware-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-vmware-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-vmware-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-vmware.png 500w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-dell-emc-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-dell-emc-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-dell-emc-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-dell-emc-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-dell-emc-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/08/partner-logo-dell-emc.png 500w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+							</div>
+
+			</div>
+<h4 class="trigger-in-view in-view-fade-in in-view-slide-from-right in-view-delay-100 partners-title small-12 columns">High-growth innovators</h4>
+<div class="trigger-in-view in-view-fade-in in-view-slide-from-right in-view-delay-300">			<div class="tt-partners-list clearfix" data-equalizer>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-1200x1200.png 1200w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-1080x1080.png 1080w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-1258x1258.png 1258w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-fuze-175x175.png 175w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-1200x1200.png 1200w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-1080x1080.png 1080w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-1258x1258.png 1258w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2018/09/partner-logo-rapid7-175x175.png 175w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-nutanix.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-purestorage.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-rackspace.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-box.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-masergy.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-qlik.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-carbonblack.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-aws.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1-120x120.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1-120x120.png 120w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1-1024x1024.png 1024w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1-640x640.png 640w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1-900x900.png 900w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1-200x200.png 200w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1-300x300.png 300w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1-175x175.png 175w, https://www.techtarget.com/wp-content/uploads/2016/11/partner-logo-veeam-1.png 1042w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+									<div class="small-6 large-3 columns tt-partner text-center" data-equalizer-watch>
+						<img src="https://www.techtarget.com/wp-content/uploads/2016/08/Splunk_Logo@2x-120x47.png" class="attachment-partner-logo size-partner-logo wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2016/08/Splunk_Logo@2x-120x47.png 120w, https://www.techtarget.com/wp-content/uploads/2016/08/Splunk_Logo@2x-200x78.png 200w, https://www.techtarget.com/wp-content/uploads/2016/08/Splunk_Logo@2x-300x117.png 300w, https://www.techtarget.com/wp-content/uploads/2016/08/Splunk_Logo@2x-175x68.png 175w, https://www.techtarget.com/wp-content/uploads/2016/08/Splunk_Logo@2x.png 358w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 120px" />					</div>
+							</div>
+
+			</div>
+					            </div>
+			    </div>
+</section>
+
+
+<section class="mesh_section post-55586 type-mesh_section status-publish has-post-thumbnail hentry background-image-section background-left background-middle padded" data-interchange="[https://www.techtarget.com/wp-content/uploads/2017/11/Dawn-Colossi-Commvault-testimonial-CS.jpg, small], [https://www.techtarget.com/wp-content/uploads/2017/11/Dawn-Colossi-Commvault-testimonial-CS-800x385.jpg, large]" style="background-image: url(https://www.techtarget.com/wp-content/uploads/2017/11/Dawn-Colossi-Commvault-testimonial-CS-1920x924.jpg);" id="mesh-section-55586" >
+	
+	<div class="mesh-row row" >
+		
+		
+						<div class="columns small-12 medium-6 medium-offset-6 min-height-350"  >
+										        <div class="techtarget-testimonial">
+            <div class="testimonial hanging-quote">
+				</p>
+<h4>TechTarget really used the data to understand the customersâ wants and needs and get the right content in front of them.&#8221;</h4>
+<p><small>â Dawn Colossi, Senior Director of WW Digital Marketing, <strong>Commvault</strong></small></p>
+<p><a href="customers/commvault/">Read the success story</a></p>
+<p>            </div>
+            <div class="bubble">
+            </div>
+        </div>
+
+		
+				</div>
+			
+			</div>
+
+	</section>
+
+
+
+<section class="mesh_section post-6826 type-mesh_section status-publish hentry"  id="mesh-section-6826" >
+	
+	<div class="mesh-row row" >
+		
+		
+						<div class="columns small-12 medium-12 maintain-padding"  >
+										<h2 class="clearfix">Latest sales &amp; marketing thinking 
+                    <a href="/resources" class="button fill-button float-right" data-text="Visit resources">Visit resources</a>
+        		</h2>
+            <div class="row techtarget-posts" data-equalizer data-equalize-on="medium" data-resize data-events="resize">
+									
+                                            <div class="techtarget-post columns small-12 medium-6 large-3 end trigger-in-view in-view-slide-from-left in-view-delay-200 post-67315 resource type-resource status-publish has-post-thumbnail hentry tt_resource_type-infographics-presentation">
+                                                            <a  href="https://www.techtarget.com/resources/convert-more-web-visits-to-leads-with-priority-engine-inbound-converter/"><img src="https://www.techtarget.com/wp-content/uploads/2019/03/Inbound_Converter_Preview.png" class="resource-image wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2019/03/Inbound_Converter_Preview.png 384w, https://www.techtarget.com/wp-content/uploads/2019/03/Inbound_Converter_Preview-300x250.png 300w, https://www.techtarget.com/wp-content/uploads/2019/03/Inbound_Converter_Preview-120x100.png 120w, https://www.techtarget.com/wp-content/uploads/2019/03/Inbound_Converter_Preview-200x167.png 200w, https://www.techtarget.com/wp-content/uploads/2019/03/Inbound_Converter_Preview-175x146.png 175w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 384px" /></a>
+                                                        <div class="post-content" data-equalizer-watch>
+
+                                <p class="category-name font_bold-small color-gray">Resource</p>
+                                <h5 class="entry-title"><a  href="https://www.techtarget.com/resources/convert-more-web-visits-to-leads-with-priority-engine-inbound-converter/">Convert More Web Visits to Leads with Priority Engine Inbound Converter</a></h5>
+                            </div>
+                        </div>
+                                        
+									
+                                            <div class="techtarget-post columns small-12 medium-6 large-3 end trigger-in-view in-view-slide-from-left post-67258 resource type-resource status-publish has-post-thumbnail hentry tt_resource_type-video">
+                                                            <a  href="https://www.techtarget.com/resources/questions-with-andrew-davis/"><img src="https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Andrew-Davis-Video-Series_Resource_Icon_v3-384x320.png" class="resource-image wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Andrew-Davis-Video-Series_Resource_Icon_v3-384x320.png 384w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Andrew-Davis-Video-Series_Resource_Icon_v3-640x533.png 640w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Andrew-Davis-Video-Series_Resource_Icon_v3-300x250.png 300w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Andrew-Davis-Video-Series_Resource_Icon_v3-120x100.png 120w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Andrew-Davis-Video-Series_Resource_Icon_v3-200x167.png 200w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Andrew-Davis-Video-Series_Resource_Icon_v3-175x146.png 175w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Andrew-Davis-Video-Series_Resource_Icon_v3.png 768w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 384px" /></a>
+                                                        <div class="post-content" data-equalizer-watch>
+
+                                <p class="category-name font_bold-small color-gray">Resource</p>
+                                <h5 class="entry-title"><a  href="https://www.techtarget.com/resources/questions-with-andrew-davis/">Questions with Content Marketing Expert Andrew Davis</a></h5>
+                            </div>
+                        </div>
+                                        
+									
+                                            <div class="techtarget-post columns small-12 medium-6 large-3 end trigger-in-view in-view-slide-from-right post-67256 post type-post status-publish format-standard has-post-thumbnail hentry category-abm category-purchase-intent category-sales-enablement tag-abm tag-abm-for-sales tag-account-based-marketing tag-account-based-selling tag-b2b-purchase-intent-insight tag-demand-generation-2 tag-purchase-intent-data tag-purchase-intent-insight tag-sales-enablement">
+                                                            <a  href="https://www.techtarget.com/abm-advice-from-a-sales-guy-look-folks-were-in-this-together/"><img src="https://www.techtarget.com/wp-content/uploads/2019/03/AdobeStock_118447950-384x320.jpeg" class="resource-image wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2019/03/AdobeStock_118447950-384x320.jpeg 384w, https://www.techtarget.com/wp-content/uploads/2019/03/AdobeStock_118447950-300x250.jpeg 300w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 384px" /></a>
+                                                        <div class="post-content" data-equalizer-watch>
+
+                                <p class="category-name font_bold-small color-gray">Blog Post</p>
+                                <h5 class="entry-title"><a  href="https://www.techtarget.com/abm-advice-from-a-sales-guy-look-folks-were-in-this-together/">ABM Advice from a Sales Guy? Look, Folks, Weâre in This Together!</a></h5>
+                            </div>
+                        </div>
+                                        
+									
+                                            <div class="techtarget-post columns small-12 medium-6 large-3 end trigger-in-view in-view-slide-from-right in-view-delay-200 post-67233 resource type-resource status-publish has-post-thumbnail hentry tt_resource_type-research-brief">
+                                                            <a target="_blank" href="https://reg.techtarget.com/heinz-abm-research-report.html"><img src="https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Heinz-Report-2019-Resource-384x320.png" class="resource-image wp-post-image" alt="" srcset="https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Heinz-Report-2019-Resource-384x320.png 384w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Heinz-Report-2019-Resource-384x320-300x250.png 300w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Heinz-Report-2019-Resource-384x320-120x100.png 120w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Heinz-Report-2019-Resource-384x320-200x167.png 200w, https://www.techtarget.com/wp-content/uploads/2019/03/TTGT_Heinz-Report-2019-Resource-384x320-175x146.png 175w" sizes="(max-width: 639px) 98vw, (max-width: 1199px) 64vw, 384px" /></a>
+                                                        <div class="post-content" data-equalizer-watch>
+
+                                <p class="category-name font_bold-small color-gray">Resource</p>
+                                <h5 class="entry-title"><a target="_blank" href="https://reg.techtarget.com/heinz-abm-research-report.html">Profiling ABM Success</a></h5>
+                            </div>
+                        </div>
+                                        
+				
+				            </div>
+			
+				</div>
+			
+			</div>
+
+	</section>
+
+        </div>
+	</div>
+
+</section>
+<div id="footer-container" class="background-dark padded">
+
+    
+    <div class="row extend">
+        <div class="small-12 columns" id="footer-links-menu">
+            <ul id="menu-footer-nav" class="menu"><li id="menu-item-58585" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-58585"><a href="#">Company</a>
+<ul class="sub-menu">
+	<li id="menu-item-58586" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58586"><a href="/about-us/">About Us</a></li>
+	<li id="menu-item-58587" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58587"><a href="/about-us/careers">Careers</a></li>
+	<li id="menu-item-58588" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58588"><a href="/press-release">Press Room</a></li>
+	<li id="menu-item-58589" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58589"><a href="/contact-us/">Contact Us</a></li>
+	<li id="menu-item-58590" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58590"><a href="https://investor.techtarget.com/CorporateProfile">Investor Relations</a></li>
+	<li id="menu-item-58591" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58591"><a href="/customers">Customer Success</a></li>
+</ul>
+</li>
+<li id="menu-item-58592" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-58592"><a href="#">Why TechTarget</a>
+<ul class="sub-menu">
+	<li id="menu-item-58593" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58593"><a href="/why-techtarget/">Overview</a></li>
+	<li id="menu-item-58594" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58594"><a href="/capability/audience-development/">Audiences</a></li>
+	<li id="menu-item-58595" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58595"><a href="/capability/data-insights/">Purchase Intent</a></li>
+	<li id="menu-item-58596" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58596"><a href="/capability/technology-marketing/">Marketing Activation</a></li>
+</ul>
+</li>
+<li id="menu-item-58597" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-58597"><a href="#">Solutions</a>
+<ul class="sub-menu">
+	<li id="menu-item-58598" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58598"><a href="/solutions/">Overview</a></li>
+	<li id="menu-item-58599" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58599"><a href="/solution/intent-data/">Purchase Intent Insight</a></li>
+	<li id="menu-item-58600" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58600"><a href="/solution/integrated-marketing/">Integrated Marketing</a></li>
+	<li id="menu-item-58601" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58601"><a href="/solution/account-based-marketing/">Account-Based Marketing</a></li>
+	<li id="menu-item-58602" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58602"><a href="/solution/demand-generation/">Demand Generation</a></li>
+	<li id="menu-item-58603" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58603"><a href="/solution/brand-marketing/">Brand Consideration</a></li>
+</ul>
+</li>
+<li id="menu-item-58604" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-58604"><a href="#">Products</a>
+<ul class="sub-menu">
+	<li id="menu-item-58605" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58605"><a href="/products/">Overview</a></li>
+	<li id="menu-item-58606" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58606"><a href="/products/data-driven-display/">Data-Driven Display</a></li>
+	<li id="menu-item-58607" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58607"><a href="/products/priority-engine/">Priority Engine</a></li>
+	<li id="menu-item-58608" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58608"><a href="/products/qualified-sales-opportunities/">Qualified Sales Opportunities</a></li>
+	<li id="menu-item-62655" class="menu-item menu-item-type-post_type menu-item-object-tt_product menu-item-62655"><a href="https://www.techtarget.com/products/lead-generation/">Lead Generation</a></li>
+	<li id="menu-item-58609" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58609"><a href="/products/custom-research/">Custom Research</a></li>
+</ul>
+</li>
+<li id="menu-item-58610" class="footer-global menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-58610"><a href="#">Global</a>
+<ul class="sub-menu">
+	<li id="menu-item-58611" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58611"><a href="https://www.techtarget.fr/">FranÃ§ais</a></li>
+	<li id="menu-item-58612" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-58612"><a href="https://www.techtarget.de/">Deutsch</a></li>
+</ul>
+</li>
+</ul>        </div>
+    </div>
+
+    
+
+    <div class="row extend">
+		
+		        <div class="small-12 medium-4 medium-push-8 columns medium-padding-left-none">
+            <ul class="menu social-menu medium-up-text-right inline-block-list">
+				                    <li><a href="https://www.facebook.com/techtargetinc/" target="_blank" class="icon-facebook"></a></li>
+				                    <li><a href="https://twitter.com/techtarget" target="_blank" class="icon-twitter"></a></li>
+				                    <li><a href="https://www.linkedin.com/company/techtarget" target="_blank" class="icon-linkedin"></a></li>
+				            </ul>
+        </div>
+
+        <div class="small-12 medium-8 medium-pull-4 columns">
+							<ul id="menu-footer" class="menu"><li id="menu-item-6847" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6847"><a href="https://www.techtarget.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-50553" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-50553"><a href="/terms-and-conditions/">Legal</a></li>
+<li>&copy; 2019 TechTarget</li></ul>            </div>
+        </div>
+    </div>
+
+	
+</div><!-- Close off-canvas wrapper inner -->
+</div><!-- Close off-canvas wrapper -->
+</div><!-- Close off-canvas content wrapper -->
+
+
+	
+    
+
+        <div class="slide-out-nav-trigger mobile-son-trigger show-for-small-only icon-close"></div>
+        <div class="slide-out-nav-trigger desktop-son-trigger show-for-medium">
+
+                            <img src="https://www.techtarget.com/wp-content/themes/tech-target/assets/images/img-email.png" />
+                        <strong>Contact Us</strong>
+        </div>
+
+        <div class="slide-out-nav ">
+
+            <div class="son-content">
+
+                <div class="close-nav-trigger">&times;<span>Close</span></div>
+
+                
+                                            <div class="son-block son-first-block">
+
+                        <a target="_blank" href="http://reg.techtarget.com/contact-us.html">
+                                                            <img class="desktop-image" src="https://www.techtarget.com/wp-content/uploads/2018/05/sticky-menu-icon-contact-r1.png" />
+                            
+                                                            <strong>Contact Us</strong>
+                            
+	                                                        <img class="mobile-image" src="https://www.techtarget.com/wp-content/uploads/2018/05/sticky-menu-icon-contact-r1.png" />
+	                        
+                            </a>
+                        
+                        </div>
+                    
+                
+                                            <div class="son-block son-first-block">
+
+                        <a target="_blank" href="http://reg.techtarget.com/general-product-walkthrough.html">
+                                                            <img class="desktop-image" src="https://www.techtarget.com/wp-content/uploads/2018/05/sticky-menu-icon-Product-walkthrough.png" />
+                            
+                                                            <strong>Product Walkthrough</strong>
+                            
+	                                                        <img class="mobile-image" src="https://www.techtarget.com/wp-content/uploads/2018/05/sticky-menu-icon-Product-walkthrough.png" />
+	                        
+                            </a>
+                        
+                        </div>
+                    
+                
+                                            <div class="son-block son-first-block">
+
+                        <a target="_blank" href="http://reg.techtarget.com/ask-an-expert.html">
+                                                            <img class="desktop-image" src="https://www.techtarget.com/wp-content/uploads/2018/05/sticky-menu-icon-expert-advice-r1.png" />
+                            
+                                                            <strong>Ask An Expert</strong>
+                            
+	                                                        <img class="mobile-image" src="https://www.techtarget.com/wp-content/uploads/2018/05/sticky-menu-icon-expert-advice-r1.png" />
+	                        
+                            </a>
+                        
+                        </div>
+                    
+                
+            </div>
+        </div>
+    
+
+		<img src="https://go.techtarget.com/clicktrack-r/activity/activity.gif?activityTypeId=27&#038;bid=1&#038;r=1933564715" id="activity-url" style="position: absolute; visibility: hidden; height: 0;" />
+		
+
+
+<!-- Salesloft start -->
+<script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['SLScoutObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://scout-cdn.salesloft.com/sl.js','slscout');
+    slscout(["init", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0IjoxMDU1N30.y9cUNGNXTx9cmwfpn67s17KYkyUQcnEJy4FBCmvbUyI"]);
+</script>
+<!-- Salesloft end -->
+<!-- Conversion Pixel - TTGT_Corporate_SPOKE-Engagement - DO NOT MODIFY -->
+<img src="https://secure.adnxs.com/px?id=871732&t=2" width="1" height="1" />
+<!-- End of Conversion Pixel --><script type='text/javascript' src='https://www.techtarget.com/wp-content/plugins/mesh/assets/js/mesh.js?ver=1.2.5.6'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/themes/tech-target/assets/javascript/jquery.autocomplete.js?ver=d44f2fe98ac1a2dae37328db131ff594'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/themes/tech-target/assets/javascript/jquery.slick.js?ver=d44f2fe98ac1a2dae37328db131ff594'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-content/themes/tech-target/assets/javascript/techtarget.js?ver=d44f2fe98ac1a2dae37328db131ff594'></script>
+<script type='text/javascript' src='https://www.techtarget.com/wp-includes/js/wp-embed.min.js?ver=d44f2fe98ac1a2dae37328db131ff594'></script>
+
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"1068cf12f6","applicationID":"31362394","transactionName":"ZQMAYxdYXUBSAkFbClxJN0UMFlpdVwRNHBVaFg==","queueTime":0,"applicationTime":6,"atts":"SUQDFV9CTk4=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
+
+<!--
+Performance optimized by W3 Total Cache. Learn more: https://www.w3-edge.com/products/
+
+Object Caching 258/786 objects using memcache
+Page Caching using memcache 
+Content Delivery Network via Rackspace Cloud Files: 6ce7249d60697cecb233-c2e8d057e491f208ac0828a45bc359e1.ssl.cf1.rackcdn.com
+
+Served from: www.techtarget.com @ 2019-04-03 13:44:09 by W3 Total Cache
+-->
+
+
+#####EOF#####
+
+

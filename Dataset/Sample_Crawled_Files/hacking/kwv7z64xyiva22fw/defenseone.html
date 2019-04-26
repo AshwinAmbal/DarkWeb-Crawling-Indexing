@@ -1,0 +1,3231 @@
+<!DOCTYPE html>
+<html >
+<head>
+  
+      <!-- Chartbeat top START -->
+        <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+      <!-- Chartbeat top END -->
+    
+
+  <script type="text/javascript">
+  if(typeof String.prototype.trim !== 'function') {
+    String.prototype.trim = function() {
+      return this.replace(/^\s+|\s+$/g, '');
+    }
+  }
+
+  function hasCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+      var c = ca[i].trim();
+      if (c.indexOf(name)==0) return true;
+    }
+    return false;
+  }
+
+  function deleteCookie(cname) {
+    //set to a past expiration to delete cookie
+    setCookie(cname, "delete", -2);
+  }
+
+  function setCookie(cname,cvalue,exdays) {
+    if (typeof exdays != "undefined") {
+      var d = new Date();
+      d.setTime(exdays);
+      var expires = "expires="+d.toGMTString();
+      document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
+    } else {
+      document.cookie = cname + "=" + cvalue + "; path=/";
+    }
+  }
+
+  function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0; i<ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1);
+          if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+      }
+      return "";
+  }
+</script>
+
+  <script type="text/javascript">
+    
+    var GEMG = GEMG || {};
+    GEMG.CDN_URL = 'https://cdn.defenseone.com/a/';
+    GEMG.NON_CDN_STATIC_URL = '/static/a/';
+</script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script type="text/javascript">
+
+  var Govexec = Govexec || {};
+  Govexec.ie_lte_8 = (function(){
+    var div = document.createElement('div');
+    div.innerHTML = '<!--[if lte IE 8]><i></i><![endif]-->';
+    return div.getElementsByTagName('i').length > 0;
+  })();
+
+  /**
+   * This function finds the viewport size with scrollbar included.
+   * This matches the behavior of the media queries being used.
+   */
+  function viewport() {
+      var e = window, a = 'inner';
+      if (!('innerWidth' in window )) {
+          a = 'client';
+          e = document.documentElement || document.body;
+      }
+      return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
+  }
+  Govexec.get_format = function(){
+    var w;
+
+    if (Govexec.ie_lte_8) {
+      return "desktop";
+    }
+
+    w = viewport().width;
+    if (w > 1024)
+    {
+        return "desktop";
+    }
+    else if (w > 720)
+    {
+        return "tablet";
+    }
+    else
+    {
+        return "mobile";
+    }
+  }
+  window.previous_viewport = Govexec.get_format();
+</script>
+
+  
+    <script type="text/javascript">
+      (function() {
+        var currentDate, eod, host_tmp;
+        var isFb = navigator.userAgent.match(/facebookexternalhit/i) !== null;
+        
+          var suppressWelcomeAd = false;
+        
+
+        if (isFb || hasCookie("welcomeAdViewed"))	{
+          return;
+        }
+
+        setCookie("cookiesEnabled", "1");
+        if (!hasCookie("cookiesEnabled"))	{
+          return;
+        }
+        deleteCookie("cookiesEnabled");
+
+        currentDate = new Date();
+        eod = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 0, 0);
+        setCookie("welcomeAdViewed", "1", Math.round((eod.getTime())));
+
+        if (!suppressWelcomeAd && (Govexec.get_format() === "desktop")) {
+          // Set cookie with referrer for Omniture script to use
+          if (document.referrer === "") {
+            setCookie("referrer:" + window.location, "Typed/Bookmarked");
+          }
+          else {
+            // trick for getting the hostname
+            host_tmp = document.createElement("a");
+            host_tmp.href = document.referrer;
+
+            setCookie("referrer:" + window.location, host_tmp.hostname);
+          }
+          window.location = 'https://cdn.defenseone.com/a/defenseone/interstitial.html?v=8.27.3&rf=' + encodeURIComponent(window.location);
+        }
+      })();
+    </script>
+  
+
+  <script type="text/javascript" src="//use.typekit.net/kbf6vuq.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" /><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script><script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","queueTime":0,"licenseKey":"96589ef288","agent":"","transactionName":"YAQDN0JTXxdYBRUMDllOJxZeUUUNVghOEgRVEggXVUEfAFwABAsSUg4PBm9EWAFOFVsMD1MEGQ==","applicationID":"6113367","errorBeacon":"bam.nr-data.net","applicationTime":4}</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="apple-itunes-app" content="app-id=758349913, app-argument=https://www.defenseone.com">
+
+  <meta property="fb:pages" content="145473812290416"/>
+  <meta property="article:publisher" content="https://www.facebook.com/DefenseOne" />
+  <meta property="fb:admins" content="1563600116" />
+  <meta property="og:site_name" content="Defense One" />
+
+  <title>Defense One</title>
+
+  
+
+  
+  
+  <link rel="canonical" href="https://www.defenseone.com" />
+  
+  
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js"></script>
+
+  
+<meta name="pocket-site-verification" content="b1c0ef9ea8f42a25990c88322e246e" />
+<meta property="og:title" content="Defense One" />
+<meta property="og:url" content="https://www.defenseone.com" />
+<meta property="og:description" content="Atlantic Media presents Defense One, a site dedicated to providing news, analysis, and bold ideas to national security leaders, influential professionals, stakeholders and citizens navigating the unprecedented transformation of U.S. defense strategy and operations." />
+
+<meta property="og:image" content="https://cdn.defenseone.com/media/img/upload/2019/04/03/AP_17094662841451/open-graph.jpg" />
+
+
+
+  <meta name="description" content="Atlantic Media presents Defense One, a site dedicated to providing news, analysis, and bold ideas to national security leaders, influential ..." />
+  
+  
+<meta name="sailthru.date" content="2019-04-04T06:35:20Z"/>
+<meta name="sailthru.description" content="Atlantic Media presents Defense One, a site dedicated to providing news, analysis, and bold ideas to national security leaders, influential professionals, stakeholders and citizens navigating the unprecedented transformation of U.S. defense strategy and operations."/>
+<meta name="sailthru.tags" content="type-homepage,site-defenseone"/>
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Defense One" href="https://www.defenseone.com/rss/all/" />
+
+  
+<script type="text/javascript">
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+  (function() {
+    var gads = document.createElement("script");
+    gads.async = true;
+    gads.type = "text/javascript";
+    var useSSL = "https:" == document.location.protocol;
+    gads.src = (useSSL ? "https:" : "http:") + "//www.googletagservices.com/tag/js/gpt.js";
+    var node =document.getElementsByTagName("script")[0];
+    node.parentNode.insertBefore(gads, node);
+  })();
+
+  var GEMG = GEMG || {};
+  (function(){
+    GEMG.GPT = {
+      ad_unit: '/617/defenseone.com/homepage',
+      base_ad_unit: '/617/defenseone.com',
+      targeting: {
+        page: {
+          
+          'referring_domain': ['www.defenseone.com']
+          
+        },
+        slot: {}
+      }
+    };
+  })();
+</script>
+
+
+  <script type="text/javascript">
+  var GEMG = GEMG || {};
+  GEMG.OmnitureConfig = {"internalDomains": "www.defenseone.com", "account": "atlanticDefenseOne2013Prod", "trackingServer": "atlanticmedia.sc.omtrdc.net", "site": "www.defenseone.com"};
+  </script>
+
+  <script type="text/javascript" src="https://cdn.defenseone.com/a/compressed/jinja/js/08a6a8a4ace4.js"></script>
+
+
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|Roboto:300,400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="https://cdn.defenseone.com/a/compressed/jinja/css/defenseone-9bf7256710b3.css" type="text/css" media="all" /><link rel="stylesheet" href="https://cdn.defenseone.com/a/compressed/jinja/css/defenseone-bb285aff4a3a.css" type="text/css" media="only screen and (max-width: 720px)" /><link rel="stylesheet" href="https://cdn.defenseone.com/a/compressed/jinja/css/defenseone-bb285aff4a3a.css" type="text/css" media="only screen and (-webkit-min-device-pixel-ratio : 1.5) and (min-device-pixel-ratio : 1.5)" /><link rel="stylesheet" href="https://cdn.defenseone.com/a/compressed/jinja/css/defenseone-8c2d06835cab.css" type="text/css" media="only screen and (min-width: 721px) and (max-width: 1024px)" /><link rel="stylesheet" href="https://cdn.defenseone.com/a/compressed/jinja/css/defenseone-e25d0ce6a8d2.css" type="text/css" media="all" /><link rel="stylesheet" href="https://cdn.defenseone.com/a/compressed/jinja/css/defenseone-8824fb6e6133.css" type="text/css" media="only screen and (min-width: 1025px)" /><link rel="stylesheet" href="https://cdn.defenseone.com/a/compressed/jinja/css/defenseone-b4ea51b72144.css" type="text/css" media="all" />
+
+  <!--[if lt IE 9]>
+		<script type="text/javascript" src="https://cdn.defenseone.com/a/defenseone/js/html5shiv.js"></script>
+    <link rel="stylesheet" href="https://cdn.defenseone.com/a/compressed/jinja/css/defenseone-1d1d464ab11f.css" type="text/css" />
+		<script type="text/javascript">
+			$('#slides').hide();
+			$('#slides2').show();
+		</script>
+		<![endif]-->
+  <!--link rel="stylesheet" type="text/css" media="only screen and (min-device-width: 320px) and (max-device-width: 480px)" href="css/mobile.css" />
+     <link rel="stylesheet" type="text/css" media="only screen and (min-device-width: 600px) and (max-device-width: 1024px)" href="css/tablet.css" />
+     <link rel="stylesheet" type="text/css" media="only screen and (min-device-width: 1024px)" href="css/960.css" />
+     <link rel="stylesheet" type="text/css" media="only screen and (min-device-width: 1024px)" href="css/styles.css" /-->
+
+  
+    <!-- Chartbeat bottom START -->
+<script type="text/javascript">
+  var _sf_async_config={};
+  _sf_async_config.uid = 17396;
+  _sf_async_config.domain = "defenseone.com";
+  
+    _sf_async_config.useCanonical = true;
+  
+  
+  (function(){
+    function loadChartbeat() {
+      window._sf_endpt=(new Date()).getTime();
+      var e = document.createElement("script");
+      e.setAttribute("language", "javascript");
+      e.setAttribute("type", "text/javascript");
+      e.setAttribute("src", "//static.chartbeat.com/js/chartbeat.js");
+      document.body.appendChild(e);
+    }
+    var oldonload = window.onload;
+    window.onload = (typeof window.onload != "function") ?
+    loadChartbeat : function() { oldonload(); loadChartbeat(); };
+  })();
+</script>
+<!-- Chartbeat bottom END -->
+
+  
+
+  <script type="text/javascript">
+  //<![CDATA[
+    var facebookXdReceiverPath = 'https://www.govexec.com/xd_receiver.htm';
+  //]]>
+  </script>
+  <script type="text/javascript" src="https://cdn.defenseone.com/a/js/adframe.js"></script>
+
+  
+    
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-395628-5"></script>
+<script>
+  GEMG.GoogleAnalytics = (GEMG.GoogleAnalytics || {});
+  GEMG.GoogleAnalytics.Config = {"has_old_interstitial": true, "tracking_id": "UA-395628-5"};
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  
+    gtag('config', 'UA-395628-5', {
+      'send_page_view': false,
+      'custom_map': GEMG.GoogleAnalytics.Base.CUSTOM_MAP
+    });
+
+    GEMG.GoogleAnalytics.Homepage.pageView({"Canonical URL": "https://www.defenseone.com", "Site Section": "home", "Page Type": "home", "page_title": "defense one"});
+  
+</script>
+  
+
+  
+
+  <script id="peer39ScriptLoader" type="text/javascript" src="https://tags.peer39.com/1406/trg_1406_ssl.js"></script>
+  <!-- peer39 code -->
+
+
+  <!-- stupid hack for IE10/tablet -->
+  <style type="text/css">
+  a img {border:none}
+  </style>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  
+
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '10155007044873614'); 
+fbq('track', 'PageView');
+
+
+
+
+
+</script>
+<noscript>
+ <img height="1" width="1" src="https://www.facebook.com/tr?id=10155007044873614&ev=PageView&noscript=1" style="display: none;"/>
+</noscript>
+
+
+</head>
+
+<body class="no-js no-touch  d1-homepage" ontouchstart="">
+
+<script>
+  
+  document.body.className = document.body.className.replace("no-js ","");
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+/* You may give each page an identifying name, server, and channel on
+the next lines. */
+s.server="www.defenseone.com"
+s.channel="home"
+s.pageName="home"
+s.prop1=""
+s.prop2=""
+s.prop3="home"
+s.prop4="/"
+s.prop5=""
+s.prop6="Home"
+s.prop7=""
+s.prop8="home - landing"
+s.prop9=""
+s.prop10=""
+s.prop11=""
+s.prop12=""
+s.prop13=""
+s.prop14="d-logo"
+s.prop15=""
+s.prop16=""
+s.prop17=""
+s.prop18=""
+s.prop19=""
+s.prop20=""
+s.prop21=""
+s.prop22=""
+s.prop23=""
+s.prop24=""
+s.prop25=""
+s.prop26=""
+s.prop27=""
+s.prop32="False"
+s.prop34=""
+s.prop35=""
+s.prop36=""
+s.prop37=""
+s.prop38=""
+s.prop39="Error: not set"
+s.prop44=""
+s.prop66=""
+s.prop67=""
+s.prop68=""
+s.prop69=""
+s.prop75 = navigator.userAgent;
+s.hier1="home/landing"
+s.hier2=""
+s.hier3=""
+
+if ((typeof(Govexec) != "undefined") && (typeof(Govexec.get_format)=== 'function')){
+  s.prop38 = Govexec.get_format();
+}
+
+if (typeof(adblock) != 'undefined' && adblock) {
+  s.prop32 = "True";
+}
+
+// Collect referrer; override omniture referrer; clear cookie
+var referrerCookieName = "referrer:" + window.location;
+var referredThroughInterstitial = document.referrer.indexOf("interstitial.html") > -1;
+s.prop50 = (referredThroughInterstitial) ? "true" : "false";
+if (referredThroughInterstitial) {
+  if (hasCookie(referrerCookieName)) {
+    var originalReferrer = getCookie(referrerCookieName);
+
+    // Might be Typed/Bookmarked or Referrer (see layout file)
+    s.prop39 = originalReferrer;
+  } else {
+    // Referrer cookie lost
+    s.prop39 = "Referrer Lost"
+  }
+} else {
+  // Not routed through interstitial
+  if (document.referrer != "") {
+    // Not routed through interstitial; set prop39 to standard referrer
+
+    // trick for getting the hostname
+    var host_tmp = document.createElement("a");
+    host_tmp.href = document.referrer;
+
+    s.prop39 = host_tmp.hostname;
+  } else {
+    // No referrer; URL was directly entered / bookmarked
+    s.prop39 = "Typed/Bookmarked";
+  }
+}
+
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+var s_code=s.t();if(s_code) document.write(s_code)
+if(navigator.appVersion.indexOf('MSIE')>=0) document.write(unescape('%3C')+'\!-'+'-');
+//]]>
+</script>
+<noscript>
+	<div>
+		<a href="https://www.omniture.com" title="Web Analytics" ><img
+src="https://atlanticmedia.sc.omtrdc.net/b/ss/atlanticDefenseOne2013Prod/1/H.17--NS/0"
+height="1" width="1" alt="" /></a>
+	</div>
+</noscript>
+<!--/DO NOT REMOVE/-->
+
+
+  <div class="video-ad-container" >
+    
+  <div
+    
+    class="ad ad-None"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidetablet hidemobile"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-desktop"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="video"
+        
+        
+        
+          data-ad-targeting='9082a42f-08a4-447c-a97d-d520268b003a'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['9082a42f-08a4-447c-a97d-d520268b003a'] = {
+        
+          'level': [
+            '0'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+      <noscript class="ad-noscript">
+        
+          <a href="https://pubads.g.doubleclick.net/gampad/jump?sz=video&amp;c=858802899&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26level%3D0">
+            <img src="https://pubads.g.doubleclick.net/gampad/ad?sz=video&amp;c=858802899&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26level%3D0"/>
+          </a>
+        
+      </noscript>
+    
+  
+      
+    </div>
+  </div>
+
+
+    <div class="scroll-message">
+      <span class="scroll_down_indicator">â¼</span> Scroll To Continue <span class="scroll_down_indicator">â¼</span>
+    </div>
+  </div>
+
+
+
+
+  <header class="banner">
+    <div class="container_12">
+      <div class="grid_12 container alpha omega">
+        <div class="banner-logo logo hidemobile"><h1><a href="/?oref=d-logo">Defense One</a></h1></div>
+        <div id="secondary-links">
+          <a class="link secondary-link" href="/events/?oref=d-nav">Events</a>
+          <a class="link secondary-link" href="/newsletters/?oref=d-nav">Newsletters</a>
+        </div>
+        <div id="social" class="">
+          <a class="facebook" href="https://www.facebook.com/DefenseOne"></a>
+          <a class="twitter" href="https://www.twitter.com/defenseone"></a>
+          <a class="linkedin" href="http://www.linkedin.com/company/3185628" ></a>
+          <a class="rss" href="https://www.defenseone.com/rss/all/"></a>
+        </div>
+        
+          <div id="banner">
+            <a href="/ideas/2019/04/egypts-dissent-crushing-president-fueling-isis/156035/?oref=d-topstory"
+              
+            >
+              <div class="gradient"></div>
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/04/03/AP_17094662841451/defense-one-featured.jpg" alt="Egyptian President Abdel Fattah Al-Sisi attends a meeting with House Speaker Paul Ryan of Wis. on Capitol Hill in Washington, Tuesday, April 4, 2017. " title="Egyptian President Abdel Fattah Al-Sisi attends a meeting with House Speaker Paul Ryan of Wis. on Capitol Hill in Washington, Tuesday, April 4, 2017. ">
+              <div>
+                <h2 class="link">Egyptâs President Is Crushing Dissent â and Fueling&nbsp;<span class="caps">ISIS</span></h2>
+                <p>Even if the White House is in denial about al-Sisiâs harm to regional instability, Congress shouldn&#8217;t&nbsp;be.</p>
+                <p><span class="header-author">BY 
+    Brian Dooley</span><span class="raquo"> <span class="link">READ NOW</span>&raquo;</span></p>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+    <div class="d1-sticky-nav">
+  <div class="d1-sticky-nav-inner">
+    
+  <div class="d1-sticky-nav-logo-container">
+  
+      <a class="d1-sticky-nav-logo logo" href="/?oref=d-logo">Defense One</a>
+    
+  </div>
+
+    <button class="d1-sticky-nav-opener d1-sticky-nav-opener-items">
+      <span class="d1-sticky-nav-opener-open-icon gemg-icon icon-ico-menu"></span>
+      <span class="d1-sticky-nav-opener-close-icon gemg-icon icon-ico-close"></span>
+    </button>
+    <button class="d1-sticky-nav-opener d1-sticky-nav-opener-search">
+      <span class="d1-sticky-nav-opener-search-icon gemg-icon icon-ico-search"></span>
+    </button>
+    
+    <div class="d1-sticky-nav-clipper d1-sticky-nav-search-clipper">
+      <form id="search" class="d1-sticky-nav-search" action="/search/">
+        <span class="d1-sticky-nav-search-icon-container">
+          <span class="d1-sticky-nav-search-icon gemg-icon icon-ico-search" aria-hidden="true"></span>
+        </span>
+        <input class="d1-sticky-nav-search-text" type="text" value="Search..." name="q" autocomplete="off"/>
+        <button class="d1-sticky-nav-search-submit" type="submit">
+          <span class="d1-sticky-nav-search-submit-icon">&rarr;</span>
+        </button>
+      </form>
+    </div>
+    <div id="d1-sticky-nav-newsletters">
+      <a class="d1-sticky-nav-newsletters-link" href="/newsletters/?oref=d-nav">Newsletters</a>
+    </div>
+    <div class="d1-sticky-nav-clipper d1-sticky-nav-items-clipper">
+      <nav class="d1-sticky-nav-items-container">
+        <ul class="d1-nav-items">
+  <li class="d1-nav-item ">
+    <a class="d1-nav-item-link" href="/news/?oref=d-nav">News</a>
+  </li>
+  <li class="d1-nav-item ">
+    <a class="d1-nav-item-link" href="/threats/?oref=d-nav">Threats</a>
+  </li>
+  <li class="d1-nav-item ">
+    <a class="d1-nav-item-link" href="/politics/?oref=d-nav">Politics</a>
+  </li>
+  <li class="d1-nav-item ">
+    <a class="d1-nav-item-link" href="/business/?oref=d-nav">Business</a>
+  </li>
+  <li class="d1-nav-item ">
+    <a class="d1-nav-item-link" href="/technology/?oref=d-nav">Tech</a>
+  </li>
+  <li class="d1-nav-item ">
+    <a class="d1-nav-item-link" href="/ideas/?oref=d-nav">Ideas</a>
+  </li>
+  <div class="d1-nav-item-horizontal-rule"></div>
+  <li class="d1-nav-item ">
+    <a class="d1-nav-item-link d1-nav-item-link-mobile" href="/events/?oref=d-nav">Events</a>
+  </li>
+  <li class="d1-nav-item last">
+    <a class="d1-nav-item-link d1-nav-item-link-mobile" href="/newsletters/?oref=d-nav">Newsletters</a>
+  </li>
+</ul>
+      </nav>
+    </div>
+  </div>
+</div>
+  </header>
+
+
+<div id="outer_content_container">
+  
+  <div id="gutter" class="hidetablet hidemobile">
+    
+  <div
+    
+    class="ad ad-gutter"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidetablet hidemobile"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-desktop"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="460x800"
+        
+        
+        
+          data-ad-targeting='7d5d502a-1cd9-46c0-8985-2bcde423fa39'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['7d5d502a-1cd9-46c0-8985-2bcde423fa39'] = {
+        
+          'pos': [
+            'gutter'
+          ],
+        
+          'level': [
+            '1'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+  
+      
+    </div>
+  </div>
+
+
+  </div>
+  
+
+  
+    <div class="container_12 content">
+      
+
+  <div class="pencil-pushdown">
+    
+  <div
+    
+    class="ad ad-defenseone-pencil"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidetablet hidemobile"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-desktop"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="940x90"
+        
+        
+        
+          data-ad-targeting='bfbca92d-fc66-46f7-8657-651d14d6c34d'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['bfbca92d-fc66-46f7-8657-651d14d6c34d'] = {
+        
+          'pos': [
+            'defenseone-pencil'
+          ],
+        
+          'level': [
+            '2'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+      <noscript class="ad-noscript">
+        
+          <a href="https://pubads.g.doubleclick.net/gampad/jump?tile=1&amp;sz=940x90&amp;c=527661351&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26pos%3Ddefenseone-pencil%26level%3D1">
+            <img src="https://pubads.g.doubleclick.net/gampad/ad?tile=1&amp;sz=940x90&amp;c=527661351&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26pos%3Ddefenseone-pencil%26level%3D1"/>
+          </a>
+        
+      </noscript>
+    
+  
+      
+    </div>
+  </div>
+
+
+  </div>
+  <div id="slides" class="grid_12 slidecontainer hidedesk">
+    <div id="slideContainer" class="swipe">
+      
+  
+      
+      
+  
+
+  <ul class="swipe-wrap">
+  
+  
+
+      
+
+      
+      <li class="grid_2 alpha">
+          <a href="/technology/2019/04/us-navy-seeks-hackers-protect-bases-ships-small-drones/155971/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/04/01/Screen_Shot_2019-04-01_at_4.06.42_PM_bXIXLO3/defense-skybox.png" alt="U.S. Marine Corps 2nd Lt. Michael Francica, with Combat Logistics Battalion 8, Combat Logistics Regiment 2, 2nd Marine Logistics Group, pilots an InstantEye quadcopter during an operations check for Marine Corps Warfighting Laboratory, April. 29, 2018." title="U.S. Marine Corps 2nd Lt. Michael Francica, with Combat Logistics Battalion 8, Combat Logistics Regiment 2, 2nd Marine Logistics Group, pilots an InstantEye quadcopter during an operations check for Marine Corps Warfighting Laboratory, April. 29, 2018."></div>
+              <span>Navy Assembling a Hacker Team to Fight Off Small Drones</span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+
+      
+      <li class="grid_2">
+          <a href="/ideas/2019/04/3-ways-europe-looking-fraying-nato/155982/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/AP_18160261983550/defense-skybox.jpg" alt="U.S. paratroopers from the 82nd Airborne Division from Fort Bragg in North Carolina take part in &#39;Saber Strike 2018&#39; a major U.S.-led military exercise with 18,000 soldiers from 19 primarily NATO countries outside of Vilnus, Lithuania, June 9, 2018." title="U.S. paratroopers from the 82nd Airborne Division from Fort Bragg in North Carolina take part in &#39;Saber Strike 2018&#39; a major U.S.-led military exercise with 18,000 soldiers from 19 primarily NATO countries outside of Vilnus, Lithuania, June 9, 2018."></div>
+              <span>3 Ways Europe Is Looking at a Fraying <span class="caps">NATO</span></span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+
+      
+      <li class="grid_2">
+          <a href="/business/2019/03/victory-palantir-f-18s-next-chapter-new-air-force-one-flies-and-just-bit-more/155896/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/03/28/GBB_header/defense-skybox.jpg" alt="" title=""></div>
+              <span>Victory for Palantir; F/A-18âs next chapter; New Air Force One flies</span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+
+      
+      <li class="grid_2">
+          <a href="/ideas/2019/04/nato-engages-alliance-70/156011/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/NEXT_GEN/defense-skybox.png" alt="" title=""></div>
+              <span>Livestream: &#8216;<span class="caps">NATO</span> Engages: The Alliance at 70&#8217;</span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+
+      
+      <li class="grid_2">
+          <a href="/ideas/2019/03/ep-41-climate-change-versus-us-military/155948/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/03/30/D1_Podcast_Tile_Final/defense-skybox.jpg" alt="" title=""></div>
+              <span>Climate Change versus the <span class="caps">US</span> Military</span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+      <li class="grid_2">
+          <a href="http://pubads.g.doubleclick.net/gampad/clk?id=5014558447&amp;iu=/617/defenseone.com/click-tracker"
+             class="sponsored"
+             
+                 target="_blank"
+             
+          >
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/03/26/ai_image_FnInj6x/defense-skybox.png" alt="" title=""></div>
+              <div>Sponsor Content</div>
+              <span>Artificial Intelligence</span>
+          </a>
+
+          
+          <img src="https://pubads.g.doubleclick.net/gampad/ad?iu=/617/defenseone.com/tracking-pixel&amp;sz=1x1&amp;t=tracking-pixel%3D001172&amp;c=12345"
+              width="1"
+              height="1"
+              alt=""
+              class="tracking-pixel"
+          />
+          
+      </li>
+      
+      
+
+      
+
+      
+  
+  </ul>
+
+  <ul class="counter">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+  </ul>
+
+  <a class="button" href="javascript:;" ></a>
+
+
+    </div>
+  </div>
+  <div id="slides2" class="grid_12 slidecontainer">
+    <div id="slideContainer2" class="swipe">
+      
+  
+      
+      
+  
+
+  <ul class="swipe-wrap">
+  
+  
+
+      
+
+      
+      <li class="grid_2 alpha">
+          <a href="/technology/2019/04/us-navy-seeks-hackers-protect-bases-ships-small-drones/155971/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/04/01/Screen_Shot_2019-04-01_at_4.06.42_PM_bXIXLO3/defense-skybox.png" alt="U.S. Marine Corps 2nd Lt. Michael Francica, with Combat Logistics Battalion 8, Combat Logistics Regiment 2, 2nd Marine Logistics Group, pilots an InstantEye quadcopter during an operations check for Marine Corps Warfighting Laboratory, April. 29, 2018." title="U.S. Marine Corps 2nd Lt. Michael Francica, with Combat Logistics Battalion 8, Combat Logistics Regiment 2, 2nd Marine Logistics Group, pilots an InstantEye quadcopter during an operations check for Marine Corps Warfighting Laboratory, April. 29, 2018."></div>
+              <span>Navy Assembling a Hacker Team to Fight Off Small Drones</span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+
+      
+      <li class="grid_2">
+          <a href="/ideas/2019/04/3-ways-europe-looking-fraying-nato/155982/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/AP_18160261983550/defense-skybox.jpg" alt="U.S. paratroopers from the 82nd Airborne Division from Fort Bragg in North Carolina take part in &#39;Saber Strike 2018&#39; a major U.S.-led military exercise with 18,000 soldiers from 19 primarily NATO countries outside of Vilnus, Lithuania, June 9, 2018." title="U.S. paratroopers from the 82nd Airborne Division from Fort Bragg in North Carolina take part in &#39;Saber Strike 2018&#39; a major U.S.-led military exercise with 18,000 soldiers from 19 primarily NATO countries outside of Vilnus, Lithuania, June 9, 2018."></div>
+              <span>3 Ways Europe Is Looking at a Fraying <span class="caps">NATO</span></span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+
+      
+      <li class="grid_2">
+          <a href="/business/2019/03/victory-palantir-f-18s-next-chapter-new-air-force-one-flies-and-just-bit-more/155896/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/03/28/GBB_header/defense-skybox.jpg" alt="" title=""></div>
+              <span>Victory for Palantir; F/A-18âs next chapter; New Air Force One flies</span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+
+      
+      <li class="grid_2">
+          <a href="/ideas/2019/04/nato-engages-alliance-70/156011/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/NEXT_GEN/defense-skybox.png" alt="" title=""></div>
+              <span>Livestream: &#8216;<span class="caps">NATO</span> Engages: The Alliance at 70&#8217;</span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+
+      
+      <li class="grid_2">
+          <a href="/ideas/2019/03/ep-41-climate-change-versus-us-military/155948/?oref=d-skybox"
+             
+          >
+
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/03/30/D1_Podcast_Tile_Final/defense-skybox.jpg" alt="" title=""></div>
+              <span>Climate Change versus the <span class="caps">US</span> Military</span>
+          </a>
+      </li>
+      
+
+      
+  
+
+      
+      <li class="grid_2">
+          <a href="http://pubads.g.doubleclick.net/gampad/clk?id=5014558447&amp;iu=/617/defenseone.com/click-tracker"
+             class="sponsored"
+             
+                 target="_blank"
+             
+          >
+              <div><img src="https://cdn.defenseone.com/media/img/upload/2019/03/26/ai_image_FnInj6x/defense-skybox.png" alt="" title=""></div>
+              <div>Sponsor Content</div>
+              <span>Artificial Intelligence</span>
+          </a>
+
+          
+          <img src="https://pubads.g.doubleclick.net/gampad/ad?iu=/617/defenseone.com/tracking-pixel&amp;sz=1x1&amp;t=tracking-pixel%3D001172&amp;c=12345"
+              width="1"
+              height="1"
+              alt=""
+              class="tracking-pixel"
+          />
+          
+      </li>
+      
+      
+
+      
+
+      
+  
+  </ul>
+
+  <ul class="counter">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+  </ul>
+
+  <a class="button" href="javascript:;" ></a>
+
+
+    </div>
+  </div>
+
+  <div class="grid_8 homepage-river articles dont-miss-compare-with">
+    
+
+
+
+  
+    
+
+
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/technology/2019/04/another-launch-startup-gets-work-us-air-force/156053/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/03/Screen_Shot_2019-04-03_at_9.41.30_PM/defense-post.png" alt="The &#34;Electron&#34; rocket from New Zealand-based rocket company Rocket Lab" title="The &#34;Electron&#34; rocket from New Zealand-based rocket company Rocket Lab">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/space/">Space</a>  <a href="/topic/industry/">Industry</a>  <a href="/topic/air-force/">Air Force</a> 
+                
+              </div>
+            
+            <a
+              href="/technology/2019/04/another-launch-startup-gets-work-us-air-force/156053/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">Another Launch Startup Gets Work from <span class="caps">US</span> Air Force</h3>
+            </a>
+            <a
+              href="/technology/2019/04/another-launch-startup-gets-work-us-air-force/156053/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> New Zealand-based Rocket Lab will orbit a trio of satellites as Pentagon hunts for cheap ways to put sensors in&nbsp;space. </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/patrick-tucker/8219/">BY Patrick Tucker</a>
+                <a
+                  href="/technology/2019/04/another-launch-startup-gets-work-us-air-force/156053/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-03 21:46</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+    
+
+
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/politics/2019/04/trump-learns-live-nato-and-vice-versa/156046/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/03/AP_19092681575738/defense-post.jpg" alt="President Donald Trump shakes hands with with NATO Secretary General Jens Stoltenberg during a meeting in the Oval Office of the White House, Tuesday, April 2, 2019, in Washington. " title="President Donald Trump shakes hands with with NATO Secretary General Jens Stoltenberg during a meeting in the Oval Office of the White House, Tuesday, April 2, 2019, in Washington. ">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/commentary/">Commentary</a>  <a href="/topic/nato/">NATO</a>  <a href="/topic/white-house/">White House</a> 
+                
+              </div>
+            
+            <a
+              href="/politics/2019/04/trump-learns-live-nato-and-vice-versa/156046/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">Trump Learns to Live With <span class="caps">NATO</span>âAnd Vice Versa</h3>
+            </a>
+            <a
+              href="/politics/2019/04/trump-learns-live-nato-and-vice-versa/156046/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> There are arguments over spending, and all manner of other issues. But the 70-year-old alliance has seen bad times&nbsp;before. </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/kathy-gilsinan/9092/">BY Kathy Gilsinan</a><a class="author" href="/voices/peter-nicholas/14478/">Peter Nicholas</a>
+                <a
+                  href="/politics/2019/04/trump-learns-live-nato-and-vice-versa/156046/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-03 16:28</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+    
+      <article class="ad hidedesk hidemobile">
+        
+  <div
+    
+    class="ad ad-river-ad"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidedesk hidemobile"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-tablet"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="700x350"
+        
+        
+        
+          data-ad-targeting='f98992e2-b3ff-4365-95e8-21e1e8c1c8c6'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['f98992e2-b3ff-4365-95e8-21e1e8c1c8c6'] = {
+        
+          'pos': [
+            'river-ad'
+          ],
+        
+          'level': [
+            '3'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+  
+      
+    </div>
+  </div>
+
+
+      </article>
+      <article class="ad hidedesk hidetablet">
+        
+  <div
+    
+    class="ad ad-river-ad"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidedesk hidetablet"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-mobile"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="300x150,300x250"
+        
+        
+        
+          data-ad-targeting='628021cf-735d-47c0-a7df-cffd48c3e0f9'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['628021cf-735d-47c0-a7df-cffd48c3e0f9'] = {
+        
+          'pos': [
+            'river-ad'
+          ],
+        
+          'level': [
+            '4'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+  
+      
+    </div>
+  </div>
+
+
+      </article>
+    
+
+
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/ideas/2019/04/somalia-us-air-strikes-rise-and-transparency-declines/156043/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/03/AP_18164604090177/defense-post.jpg" alt="Somali soldiers stand near the wreckage of car bomb at a Somali military base near the site of the attack by al-Shabab in which a US soldier was killed and four others were injured." title="Somali soldiers stand near the wreckage of car bomb at a Somali military base near the site of the attack by al-Shabab in which a US soldier was killed and four others were injured.">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/africa/">Africa</a>  <a href="/topic/drones/">Drones</a> 
+                
+              </div>
+            
+            <a
+              href="/ideas/2019/04/somalia-us-air-strikes-rise-and-transparency-declines/156043/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">In Somalia, <span class="caps">US</span> Air Strikes Rise and Transparency Declines</h3>
+            </a>
+            <a
+              href="/ideas/2019/04/somalia-us-air-strikes-rise-and-transparency-declines/156043/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> The 2019 tally is on track to more than double last yearâs&nbsp;total. </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/claire-felter/14535/">BY Claire Felter</a>
+                <a
+                  href="/ideas/2019/04/somalia-us-air-strikes-rise-and-transparency-declines/156043/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-03 15:53</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+    
+
+
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/news/2019/04/the-d-brief-april-03-2019/156025/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/03/DB_lander/defense-post.png" alt="" title="">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/The-d-brief/">The D Brief</a> 
+                
+              </div>
+            
+            <a
+              href="/news/2019/04/the-d-brief-april-03-2019/156025/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">Lies, a laptop, and malware at Mar-a-Lago; <span class="caps">NATO</span> at 70; Indiaâs <span class="caps">ASAT</span> debris endangers <span class="caps">ISS</span>; <span class="caps">AI</span> for medicine; Robots join forces; And a bit more.</h3>
+            </a>
+            <a
+              href="/news/2019/04/the-d-brief-april-03-2019/156025/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> A Chinese woman has been charged with illegally entering Mar-a-Lago on Saturday while President Trump was visiting this past weekend, according to federal court records released Tuesday afternoon.&nbsp;&#8230; </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/ben-watson/8338/">BY Ben Watson</a><a class="author" href="/voices/bradley-peniston/10609/">Bradley Peniston</a>
+                <a
+                  href="/news/2019/04/the-d-brief-april-03-2019/156025/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-03 09:41</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+    
+
+
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/ideas/2019/04/its-time-make-data-strategic-our-navy/156020/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/712alis.ot1-maintainers-1/defense-post.jpg" alt="" title="">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/commentary/">Commentary</a>  <a href="/topic/navy/">Navy</a>  <a href="/topic/cyber/">Cyber</a> 
+                
+              </div>
+            
+            <a
+              href="/ideas/2019/04/its-time-make-data-strategic-our-navy/156020/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">Itâs Time To Make Data Strategic For Our Navy</h3>
+            </a>
+            <a
+              href="/ideas/2019/04/its-time-make-data-strategic-our-navy/156020/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> The <span class="caps">U.S.</span> Navyâs future lethality depends on a new digital&nbsp;culture. </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/adm-bill-moran/14533/">BY Adm. Bill Moran</a>
+                <a
+                  href="/ideas/2019/04/its-time-make-data-strategic-our-navy/156020/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-02 21:03</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+    
+
+
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/ideas/2019/04/nato-engages-alliance-70/156011/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/NEXT_GEN/defense-post.png" alt="" title="">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/nato/">NATO</a> 
+                
+              </div>
+            
+            <a
+              href="/ideas/2019/04/nato-engages-alliance-70/156011/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">Livestream: &#8216;<span class="caps">NATO</span> Engages: The Alliance at 70&#8217;</h3>
+            </a>
+            <a
+              href="/ideas/2019/04/nato-engages-alliance-70/156011/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> Watch the 2019 â<span class="caps">NATO</span> Engagesâ summit, with <span class="caps">VP</span> Mike Pence, Secretary General Jens Stoltenberg, and more, live from Washington,&nbsp;<span class="caps">D.C.</span> </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/defense-one-staff/7286/">BY Defense One Staff </a>
+                <a
+                  href="/ideas/2019/04/nato-engages-alliance-70/156011/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-02 20:04</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+    
+
+
+    
+      
+      
+      
+      
+<article class="index-river-article sponsored">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="http://pubads.g.doubleclick.net/gampad/clk?id=5018127065&amp;iu=/617/defenseone.com/click-tracker"
+          
+            target="_blank"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/sas_cover_copy/defense-post.png" alt="" title="">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                  <a class="sponsored">Sponsored</a>
+                
+                
+              </div>
+            
+            <a
+              href="http://pubads.g.doubleclick.net/gampad/clk?id=5018127065&amp;iu=/617/defenseone.com/click-tracker"
+              class="river-text-for-hover"
+              
+                target="_blank"
+              
+            >
+              <h3 class="link">Doing Good with Government Data</h3>
+            </a>
+            <a
+              href="http://pubads.g.doubleclick.net/gampad/clk?id=5018127065&amp;iu=/617/defenseone.com/click-tracker"
+              class="river-text-for-hover"
+              
+                target="_blank"
+              
+            >
+              <p class="subhead"> You may wonder where to start in using analytics to improve operations and enrich the lives of citizens. Quite simply, analysis begins with a problem. What issue do you want to solve? Start by solving that one problem. Then, after gleaning value from that first solution, use analytics to solve other problems throughout the&nbsp;organization. </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-readnow">
+            <a
+              href="http://pubads.g.doubleclick.net/gampad/clk?id=5018127065&amp;iu=/617/defenseone.com/click-tracker"
+              class="river-anchor-bottom"
+              
+                target="_blank"
+              
+            >
+              <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+            </a>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-02 17:04</span>
+      </div>
+  </div>
+
+  
+  <img src="https://pubads.g.doubleclick.net/gampad/ad?iu=/617/defenseone.com/tracking-pixel&amp;sz=1x1&amp;t=tracking-pixel%3D001184&amp;c=12345" class="tracking-pixel" width="1" height="1" alt=""/>
+  
+</article>
+      
+      
+      
+      
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/technology/2019/04/installing-chinese-5g-gear-dangerous-and-probably-inevitable-nato-report/156007/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/AP_19056425080176/defense-post.jpg" alt="Attendees take pictures of the new Huawei Mate X foldable 5G smartphone during the Mobile World Congress wireless show, in Barcelona, Spain, Monday, Feb. 25, 2019." title="Attendees take pictures of the new Huawei Mate X foldable 5G smartphone during the Mobile World Congress wireless show, in Barcelona, Spain, Monday, Feb. 25, 2019.">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/cyber/">Cyber</a>  <a href="/topic/china/">China</a>  <a href="/topic/nato/">NATO</a> 
+                
+              </div>
+            
+            <a
+              href="/technology/2019/04/installing-chinese-5g-gear-dangerous-and-probably-inevitable-nato-report/156007/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">Installing Chinese 5G Gear is Dangerous âÂ and Probably Inevitable: <span class="caps">NATO</span> Center Report</h3>
+            </a>
+            <a
+              href="/technology/2019/04/installing-chinese-5g-gear-dangerous-and-probably-inevitable-nato-report/156007/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> Alliance members should look to mimic Britain, which created an entire government office to scrutinize Huaweiâs products for security&nbsp;problems. </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/patrick-tucker/8219/">BY Patrick Tucker</a>
+                <a
+                  href="/technology/2019/04/installing-chinese-5g-gear-dangerous-and-probably-inevitable-nato-report/156007/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-02 16:26</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+    
+
+
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/ideas/2019/04/natos-eastern-frontier-lets-not-lose-war-it-starts/155994/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/AP_18264367299211/defense-post.jpg" alt="In this handout frame grab released on Thursday, Sept. 20, 2018 by Russian Defense Ministry Press Service, a Russian serviceman aims a machine-gun during the Russia&#39;s Baltic Fleet military exercises." title="In this handout frame grab released on Thursday, Sept. 20, 2018 by Russian Defense Ministry Press Service, a Russian serviceman aims a machine-gun during the Russia&#39;s Baltic Fleet military exercises.">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/commentary/">Commentary</a>  <a href="/topic/nato/">NATO</a>  <a href="/topic/russia/">Russia</a>  <a href="/topic/pentagon/">Pentagon</a> 
+                
+              </div>
+            
+            <a
+              href="/ideas/2019/04/natos-eastern-frontier-lets-not-lose-war-it-starts/155994/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">On <span class="caps">NATO</span>âs Eastern Frontier, Letâs Not Lose a War Before It Starts</h3>
+            </a>
+            <a
+              href="/ideas/2019/04/natos-eastern-frontier-lets-not-lose-war-it-starts/155994/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> The alliance needs more forces in Poland â and the logistics and enabling capabilities that will allow them to operate&nbsp;effectively. </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/gillian-evans/14531/">BY  Gillian Evans</a>
+                <a
+                  href="/ideas/2019/04/natos-eastern-frontier-lets-not-lose-war-it-starts/155994/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-02 13:42</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+    
+
+
+    
+
+    
+<article class="index-river-article">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="river-anchor with-tags">
+      
+      <div class="river-image">
+        <a href="/ideas/2019/04/3-ways-europe-looking-fraying-nato/155982/?oref=d-river"
+          
+        >
+            <img src="https://cdn.defenseone.com/media/img/upload/2019/04/02/AP_18160261983550/defense-post.jpg" alt="U.S. paratroopers from the 82nd Airborne Division from Fort Bragg in North Carolina take part in &#39;Saber Strike 2018&#39; a major U.S.-led military exercise with 18,000 soldiers from 19 primarily NATO countries outside of Vilnus, Lithuania, June 9, 2018." title="U.S. paratroopers from the 82nd Airborne Division from Fort Bragg in North Carolina take part in &#39;Saber Strike 2018&#39; a major U.S.-led military exercise with 18,000 soldiers from 19 primarily NATO countries outside of Vilnus, Lithuania, June 9, 2018.">
+        </a>
+      </div>
+      <div class="river-right-side">
+      
+        <div class="river-text">
+            
+              <div class="tags with-image">
+                
+                
+                   <a href="/topic/commentary/">Commentary</a>  <a href="/topic/nato/">NATO</a>  <a href="/topic/europe/">Europe</a> 
+                
+              </div>
+            
+            <a
+              href="/ideas/2019/04/3-ways-europe-looking-fraying-nato/155982/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <h3 class="link">3 Ways Europe Is Looking at a Fraying <span class="caps">NATO</span></h3>
+            </a>
+            <a
+              href="/ideas/2019/04/3-ways-europe-looking-fraying-nato/155982/?oref=d-river"
+              class="river-text-for-hover"
+              
+            >
+              <p class="subhead"> A close look at France, Germany, and Poland reveals important divisions in the 70-year-old alliance â and suggests a way&nbsp;forward. </p>
+            </a>
+        </div>
+        <div class="river-authors-and-readnow">
+          
+          <div class="river-authors">
+              <span class="header-author river-author">
+                <a class="author" href="/voices/karen-donfried/14530/">BY Karen Donfried</a>
+                <a
+                  href="/ideas/2019/04/3-ways-europe-looking-fraying-nato/155982/?oref=d-river"
+                  class="river-anchor-bottom"
+                  
+                >
+                  <span class="raquo"><span class="link river">READ NOW</span>&raquo;</span>
+                </a>
+              </span>
+          </div>
+          
+        </div>
+        
+        <span class="date-published" style="display:none;">2019-04-02 10:02</span>
+      </div>
+  </div>
+
+  
+</article>
+    
+  
+
+  
+
+
+    <div id="more_stories"></div>
+
+    <div class="clear"></div>
+    <div class="prefix_4 loadMore river_load_more left vmargin alpha" >
+      <p class="load-more-button-d1-bottom"><a id="river_load_more" href="#">Load more stories</a></p>
+    </div>
+    <div class="prefix_4 loadMore loading left vmargin alpha" id="river_loading">
+      <p>Loading...</p>
+    </div>
+    <div class="">
+      <div class="d1-inline-subscribe-container newsletter homepage">
+  <h4><strong>
+    <span class="d1-inline-subscribe-title-inner homepage">get daily email updates</span>
+  </strong></h4>
+  <div class="d1-inline-subscribe-text homepage">
+    <p><strong><em>Defense One Today</em></strong> will provide news, analysis and ideas for national security leaders and stakeholders</p>
+  </div>
+  
+    
+    
+
+    <form action="/newsletters/subscribe/" method="post" data-form-name="d1-extra-subscribe" class="newsletter-signup" name="defenseform">
+  <input type="hidden" value="d1-homepage" name="newsletter_signup_source" />
+
+  <div class="input-stretch">
+    <input type="text" name="email_address" id="email_address" value="Enter your email">
+  </div>
+
+  <input type="submit" name="Subscribe" value="Subscribe">
+
+  <ul class="d1-extra-newsletters">
+  
+  </ul>
+
+  <input type="hidden" name="newsletter:newsletter_d1_today" value="1" />
+</form>
+
+<script type="text/javascript" src="https://cdn.defenseone.com/a/js/jquery.form.js"></script>
+<script type="text/javascript" src="https://cdn.defenseone.com/a/js/newsletter.form.js?v=8.27.3"></script>
+
+  
+</div>
+    </div>
+
+  </div>
+  <div class="grid_4 sidebar">
+
+    
+  <div
+    
+    class="ad ad-top-block"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidetablet hidemobile"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-desktop"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="300x250,300x600,300x1000"
+        
+        
+        
+          data-ad-targeting='64801204-e706-4c8b-bb65-83ab75646ffb'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['64801204-e706-4c8b-bb65-83ab75646ffb'] = {
+        
+          'pos': [
+            'top-block'
+          ],
+        
+          'level': [
+            '5'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+      <noscript class="ad-noscript">
+        
+          <a href="https://pubads.g.doubleclick.net/gampad/jump?tile=2&amp;sz=300x600%7C300x250%7C300x1000&amp;c=563500876&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26pos%3Dtop-block%26level%3D2">
+            <img src="https://pubads.g.doubleclick.net/gampad/ad?tile=2&amp;sz=300x600%7C300x250%7C300x1000&amp;c=563500876&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26pos%3Dtop-block%26level%3D2"/>
+          </a>
+        
+      </noscript>
+    
+  
+      
+    </div>
+  </div>
+
+
+
+    
+  
+  
+  <div class="sideItem most-read">
+    <h4 class="most-read-title">
+      <span class="most-read-title-text">Most Read</span>
+    </h4>
+    <ol>
+      
+        <li class="most-read-item">
+          <span class="list-index">1</span>
+          <a href="/ideas/2019/04/egypts-dissent-crushing-president-fueling-isis/156035/?oref=d-mostread">
+            <div></div>
+            <span>Egyptâs President Is Crushing Dissent â and Fueling&nbsp;<span class="caps">ISIS</span></span>
+          </a>
+        </li>
+      
+        <li class="most-read-item">
+          <span class="list-index">2</span>
+          <a href="/technology/2019/04/installing-chinese-5g-gear-dangerous-and-probably-inevitable-nato-report/156007/?oref=d-mostread">
+            <div></div>
+            <span>Installing Chinese 5G Gear is Dangerous âÂ and Probably Inevitable: <span class="caps">NATO</span> Center&nbsp;Report</span>
+          </a>
+        </li>
+      
+        <li class="most-read-item">
+          <span class="list-index">3</span>
+          <a href="/technology/2019/03/next-phase-ai-deep-faking-whole-world-and-china-ahead/155944/?oref=d-mostread">
+            <div></div>
+            <span>The Newest <span class="caps">AI</span>-Enabled Weapon: âDeep-Fakingâ Photos of the&nbsp;Earth</span>
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+  
+
+
+    
+  <div
+    
+    class="ad ad-bottom-block"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidetablet hidemobile"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-desktop"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="300x250"
+        
+        
+        
+          data-ad-targeting='fe0d1402-c297-4354-95ce-3949e1dfb2c0'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['fe0d1402-c297-4354-95ce-3949e1dfb2c0'] = {
+        
+          'pos': [
+            'bottom-block'
+          ],
+        
+          'level': [
+            '6'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+      <noscript class="ad-noscript">
+        
+          <a href="https://pubads.g.doubleclick.net/gampad/jump?tile=3&amp;sz=300x250&amp;c=473810798&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26pos%3Dbottom-block%26level%3D3">
+            <img src="https://pubads.g.doubleclick.net/gampad/ad?tile=3&amp;sz=300x250&amp;c=473810798&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26pos%3Dbottom-block%26level%3D3"/>
+          </a>
+        
+      </noscript>
+    
+  
+      
+    </div>
+  </div>
+
+
+
+    <div class="sideItem">
+      
+        
+  <p class="d1-article-sidebar-subscribe-title">
+    <span class="d1-article-sidebar-subscribe-title-text">Subscribe</span>
+  </p>
+  
+    <p class="d1-article-sidebar-subscribe-msg"><em>Receive daily email updates:</em></p>
+    <p class="d1-article-sidebar-subscribe-msg">Subscribe to the Defense One daily.</p>
+    <p class="d1-article-sidebar-subscribe-msg">Be the first to receive updates.</p>
+  
+  
+<form
+  class="d1-article-subscribe"
+  action="/newsletters/subscribe/"
+  method="post"
+  name="defenseform"
+  data-form-name="d1-extra-subscribe"
+>
+  <input type="hidden" name="newsletter_signup_source" value="d1-right-rail"/>
+  <input type="hidden"
+         name="newsletter:newsletter_d1_today"
+         value="1" />
+  <span class="d1-article-subscribe-email-icon gemg-icon icon-ico-email" aria-hidden="true"></span>
+  <input class="d1-article-subscribe-email nl-email-address" name="email_address" type="text"
+         placeholder="Enter your email"/>
+  <input class="d1-article-subscribe-submit" type="submit" name="Subscribe" value="Subscribe">
+</form>
+
+
+      
+    </div>
+
+    
+  
+  
+    <div class="dont-miss sideItem">
+      <h4 class="dont-miss-title">
+        <span class="dont-miss-title-text">Don't Miss</span>
+      </h4>
+      <ul class="dont-miss-section">
+        
+          <li
+            class="dont-miss-item  dont-miss-show
+                   "
+          >
+          <a
+            href="/technology/2019/03/us-military-creating-future-employee-monitoring/155824/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/03/26/Screen_Shot_2019-03-26_at_12.36.00_PM/thumb.png"
+     alt="U.S. Air Force cyber security technicians with the 355th Communications Squadron review work orders at Davis-Monthan Air Force Base Ariz., Sept. 26, 2018."
+     title="U.S. Air Force cyber security technicians with the 355th Communications Squadron review work orders at Davis-Monthan Air Force Base Ariz., Sept. 26, 2018."
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            The <span class="caps">US</span> Military Is Creating the Future of Employee <br>Monitoring
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-show
+                   "
+          >
+          <a
+            href="/threats/2019/03/us-air-force-we-need-5-billion-fix-weather-damaged-bases/155863/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/03/27/AP_19080531229157/thumb.jpg"
+     alt="This March 17, 2019 photo shows an aerial view of Offutt Air Force Base and the surrounding areas affected by flood waters in Neb."
+     title="This March 17, 2019 photo shows an aerial view of Offutt Air Force Base and the surrounding areas affected by flood waters in Neb."
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            <span class="caps">US</span> Air Force Needs $5 Billion To Fix Weather-Damaged&nbsp;Bases
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-show
+                   "
+          >
+          <a
+            href="/ideas/2019/03/us-militarys-infrastructure-crisis-only-getting-worse/155858/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/03/27/180916-M-JQ384-320/thumb.JPG"
+     alt="U.S. Marine Corps Cpl. Cameron D. Touchstone, left, combat engineer, directs traffic across an armored vehicle launch bridge after Hurricane Florence on Marine Corps Base Camp Lejeune, Sept. 16, 2018."
+     title="U.S. Marine Corps Cpl. Cameron D. Touchstone, left, combat engineer, directs traffic across an armored vehicle launch bridge after Hurricane Florence on Marine Corps Base Camp Lejeune, Sept. 16, 2018."
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            The <span class="caps">DOD</span>âs Infrastructure Crisis Is Getting&nbsp;Worse
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-show
+                   "
+          >
+          <a
+            href="/politics/2019/03/2020-dems-are-light-foreign-policy-will-it-matter/155861/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/03/27/AP_19085853009186/thumb.jpg"
+     alt="Former Vice President Joe Biden speaks at the Biden Courage Awards Tuesday, March 26, 2019, in New York."
+     title="Former Vice President Joe Biden speaks at the Biden Courage Awards Tuesday, March 26, 2019, in New York."
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            2020 Dems Are Light on Foreign Policy â But Will It&nbsp;Matter? 
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-show
+                   "
+          >
+          <a
+            href="/technology/2019/03/pentagon-explore-5gs-potential-and-its-made-china-hazards/155812/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/03/25/130815-F-KX404-905_qXFaRNV/thumb.JPG"
+     alt="5G wireless technology might replace older radios like this one operated by two airmen in 2013 at Nellis Air Force Base, Nev. "
+     title="5G wireless technology might replace older radios like this one operated by two airmen in 2013 at Nellis Air Force Base, Nev. "
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            Pentagon To Explore Potential of 5G â and Its Made-in-China&nbsp;Hazards
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-hide
+                   "
+          >
+          <a
+            href="/ideas/2019/02/ep-37-beyond-south-china-sea-tensions-part-one-tinderbox/154753/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/02/08/D1_Podcast_Tile_Final/thumb.jpg"
+     alt=""
+     title=""
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            Beyond South China Sea tensions, part one: The&nbsp;Tinderbox
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-hide
+                   "
+          >
+          <a
+            href="/politics/2019/03/now-what-congress-quiet-after-isis-territorial-defeat/155838/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/03/26/AP_19073577015420/thumb.jpg"
+     alt="From left, Senate Armed Services Committee Chairman Jim Inhofe, R-Okla., Sen. Angus King, I-Maine, and Ranking Member Jack Reed, D-R.I., confer before a hearing on the Pentagon budget, on Capitol Hill in Washington, March 14, 2019."
+     title="From left, Senate Armed Services Committee Chairman Jim Inhofe, R-Okla., Sen. Angus King, I-Maine, and Ranking Member Jack Reed, D-R.I., confer before a hearing on the Pentagon budget, on Capitol Hill in Washington, March 14, 2019."
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            Now What? Congress Quiet after <span class="caps">ISIS</span> Territorial&nbsp;Defeat
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-hide
+                   "
+          >
+          <a
+            href="/technology/2019/03/pentagon-wants-test-space-based-weapon-2023/155581/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/03/14/shutterstock_1196087329/thumb.jpg"
+     alt=""
+     title=""
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            Pentagon Wants to Test A Space-Based Weapon in&nbsp;2023
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-hide
+                   "
+          >
+          <a
+            href="/ideas/2019/03/escalating-air-war-afghanistan-isnt-working/155900/?oref=d-dontmiss"
+            
+            >
+            <div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/03/28/4226465_guYC1fP/thumb.jpg"
+     alt="A U.S. Air Force F-16C Fighting Falcon pilot maneuvers to refuel from a KC-135 Stratotanker over Afghanistan on March 11, 2018."
+     title="A U.S. Air Force F-16C Fighting Falcon pilot maneuvers to refuel from a KC-135 Stratotanker over Afghanistan on March 11, 2018."
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            Escalating the <span class="caps">US</span> Air War in Afghanistan Isnât&nbsp;Working 
+          </a>
+          </li>
+        
+          <li
+            class="dont-miss-item  dont-miss-hide
+                    sponsored"
+          >
+          <a
+            href="http://solutionsformissionsuccess.com/?oref=d-dontmiss"
+            
+              target="_blank"
+            
+            >
+            <div>
+              
+                <div class="sponsored-flag">SPONSOR CONTENT</div>
+              
+              <img src="https://cdn.defenseone.com/media/img/upload/2019/01/14/BAH-sponsoredimage-final2_DU2PokR/thumb.jpg"
+     alt=""
+     title=""
+     
+     height="83" 
+     width="138" 
+/>
+
+
+            </div>
+            Solutions for Mission&nbsp;Success
+          </a>
+          </li>
+        
+      </ul>
+    </div>
+  
+
+
+  </div>
+  <div class="clear"></div>
+  <div class="grid_11 prefix_1 vmargin hidetablet hidemobile">
+    
+  <div
+    
+    class="ad ad-large-rectangle-desktop"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidetablet hidemobile"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-desktop"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="940x470"
+        
+        
+        
+          data-ad-targeting='af892db0-54be-4f72-a13e-d7888d5821a7'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['af892db0-54be-4f72-a13e-d7888d5821a7'] = {
+        
+          'pos': [
+            'large-rectangle-desktop'
+          ],
+        
+          'level': [
+            '7'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+  
+      
+    </div>
+  </div>
+
+
+  </div>
+  <div class="grid_11 prefix_1 vmargin hidedesk hidemobile">
+    
+  <div
+    
+    class="ad ad-large-rectangle-tablet"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidedesk hidemobile"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-tablet"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="700x350"
+        
+        
+        
+          data-ad-targeting='969ffc0d-7441-4b02-ab64-2bb6012e9678'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['969ffc0d-7441-4b02-ab64-2bb6012e9678'] = {
+        
+          'pos': [
+            'large-rectangle-tablet'
+          ],
+        
+          'level': [
+            '8'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+  
+      
+    </div>
+  </div>
+
+
+  </div>
+  <div class="grid_11 prefix_1 vmargin hidedesk hidetablet">
+    
+  <div
+    
+    class="ad ad-large-rectangle-mobile"
+  >
+    <div class="ad-container">
+      
+        
+          <div
+            
+              class="hidedesk hidetablet"
+            
+          >
+            
+    
+      <script
+        class="ad-stub ad-stub-mobile"
+        data-ad-unit="/617/defenseone.com/homepage"
+        data-ad-sizes="300x150,300x250"
+        
+        
+        
+          data-ad-targeting='7ad04af3-8b90-422f-b434-db72f84c701f'
+        
+        
+      >
+      
+        GEMG.GPT.targeting.slot['7ad04af3-8b90-422f-b434-db72f84c701f'] = {
+        
+          'pos': [
+            'large-rectangle-mobile'
+          ],
+        
+          'level': [
+            '9'
+          ]
+        
+        };
+      
+      </script>
+    
+  
+          </div>
+        
+      
+      
+          
+    
+  
+      
+    </div>
+  </div>
+
+
+  </div>
+  <div class="grid_11 prefix_1 vmargin">
+    
+  <div
+    
+    class="ad ad-large-rectangle-desktop"
+  >
+    <div class="ad-container">
+      
+        
+      
+      
+          
+    
+      <noscript class="ad-noscript">
+        
+          <a href="https://pubads.g.doubleclick.net/gampad/jump?tile=4&amp;sz=940x470&amp;c=892876551&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26pos%3Dlarge-rectangle-desktop%26level%3D4">
+            <img src="https://pubads.g.doubleclick.net/gampad/ad?tile=4&amp;sz=940x470&amp;c=892876551&amp;iu=%2F617%2Fdefenseone.com%2Fhomepage&amp;t=noscript%3Dtrue%26referring_domain%3Dwww.defenseone.com%26pos%3Dlarge-rectangle-desktop%26level%3D4"/>
+          </a>
+        
+      </noscript>
+    
+  
+      
+    </div>
+  </div>
+
+
+  </div>
+
+    </div>
+  
+
+  <div class="container_12 footerContainer">
+    <footer class="grid_12">
+      <div class="grid_2 alpha">
+        <a href="/?oref=d-logo" class="footer-logo">Defense One</a>
+      </div>
+      <div class="grid_10 omega">
+        <ul>
+          <li><a href="/about/?oref=footer">About</a></li>
+          <li><a href="/about/contact/?oref=footer">Contact Us</a></li>
+          <li><a href="/events/?oref=footer">Events</a></li>
+          <li><a href="http://www.govexecmediagroup.com/about/#Defense-One1">Advertise</a></li>
+          <li><a href="/about/site-map/?oref=footer">Site Map</a></li>
+          <li><a href="/about/privacy-policy/?oref=footer">Privacy Policy</a></li>
+          <li><a href="/about/terms-and-conditions/?oref=footer">Terms &amp; Conditions</a></li>
+        </ul>
+        <ul>
+          <li><a href="https://www.govexec.com/?oref=d-footer">Government Executive</a></li>
+          <li><a href="https://www.nextgov.com/?oref=d-footer">Nextgov</a></li>
+          <li><a href="https://www.routefifty.com/?oref=d-footer">Route Fifty</a></li>
+          <li><a href="https://qz.com/?oref=d-footer">Quartz</a></li>
+          <li><a href="https://www.nationaljournal.com/?oref=d-footer">National Journal</a></li>
+          <li><a href="https://www.theatlantic.com/?oref=d-footer">The Atlantic</a></li>
+          <li><a href="https://www.citylab.com/?oref=d-footer">CityLab</a></li>
+        </ul>
+        <p>&copy; 2019 by Government Media Executive Group LLC. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+</div>
+
+  
+  <script type="text/javascript">
+  var last_post_date = '2019-04-02 09:29';
+  var posts_per_page = 10;
+  var next_page_path = "/html/index_river_posts/";
+  </script>
+
+
+
+<div id="modal_window">
+	<div id="modal_window_content">
+		<img src="https://cdn.defenseone.com/a/images/ajax-loading.gif" width="32" height="32" alt="Loading..." />
+	</div>
+	<a href="#" class="close_button">
+		<img src="https://cdn.defenseone.com/a/images/close-circle.png" alt="Close window" width="30" height="30" />
+	</a>
+</div>
+
+
+
+
+  
+  <div class="conversion-module-bootstrap">
+  <div class="conversion-module hide">
+    <div class="conversion-module-close">
+      <button class="conversion-module-close-btn close" type="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="conversion-module-nl-signup">
+      
+        
+
+<form
+  class="conversion-module-signup-form"
+  action='/newsletters/subscribe/conversion-module/defense-one-today/'
+  method="post"
+>
+  <fieldset>
+    <legend class="conversion-module-signup-form-title">
+      <span class="conversion-module-signup-form-title-line1">
+        News, analysis, and ideas driving the future of U.S. defense: straight to your inbox.
+      </span>
+      <span class="conversion-module-signup-form-title-line2">
+        <span class="conversion-module-signup-form-title-line2-inner-a">
+          <span class="conversion-module-signup-form-title-line2-inner-b">
+            Sign up for Defense One Today
+          </span>
+        </span>
+      </span>
+    </legend>
+
+    
+
+    
+
+  
+    <input type="hidden" name="source_signup" value="d1-mod-conv-dt" id="conversion-module-nl-source_signup" />
+  
+    <input type="hidden" name="run_through_id" id="conversion-module-nl-run_through_id" />
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-email form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-nl-email"
+  >
+    My email is ...
+  </label>
+  
+    <input id="conversion-module-nl-email" type="text" placeholder="email@example.com" class="form-control input-lg" name="email" />
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-employer form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-nl-employer"
+  >
+    I work for ...
+  </label>
+  
+    <select id="conversion-module-nl-employer" class="form-control input-lg" name="employer">
+<option value="" selected="selected">--select--</option>
+<option value="Department of Defense (Civilian)">Department of Defense (Civilian)</option>
+<option value="Department of Defense (Military)">Department of Defense (Military)</option>
+<option value="Federal Government">Federal Government</option>
+<option value="State/Local Government">State/Local Government</option>
+<option value="Government Contractor">Government Contractor</option>
+<option value="Private Sector">Private Sector</option>
+<option value="Retired">Retired</option>
+</select>
+  
+</div>
+
+  
+
+
+
+    
+  <div class="conversion-module-signup-form-extra_newsletter form-group">
+    
+    <div class="checkbox">
+      <label class="conversion-module-signup-form-label" for="conversion-module-nl-extra_newsletter">
+        <input checked="checked" type="checkbox" name="extra_newsletter" id="conversion-module-nl-extra_newsletter" />
+        <span class="conversion-module-signup-form-label-text">Also get The D Brief, your daily source for insights and analysis of the latest in defense news</span>
+      </label>
+    </div>
+  </div>
+
+
+    <div class="conversion-module-signup-form-submit form-group">
+      <button class="conversion-module-signup-form-submit-btn btn btn-default" type="submit">
+        <span class="conversion-module-signup-form-submit-text">
+          <span class="conversion-module-signup-form-submit-arrow"></span>
+          Sign up
+        </span>
+      </button>
+    </div>
+
+    <a class="conversion-module-signup-form-link" href="/about/privacy-policy/" target="_blank">View Privacy Policy</a>
+
+  </fieldset>
+</form>
+
+      
+    </div>
+    <div class="conversion-module-nl-thankyou hide">
+      
+        
+
+<form
+  class="conversion-module-signup-form"
+  action='/newsletters/subscribe/conversion-module/defense-one-today/thank-you/'
+  method="post"
+>
+  <fieldset>
+    <legend class="conversion-module-signup-form-title">
+      <span class="conversion-module-signup-form-title-line1">
+        Thank You!
+      </span>
+      <span class="conversion-module-signup-form-title-line2">
+        <span class="conversion-module-signup-form-title-line2-inner-a">
+          <span class="conversion-module-signup-form-title-line2-inner-b">
+            Help us tailor content specifically for you:
+          </span>
+        </span>
+      </span>
+    </legend>
+
+    
+
+    
+
+  
+    <input type="hidden" name="source_signup" value="d1-mod-conv-dt" id="conversion-module-thank-you-source_signup" />
+  
+    <input type="hidden" name="run_through_id" id="conversion-module-thank-you-run_through_id" />
+  
+    <input type="hidden" name="email" id="conversion-module-thank-you-email" />
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-full_name form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-full_name"
+  >
+    Full Name
+  </label>
+  
+    <input id="conversion-module-thank-you-full_name" type="text" placeholder="" class="form-control input-lg" name="full_name" />
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-agency_department form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-agency_department"
+  >
+    Agency/Department
+  </label>
+  
+    <select id="conversion-module-thank-you-agency_department" placeholder="" class="form-control input-lg" name="agency_department">
+<option value="" selected="selected">--select--</option>
+<option class="agency-department-civilian-branch" value="Department of the Air Force">Department of the Air Force</option>
+<option class="agency-department-civilian-branch" value="Department of the Army">Department of the Army</option>
+<option class="agency-department-civilian-branch" value="Department of the Navy">Department of the Navy</option>
+<option class="agency-department-civilian-branch" value="Joint Chiefs of Staff">Joint Chiefs of Staff</option>
+<option class="agency-department-civilian-branch" value="National Intelligence Agency">National Intelligence Agency</option>
+<option class="agency-department-civilian-branch" value="Office of the Secretary of Defense">Office of the Secretary of Defense</option>
+<option class="agency-department-civilian-branch" value="Other Defense Agency">Other Defense Agency</option>
+<option class="agency-department-military-branch" value="Air Force">Air Force</option>
+<option class="agency-department-military-branch" value="Army">Army</option>
+<option class="agency-department-military-branch" value="Coast Guard">Coast Guard</option>
+<option class="agency-department-military-branch" value="Navy">Navy</option>
+<option class="agency-department-military-branch" value="Marines">Marines</option>
+<option class="agency-department-federal-government" value="Department of Agriculture">Department of Agriculture</option>
+<option class="agency-department-federal-government" value="Department of Commerce">Department of Commerce</option>
+<option class="agency-department-federal-government" value="Department of Education">Department of Education</option>
+<option class="agency-department-federal-government" value="Department of Energy">Department of Energy</option>
+<option class="agency-department-federal-government" value="Department of HHS">Department of HHS</option>
+<option class="agency-department-federal-government" value="Department of Homeland Security">Department of Homeland Security</option>
+<option class="agency-department-federal-government" value="Department of HUD">Department of HUD</option>
+<option class="agency-department-federal-government" value="Department of Interior">Department of Interior</option>
+<option class="agency-department-federal-government" value="Department of Justice">Department of Justice</option>
+<option class="agency-department-federal-government" value="Department of Labor">Department of Labor</option>
+<option class="agency-department-federal-government" value="Department of State">Department of State</option>
+<option class="agency-department-federal-government" value="Department of Transportation">Department of Transportation</option>
+<option class="agency-department-federal-government" value="Department of Treasury">Department of Treasury</option>
+<option class="agency-department-federal-government" value="Department of Veterans Affairs">Department of Veterans Affairs</option>
+<option class="agency-department-federal-government" value="EPA">EPA</option>
+<option class="agency-department-federal-government" value="Executive Office of the President/Vice President">Executive Office of the President/Vice President</option>
+<option class="agency-department-federal-government" value="Federal Bureau of Investigation">Federal Bureau of Investigation</option>
+<option class="agency-department-federal-government" value="Federal Communications Commission">Federal Communications Commission</option>
+<option class="agency-department-federal-government" value="Federal Trade Commission">Federal Trade Commission</option>
+<option class="agency-department-federal-government" value="GSA">GSA</option>
+<option class="agency-department-federal-government" value="Judiciary Branch">Judiciary Branch</option>
+<option class="agency-department-federal-government" value="Legislative Branch">Legislative Branch</option>
+<option class="agency-department-federal-government" value="NASA">NASA</option>
+<option class="agency-department-federal-government" value="National Institute of Health">National Institute of Health</option>
+<option class="agency-department-federal-government" value="OMB">OMB</option>
+<option class="agency-department-federal-government" value="OPM">OPM</option>
+<option class="agency-department-federal-government" value="SSA">SSA</option>
+<option class="agency-department-federal-government" value="USPS">USPS</option>
+<option class="agency-department-federal-government" value="Other Agency">Other Agency</option>
+<option class="agency-department-state-and-local" value="Government Association">Government Association</option>
+<option class="agency-department-state-and-local" value="County">County</option>
+<option class="agency-department-state-and-local" value="Municipal">Municipal</option>
+<option class="agency-department-state-and-local" value="Special District">Special District</option>
+<option class="agency-department-state-and-local" value="State">State</option>
+</select>
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-organization_function form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-organization_function"
+  >
+    Organization Function
+  </label>
+  
+    <select id="conversion-module-thank-you-organization_function" placeholder="" class="form-control input-lg" name="organization_function">
+<option value="" selected="selected">--select--</option>
+<option value="Elected Official/Legislative/Executive Office">Elected Official/Legislative/Executive Office</option>
+<option value="Environment/Energy">Environment/Energy</option>
+<option value="Finance/Budget">Finance/Budget</option>
+<option value="Health &amp; Human Services">Health &amp; Human Services</option>
+<option value="Public Safety/Emergency Services/Law Enforcement">Public Safety/Emergency Services/Law Enforcement</option>
+<option value="Technology">Technology</option>
+<option value="Transportation/Utilities/Infrastructure">Transportation/Utilities/Infrastructure</option>
+<option value="Other">Other</option>
+</select>
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-organization_name form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-organization_name"
+  >
+    Organization Name
+  </label>
+  
+    <input id="conversion-module-thank-you-organization_name" type="text" placeholder="" class="form-control input-lg" name="organization_name" />
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-job_function form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-job_function"
+  >
+    Job Function
+  </label>
+  
+    <select id="conversion-module-thank-you-job_function" placeholder="" class="form-control input-lg" name="job_function">
+<option value="" selected="selected">--select--</option>
+<option value="Agency Leadership">Agency Leadership</option>
+<option value="Business &amp; Operations">Business &amp; Operations</option>
+<option value="Communications &amp; Marketing">Communications &amp; Marketing</option>
+<option value="Financial/Contract Management">Financial/Contract Management</option>
+<option value="Human Resource Management">Human Resource Management</option>
+<option value="Technology Management">Technology Management</option>
+</select>
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-phone form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-phone"
+  >
+    Phone number
+  </label>
+  
+    <input id="conversion-module-thank-you-phone" type="text" placeholder="" class="form-control input-lg" name="phone" />
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-state_and_zip form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-state_and_zip_0"
+  >
+    Zip code
+  </label>
+  
+    <input id="conversion-module-thank-you-state_and_zip_0" placeholder="" type="text" name="state_and_zip_0" class="form-control input-lg" /><input id="conversion-module-thank-you-state_and_zip_1" placeholder="" type="hidden" name="state_and_zip_1" class="form-control input-lg" />
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-country form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-country"
+  >
+    Country
+  </label>
+  
+    <select id="conversion-module-thank-you-country" placeholder="" class="form-control input-lg" name="country">
+<option value="United States">United States</option>
+<option value="EEA (European Economic Area)">EEA (European Economic Area)</option>
+<option value="Canada">Canada</option>
+<option value="Other">Other</option>
+</select>
+  
+</div>
+
+  
+
+  
+    
+
+<div class="conversion-module-signup-form-country_other form-group">
+  <label
+    class="conversion-module-signup-form-label control-label"
+    for="conversion-module-thank-you-country_other"
+  >
+    Country Name
+  </label>
+  
+    <input id="conversion-module-thank-you-country_other" type="text" placeholder="" class="form-control input-lg" name="country_other" />
+  
+</div>
+
+  
+
+
+
+    
+  <div class="conversion-module-signup-form-optin conversion-module-signup-form-optin-regular form-group">
+    
+    <div class="checkbox">
+      <label class="conversion-module-signup-form-label" for="conversion-module-thank-you-optin">
+        <input checked="checked" type="checkbox" name="optin" id="conversion-module-thank-you-optin" />
+        <span class="conversion-module-signup-form-label-text">Yes, Defense One can email me on behalf of carefully selected companies and organizations.</span>
+      </label>
+    </div>
+  </div>
+  <div class="conversion-module-signup-form-optin conversion-module-signup-form-optin-eea form-group hide">
+    
+    <div class="checkbox">
+      <label class="conversion-module-signup-form-label" for="conversion-module-thank-you-optin_eea">
+        <input type="checkbox" name="optin_eea" id="conversion-module-thank-you-optin_eea" />
+        <span class="conversion-module-signup-form-label-text">
+            I agree to the use of my personal data by Government Executive Media Group and its partners to serve me targeted ads. <a class='conversion-module-learn-more-link' href='/about/privacy-policy/' target='_blank'>Learn more</a>.
+        </span>
+      </label>
+    </div>
+  </div>
+
+
+    <div class="conversion-module-signup-form-submit form-group">
+      <button class="conversion-module-signup-form-submit-btn btn btn-default" type="submit">
+        <span class="conversion-module-signup-form-submit-text">
+          <span class="conversion-module-signup-form-submit-arrow"></span>
+          Submit
+        </span>
+      </button>
+    </div>
+
+    <a class="conversion-module-signup-form-link" href="/about/privacy-policy/" target="_blank">View Privacy Policy</a>
+
+  </fieldset>
+</form>
+
+      
+    </div>
+    
+  </div>
+</div>
+
+  
+
+
+
+  
+    <script
+  src="//ak.sail-horizon.com/onsite/personalize.v0.0.4.min.js"
+  type="text/javascript"
+  
+></script>
+  
+
+
+
+  
+    <!-- Google Code for Remarketing Tag -->
+<!--
+Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. See more information and instructions on how to setup the tag on: http://google.com/ads/remarketingsetup
+-->
+<script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 962442471;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/962442471/?value=0&amp;guid=ON&amp;script=0"/>
+    </div>
+</noscript>
+    
+      <script type="text/javascript">
+_linkedin_data_partner_id = "41412";
+</script><script type="text/javascript">
+(function(){var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})();
+</script>
+    
+  
+
+
+<script>
+
+  GEMG.GPT.body.init();
+
+</script>
+
+
+  
+<script type="text/javascript">
+$(function() {
+  GEMG.SessionCoach.init("//shared.govexec.com", false);
+});
+</script>
+
+
+
+
+  <div class="cookie-policy hide">
+  <div class="cookie-policy-close">
+    <button class="cookie-policy-close-btn close" type="button" aria-label="Close">
+      <span aria-hidden="true">Ã</span>
+    </button>
+  </div>
+  <div class="cookie-policy-text">
+    Defense One uses cookies for analytics and personalization. By continuing to use this site, you agree to our use of cookies. Read our <a class="cookie-policy-link" href="/about/privacy-policy/">Privacy Policy</a> to find out more.
+  </div>
+</div>
+  <script>
+    $(document).ready(function() {
+        GEMG.CookiePolicy.init();
+    });
+  </script>
+
+
+
+
+</body>
+</html>
+
+
+#####EOF#####
+
+

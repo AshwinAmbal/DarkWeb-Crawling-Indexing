@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={xpid:"VQQAVVBaARAHXVNXAQEHXw=="};window.NREUM||(NREUM={}),__nr_require=function(t,n,e){function r(e){if(!n[e]){var o=n[e]={exports:{}};t[e][0].call(o.exports,function(n){var o=t[e][1][n];return r(o||n)},o,o.exports)}return n[e].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<e.length;o++)r(e[o]);return r}({1:[function(t,n,e){function r(t){try{s.console&&console.log(t)}catch(n){}}var o,i=t("ee"),a=t(16),s={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(s.console=!0,o.indexOf("dev")!==-1&&(s.dev=!0),o.indexOf("nr_dev")!==-1&&(s.nrDev=!0))}catch(c){}s.nrDev&&i.on("internal-error",function(t){r(t.stack)}),s.dev&&i.on("fn-err",function(t,n,e){r(e.stack)}),s.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(s,function(t,n){return t}).join(", ")))},{}],2:[function(t,n,e){function r(t,n,e,r,s){try{p?p-=1:o(s||new UncaughtException(t,n,e),!0)}catch(f){try{i("ierr",[f,c.now(),!0])}catch(d){}}return"function"==typeof u&&u.apply(this,a(arguments))}function UncaughtException(t,n,e){this.message=t||"Uncaught error with no additional information",this.sourceURL=n,this.line=e}function o(t,n){var e=n?null:c.now();i("err",[t,e])}var i=t("handle"),a=t(17),s=t("ee"),c=t("loader"),f=t("gos"),u=window.onerror,d=!1,l="nr@seenError",p=0;c.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(h){"stack"in h&&(t(8),t(7),"addEventListener"in window&&t(5),c.xhrWrappable&&t(9),d=!0)}s.on("fn-start",function(t,n,e){d&&(p+=1)}),s.on("fn-err",function(t,n,e){d&&!e[l]&&(f(e,l,function(){return!0}),this.thrown=!0,o(e))}),s.on("fn-end",function(){d&&!this.thrown&&p>0&&(p-=1)}),s.on("internal-error",function(t){i("ierr",[t,c.now(),!0])})},{}],3:[function(t,n,e){t("loader").features.ins=!0},{}],4:[function(t,n,e){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(8),s=t(7),c="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",d="bstResource",l="resource",p="-start",h="-end",m="fn"+p,v="fn"+h,w="bstTimer",y="pushState",g=t("loader");g.features.stn=!0,t(6);var b=NREUM.o.EV;o.on(m,function(t,n){var e=t[0];e instanceof b&&(this.bstStart=g.now())}),o.on(v,function(t,n){var e=t[0];e instanceof b&&i("bst",[e,n,this.bstStart,g.now()])}),a.on(m,function(t,n,e){this.bstStart=g.now(),this.bstType=e}),a.on(v,function(t,n){i(w,[n,this.bstStart,g.now(),this.bstType])}),s.on(m,function(){this.bstStart=g.now()}),s.on(v,function(t,n){i(w,[n,this.bstStart,g.now(),"requestAnimationFrame"])}),o.on(y+p,function(t){this.time=g.now(),this.startPath=location.pathname+location.hash}),o.on(y+h,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+c]?window.performance[f](u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["c"+c]()},!1):window.performance[f]("webkit"+u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["webkitC"+c]()},!1)),document[f]("scroll",r,{passive:!0}),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],5:[function(t,n,e){function r(t){for(var n=t;n&&!n.hasOwnProperty(u);)n=Object.getPrototypeOf(n);n&&o(n)}function o(t){s.inPlace(t,[u,d],"-",i)}function i(t,n){return t[1]}var a=t("ee").get("events"),s=t(19)(a,!0),c=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";n.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,n){var e=t[1],r=c(e,"nr@wrapped",function(){function t(){if("function"==typeof e.handleEvent)return e.handleEvent.apply(e,arguments)}var n={object:t,"function":e}[typeof e];return n?s(n,"fn-",null,n.name||"anonymous"):e});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],6:[function(t,n,e){var r=t("ee").get("history"),o=t(19)(r);n.exports=r,o.inPlace(window.history,["pushState","replaceState"],"-")},{}],7:[function(t,n,e){var r=t("ee").get("raf"),o=t(19)(r),i="equestAnimationFrame";n.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],8:[function(t,n,e){function r(t,n,e){t[0]=a(t[0],"fn-",null,e)}function o(t,n,e){this.method=e,this.timerDuration=isNaN(t[1])?0:+t[1],t[0]=a(t[0],"fn-",this,e)}var i=t("ee").get("timer"),a=t(19)(i),s="setTimeout",c="setInterval",f="clearTimeout",u="-start",d="-";n.exports=i,a.inPlace(window,[s,"setImmediate"],s+d),a.inPlace(window,[c],c+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(c+u,r),i.on(s+u,o)},{}],9:[function(t,n,e){function r(t,n){d.inPlace(n,["onreadystatechange"],"fn-",s)}function o(){var t=this,n=u.context(t);t.readyState>3&&!n.resolved&&(n.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,y,"fn-",s)}function i(t){g.push(t),h&&(x?x.then(a):v?v(a):(E=-E,O.data=E))}function a(){for(var t=0;t<g.length;t++)r([],g[t]);g.length&&(g=[])}function s(t,n){return n}function c(t,n){for(var e in t)n[e]=t[e];return n}t(5);var f=t("ee"),u=f.get("xhr"),d=t(19)(u),l=NREUM.o,p=l.XHR,h=l.MO,m=l.PR,v=l.SI,w="readystatechange",y=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],g=[];n.exports=u;var b=window.XMLHttpRequest=function(t){var n=new p(t);try{u.emit("new-xhr",[n],n),n.addEventListener(w,o,!1)}catch(e){try{u.emit("internal-error",[e])}catch(r){}}return n};if(c(p,b),b.prototype=p.prototype,d.inPlace(b.prototype,["open","send"],"-xhr-",s),u.on("send-xhr-start",function(t,n){r(t,n),i(n)}),u.on("open-xhr-start",r),h){var x=m&&m.resolve();if(!v&&!m){var E=1,O=document.createTextNode(E);new h(a).observe(O,{characterData:!0})}}else f.on("fn-end",function(t){t[0]&&t[0].type===w||a()})},{}],10:[function(t,n,e){function r(t){var n=this.params,e=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<d;r++)t.removeEventListener(u[r],this.listener,!1);if(!n.aborted){if(e.duration=a.now()-this.startTime,4===t.readyState){n.status=t.status;var i=o(t,this.lastSize);if(i&&(e.rxSize=i),this.sameOrigin){var c=t.getResponseHeader("X-NewRelic-App-Data");c&&(n.cat=c.split(", ").pop())}}else n.status=0;e.cbTime=this.cbTime,f.emit("xhr-done",[t],t),s("xhr",[n,e,this.startTime])}}}function o(t,n){var e=t.responseType;if("json"===e&&null!==n)return n;var r="arraybuffer"===e||"blob"===e||"json"===e?t.response:t.responseText;return h(r)}function i(t,n){var e=c(n),r=t.params;r.host=e.hostname+":"+e.port,r.pathname=e.pathname,t.sameOrigin=e.sameOrigin}var a=t("loader");if(a.xhrWrappable){var s=t("handle"),c=t(11),f=t("ee"),u=["load","error","abort","timeout"],d=u.length,l=t("id"),p=t(14),h=t(13),m=window.XMLHttpRequest;a.features.xhr=!0,t(9),f.on("new-xhr",function(t){var n=this;n.totalCbs=0,n.called=0,n.cbTime=0,n.end=r,n.ended=!1,n.xhrGuids={},n.lastSize=null,p&&(p>34||p<10)||window.opera||t.addEventListener("progress",function(t){n.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,n){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&n.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,n){var e=this.metrics,r=t[0],o=this;if(e&&r){var i=h(r);i&&(e.txSize=i)}this.startTime=a.now(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof n.onload))&&o.end(n)}catch(e){try{f.emit("internal-error",[e])}catch(r){}}};for(var s=0;s<d;s++)n.addEventListener(u[s],this.listener,!1)}),f.on("xhr-cb-time",function(t,n,e){this.cbTime+=t,n?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof e.onload||this.end(e)}),f.on("xhr-load-added",function(t,n){var e=""+l(t)+!!n;this.xhrGuids&&!this.xhrGuids[e]&&(this.xhrGuids[e]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,n){var e=""+l(t)+!!n;this.xhrGuids&&this.xhrGuids[e]&&(delete this.xhrGuids[e],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,n){n instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],n)}),f.on("removeEventListener-end",function(t,n){n instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],n)}),f.on("fn-start",function(t,n,e){n instanceof m&&("onload"===e&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=a.now()))}),f.on("fn-end",function(t,n){this.xhrCbStart&&f.emit("xhr-cb-time",[a.now()-this.xhrCbStart,this.onload,n],n)})}},{}],11:[function(t,n,e){n.exports=function(t){var n=document.createElement("a"),e=window.location,r={};n.href=t,r.port=n.port;var o=n.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=n.hostname||e.hostname,r.pathname=n.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!n.protocol||":"===n.protocol||n.protocol===e.protocol,a=n.hostname===document.domain&&n.port===e.port;return r.sameOrigin=i&&(!n.hostname||a),r}},{}],12:[function(t,n,e){function r(){}function o(t,n,e){return function(){return i(t,[f.now()].concat(s(arguments)),n?null:this,e),n?void 0:this}}var i=t("handle"),a=t(16),s=t(17),c=t("ee").get("tracer"),f=t("loader"),u=NREUM;"undefined"==typeof window.newrelic&&(newrelic=u);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],l="api-",p=l+"ixn-";a(d,function(t,n){u[n]=o(l+n,!0,"api")}),u.addPageAction=o(l+"addPageAction",!0),u.setCurrentRouteName=o(l+"routeName",!0),n.exports=newrelic,u.interaction=function(){return(new r).get()};var h=r.prototype={createTracer:function(t,n){var e={},r=this,o="function"==typeof n;return i(p+"tracer",[f.now(),t,e],r),function(){if(c.emit((o?"":"no-")+"fn-start",[f.now(),r,o],e),o)try{return n.apply(this,arguments)}catch(t){throw c.emit("fn-err",[arguments,this,t],e),t}finally{c.emit("fn-end",[f.now()],e)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,n){h[n]=o(p+n)}),newrelic.noticeError=function(t,n){"string"==typeof t&&(t=new Error(t)),i("err",[t,f.now(),!1,n])}},{}],13:[function(t,n,e){n.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(n){return}}}},{}],14:[function(t,n,e){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),n.exports=r},{}],15:[function(t,n,e){function r(t,n){if(!o)return!1;if(t!==o)return!1;if(!n)return!0;if(!i)return!1;for(var e=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==e[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var s=navigator.userAgent,c=s.match(a);c&&s.indexOf("Chrome")===-1&&s.indexOf("Chromium")===-1&&(o="Safari",i=c[1])}n.exports={agent:o,version:i,match:r}},{}],16:[function(t,n,e){function r(t,n){var e=[],r="",i=0;for(r in t)o.call(t,r)&&(e[i]=n(r,t[r]),i+=1);return e}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],17:[function(t,n,e){function r(t,n,e){n||(n=0),"undefined"==typeof e&&(e=t?t.length:0);for(var r=-1,o=e-n||0,i=Array(o<0?0:o);++r<o;)i[r]=t[n+r];return i}n.exports=r},{}],18:[function(t,n,e){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],19:[function(t,n,e){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(17),a="nr@original",s=Object.prototype.hasOwnProperty,c=!1;n.exports=function(t,n){function e(t,n,e,o){function nrWrapper(){var r,a,s,c;try{a=this,r=i(arguments),s="function"==typeof e?e(r,a):e||{}}catch(f){l([f,"",[r,a,o],s])}u(n+"start",[r,a,o],s);try{return c=t.apply(a,r)}catch(d){throw u(n+"err",[r,a,d],s),d}finally{u(n+"end",[r,a,c],s)}}return r(t)?t:(n||(n=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,n,o,i){o||(o="");var a,s,c,f="-"===o.charAt(0);for(c=0;c<n.length;c++)s=n[c],a=t[s],r(a)||(t[s]=e(a,f?s+o:o,i,s))}function u(e,r,o){if(!c||n){var i=c;c=!0;try{t.emit(e,r,o,n)}catch(a){l([a,e,r,o])}c=i}}function d(t,n){if(Object.defineProperty&&Object.keys)try{var e=Object.keys(t);return e.forEach(function(e){Object.defineProperty(n,e,{get:function(){return t[e]},set:function(n){return t[e]=n,n}})}),n}catch(r){l([r])}for(var o in t)s.call(t,o)&&(n[o]=t[o]);return n}function l(n){try{t.emit("internal-error",n)}catch(e){}}return t||(t=o),e.inPlace=f,e.flag=a,e}},{}],ee:[function(t,n,e){function r(){}function o(t){function n(t){return t&&t instanceof r?t:t?c(t,s,i):i()}function e(e,r,o,i){if(!l.aborted||i){t&&t(e,r,o);for(var a=n(o),s=m(e),c=s.length,f=0;f<c;f++)s[f].apply(a,r);var d=u[g[e]];return d&&d.push([b,e,r,a]),a}}function p(t,n){y[t]=m(t).concat(n)}function h(t,n){var e=y[t];if(e)for(var r=0;r<e.length;r++)e[r]===n&&e.splice(r,1)}function m(t){return y[t]||[]}function v(t){return d[t]=d[t]||o(e)}function w(t,n){f(t,function(t,e){n=n||"feature",g[e]=n,n in u||(u[n]=[])})}var y={},g={},b={on:p,addEventListener:p,removeEventListener:h,emit:e,get:v,listeners:m,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(u.api||u.feature)&&(l.aborted=!0,u=l.backlog={})}var s="nr@context",c=t("gos"),f=t(16),u={},d={},l=n.exports=o();l.backlog=u},{}],gos:[function(t,n,e){function r(t,n,e){if(o.call(t,n))return t[n];var r=e();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(t,n,e){function r(t,n,e,r){o.buffer([t],r),o.emit(t,n,e)}var o=t("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(t,n,e){function r(t){var n=typeof t;return!t||"object"!==n&&"function"!==n?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");n.exports=r},{}],loader:[function(t,n,e){function r(){if(!E++){var t=x.info=NREUM.info,n=p.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&n))return u.abort();f(g,function(n,e){t[n]||(t[n]=e)}),c("mark",["onload",a()+x.offset],null,"api");var e=p.createElement("script");e.src="https://"+t.agent,n.parentNode.insertBefore(e,n)}}function o(){"complete"===p.readyState&&i()}function i(){c("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(s=Math.max((new Date).getTime(),s))-x.offset}var s=(new Date).getTime(),c=t("handle"),f=t(16),u=t("ee"),d=t(15),l=window,p=l.document,h="addEventListener",m="attachEvent",v=l.XMLHttpRequest,w=v&&v.prototype;NREUM.o={ST:setTimeout,SI:l.setImmediate,CT:clearTimeout,XHR:v,REQ:l.Request,EV:l.Event,PR:l.Promise,MO:l.MutationObserver};var y=""+location,g={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=v&&w&&w[h]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:s,now:a,origin:y,features:{},xhrWrappable:b,userAgent:d};t(12),p[h]?(p[h]("DOMContentLoaded",i,!1),l[h]("load",r,!1)):(p[m]("onreadystatechange",o),l[m]("onload",r)),c("mark",["firstbyte",s],null,"api");var E=0,O=t(18)},{}]},{},["loader",2,10,4,3]);</script>
+	<meta name="msapplication-config" content="none"/>
+	<meta name="ab-version" content="v4.10.0"/>
+
+	<title>
+		   Pulse Secure	</title>
+	
+	<meta name='robots' content='noindex,follow' />
+			<link id="favicon" rel="shortcut icon" type="image/png" href="https://pulsesecure.allbound.com/wp-content/themes/allbound4.0/images/favicon.png"> 
+		<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel='stylesheet' id='wp-block-library-css'  href='https://pulsesecure.allbound.com/wp-includes/css/dist/block-library/style.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='SearchAutocomplete-theme-css'  href='https://pulsesecure.allbound.com/wp-content/plugins/search-autocomplete/css/aristo/jquery-ui-aristo.min.css?ver=1.9.2' type='text/css' media='all' />
+<link rel='stylesheet' id='roboto-css'  href='https://fonts.googleapis.com/css?family=Roboto%3A400%2C300%2C700%2C500%2C400italic&#038;ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='theme_style-css'  href='https://pulsesecure.allbound.com/wp-content/themes/allbound4.0/css/ab_style.min.css?ver=5.1.1' type='text/css' media='all' />
+<script type='text/javascript'>ajaxurl='https://pulsesecure.allbound.com/wp-admin/admin-ajax.php';pf_nonce='4e17629356';</script><script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-content/themes/allbound4.0/js/script.min.js?ver=4.8.6.14'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/tweetie-v4/tweetie.js?ver=5.1.1'></script>
+<link rel='https://api.w.org/' href='https://pulsesecure.allbound.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://pulsesecure.allbound.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://pulsesecure.allbound.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.1.1" />
+<script type="text/javascript">
+	window._se_plugin_version = '8.1.9';
+</script>
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->	
+	    
+<!-- WalkMe Script -->
+
+    <script type="text/javascript">(function() {var walkme = document.createElement('script'); walkme.type = 'text/javascript'; walkme.async = true; walkme.src = 'https://cdn.walkme.com/users/3d7b7eb7e530452e8cdce0b52109279d/walkme_3d7b7eb7e530452e8cdce0b52109279d_https.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(walkme, s); window._walkmeConfig = {smartLoad:true}; })();</script>
+
+<!-- End WalkMe Script -->
+
+<!-- Instana Tracking Agent -->
+<script>
+    (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//eum.instana.io/eum.min.js','ineum');
+    ineum('reportingUrl', 'https://eum-us-west-2.instana.io');
+    ineum('key', 'bbaU5HG4RP-SkXw3kfH35Q');
+    ineum('meta', "environment", 'prod');
+</script>
+<!-- End Instana -->	
+	<style>.dashboard_btns_container a {background-color: #307dc0 !important;}
+.dashboard_btns_container a:hover, .dashboard_btns_container a:active {background-color: #5bbb47 !important;}
+
+.btn:link, .btn:visited {background-color: #5bbb47;}
+.btn:hover, .btn:active {background-color: #307dc0;}
+
+.menu_main li.menu-dashboard a span {
+     background-image: url("https://s3-us-west-2.amazonaws.com/ab-media-prod-01/vidyard-ab/2017/06/1498178209_home_house_real_estate.png");
+} "
+
+.menu_main li.menu-dashboard a:hover span {
+  background-image: url("https://s3-us-west-2.amazonaws.com/ab-media-prod-01/quium-ab/2018/06/QLogo1-e1527859709976.png");
+}
+
+.menu_main li.menu-dashboard a span::before {display: none;}
+
+.stat_prospect .stat_number {background-color: #307dc0;}
+.stat_deals .stat_number {background-color:  #5bbb47;}
+.stat_training .stat_number {background-color:  #5bbb47;}
+.stat_social .stat_number {background-color:  #17222c;}
+
+
+.join_button, .join_button:hover {background: #3f464e !important;}
+.join_button, .join_button:active a {background: #307dc0 !important;}    
+
+.ab_widget_nav li a:hover {background: #307dc0;}
+.ab_widget_nav li.active a {background: #5bbb47;}
+
+/* Hide Contents & Resources posts (to be unhidden by JS) */
+body.post-type-archive-engage .main_content { display: none; }
+
+
+/* Need Help */
+.header-trouble{
+    margin-top: 10px;
+    color: #34a2dc;
+}</style>
+	
+</head>
+
+<body class="home blog prod">
+
+
+
+
+<style>.dashboard_btns_container a {background-color: #307dc0 !important;}
+.dashboard_btns_container a:hover, .dashboard_btns_container a:active {background-color: #5bbb47 !important;}
+
+.btn:link, .btn:visited {background-color: #5bbb47;}
+.btn:hover, .btn:active {background-color: #307dc0;}
+
+.menu_main li.menu-dashboard a span {
+     background-image: url("https://s3-us-west-2.amazonaws.com/ab-media-prod-01/vidyard-ab/2017/06/1498178209_home_house_real_estate.png");
+} "
+
+.menu_main li.menu-dashboard a:hover span {
+  background-image: url("https://s3-us-west-2.amazonaws.com/ab-media-prod-01/quium-ab/2018/06/QLogo1-e1527859709976.png");
+}
+
+.menu_main li.menu-dashboard a span::before {display: none;}
+
+.stat_prospect .stat_number {background-color: #307dc0;}
+.stat_deals .stat_number {background-color:  #5bbb47;}
+.stat_training .stat_number {background-color:  #5bbb47;}
+.stat_social .stat_number {background-color:  #17222c;}
+
+
+.join_button, .join_button:hover {background: #3f464e !important;}
+.join_button, .join_button:active a {background: #307dc0 !important;}    
+
+.ab_widget_nav li a:hover {background: #307dc0;}
+.ab_widget_nav li.active a {background: #5bbb47;}
+
+/* Hide Contents & Resources posts (to be unhidden by JS) */
+body.post-type-archive-engage .main_content { display: none; }
+
+
+/* Need Help */
+.header-trouble{
+    margin-top: 10px;
+    color: #34a2dc;
+}</style>
+
+
+
+<!-- auto populates the email on the user registration form -->
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+        
+    	// injects the 'Request An Account' button on the main login form
+	$('<a class="um_button join_button" style="margin-top: 10px;" href="javascript:void(0);">Request An Account</a>').insertAfter('.main_login form .um_login_button');
+        	// animate the signup box on the login page
+	$('.join_button').click(function() {
+		//$(this).toggleClass('join_button').toggleClass('signin_now_button');
+		$('.signin_now').removeClass('hidden');
+		$('.join_now').removeClass('hidden');
+		$('.login_box').addClass('hidden');
+		$('#signup_form').removeClass('hidden');
+		$('#email_form:not(.no_show)').removeClass('hidden');
+	});
+
+	$('.signin_now a').click(function() {
+		//$(this).toggleClass('.join_button').toggleClass('.signin_now_button');
+		$('#signup_form, .signin_now').toggleClass('hidden');
+		$('.login_box').removeClass('hidden');
+	});
+
+	$('.already_registered a').click(function() {
+		$('#signup_form, .already_registered').addClass('hidden');
+		$('.login_box').removeClass('hidden');
+	});
+
+	$('#um_login_email').submit(function( event ) {
+		event.preventDefault();
+
+		// Validate current form
+		$(this).validate();
+
+		if($(this).valid() === true){
+			jQuery.ajax(
+				{
+					url: APPLICATION_URL,
+					async: false,
+					data: { action: 'ab_check_user_email', email: $('#user_email_lookup').val() },
+					type: "POST",
+					success: function(response){
+                        result = jQuery.parseJSON(response);
+						//log successful
+						console.log(result);
+						if(result.option == '-1'){
+							$('.company_domain').removeClass('hidden');
+						} else if(result.option == '1') {
+							// user already has an account, make them sign in
+							$('.already_registered').removeClass('hidden');
+							$('.signin_now').addClass('hidden');
+							$('.join_now').addClass('hidden');
+							$('#email_form').addClass('hidden');
+						} else if(result.option == '2') {
+							// domain for user recognized, register user
+                            var url = "?view=user-registration&select="+result.domain+"&email="+result.email;
+                                                        							location.href=url;
+						} else if (result.option == '3') {
+                            $('.signin_now').removeClass('hidden');
+                            $('.um_login_form').append("<div class='pf_ajax_result'><div class='pf_error'><strong>ERROR</strong>: The company you are trying to register with is no longer active.</div></div>");
+                        } else {
+                            var option = result.option;
+                            if (option !== 0 && option.indexOf('4_') > -1) {
+                                var companyIdSplit = option.split('_');
+                                var companyId = companyIdSplit[1];
+                                var url = '?selected=' + companyId + '&view=user-registration&email=' + result.email;
+                                                                                                location.href = url;
+                            } else {
+                                // domain for user not recognized, register new company
+                                var url = "?view=company-registration&email=" + result.email;
+                                                                                                location.href = url;
+                            }
+						}
+					},
+					error: function (request, status, error) {
+						return 0;
+					}
+				});
+		}
+
+	});
+
+	var input_email = $("#um_form_userregistration [name=user_email]");
+	input_email.attr("readonly", true);
+})
+</script>
+
+
+
+	<section class="home_login" style="background-image: url(https://ab-media-prod-01.s3.us-west-2.amazonaws.com/pulsesecure-ab/2018/10/Login_900x600.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJZV3NWBNHZ7IKINQ%2F20190404%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20190404T174759Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=6255587dc59d1b6413c21b932423576ceda99add742eccd35b8eb6f906aca2b9)">
+
+	<div class="home_credentials">		
+
+
+	<div class="credentials_content">
+
+		<div class="credentials_header">
+							<a href="/"><img class="login_logo" src="https://ab-media-prod-01.s3.us-west-2.amazonaws.com/pulsesecure-ab/2019/01/PS-Access-Now-Partner-Program-logo.png?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJZV3NWBNHZ7IKINQ%2F20190404%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20190404T174759Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=7b7b506231ef934930671d6e3a39960c0fc1589434f94a216901746b2536bd8e" alt="Pulse Secure"></a>
+					</div><!-- credentials_header -->
+		
+	<div class="login_box main_login">
+				
+		<h1>Login To Get Started</h1><p>Enter your credentials below or request an account.</p>			
+             
+                                    <a class="um_button btn_idp" href="/?idp=1">Login with Partner</a>
+                                    <a class="um_button btn_idp" href="/?idp=2">Login with Pulse Employee</a>
+                                                    <br />
+                                        
+					
+
+		
+	</div><!-- login_box -->
+	
+	<div id="signup_form">
+		
+		<h1 class="signin_now hidden">Request an Account</h1>
+		<p class="signin_now hidden">Already have an account? <a href="javascript:void(0);" class="">Click here to login</a>.</p>
+		<h1 class="already_registered hidden">Already Registered</h1>
+		<p class="already_registered hidden">Looks like you already have an account. <a href="javascript:void(0);">Click here to login.</a></p>
+
+		<p class="company_domain hidden">Sorry, you'll need to register with your company email address.</p>
+		
+		<div id="email_form" class="regform hidden">
+			<form id="um_login_email" class="um_login_form validate" action="#">
+				<p>
+					<label class="pf_label">Enter your company email</label>
+					<input id="user_email_lookup" name="user_email" class="um_login_field um_input required" type="email"/>
+				</p>
+				<p><input type="submit" value="Next &rsaquo;" class="um_login_button"/></p>
+			</form>
+		</div><!-- email_form -->
+   
+	</div><!-- signup_form -->
+	
+	
+		
+			<div class="login_footer">
+	&copy; 2019 Pulse Secure. All rights reserved.<br />
+	All work within this platform is copyright of respective owner. <span class="ab_version">v4.10.0</span>	
+</div><!-- login_footer -->	
+		</div><!-- credentials_content -->
+	
+	</div><!-- home_credentials -->
+
+</section><!-- home_login -->
+
+
+
+	<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/ui/core.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/ui/widget.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/ui/position.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/ui/menu.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/wp-a11y.min.js?ver=5.1.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var uiAutocompleteL10n = {"noResults":"No results found.","oneResult":"1 result found. Use up and down arrow keys to navigate.","manyResults":"%d results found. Use up and down arrow keys to navigate.","itemSelected":"Item selected."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/ui/autocomplete.min.js?ver=1.11.4'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var SearchAutocomplete = {"ajaxurl":"https:\/\/pulsesecure.allbound.com\/wp-admin\/admin-ajax.php","fieldName":"[name=\"s\"]","minLength":"3","delay":"10","autoFocus":"false"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-content/plugins/search-autocomplete/js/search-autocomplete.js?ver=1.0.0'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/ui/mouse.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/ui/sortable.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/jquery/ui/datepicker.min.js?ver=1.11.4'></script>
+<script type='text/javascript'>
+jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeText":"Close","currentText":"Today","monthNames":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthNamesShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"nextText":"Next","prevText":"Previous","dayNames":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"dayNamesShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"dayNamesMin":["S","M","T","W","T","F","S"],"dateFormat":"MM d, yy","firstDay":1,"isRTL":false});});
+</script>
+<script type='text/javascript' src='https://pulsesecure.allbound.com/wp-includes/js/wp-embed.min.js?ver=5.1.1'></script>
+	
+	<script style="text/javascript">
+jQuery(document).ready(function($) {
+
+jQuery('.btn_idp').each(function(){
+   jQuery(this).html(jQuery(this).html().replace('Login with', 'Login as a'));
+});
+jQuery('.login_box.main_login > p:first').html("<br>To directly log into Advanced Partner Center (APC), click <a href='https://pulsesecure.okta.com/home/netsuite/0oaf7uwwmxIqyOOhj0y6/82' target='_blank'>here</a> <br>Not a Partner? Sign-up <a href='https://partners-prev.pulsesecure.net/signup/' target='_blank'>here</a> <hr> Click one of the options below to Sign In.");
+
+// customize favicon
+  $('head').append('<link id="favicon" rel="shortcut icon" type="image/png" href="https://s3-us-west-2.amazonaws.com/ab-media-prod-01/pulsesecure-ab/2018/08/psfavi4.jpg" />');
+
+/* Show Contents & Resources posts when filter is applied */
+
+// if on Content & Resources
+if ($('body').hasClass('post-type-archive-engage')) {
+	// if 'filtered' in GET params, show contents
+	if (window.location.search.indexOf('filtered') != -1) {
+		$('.main_content').show();
+	}
+}
+
+/*-- Add href to user profile page to link to their SSO reset pw --*/
+
+var resetPw = '<div class="um_field_container" style="margin: 15px 0; font-size: 1.2rem; line-height: 1.4rem; width: 500px"><strong><a href="https://pulsesecure.okta.com/enduser/settings" target="_blank">To change your password, please click on this link!</a></strong></div>';
+
+$('#um_field_34_userprofile').after(resetPw);
+
+$('.home_credentials .login_box').append('<a href="https://partners-prev.pulsesecure.net/passwdChange.php" target="_blank"><strong>Forgot Partner Password</strong></a><br><br>');
+
+/* Need Help */
+$('.login_footer').prepend('<a class="login-trouble" href="mailto:partners@pulsesecure.net">Having trouble logging in?</a></br>');
+$('.header_search').after('<div class="header-trouble"><h5><a href="mailto:partners@pulsesecure.net">Need Help?</a></h5></div>');
+
+});
+</script>	
+		
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"b22677c821","applicationID":"79256009","transactionName":"bgYEbBZVV0dRVhFbDldMJ1sQXVZaH1wLVgRB","queueTime":0,"applicationTime":742,"atts":"QkETGl5PRBgSVEcIGkQe","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
+
+
+#####EOF#####
+
+

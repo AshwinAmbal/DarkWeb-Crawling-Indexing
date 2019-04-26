@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <meta content='#2f3241' name='theme-color' />
+
+  <meta property="og:type" content="website" />
+
+    <title>Documentation | Electron</title>
+    <meta property="og:title" content="Documentation | Electron" />
+    <meta name="twitter:title" value="Documentation | Electron" />
+
+
+    <meta property="og:description" content="Guides and API reference documentation for the latest Electron release" />
+    <meta name="twitter:description" value="Guides and API reference documentation for the latest Electron release" />
+
+    <meta name="twitter:card" content="summary">
+
+  <!-- consumed by scripts/get-localized-strings -->
+  <meta name="localized.clipboard.copy" content="Copy" />
+  <meta name="localized.clipboard.copy_to_clipboard" content="Copy to Clipboard" />
+  <meta name="localized.clipboard.copied" content="Copied" />
+
+  <meta name="twitter:site" content="@ElectronJS" />
+  <link rel='shortcut icon' href='/images/favicon.ico'/>
+  <link rel="alternate" type="application/rss+xml" title="Electron Blog" href="https://electronjs.org/blog.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Electron Releases" href="https://electronjs.org/releases.xml" />
+  <link rel='stylesheet' href='/styles/index.css'>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-3769691-57', 'auto');
+    ga('send', 'pageview');
+  </script>
+</head>
+  <body>
+    <header class="site-header">
+  <div class="container">
+
+    <a class="site-header-logo no-underline-hover" href="/">
+      <svg class="site-header-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g stroke="none" fill="none" fill-rule="evenodd">
+          <path class="svg-stroke" d="M11.7014354,7.72646259 C7.91761319,7.04380371 4.81334929,7.69369948 3.61536899,9.74908711 C2.72656361,11.27402 3.03878853,13.3122813 4.27551338,15.4489979 M6.32642733,18.1886712 C7.89193828,19.8928217 9.9666792,21.548102 12.4120986,22.9466461 C18.2414315,26.2804624 24.2930499,27.0779063 27.1669222,25.1368228 M29.8456419,24.0565148 C29.8456419,23.1971812 29.1423799,22.5005537 28.2748621,22.5005537 C27.4073444,22.5005537 26.7040823,23.1971812 26.7040823,24.0565148 C26.7040823,24.9158484 27.4073444,25.612476 28.2748621,25.612476 C29.1423799,25.612476 29.8456419,24.9158484 29.8456419,24.0565148 L29.8456419,24.0565148 Z"></path>
+          <path class="svg-stroke" d="M26.1017264,17.699802 C28.5790274,14.8008665 29.5563892,11.8210699 28.3609038,9.7699627 C27.4866535,8.27000212 25.5971843,7.51855661 23.1692624,7.48727915 M19.6970573,7.86083838 C17.4054295,8.34719767 14.8948834,9.30454988 12.424266,10.7175048 C6.42288792,14.1497143 2.65401611,19.1281832 3.16552768,22.580522 M3.68501877,25.612476 C4.5525365,25.612476 5.25579857,24.9158484 5.25579857,24.0565148 C5.25579857,23.1971812 4.5525365,22.5005537 3.68501877,22.5005537 C2.81750104,22.5005537 2.11423897,23.1971812 2.11423897,24.0565148 C2.11423897,24.9158484 2.81750104,25.612476 3.68501877,25.612476 L3.68501877,25.612476 L3.68501877,25.612476 Z"></path>
+          <path class="svg-stroke" d="M10.1856596,25.0699995 C11.480995,28.6529192 13.5999849,30.9876144 15.99422,30.9876144 C17.7292778,30.9876144 19.3197869,29.7615184 20.5570359,27.7228112 M22.0509221,24.3364015 C22.7373456,22.1635452 23.1341282,19.5948285 23.1341282,16.8425133 C23.1341282,10.0879866 20.7444131,4.43922457 17.5485944,3.03357113 M15.99422,4.25337326 C16.8617378,4.25337326 17.5649998,3.55674574 17.5649998,2.69741214 C17.5649998,1.83807854 16.8617378,1.14145101 15.99422,1.14145101 C15.1267023,1.14145101 14.4234402,1.83807854 14.4234402,2.69741214 C14.4234402,3.55674574 15.1267023,4.25337326 15.99422,4.25337326 Z"></path>
+          <path class="svg-fill" d="M16.2975137,18.2334955 C15.5219407,18.3994908 14.7578457,17.9112502 14.5899415,17.142994 C14.4226932,16.3747378 14.9152558,15.6178512 15.6908287,15.451531 C16.4664016,15.2855357 17.2304967,15.7737763 17.3984009,16.5420325 C17.5659771,17.3102887 17.0730866,18.0671753 16.2975137,18.2334955 Z"></path>
+        </g>
+      </svg>
+      <svg class="vertical-middle" width="156px" height="18px" viewBox="0 0 156 18" xmlns="http://www.w3.org/2000/svg">
+        <title>Electron</title>
+        <path stroke="none" fill="currentColor" fill-rule="evenodd" d="M0.93602403,17.0884387 L11.4962951,17.0884387 C11.9763075,17.0884387 12.3603173,16.7044288 12.3603173,16.2244165 C12.3603173,15.7444042 11.9763075,15.3603943 11.4962951,15.3603943 L1.89604868,15.3603943 L1.89604868,9.48024338 L10.2962643,9.48024338 C10.7762767,9.48024338 11.1602865,9.09623352 11.1602865,8.6162212 C11.1602865,8.16020949 10.7762767,7.75219902 10.2962643,7.75219902 L1.89604868,7.75219902 L1.89604868,2.01605176 L11.3762921,2.01605176 C11.8563044,2.01605176 12.2403142,1.6320419 12.2403142,1.15202958 C12.2403142,0.672017252 11.8563044,0.288007394 11.3762921,0.288007394 L0.93602403,0.288007394 C0.432011091,0.288007394 0,0.720018485 0,1.24803204 L0,16.1284141 C0,16.6564276 0.432011091,17.0884387 0.93602403,17.0884387 L0.93602403,17.0884387 Z M19.0804898,16.1284141 C19.0804898,16.6564276 19.5125009,17.0884387 20.0165139,17.0884387 L29.6887622,17.0884387 C30.1687745,17.0884387 30.5527844,16.7044288 30.5527844,16.2244165 C30.5527844,15.7444042 30.1687745,15.3363937 29.6887622,15.3363937 L20.9765385,15.3363937 L20.9765385,1.12802896 C20.9765385,0.600015404 20.5445274,0.168004313 20.0165139,0.168004313 C19.5125009,0.168004313 19.0804898,0.600015404 19.0804898,1.12802896 L19.0804898,16.1284141 Z M37.8729723,17.0884387 L48.4332434,17.0884387 C48.9132557,17.0884387 49.2972656,16.7044288 49.2972656,16.2244165 C49.2972656,15.7444042 48.9132557,15.3603943 48.4332434,15.3603943 L38.8329969,15.3603943 L38.8329969,9.48024338 L47.2332126,9.48024338 C47.7132249,9.48024338 48.0972348,9.09623352 48.0972348,8.6162212 C48.0972348,8.16020949 47.7132249,7.75219902 47.2332126,7.75219902 L38.8329969,7.75219902 L38.8329969,2.01605176 L48.3132403,2.01605176 C48.7932526,2.01605176 49.1772625,1.6320419 49.1772625,1.15202958 C49.1772625,0.672017252 48.7932526,0.288007394 48.3132403,0.288007394 L37.8729723,0.288007394 C37.3689593,0.288007394 36.9369483,0.720018485 36.9369483,1.24803204 L36.9369483,16.1284141 C36.9369483,16.6564276 37.3689593,17.0884387 37.8729723,17.0884387 L37.8729723,17.0884387 Z M63.6976353,17.3764461 C66.4577061,17.3764461 68.2817529,16.4164214 69.9377955,14.9043826 C70.1057998,14.7603789 70.2498035,14.5203728 70.2498035,14.2323654 C70.2498035,13.7523531 69.8177924,13.320342 69.3377801,13.320342 C69.0977739,13.320342 68.8817684,13.440345 68.7377647,13.5843487 C67.2977277,14.9043826 65.8336901,15.6244011 63.7456365,15.6244011 C60.0495416,15.6244011 57.2414695,12.5763229 57.2414695,8.68822305 L57.2414695,8.64022181 C57.2414695,4.77612261 60.025541,1.75204498 63.7456365,1.75204498 C65.8096895,1.75204498 67.2737271,2.5200647 68.5697603,3.67209427 C68.713764,3.76809674 68.9297696,3.88809982 69.1937764,3.88809982 C69.6977893,3.88809982 70.153801,3.45608873 70.153801,2.95207579 C70.153801,2.61606716 69.9617961,2.35206038 69.7697911,2.18405607 C68.2097511,0.888022798 66.4817067,0 63.7696371,0 C58.8255102,0 55.273419,3.93610105 55.273419,8.68822305 L55.273419,8.73622428 C55.273419,13.5603481 58.8495108,17.3764461 63.6976353,17.3764461 L63.6976353,17.3764461 Z M81.1700838,16.2484171 C81.1700838,16.7764307 81.6020949,17.2084418 82.1301085,17.2084418 C82.658122,17.2084418 83.0901331,16.7764307 83.0901331,16.2484171 L83.0901331,2.04005237 L87.9622582,2.04005237 C88.4422705,2.04005237 88.850281,1.65604251 88.850281,1.17603019 C88.850281,0.696017868 88.4422705,0.288007394 87.9622582,0.288007394 L76.2979587,0.288007394 C75.8179464,0.288007394 75.4099359,0.696017868 75.4099359,1.17603019 C75.4099359,1.65604251 75.8179464,2.04005237 76.2979587,2.04005237 L81.1700838,2.04005237 L81.1700838,16.2484171 Z M95.2824461,16.2484171 C95.2824461,16.7764307 95.7144572,17.2084418 96.2184701,17.2084418 C96.7464837,17.2084418 97.1784948,16.7764307 97.1784948,16.2484171 L97.1784948,10.5602711 L102.002619,10.5602711 L106.73074,16.7044288 C106.946746,16.9924362 107.234753,17.2084418 107.618763,17.2084418 C108.098775,17.2084418 108.578787,16.7764307 108.578787,16.2724177 C108.578787,16.008411 108.458784,15.7924054 108.266779,15.5763999 L104.090672,10.2002619 C106.706739,9.69624892 108.578787,8.08820764 108.578787,5.32813679 L108.578787,5.28013555 C108.578787,3.96010166 108.098775,2.78407147 107.282754,1.96805052 C106.226727,0.912023414 104.570685,0.288007394 102.506632,0.288007394 L96.2184701,0.288007394 C95.7144572,0.288007394 95.2824461,0.720018485 95.2824461,1.24803204 L95.2824461,16.2484171 Z M97.1784948,8.85622736 L97.1784948,2.04005237 L102.362628,2.04005237 C105.074698,2.04005237 106.658738,3.28808441 106.658738,5.3521374 L106.658738,5.40013863 C106.658738,7.56019409 104.858692,8.85622736 102.338627,8.85622736 L97.1784948,8.85622736 Z M123.435169,17.3764461 C128.5473,17.3764461 132.027389,13.320342 132.027389,8.68822305 L132.027389,8.64022181 C132.027389,4.0081029 128.595301,0 123.48317,0 C118.371039,0 114.89095,4.05610413 114.89095,8.68822305 L114.89095,8.73622428 C114.89095,13.3683432 118.323038,17.3764461 123.435169,17.3764461 L123.435169,17.3764461 Z M123.48317,15.6244011 C119.643072,15.6244011 116.859,12.504321 116.859,8.68822305 L116.859,8.64022181 C116.859,4.82412385 119.59507,1.75204498 123.435169,1.75204498 C127.275267,1.75204498 130.059339,4.87212508 130.059339,8.68822305 L130.059339,8.73622428 C130.059339,12.5523222 127.323269,15.6244011 123.48317,15.6244011 L123.48317,15.6244011 Z M139.035569,16.2724177 C139.035569,16.7764307 139.44358,17.2084418 139.947593,17.2084418 C140.475606,17.2084418 140.883617,16.7764307 140.883617,16.2724177 L140.883617,3.2640838 L151.299884,16.5844258 C151.587892,16.9204344 151.875899,17.1604405 152.283909,17.1604405 L152.379912,17.1604405 C152.883925,17.1604405 153.243934,16.7764307 153.243934,16.2724177 L153.243934,1.10402834 C153.243934,0.600015404 152.835924,0.168004313 152.331911,0.168004313 C151.803897,0.168004313 151.395887,0.600015404 151.395887,1.10402834 L151.395887,13.7763537 L141.195625,0.768019717 C140.931618,0.432011091 140.667611,0.216005545 140.2356,0.216005545 L139.971593,0.216005545 C139.46758,0.216005545 139.035569,0.648016636 139.035569,1.15202958 L139.035569,16.2724177 Z"></path>
+      </svg>
+    </a>
+
+    <nav class="site-header-nav">
+      <a class="site-header-nav-item" href="/donors">Donors</a>
+      <a class="site-header-nav-item" href="/apps">Apps</a>
+      <a class="site-header-nav-item" href="/docs">Docs</a>
+      <a class="site-header-nav-item" href="/blog">Blog</a>
+      <a class="site-header-nav-item" href="/community">Community</a>
+      <!-- <a class="site-header-nav-item" href="/userland">Userland</a> -->
+      <a class="site-header-nav-item" href="/governance">Governance</a>
+      <a class="site-header-nav-item" data-href-match="/releases" href="/releases/stable">Releases</a>
+      <input id="search-input" class="nav-search" placeholder="Search" aria-label="search-box" />
+      <!-- <img id="search-hint" alt="image of backslash shorcut" src="https://assets-cdn.github.com/images/search-shortcut-hint.svg" /> -->
+      <!-- <dialog id="search-hint-dialog" open>
+        <div class="dialog-text">Search for Electron APIs, tutorials, npm packages, and apps.</div>
+        <button class="dialog-button">OK</button>
+      </dialog> -->
+      <a class="site-header-nav-item octicon" href="https://github.com/electron" title="Github Organization">
+        <span class="mega-octicon octicon-mark-github vertical-middle"></span>
+      </a>
+      <a class="site-header-nav-item bordered lang-select-button" href="/languages">English</a>
+    </nav>
+  </div>
+</header>
+
+<div id="languages-header-menu" class="container collapsed">
+  <div class="m-4">
+    <div class="text-center-sm mb-4">
+      <strong>Choose Your Site Language</strong>
+    </div>
+    <div class="clearfix">
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/en-US">
+              English
+          </a>
+          </b> <span class="faint"><span class="octicon octicon-check mr-1"></span></span>
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/ja-JP">
+              æ¥æ¬èª (Japanese)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/es-ES">
+              EspaÃ±ol (Spanish)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/zh-CN">
+              ä¸­æ (Chinese Simplified)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/tr-TR">
+              TÃ¼rkÃ§e (Turkish)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/id-ID">
+              Indonesian
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/fil-PH">
+              Filipino
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/fr-FR">
+              FranÃ§ais (French)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/ko-KR">
+              íêµ­ì´ (Korean)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/ru-RU">
+              Ð ÑÑÑÐºÐ¸Ð¹ (Russian)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/it-IT">
+              Italiano (Italian)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/pt-BR">
+              PortuguÃªs (Portuguese)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/de-DE">
+              Deutsch (German)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/uk-UA">
+              Ð£ÐºÑÐ°ÑÐ½ÑÑÐºÐ° (Ukrainian)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/zh-TW">
+              ä¸­æ (Chinese Traditional)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/pl-PL">
+              jÄzyk polski (Polish)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/bg-BG">
+              Ð±ÑÐ»Ð³Ð°ÑÑÐºÐ¸ ÐµÐ·Ð¸Ðº (Bulgarian)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/hi-IN">
+              à¤¹à¤¿à¤¨à¥à¤¦à¥ (Hindi)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/nl-NL">
+              Nederlands (Dutch)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/vi-VN">
+              Tiáº¿ng Viá»t (Vietnamese)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/ar-SA">
+              Ø§ÙÙØºØ© Ø§ÙØ¹Ø±Ø¨ÙØ© (Arabic)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/fa-IR">
+              ÙØ§Ø±Ø³Û (Persian)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/he-IL">
+              ×¢××¨××ª (Hebrew)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/cs-CZ">
+              ÄeÅ¡tina (Czech)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/th-TH">
+              à¹à¸à¸¢ (Thai)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/ro-RO">
+              limba romÃ¢nÄ (Romanian)
+          </a>
+          
+        </div>
+        <div class="text-center-sm col-6 col-md-4 mb-2">
+          <a href="/languages/tl-PH">
+              Wikang Tagalog (Tagalog)
+          </a>
+          
+        </div>
+    </div>
+    <hr>
+    <div class="text-center-sm">
+      <a href="/languages">View More Language Details</a>
+    </div>
+  </div>
+</div>
+    <div class='subtron'>
+  <div class='container-narrow'>
+    <h1><span class="mr-3 mr-lg-4">Electron Documentation</span><span class="docs-version">4.1.4</span></h1>
+    <p class="lead mb-3">See all of the <a href="/docs/all">docs on one page</a> or check out the <a href="/docs/faq">FAQ</a>.</p>
+  </div>
+</div>
+<section class='page-section'>
+  <div class='docs-container-xl'>
+    <div class="grid">
+      <div class="row">
+
+        <div class="col-ms-12 col-lg-3">
+          <h2 class="docs-heading pb-3 mb-3"><a class="docs-title" href="/docs/tutorial"><span class="mega-octicon octicon-book pr-3"></span>Guides</a></h2>
+          <ul class="docs-list">
+                <li>
+                  <a href="/docs/tutorial/about">About Electron</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/accessibility">Accessibility</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/app-feedback-program">Electron App Feedback Program</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/application-architecture">Electron Application Architecture</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/application-debugging">Application Debugging</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/application-distribution">Application Distribution</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/application-packaging">Application Packaging</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/automated-testing-with-a-custom-driver">Automated Testing with a Custom Driver</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/boilerplates-and-clis">Boilerplates and CLIs</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/code-signing">Code Signing</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/debugging-main-process">Debugging the Main Process</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/debugging-main-process-vscode">Debugging the Main Process in VSCode</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/desktop-environment-integration">Desktop Environment Integration</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/development-environment">Developer Environment</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/devtools-extension">DevTools Extension</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/electron-timelines">5.0.0 Release Schedule</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/electron-versioning">Electron Versioning</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/first-app">Writing Your First Electron App</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/in-app-purchases">In-App Purchase (macOS)</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/installation">Installation</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/keyboard-shortcuts">Keyboard Shortcuts</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/linux-desktop-actions">Custom Linux Desktop Launcher Actions</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/mac-app-store-submission-guide">Mac App Store Submission Guide</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/macos-dock">MacOS Dock</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/mojave-dark-mode-guide">Mojave Dark Mode</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/multithreading">Multithreading</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/native-file-drag-drop">Native File Drag &amp; Drop</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/notifications">Notifications (Windows, Linux, macOS)</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/offscreen-rendering">Offscreen Rendering</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/online-offline-events">Online/Offline Event Detection</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/progress-bar">Progress Bar in Taskbar (Windows, macOS, Unity)</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/quick-start">Quick Start</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/recent-documents">Recent Documents (Windows &amp; macOS)</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/repl">REPL</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/represented-file">Represented File for macOS BrowserWindows</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/security">Security, Native Capabilities, and Your Responsibility</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/snapcraft">Snapcraft Guide (Ubuntu Software Center &amp; More)</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/support">Electron Support</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/supported-platforms"></a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/testing-on-headless-ci">Testing on Headless CI Systems (Travis CI, Jenkins)</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/testing-widevine-cdm">Testing Widevine CDM</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/updates">Updating Applications</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/using-native-node-modules">Using Native Node Modules</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/using-pepper-flash-plugin">Using Pepper Flash Plugin</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/using-selenium-and-webdriver">Using Selenium and WebDriver</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/windows-store-guide">Windows Store Guide</a>
+                </li>
+                <li>
+                  <a href="/docs/tutorial/windows-taskbar">Windows Taskbar</a>
+                </li>
+          </ul>
+        </div>
+
+        <div class="col-ms-12 col-lg-3">
+          <h2 class="docs-heading pb-3 mb-3"><a class="docs-title" href="/docs/api"><span class="mega-octicon octicon-gear pr-3"></span>API Reference</a></h2>
+            <ul class="docs-list">
+                  <li>
+                    <a href="/docs/api/accelerator">Accelerator</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/app">app</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/auto-updater">autoUpdater</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/breaking-changes">API Contract</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/browser-view">BrowserView</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/browser-window">BrowserWindow</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/browser-window-proxy">BrowserWindowProxy</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/chrome-command-line-switches">Supported Chrome Command Line Switches</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/client-request">ClientRequest</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/clipboard">clipboard</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/content-tracing">contentTracing</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/cookies">Cookies</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/crash-reporter">crashReporter</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/debugger">Debugger</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/desktop-capturer">desktopCapturer</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/dialog">dialog</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/download-item">DownloadItem</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/environment-variables">Environment Variables</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/file-object">File Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/frameless-window">Frameless Window</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/global-shortcut">globalShortcut</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/in-app-purchase">inAppPurchase</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/incoming-message">IncomingMessage</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/ipc-main">ipcMain</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/ipc-renderer">ipcRenderer</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/locales">Locales</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/menu">Menu</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/menu-item">MenuItem</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/native-image">nativeImage</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/net">net</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/net-log">netLog</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/notification">Notification</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/power-monitor">powerMonitor</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/power-save-blocker">powerSaveBlocker</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/process">process</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/protocol">protocol</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/remote">remote</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/sandbox-option">sandbox Option</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/screen">screen</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/session">session</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/shell">shell</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/synopsis">Synopsis</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/system-preferences">systemPreferences</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar">TouchBar</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-button">TouchBarButton</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-color-picker">TouchBarColorPicker</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-group">TouchBarGroup</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-label">TouchBarLabel</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-popover">TouchBarPopover</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-scrubber">TouchBarScrubber</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-segmented-control">TouchBarSegmentedControl</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-slider">TouchBarSlider</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/touch-bar-spacer">TouchBarSpacer</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/tray">Tray</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/web-contents">webContents</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/web-frame">webFrame</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/web-request">WebRequest</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/webview-tag">&lt;webview&gt; Tag</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/window-open">window.open Function</a>
+                  </li>
+            </ul>
+        </div>
+
+        <div class="col-ms-12 col-lg-3">
+          <h2 class="docs-heading pb-3 mb-3"><a class="docs-title" href="/docs/api/structures"><span class="mega-octicon octicon-beaker pr-3"></span>API Structures</a></h2>
+            <ul class="docs-list">
+                  <li>
+                    <a href="/docs/api/structures/bluetooth-device">BluetoothDevice Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/certificate">Certificate Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/certificate-principal">CertificatePrincipal Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/cookie">Cookie Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/cpu-usage">CPUUsage Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/crash-report">CrashReport Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/desktop-capturer-source">DesktopCapturerSource Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/display">Display Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/file-filter">FileFilter Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/gpu-feature-status">GPUFeatureStatus Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/io-counters">IOCounters Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/jump-list-category">JumpListCategory Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/jump-list-item">JumpListItem Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/memory-info">MemoryInfo Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/memory-usage-details">MemoryUsageDetails Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/mime-typed-buffer">MimeTypedBuffer Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/notification-action">NotificationAction Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/point">Point Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/printer-info">PrinterInfo Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/process-metric">ProcessMetric Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/product">Product Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/rectangle">Rectangle Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/referrer">Referrer Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/remove-client-certificate">RemoveClientCertificate Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/remove-password">RemovePassword Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/scrubber-item">ScrubberItem Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/segmented-control-segment">SegmentedControlSegment Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/shortcut-details">ShortcutDetails Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/size">Size Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/stream-protocol-response">StreamProtocolResponse Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/task">Task Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/thumbar-button">ThumbarButton Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/trace-categories-and-options">TraceCategoriesAndOptions Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/trace-config">TraceConfig Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/transaction">Transaction Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/upload-blob">UploadBlob Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/upload-data">UploadData Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/upload-file">UploadFile Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/upload-raw-data">UploadRawData Object</a>
+                  </li>
+                  <li>
+                    <a href="/docs/api/structures/web-source">WebSource Object</a>
+                  </li>
+            </ul>
+        </div>
+
+        <div class="col-ms-12 col-lg-3">
+          <h2 class="docs-heading pb-3 mb-3"><a class="docs-title" href="/docs/development"><span class="mega-octicon octicon-tools pr-3"></span>Advanced</a></h2>
+          <ul class="docs-list">
+                <li>
+                  <a href="/docs/development/atom-shell-vs-node-webkit">Technical Differences Between Electron and NW.js (formerly node-webkit)</a>
+                </li>
+                <li>
+                  <a href="/docs/development/build-instructions-gn">Build Instructions</a>
+                </li>
+                <li>
+                  <a href="/docs/development/build-instructions-linux">Build Instructions (Linux)</a>
+                </li>
+                <li>
+                  <a href="/docs/development/build-instructions-macos">Build Instructions (macOS)</a>
+                </li>
+                <li>
+                  <a href="/docs/development/build-instructions-windows">Build Instructions (Windows)</a>
+                </li>
+                <li>
+                  <a href="/docs/development/build-system-overview">Build System Overview</a>
+                </li>
+                <li>
+                  <a href="/docs/development/chromium-development">Chromium Development</a>
+                </li>
+                <li>
+                  <a href="/docs/development/clang-format">Using clang-format on C++ Code</a>
+                </li>
+                <li>
+                  <a href="/docs/development/coding-style">Coding Style</a>
+                </li>
+                <li>
+                  <a href="/docs/development/debug-instructions-windows">Debugging on Windows</a>
+                </li>
+                <li>
+                  <a href="/docs/development/debugging-instructions-macos">Debugging on macOS</a>
+                </li>
+                <li>
+                  <a href="/docs/development/debugging-instructions-macos-xcode">Debugging with XCode</a>
+                </li>
+                <li>
+                  <a href="/docs/development/issues">Issues In Electron</a>
+                </li>
+                <li>
+                  <a href="/docs/development/pull-requests">Pull Requests</a>
+                </li>
+                <li>
+                  <a href="/docs/development/README">Developing Electron</a>
+                </li>
+                <li>
+                  <a href="/docs/development/releasing">Releasing</a>
+                </li>
+                <li>
+                  <a href="/docs/development/setting-up-symbol-server">Setting Up Symbol Server in Debugger</a>
+                </li>
+                <li>
+                  <a href="/docs/development/source-code-directory-structure">Source Code Directory Structure</a>
+                </li>
+                <li>
+                  <a href="/docs/development/testing">Testing</a>
+                </li>
+                <li>
+                  <a href="/docs/development/upgrading-chromium">Upgrading Chromium</a>
+                </li>
+                <li>
+                  <a href="/docs/development/upgrading-crashpad">Upgrading Crashpad</a>
+                </li>
+                <li>
+                  <a href="/docs/development/upgrading-node">Upgrading Node</a>
+                </li>
+                <li>
+                  <a href="/docs/development/v8-development">V8 Development</a>
+                </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-section page-section-spacious">
+  <p class="text-center">
+      <a href="/docs/all">All Docs on One Page</a>
+      or
+    <a href="/docs/faq">See the frequently asked questions</a>.
+  </p>
+</section>
+
+    <div id="hits">
+      <div class="hits-container" id="api-hits" title="APIs"></div>
+      <div class="hits-container" id="tutorial-hits" title="Tutorials"></div>
+      <div class="hits-container" id="package-hits" title="Packages"></div>
+      <div class="hits-container" id="app-hits" title="Apps"></div>
+    </div>
+    <div id="refinement-list"></div>
+    <footer class="footer PRIMER-REMOVE-ME">
+  <div class="container-xl p-responsive">
+    <nav class="footer-nav">
+      <a class="footer-nav-item" href="/">Electron</a>
+      <a class="footer-nav-item" href="/docs">Docs</a>
+      <a class="footer-nav-item" href="/blog">Blog</a>
+      <a class="footer-nav-item" href="/community">Community</a>
+      <a class="footer-nav-item" href="/apps">Apps</a>
+      <a class="footer-nav-item" href="/releases/stable">Releases</a>
+      <a class="footer-nav-item" href="https://github.com/electron/electron/tree/master/CODE_OF_CONDUCT.md">Code of Conduct</a>
+      <a class="footer-nav-item" href="https://github.com/electron/electron/tree/master/LICENSE">License</a>
+      <a class="footer-nav-item" href="https://github.com/electron/electron/tree/master/SECURITY.md">Security</a>
+      <a class="footer-nav-item" href="/languages">Languages</a>
+      <a class="footer-nav-item" href="/contact">Contact</a>
+    </nav>
+
+    <span class="footer-social">
+      <a class="footer-nav-item icon" href="https://github.com/electron" title="Github Organization"><span class="mega-octicon octicon-mark-github vertical-middle"></span></a>
+      <a class="footer-nav-item icon" href="https://twitter.com/electronjs" title="@electronjs on Twitter"><span class="devicon-twitter-plain vertical-middle"></span></a>
+    </span>
+  </div>
+</footer>
+    <script>
+  var anchorForId = function (id) {
+    var anchor = document.createElement("a");
+    anchor.className = "header-link";
+    anchor.href      = "#" + id;
+    anchor.innerHTML = "<span class='octicon octicon-link'></span>";
+    anchor.title = "Permalink";
+    return anchor;
+  };
+
+  var linkifyAnchors = function (level, containingElement) {
+    var headers = containingElement.getElementsByTagName("h" + level);
+    for (var h = 0; h < headers.length; h++) {
+      var header = headers[h];
+
+      if (typeof header.id !== "undefined" && header.id !== "") {
+        header.appendChild(anchorForId(header.id));
+      }
+    }
+  };
+
+  document.onreadystatechange = function () {
+    if (this.readyState === "complete") {
+      var contentBlock = document.getElementsByClassName("docs")[0] || document.getElementsByClassName("news")[0];
+      if (!contentBlock) {
+        return;
+      }
+      for (var level = 1; level <= 6; level++) {
+        linkifyAnchors(level, contentBlock);
+      }
+    }
+  };
+</script>
+    <div id="kb-shortcut-dialog" class="kb-shortcut docs-container-lg">
+  <div class="kb-shortcut-content">
+    <div class="kb-shortcut-header">
+      <span class="octicon octicon-x close"></span>
+      <h2>Keyboard Shortcuts</h2>
+    </div>
+    <div class="kb-shortcut-body">
+      <table class="table-ruled">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>/</kbd></td>
+            <td>Focus the search bar</td>
+          </tr>
+          <tr>
+            <td><kbd>Esc</kbd></td>
+            <td>Focus the search bar and cleans it</td>
+          </tr>
+          <tr>
+            <td><kbd>â</kbd></td>
+            <td>Select the next search result</td>
+          </tr>
+          <tr>
+            <td><kbd>â</kbd></td>
+            <td>Select the previous search result</td>
+          </tr>
+          <tr>
+            <td><kbd>Enter</kbd></td>
+            <td>Open the selected search result</td>
+          </tr>
+          <tr>
+            <td class="no-wrap darwin-only"><kbd>cmd</kbd><kbd>Enter</kbd></td>
+            <td class="no-wrap win32-only linux-only"><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td>
+            <td>Open the selected search result in a new tab</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+    <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister()
+        }
+      })
+    }
+    </script>
+    <script src="/scripts/index.js"></script>
+  </body>
+</html>
+
+
+
+#####EOF#####
+
+

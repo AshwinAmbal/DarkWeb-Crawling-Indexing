@@ -1,0 +1,936 @@
+<!DOCTYPE html><!--[if lt IE 9]>
+<html ng-controller="MainController" class="no-js">
+<![endif]--><!--[if gte IE 9]>
+<html ng-controller="MainController" class="no-js" ng-app="naibcApp">
+<![endif]--><!--[if !IE]> --> <html ng-controller=MainController class=no-js ng-app=naibcApp> <!-- <![endif]--> <head> <meta http-equiv=X-UA-Compatible content="IE=edge"> <meta charset=utf-8> <meta name=viewport content="width=device-width"> <base href="/"> <title translate=global.title></title> <link rel=P3Pv1 href=/w3c/p3p.xml type=text/xml> <link rel="shortcut icon" href=/favicon.ico type=image/x-icon> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Oswald:400,300,700"> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Gudea:400,700,400italic"> <link rel=stylesheet href=/styles/f2e2d05b.vendor-home.css> <link rel=stylesheet href=/styles/e80717da.home.css> <!--[if lte IE 8]>
+	<style>.navbar-collapse{ display: none !important; }</style>
+	<!--<![endif]--> <!--[if lte IE 8]>
+	<script src="/scripts/6e3bf06e.shiv-home.js"></script>
+	<!--<![endif]--> <!-- Determine the theme on the server and set a variable to determine it at runtime. --> <script type=text/javascript src=/theme></script> </head> <body class="client-{{ client }}" ng-class="{'is-admin': isAuthorized(userRoles.admin)}" ng-cloak> <div class=loading-overlay ng-hide=hideOverlay></div> <div class="navbar navbar-default" role=navigation> <div class=container> <div class=navbar-title> <a href="/"> <span translate>global.title</span> </a> </div> <div class=navbar-header> <button type=button class=navbar-toggle data-toggle=collapse data-target=#navbar-collapse> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <span class="language-menu language-menu__mobile"> <span ng-if="client === 'daa'" class="dropdown nav navbar-nav navbar-right"> <a data-toggle=dropdown><span class="glyphicon glyphicon-globe language-menu__icon" aria-hidden=true></span></a> <ul class=dropdown-menu> <li> <a ng-hide="theme==='daac' && lang==='fr'" href="" ng-click="changeLanguage('daac', 3,'fr')">FranÃ§ais Canadien</a> <a ng-hide="theme==='daac' && lang==='en'" href="" ng-click="changeLanguage('daac', 3,'en')">Canadian English</a> <a ng-hide="theme==='apda'" href="" ng-click="changeLanguage('apda', 4,'es')">EspaÃ±ol Latinoamericano</a> <a ng-hide="theme==='daa' && lang==='en'" href="" ng-click="changeLanguage('daa', 2, 'en')">US English</a> <a ng-hide="theme==='daa' && lang==='es'" href="" ng-click="changeLanguage('daa', 2, 'es')">EspaÃ±ol de Estados Unidos</a> </li> </ul> </span> </span> <a class=navbar-brand ng-href="{{ logoLink }}"> <img ng-src="{{'global.imageUrls.navLogo' | translate}}" alt="{{ 'global.logoAlt' | translate }}"> </a> </div> <div class="collapse navbar-collapse" id=navbar-collapse ng-switch=authenticated> <ul class="nav navbar-nav navbar-right external-links"> <li ng-switch-when=false class=dropdown> <button type=button class=dropdown-toggle data-toggle=dropdown> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <ul class=dropdown-menu> <li> <a translate href="{{'global.menu.external.protectMyChoicesLink' | translate}}" target=_blank>global.menu.external.protectMyChoices</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.understandingHowOnlineAdvertisingWorksLink' | translate}}" target=_blank>global.menu.external.understandingHowOnlineAdvertisingWorks</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.frequentlyAskedQuestionsLink' | translate}}" target=_blank>global.menu.external.frequentlyAskedQuestions</a> <a translate href="{{'global.menu.external.visitYourAdChoicesLink' | translate}}" target=_blank>global.menu.external.visitYourAdChoices</a> <a translate href="{{'global.menu.external.daaPrinciplesLink' | translate}}" target=_blank>global.menu.external.daaPrinciples</a> <a translate href="{{'global.menu.external.reportAProblemLink' | translate}}" target=_blank>global.menu.external.reportAProblem</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.helpWithChoicesLink' | translate}}" target=_blank>global.menu.external.helpWithChoices</a> <a translate href="{{'global.menu.external.daaPrivacyPolicyLink' | translate}}" target=_blank>global.menu.external.daaPrivacyPolicy</a> <a translate href="{{'global.menu.external.daaTermsOfServiceLink' | translate}}" target=_blank>global.menu.external.daaTermsOfService</a> </li> </ul> <span class="language-menu language-menu__desktop"> <span ng-if="client === 'daa'" class="dropdown nav navbar-nav navbar-right"> <a data-toggle=dropdown><span class="glyphicon glyphicon-globe language-menu__icon" aria-hidden=true></span></a> <ul class=dropdown-menu> <li> <a ng-hide="theme==='daac' && lang==='fr'" href="" ng-click="changeLanguage('daac', 3,'fr')">FranÃ§ais Canadien</a> <a ng-hide="theme==='daac' && lang==='en'" href="" ng-click="changeLanguage('daac', 3,'en')">Canadian English</a> <a ng-hide="theme==='apda'" href="" ng-click="changeLanguage('apda', 4,'es')">EspaÃ±ol Latinoamericano</a> <a ng-hide="theme==='daa' && lang==='en'" href="" ng-click="changeLanguage('daa', 2, 'en')">US English</a> <a ng-hide="theme==='daa' && lang==='es'" href="" ng-click="changeLanguage('daa', 2, 'es')">EspaÃ±ol de Estados Unidos</a> </li> </ul> </span> </span> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer"> <a href=/member> <span class="glyphicon glyphicon-asterisk"></span> <span translate>global.menu.members</span> </a> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer" ng-controller=AdminController> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-tower"></span> <span class=hidden-tablet translate>global.menu.admin</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu> <li> <a href=/metrics> <span class="glyphicon glyphicon-dashboard"></span> <span translate>global.menu.account.metrics</span> </a> </li> <li> <a href=/health> <span class="glyphicon glyphicon-heart"></span> <span translate>global.menu.account.health</span> </a> </li> <li> <a href=/configuration> <span class="glyphicon glyphicon-list-alt"></span> <span translate>global.menu.account.configuration</span> </a> </li> <li> <a href=/audits> <span class="glyphicon glyphicon-bell"></span> <span translate>global.menu.account.audits</span> </a> </li> <li> <a href=/logs> <span class="glyphicon glyphicon-tasks"></span> <span translate>global.menu.account.logs</span> </a> </li> <li> <a href=/docs> <span class="glyphicon glyphicon-book"></span> <span translate>global.menu.account.apidocs</span> </a> </li> </ul> </li> <li class="dropdown pointer" ng-switch-when=true> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-user"></span> <span class=hidden-tablet translate>global.menu.account.main</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu ng-controller=MenuController> <li class=item-profile> <a href=/profile> <span class="glyphicon glyphicon-user"></span> <span translate>global.menu.account.profile</span> </a> </li> <li> <a href=/settings> <span class="glyphicon glyphicon-wrench"></span> <span translate>global.menu.account.settings</span> </a> </li> <li> <a href=/password> <span class="glyphicon glyphicon-lock"></span> <span translate>global.menu.account.password</span> </a> </li> <li> <a href=/logout> <span class="glyphicon glyphicon-log-out"></span> <span translate>global.menu.account.logout</span> </a> </li> </ul> </li> </ul> </div> </div> </div> <div class=container> <!--[if lt IE 9]>
+	<div class="browserupgrade">
+		<p translate="global.browsehappy">You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.</p>
+	</div>
+	<![endif]--> <div id=nojavascript> <h1>JavaScript Not Detected</h1> <p>The site requires that you enable JavaScript for your browser. Please turn on JavaScript for your browser and click "Try Again" to proceed.</p> <p><a href class="btn btn-primary" role=button>Try Again</a> - <a href="" class="btn btn-info" role=button>Learn More</a></p> </div> <div class=main ng-view></div> <div class=footer></div> </div> <script type=text/javascript>// Fake noscript tag to avoid Chrome bug
+	document.getElementById('nojavascript').style.display = 'none';</script> <script src=/scripts/6170073d.home.js></script> </body> </html>
+
+
+#####EOF#####
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Digital Advertising Alliance (DAA) Self-Regulatory Program  | www.aboutads.info</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/sites/default/files/aba_v1_favicon.png" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/default/files/css/css_074037e79cf6bae83fb13a0cddc3dab9.css" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/grid16-960.css?g"/>
+  <!--[if IE 8]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie8-fixes.css?g" />
+  <![endif]-->
+  <!--[if IE 7]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie7-fixes.css?g" />
+  <![endif]-->
+  <!--[if lte IE 6]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie6-fixes.css?g"/>
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/aba_v1/css/ie6-fixes.css?g"/>
+  <![endif]-->
+  <!--[if gte IE 9]>
+  <style type="text/css">
+    .gradient {
+       filter: none;
+    }
+  </style>
+  <![endif]-->
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/aba_v1/css/local.css?g" />
+  <!--[if gte IE 9]>
+  <style type="text/css">
+    .reject-link-wrapper {
+      bottom: 38px;
+    }
+
+    .reject-link-wrapper .reject-link {
+      padding: 4px 5px;
+    }
+  </style>
+  <![endif]-->
+  <script type="text/javascript" src="/sites/default/files/js/js_5f9b16173b38b9119f829fc8f710cce7.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "dhtmlMenu": { "slide": "slide", "clone": "clone" }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls|xml|z|zip" }, "lightbox2": { "rtl": 0, "file_path": "/(\\w\\w/)sites/default/files", "default_image": "/sites/all/modules/lightbox2/images/brokenimage.jpg", "border_size": 10, "font_color": "000", "box_color": "fff", "top_position": "", "overlay_opacity": "0.8", "overlay_color": "000", "disable_close_click": true, "resize_sequence": 0, "resize_speed": 400, "fade_in_speed": 400, "slide_down_speed": 600, "use_alt_layout": false, "disable_resize": false, "disable_zoom": false, "force_show_nav": false, "show_caption": true, "loop_items": false, "node_link_text": "View Image Details", "node_link_target": false, "image_count": "Image !current of !total", "video_count": "Video !current of !total", "page_count": "Page !current of !total", "lite_press_x_close": "press \x3ca href=\"#\" onclick=\"hideLightbox(); return FALSE;\"\x3e\x3ckbd\x3ex\x3c/kbd\x3e\x3c/a\x3e to close", "download_link_text": "", "enable_login": false, "enable_contact": false, "keys_close": "c x 27", "keys_previous": "p 37", "keys_next": "n 39", "keys_zoom": "z", "keys_play_pause": "32", "display_image_size": "original", "image_node_sizes": "()", "trigger_lightbox_classes": "", "trigger_lightbox_group_classes": "", "trigger_slideshow_classes": "", "trigger_lightframe_classes": "", "trigger_lightframe_group_classes": "", "custom_class_handler": 0, "custom_trigger_classes": "", "disable_for_gallery_lists": true, "disable_for_acidfree_gallery_lists": true, "enable_acidfree_videos": true, "slideshow_interval": 5000, "slideshow_automatic_start": true, "slideshow_automatic_exit": true, "show_play_pause": true, "pause_on_next_click": false, "pause_on_previous_click": true, "loop_slides": false, "iframe_width": 600, "iframe_height": 400, "iframe_border": 1, "enable_video": false } });
+//--><!]]>
+</script>
+</head>
+
+<body id="pid-home" class="front not-logged-in page-node node-type-page no-sidebars full-node layout-main-last sidebars-split font-size-12 grid-type-960 grid-width-16">
+<!--{6a282d544dc348f55cf17f1c73fa9d1d}-->
+  <div id="page" class="page">
+    <div id="page-inner" class="page-inner">
+      <div id="skip">
+        <a href="#main-content-area">Skip to Main Content Area</a>
+      </div>
+
+      <!-- header-top row: width = grid_width -->
+      
+      <!-- header-group row: width = grid_width -->
+      <div id="header-group-wrapper" class="header-group-wrapper full-width">
+        <div id="header-group" class="header-group row grid16-16">
+          <div id="header-group-inner" class="header-group-inner inner clearfix">
+            <?//php print theme('grid_block', theme('links', $secondary_links), 'secondary-menu'); ?>
+            
+                        <div id="header-site-info" class="header-site-info block">
+              <div id="header-site-info-inner" class="header-site-info-inner inner">
+                                <div id="logo">
+                  <a href="/" title="Home"><img src="/sites/all/themes/fusion/aba_v1/logo.png" alt="Home" /></a>
+                </div>
+                                                <div id="site-name-wrapper" class="clearfix">
+                                    <span id="site-name"><a href="/" title="Home">www.aboutads.info</a></span>
+                                                    </div><!-- /site-name-wrapper -->
+                              </div><!-- /header-site-info-inner -->
+            </div><!-- /header-site-info -->
+                                                                            <h1 class="title">Digital Advertising Alliance (DAA) Self-Regulatory Program </h1>
+                                                        <div id="primary-menu" class="primary-menu block">
+<div id="primary-menu-inner" class="primary-menu-inner inner clearfix">
+<ul class="menu sf-menu"><li class="leaf first dhtml-menu  active-trail"><a href="/home" title="THE SELF-REGULATORY PROGRAM FOR ONLINE BEHAVIORAL ADVERTISING" id="dhtml_menu-861" class="active">Home</a></li>
+<li class="leaf  dhtml-menu "><a href="/principles" title="" id="dhtml_menu-932">Principles</a></li>
+<li class="leaf  dhtml-menu "><a href="/consumers" title="For Consumers" id="dhtml_menu-864">Consumers</a></li>
+<li class="leaf  dhtml-menu "><a href="/participants" title="INFORMATION FOR INTERESTED COMPANIES" id="dhtml_menu-865">Companies</a></li>
+<li class="leaf  dhtml-menu "><a href="/participating" title="" id="dhtml_menu-934">Participants</a></li>
+<li class="leaf  dhtml-menu "><a href="/resources" title="" id="dhtml_menu-936">Resources</a></li>
+<li class="leaf  dhtml-menu "><a href="/news" title="" id="dhtml_menu-935">News &amp; Media Resources</a></li>
+<li class="leaf  dhtml-menu "><a href="/blog" title="Blog" id="dhtml_menu-961">Blog</a></li>
+<li class="leaf  dhtml-menu "><a href="/enforcement" title="Enforcement of the Principles" id="dhtml_menu-114">Enforcement</a></li>
+<li class="leaf last dhtml-menu "><a href="/contact-us" title="Contact Us" id="dhtml_menu-867">Contact</a></li>
+</ul></div><!-- /primary-menu-inner -->
+</div><!-- /primary-menu -->
+          </div><!-- /header-group-inner -->
+        </div><!-- /header-group -->
+      </div><!-- /header-group-wrapper -->
+
+      <!-- preface-top row: width = grid_width -->
+      
+      <!-- main row: width = grid_width -->
+      <div id="main-wrapper" class="main-wrapper full-width">
+        <div id="main" class="main row grid16-16">
+          <div id="main-inner" class="main-inner inner clearfix">
+            
+            <!-- main group: width = grid_width - sidebar_first_width -->
+            <div id="main-group" class="main-group row nested grid16-16">
+              <div id="main-group-inner" class="main-group-inner inner">
+                
+                <div id="main-content" class="main-content row nested">
+                  <div id="main-content-inner" class="main-content-inner inner">
+                    <!-- content group: width = grid_width - (sidebar_first_width + sidebar_last_width) -->
+                    <div id="content-group" class="content-group row nested grid16-12">
+                      <div id="content-group-inner" class="content-group-inner inner">
+                        
+                        
+                        <div id="content-region" class="content-region row nested">
+                          <div id="content-region-inner" class="content-region-inner inner">
+                            <a name="main-content-area" id="main-content-area"></a>
+                                                        <div id="content-inner" class="content-inner block">
+                              <div id="content-inner-inner" class="content-inner-inner inner">
+                                                                <div id="content-content" class="content-content">
+                                  
+<div id="node-83" class="node odd full-node node-type-page">
+  <div class="inner">
+    
+    
+   
+
+    
+    <div class="content clearfix">
+      <div class="field field-type-text field-field-common-subheader">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <p>Digital Advertising Alliance (DAA) Self-Regulatory Program</p>
+        </div>
+        </div>
+</div>
+<div class="field field-type-filefield field-field-common-img">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <img  class="imagefield imagefield-field_common_img" width="138" height="155" alt="" src="/sites/default/files/page_img/icon_enhanced_notice_lg.jpg" />        </div>
+        </div>
+</div>
+<div class="field field-type-text field-field-common-body">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <div class="homepage">
+<p>&nbsp;</p>
+<div>
+		<span style="color: rgb(204, 0, 0); font-style: italic; font-weight: bold; ">Advertising Option Icon</span></div>
+<p>&nbsp;</p>
+<p><span style="font-size:20px;"><strong>Latest News: <strong>Digital Advertising Alliance Launches Initiative to Increase Transparency &amp; Accountability in Political Ads</strong></strong></span></p>
+<div id="ooImgDiv">
+<p class="rteright"><a href="http://optout.aboutads.info/?c=2&amp;lang=EN" id="ooImg" target="_blank"><img alt="Click to view the Consumer Opt Out Page" src="/resource/image/choice_button.gif" /></a></p>
+<div>
+			Make choices with participating companies under the DAA Principles</div>
+</div>
+<p>The Digital Advertising Alliance (DAA) today launched an industry-wide initiative to increase transparency and accountability around digital political ads, including new guidance for political advertisers and a &ldquo;PoliticalAd&rdquo; icon that will link to additional information on such ads. Compliance with the guidance will be independently enforced by the Advertising Self Regulatory Council (ASRC) and the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. <a href="http://www.aboutads.info/digital-advertising-alliance-launches-initiative-increase-transparency-accountability-political-ads">Read the press release here</a>.</p>
+<p>&nbsp;</p>
+<hr />
+<p>The Digital Advertising Alliance (DAA) establishes and enforces responsible privacy practices across industry for relevant digital advertising, providing consumers with enhanced transparency and control through multifaceted&nbsp;<a href="http://www.aboutads.info/principles">Principles</a>&nbsp;that apply to Multi-Site Data and Cross-App Data gathered in either desktop or mobile environments. The DAA is an independent non-profit&nbsp;organization led by&nbsp;<a href="https://youradchoices.com/about" target="_blank">leading advertising and marketing trade associations</a>.</p>
+<p><strong><span style="font-size: 16px;">For Consumers</span></strong></p>
+<p><strong>Learn about Interest-Based Advertising (&quot;IBA&quot;):</strong>&nbsp;<a href="/consumers/">Find out more</a> about interest-based advertising and how it helps provide you with more relevant advertising on the websites you visit or applications you use. You&#39;ll learn how IBA&nbsp;supports the free content, products and services you use online, and what choices are provided to you through the DAA Program.</p>
+<p><strong>Exercise Your Choice:</strong>&nbsp;<a href="/choices/">Visit</a> the DAA&rsquo;s Consumer Choice page, which allows users to conveniently opt out from Choice Page participating companies&rsquo; collection of Web viewing data over time and across unaffiliated sites for IBA and other applicable uses under the Principles.</p>
+<p><strong>Report a Complaint:&nbsp;</strong>If you believe that you have witnessed a practice or ad may violate the Principles, you can&nbsp;<a href="/enforcement">report the incident</a>&nbsp;to either Better Business Bureaus (CBBB) or the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. Complaints may be filed by consumers, business entities or other stakeholders.</p>
+<div class="break">
+		&nbsp;</div>
+<p>	<strong><span style="font-size: 16px;">For Interested Companies</span></strong></p>
+<p><strong>Learn about the DAA Program:</strong> You can find out more about the DAA&nbsp;<a href="/principles/">Principles</a>, and our participating <a href="/associations/">Associations</a>. To learn how your company can implement the Principles, please review the <a href="http://www.aboutads.info/resources">Implementation Resources</a>.</p>
+<p><strong>Register to USE the DAA Icon:</strong> Companies participating in Program may use the DAA Icon as a means for providing enhanced notice of interest-based advertising practices. If you would like to register to use the icon, please <a href="/participants/icon/">click here</a>.&nbsp;here. To separately register your company participate in the DAA&rsquo;s AppChoices tool, please <a href="https://www.aboutads.info/appchoices-inquiry-form-sf">click here</a>.</p>
+<p>	<strong>Report a Complaint:&nbsp;</strong>If you believe that you have witnessed a practice or ad that may violate the Principles, you can&nbsp;<a href="/enforcement">report the incident</a>&nbsp;to incident to either Better Business Bureaus (CBBB) or the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. Complaints may be filed by consumers, business entities or other stakeholders.</p>
+<div class="break">
+		&nbsp;</div>
+<p><strong><span style="font-size: 16px;">For Companies Engaged in Online Behavioral Advertising</span></strong></p>
+<p>To enhance the transparency of interest-based advertising, the DAA encourages companies qualifying as third parties under the Principles to:</p>
+<ul>
+<li>
+			<strong>Inform consumers</strong> about their data practices through clear, meaningful and prominent notices.</li>
+<li>
+			<strong>Display the DAA&nbsp;<a href="/participants/icon/">Icon</a></strong> so Icon so that consumers find out about interest-based advertising, learn about the data practices associated with advertisements they receive, and opt-out if they choose.</li>
+<li>
+			<strong><a href="/participants/register/">Register</a></strong> to receive information about how to be listed on the <strong>Consumer Choice Page</strong>, where consumers will be able to easily opt out from data collection by participating companies for applicable practices</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+        </div>
+        </div>
+</div>
+    </div>
+<br><br>
+     
+    
+      </div><!-- /inner -->
+
+  </div><!-- /node-83 -->
+                                                                  </div><!-- /content-content -->
+                                                              </div><!-- /content-inner-inner -->
+                            </div><!-- /content-inner -->
+                          </div><!-- /content-region-inner -->
+                        </div><!-- /content-region -->
+
+                                              </div><!-- /content-group-inner -->
+                    </div><!-- /content-group -->
+
+                    <div id="sidebar-last" class="sidebar-last row nested grid16-4">
+<div id="sidebar-last-inner" class="sidebar-last-inner inner clearfix">
+
+<div id="block-block-4" class="block block-block odd first last  grid16-4">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p>&nbsp;</p>
+<h6 class="rtecenter">
+	<br />
+	<a href="/associations">Participating Associations</a></h6>
+<p>&nbsp;</p>
+<h6 class="rtecenter">
+	<br />
+	<a class="external" href="http://www.aaaa.org/" title="View the AAAA Website"><img alt="AAAA Logo" height="92" src="/sites/default/files/resource/4AsLogo.png" width="98" /></a>&nbsp; <a class="external" href="http://www.aaf.org/" title="View the AAF Website"><img alt="AAF Logo" src="/resource/image/template/logo_AAF.gif" /></a>&nbsp; <a class="external" href="http://www.ana.net/" title="View the ANA Website"><img alt="ANA Logo" src="/resource/image/template/logo_ANA.gif" /></a>&nbsp; <a class="external" href="http://www.bbb.org/us/interest-based-advertising/consumers/" target="_blank" title="View the BBB Website"><img alt="BBB Logo" src="/resource/image/template/logo_BBB.gif" /></a> &nbsp; <a class="external" href="https://thedma.org/" target="_blank" title="View the DMA Website"> <img src="http://www.aboutads.info/sites/default/files/resource/dmaLogo.png" style="width: 140px;" /></a>&nbsp; <a class="external" href="http://www.iab.net/" title="View the IAB Website"><img alt="IAB Logo" src="/resource/image/template/logo_IAB.gif" /></a>&nbsp; <a class="external" href="http://www.networkadvertising.org/" title="View the NAI Website"><img alt="NAI Logo" src="/resource/image/template/logo_NAI.gif" /></a></h6>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /sidebar-last-inner -->
+</div><!-- /sidebar-last -->
+                  </div><!-- /main-content-inner -->
+                </div><!-- /main-content -->
+
+                <div id="postscript-top" class="postscript-top row nested ">
+<div id="postscript-top-inner" class="postscript-top-inner inner clearfix">
+
+<div id="block-block-5" class="block block-block odd first  grid16-8">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p>
+	<a href="/associations"><img alt="" src="http://www.aboutads.info/resource/download/logo/DAA_Logo_HiRes.jpg" style="width: 150px; height: 45px; " /></a></p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+
+<div id="block-block-2" class="block block-block even  last  grid16-8">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <div id="spacer">&nbsp;</div>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /postscript-top-inner -->
+</div><!-- /postscript-top -->
+              </div><!-- /main-group-inner -->
+            </div><!-- /main-group -->
+          </div><!-- /main-inner -->
+        </div><!-- /main -->
+      </div><!-- /main-wrapper -->
+
+      <!-- postscript-bottom row: width = grid_width -->
+      
+      <!-- footer row: width = grid_width -->
+      <div id="footer-wrapper" class="footer-wrapper full-width">
+<div id="footer" class="footer row grid16-16">
+<div id="footer-inner" class="footer-inner inner clearfix">
+
+<div id="block-block-3" class="block block-block odd first last fusion-center fusion-center-content grid16-16">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p><a href="/legal/">Terms of Use</a> | <a href="/privacy/">Privacy</a> <span>&copy;</span> 2017 Digital Advertising Alliance &ndash; All rights reserved</p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /footer-inner -->
+</div><!-- /footer -->
+</div><!-- /footer-wrapper -->
+
+      <!-- footer-message row: width = grid_width -->
+      <div id="footer-message-wrapper" class="footer-message-wrapper full-width">
+        <div id="footer-message" class="footer-message row grid16-16">
+          <div id="footer-message-inner" class="footer-message-inner inner clearfix">
+                      </div><!-- /footer-message-inner -->
+        </div><!-- /footer-message -->
+      </div><!-- /footer-message-wrapper -->
+
+    </div><!-- /page-inner -->
+  </div><!-- /page -->
+  <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-19786180-1"]);_gaq.push(["_gat._anonymizeIp"]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Digital Advertising Alliance (DAA) Self-Regulatory Program  | www.aboutads.info</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/sites/default/files/aba_v1_favicon.png" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/default/files/css/css_074037e79cf6bae83fb13a0cddc3dab9.css" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/grid16-960.css?g"/>
+  <!--[if IE 8]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie8-fixes.css?g" />
+  <![endif]-->
+  <!--[if IE 7]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie7-fixes.css?g" />
+  <![endif]-->
+  <!--[if lte IE 6]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie6-fixes.css?g"/>
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/aba_v1/css/ie6-fixes.css?g"/>
+  <![endif]-->
+  <!--[if gte IE 9]>
+  <style type="text/css">
+    .gradient {
+       filter: none;
+    }
+  </style>
+  <![endif]-->
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/aba_v1/css/local.css?g" />
+  <!--[if gte IE 9]>
+  <style type="text/css">
+    .reject-link-wrapper {
+      bottom: 38px;
+    }
+
+    .reject-link-wrapper .reject-link {
+      padding: 4px 5px;
+    }
+  </style>
+  <![endif]-->
+  <script type="text/javascript" src="/sites/default/files/js/js_5f9b16173b38b9119f829fc8f710cce7.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "dhtmlMenu": { "slide": "slide", "clone": "clone" }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls|xml|z|zip" }, "lightbox2": { "rtl": 0, "file_path": "/(\\w\\w/)sites/default/files", "default_image": "/sites/all/modules/lightbox2/images/brokenimage.jpg", "border_size": 10, "font_color": "000", "box_color": "fff", "top_position": "", "overlay_opacity": "0.8", "overlay_color": "000", "disable_close_click": true, "resize_sequence": 0, "resize_speed": 400, "fade_in_speed": 400, "slide_down_speed": 600, "use_alt_layout": false, "disable_resize": false, "disable_zoom": false, "force_show_nav": false, "show_caption": true, "loop_items": false, "node_link_text": "View Image Details", "node_link_target": false, "image_count": "Image !current of !total", "video_count": "Video !current of !total", "page_count": "Page !current of !total", "lite_press_x_close": "press \x3ca href=\"#\" onclick=\"hideLightbox(); return FALSE;\"\x3e\x3ckbd\x3ex\x3c/kbd\x3e\x3c/a\x3e to close", "download_link_text": "", "enable_login": false, "enable_contact": false, "keys_close": "c x 27", "keys_previous": "p 37", "keys_next": "n 39", "keys_zoom": "z", "keys_play_pause": "32", "display_image_size": "original", "image_node_sizes": "()", "trigger_lightbox_classes": "", "trigger_lightbox_group_classes": "", "trigger_slideshow_classes": "", "trigger_lightframe_classes": "", "trigger_lightframe_group_classes": "", "custom_class_handler": 0, "custom_trigger_classes": "", "disable_for_gallery_lists": true, "disable_for_acidfree_gallery_lists": true, "enable_acidfree_videos": true, "slideshow_interval": 5000, "slideshow_automatic_start": true, "slideshow_automatic_exit": true, "show_play_pause": true, "pause_on_next_click": false, "pause_on_previous_click": true, "loop_slides": false, "iframe_width": 600, "iframe_height": 400, "iframe_border": 1, "enable_video": false } });
+//--><!]]>
+</script>
+</head>
+
+<body id="pid-home" class="front not-logged-in page-node node-type-page no-sidebars full-node layout-main-last sidebars-split font-size-12 grid-type-960 grid-width-16">
+<!--{6a282d544dc348f55cf17f1c73fa9d1d}-->
+  <div id="page" class="page">
+    <div id="page-inner" class="page-inner">
+      <div id="skip">
+        <a href="#main-content-area">Skip to Main Content Area</a>
+      </div>
+
+      <!-- header-top row: width = grid_width -->
+      
+      <!-- header-group row: width = grid_width -->
+      <div id="header-group-wrapper" class="header-group-wrapper full-width">
+        <div id="header-group" class="header-group row grid16-16">
+          <div id="header-group-inner" class="header-group-inner inner clearfix">
+            <?//php print theme('grid_block', theme('links', $secondary_links), 'secondary-menu'); ?>
+            
+                        <div id="header-site-info" class="header-site-info block">
+              <div id="header-site-info-inner" class="header-site-info-inner inner">
+                                <div id="logo">
+                  <a href="/" title="Home"><img src="/sites/all/themes/fusion/aba_v1/logo.png" alt="Home" /></a>
+                </div>
+                                                <div id="site-name-wrapper" class="clearfix">
+                                    <span id="site-name"><a href="/" title="Home">www.aboutads.info</a></span>
+                                                    </div><!-- /site-name-wrapper -->
+                              </div><!-- /header-site-info-inner -->
+            </div><!-- /header-site-info -->
+                                                                            <h1 class="title">Digital Advertising Alliance (DAA) Self-Regulatory Program </h1>
+                                                        <div id="primary-menu" class="primary-menu block">
+<div id="primary-menu-inner" class="primary-menu-inner inner clearfix">
+<ul class="menu sf-menu"><li class="leaf first dhtml-menu  active-trail"><a href="/home" title="THE SELF-REGULATORY PROGRAM FOR ONLINE BEHAVIORAL ADVERTISING" id="dhtml_menu-861" class="active">Home</a></li>
+<li class="leaf  dhtml-menu "><a href="/principles" title="" id="dhtml_menu-932">Principles</a></li>
+<li class="leaf  dhtml-menu "><a href="/consumers" title="For Consumers" id="dhtml_menu-864">Consumers</a></li>
+<li class="leaf  dhtml-menu "><a href="/participants" title="INFORMATION FOR INTERESTED COMPANIES" id="dhtml_menu-865">Companies</a></li>
+<li class="leaf  dhtml-menu "><a href="/participating" title="" id="dhtml_menu-934">Participants</a></li>
+<li class="leaf  dhtml-menu "><a href="/resources" title="" id="dhtml_menu-936">Resources</a></li>
+<li class="leaf  dhtml-menu "><a href="/news" title="" id="dhtml_menu-935">News &amp; Media Resources</a></li>
+<li class="leaf  dhtml-menu "><a href="/blog" title="Blog" id="dhtml_menu-961">Blog</a></li>
+<li class="leaf  dhtml-menu "><a href="/enforcement" title="Enforcement of the Principles" id="dhtml_menu-114">Enforcement</a></li>
+<li class="leaf last dhtml-menu "><a href="/contact-us" title="Contact Us" id="dhtml_menu-867">Contact</a></li>
+</ul></div><!-- /primary-menu-inner -->
+</div><!-- /primary-menu -->
+          </div><!-- /header-group-inner -->
+        </div><!-- /header-group -->
+      </div><!-- /header-group-wrapper -->
+
+      <!-- preface-top row: width = grid_width -->
+      
+      <!-- main row: width = grid_width -->
+      <div id="main-wrapper" class="main-wrapper full-width">
+        <div id="main" class="main row grid16-16">
+          <div id="main-inner" class="main-inner inner clearfix">
+            
+            <!-- main group: width = grid_width - sidebar_first_width -->
+            <div id="main-group" class="main-group row nested grid16-16">
+              <div id="main-group-inner" class="main-group-inner inner">
+                
+                <div id="main-content" class="main-content row nested">
+                  <div id="main-content-inner" class="main-content-inner inner">
+                    <!-- content group: width = grid_width - (sidebar_first_width + sidebar_last_width) -->
+                    <div id="content-group" class="content-group row nested grid16-12">
+                      <div id="content-group-inner" class="content-group-inner inner">
+                        
+                        
+                        <div id="content-region" class="content-region row nested">
+                          <div id="content-region-inner" class="content-region-inner inner">
+                            <a name="main-content-area" id="main-content-area"></a>
+                                                        <div id="content-inner" class="content-inner block">
+                              <div id="content-inner-inner" class="content-inner-inner inner">
+                                                                <div id="content-content" class="content-content">
+                                  
+<div id="node-83" class="node odd full-node node-type-page">
+  <div class="inner">
+    
+    
+   
+
+    
+    <div class="content clearfix">
+      <div class="field field-type-text field-field-common-subheader">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <p>Digital Advertising Alliance (DAA) Self-Regulatory Program</p>
+        </div>
+        </div>
+</div>
+<div class="field field-type-filefield field-field-common-img">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <img  class="imagefield imagefield-field_common_img" width="138" height="155" alt="" src="/sites/default/files/page_img/icon_enhanced_notice_lg.jpg" />        </div>
+        </div>
+</div>
+<div class="field field-type-text field-field-common-body">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <div class="homepage">
+<p>&nbsp;</p>
+<div>
+		<span style="color: rgb(204, 0, 0); font-style: italic; font-weight: bold; ">Advertising Option Icon</span></div>
+<p>&nbsp;</p>
+<p><span style="font-size:20px;"><strong>Latest News: <strong>Digital Advertising Alliance Launches Initiative to Increase Transparency &amp; Accountability in Political Ads</strong></strong></span></p>
+<div id="ooImgDiv">
+<p class="rteright"><a href="http://optout.aboutads.info/?c=2&amp;lang=EN" id="ooImg" target="_blank"><img alt="Click to view the Consumer Opt Out Page" src="/resource/image/choice_button.gif" /></a></p>
+<div>
+			Make choices with participating companies under the DAA Principles</div>
+</div>
+<p>The Digital Advertising Alliance (DAA) today launched an industry-wide initiative to increase transparency and accountability around digital political ads, including new guidance for political advertisers and a &ldquo;PoliticalAd&rdquo; icon that will link to additional information on such ads. Compliance with the guidance will be independently enforced by the Advertising Self Regulatory Council (ASRC) and the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. <a href="http://www.aboutads.info/digital-advertising-alliance-launches-initiative-increase-transparency-accountability-political-ads">Read the press release here</a>.</p>
+<p>&nbsp;</p>
+<hr />
+<p>The Digital Advertising Alliance (DAA) establishes and enforces responsible privacy practices across industry for relevant digital advertising, providing consumers with enhanced transparency and control through multifaceted&nbsp;<a href="http://www.aboutads.info/principles">Principles</a>&nbsp;that apply to Multi-Site Data and Cross-App Data gathered in either desktop or mobile environments. The DAA is an independent non-profit&nbsp;organization led by&nbsp;<a href="https://youradchoices.com/about" target="_blank">leading advertising and marketing trade associations</a>.</p>
+<p><strong><span style="font-size: 16px;">For Consumers</span></strong></p>
+<p><strong>Learn about Interest-Based Advertising (&quot;IBA&quot;):</strong>&nbsp;<a href="/consumers/">Find out more</a> about interest-based advertising and how it helps provide you with more relevant advertising on the websites you visit or applications you use. You&#39;ll learn how IBA&nbsp;supports the free content, products and services you use online, and what choices are provided to you through the DAA Program.</p>
+<p><strong>Exercise Your Choice:</strong>&nbsp;<a href="/choices/">Visit</a> the DAA&rsquo;s Consumer Choice page, which allows users to conveniently opt out from Choice Page participating companies&rsquo; collection of Web viewing data over time and across unaffiliated sites for IBA and other applicable uses under the Principles.</p>
+<p><strong>Report a Complaint:&nbsp;</strong>If you believe that you have witnessed a practice or ad may violate the Principles, you can&nbsp;<a href="/enforcement">report the incident</a>&nbsp;to either Better Business Bureaus (CBBB) or the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. Complaints may be filed by consumers, business entities or other stakeholders.</p>
+<div class="break">
+		&nbsp;</div>
+<p>	<strong><span style="font-size: 16px;">For Interested Companies</span></strong></p>
+<p><strong>Learn about the DAA Program:</strong> You can find out more about the DAA&nbsp;<a href="/principles/">Principles</a>, and our participating <a href="/associations/">Associations</a>. To learn how your company can implement the Principles, please review the <a href="http://www.aboutads.info/resources">Implementation Resources</a>.</p>
+<p><strong>Register to USE the DAA Icon:</strong> Companies participating in Program may use the DAA Icon as a means for providing enhanced notice of interest-based advertising practices. If you would like to register to use the icon, please <a href="/participants/icon/">click here</a>.&nbsp;here. To separately register your company participate in the DAA&rsquo;s AppChoices tool, please <a href="https://www.aboutads.info/appchoices-inquiry-form-sf">click here</a>.</p>
+<p>	<strong>Report a Complaint:&nbsp;</strong>If you believe that you have witnessed a practice or ad that may violate the Principles, you can&nbsp;<a href="/enforcement">report the incident</a>&nbsp;to incident to either Better Business Bureaus (CBBB) or the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. Complaints may be filed by consumers, business entities or other stakeholders.</p>
+<div class="break">
+		&nbsp;</div>
+<p><strong><span style="font-size: 16px;">For Companies Engaged in Online Behavioral Advertising</span></strong></p>
+<p>To enhance the transparency of interest-based advertising, the DAA encourages companies qualifying as third parties under the Principles to:</p>
+<ul>
+<li>
+			<strong>Inform consumers</strong> about their data practices through clear, meaningful and prominent notices.</li>
+<li>
+			<strong>Display the DAA&nbsp;<a href="/participants/icon/">Icon</a></strong> so Icon so that consumers find out about interest-based advertising, learn about the data practices associated with advertisements they receive, and opt-out if they choose.</li>
+<li>
+			<strong><a href="/participants/register/">Register</a></strong> to receive information about how to be listed on the <strong>Consumer Choice Page</strong>, where consumers will be able to easily opt out from data collection by participating companies for applicable practices</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+        </div>
+        </div>
+</div>
+    </div>
+<br><br>
+     
+    
+      </div><!-- /inner -->
+
+  </div><!-- /node-83 -->
+                                                                  </div><!-- /content-content -->
+                                                              </div><!-- /content-inner-inner -->
+                            </div><!-- /content-inner -->
+                          </div><!-- /content-region-inner -->
+                        </div><!-- /content-region -->
+
+                                              </div><!-- /content-group-inner -->
+                    </div><!-- /content-group -->
+
+                    <div id="sidebar-last" class="sidebar-last row nested grid16-4">
+<div id="sidebar-last-inner" class="sidebar-last-inner inner clearfix">
+
+<div id="block-block-4" class="block block-block odd first last  grid16-4">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p>&nbsp;</p>
+<h6 class="rtecenter">
+	<br />
+	<a href="/associations">Participating Associations</a></h6>
+<p>&nbsp;</p>
+<h6 class="rtecenter">
+	<br />
+	<a class="external" href="http://www.aaaa.org/" title="View the AAAA Website"><img alt="AAAA Logo" height="92" src="/sites/default/files/resource/4AsLogo.png" width="98" /></a>&nbsp; <a class="external" href="http://www.aaf.org/" title="View the AAF Website"><img alt="AAF Logo" src="/resource/image/template/logo_AAF.gif" /></a>&nbsp; <a class="external" href="http://www.ana.net/" title="View the ANA Website"><img alt="ANA Logo" src="/resource/image/template/logo_ANA.gif" /></a>&nbsp; <a class="external" href="http://www.bbb.org/us/interest-based-advertising/consumers/" target="_blank" title="View the BBB Website"><img alt="BBB Logo" src="/resource/image/template/logo_BBB.gif" /></a> &nbsp; <a class="external" href="https://thedma.org/" target="_blank" title="View the DMA Website"> <img src="http://www.aboutads.info/sites/default/files/resource/dmaLogo.png" style="width: 140px;" /></a>&nbsp; <a class="external" href="http://www.iab.net/" title="View the IAB Website"><img alt="IAB Logo" src="/resource/image/template/logo_IAB.gif" /></a>&nbsp; <a class="external" href="http://www.networkadvertising.org/" title="View the NAI Website"><img alt="NAI Logo" src="/resource/image/template/logo_NAI.gif" /></a></h6>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /sidebar-last-inner -->
+</div><!-- /sidebar-last -->
+                  </div><!-- /main-content-inner -->
+                </div><!-- /main-content -->
+
+                <div id="postscript-top" class="postscript-top row nested ">
+<div id="postscript-top-inner" class="postscript-top-inner inner clearfix">
+
+<div id="block-block-5" class="block block-block odd first  grid16-8">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p>
+	<a href="/associations"><img alt="" src="http://www.aboutads.info/resource/download/logo/DAA_Logo_HiRes.jpg" style="width: 150px; height: 45px; " /></a></p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+
+<div id="block-block-2" class="block block-block even  last  grid16-8">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <div id="spacer">&nbsp;</div>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /postscript-top-inner -->
+</div><!-- /postscript-top -->
+              </div><!-- /main-group-inner -->
+            </div><!-- /main-group -->
+          </div><!-- /main-inner -->
+        </div><!-- /main -->
+      </div><!-- /main-wrapper -->
+
+      <!-- postscript-bottom row: width = grid_width -->
+      
+      <!-- footer row: width = grid_width -->
+      <div id="footer-wrapper" class="footer-wrapper full-width">
+<div id="footer" class="footer row grid16-16">
+<div id="footer-inner" class="footer-inner inner clearfix">
+
+<div id="block-block-3" class="block block-block odd first last fusion-center fusion-center-content grid16-16">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p><a href="/legal/">Terms of Use</a> | <a href="/privacy/">Privacy</a> <span>&copy;</span> 2017 Digital Advertising Alliance &ndash; All rights reserved</p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /footer-inner -->
+</div><!-- /footer -->
+</div><!-- /footer-wrapper -->
+
+      <!-- footer-message row: width = grid_width -->
+      <div id="footer-message-wrapper" class="footer-message-wrapper full-width">
+        <div id="footer-message" class="footer-message row grid16-16">
+          <div id="footer-message-inner" class="footer-message-inner inner clearfix">
+                      </div><!-- /footer-message-inner -->
+        </div><!-- /footer-message -->
+      </div><!-- /footer-message-wrapper -->
+
+    </div><!-- /page-inner -->
+  </div><!-- /page -->
+  <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-19786180-1"]);_gaq.push(["_gat._anonymizeIp"]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+
+<!DOCTYPE html><!--[if lt IE 9]>
+<html ng-controller="MainController" class="no-js">
+<![endif]--><!--[if gte IE 9]>
+<html ng-controller="MainController" class="no-js" ng-app="naibcApp">
+<![endif]--><!--[if !IE]> --> <html ng-controller=MainController class=no-js ng-app=naibcApp> <!-- <![endif]--> <head> <meta http-equiv=X-UA-Compatible content="IE=edge"> <meta charset=utf-8> <meta name=viewport content="width=device-width"> <base href="/"> <title translate=global.title></title> <link rel=P3Pv1 href=/w3c/p3p.xml type=text/xml> <link rel="shortcut icon" href=/favicon.ico type=image/x-icon> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Oswald:400,300,700"> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Gudea:400,700,400italic"> <link rel=stylesheet href=/styles/f2e2d05b.vendor-home.css> <link rel=stylesheet href=/styles/e80717da.home.css> <!--[if lte IE 8]>
+	<style>.navbar-collapse{ display: none !important; }</style>
+	<!--<![endif]--> <!--[if lte IE 8]>
+	<script src="/scripts/6e3bf06e.shiv-home.js"></script>
+	<!--<![endif]--> <!-- Determine the theme on the server and set a variable to determine it at runtime. --> <script type=text/javascript src=/theme></script> </head> <body class="client-{{ client }}" ng-class="{'is-admin': isAuthorized(userRoles.admin)}" ng-cloak> <div class=loading-overlay ng-hide=hideOverlay></div> <div class="navbar navbar-default" role=navigation> <div class=container> <div class=navbar-title> <a href="/"> <span translate>global.title</span> </a> </div> <div class=navbar-header> <button type=button class=navbar-toggle data-toggle=collapse data-target=#navbar-collapse> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <span class="language-menu language-menu__mobile"> <span ng-if="client === 'daa'" class="dropdown nav navbar-nav navbar-right"> <a data-toggle=dropdown><span class="glyphicon glyphicon-globe language-menu__icon" aria-hidden=true></span></a> <ul class=dropdown-menu> <li> <a ng-hide="theme==='daac' && lang==='fr'" href="" ng-click="changeLanguage('daac', 3,'fr')">FranÃ§ais Canadien</a> <a ng-hide="theme==='daac' && lang==='en'" href="" ng-click="changeLanguage('daac', 3,'en')">Canadian English</a> <a ng-hide="theme==='apda'" href="" ng-click="changeLanguage('apda', 4,'es')">EspaÃ±ol Latinoamericano</a> <a ng-hide="theme==='daa' && lang==='en'" href="" ng-click="changeLanguage('daa', 2, 'en')">US English</a> <a ng-hide="theme==='daa' && lang==='es'" href="" ng-click="changeLanguage('daa', 2, 'es')">EspaÃ±ol de Estados Unidos</a> </li> </ul> </span> </span> <a class=navbar-brand ng-href="{{ logoLink }}"> <img ng-src="{{'global.imageUrls.navLogo' | translate}}" alt="{{ 'global.logoAlt' | translate }}"> </a> </div> <div class="collapse navbar-collapse" id=navbar-collapse ng-switch=authenticated> <ul class="nav navbar-nav navbar-right external-links"> <li ng-switch-when=false class=dropdown> <button type=button class=dropdown-toggle data-toggle=dropdown> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <ul class=dropdown-menu> <li> <a translate href="{{'global.menu.external.protectMyChoicesLink' | translate}}" target=_blank>global.menu.external.protectMyChoices</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.understandingHowOnlineAdvertisingWorksLink' | translate}}" target=_blank>global.menu.external.understandingHowOnlineAdvertisingWorks</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.frequentlyAskedQuestionsLink' | translate}}" target=_blank>global.menu.external.frequentlyAskedQuestions</a> <a translate href="{{'global.menu.external.visitYourAdChoicesLink' | translate}}" target=_blank>global.menu.external.visitYourAdChoices</a> <a translate href="{{'global.menu.external.daaPrinciplesLink' | translate}}" target=_blank>global.menu.external.daaPrinciples</a> <a translate href="{{'global.menu.external.reportAProblemLink' | translate}}" target=_blank>global.menu.external.reportAProblem</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.helpWithChoicesLink' | translate}}" target=_blank>global.menu.external.helpWithChoices</a> <a translate href="{{'global.menu.external.daaPrivacyPolicyLink' | translate}}" target=_blank>global.menu.external.daaPrivacyPolicy</a> <a translate href="{{'global.menu.external.daaTermsOfServiceLink' | translate}}" target=_blank>global.menu.external.daaTermsOfService</a> </li> </ul> <span class="language-menu language-menu__desktop"> <span ng-if="client === 'daa'" class="dropdown nav navbar-nav navbar-right"> <a data-toggle=dropdown><span class="glyphicon glyphicon-globe language-menu__icon" aria-hidden=true></span></a> <ul class=dropdown-menu> <li> <a ng-hide="theme==='daac' && lang==='fr'" href="" ng-click="changeLanguage('daac', 3,'fr')">FranÃ§ais Canadien</a> <a ng-hide="theme==='daac' && lang==='en'" href="" ng-click="changeLanguage('daac', 3,'en')">Canadian English</a> <a ng-hide="theme==='apda'" href="" ng-click="changeLanguage('apda', 4,'es')">EspaÃ±ol Latinoamericano</a> <a ng-hide="theme==='daa' && lang==='en'" href="" ng-click="changeLanguage('daa', 2, 'en')">US English</a> <a ng-hide="theme==='daa' && lang==='es'" href="" ng-click="changeLanguage('daa', 2, 'es')">EspaÃ±ol de Estados Unidos</a> </li> </ul> </span> </span> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer"> <a href=/member> <span class="glyphicon glyphicon-asterisk"></span> <span translate>global.menu.members</span> </a> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer" ng-controller=AdminController> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-tower"></span> <span class=hidden-tablet translate>global.menu.admin</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu> <li> <a href=/metrics> <span class="glyphicon glyphicon-dashboard"></span> <span translate>global.menu.account.metrics</span> </a> </li> <li> <a href=/health> <span class="glyphicon glyphicon-heart"></span> <span translate>global.menu.account.health</span> </a> </li> <li> <a href=/configuration> <span class="glyphicon glyphicon-list-alt"></span> <span translate>global.menu.account.configuration</span> </a> </li> <li> <a href=/audits> <span class="glyphicon glyphicon-bell"></span> <span translate>global.menu.account.audits</span> </a> </li> <li> <a href=/logs> <span class="glyphicon glyphicon-tasks"></span> <span translate>global.menu.account.logs</span> </a> </li> <li> <a href=/docs> <span class="glyphicon glyphicon-book"></span> <span translate>global.menu.account.apidocs</span> </a> </li> </ul> </li> <li class="dropdown pointer" ng-switch-when=true> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-user"></span> <span class=hidden-tablet translate>global.menu.account.main</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu ng-controller=MenuController> <li class=item-profile> <a href=/profile> <span class="glyphicon glyphicon-user"></span> <span translate>global.menu.account.profile</span> </a> </li> <li> <a href=/settings> <span class="glyphicon glyphicon-wrench"></span> <span translate>global.menu.account.settings</span> </a> </li> <li> <a href=/password> <span class="glyphicon glyphicon-lock"></span> <span translate>global.menu.account.password</span> </a> </li> <li> <a href=/logout> <span class="glyphicon glyphicon-log-out"></span> <span translate>global.menu.account.logout</span> </a> </li> </ul> </li> </ul> </div> </div> </div> <div class=container> <!--[if lt IE 9]>
+	<div class="browserupgrade">
+		<p translate="global.browsehappy">You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.</p>
+	</div>
+	<![endif]--> <div id=nojavascript> <h1>JavaScript Not Detected</h1> <p>The site requires that you enable JavaScript for your browser. Please turn on JavaScript for your browser and click "Try Again" to proceed.</p> <p><a href class="btn btn-primary" role=button>Try Again</a> - <a href="" class="btn btn-info" role=button>Learn More</a></p> </div> <div class=main ng-view></div> <div class=footer></div> </div> <script type=text/javascript>// Fake noscript tag to avoid Chrome bug
+	document.getElementById('nojavascript').style.display = 'none';</script> <script src=/scripts/6170073d.home.js></script> </body> </html>
+
+
+#####EOF#####
+
+
+<!DOCTYPE html><!--[if lt IE 9]>
+<html ng-controller="MainController" class="no-js">
+<![endif]--><!--[if gte IE 9]>
+<html ng-controller="MainController" class="no-js" ng-app="naibcApp">
+<![endif]--><!--[if !IE]> --> <html ng-controller=MainController class=no-js ng-app=naibcApp> <!-- <![endif]--> <head> <meta http-equiv=X-UA-Compatible content="IE=edge"> <meta charset=utf-8> <meta name=viewport content="width=device-width"> <base href="/"> <title translate=global.title></title> <link rel=P3Pv1 href=/w3c/p3p.xml type=text/xml> <link rel="shortcut icon" href=/favicon.ico type=image/x-icon> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Oswald:400,300,700"> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Gudea:400,700,400italic"> <link rel=stylesheet href=/styles/f2e2d05b.vendor-home.css> <link rel=stylesheet href=/styles/e80717da.home.css> <!--[if lte IE 8]>
+	<style>.navbar-collapse{ display: none !important; }</style>
+	<!--<![endif]--> <!--[if lte IE 8]>
+	<script src="/scripts/6e3bf06e.shiv-home.js"></script>
+	<!--<![endif]--> <!-- Determine the theme on the server and set a variable to determine it at runtime. --> <script type=text/javascript src=/theme></script> </head> <body class="client-{{ client }}" ng-class="{'is-admin': isAuthorized(userRoles.admin)}" ng-cloak> <div class=loading-overlay ng-hide=hideOverlay></div> <div class="navbar navbar-default" role=navigation> <div class=container> <div class=navbar-title> <a href="/"> <span translate>global.title</span> </a> </div> <div class=navbar-header> <button type=button class=navbar-toggle data-toggle=collapse data-target=#navbar-collapse> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <span class="language-menu language-menu__mobile"> <span ng-if="client === 'daa'" class="dropdown nav navbar-nav navbar-right"> <a data-toggle=dropdown><span class="glyphicon glyphicon-globe language-menu__icon" aria-hidden=true></span></a> <ul class=dropdown-menu> <li> <a ng-hide="theme==='daac' && lang==='fr'" href="" ng-click="changeLanguage('daac', 3,'fr')">FranÃ§ais Canadien</a> <a ng-hide="theme==='daac' && lang==='en'" href="" ng-click="changeLanguage('daac', 3,'en')">Canadian English</a> <a ng-hide="theme==='apda'" href="" ng-click="changeLanguage('apda', 4,'es')">EspaÃ±ol Latinoamericano</a> <a ng-hide="theme==='daa' && lang==='en'" href="" ng-click="changeLanguage('daa', 2, 'en')">US English</a> <a ng-hide="theme==='daa' && lang==='es'" href="" ng-click="changeLanguage('daa', 2, 'es')">EspaÃ±ol de Estados Unidos</a> </li> </ul> </span> </span> <a class=navbar-brand ng-href="{{ logoLink }}"> <img ng-src="{{'global.imageUrls.navLogo' | translate}}" alt="{{ 'global.logoAlt' | translate }}"> </a> </div> <div class="collapse navbar-collapse" id=navbar-collapse ng-switch=authenticated> <ul class="nav navbar-nav navbar-right external-links"> <li ng-switch-when=false class=dropdown> <button type=button class=dropdown-toggle data-toggle=dropdown> <span class=sr-only>Toggle navigation</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <ul class=dropdown-menu> <li> <a translate href="{{'global.menu.external.protectMyChoicesLink' | translate}}" target=_blank>global.menu.external.protectMyChoices</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.understandingHowOnlineAdvertisingWorksLink' | translate}}" target=_blank>global.menu.external.understandingHowOnlineAdvertisingWorks</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.frequentlyAskedQuestionsLink' | translate}}" target=_blank>global.menu.external.frequentlyAskedQuestions</a> <a translate href="{{'global.menu.external.visitYourAdChoicesLink' | translate}}" target=_blank>global.menu.external.visitYourAdChoices</a> <a translate href="{{'global.menu.external.daaPrinciplesLink' | translate}}" target=_blank>global.menu.external.daaPrinciples</a> <a translate href="{{'global.menu.external.reportAProblemLink' | translate}}" target=_blank>global.menu.external.reportAProblem</a> <a ng-if="theme!=='apda'" translate href="{{'global.menu.external.helpWithChoicesLink' | translate}}" target=_blank>global.menu.external.helpWithChoices</a> <a translate href="{{'global.menu.external.daaPrivacyPolicyLink' | translate}}" target=_blank>global.menu.external.daaPrivacyPolicy</a> <a translate href="{{'global.menu.external.daaTermsOfServiceLink' | translate}}" target=_blank>global.menu.external.daaTermsOfService</a> </li> </ul> <span class="language-menu language-menu__desktop"> <span ng-if="client === 'daa'" class="dropdown nav navbar-nav navbar-right"> <a data-toggle=dropdown><span class="glyphicon glyphicon-globe language-menu__icon" aria-hidden=true></span></a> <ul class=dropdown-menu> <li> <a ng-hide="theme==='daac' && lang==='fr'" href="" ng-click="changeLanguage('daac', 3,'fr')">FranÃ§ais Canadien</a> <a ng-hide="theme==='daac' && lang==='en'" href="" ng-click="changeLanguage('daac', 3,'en')">Canadian English</a> <a ng-hide="theme==='apda'" href="" ng-click="changeLanguage('apda', 4,'es')">EspaÃ±ol Latinoamericano</a> <a ng-hide="theme==='daa' && lang==='en'" href="" ng-click="changeLanguage('daa', 2, 'en')">US English</a> <a ng-hide="theme==='daa' && lang==='es'" href="" ng-click="changeLanguage('daa', 2, 'es')">EspaÃ±ol de Estados Unidos</a> </li> </ul> </span> </span> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer"> <a href=/member> <span class="glyphicon glyphicon-asterisk"></span> <span translate>global.menu.members</span> </a> </li> <li ng-switch-when=true ng-show=isAuthorized(userRoles.admin) class="dropdown pointer" ng-controller=AdminController> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-tower"></span> <span class=hidden-tablet translate>global.menu.admin</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu> <li> <a href=/metrics> <span class="glyphicon glyphicon-dashboard"></span> <span translate>global.menu.account.metrics</span> </a> </li> <li> <a href=/health> <span class="glyphicon glyphicon-heart"></span> <span translate>global.menu.account.health</span> </a> </li> <li> <a href=/configuration> <span class="glyphicon glyphicon-list-alt"></span> <span translate>global.menu.account.configuration</span> </a> </li> <li> <a href=/audits> <span class="glyphicon glyphicon-bell"></span> <span translate>global.menu.account.audits</span> </a> </li> <li> <a href=/logs> <span class="glyphicon glyphicon-tasks"></span> <span translate>global.menu.account.logs</span> </a> </li> <li> <a href=/docs> <span class="glyphicon glyphicon-book"></span> <span translate>global.menu.account.apidocs</span> </a> </li> </ul> </li> <li class="dropdown pointer" ng-switch-when=true> <a class=dropdown-toggle data-toggle=dropdown href=""> <span> <span class="glyphicon glyphicon-user"></span> <span class=hidden-tablet translate>global.menu.account.main</span> <b class=caret></b> </span> </a> <ul class=dropdown-menu ng-controller=MenuController> <li class=item-profile> <a href=/profile> <span class="glyphicon glyphicon-user"></span> <span translate>global.menu.account.profile</span> </a> </li> <li> <a href=/settings> <span class="glyphicon glyphicon-wrench"></span> <span translate>global.menu.account.settings</span> </a> </li> <li> <a href=/password> <span class="glyphicon glyphicon-lock"></span> <span translate>global.menu.account.password</span> </a> </li> <li> <a href=/logout> <span class="glyphicon glyphicon-log-out"></span> <span translate>global.menu.account.logout</span> </a> </li> </ul> </li> </ul> </div> </div> </div> <div class=container> <!--[if lt IE 9]>
+	<div class="browserupgrade">
+		<p translate="global.browsehappy">You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.</p>
+	</div>
+	<![endif]--> <div id=nojavascript> <h1>JavaScript Not Detected</h1> <p>The site requires that you enable JavaScript for your browser. Please turn on JavaScript for your browser and click "Try Again" to proceed.</p> <p><a href class="btn btn-primary" role=button>Try Again</a> - <a href="" class="btn btn-info" role=button>Learn More</a></p> </div> <div class=main ng-view></div> <div class=footer></div> </div> <script type=text/javascript>// Fake noscript tag to avoid Chrome bug
+	document.getElementById('nojavascript').style.display = 'none';</script> <script src=/scripts/6170073d.home.js></script> </body> </html>
+
+
+#####EOF#####
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Digital Advertising Alliance (DAA) Self-Regulatory Program  | www.aboutads.info</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/sites/default/files/aba_v1_favicon.png" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/default/files/css/css_074037e79cf6bae83fb13a0cddc3dab9.css" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/grid16-960.css?g"/>
+  <!--[if IE 8]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie8-fixes.css?g" />
+  <![endif]-->
+  <!--[if IE 7]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie7-fixes.css?g" />
+  <![endif]-->
+  <!--[if lte IE 6]>
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/fusion_core/css/ie6-fixes.css?g"/>
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/aba_v1/css/ie6-fixes.css?g"/>
+  <![endif]-->
+  <!--[if gte IE 9]>
+  <style type="text/css">
+    .gradient {
+       filter: none;
+    }
+  </style>
+  <![endif]-->
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/fusion/aba_v1/css/local.css?g" />
+  <!--[if gte IE 9]>
+  <style type="text/css">
+    .reject-link-wrapper {
+      bottom: 38px;
+    }
+
+    .reject-link-wrapper .reject-link {
+      padding: 4px 5px;
+    }
+  </style>
+  <![endif]-->
+  <script type="text/javascript" src="/sites/default/files/js/js_5f9b16173b38b9119f829fc8f710cce7.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "dhtmlMenu": { "slide": "slide", "clone": "clone" }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls|xml|z|zip" }, "lightbox2": { "rtl": 0, "file_path": "/(\\w\\w/)sites/default/files", "default_image": "/sites/all/modules/lightbox2/images/brokenimage.jpg", "border_size": 10, "font_color": "000", "box_color": "fff", "top_position": "", "overlay_opacity": "0.8", "overlay_color": "000", "disable_close_click": true, "resize_sequence": 0, "resize_speed": 400, "fade_in_speed": 400, "slide_down_speed": 600, "use_alt_layout": false, "disable_resize": false, "disable_zoom": false, "force_show_nav": false, "show_caption": true, "loop_items": false, "node_link_text": "View Image Details", "node_link_target": false, "image_count": "Image !current of !total", "video_count": "Video !current of !total", "page_count": "Page !current of !total", "lite_press_x_close": "press \x3ca href=\"#\" onclick=\"hideLightbox(); return FALSE;\"\x3e\x3ckbd\x3ex\x3c/kbd\x3e\x3c/a\x3e to close", "download_link_text": "", "enable_login": false, "enable_contact": false, "keys_close": "c x 27", "keys_previous": "p 37", "keys_next": "n 39", "keys_zoom": "z", "keys_play_pause": "32", "display_image_size": "original", "image_node_sizes": "()", "trigger_lightbox_classes": "", "trigger_lightbox_group_classes": "", "trigger_slideshow_classes": "", "trigger_lightframe_classes": "", "trigger_lightframe_group_classes": "", "custom_class_handler": 0, "custom_trigger_classes": "", "disable_for_gallery_lists": true, "disable_for_acidfree_gallery_lists": true, "enable_acidfree_videos": true, "slideshow_interval": 5000, "slideshow_automatic_start": true, "slideshow_automatic_exit": true, "show_play_pause": true, "pause_on_next_click": false, "pause_on_previous_click": true, "loop_slides": false, "iframe_width": 600, "iframe_height": 400, "iframe_border": 1, "enable_video": false } });
+//--><!]]>
+</script>
+</head>
+
+<body id="pid-home" class="front not-logged-in page-node node-type-page no-sidebars full-node layout-main-last sidebars-split font-size-12 grid-type-960 grid-width-16">
+<!--{6a282d544dc348f55cf17f1c73fa9d1d}-->
+  <div id="page" class="page">
+    <div id="page-inner" class="page-inner">
+      <div id="skip">
+        <a href="#main-content-area">Skip to Main Content Area</a>
+      </div>
+
+      <!-- header-top row: width = grid_width -->
+      
+      <!-- header-group row: width = grid_width -->
+      <div id="header-group-wrapper" class="header-group-wrapper full-width">
+        <div id="header-group" class="header-group row grid16-16">
+          <div id="header-group-inner" class="header-group-inner inner clearfix">
+            <?//php print theme('grid_block', theme('links', $secondary_links), 'secondary-menu'); ?>
+            
+                        <div id="header-site-info" class="header-site-info block">
+              <div id="header-site-info-inner" class="header-site-info-inner inner">
+                                <div id="logo">
+                  <a href="/" title="Home"><img src="/sites/all/themes/fusion/aba_v1/logo.png" alt="Home" /></a>
+                </div>
+                                                <div id="site-name-wrapper" class="clearfix">
+                                    <span id="site-name"><a href="/" title="Home">www.aboutads.info</a></span>
+                                                    </div><!-- /site-name-wrapper -->
+                              </div><!-- /header-site-info-inner -->
+            </div><!-- /header-site-info -->
+                                                                            <h1 class="title">Digital Advertising Alliance (DAA) Self-Regulatory Program </h1>
+                                                        <div id="primary-menu" class="primary-menu block">
+<div id="primary-menu-inner" class="primary-menu-inner inner clearfix">
+<ul class="menu sf-menu"><li class="leaf first dhtml-menu  active-trail"><a href="/home" title="THE SELF-REGULATORY PROGRAM FOR ONLINE BEHAVIORAL ADVERTISING" id="dhtml_menu-861" class="active">Home</a></li>
+<li class="leaf  dhtml-menu "><a href="/principles" title="" id="dhtml_menu-932">Principles</a></li>
+<li class="leaf  dhtml-menu "><a href="/consumers" title="For Consumers" id="dhtml_menu-864">Consumers</a></li>
+<li class="leaf  dhtml-menu "><a href="/participants" title="INFORMATION FOR INTERESTED COMPANIES" id="dhtml_menu-865">Companies</a></li>
+<li class="leaf  dhtml-menu "><a href="/participating" title="" id="dhtml_menu-934">Participants</a></li>
+<li class="leaf  dhtml-menu "><a href="/resources" title="" id="dhtml_menu-936">Resources</a></li>
+<li class="leaf  dhtml-menu "><a href="/news" title="" id="dhtml_menu-935">News &amp; Media Resources</a></li>
+<li class="leaf  dhtml-menu "><a href="/blog" title="Blog" id="dhtml_menu-961">Blog</a></li>
+<li class="leaf  dhtml-menu "><a href="/enforcement" title="Enforcement of the Principles" id="dhtml_menu-114">Enforcement</a></li>
+<li class="leaf last dhtml-menu "><a href="/contact-us" title="Contact Us" id="dhtml_menu-867">Contact</a></li>
+</ul></div><!-- /primary-menu-inner -->
+</div><!-- /primary-menu -->
+          </div><!-- /header-group-inner -->
+        </div><!-- /header-group -->
+      </div><!-- /header-group-wrapper -->
+
+      <!-- preface-top row: width = grid_width -->
+      
+      <!-- main row: width = grid_width -->
+      <div id="main-wrapper" class="main-wrapper full-width">
+        <div id="main" class="main row grid16-16">
+          <div id="main-inner" class="main-inner inner clearfix">
+            
+            <!-- main group: width = grid_width - sidebar_first_width -->
+            <div id="main-group" class="main-group row nested grid16-16">
+              <div id="main-group-inner" class="main-group-inner inner">
+                
+                <div id="main-content" class="main-content row nested">
+                  <div id="main-content-inner" class="main-content-inner inner">
+                    <!-- content group: width = grid_width - (sidebar_first_width + sidebar_last_width) -->
+                    <div id="content-group" class="content-group row nested grid16-12">
+                      <div id="content-group-inner" class="content-group-inner inner">
+                        
+                        
+                        <div id="content-region" class="content-region row nested">
+                          <div id="content-region-inner" class="content-region-inner inner">
+                            <a name="main-content-area" id="main-content-area"></a>
+                                                        <div id="content-inner" class="content-inner block">
+                              <div id="content-inner-inner" class="content-inner-inner inner">
+                                                                <div id="content-content" class="content-content">
+                                  
+<div id="node-83" class="node odd full-node node-type-page">
+  <div class="inner">
+    
+    
+   
+
+    
+    <div class="content clearfix">
+      <div class="field field-type-text field-field-common-subheader">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <p>Digital Advertising Alliance (DAA) Self-Regulatory Program</p>
+        </div>
+        </div>
+</div>
+<div class="field field-type-filefield field-field-common-img">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <img  class="imagefield imagefield-field_common_img" width="138" height="155" alt="" src="/sites/default/files/page_img/icon_enhanced_notice_lg.jpg" />        </div>
+        </div>
+</div>
+<div class="field field-type-text field-field-common-body">
+    <div class="field-items">
+            <div class="field-item odd">
+                    <div class="homepage">
+<p>&nbsp;</p>
+<div>
+		<span style="color: rgb(204, 0, 0); font-style: italic; font-weight: bold; ">Advertising Option Icon</span></div>
+<p>&nbsp;</p>
+<p><span style="font-size:20px;"><strong>Latest News: <strong>Digital Advertising Alliance Launches Initiative to Increase Transparency &amp; Accountability in Political Ads</strong></strong></span></p>
+<div id="ooImgDiv">
+<p class="rteright"><a href="http://optout.aboutads.info/?c=2&amp;lang=EN" id="ooImg" target="_blank"><img alt="Click to view the Consumer Opt Out Page" src="/resource/image/choice_button.gif" /></a></p>
+<div>
+			Make choices with participating companies under the DAA Principles</div>
+</div>
+<p>The Digital Advertising Alliance (DAA) today launched an industry-wide initiative to increase transparency and accountability around digital political ads, including new guidance for political advertisers and a &ldquo;PoliticalAd&rdquo; icon that will link to additional information on such ads. Compliance with the guidance will be independently enforced by the Advertising Self Regulatory Council (ASRC) and the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. <a href="http://www.aboutads.info/digital-advertising-alliance-launches-initiative-increase-transparency-accountability-political-ads">Read the press release here</a>.</p>
+<p>&nbsp;</p>
+<hr />
+<p>The Digital Advertising Alliance (DAA) establishes and enforces responsible privacy practices across industry for relevant digital advertising, providing consumers with enhanced transparency and control through multifaceted&nbsp;<a href="http://www.aboutads.info/principles">Principles</a>&nbsp;that apply to Multi-Site Data and Cross-App Data gathered in either desktop or mobile environments. The DAA is an independent non-profit&nbsp;organization led by&nbsp;<a href="https://youradchoices.com/about" target="_blank">leading advertising and marketing trade associations</a>.</p>
+<p><strong><span style="font-size: 16px;">For Consumers</span></strong></p>
+<p><strong>Learn about Interest-Based Advertising (&quot;IBA&quot;):</strong>&nbsp;<a href="/consumers/">Find out more</a> about interest-based advertising and how it helps provide you with more relevant advertising on the websites you visit or applications you use. You&#39;ll learn how IBA&nbsp;supports the free content, products and services you use online, and what choices are provided to you through the DAA Program.</p>
+<p><strong>Exercise Your Choice:</strong>&nbsp;<a href="/choices/">Visit</a> the DAA&rsquo;s Consumer Choice page, which allows users to conveniently opt out from Choice Page participating companies&rsquo; collection of Web viewing data over time and across unaffiliated sites for IBA and other applicable uses under the Principles.</p>
+<p><strong>Report a Complaint:&nbsp;</strong>If you believe that you have witnessed a practice or ad may violate the Principles, you can&nbsp;<a href="/enforcement">report the incident</a>&nbsp;to either Better Business Bureaus (CBBB) or the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. Complaints may be filed by consumers, business entities or other stakeholders.</p>
+<div class="break">
+		&nbsp;</div>
+<p>	<strong><span style="font-size: 16px;">For Interested Companies</span></strong></p>
+<p><strong>Learn about the DAA Program:</strong> You can find out more about the DAA&nbsp;<a href="/principles/">Principles</a>, and our participating <a href="/associations/">Associations</a>. To learn how your company can implement the Principles, please review the <a href="http://www.aboutads.info/resources">Implementation Resources</a>.</p>
+<p><strong>Register to USE the DAA Icon:</strong> Companies participating in Program may use the DAA Icon as a means for providing enhanced notice of interest-based advertising practices. If you would like to register to use the icon, please <a href="/participants/icon/">click here</a>.&nbsp;here. To separately register your company participate in the DAA&rsquo;s AppChoices tool, please <a href="https://www.aboutads.info/appchoices-inquiry-form-sf">click here</a>.</p>
+<p>	<strong>Report a Complaint:&nbsp;</strong>If you believe that you have witnessed a practice or ad that may violate the Principles, you can&nbsp;<a href="/enforcement">report the incident</a>&nbsp;to incident to either Better Business Bureaus (CBBB) or the Data Marketing &amp; Analytics (DMA) division of the Association of National Advertisers. Complaints may be filed by consumers, business entities or other stakeholders.</p>
+<div class="break">
+		&nbsp;</div>
+<p><strong><span style="font-size: 16px;">For Companies Engaged in Online Behavioral Advertising</span></strong></p>
+<p>To enhance the transparency of interest-based advertising, the DAA encourages companies qualifying as third parties under the Principles to:</p>
+<ul>
+<li>
+			<strong>Inform consumers</strong> about their data practices through clear, meaningful and prominent notices.</li>
+<li>
+			<strong>Display the DAA&nbsp;<a href="/participants/icon/">Icon</a></strong> so Icon so that consumers find out about interest-based advertising, learn about the data practices associated with advertisements they receive, and opt-out if they choose.</li>
+<li>
+			<strong><a href="/participants/register/">Register</a></strong> to receive information about how to be listed on the <strong>Consumer Choice Page</strong>, where consumers will be able to easily opt out from data collection by participating companies for applicable practices</li>
+</ul>
+</div>
+<p>&nbsp;</p>
+        </div>
+        </div>
+</div>
+    </div>
+<br><br>
+     
+    
+      </div><!-- /inner -->
+
+  </div><!-- /node-83 -->
+                                                                  </div><!-- /content-content -->
+                                                              </div><!-- /content-inner-inner -->
+                            </div><!-- /content-inner -->
+                          </div><!-- /content-region-inner -->
+                        </div><!-- /content-region -->
+
+                                              </div><!-- /content-group-inner -->
+                    </div><!-- /content-group -->
+
+                    <div id="sidebar-last" class="sidebar-last row nested grid16-4">
+<div id="sidebar-last-inner" class="sidebar-last-inner inner clearfix">
+
+<div id="block-block-4" class="block block-block odd first last  grid16-4">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p>&nbsp;</p>
+<h6 class="rtecenter">
+	<br />
+	<a href="/associations">Participating Associations</a></h6>
+<p>&nbsp;</p>
+<h6 class="rtecenter">
+	<br />
+	<a class="external" href="http://www.aaaa.org/" title="View the AAAA Website"><img alt="AAAA Logo" height="92" src="/sites/default/files/resource/4AsLogo.png" width="98" /></a>&nbsp; <a class="external" href="http://www.aaf.org/" title="View the AAF Website"><img alt="AAF Logo" src="/resource/image/template/logo_AAF.gif" /></a>&nbsp; <a class="external" href="http://www.ana.net/" title="View the ANA Website"><img alt="ANA Logo" src="/resource/image/template/logo_ANA.gif" /></a>&nbsp; <a class="external" href="http://www.bbb.org/us/interest-based-advertising/consumers/" target="_blank" title="View the BBB Website"><img alt="BBB Logo" src="/resource/image/template/logo_BBB.gif" /></a> &nbsp; <a class="external" href="https://thedma.org/" target="_blank" title="View the DMA Website"> <img src="http://www.aboutads.info/sites/default/files/resource/dmaLogo.png" style="width: 140px;" /></a>&nbsp; <a class="external" href="http://www.iab.net/" title="View the IAB Website"><img alt="IAB Logo" src="/resource/image/template/logo_IAB.gif" /></a>&nbsp; <a class="external" href="http://www.networkadvertising.org/" title="View the NAI Website"><img alt="NAI Logo" src="/resource/image/template/logo_NAI.gif" /></a></h6>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /sidebar-last-inner -->
+</div><!-- /sidebar-last -->
+                  </div><!-- /main-content-inner -->
+                </div><!-- /main-content -->
+
+                <div id="postscript-top" class="postscript-top row nested ">
+<div id="postscript-top-inner" class="postscript-top-inner inner clearfix">
+
+<div id="block-block-5" class="block block-block odd first  grid16-8">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p>
+	<a href="/associations"><img alt="" src="http://www.aboutads.info/resource/download/logo/DAA_Logo_HiRes.jpg" style="width: 150px; height: 45px; " /></a></p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+
+<div id="block-block-2" class="block block-block even  last  grid16-8">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <div id="spacer">&nbsp;</div>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /postscript-top-inner -->
+</div><!-- /postscript-top -->
+              </div><!-- /main-group-inner -->
+            </div><!-- /main-group -->
+          </div><!-- /main-inner -->
+        </div><!-- /main -->
+      </div><!-- /main-wrapper -->
+
+      <!-- postscript-bottom row: width = grid_width -->
+      
+      <!-- footer row: width = grid_width -->
+      <div id="footer-wrapper" class="footer-wrapper full-width">
+<div id="footer" class="footer row grid16-16">
+<div id="footer-inner" class="footer-inner inner clearfix">
+
+<div id="block-block-3" class="block block-block odd first last fusion-center fusion-center-content grid16-16">
+  <div class="inner clearfix">
+            <div class="content clearfix">
+      <p><a href="/legal/">Terms of Use</a> | <a href="/privacy/">Privacy</a> <span>&copy;</span> 2017 Digital Advertising Alliance &ndash; All rights reserved</p>
+    </div>
+  </div><!-- /block-inner -->
+</div><!-- /block -->
+</div><!-- /footer-inner -->
+</div><!-- /footer -->
+</div><!-- /footer-wrapper -->
+
+      <!-- footer-message row: width = grid_width -->
+      <div id="footer-message-wrapper" class="footer-message-wrapper full-width">
+        <div id="footer-message" class="footer-message row grid16-16">
+          <div id="footer-message-inner" class="footer-message-inner inner clearfix">
+                      </div><!-- /footer-message-inner -->
+        </div><!-- /footer-message -->
+      </div><!-- /footer-message-wrapper -->
+
+    </div><!-- /page-inner -->
+  </div><!-- /page -->
+  <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-19786180-1"]);_gaq.push(["_gat._anonymizeIp"]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

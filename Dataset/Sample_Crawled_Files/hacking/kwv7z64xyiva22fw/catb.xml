@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rev="made" href="mailto:esr@snark.thyrsus.com" />
+<link rel="stylesheet" href="/~esr/sitestyle.css" type="text/css" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="MSSmartTagsPreventParsing" content="TRUE" />
+<title>The Luxury of Ignorance: An Open-Source Horror Story</title>
+</head>
+<body>
+
+<div id="Header">
+<table width="100%" cellpadding="0" summary="Canned page header">
+<tr>
+<td>The Luxury of Ignorance: An Open-Source Horror Story</td>
+<td align="right">
+<script language="JavaScript" src="/~esr/datestamp.js" type='text/javascript'></script>
+</td>
+</tr>
+</table>
+</div>
+
+<div id="Menu">
+	<hr/>
+	<a href="/~esr" title="My home page">Home Page</a><br />
+	<a href="/~esr/whatsnew.html" title="What's new on this site">What's New</a><br />
+	<a href="/~esr/sitemap.html" title="Map of the site">Site Map</a><br />
+	<a href="/~esr/software.html" title="Software I maintain">Software</a><br />
+	<a href="/~esr/projects.html" title="My projects">Projects</a><br />
+	<a href="/~esr/faqs/" title="My FAQ documents">HOWTOs</a><br />
+	<a href="/~esr/writings/" title="Essays and ruminations">Essays</a><br />
+	<a href="/~esr/personal.html" title="Portrait of the author">Personal</a><br />
+	<a href="http://www.ibiblio.org/esrblog/">Weblog</a><br/>	
+	<a href="/~esr/netfreedom/">Freedom!</a><br />
+	<a href="/~esr/guns/">Firearms!</a><br />
+	<hr/>
+</div>
+
+<div id="Content">
+
+<div class='notebox'>A translation to <a href='http://www.kubieziel.de/computer/cups-horror.html'>German</a> is available.</div>
+
+<p>I've just gone through the experience of trying to configure CUPS,
+the Common Unix Printing System.  It has proved a textbook lesson in
+why nontechnical people run screaming from Unix.  This is all the more
+frustrating because the developers of CUPS have obviously tried hard
+to produce an accessible system &mdash; but the best intentions and
+effort have led to a system which despite its superficial
+pseudo-friendliness is so undiscoverable that it might as well have
+been written in ancient Sanskrit.</p>
+
+<p>GUI tools and voluminous manuals are not enough.  You have to think
+about what the actual user experiences when he or she sits down to do
+actual stuff, and you have to think about it <em>from the user's point
+of view</em>.  The CUPS people, despite good intentions, have utterly
+failed at this.  I'm going to anatomize this failure in detail,
+because there are lessons here that other open-source projects would
+do well to heed.  The point of this essay is not, therefore, just to 
+beat up on the CUPS people &mdash; it's also to beat up on every other
+open-source designer who does equally thoughtless things under the
+fond delusion that a slick-looking UI is a well-designed UI.  Watch 
+and learn...</p>
+
+<p>The configuration problem is simple.  I have a desktop machine
+named 'snark'.  It is connected, via the house Ethernet, to my wife
+Cathy's machine, which is named 'minx'.  Minx has a LaserJet 6MP
+attached to it via parallel port.  Both machines are running Fedora
+Core 1, and Cathy can print locally from minx.  I can ssh minx from
+snark, so the network is known good.</p>
+
+<br/>
+<p>This should be easy, right?  *hollow laughter*  Famous last words...</p>
+<br/>
+
+<p>First, I do what any nontechnical user would do.  I go to my desktop menu 
+and click System Settings->Printing, then give the root password to the
+following popup.  Up comes a "Printer configuration" popup.  I click
+"New".  Up pops a wizard that says, in big friendly letters, "Add a new
+print queue".  So far, so good.  I click "Forward".</p>
+
+<p>Now, those of you who are intimate with CUPS know I have already
+made a basic error.  I shouldn't be trying to create a new print queue
+on snark and then glue it to the server on minx, at all.  Instead, if
+I want to pass print jobs to minx, I should look at the configuration
+wizard, see minx's print queue already announced there, and make it
+snark's default.  <em>But nothing in the configuration wizard's
+interface even hints at that!</em>  And minx's print queue does not show,
+for a reason we'll discover later in this sorry saga.</p>
+
+<p>New form in the window, saying "Queue name" in equally big friendly letters.
+It offers a default of "printer".  I change it to "laserjet" because I might
+at some point want to hook up the ancient dot-matrix thingy I still have.
+I enter the optional short description: "the laser printer".  So far this
+is all good.  Aunt Tillie could handle this just fine.  Forward...</p>
+
+<p>New form.  "Queue type", it says.  There's a drop-down menu.  The default 
+is "Locally connected", which is reasonable.  Clicking on the menu, I am
+presented with the following alternatives:</p>
+
+<pre>
+	Networked CUPS (IPP)
+	Networked Unix (LPD)
+	Networked Windows (SMB)
+	Networked Novell (NCP)
+	Networked JetDirect
+</pre>
+
+<p>Here is our first intimation of trouble.  If I were Aunt Tillie the
+archetypal nontechnical user, I am at this point thinking "What in the
+holy fleeping frack does that mean?  And just as importantly, <em>why
+do I have to answer this question?</em>" I do not, after all, have any
+Windows machines on my network.  Nor any Netware boxes.  And I
+certainly don't have a "Networked JetDirect", whatever <em>that</em>
+might be.</p>
+
+<p>If the designers were half-smart about UI issues (like, say, Windows
+programmers) they'd probe the local network neighborhood and omit the
+impossible entries.  If they were really smart (like, say, Mac
+programmers) they'd leave the impossible choices in but gray them out,
+signifying that if your system were configured a bit differently you
+really could print on a Windows machine, assuming you were unfortunate
+enough to own one.</p>
+
+<p>But no.  Instead, Aunt Tillie is already getting the idea that this 
+software was written by geeks without clue.</p>
+
+<p>But wait!  Wait!  Hallelujah!  There's a help button!  I click it.
+Up comes a nice glossy page of on-line documentation.  But instead of
+answering the question in my mind, which is "How do I choose the right
+queue type", it is a page on adding a locally connected printer.  That
+is, it's associated with the currently selected-by-default queue type,
+not the operation of choosing a queue.  The help is...unhelpful.</p>
+
+<p>Aunt Tillie, at this point, is either resigning herself to another
+session of being tortured by the poor UI choices of well-meaning idiots
+or deciding to chuck this whole Linux thing and go back to the old
+Windows box.  It blue-screened a lot, but at least it allowed her the
+luxury of ignorance &mdash; she didn't have to know, or care, about
+what a JetDirect or a CUPS might be.</p>
+
+<p>I am not ignorant, but I have my own equivalent of Aunt Tillie's
+problem.  I know I want one of the top two methods, but I don't know
+which one.  And <em>I</em> don't want to know or care about the
+difference either; I have better things to do with my brain than
+clutter it with sysadminning details.  If the tool can detect that
+both methods are available on the local net (and that shouldn't be
+hard, they're both well-known ports) it should put "(recommended)"
+next to one so I can click and keep going.</p>
+
+<p>But nooooo.  Instead I have to stare at the help screen and think
+"Where might I find some guidance on this, and why is this already taking
+too freaking long?"  Applying my fearsome hacker-jutsu, I try clicking
+"Prev".  I get a page about the printer configuration which describes
+the queue types, but still no guidance on how to choose between CUPS
+and LPD.</p>
+
+<p>Obviously it never occurred to the designers of the CUPS that this
+could be an issue, either for Aunt Tillie or for the more technically
+ept.  There is no large friendly button next to the "Select a queue
+type" that says "How to select a queue type".  This lack is a grave
+flaw in the UI design that turns the superficial spiffiness of the
+configuration wizard into a tease, a mockery.</p>
+
+<p>Applying my fearsome hacker-jutsu once again, I guess, and select
+"CUPS (IPP)".  Comes now the form that turns the UI from a mockery to
+something worse. It presents two text fields. One is labeled "Server"
+and is blank.  The other is labeled "Path:" and contains the string
+"/printers/queue1".</p>
+
+<p>If Aunt Tillie were still along for the ride, she would be using
+some unladylike language right about now.  And with good reason,
+because this is a crash landing, an unmitigated disaster.  To
+understand why, you have to stop thinking like a hacker for a few
+moments.  Cram your mind, if you can, back into the mindset of a
+clueless user.  Somebody who not only doesn't know what a string like
+"/printers/queue1" might mean, but doesn't want to know, and doesn't
+think he or she ought to have to learn.</p>
+
+<p>From Aunt Tillie's point of view, it's reasonable that the host
+field is empty; she hasn't selected one, after all.  But the fact that
+the Path field is filled in is worse than useless, it's actually
+harmful &mdash; because she doesn't know what it means, and doesn't
+know how to tell whether or not that default would be valid if she
+<em>did</em> fill in a server name.  She is stopped dead.</p>
+
+<p> What she ought at this point to be seeing is one of two things:
+either a list of CUPS print queues available on the local network,
+or a big bold message that says "I don't see any queues available
+locally; you may need to go set up a print server."  The prompt
+for server/path, presented here, is a stone wall; not only 
+does it leaves Aunt Tillie with no idea how to proceed, it is
+just as opaque to an experienced hacker like me.</p>
+
+<p>The meta-problem here is that the configuration wizard does all the
+approved rituals (GUI with standardized clicky buttons, help popping
+up in a browser, etc. etc.) but doesn't have the central attribute
+these are supposed to achieve: <em>discoverability</em>. That is, the
+quality that every point in the interface has prompts and actions
+attached to it from which you can <em>learn what to do next</em>. 
+Does <em>your</em> project have this quality?</p>
+
+<p>In fact, the "Queue type" form is an anti-discoverable interface
+&mdash; it leads you right down a blind alley of trying to set up a
+local queue pointing to a remote server that you <em>know</em> can
+print &mdash; like my wife Cathy's machine &mdash; and then cursing
+because your test print attempts fail.  This is, in fact, exactly what
+happened to me next.</p>
+
+<p>I typed "minx.thyrsus.com" into the server field, on the assumption
+that "/printers/queue1" might be a safe default that other CUPS
+instances would honor.  I went through the manufacturer and model
+screens and confirmed the queue creation. The wizard popped up a
+window offering to print a test page; I told it yes...and nothing
+happened. Actually, it was worse than nothing; the configurator window
+displayed a message that said `Network host "minx.thyrsus.com" is
+busy, will retry in 30 seconds', and then (to all appearances)
+hung.</p>
+
+<p>We are now deep in the trackless swamps created by thoughtless,
+feckless UI design &mdash; full of glitz and GUI, signifying nothing.
+This is the precise point at which I decided I was going to write a rant
+and started taking notes.</p>
+
+<p>The "Queue type" screen gave me no clue about the existence,
+nonexistence, or sharable status of any print queues on my network.  I
+have two other machines in the house, both running full Fedora Core
+and plugged into Ethernet; the <em>really</em> right thing would have
+been a message that said "I see CUPS demons are running on minx, golux,
+and grelber, but no queues are accessible." with a pointer
+into the CUPS documentation.</p>
+
+<p>Again, the help I did get wasn't helpful.  The page associated with
+"Networked CUPS (IPP) Printer" says "Any networked IPP printer found
+via CUPS browsing appears in the main window under the <b>Browsed
+queues</b> category."  Oh, really?  What "main window" would that be
+in? And it doesn't give me a clue what to do if I don't see any
+<b>Browsed queues</b> category, which is particularly wack since that
+is the normal, default situation for a new installation!</p>
+
+<p>None of this is rocket science.  The problem isn't that the right
+things are technically difficult to do; CUPS is already supposed to
+have discovery of active shareable queues as a feature.  The problem
+is that the CUPS designers' <em>attitude</em> was wrong.  They never
+stepped outside their assumptions.  They never exerted the mental
+effort to forget what they know and sit down at the system like a dumb
+user who's never seen it before &mdash; and they never watched a dumb
+user in action!</p>
+
+<p>CUPS is not alone.  This kind of fecklessness is endemic in
+open-source land.  And it's what's keeping Microsoft in business
+&mdash; because by Goddess, they may write crappy insecure overpriced
+shoddy software, but on this <em>one issue</em> their half-assed 
+semi-competent best is an order of magnitude better than we usually
+manage.</p>
+
+<p>But enough prescriptive ranting for the moment.  I'm going to
+tell you about my efforts to research my way out of this hole, 
+because there are some lessons there as well.  First, I went looking
+for documentation.  I did this in a Unix-hackerish way, by eyeballing
+the output of `locate printers` for anything in /usr/share/doc related to
+CUPS.  I found /usr/share/doc/cups-1.1.19/printers/index.html and
+fired up a browser on it.  It redirected me to http://localhost:631/
+which was OK, though the redirect went by too fast.</p>
+
+<p>And I found myself looking at a web page that was not obviously
+useful for troubleshooting my problem.  I tried clicking on the button
+marked "Administration" in hopes the tool behind it would be a bit
+more discoverable than the configuration.  I got a password
+prompt.</p>
+
+<p>Hello?  How am I supposed to know what to do with <em>this</em>
+thing? All it tells me is that it wants a "CUPS login".  Is this the
+same as a system root login, or is there some special funky CUPS
+identity I'm supposed to telepathically know about?  The prompt on
+these password popups is configurable; it could have offered me a clue
+and a pointer into the documentation.  It didn't.</p>
+
+<p>Once again, the theme is the absence of discoverability.  That
+password prompt, rather than being a signpost leading further into
+an understanding of the system, was another stone wall.</p>
+
+<p>When all else fails, there's always Google.  I searched on "CUPS
+printing HOWTO" and found a link to "The Linux Printing HOWTO" &mdash;
+which when I chased it, turned out to be a 404.  Now that bit is
+probably not the CUPS designers' fault; I'm throwing it in just to
+establish that, at that point, I was feeling screwed, blued, and
+tatooed.  The shiny-surfaced opacity of CUPS had, it seemed,
+defeated me in what should have been a trivial 30-second task.</p>
+
+<p>I persevered, however.  My next step was to ssh into minx and see
+if I could discover the name of the active CUPS queue.  Maybe, I
+thought, if I found that out I could plug that queue name into the
+configuration wizard on snark and it would all work.  Alas, it was not
+to be.  The two commands that seemed possibly relevant were lpinfo(8) 
+and lpadmin, and you can't get a list of queue names from either of
+them.  The output of "lpinfo -v" looked like it ought to be useful,
+but I had no idea how to map these device URLs onto queue names.</p>
+
+<p>We are now in real time.  I am writing this rant as I am trying to
+figure out the path out of this maze. I am reading the CUPS System
+Administrator's Manual and it claims : "CUPS supports automatic client
+configuration of printers on the same subnet. To configure printers on
+the same subnet, do nothing. Each client should see the available
+printers within 30 seconds automatically. The printer and class lists
+are updated automatically as printers and servers are added or
+removed."  Well, that's very nice, but the breezy confidence of their
+exposition leaves me with no clue about what to do when the
+autoconfiguration isn't working!</p>
+
+<p>I'm reading the manual, and I find a reference to "BrowseAddress"
+and /etc/cups/cupsd.conf which begins to unfold for me the mystery of
+how the autoconfiguration is supposed to work.  It seems that CUPS
+instances periodically send broadcast packets advertising their status
+and available printers to a broadcast address to be picked up by other
+CUPS instances.  Smart design!  But...bugger me with a chainsaw, the
+broadcast facility is turned off by default <em>and the documentation
+doesn't tell you that!</em></p>
+
+<p>So, let's review.  In order for the nice, user-friendly
+autoconfiguration stuff to work, you have to first edit an /etc file.
+On a different machine than the one you're trying to set up.  You
+have to read the comments in configuration file to know that you need
+to do this in the first place.</p>
+
+<p>What a truly lovely, classic blunder this is.  That they turned off
+the autoconfiguration support is understandable from a
+security-engineering point of view.  But failing to mention this in
+the Administrator's Guide, and failing to warn the user during the
+configuration-wizard dialogue that operating printers may not be
+visible unless your site admin has performed the appropriate ritual on
+the printers' host machines...that is moronically thoughtless.</p>
+
+<p>This kind of crap is exactly why Linux has had such trouble gaining
+traction among nontechnical users &mdash; and it becomes less
+forgivable, not more, when it's surrounded by a boatload of GUI 
+cotton candy that adds complexity without actually delivering
+friendliness to the user.</p>
+
+<p>I edit a correct broadcast address for my network into
+/etc/cups/cupsd.conf on minx.  I am unsurprised to learn that the
+cupsd(8) man page doesn't tell me whether the standard <code>kill
+-HUP</code> will force cupsd to reread that file, because at this
+point I am expecting the documentation to be unhelpful. I do
+<code>/etc/init.d/cups restart</code> instead.</p>
+
+<p>I write the last paragraph, then go back to the configuration
+wizard.  A little poking at it discloses an Action->Sharing item.  
+When I click the OK button, "Browsed queues" appears in the wizard
+window.  Excelsior!  It appears that snark is now receiving broadcast
+configuration info from minx.  And sure enough, when I click "Browse
+queues" a LaserJet 6 shows up as a device.  Curiously, however, it is
+labeled "lp0" without any indication that it's not on the local
+machine.</p>
+
+<p>I fire up the Web interface.  Sure enough, it finds the LaserJet 6 
+on minx.  But not all is goodness.  When I try to print a test page,
+a popup tells me "The connection was refused when attempting to contact
+minx.thyrsus.com:631".</p>
+
+<p>I am again unsurprised to learn that neither the user's nor the
+Administrator's Guide has anything to say about troubleshooting CUPS
+problems.  The lpr(1) interface is massively unhelpful; 
+when I submit jobs from snark, they appear to vanish into a black
+hole.</p>
+
+<p>Eventually I notice the Listen directive in the
+/etc/cups/cupsd.conf file.  "Aha!" says I to myself, "Maybe this is
+like sendmail, where you have to tell it explicitly to listen on the
+server's IP address." I add "Listen 192.168.1.21", the latter being
+minx's IP address, restarts cupsd...and lo and behold my test job
+comes tumbling out of the printer.</p>
+
+<p>The thing to notice here is how far behind we have left Aunt
+Tillie.  Rule 1 of writing software for nontechnical users is this: if
+they have to read documentation to use it <em>you designed it
+wrong</em>.  The interface of the software should be all the
+documentation the user needs.  You'd have lost the non-techie before
+the point in this troubleshooting sequence where a hacker like me even
+got fully engaged.</p>
+
+<p>But in this case, the documentation was passively but severely
+misleading in one area, and harmfully silent in others.  I eventually
+had to apply m4d skillz gained from wrestling with sendmail to solve a
+problem the CUPS documentation never even hinted about.</p>
+
+<p>As I said before, the point of this essay is not especially to bash
+on the CUPS guys.  They're no worse than thousands of projects out
+there, and that <em>is</em> the point.  We talk about world
+domination, but we'll neither have it nor deserve it until we learn to
+do better than this.  A <em>lot</em> better.</p>
+
+<p>It's not like doing better would be difficult, either.  None of the
+changes in CUPS behavior or documentation I've described would be
+technical challenges; the problem is that these simple things never
+occurred to developers who bring huge amounts of already-acquired
+knowledge to bear every time they look at their user interfaces.</p>
+
+<p>So, if you are out there writing GUI apps for Linux or BSD or
+whatever, here are some questions you need to be asking yourself:</p>
+
+<ol>
+<li>What does my software look like to a non-technical user who has
+    never seen it before?</li>
+
+<li>Is there any screen in my GUI that is a dead end, without giving
+guidance further into the system?</li>
+
+<li>The requirement that end-users read documentation is a sign of UI
+    design failure.  Is my UI design a failure?</li>
+
+<li>For technical tasks that do require documentation, do they 
+fail to mention critical defaults?</li>
+
+<li>Does my project welcome and respond to usability feedback from
+non-expert users?</li>
+ 
+<li>And, most importantly of all...do I allow my users the precious
+    luxury of ignorance?</li>
+</ol>
+
+<hr/>
+<p>Postscript, 26 Feb 2004: I added the new fifth question based on an
+excellent suggestion in LWN's comments on the story.</p>
+
+<p>And here are some more design rules, from Nico Kadel-Garcia:</p>
+
+<ul>
+<li>Can you gracefully and easily duplicate your tools and configuration for
+a similar installation? Is it documented?  (RedHat and CUPS is no help with
+this, either, most of the print-drivers wend their way from the foomatic and
+other tools into the CUPS setups without a lot of hint of how it works.)
+[For cups, the answer is "you can duplicate it easily, but it's a *secret*"!
+Every configuration should be built and recompiled from the source tarball!
+What are you, a n00b?]</li>
+
+<li>Is installing this toolset likely to replace or break something already
+in place (such as LPD based printing packages)? If so, explain how to
+gracefully do the transition.</li>
+
+<li>Are there settings you can do from the command line or hand-editing
+config files that <em>cannot</em> be done from the GUI? Are they documented
+anywhere? Does using the GUI erase these settings? (The answer for CUPS is
+"Yes, you can flush all sorts of hand-edited things this way!". This was an
+incredible problem for NeXT stations and remains a big freeware GUI problem,
+although most try harder to address this. Webmin is an excellent example of
+how to do it right in most cases!)</li>
+
+<li>Are all your important features mentioned? The automatic flat
+text->Postscript conversion is one such feature, and despite its presence in
+the tarball tools and default use the CUPS claim it's not theirs and not
+their problem.</li>
+</ul>
+
+<p>PPS, 27 Feb: Got a very positive response from the CUPS folks.  At
+least some of these things will be fixed.</p>
+
+<p>PPPS, 29 Feb: I have written a followup on 
+<a href='luxury-part-deux.html'>the luxury of ignorance</a>.</p>
+
+<p>There is now a site for projects looking for usability advice and 
+interaction designers who want to help.  It is 
+<a href="http://openusability.org">openusability.org</a>.</p>
+
+</div>
+<hr />
+</body>
+</html>
+
+<!--
+Local Variables:
+compile-command: "(cd ~/WWW; upload writings/cups-horror.html)"
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+#####EOF#####
+
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Eric S. Raymond's Home Page</title>
+<link rev="made" href="mailto:esr@snark.thyrsus.com" />
+<link rel="stylesheet" href="sitestyle.css" type="text/css"  />
+<meta name="description" content="Everything about my Internet projects." />
+</head>
+<body>
+
+<div id="Header">
+<table width="100%" cellpadding="0" summary="Canned page header">
+<tr>
+<td width="80%">
+Eric S. Raymond's Home Page
+</td>
+<td width="20%" align="right">
+<script language="JavaScript" src="/~esr/datestamp.js" type='text/javascript'></script>
+</td>
+</tr>
+</table>
+</div>
+
+<div id="Menu">
+	<hr/>
+	Home page<br />
+	<a href="sitemap.html" title="Map of the site">Site Map</a><br />
+	<a href="whatsnew.html" title="What's new on this site">What's New</a><br />
+	<a href="software.html" title="Software I maintain">Software</a><br />
+	<a href="projects.html" title="My projects">Projects</a><br />
+	<a href="faqs/" title="My FAQ documents">HOWTOs</a><br />
+	<a href="writings/" title="Essays and ruminations">Essays</a><br />
+	<a href="personal.html" title="Portrait of the author">Personal</a><br />
+	<a href="http://esr.ibiblio.org/">Weblog</a><br/>
+	<a href="press.html" title="Tips for reporters">For Journalists</a><br />
+	<a href="netfreedom/">Freedom!</a><br />
+	<a href="guns/">Firearms!</a><br />
+	<a href="who-is-ESR.html">Who Is ESR?</a><br />
+	<hr/>
+	<a href='jargon/' title="The Jargon File, aka The New Hacker's Dictionary">
+		<img src='/~esr/graphics/nhd3-small.jpg' alt=""/></a>
+	<br clear='left' />
+	<a href="http://www.oreilly.com/catalog/cathbazpaper/"
+		title="The Cathedral and the Bazaar">
+		<img src="/~esr/graphics/cb.s.png" alt="" /></a>
+	<br clear='left' />
+	<a href="writings/taoup/" title="The Art of Unix Programming">
+		<img src="/~esr/graphics/taoup.s.png" alt="" /></a>
+	<hr/>
+	<a href="mailto:esr@thyrsus.com" title='esr@thyrsus.com'>Email me</a>
+	<hr/>
+
+    <p>
+      <a href="http://validator.w3.org/check/referer"><img
+          src="http://www.w3.org/Icons/valid-xhtml10"
+          alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+    </p>
+    </div>
+
+<div id="Content">
+
+<p>Welcome to my piece of the Web. I maintain quite a lot of <a
+href="http://www.opensource.org">open-source</a> software, FAQs,
+and HTML documents, so this site is rather complex. It's mostly
+validated HTML and light on the graphics, though. You won't have to
+wait an eon for any of the pages to load.</p>
+
+<p>If the software and FAQs I maintain are valuable to you (and especially
+if my software makes you money) please <a
+href="https://www.patreon.com/esr">leave me a tip.</a></p>
+
+<h1>Using this site</h1>
+
+<p>If you want to link to, copy, mirror, or translate portions of this
+site, please read my <a href="copying.html">copying policy</a>.</p>
+
+<p><a href="http://www.anybrowser.org/campaign/"> <img
+src="graphics/w3c_ab.png" align="right" alt="viewable with any
+browser" border="0"/></a>If the HTML or images on this site seem
+to be confusing your browser, see the <a href='site-design.html'>site
+design notes</a>.</p>
+
+<h1>Frequently-Asked Questions</h1>
+
+<p>If you're with the press, or want me to give a talk, here are
+answers to the <a href="press.html">usual questions</a>. You can see a
+list of my upcoming <a href="speaking.html">speaking
+engagements</a>.</p>
+
+<p>If you're looking for the Halloween Documents, they're <a
+href="halloween/">here</a>.  Having studied the history of other
+advocacy organizations, I specifically designed OSI not to be a
+founder-centered cult of personality; I think OSI's decision to move
+them off the OSI website was a mistake, but our community is healthier
+because they had the power to make that mistake.</p>
+
+<h1>It's all about freedom...</h1>
+
+<p><img src="graphics/pgp-now.png" align="right" width="88"
+height="31" alt="PGP NOW! image" /> You can fetch my <a
+href="gpg-public-key.asc">GPG public key</a> here. I support
+widespread use of strong cryptography for privacy, and encourage
+you to use GPG encryption with this key when sending me messages.
+If your mailer makes this difficult, consider switching to <a
+href="http://www.mutt.org">Mutt</a>.</p>
+
+<p>As a public service and act of civil disobedience, we are proud
+to offer the <a href="css-auth.tar.gz">DeCSS</a> code that will
+allow you to circumvent the encryption on the DVDs you own. Your
+DVD, your hardware, your choice! (Please do not ask me technical
+questions about this code; I have never used it.)</p>
+
+<p>Also, here is the decryption key used for most HD-DVD movies:</p>
+
+<p>09 F9 11 02 9D 74 E3 5B D8 41 56 C5 63 56 88 C0</p>
+
+<p>I have never used this, either, I'm publishing it here because the
+MPAA is attempting to suppress public knowledge of it.</p>
+
+<p>Finally, <a href="hdcp-master.txt">the HDCP master key</a>.  These
+magic bits defeat the HDCP scrambling that attempt to prevent you from 
+viewing high-definition video on the hardware of your choice.  (No,
+I've never used this either.)</p>
+
+<p> I will not tolerate having general-purpose computing hardware,
+which should be an instrument of liberation and creativity, reduced to
+a locked-down delivery pipe for "content". By trying to cripple my
+tools, the big-media machine has made me its enemy. DRM delenda est!</p>
+
+<h1>...and it's all about me.</h1>
+
+<p>You can read all about my <a href="projects.html">projects</a>,
+past present and future, including the software and FAQs and Web
+resources I maintain.</p>
+
+<p>I do consulting under the <strong>Thyrsus Enterprises</strong>
+service mark. You can surf to my <a href="resume.html">resume</a>
+from here, if you're interested in my career or qualifications. I'm
+not in the market for a job just now, though, unless you can offer
+a project that really fascinates me.</p>
+
+<p>You can read <a href="personal.html">personal stuff</a> about my
+life and politics and hobbies and friends. You may also find my <a
+href="writings/">writings</a> of interest.</p>
+
+</div>
+
+<!--
+Local Variables:
+compile-command: "(cd ~/WWW; upload index.html)"
+End:
+-->
+</body>
+</html>
+
+
+
+
+#####EOF#####
+
+

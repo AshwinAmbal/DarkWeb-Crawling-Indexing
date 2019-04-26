@@ -1,0 +1,565 @@
+<!doctype html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns#" data-gdpr="false">
+
+<head>
+    <meta charset="utf-8"><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={xpid:"VQ4FVV5RCxABXVlWBAcPUFM="};window.NREUM||(NREUM={}),__nr_require=function(t,n,e){function r(e){if(!n[e]){var o=n[e]={exports:{}};t[e][0].call(o.exports,function(n){var o=t[e][1][n];return r(o||n)},o,o.exports)}return n[e].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<e.length;o++)r(e[o]);return r}({1:[function(t,n,e){function r(t){try{s.console&&console.log(t)}catch(n){}}var o,i=t("ee"),a=t(16),s={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(s.console=!0,o.indexOf("dev")!==-1&&(s.dev=!0),o.indexOf("nr_dev")!==-1&&(s.nrDev=!0))}catch(c){}s.nrDev&&i.on("internal-error",function(t){r(t.stack)}),s.dev&&i.on("fn-err",function(t,n,e){r(e.stack)}),s.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(s,function(t,n){return t}).join(", ")))},{}],2:[function(t,n,e){function r(t,n,e,r,s){try{p?p-=1:o(s||new UncaughtException(t,n,e),!0)}catch(f){try{i("ierr",[f,c.now(),!0])}catch(d){}}return"function"==typeof u&&u.apply(this,a(arguments))}function UncaughtException(t,n,e){this.message=t||"Uncaught error with no additional information",this.sourceURL=n,this.line=e}function o(t,n){var e=n?null:c.now();i("err",[t,e])}var i=t("handle"),a=t(17),s=t("ee"),c=t("loader"),f=t("gos"),u=window.onerror,d=!1,l="nr@seenError",p=0;c.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(h){"stack"in h&&(t(8),t(7),"addEventListener"in window&&t(5),c.xhrWrappable&&t(9),d=!0)}s.on("fn-start",function(t,n,e){d&&(p+=1)}),s.on("fn-err",function(t,n,e){d&&!e[l]&&(f(e,l,function(){return!0}),this.thrown=!0,o(e))}),s.on("fn-end",function(){d&&!this.thrown&&p>0&&(p-=1)}),s.on("internal-error",function(t){i("ierr",[t,c.now(),!0])})},{}],3:[function(t,n,e){t("loader").features.ins=!0},{}],4:[function(t,n,e){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(8),s=t(7),c="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",d="bstResource",l="resource",p="-start",h="-end",m="fn"+p,v="fn"+h,w="bstTimer",y="pushState",g=t("loader");g.features.stn=!0,t(6);var b=NREUM.o.EV;o.on(m,function(t,n){var e=t[0];e instanceof b&&(this.bstStart=g.now())}),o.on(v,function(t,n){var e=t[0];e instanceof b&&i("bst",[e,n,this.bstStart,g.now()])}),a.on(m,function(t,n,e){this.bstStart=g.now(),this.bstType=e}),a.on(v,function(t,n){i(w,[n,this.bstStart,g.now(),this.bstType])}),s.on(m,function(){this.bstStart=g.now()}),s.on(v,function(t,n){i(w,[n,this.bstStart,g.now(),"requestAnimationFrame"])}),o.on(y+p,function(t){this.time=g.now(),this.startPath=location.pathname+location.hash}),o.on(y+h,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+c]?window.performance[f](u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["c"+c]()},!1):window.performance[f]("webkit"+u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["webkitC"+c]()},!1)),document[f]("scroll",r,{passive:!0}),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],5:[function(t,n,e){function r(t){for(var n=t;n&&!n.hasOwnProperty(u);)n=Object.getPrototypeOf(n);n&&o(n)}function o(t){s.inPlace(t,[u,d],"-",i)}function i(t,n){return t[1]}var a=t("ee").get("events"),s=t(19)(a,!0),c=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";n.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,n){var e=t[1],r=c(e,"nr@wrapped",function(){function t(){if("function"==typeof e.handleEvent)return e.handleEvent.apply(e,arguments)}var n={object:t,"function":e}[typeof e];return n?s(n,"fn-",null,n.name||"anonymous"):e});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],6:[function(t,n,e){var r=t("ee").get("history"),o=t(19)(r);n.exports=r,o.inPlace(window.history,["pushState","replaceState"],"-")},{}],7:[function(t,n,e){var r=t("ee").get("raf"),o=t(19)(r),i="equestAnimationFrame";n.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],8:[function(t,n,e){function r(t,n,e){t[0]=a(t[0],"fn-",null,e)}function o(t,n,e){this.method=e,this.timerDuration=isNaN(t[1])?0:+t[1],t[0]=a(t[0],"fn-",this,e)}var i=t("ee").get("timer"),a=t(19)(i),s="setTimeout",c="setInterval",f="clearTimeout",u="-start",d="-";n.exports=i,a.inPlace(window,[s,"setImmediate"],s+d),a.inPlace(window,[c],c+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(c+u,r),i.on(s+u,o)},{}],9:[function(t,n,e){function r(t,n){d.inPlace(n,["onreadystatechange"],"fn-",s)}function o(){var t=this,n=u.context(t);t.readyState>3&&!n.resolved&&(n.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,y,"fn-",s)}function i(t){g.push(t),h&&(x?x.then(a):v?v(a):(E=-E,O.data=E))}function a(){for(var t=0;t<g.length;t++)r([],g[t]);g.length&&(g=[])}function s(t,n){return n}function c(t,n){for(var e in t)n[e]=t[e];return n}t(5);var f=t("ee"),u=f.get("xhr"),d=t(19)(u),l=NREUM.o,p=l.XHR,h=l.MO,m=l.PR,v=l.SI,w="readystatechange",y=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],g=[];n.exports=u;var b=window.XMLHttpRequest=function(t){var n=new p(t);try{u.emit("new-xhr",[n],n),n.addEventListener(w,o,!1)}catch(e){try{u.emit("internal-error",[e])}catch(r){}}return n};if(c(p,b),b.prototype=p.prototype,d.inPlace(b.prototype,["open","send"],"-xhr-",s),u.on("send-xhr-start",function(t,n){r(t,n),i(n)}),u.on("open-xhr-start",r),h){var x=m&&m.resolve();if(!v&&!m){var E=1,O=document.createTextNode(E);new h(a).observe(O,{characterData:!0})}}else f.on("fn-end",function(t){t[0]&&t[0].type===w||a()})},{}],10:[function(t,n,e){function r(t){var n=this.params,e=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<d;r++)t.removeEventListener(u[r],this.listener,!1);if(!n.aborted){if(e.duration=a.now()-this.startTime,4===t.readyState){n.status=t.status;var i=o(t,this.lastSize);if(i&&(e.rxSize=i),this.sameOrigin){var c=t.getResponseHeader("X-NewRelic-App-Data");c&&(n.cat=c.split(", ").pop())}}else n.status=0;e.cbTime=this.cbTime,f.emit("xhr-done",[t],t),s("xhr",[n,e,this.startTime])}}}function o(t,n){var e=t.responseType;if("json"===e&&null!==n)return n;var r="arraybuffer"===e||"blob"===e||"json"===e?t.response:t.responseText;return h(r)}function i(t,n){var e=c(n),r=t.params;r.host=e.hostname+":"+e.port,r.pathname=e.pathname,t.sameOrigin=e.sameOrigin}var a=t("loader");if(a.xhrWrappable){var s=t("handle"),c=t(11),f=t("ee"),u=["load","error","abort","timeout"],d=u.length,l=t("id"),p=t(14),h=t(13),m=window.XMLHttpRequest;a.features.xhr=!0,t(9),f.on("new-xhr",function(t){var n=this;n.totalCbs=0,n.called=0,n.cbTime=0,n.end=r,n.ended=!1,n.xhrGuids={},n.lastSize=null,p&&(p>34||p<10)||window.opera||t.addEventListener("progress",function(t){n.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,n){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&n.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,n){var e=this.metrics,r=t[0],o=this;if(e&&r){var i=h(r);i&&(e.txSize=i)}this.startTime=a.now(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof n.onload))&&o.end(n)}catch(e){try{f.emit("internal-error",[e])}catch(r){}}};for(var s=0;s<d;s++)n.addEventListener(u[s],this.listener,!1)}),f.on("xhr-cb-time",function(t,n,e){this.cbTime+=t,n?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof e.onload||this.end(e)}),f.on("xhr-load-added",function(t,n){var e=""+l(t)+!!n;this.xhrGuids&&!this.xhrGuids[e]&&(this.xhrGuids[e]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,n){var e=""+l(t)+!!n;this.xhrGuids&&this.xhrGuids[e]&&(delete this.xhrGuids[e],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,n){n instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],n)}),f.on("removeEventListener-end",function(t,n){n instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],n)}),f.on("fn-start",function(t,n,e){n instanceof m&&("onload"===e&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=a.now()))}),f.on("fn-end",function(t,n){this.xhrCbStart&&f.emit("xhr-cb-time",[a.now()-this.xhrCbStart,this.onload,n],n)})}},{}],11:[function(t,n,e){n.exports=function(t){var n=document.createElement("a"),e=window.location,r={};n.href=t,r.port=n.port;var o=n.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=n.hostname||e.hostname,r.pathname=n.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!n.protocol||":"===n.protocol||n.protocol===e.protocol,a=n.hostname===document.domain&&n.port===e.port;return r.sameOrigin=i&&(!n.hostname||a),r}},{}],12:[function(t,n,e){function r(){}function o(t,n,e){return function(){return i(t,[f.now()].concat(s(arguments)),n?null:this,e),n?void 0:this}}var i=t("handle"),a=t(16),s=t(17),c=t("ee").get("tracer"),f=t("loader"),u=NREUM;"undefined"==typeof window.newrelic&&(newrelic=u);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],l="api-",p=l+"ixn-";a(d,function(t,n){u[n]=o(l+n,!0,"api")}),u.addPageAction=o(l+"addPageAction",!0),u.setCurrentRouteName=o(l+"routeName",!0),n.exports=newrelic,u.interaction=function(){return(new r).get()};var h=r.prototype={createTracer:function(t,n){var e={},r=this,o="function"==typeof n;return i(p+"tracer",[f.now(),t,e],r),function(){if(c.emit((o?"":"no-")+"fn-start",[f.now(),r,o],e),o)try{return n.apply(this,arguments)}catch(t){throw c.emit("fn-err",[arguments,this,t],e),t}finally{c.emit("fn-end",[f.now()],e)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,n){h[n]=o(p+n)}),newrelic.noticeError=function(t,n){"string"==typeof t&&(t=new Error(t)),i("err",[t,f.now(),!1,n])}},{}],13:[function(t,n,e){n.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(n){return}}}},{}],14:[function(t,n,e){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),n.exports=r},{}],15:[function(t,n,e){function r(t,n){if(!o)return!1;if(t!==o)return!1;if(!n)return!0;if(!i)return!1;for(var e=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==e[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var s=navigator.userAgent,c=s.match(a);c&&s.indexOf("Chrome")===-1&&s.indexOf("Chromium")===-1&&(o="Safari",i=c[1])}n.exports={agent:o,version:i,match:r}},{}],16:[function(t,n,e){function r(t,n){var e=[],r="",i=0;for(r in t)o.call(t,r)&&(e[i]=n(r,t[r]),i+=1);return e}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],17:[function(t,n,e){function r(t,n,e){n||(n=0),"undefined"==typeof e&&(e=t?t.length:0);for(var r=-1,o=e-n||0,i=Array(o<0?0:o);++r<o;)i[r]=t[n+r];return i}n.exports=r},{}],18:[function(t,n,e){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],19:[function(t,n,e){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(17),a="nr@original",s=Object.prototype.hasOwnProperty,c=!1;n.exports=function(t,n){function e(t,n,e,o){function nrWrapper(){var r,a,s,c;try{a=this,r=i(arguments),s="function"==typeof e?e(r,a):e||{}}catch(f){l([f,"",[r,a,o],s])}u(n+"start",[r,a,o],s);try{return c=t.apply(a,r)}catch(d){throw u(n+"err",[r,a,d],s),d}finally{u(n+"end",[r,a,c],s)}}return r(t)?t:(n||(n=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,n,o,i){o||(o="");var a,s,c,f="-"===o.charAt(0);for(c=0;c<n.length;c++)s=n[c],a=t[s],r(a)||(t[s]=e(a,f?s+o:o,i,s))}function u(e,r,o){if(!c||n){var i=c;c=!0;try{t.emit(e,r,o,n)}catch(a){l([a,e,r,o])}c=i}}function d(t,n){if(Object.defineProperty&&Object.keys)try{var e=Object.keys(t);return e.forEach(function(e){Object.defineProperty(n,e,{get:function(){return t[e]},set:function(n){return t[e]=n,n}})}),n}catch(r){l([r])}for(var o in t)s.call(t,o)&&(n[o]=t[o]);return n}function l(n){try{t.emit("internal-error",n)}catch(e){}}return t||(t=o),e.inPlace=f,e.flag=a,e}},{}],ee:[function(t,n,e){function r(){}function o(t){function n(t){return t&&t instanceof r?t:t?c(t,s,i):i()}function e(e,r,o,i){if(!l.aborted||i){t&&t(e,r,o);for(var a=n(o),s=m(e),c=s.length,f=0;f<c;f++)s[f].apply(a,r);var d=u[g[e]];return d&&d.push([b,e,r,a]),a}}function p(t,n){y[t]=m(t).concat(n)}function h(t,n){var e=y[t];if(e)for(var r=0;r<e.length;r++)e[r]===n&&e.splice(r,1)}function m(t){return y[t]||[]}function v(t){return d[t]=d[t]||o(e)}function w(t,n){f(t,function(t,e){n=n||"feature",g[e]=n,n in u||(u[n]=[])})}var y={},g={},b={on:p,addEventListener:p,removeEventListener:h,emit:e,get:v,listeners:m,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(u.api||u.feature)&&(l.aborted=!0,u=l.backlog={})}var s="nr@context",c=t("gos"),f=t(16),u={},d={},l=n.exports=o();l.backlog=u},{}],gos:[function(t,n,e){function r(t,n,e){if(o.call(t,n))return t[n];var r=e();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(t,n,e){function r(t,n,e,r){o.buffer([t],r),o.emit(t,n,e)}var o=t("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(t,n,e){function r(t){var n=typeof t;return!t||"object"!==n&&"function"!==n?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");n.exports=r},{}],loader:[function(t,n,e){function r(){if(!E++){var t=x.info=NREUM.info,n=p.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&n))return u.abort();f(g,function(n,e){t[n]||(t[n]=e)}),c("mark",["onload",a()+x.offset],null,"api");var e=p.createElement("script");e.src="https://"+t.agent,n.parentNode.insertBefore(e,n)}}function o(){"complete"===p.readyState&&i()}function i(){c("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(s=Math.max((new Date).getTime(),s))-x.offset}var s=(new Date).getTime(),c=t("handle"),f=t(16),u=t("ee"),d=t(15),l=window,p=l.document,h="addEventListener",m="attachEvent",v=l.XMLHttpRequest,w=v&&v.prototype;NREUM.o={ST:setTimeout,SI:l.setImmediate,CT:clearTimeout,XHR:v,REQ:l.Request,EV:l.Event,PR:l.Promise,MO:l.MutationObserver};var y=""+location,g={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=v&&w&&w[h]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:s,now:a,origin:y,features:{},xhrWrappable:b,userAgent:d};t(12),p[h]?(p[h]("DOMContentLoaded",i,!1),l[h]("load",r,!1)):(p[m]("onreadystatechange",o),l[m]("onload",r)),c("mark",["firstbyte",s],null,"api");var E=0,O=t(18)},{}]},{},["loader",2,10,4,3]);</script>
+    <script>
+    var dataLayer = [];
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+    window.dataLayer.push({
+        "event": "PageView",
+        "gdpr_preferences": true,
+        "gdpr_statistics": true,
+        "gdpr_marketing": true
+    });
+</script>
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KGVFCF9');</script>    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="dns-prefetch" href="//media.coindesk.com" />
+    <link rel="alternate" type="application/rss+xml" title="CoinDesk RSS Feed" href="https://feeds.feedburner.com/CoinDesk" />
+    <link rel="shortcut icon" href="https://static.coindesk.com/images/favicons/68x68.21f650f2.png" />
+    <meta name="p:domain_verify" content="266ef71c542343fed103b1f5f9ebba6e" />
+    <meta property="twitter:account_id" content="1418565129" />
+    <meta name="alexaVerifyID" content="CGq9LThNt02vzHpLoscJj-arUCM" />
+    <meta name="msapplication-config" content="none" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="microtip" content="1G1pCNLKZCZde4dgznZDE5wiikQeyDGeuh" data-currency="btc" data-recipient="CoinDesk" />
+    <meta name="brave-publisher-verification" content="02c1e8b9dd0ce28e441b68ee57756dba7b00b65efb6649d6a751411c5140a1c7" />
+    <meta name="pocket-site-verification" content="b34cfc52d091d98bf731da4fe501d6" />
+    <meta property="fb:pages" content="404460532994922" />
+        <script id="foo" type="application/ld+json">
+    {"@context":"http:\/\/schema.org","@type":"NewsArticle","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/www.coindesk.com\/ibm-blockchain-maersk-shipping-struggling"},"headline":"IBM and Maersk Struggle to Sign Partners to Shipping Blockchain","url":"https:\/\/www.coindesk.com\/ibm-blockchain-maersk-shipping-struggling","thumbnailUrl":"https:\/\/www.coindesk.com\/wp-content\/uploads\/2018\/01\/Maersk-ship.jpg","image":{"@type":"ImageObject","url":"https:\/\/www.coindesk.com\/wp-content\/uploads\/2018\/01\/Maersk-ship.jpg"},"dateCreated":"2018-10-26T16:00:25Z","datePublished":"2018-10-26T16:00:25Z","dateModified":"2018-10-26T16:00:25Z","articleSection":"Features","author":["Ian Allison"],"creator":["Ian Allison"],"keywords":["IBM","Accenture","Maersk","TradeLens","INTTRA","SeaIntelligence Consulting","Hapag-Lloyd","CMA CGM"],"publisher":{"@type":"Organization","name":"CoinDesk","logo":{"@type":"ImageObject","url":"https:\/\/static.coindesk.com\/images\/facebook\/default.51070683.png"}}}</script>    <script>
+        dataLayer.push({
+            "event": "loadPost"
+        });
+    </script>
+    <meta name='parsely-metadata' content="{&quot;id&quot;:361783,&quot;excerpt&quot;:&quot;Since Maersk and IBM launched TradeLens 10 months ago, only one other carrier has joined the network. As those involved admit, that&#039;s not enough.&quot;,&quot;path&quot;:&quot;\/ibm-blockchain-maersk-shipping-struggling&quot;}" />
+        <meta name="msvalidate.01" content="67079DDEA8D1943F49A6A5260E166131" />
+    <script src="https://unpkg.com/@ungap/url-search-params"></script>
+    <title>IBM and Maersk Struggle to Sign Partners to Shipping Blockchain - CoinDesk</title>
+
+<!-- This site is optimized with the Yoast SEO Premium plugin v10.0.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://www.coindesk.com/ibm-blockchain-maersk-shipping-struggling" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="IBM and Maersk Struggle to Sign Partners to Shipping Blockchain - CoinDesk" />
+<meta property="og:description" content="Since Maersk and IBM launched TradeLens 10 months ago, only one other carrier has joined the network. As those involved admit, that&#039;s not enough." />
+<meta property="og:url" content="https://www.coindesk.com/ibm-blockchain-maersk-shipping-struggling" />
+<meta property="og:site_name" content="CoinDesk" />
+<meta property="article:tag" content="IBM" />
+<meta property="article:tag" content="Accenture" />
+<meta property="article:tag" content="Maersk" />
+<meta property="article:tag" content="TradeLens" />
+<meta property="article:tag" content="INTTRA" />
+<meta property="article:tag" content="SeaIntelligence Consulting" />
+<meta property="article:tag" content="Hapag-Lloyd" />
+<meta property="article:tag" content="CMA CGM" />
+<meta property="article:section" content="Supply Chain" />
+<meta property="article:published_time" content="2018-10-26T16:00:25+00:00" />
+<meta property="article:modified_time" content="2018-11-02T16:54:33+00:00" />
+<meta property="og:updated_time" content="2018-11-02T16:54:33+00:00" />
+<meta property="og:image" content="https://static.coindesk.com/wp-content/uploads/2018/01/Maersk-ship.jpg" />
+<meta property="og:image:secure_url" content="https://static.coindesk.com/wp-content/uploads/2018/01/Maersk-ship.jpg" />
+<meta property="og:image:width" content="1500" />
+<meta property="og:image:height" content="844" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Since Maersk and IBM launched TradeLens 10 months ago, only one other carrier has joined the network. As those involved admit, that&#039;s not enough." />
+<meta name="twitter:title" content="IBM and Maersk Struggle to Sign Partners to Shipping Blockchain - CoinDesk" />
+<meta name="twitter:site" content="@coindesk" />
+<meta name="twitter:image" content="https://static.coindesk.com/wp-content/uploads/2018/01/Maersk-ship.jpg" />
+<meta name="twitter:creator" content="@ianallison123" />
+<!-- / Yoast SEO Premium plugin. -->
+
+<link rel='dns-prefetch' href='//static.coindesk.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.coindesk.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="preload" href="https://static.coindesk.com/css/coindesk.328cd2ab.css" as="style">
+<link rel='stylesheet' id='coindesk-css'  href='https://static.coindesk.com/css/coindesk.328cd2ab.css' type='text/css' media='all' />
+<script  src='https://static.coindesk.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script  async="async" src='https://static.coindesk.com/wp-content/plugins/mts-wp-notification-bar/public/js/jquery.cookie.js?ver=1.1.5'></script>
+<link rel='https://api.w.org/' href='https://www.coindesk.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.coindesk.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://static.coindesk.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.9.10" />
+<link rel='shortlink' href='https://www.coindesk.com/?p=361783' />
+<link rel="alternate" type="application/json+oembed" href="https://www.coindesk.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.coindesk.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling&#038;format=xml" />
+<link rel="amphtml" href="https://www.coindesk.com/ibm-blockchain-maersk-shipping-struggling?amp"><link rel="icon" href="https://static.coindesk.com/wp-content/uploads/2017/05/cropped-coindesk-new-favicon.png" sizes="32x32" />
+<link rel="icon" href="https://static.coindesk.com/wp-content/uploads/2017/05/cropped-coindesk-new-favicon.png" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://static.coindesk.com/wp-content/uploads/2017/05/cropped-coindesk-new-favicon.png" />
+<meta name="msapplication-TileImage" content="https://static.coindesk.com/wp-content/uploads/2017/05/cropped-coindesk-new-favicon.png" />
+</head>
+
+<body class="post-template-default single single-post postid-361783 single-format-standard">
+    <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGVFCF9" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    <img src="https://www.facebook.com/tr?id=472218139648482&amp;ev=PageView&amp;noscript=1" height="1" width="1" style="display:none" alt="Facebook pixel"  />
+    <img src="https://analytics.twitter.com/i/adsct?txn_id=l4l2u&amp;p_id=Twitter&amp;tw_sale_amount=0&amp;tw_order_quantity=0" height="1" width="1" style="display:none;" alt="Twitter pixel"  />
+    <img src="https://certify.alexametrics.com/atrk.gif?account=7nk2s1hNdI20fn" height="1" width="1" style="display:none" alt="Alexa pixel" />
+</noscript>    <main>
+        <header id='header' class='header'>
+    <div class='header__inner'>
+        <div class='header-container'>
+            <input id='header-container__checkbox' class='header-container__checkbox' type='checkbox' />
+            <label for='header-container__checkbox' class='header-container__checkbox-screen'></label>
+            <a class='header__btn header-hamburger-btn'>
+                <div class='header-hamburger-btn__patty'></div>
+                <div class='header-hamburger-btn__patty'></div>
+                <div class='header-hamburger-btn__patty'></div>
+            </a>
+            <a class='header__btn header-container-logo-block' href='/'>
+                <img class='header-container-logo-block__image' src="https://static.coindesk.com/images/header/logo.5ce6d318.svg" alt="CoinDesk Bitcoin News" width="173" height="33" />
+            </a>
+            <div class='header__nav'>
+                <nav class='nav'>
+                    <div class='nav__container'>
+                        <div class='nav-btn-block'>
+                            <input class='nav-btn-block__checkbox' name='blockchain-101' type='checkbox' />
+                            <a class='nav-btn-block__link nav__link' href='/information'>Blockchain 101</a>                                                      
+                            <div class='nav-btn-block__dropdown'>
+                                <div class='nav-btn-block-dropdown'>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information">Bitcoin</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/what-is-bitcoin">What is Bitcoin?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/how-can-i-buy-bitcoins">How Can I Buy Bitcoin?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/how-bitcoin-mining-works">How Does Bitcoin Mining Work?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/how-do-bitcoin-transactions-work">How Do Bitcoin Transactions Work?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/sell-bitcoin">How Can I Sell Bitcoin?</a>
+                                    </div>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information">Blockchain</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/what-is-blockchain-technology">What is Blockchain Technology?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/how-does-blockchain-technology-work">How Does Blockchain Technology Work?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/what-can-a-blockchain-do">What Can a Blockchain Do?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/what-is-a-distributed-ledger">What is a Distributed Ledger?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/why-use-a-blockchain">Why Use a Blockchain?</a>
+                                    </div>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information">Ethereum</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/what-is-ethereum">What is Ethereum?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/how-to-use-ethereum">How Do I Use Ethereum?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/how-ethereum-works">How Does Ethereum Work?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/what-is-a-decentralized-application-dapp">What is a Decentralized Application?</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/information/ethereum-smart-contracts-work">How Do Smart Contracts Work?</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='nav-btn-block'>
+                            <input class='nav-btn-block__checkbox' name='blockchain-101' type='checkbox' />
+                            <a class='nav-btn-block__link nav__link' href='/category/technology-news'>Technology</a>
+                            <div class='nav-btn-block__dropdown'>
+                                <div class='nav-btn-block-dropdown'>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/technology-news/bitcoin">Bitcoin</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/technology-news/ethereum-technology-news">Ethereum</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/technology-news/other-public-protocols">Other Public Protocols</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/technology-news/distributed-ledger-technology">Distributed Ledger Technology</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/technology-news/reviews-technology-news">Reviews</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='nav-btn-block'>
+                            <input class='nav-btn-block__checkbox' name='blockchain-101' type='checkbox' />
+                            <a class='nav-btn-block__link nav__link' href='/category/markets-news'>Markets</a>
+                            <div class='nav-btn-block__dropdown'>
+                                <div class='nav-btn-block-dropdown'>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/markets-news/investments">Investments</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/markets-news/investments/venture-capital">Venture Capital</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/markets-news/investments/initial-coin-offerings">Initial Coin Offerings</a>
+                                    </div>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/markets-news/markets-markets-news">Markets</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/markets-news/markets-markets-news/markets-bitcoin">Bitcoin</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/markets-news/markets-markets-news/markets-ethereum">Ethereum</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/markets-news/markets-markets-news/markets-exchanges">Exchanges</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/markets-news/markets-markets-news/markets-news-other-public-protocols">Other Public Protocols</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='nav-btn-block'>
+                            <input class='nav-btn-block__checkbox' name='blockchain-101' type='checkbox' />
+                            <a class='nav-btn-block__link nav__link' href='/category/business-news'>Business</a>
+                            <div class='nav-btn-block__dropdown'>
+                                <div class='nav-btn-block-dropdown'>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals">Use Cases &amp; Verticals</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/payments">Payments</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/capital-markets">Capital Markets</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/banking">Banking</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/insurance">Insurance</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/supply-chain">Supply Chain</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/security">Security</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/identity">Identity</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/healthcare">Healthcare</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/energy">Energy</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/internet-of-things">Internet of Things</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/uses-cases-verticals-merchants">Merchants</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/use-cases-verticals/startups">Startups</a>                                                                           
+                                    </div>
+
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/legal">Legal</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/legal/regulation-legal">Regulation</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/legal/central-banking">Central Banking</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/legal/tax">Tax</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/legal/crime">Crime</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/legal/us-canada">US &amp; Canada</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/legal/asia-pacific">Asia-Pacific</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/business-news/legal/europe">Europe</a>                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='nav-btn-block'>
+                            <input class='nav-btn-block__checkbox' name='blockchain-101' type='checkbox' />
+                            <a class='nav-btn-block__link nav__link' href='/data'>Data &amp; Research</a>
+                            <div class='nav-btn-block__dropdown'>
+                                <div class='nav-btn-block-dropdown'>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/data">Crypto-Economics Explorer</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/price/bitcoin">Bitcoin Price Index</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/price/ethereum">Ethereum Price</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/category/features/data-analysis">Data Analysis</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/calculator">Bitcoin Calculator</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/bitcoin-venture-capital">Blockchain Venture Capital</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/ico-tracker">ICO Tracker</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/ico-calendar">ICO Calendar</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/price/bitcoin-price-index">About the BPI</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/bitcoin-legal-map">Bitcoin Legality Map</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/widgets/bitcoin-price-ticker">Bitcoin Price Ticker Widget</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/api">CoinDesk API</a>
+                                    </div>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/research">Industry Research</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/research/state-of-blockchains-q3-2018">State of Blockchains Q3 2018</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/research/state-of-blockchain-q2-2018">State of Blockchain Q2 2018</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/research/state-blockchain-2018">State of Blockchain Q1 2018</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/research/state-blockchain-q4-2017">State of Blockchain Q4 2017</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/research/state-blockchain-q3-2017">State of Blockchain Q3 2017</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/research/state-blockchain-q2-2017">State of Blockchain Q2 2017</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/research/state-blockchain-q1-2017">State of Blockchain Q1 2017</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='nav-btn-block'>
+                            <input class='nav-btn-block__checkbox' name='blockchain-101' type='checkbox' />
+                            <a class='nav-btn-block__link nav__link' href='/events'>Events</a>
+                            <div class='nav-btn-block__dropdown'>
+                                <div class='nav-btn-block-dropdown'>
+                                    <div class='nav-btn-block-dropdown__list'>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/events/consensus-2019">Consensus 2019</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/bitcoin-events">Industry Events Calendar</a>
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/webinars">Webinars</a>      
+                                        <a class="nav-btn-block-dropdown__link nav__link" href="/podcasts">Podcasts</a>
+                                    </div>
+                                </div>
+                            </div>          
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class='header__search-container'>
+                <form class='header-search-container' method="GET" action="https://www.coindesk.com/">
+                    <input class='header-search-container__input' value="" name="s" id="s" placeholder="Search" />
+                    <button class='header-search-container__btn' type="submit" id="searchbutton">
+                        <svg class='header-search-container__icon icon--search' viewBox="0 0 43 43" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" stroke-width="1" fill-rule="evenodd">
+        <g transform="translate(-253.000000, -278.000000)">
+            <g transform="translate(253.000000, 275.000000)">
+                <g transform="translate(0.000000, 3.000000)">
+                    <path d="M5.841,18.331 C5.841,11.163 11.673,5.331 18.841,5.331 C26.009,5.331 31.841,11.163 31.841,18.331 C31.841,25.499 26.009,31.331 18.841,31.331 C11.673,31.331 5.841,25.499 5.841,18.331 Z M41.376,33.795 L34.602,27.021 C36.025,24.444 36.841,21.483 36.841,18.331 C36.841,8.39 28.782,0.331 18.841,0.331 C8.9,0.331 0.841,8.39 0.841,18.331 C0.841,28.272 8.9,36.331 18.841,36.331 C21.993,36.331 24.954,35.516 27.53,34.092 L34.305,40.867 C36.258,42.819 39.424,42.819 41.376,40.867 C43.329,38.914 43.329,35.748 41.376,33.795 Z" id="Fill-322"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="global-content">
+                        <div class="header-alert-banner">
+                <a href="https://www.coindesk.com/events/consensus-2019/register/construct?promo=Construct2019">Calling All Developers! Come to Construct During Blockchain Week NYC. Only $299 </a>
+            </div>
+             <div class="content">
+    <div id="body-container">
+        <div>
+            <div id="articles-container" data-related="391120,391152,391164,391061,390921,391070,390785,391000,390801,390683">
+                <article class="coindesk-article" data-path="ibm-blockchain-maersk-shipping-struggling" data-id="361783">
+    <header>
+        <div class="coindesk-article-header-image">
+    <div>
+                <picture>
+            <source srcset="https://static.coindesk.com/wp-content/uploads/2018/01/Maersk-ship.jpg" media="(min-width: 376px)" />
+            <img src="https://static.coindesk.com/wp-content/uploads/2018/01/Maersk-ship.jpg" alt="" />
+        </picture>
+                <div class="fade"></div>
+        <div class="meta">
+            <h1>IBM and Maersk Struggle to Sign Partners to Shipping Blockchain</h1>
+        </div>
+    </div>
+</div>                <div class="leaderboard target"></div>        
+<div class="sharebar">
+    <a class="sharebar__btn sharebar__btn--twitter" data-sharebar-source='twitter' title='Share on Twitter' href="http://twitter.com/intent/tweet?text=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain%20https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling%20via%20%40CoinDesk" target="_blank">
+        <i class="sharebar__btn-icon fab fa-twitter"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--facebook" data-sharebar-source='facebook' title='Share on Facebook' href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling" target="_blank">
+        <i class="sharebar__btn-icon fab fa-facebook-f"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--reddit" data-sharebar-source='reddit' title='Share on Reddit' href="https://www.reddit.com/submit?url=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling&title=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain" target="_blank">
+        <i class="sharebar__btn-icon fab fa-reddit-alien"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--linkedin" data-sharebar-source='linkedin' title='Share on LinkedIn' href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling" target="_blank">
+        <i class="sharebar__btn-icon fab fa-linkedin-in"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--whatsapp" data-sharebar-source='WhatsApp' title='Share on WhatsApp' href="https://wa.me/?text=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain%20https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling" target="_blank">
+        <i class="sharebar__btn-icon fab fa-whatsapp"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--telegram" data-sharebar-source='Telegram' title='Share on Telegram' href="https://telegram.me/share/url?url=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling&text=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain" target="_blank">
+        <i class="sharebar__btn-icon fab fa-telegram-plane"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--email" data-sharebar-source='Email' title='Share via Email' href="mailto:?subject=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain&body=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling">
+        <i class="sharebar__btn-icon fas fa-envelope"></i>
+    </a>
+</div>         
+        
+<div class="coindesk-article-header-meta">
+    <div class="info">
+        <a class="author-photo" href='https://www.coindesk.com/author/ianallison'>
+                        <img src="https://static.coindesk.com/wp-content/uploads/2018/04/ian-allison.jpg" height="55" width="55" alt="Ian Allison" />
+                    </a>           
+        <div class="author-meta">
+            <div class="byline">
+                <div class="author-names">
+                                    <a href="https://www.coindesk.com/author/ianallison">Ian Allison</a>               
+                                </div>
+                <div class="lead-author-social">
+                                        <a class="article-author-link-btn" target="_blank" href='mailto:ian@coindesk.com'><i class="fas fa-envelope" aria-hidden="true"></i></a>
+                                        <a class="article-author-link-btn" target="_blank" href='https://www.twitter.com/ianallison123'><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                                        <a class="article-author-link-btn" target="_blank" href='https://www.coindesk.com/author/ianallison/feed'><i class="fa fa-rss" aria-hidden="true"></i></a>
+                                    </div>
+            </div>
+            
+<div class="timestamp">
+    <div>
+        <i class="far fa-clock" aria-hidden="true"></i>
+        <span>Oct 26, 2018 at 16:00 UTC</span>
+    </div>
+        <div>Updated Nov 2, 2018 at 16:54 UTC</div>
+    </div>        </div>
+    </div>
+        <div class="tags">
+        <span>feature</span>
+    </div>
+    </div>
+    </header>
+    <section class="article-content">
+        <div class="entry-content">
+            <p><span style="font-weight: 400">It&#8217;s hard enough to get enterprises that compete with each other to work together as a team, b</span><span style="font-weight: 400">ut it&#8217;s especially tricky when one of those rivals </span><i><span style="font-weight: 400">owns</span></i><span style="font-weight: 400"> the team.</span></p>
+<p><span style="font-weight: 400">Shipping giant Maersk and tech provider IBM are wrestling with this problem with TradeLens, their distributed ledger technology (DLT) platform for supply chains. </span></p>
+<p><span style="font-weight: 400">Some 10 months ago, the project was spun off from Maersk (the largest container shipping company on the planet) into a joint venture with IBM. But in that time the network has enticed only one other carrier onto the platform: Pacific International Lines (PIL), one of eight shipping lines in Asia and 17th in the world based on cargo volumes.</span></p>
+<p><span style="font-weight: 400">As those involved admit, that&#8217;s not enough. </span></p>
+<p><span style="font-weight: 400">In a nutshell, the IBM-Maersk joint collaboration needs more carriers. The platform is designed such that Maersk&#8217;s rivals will act as &#8220;trust anchors&#8221; and run full blockchain nodes on the network. Moreover, large shippers of goods use multiple carriers and freight-forwarders, and the value proposition involves managing cargo and inventory across all of them. </span></p>
+<p><span style="font-weight: 400">Not to put too fine a point on it, onboarding other large carriers is an absolutely necessary condition for TradeLens â as Marvin Erdly, head of TradeLens at IBM Blockchain, acknowledged.</span></p>
+<p><span style="font-weight: 400">&#8220;I won&#8217;t mince words here â we do need to get the other carriers on the platform. Without that network, we don&#8217;t have a product. That is the reality of the situation.&#8221; he told CoinDesk. </span></p>
+<p><span style="font-weight: 400">The problem is that Maersk&#8217;s rival shipping carriers are concerned about joining the platform on a less than equal footing. Indeed, the chiefs of two rival shipping carriers, CMA CGM (third largest by ship fleets and containers) and Hapag-Lloyd (No. 5), have </span><a href="https://shippingwatch.com/carriers/Container/article10602520.ece" data-wpel-link="external" target="_blank" rel="external noopener noreferrer"><span style="font-weight: 400">publicly dismissed</span></a><span style="font-weight: 400"> the Maersk-IBM blockchain solution as unusable. (Neither company responded to calls for comment from CoinDesk.) </span></p>
+<p><span style="font-weight: 400">TradeLens has tried to address this problem by recasting the arrangement as a &#8220;joint collaboration&#8221; in a bid to appear more neutral than the originally billed joint venture. But in substance, Maersk and IBM each have full and equal rights to the intellectual property (IP).</span></p>
+<p><span style="font-weight: 400">Erdly said an industry advisory board is one of the governance solutions that will make a difference and that work is ongoing to promote equality on the platform. But he acknowledged the concerns of rival shipping firms, adding:</span></p>
+<blockquote><p><span style="font-weight: 400">&#8220;Obviously the fact that Maersk is driving this is both a really good thing and a worrying thing because they are such a big player in the industry. As you can imagine that&#8217;s going to be a factor.&#8221;</span></p></blockquote>
+<h2>Who&#8217;s the captain?</h2>
+<p><span style="font-weight: 400">To Lars Jensen, CEO of SeaIntelligence Consulting, a Copenhagen-based shipping analyst firm, the challenge for IBM and Maersk was apparent early on.</span></p>
+<p><span style="font-weight: 400">Jensen told CoinDesk he spoke to a group of large carriers about Maersk and IBM&#8217;s blockchain proposition at a shipping conference in April, three months after the venture was announced.</span></p>
+<p><span style="font-weight: 400">According to Jensen, &#8220;The other carriers basically said, &#8216;sure, maybe â tell us a bit about it. And by the way, if we do this then who owns the IP rights?&#8217; Whereupon they were given the answer that the IP rights would be for Maersk and IBM.&#8221; He added: </span></p>
+<blockquote><p><span style="font-weight: 400">&#8220;It&#8217;s not rocket science to guess what all Maersk&#8217;s competitors said about joining this initiative.&#8221;</span></p></blockquote>
+<p><span style="font-weight: 400">In a word: no.</span></p>
+<p><span style="font-weight: 400">To be sure, it&#8217;s still early days for TradeLens. IBM has made impressive leaps with its other big industry blockchain, the now-live Food Trust, kicked off a couple of years ago in conjunction with retailing behemoth Walmart. </span></p>
+<p><span style="font-weight: 400">And IBM and Maersk have signed scores of participants from other parts of the shipping supply chain to join the TradeLens platform. These </span><span style="font-weight: 400">include an array of global port and customs authorities,</span><span style="font-weight: 400"> beneficial cargo owners, freight forwarding and logistics companies (the Port of Montreal and Canada Border and Services Agency are the latest additions).</span></p>
+<p><span style="font-weight: 400">&#8220;We have had positive engagement with companies across all sectors of our industry thus far, and we&#8217;re pleased to note that this constructive dialogue has resulted in more than 100 ecosystem participants actively involved or piloting the solution,&#8221; </span><span style="font-weight: 400">said </span><span style="font-weight: 400">Michael J. White, Maersk&#8217;s TradeLens leader.</span></p>
+<p><span style="font-weight: 400">An obvious question to Jensen (and others in the shipping ecosystem) is why didn&#8217;t Maersk choose to establish its blockchain under the auspices of INTTRA, the digital platform for booking shipping containers, which started out almost 20 years ago as a truly neutral venture, jointly and equally owned by the shipping carriers (including Maersk). Â </span></p>
+<p><span style="font-weight: 400">Inna Kuznetsova, the president and COO of INTTRA (which has 60 carriers transacting on its software-as-a-service, non-blockchain platform) believes the &#8220;jury is still out&#8221; regarding the potential of blockchain in the shipping industry, which, she pointed out, has to be pragmatic thanks to thin margins and limited IT resources.Â </span></p>
+<p><span style="font-weight: 400">&#8220;T</span><span style="font-weight: 400">he shipping industry today is tired of the &#8216;big carrot in the end&#8217; project,&#8221; said </span><span style="font-weight: 400">Kuznetsova</span><span style="font-weight: 400">. &#8220;Selecting IT projects requires a rather thin focus on return on investment and we have seen a high preference for projects which bring savings in six months to a year.&#8221;</span></p>
+<p><span style="font-weight: 400">White of Maersk said its work with IBM &#8220;</span><span style="font-weight: 400">has a fundamentally different focus and approach than INTTRA in terms of both the solution and technology. We have an ongoing dialogue with INTTRA.&#8221;</span></p>
+<h2>Staying neutral</h2>
+<p><span style="font-weight: 400">Another challenge for TradeLens is that it is not the only game in town. </span></p>
+<p><span style="font-weight: 400">Accenture has onboarded Singapore-based shipping carrier APL (American President Lines, 12th largest by cargo volume) and freight forwarding giant Kuehne + Nagel to a blockchain pilot involving brewing giant AB InBev and a European customs organization. </span></p>
+<p><span style="font-weight: 400">Adriana DienerâVeinott, global lead for Accenture Freight &amp; Logistics Services, said the proof of concept </span><span style="font-weight: 400">began with one stakeholder in each category: a shipper, a forwarder, a shipping line and a customs authority.</span></p>
+<p><span style="font-weight: 400">&#8220;Right from the beginning, everybody accepts their competitors will be joining and that they would have the same rights. This is how you make an industry platform successful,&#8221; she said.</span></p>
+<p><span style="font-weight: 400">DienerâVeinott said she was not at liberty to disclose who currently owns the IP of the mini-consortium. However, </span><span style="font-weight: 400">Accenture said it will be announcing additional carriers in the coming weeks as well as providing an update on its governance procedures. </span></p>
+<p><span style="font-weight: 400">A representative of Kuehne + Nagel echoed the points made by Accenture.</span></p>
+<p><span style="font-weight: 400">&#8220;One of the guiding principles is that ownership of the platform of the consortium will not be restricted to the founding parties,&#8221; said </span><span style="font-weight: 400">the spokesperson. </span><span style="font-weight: 400">&#8220;The governance model will ensure that additional partners will be able to join with equal rights and obligations.&#8221;</span></p>
+<p><span style="font-weight: 400">In all fairness, building big blockchain networks is an unprecedented business and IBM is exploring different approaches to the problem. Jerry Cuomo, Big Blue&#8217;s vice president for blockchain technologies, says there are two ways you can go, in his experience: Either start out small and centralized with just a few trust anchors, or choose a more decentralized approach that involves wrangling together a large consortium and is going to take longer to get off the ground.</span></p>
+<p><span style="font-weight: 400">&#8220;We are not sure that one is right and the other wrong,&#8221; Cuomo told CoinDesk. &#8220;If you start off small and centralized, the challenge will be getting the next big trust anchors on board. On the other hand, with the decentralized approach, you can have multiple competitors and their lawyers all asking questions and it&#8217;s going to take some time. You&#8217;ve got to pick your poison,&#8221; he said.</span></p>
+<p><span style="font-weight: 400">But if it came down to it, would TradeLens ever opt to share the IP equally among other network members in order to ensure the success of the platform?</span></p>
+<p><span style="font-weight: 400">IBM&#8217;s Erdly said he was not in a position to speculate on what might or might not happen down the line, but he echoed his colleague Cuomo&#8217;s point about the need to just get out there and innovate, concluding: </span></p>
+<blockquote><p><span style="font-weight: 400">&#8220;We could have spent years and years working on some industry consortium model. Or we could get started and push this thing forward.&#8221;</span></p></blockquote>
+<p>&nbsp;</p>
+<p><em>After this story was published, IBM supplied an additional statement from Todd Scott, the company&#8217;s blockchain vice president for global trade. &#8220;Is there value in more [carriers] joining? Absolutely,&#8221; he said, adding:</em><br />
+<em>&#8220;The nature of the platform and its governance model â which maximizes business value and protects company data â is built so that as the ecosystem grows, the enhanced value proposition of TradeLens will grow with it.&#8221;</em></p>
+<p><em><a href="https://www.shutterstock.com/image-photo/usa-florida-miami-beach-august-19-701832907" target="_blank" rel="noopener external noreferrer" data-wpel-link="external">Maersk</a> image via Shutterstock.</em></p>
+        </div>
+    </section>
+    <footer>
+        <div class="coindesk-article-disclaimer">
+    <p><em>The leader in blockchain news, CoinDesk is a media outlet that strives for the highest journalistic standards and abides by a <a href="https://www.coindesk.com/editorial-policy">strict set of editorial policies</a>. CoinDesk is an independent operating subsidiary of Digital Currency Group, which invests in cryptocurrencies and blockchain startups.</em></p>
+    
+    </div>                <div class="coindesk-tagbar">
+    <a href="https://www.coindesk.com/tag/ibm">IBM</a><a href="https://www.coindesk.com/tag/accenture">Accenture</a><a href="https://www.coindesk.com/tag/maersk">Maersk</a><a href="https://www.coindesk.com/tag/tradelens">TradeLens</a><a href="https://www.coindesk.com/tag/inttra">INTTRA</a><a href="https://www.coindesk.com/tag/seaintelligence-consulting">SeaIntelligence Consulting</a><a href="https://www.coindesk.com/tag/hapag-lloyd">Hapag-Lloyd</a><a href="https://www.coindesk.com/tag/cma-cgm">CMA CGM</a></div>        
+<div class="sharebar">
+    <a class="sharebar__btn sharebar__btn--twitter" data-sharebar-source='twitter' title='Share on Twitter' href="http://twitter.com/intent/tweet?text=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain%20https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling%20via%20%40CoinDesk" target="_blank">
+        <i class="sharebar__btn-icon fab fa-twitter"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--facebook" data-sharebar-source='facebook' title='Share on Facebook' href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling" target="_blank">
+        <i class="sharebar__btn-icon fab fa-facebook-f"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--reddit" data-sharebar-source='reddit' title='Share on Reddit' href="https://www.reddit.com/submit?url=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling&title=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain" target="_blank">
+        <i class="sharebar__btn-icon fab fa-reddit-alien"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--linkedin" data-sharebar-source='linkedin' title='Share on LinkedIn' href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling" target="_blank">
+        <i class="sharebar__btn-icon fab fa-linkedin-in"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--whatsapp" data-sharebar-source='WhatsApp' title='Share on WhatsApp' href="https://wa.me/?text=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain%20https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling" target="_blank">
+        <i class="sharebar__btn-icon fab fa-whatsapp"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--telegram" data-sharebar-source='Telegram' title='Share on Telegram' href="https://telegram.me/share/url?url=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling&text=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain" target="_blank">
+        <i class="sharebar__btn-icon fab fa-telegram-plane"></i>
+    </a>
+    <a class="sharebar__btn sharebar__btn--email" data-sharebar-source='Email' title='Share via Email' href="mailto:?subject=IBM%20and%20Maersk%20Struggle%20to%20Sign%20Partners%20to%20Shipping%20Blockchain&body=https%3A%2F%2Fwww.coindesk.com%2Fibm-blockchain-maersk-shipping-struggling">
+        <i class="sharebar__btn-icon fas fa-envelope"></i>
+    </a>
+</div>                <a class="consensus-2019-promo" href="/events/consensus-2019/register?utm_source=coindesk&utm_medium=banner&utm_campaign=preagenda"></a>    </footer>
+</article>
+            </div>
+        </div>
+    </div>
+    <aside id="sidebar">
+    <div id="static-sidebar" class="sidebar">
+        <div>
+            <div id="coindesk_price_widget_v2-2" class="widget coindesk_price_v2 widget-in-unified widget-index-0 widget-even">
+        <div class="sidebar-price-widget-v2 sidebar-price-widget-v2--loading" id="sidebar-price-widget-v2" data-currencies='BTC,ETH,LTC,XRP,BCH'>
+            <a class='sidebar-price-widget-v2__title' href='/data'>
+                <img src="https://static.coindesk.com/images/widgets/price/logo.3df51662.png" alt="CoinDesk Data logo" />
+            </a>
+            <div id='sidebar-price-widget-v2__list' class='sidebar-price-widget-v2__list'></div>
+        </div>
+
+        </div><div id="widget-ad-atf-2" class="widget widget-ad-atf widget-in-unified widget-index-1 widget-odd">            <div class="sidebar-atf target vert"></div>
+        </div><div id="widget-consensus-2" class="widget widget-consensus widget-in-unified widget-index-2 widget-even">            <a href="/events/consensus-2019">
+                <img src="https://static.coindesk.com/images/widgets/consensus/2019.9b237a64.png" width="300" height="250" />
+            </a>
+        </div><div id="coindesk_podcast_widget-2" class="widget coindesk_podcast_widget widget-in-unified widget-index-3 widget-odd">
+        <div class='coindesk-podcast-widget'>
+            <a href='/podcasts'>
+                <span></span>
+            </a>
+
+            <iframe src="https://art19.com/shows/55cad312-716a-4145-b685-307f5cdb84f3/embed?type=artwork&theme=dark-custom&primary_color=%23f3c347&playlist_type=playlist&playlist_size=3" style="width:100%;height:490px;border:0 none;" scrolling="no"></iframe>
+
+            <div class='bottom'>
+                <label for='coindesk-podcast-widget-subscribe-radio' class='subscribe'>Subscribe <i class='fa fa-caret-right' aria-hidden='true'></i></label>
+                <input type='checkbox' id='coindesk-podcast-widget-subscribe-radio' />
+                <a class='link' href='/podcasts'>View all Podcasts <i class='fa fa-long-arrow-right' aria-hidden='true'></i></a>
+                <div class='subscribe-dropdown'>
+                    <a href='https://itunes.apple.com/us/podcast/road-to-consensus-by-coindesk/id1454261650' target='_blank' class='podcast-apple' title='Apple Podcasts'></a>
+                    <a href='https://open.spotify.com/show/4aMAzOoiBO1nF3VtADfyxG?si=yKEoF0OdQteNsnGTQwyVtA' target='_blank' class='podcast-spotify' title='Spotify'></a>
+                    <a href='https://tunein.com/podcasts/Business--Economics-Podcasts/Road-to-Consensus-by-CoinDesk-p1207556/' target='_blank' class='podcast-tunein' title='TuneIn'></a>
+                    <a href='https://castbox.fm/channel/Road-to-Consensus-by-CoinDesk-id2032631?country=us' target='_blank' class='podcast-castbox' title='Castbox'></a>
+                    <a href='https://radiopublic.com/road-to-consensus-by-coindesk-WDJAkl' target='_blank' class='podcast-radiopublic' title='Radiopublic'></a>
+                    <a href='https://www.stitcher.com/podcast/coindesk/road-to-consensus-by-coindesk' target='_blank' class='podcast-stitcher' title='Stitcher'></a>
+                    <a href='https://pca.st/451D' target='_blank' class='podcast-pocketcasts' title='PocketCasts'></a>
+                    <a href='https://play.google.com/music/listen?u=0#/ps/Iszehhkbignmh4vdxwldmyovxai' target='_blank' class='podcast-google-play' title='Google Play Music'></a>
+                    <a href='https://www.google.com/podcasts?feed=aHR0cHM6Ly9yc3MuYXJ0MTkuY29tL3JvYWQtdG8tY29uc2Vuc3VzLWJ5LWNvaW5kZXNr' target='_blank' class='podcast-google-podcasts' title='Google Podcasts'></a>
+
+                </div>
+            </div>
+        </div>
+
+        </div><div id="widget-follow-us-2" class="widget widget-follow-us widget-in-unified widget-index-4 widget-even">        
+        <div class='follow-us-widget'>
+            <div class='follow-us-widget__inner'>
+                <h2 class='follow-us-widget__title'>Sign Up for CoinDesk's Newsletters</h2>
+                <a class='follow-us-widget__btn' href='/newsletters'>
+                    Sign Me Up
+                    <i class="follow-us-widget__btn-icon fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+
+        </div><div id="tips-widget-2" class="widget tips-widget widget-in-unified widget-index-5 widget-odd">		<h3>Have a breaking story?</h3>
+		<a href="/contact" class="tip-widget-subtext">
+			Let us know here &raquo;
+		</a>
+		</div>        </div>
+    </div>
+    <div id="sticky-sidebar" class="sidebar">
+        <div>
+            <div id="widget-ad-atb-2" class="widget widget-ad-atb widget-in-unified widget-index-6 widget-even">            <div class="sidebar-btf target vert"></div>
+        </div>        </div>
+    </div>
+</aside>
+</div>
+		</div>
+		<footer id="site-footer" class="default">
+    <div>
+        <nav>
+            <a href="https://www.coindesk.com/about">About</a>
+            <a href="https://www.coindesk.com/blog">Blog</a>
+            <a href="https://www.coindesk.com/press">Press</a>
+            <a href="https://jobs.coindesk.com/employer-details/16/coindesk-inc-">Jobs</a>
+            <a href="https://www.coindesk.com/events">Events</a>
+            <a href="https://www.coindesk.com/editorial-policy">Editorial Policy</a>
+            <img src="https://static.coindesk.com/images/footer/logo.37db031a.svg" alt="CoinDesk logo" />
+            <a href="https://www.coindesk.com/terms-conditions">Terms &amp; Conditions</a>
+            <a href="https://www.coindesk.com/privacy-policy">Privacy Policy</a>
+            <a href="https://www.coindesk.com/advertising">Advertising</a>
+            <a href="https://www.coindesk.com/newsletters">Newsletters</a>
+        </nav>
+        <div class="site-language">
+            <select onchange="document.location.href=this.value">
+                <option value="https://www.coindesk.com">English</option>
+                <option value="https://www.coindeskkorea.com">Korean</option>
+                <option value="https://www.coindeskjapan.com">Japanese</option>
+            </select>
+        </div>
+    </div>
+</footer> 		</main>
+		<script  async="async" src='https://static.coindesk.com/js/coindesk.4dda1ee2.js'></script>
+<script  src='https://static.coindesk.com/wp-includes/js/wp-embed.min.js?ver=4.9.10'></script>
+	<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"1be6c26eb2","applicationID":"198436867","transactionName":"ZQRQNkcAWUpRVERZC1xOcwFBCFhXH0RZXgNeBA==","queueTime":0,"applicationTime":165,"atts":"SUNTQA8aSkQ=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<link rel="profile" href="https://www.w3.org/1999/xhtml/vocab" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="https://nostarch.com/sites/default/files/favicon.ico" type="image/vnd.microsoft.icon" />
+<meta name="description" content="The Practice of Network Security Monitoring teaches IT and security staff how to leverage powerful NSM tools to identify threats quickly and effectively." />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://nostarch.com/nsm" />
+<link rel="shortlink" href="https://nostarch.com/node/255" />
+<title>Practice of Network Security Monitoring | No Starch Press</title>
+<link type="text/css" rel="stylesheet" href="https://nostarch.com/sites/default/files/css/css_lQaZfjVpwP_oGNqdtWCSpJT1EMqXdMiU84ekLLxQnc4.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://nostarch.com/sites/default/files/css/css_iJE8OMtNhvOQPbQGg8OqRmpr7AhRCfmCisQy8q7fFhk.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://nostarch.com/sites/default/files/css/css_-ED5mSDi2J0mJNLdnWftdu4UjRHpo8Es5qngnLZm3Ec.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://nostarch.com/sites/default/files/css/css_AwOJVn3jdGwAWV_K-lDvOjtfrwgvh3Kzpwk64De7ebk.css" media="all" />
+
+<!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+<script>window.google_analytics_uacct = "UA-5027625-1";</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>window.jQuery || document.write("<script src='/sites/all/modules/contrib/jquery_update/replace/jquery/1.10/jquery.min.js'>\x3C/script>")</script>
+<script src="https://nostarch.com/sites/default/files/js/js_vSmhpx_T-AShyt_WMW5_TcwwxJP1imoVOa8jvwL_mxE.js"></script>
+<script src="https://nostarch.com/sites/default/files/js/js_FvBWezKhsGxJU-Yi41qvYAlpXctdNNR7mIzff4prZrg.js"></script>
+<script src="https://nostarch.com/sites/default/files/js/js_XSB4L24OC9_FRIXbPPZfpSjo-9zV6VLL2nptL3sjVds.js"></script>
+<script>(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","https://www.google-analytics.com/analytics.js","ga");ga("create", "UA-5027625-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");</script>
+<script src="https://nostarch.com/sites/default/files/js/js_YVgz8u7U_iU4-YMa-K5LKZE5ZLG-tMsX72JC46wjRZM.js"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"nostarch","theme_token":"KffYEHMQnu8w81fHb-UFsD5rLvvtdOyQCWsRw_8cZuc","js":{"sites\/all\/modules\/contrib\/addthis\/addthis.js":1,"sites\/all\/themes\/bootstrap\/js\/bootstrap.js":1,"0":1,"\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.10.2\/jquery.min.js":1,"1":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/ubercart\/uc_file\/uc_file.js":1,"sites\/all\/libraries\/colorbox\/jquery.colorbox-min.js":1,"sites\/all\/modules\/contrib\/colorbox\/js\/colorbox.js":1,"sites\/all\/modules\/contrib\/colorbox\/styles\/plain\/colorbox_style.js":1,"sites\/all\/modules\/contrib\/colorbox\/js\/colorbox_load.js":1,"sites\/all\/modules\/contrib\/colorbox\/js\/colorbox_inline.js":1,"sites\/all\/modules\/contrib\/ubercart\/uc_cart\/uc_cart_block.js":1,"sites\/all\/modules\/contrib\/google_analytics\/googleanalytics.js":1,"2":1,"sites\/all\/themes\/nostarch\/js\/bootstrap.min.js":1,"sites\/all\/themes\/nostarch\/js\/main.js":1,"sites\/all\/themes\/nostarch\/js\/front_grid_height.js":1},"css":{"modules\/system\/system.base.css":1,"sites\/all\/modules\/contrib\/date\/date_api\/date.css":1,"sites\/all\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"sites\/all\/modules\/contrib\/logintoboggan\/logintoboggan.css":1,"sites\/all\/modules\/contrib\/mollom\/mollom.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/contrib\/uc_fedex\/uc_fedex.css":1,"sites\/all\/modules\/contrib\/ubercart\/uc_file\/uc_file.css":1,"sites\/all\/modules\/contrib\/ubercart\/uc_order\/uc_order.css":1,"sites\/all\/modules\/contrib\/ubercart\/uc_product\/uc_product.css":1,"sites\/all\/modules\/contrib\/ubercart\/uc_store\/uc_store.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/uc_discounts_alt\/uc_discounts\/uc_discounts.css":1,"sites\/all\/modules\/contrib\/colorbox\/styles\/plain\/colorbox_style.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/contrib\/ubercart\/uc_cart\/uc_cart_block.css":1,"sites\/all\/themes\/nostarch\/css\/en_styles.css":1,"sites\/all\/themes\/nostarch\/css\/custom.css":1,"sites\/all\/themes\/nostarch\/css\/bootstrap-3-vert-offset.css":1,"sites\/all\/themes\/nostarch\/css\/bootstrap-3-autoclear.css":1,"sites\/all\/themes\/nostarch\/css\/glyphicons.css":1}},"colorbox":{"opacity":"0.85","current":"{current} of {total}","previous":"\u00ab Prev","next":"Next \u00bb","close":"Close","maxWidth":"98%","maxHeight":"98%","fixed":true,"mobiledetect":true,"mobiledevicewidth":"480px"},"better_exposed_filters":{"views":{"topics":{"displays":{"block":{"filters":[]}}},"related_products":{"displays":{"block":{"filters":[]}}}}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip","trackColorbox":1},"urlIsAjaxTrusted":{"\/nsm":true},"bootstrap":{"anchorsFix":"0","anchorsSmoothScrolling":"0","formHasError":1,"popoverEnabled":1,"popoverOptions":{"animation":1,"html":0,"placement":"right","selector":"","trigger":"click","triggerAutoclose":1,"title":"","content":"","delay":0,"container":"body"},"tooltipEnabled":1,"tooltipOptions":{"animation":1,"html":0,"placement":"auto left","selector":"","trigger":"hover focus","delay":0,"container":"body"}}});</script>
+</head>
+<body class="html not-front not-logged-in two-sidebars page-node page-node- page-node-255 node-type-product uc-product-node">
+<div id="skip-link">
+<a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+</div>
+<header id="" class="header" role="banner" class="navbar navbar-default">
+<div class="container">
+<div class="row">
+<nav role="navigation" class="navbar navbar-default visible-xs">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand text-uppercase" href="/"><img src="https://nostarch.com/sites/all/themes/nostarch/logo.png" alt="Home" class="img-responsive" /></a>
+</div>
+<div id="navbar" class="navbar-collapse collapse text-center">
+<ul class="menu nav navbar-nav"><li class="first leaf"><a href="/catalog.htm" title="Explore our catalog">Catalog</a></li>
+<li class="leaf"><a href="/blog" title="The No Starch Press blog">Blog</a></li>
+<li class="leaf"><a href="/media.htm" title="Media contact">Media</a></li>
+<li class="leaf"><a href="/writeforus" title="Submit a book proposal">Write for Us</a></li>
+<li class="leaf"><a href="/about" title="About No Starch Press">About Us</a></li>
+<li class="last leaf"><a href="/contactus" title="Contact Us">Contact Us</a></li>
+</ul> <div class="region region-navigation">
+<section id="block-search-form" class="block block-search clearfix">
+<form class="form-search content-search" action="/nsm" method="post" id="search-block-form" accept-charset="UTF-8"><div><div>
+<h2 class="element-invisible">Search form</h2>
+<div class="input-group"><input title="Enter the terms you wish to search for." placeholder="Search" class="form-control form-text" type="text" id="edit-search-block-form--2" name="search_block_form" value="" size="15" maxlength="128" /><span class="input-group-btn"><button type="submit" class="btn btn-primary"><span class="icon glyphicon glyphicon-search" aria-hidden="true"></span>
+</button></span></div><div class="form-actions form-wrapper form-group" id="edit-actions--2"><button class="element-invisible btn btn-default form-submit" type="submit" id="edit-submit" name="op" value="GO!">GO!</button>
+</div><input type="hidden" name="form_build_id" value="form-TyZIo2fSiN8ZeRB4IKoJOQwbMo2QYti2YzbIx_V0lvI" />
+<input type="hidden" name="form_id" value="search_block_form" />
+</div>
+</div></form>
+</section>
+</div>
+</div>
+</nav>
+<div class="navbar-header">
+<div class="logo-wrapper col-sm-6 hidden-xs">
+<a class="logo navbar-btn pull-left" href="/" title="Home">
+<img src="https://nostarch.com/sites/all/themes/nostarch/logo.png" alt="Home" class="img-responsive" />
+</a>
+</div>
+<div class="logo-wrapper col-sm-6 hidden-xs">
+<div class="region region-navigation">
+<div class="region region-navigation">
+<section id="block-search-form" class="block block-search clearfix">
+<form class="form-search content-search" action="/nsm" method="post" id="search-block-form" accept-charset="UTF-8"><div><div>
+<h2 class="element-invisible">Search form</h2>
+<div class="input-group"><input title="Enter the terms you wish to search for." placeholder="Search" class="form-control form-text" type="text" id="edit-search-block-form--2" name="search_block_form" value="" size="15" maxlength="128" /><span class="input-group-btn"><button type="submit" class="btn btn-primary"><span class="icon glyphicon glyphicon-search" aria-hidden="true"></span>
+</button></span></div><div class="form-actions form-wrapper form-group" id="edit-actions--2"><button class="element-invisible btn btn-default form-submit" type="submit" id="edit-submit" name="op" value="GO!">GO!</button>
+</div><input type="hidden" name="form_build_id" value="form-TyZIo2fSiN8ZeRB4IKoJOQwbMo2QYti2YzbIx_V0lvI" />
+<input type="hidden" name="form_id" value="search_block_form" />
+</div>
+</div></form>
+</section>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="navbar-collapse collapse">
+<nav role="navigation">
+<ul class="menu nav navbar-nav"><ul class="menu nav navbar-nav"><li class="first leaf"><a href="/catalog.htm" title="Explore our catalog">Catalog</a></li>
+<li class="leaf"><a href="/blog" title="The No Starch Press blog">Blog</a></li>
+<li class="leaf"><a href="/media.htm" title="Media contact">Media</a></li>
+<li class="leaf"><a href="/writeforus" title="Submit a book proposal">Write for Us</a></li>
+<li class="leaf"><a href="/about" title="About No Starch Press">About Us</a></li>
+<li class="last leaf"><a href="/contactus" title="Contact Us">Contact Us</a></li>
+</ul></ul> </nav>
+</div>
+</div>
+</div>
+</header>
+<div class="main-container container">
+<header role="banner" id="page-header">
+<div class="region region-header">
+<section id="block-block-57" class="block block-block clearfix">
+<style>
+<!--/*--><![CDATA[/* ><!--*/
+
+    .image_full {
+      max-width: 95%;
+    }
+    .image_mobile {
+      max-width: 95%;
+    }
+  @media (max-width: 767px) {
+    .image_full {
+      display: none;
+    }
+  }
+  @media (min-width: 768px) {
+    .image_mobile {
+      display: none;
+    }
+  }
+	.time-left {
+	    margin: 1em;
+		font-size: .75em;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-family: Arial, Helvetica, Verdana, sans-serif;
+		text-align: center;
+	}
+	.countdown-container {
+		display: flex;
+		justify-content: center;
+	}
+	.countdown-timer {
+		font-family: Arial, Helvetica, Verdana, sans-serif;
+		color: white;
+	}
+	.countdown-timer .countdown-timer-counter {
+		background-color: rgba(10,10,10,0.8);
+		display: inline-flex;
+		flex-direction: column;
+		justify-content: space-around;
+		text-align: center;
+		border-radius: 0.2em;
+		width: 3em;
+		line-height: 1.3;
+		margin: 0 0.2em;
+		padding: .6em 0.15em 0.75em;
+		
+		text-shadow: 1px 1px 1px rgba(0,0,0,0.85);
+	}
+	.countdown-timer .countdown-timer-counter .countdown-timer-number {
+		font-weight: bold;
+		font-size: 1em;
+	}
+	.countdown-timer .countdown-timer-counter .countdown-label {
+		font-size: 0.75em;
+	}
+	.cta-parent {
+		text-align: center;
+	}
+	.cta-button {
+		font-family: Arial, Helvetica, Verdana, sans-serif;
+	    color: white;
+		display: inline-block;
+		font-weight: bold;
+		text-decoration: none;
+		background-color: #97b147;
+		border: 1px solid #97b147;
+		cursor: pointer;
+		padding: 0.8em 1.25em 1em;
+		margin: 0.75em auto 0;
+		font-size: 1.15em;
+		text-rendering: optimizeLegibility;
+		border-radius: 0.3em;
+		text-shadow: 1px 1px 1px rgba(0,0,0,0.65);
+		text-transform: uppercase;
+		transition-duration: 0.2s;
+		transition-property: background-color, border, color, box-shadow, text-shadow;
+		transition-timing-function: ease-in-out;
+		white-space: nowrap;
+	}
+	.cta-button:hover {
+		background-color: #a2bb56;
+		border: 1px solid #a2bb56;
+	}
+ 
+/*--><!]]>*/
+</style><div id="banner">
+<center><br /><a href="https://www.humblebundle.com/books/coders-bookshelf-books" target="_blank"><img src="/images/humble-bundle-coders-bookshelf-desktop.gif" class="image_full" /><br /><img src="/images/humble-bundle-coders-bookshelf-mobile.gif" class="image_mobile" /></a><br /></center>
+</div>
+<div class="cta-parent">
+<a href="https://www.humblebundle.com/books/coders-bookshelf-books" target="_blank"><br /><div class="cta-button">Get The Bundle</div>
+<p></p></a>
+</div>
+<div class="time-left">time left</div>
+<div class="countdown-container">
+<div class="countdown-timer">
+<div class="countdown-timer-counter" data-unit="days">
+<div class="countdown-timer-number"></div>
+<div class="countdown-label">days</div>
+</div>
+<div class="countdown-timer-counter" data-unit="hours">
+<div class="countdown-timer-number"></div>
+<div class="countdown-label">hours</div>
+</div>
+<div class="countdown-timer-counter" data-unit="minutes">
+<div class="countdown-timer-number"></div>
+<div class="countdown-label">min</div>
+</div>
+<div class="countdown-timer-counter" data-unit="seconds">
+<div class="countdown-timer-number"></div>
+<div class="countdown-label">sec</div>
+</div>
+</div>
+</div>
+<script>
+<!--//--><![CDATA[// ><!--
+
+// Set the date we're counting down to; account for user's timezone
+var localDate = new Date("2019-04-08T18:00:00");
+var userTimezoneOffset = localDate.getTimezoneOffset() * 60000;
+var countDownDate = new Date(localDate.getTime() - userTimezoneOffset);
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+  document.querySelectorAll('[data-unit="days"]')[0].getElementsByClassName("countdown-timer-number")[0].innerHTML = days > 0 ? days : "0";
+  document.querySelectorAll('[data-unit="hours"]')[0].getElementsByClassName("countdown-timer-number")[0].innerHTML = hours > 0 ? hours : "0";
+  document.querySelectorAll('[data-unit="minutes"]')[0].getElementsByClassName("countdown-timer-number")[0].innerHTML = minutes > 0 ? minutes : "0";
+  document.querySelectorAll('[data-unit="seconds"]')[0].getElementsByClassName("countdown-timer-number")[0].innerHTML = seconds > 0 ? seconds : "0";
+}, 1000);
+
+//--><!]]>
+</script>
+</section>
+</div>
+</header> 
+<div class="row">
+<aside class="col-sm-3" role="complementary">
+<div class="region region-sidebar-first well">
+<section id="block-views-topics-block" class="block block-views clearfix">
+<button class="btn btn-primary btn-block visible-xs vert-offset-top-2" data-toggle="collapse" data-target="#topics"><span class="glyphicon glyphicon-menu-down pull-left"></span>
+<span class="btn-text">Topics</span><span class="glyphicon glyphicon-menu-down pull-right"></span></button>
+<h2 class="block-title hidden-xs">Topics</h2>
+<div id="topics" class="view-content collapse dont-collapse animateCollapse">
+<div class="view view-topics view-id-topics view-display-id-block view-dom-id-b5b61991eb6d6d707099c93484c04e61">
+<div class="view-content">
+<div class="item-list"> <ul> <li class="views-row views-row-1 views-row-odd views-row-first">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/art-photography-design">Art &amp; Design</a></span> </div></li>
+<li class="views-row views-row-2 views-row-even">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/general-computing">General Computing</a></span> </div></li>
+<li class="views-row views-row-3 views-row-odd">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/security">Hacking &amp; Computer Security</a></span> </div></li>
+<li class="views-row views-row-4 views-row-even">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/hardware-and-diy">Hardware / DIY</a></span> </div></li>
+<li class="views-row views-row-5 views-row-odd">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/kids">Kids</a></span> </div></li>
+<li class="views-row views-row-6 views-row-even">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/lego">LEGOÂ®</a></span> </div></li>
+<li class="views-row views-row-7 views-row-odd">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/linux-bsd-unix">Linux &amp; BSD</a></span> </div></li>
+<li class="views-row views-row-8 views-row-even">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/manga">Manga</a></span> </div></li>
+<li class="views-row views-row-9 views-row-odd">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/programming">Programming</a></span> </div></li>
+<li class="views-row views-row-10 views-row-even">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/python">Python</a></span> </div></li>
+<li class="views-row views-row-11 views-row-odd">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/science-math">Science &amp; Math</a></span> </div></li>
+<li class="views-row views-row-12 views-row-even">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/scratch">Scratch</a></span> </div></li>
+<li class="views-row views-row-13 views-row-odd">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/system-administration">System Administration</a></span> </div></li>
+<li class="views-row views-row-14 views-row-even views-row-last">
+<div class="views-field views-field-name"> <span class="field-content"><a href="/catalog/early-access">Early Access</a></span> </div></li>
+</ul></div> </div>
+<div class="view-footer">
+<style>
+<!--/*--><![CDATA[/* ><!--*/
+
+.view-topics .item-list a {font-weight: bold;}
+.view-topics  ul {padding-left: 20px;}
+
+/*--><!]]>*/
+</style> </div>
+</div> </div>
+</section><section id="block-block-12" class="block block-block clearfix">
+<div class="rounded_border_block"><a href="/about_ebooks.htm" style="color: red1;">Free ebook edition with every print book purchased from nostarch.com!</a></div>
+</section>
+<section id="block-uc-cart-cart" class="block block-uc-cart clearfix">
+<h2 class="block-title"><a href="/cart"><span class="cart-block-icon-empty" title="View your shopping cart."></span></a><span class="cart-block-title-bar" title="Show/hide shopping cart contents.">Shopping cart<span class="cart-block-arrow arrow-down"></span></span></h2>
+<p class="cart-block-items collapsed uc-cart-empty">There are no products in your shopping cart.</p><table class="cart-block-summary"><tbody><tr><td class="cart-block-summary-items"><span class="num-items">0</span> Items</td><td class="cart-block-summary-total"><label>Total:</label> <span class="uc-price">$0.00</span></td></tr></tbody></table>
+</section>
+<section id="block-nostarch-custom-login-block" class="block block-nostarch-customclearfix">
+<h2 class="block-title">User login</h2>
+<ul>
+<li><a href="/user">Log in</a></a></li>
+<li><a href="/user/register">Create account</a></a></li>
+</ul>
+</section>
+</div>
+</aside> 
+<section class="col-sm-6" style="">
+<a id="main-content"></a>
+<div class="region region-content">
+<section id="block-system-main" class="block block-system clearfix">
+<div class="ds-1col node node-product view-mode-full clearfix">
+<div class="">
+<div class="field field-name-field-image-cache field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><div class="product-image"><div class="main-product-image"><a href="https://nostarch.com/sites/default/files/styles/uc_product_full/public/pnsm_cover_WEB.png?itok=Zh8a_2of" title="The Practice Of Network Security Monitoring" class="colorbox" rel="uc_image_0"><img class="img-responsive" src="https://nostarch.com/sites/default/files/styles/uc_product/public/pnsm_cover_WEB.png?itok=QNaSHnOI" alt="The Practice Of Network Security Monitoring" title="The Practice Of Network Security Monitoring" /></a></div></div></div></div></div><div class="field field-name-entity-title field-type-ds field-label-hidden"><div class="field-items"><div class="field-item even"><h1 class="page-header">Practice of Network Security Monitoring</h1></div></div></div><div class="field field-name-field-subtitle field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Understanding Incident Detection and Response</div></div></div><div class="field field-name-field-author field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">by Richard Bejtlich</div></div></div><div class="field field-name-released-date field-type-ds field-label-hidden"><div class="field-items"><div class="field-item even">July 2013, 376 pp.</div></div></div><div class="field field-name-field-isbn13 field-type-text field-label-inline clearfix clearfix"><div class="field-label">ISBN-13:&nbsp;</div><div class="field-items"><div class="field-item even">978-1-59327-509-9</div></div></div><div class="add-to-cart"><form action="/nsm" method="post" id="uc-product-add-to-cart-form-255" accept-charset="UTF-8"><div><div id="uc_product_add_to_cart_form-255-attributes" class="attributes"><div class="attribute attribute-1 odd"><div class="form-item form-item-attributes-1 form-type-radios form-group"><div id="edit-attributes-1" class="form-radios"><div class="form-item form-item-attributes-1 form-type-radio radio"> <label class="control-label" for="edit-attributes-1-3"><input type="radio" id="edit-attributes-1-3" name="attributes[1]" value="3" checked="checked" class="form-radio" />Print Book and FREE Ebook, $49.95</label>
+</div><div class="form-item form-item-attributes-1 form-type-radio radio"> <label class="control-label" for="edit-attributes-1-2"><input type="radio" id="edit-attributes-1-2" name="attributes[1]" value="2" class="form-radio" />Ebook (PDF, Mobi, and ePub), $39.95</label>
+</div></div></div></div></div><input type="hidden" name="qty" value="1" />
+<input type="hidden" name="form_build_id" value="form-7CH6Bjt-7jjiqMYQn_cFSqBfeLiGXZuiq8d9OEiJu9o" />
+<input type="hidden" name="form_id" value="uc_product_add_to_cart_form_255" />
+<div class="form-actions form-wrapper form-group" id="edit-actions"><button class="node-add-to-cart btn btn-success form-submit icon-before" type="submit" id="edit-submit-255" name="op" value="Add to cart"><span class="icon glyphicon glyphicon-plus" aria-hidden="true"></span>
+Add to cart</button>
+</div></div></form></div><div class="field field-name-product-menu field-type-ds field-label-hidden"><div class="field-items"><div class="field-item even"><div class="menu-wrapper"><ul class="menu nav"><li><a href="#content">Contents</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#updates">Updates</a></li></ul></div></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><ul class="resources"><li><u><a href="/download/samples/PNSM_Preface.pdf" target="_blank">Download preface</a> (PDF)</u></li>
+<li><u><a href="/download/samples/PNSM_Ch01.pdf" target="_blank">Download Chapter 1: Network Security Monitoring Rationale</a></u></li>
+</ul><p>Network security is not simply about building impenetrable walls â determined attackers <i>will</i> eventually overcome traditional defenses. The most effective computer security strategies integrate network security monitoring (NSM): the collection and analysis of data to help you detect and respond to intrusions. </p>
+<p>In <i>The Practice of Network Security Monitoring</i>, Mandiant CSO Richard Bejtlich shows you how to use NSM to add a robust layer of protection around your networks â no prior experience required. To help you avoid costly and inflexible solutions, he teaches you how to deploy, build, and run an NSM operation using open source software and vendor-neutral tools.</p>
+<p>You'll learn how to:</p>
+<ul><li>Determine where to deploy NSM platforms, and size them for the monitored networks</li>
+<li>Deploy stand-alone or distributed NSM installations</li>
+<li>Use command line and graphical packet analysis tools, and NSM consoles</li>
+<li>Interpret network evidence from server-side and client-side intrusions</li>
+<li>Integrate threat intelligence into NSM software to identify sophisticated adversaries</li>
+</ul><p>Thereâs no foolproof way to keep attackers out of your network. But when they get in, youâll be prepared. <i>The Practice of Network Security Monitoring</i> will show you how to build a security net to detect, contain, and control them. Attacks are inevitable, but losing sensitive<br />
+data shouldn't be.</p>
+</div></div></div><div class="field field-name-field-author-bio field-type-text-long field-label-abovec"><div class="field-label">Author Bio&nbsp;</div><div class="field-items"><div class="field-item even"><p><b>Richard Bejtlich</b> is Chief Security Strategist at FireEye, and was formerly Chief Security Officer at Mandiant. He also served as Director of Incident Response for General Electric, where he built and led the 40-member GE Computer Incident Response Team (GE-CIRT). He is a graduate of Harvard University and the United States Air Force Academy. His previous works include <i>The Tao of Network Security Monitoring</i>, <i>Extrusion Detection</i>, and <i>Real Digital Forensics</i> (all from Addison-Wesley). He blogs <u>(<a href="https://taosecurity.blogspot.com/">taosecurity.blogspot.com</a>)</u> and writes on Twitter as <a href="https://twitter.com/taosecurity">@taosecurity</a>.</p>
+</div></div></div><div class="field field-name-field-toc field-type-text-long field-label-abovec" id="content"><div class="field-label">Table of contents&nbsp;</div><div class="field-items"><div class="field-item even"><p><b>Foreword by Todd Heberlein</b><br /><b>Preface</b> (<a href="/download/samples/PNSM_Preface.pdf" target="_blank">Download PDF</a>)</p>
+<p><b>Part I: Getting Started</b><br /><b>Chapter 1:</b> Network Security Monitoring Rationale<br /><b>Chapter 2:</b> Collecting Network Traffic: Access, Storage, and Management<br /><b>Part II: Security Onion Deployment</b><br /><b>Chapter 3:</b> Stand-alone NSM DeploymentÂ and Installation<br /><b>Chapter 4:</b> Distributed Deployment<br /><b>Chapter 5:</b> SO Platform Housekeeping<br /><b>Part III: Tools</b><br /><b>Chapter 6:</b> Command Line Packet AnalysisÂ Tools<br /><b>Chapter 7:</b> Graphical Packet AnalysisÂ Tools<br /><b>Chapter 8:</b> NSM Consoles<br /><b>Part IV: NSM in Action</b><br /><b>Chapter 9:</b> NSM Operations<br /><b>Chapter 10:</b> Server-side Compromise<br /><b>Chapter 11:</b> Client-side Compromise<br /><b>Chapter 12:</b> Extending SO<br /><b>Chapter 13:</b> Proxies and Checksums<br /><b>Conclusion</b></p>
+<p><b>Appendix</b><br /><b>SO Scripts and Configuration</b><br /><b>Index</b></p>
+<p>View the detailed <a href="/download/samples/PNSM_TOC.pdf" target="_blank">Table of Contents</a> (PDF)</p>
+</div></div></div><div class="field field-name-field-reviews field-type-text-long field-label-abovec" id="reviews"><div class="field-label">Reviews&nbsp;</div><div class="field-items"><div class="field-item even"><p>"A comprehensive guide. Certain to make the reader a better information security practitioner, and their network more secure."<br />
+â<b>Ben Rothke, Slashdot</b> (<a href="http://books.slashdot.org/story/13/09/09/1325225/book-review-the-practice-of-network-security-monitoring" target="new">Read More</a>)</p>
+<p>"If you are in cyber security, this is a must read. The book is the best resource for tools I have seen anywhere."<br />
+â<b>Stephen Northcutt, SANS Institute</b> (<a href="https://www.amazon.com/review/R75R100PD9FQP/ref=cm_cr_dp_title?ie=UTF8&amp;ASIN=1593275099&amp;nodeID=283155&amp;store=books" target="new">Read More</a>)</p>
+<p>"A very well written technical book. I would recommend this for anyone getting into the field of incident response who doesn't have a great understanding of NSM."<br />
+â<b>Greg Hetrick, PaulDotCom</b> (<a href="http://pauldotcom.com/2013/08/book-review-the-practice-of-ne.html" target="new">Read More</a>)</p>
+<p>"Deploying NSM not only means you can quickly identify, contain, and remediate intrusions, it gives you insight into the network as a whole."<br />
+â<b>Michael W. Lucas, author of Absolute OpenBSD, 2nd Edition</b> (<a href="https://www.amazon.com/review/REB05C0YI690L/ref=cm_cr_dp_title?ie=UTF8&amp;ASIN=1593275099" target="new">Read More</a>)</p>
+<p>"The Practice of Network Security Monitoring: the best surveillance book you'll read anytime soon."<br />
+â<b>Peter N. M. Hansteen, author of The Book of PF</b> (<a href="https://bsdly.blogspot.no/2013/12/three-books-you-too-should-read-this.html" target="new">Read More</a>)</p>
+<p>"This gem from No Starch Press covers the life-cycle of Network Security Monitoring (NSM) in great detail and leans on Security Onion as its backbone. I recommend an immediate download of the latest version of Security Onion and a swift purchase of Richardâs book."<br />
+â<b>Russ McRee, senior security analyst, Microsoft</b> (<a href="https://holisticinfosec.blogspot.com/2013/09/c3cm-part-2-broids-with-logstash-and.html" target="new">Read More</a>)</p>
+<p>"The principles Bejtlich outlines for running your security monitoring are the kind of best practice you should apply to any important server."<br />
+â<b>Mary Branscombe, ZDNet</b> (<a href="http://www.zdnet.com/the-practice-of-network-security-monitoring-review-a-hands-on-guidebook-7000020593/">Read More</a>)</p>
+<p>"If you want to know what to do when intruders arrive on your network and how to best prepare for that eventuality, you <em>must</em> read this book."<br />
+â<b>Sandra Henry-Stocker, ITWorld</b> (<a href="http://www.itworld.com/security/374284/security-book-review-practice-network-security-monitoring-richard-bejtlich-no-starch">Read More</a>)</p>
+<p>"Bejtlich is a master of his craft and also possesses the rare gift of being able to share his knowledge in a comprehensible way."<br />
+â<b>Richard Austin, IEEE Cipher</b> (<a href="https://ieee-security.org/Cipher/BookReviews/2013/Bejtlich_by_austin.html">Read More</a>)</p>
+<p>"As tech books go, it's a pretty fun ride."<br />
+â<b>Michael Larsen, Testhead</b> (<a href="http://www.mkltesthead.com/2013/09/book-review-practice-of-network.html">Read More</a>)</p>
+</div></div></div><div class="field field-name-field-updates field-type-text-long field-label-abovec" id="updates"><div class="field-label">Updates&nbsp;</div><div class="field-items"><div class="field-item even"><p><b>Page 48:</b><br />
+The middle of the last paragraph should read "In other words, cable R01 would be connected to one of the switchesÂsay switch uplink S1Âwhile cable R02 would be connected to the firewall interface facing uplink S1."</p>
+<p><b>Page 166:</b><br />
+The code at the top of the page that reads:<br /><code>WHERE event.timestamp &gt; '2014-02-10 11: 13: 00' AND event .timestamp &lt; '2013-02-10 11: 16: 00' AND event.signature LIKE 'URL%'</code>"<br />
+Should instead read:<br /><code>WHERE event.timestamp &gt; '2013-02-10 11: 13: 00' AND event .timestamp &lt; '2013-02-10 11: 16: 00' AND event.signature LIKE 'URL%'</code></p>
+</div></div></div> </div>
+</div>
+</section>
+</div>
+</section>
+<aside class="col-sm-3" role="complementary">
+<div class="region region-sidebar-second">
+<section id="block-system-navigation" class="block block-system block-menu clearfix">
+<h2 class="block-title">Navigation</h2>
+<ul class="menu nav"><li class="first last leaf"><a href="/user" title="">My account</a></li>
+</ul>
+</section>
+<section id="block-block-52" class="block block-block clearfix">
+<p><a href="/mailchimp/subscribe">Want sweet deals? <br />Sign up for our newsletter.</a></p>
+</section>
+<section id="block-views-related-products-block" class="block block-views clearfix">
+<h2 class="block-title">You might also like...</h2>
+<div class="view view-related-products view-id-related_products view-display-id-block auto-clear view-dom-id-7ec61fc776c2ea625775662fa3ff3c54">
+<div class="view-content">
+<div class="views-row views-row-1 views-row-odd views-row-first col-xs-6 col-sm-6 col-md-12">
+<div class="views-field views-field-field-image-cache"> <div class="field-content"><a href="/gtfo2"><img class="img-responsive" src="https://nostarch.com/sites/default/files/styles/product/public/gtfo_cover_vol2_oblique.png?itok=o_feSWE7" width="90" height="119" alt="" /></a></div> </div> </div>
+<div class="views-row views-row-2 views-row-even col-xs-6 col-sm-6 col-md-12">
+<div class="views-field views-field-field-image-cache"> <div class="field-content"><a href="/rootkits"><img class="img-responsive" src="https://nostarch.com/sites/default/files/styles/product/public/rootkits_front_FINAL_0.png?itok=CwIt_E9L" width="90" height="119" alt="Rootkits and Bootkits" title="Rootkits and Bootkits" /></a></div> </div> </div>
+<div class="views-row views-row-3 views-row-odd col-xs-6 col-sm-6 col-md-12">
+<div class="views-field views-field-field-image-cache"> <div class="field-content"><a href="/voip.htm"><img class="img-responsive" src="https://nostarch.com/sites/default/files/styles/product/public/voip_big.jpg?itok=aVhRZRkD" width="90" height="119" alt="Hacking VoIP" title="Hacking VoIP" /></a></div> </div> </div>
+<div class="views-row views-row-4 views-row-even col-xs-6 col-sm-6 col-md-12">
+<div class="views-field views-field-field-image-cache"> <div class="field-content"><a href="/androidsecurity"><img class="img-responsive" src="https://nostarch.com/sites/default/files/styles/product/public/ASI_COVER_LAKE_web.png?itok=ejbKf4Rj" width="90" height="119" alt="Android Security Internals" title="Android Security Internals" /></a></div> </div> </div>
+<div class="views-row views-row-5 views-row-odd col-xs-6 col-sm-6 col-md-12">
+<div class="views-field views-field-field-image-cache"> <div class="field-content"><a href="/carhacking"><img class="img-responsive" src="https://nostarch.com/sites/default/files/styles/product/public/carhackers_cover.png?itok=WEHWUgqu" width="90" height="119" alt="The Car Hacker&#039;s Handbook" title="The Car Hacker&#039;s Handbook" /></a></div> </div> </div>
+<div class="views-row views-row-6 views-row-even views-row-last col-xs-6 col-sm-6 col-md-12">
+<div class="views-field views-field-field-image-cache"> <div class="field-content"><a href="/tangledweb"><img class="img-responsive" src="https://nostarch.com/sites/default/files/styles/product/public/tangledWeb_cvr-webquality.png?itok=sox5o6hZ" width="90" height="119" alt="The Tangled Web" title="The Tangled Web" /></a></div> </div> </div>
+</div>
+</div>
+</section>
+</div>
+</aside> 
+</div>
+</div>
+<footer class="footer container">
+<div class="region region-footer">
+<section id="block-block-16" class="block block-block clearfix">
+<div id="footer-links">
+<br>
+<a class="footer-links" href="/about.htm">About Us</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/Jobs.htm">Jobs!</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/distribution.htm">Sales and Distribution</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/rights">Rights</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/media.htm">Media</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/academic.htm">Academic Requests</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/conferences.htm">Conferences</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/orderfaq.htm">Order FAQ</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/contactus">Contact Us</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/writeforus">Write for Us</a>
+&nbsp;<span class="footer-divider">|</span>&nbsp;
+<a class="footer-links" href="/privacypolicy.htm">Privacy</a>
+</div>
+</section>
+<section id="block-nostarch-custom-custom-footer-copyright" class="block block-nostarch-custom clearfix">
+<div class="block-block">
+<p>Copyright 2019. No Starch Press, Inc</p>
+</div>
+</section>
+</div>
+</footer>
+<script src="https://nostarch.com/sites/default/files/js/js_MLVgtzZ1ORq9krYqkeOsRay6ou_T-0QZytivuM9tTT8.js"></script>
+<script src="https://nostarch.com/sites/default/files/js/js_MRdvkC2u4oGsp5wVxBG1pGV5NrCPW3mssHxIn6G9tGE.js"></script>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

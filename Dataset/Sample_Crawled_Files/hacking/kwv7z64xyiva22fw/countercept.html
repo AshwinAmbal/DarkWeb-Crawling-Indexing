@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+<head>
+    <base href="https://countercept.com/"><!--[if lte IE 6]></base><![endif]-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analysis of ShadowHammer ASUS Attack First Stage Payload | Countercept</title>
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="themes/countercept/img/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="themes/countercept/img/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="themes/countercept/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="themes/countercept/img/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="themes/countercept/img/apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="themes/countercept/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="themes/countercept/img/favicon-16x16.png" sizes="16x16">
+    <meta name="application-name" content="Countercept">
+    <meta name="msapplication-TileColor" content="#2e2e2e">
+    <meta name="msapplication-TileImage" content="themes/countercept/img/mstile-144x144.png">
+    <meta name="theme-color" content="#2e2e2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#2e2e2e">
+
+    <meta property="og:title" content="Analysis of ShadowHammer ASUS Attack First Stage Payload" />
+    <meta property="og:description" content="" />
+    <meta property="og:site_name" content="Countercept" />
+    <meta property="og:url" content="https://countercept.com/blog/analysis-shadowhammer-asus-attack-first-stage-payload/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content='en_GB' />
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Analysis of ShadowHammer ASUS Attack First Stage Payload">
+    <meta name="twitter:description" content="">
+    
+    
+    
+    <link rel="stylesheet" href="themes/countercept/css/style.css?t=20190128">
+    <!--[if (lt IE 9) & (!IEMobile)]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <link rel="stylesheet" href="themes/countercept/css/ie.css">
+    <![endif]-->
+    <!--[if IE 9]>
+        <link rel="stylesheet" href="themes/countercept/css/ie9.css">
+    <![endif]-->
+</head>
+<body class="BlogPost" itemscope itemtype="http://schema.org/WebPage">
+    <!--[if IE]>
+  <style type="text/css">
+  .header {
+    position: relative !important;
+
+  }
+  .header.menu {
+    position: relative !important;
+  }
+  </style>
+  <div class="ie8-warning" style="z-index:99999;">
+    <h2 class="color-brand">Your browser is out of date</h2>
+    <h3>You are using an older version of <strong>Internet Explorer</strong> with known security issues.</h3>
+    <p>
+      This version does not work well with a large number of modern websites.</p>
+    <p>
+      Please update your browser to the latest version, or use other browser to ensure you get the best experience on our website.</p>
+    <p>
+      Please update your browser to the latest available version, or use other browsers for better security and performance.
+    </p>
+    <table>
+      <tr>
+        <td>
+          <a class="" href="https://support.microsoft.com/en-us/help/17621/internet-explorer-downloads" target="_blank"><h4>Update browser</h4></a>
+        </td>
+        <td>
+          <a class="" href="https://www.google.com/chrome/browser/" target="_blank"><h4>Download Chrome</h4></a>
+        </td>
+        <td>
+          <a class="" href="https://www.mozilla.org/en-US/firefox/" target="_blank"><h4>Download Firefox</h4></a>
+        </td>
+      </tr>
+    </table>
+  </div>
+<![endif]-->
+
+    
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KF68GW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KF68GW');</script>
+<!-- End Google Tag Manager -->
+
+    <header class="header " role="banner">
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <nav>
+    <a href="https://countercept.com/" class="logo-holder">
+      <img class="logo-icon" src="/themes/countercept/img/v2/countercept_logo_icon.png">
+      <img class="logo-text" src="/themes/countercept/img/v2/countercept_logo_textmark.png">
+    </a>
+    <span class="space-holder"></span>
+    <label for="nav-trigger">
+      <span class="menu-text">menu</span>
+      <img class="closed-icon" src="/themes/countercept/img/v2/mobile_menu_closed.png">
+      <img class="open-icon" src="/themes/countercept/img/v2/mobile_menu_open.png">
+    </label>
+    <ul class="menu">
+  <input type="radio" name="menu" id="close-menu" class="submenu-trigger nav-trigger" />
+  
+    
+    <li class="menu-item"  style="order: 3;" >
+      <a href="/blog/" title="Blog">Blog</a>
+       
+    </li>
+    
+  
+    
+    <li class="menu-item"  style="order: 6;" >
+      <a href="/contact/" title="Contact">Contact</a>
+       
+    </li>
+    
+  
+    
+      <input type="radio" name="menu" id="sm-services" class="submenu-trigger nav-trigger" />
+    
+    <li class="menu-item"  style="order: 0;" >
+      <a href="/services/" title="What we do">Services</a>
+       
+        <ul class="menu-submenu">
+          
+          <li class="menu-item" style="order: 0">
+            <a href="/services/managed-detection-and-response/" title="Managed Detection &amp; Response (MDR)">Managed Detection &amp; Response (MDR)</a>
+          </li>
+          
+          <li class="menu-item" style="order: 1">
+            <a href="/services/emergency-response/" title="Emergency Response">Emergency Response</a>
+          </li>
+          
+          <li class="menu-item" style="order: 3">
+            <a href="/services/threat-hunting-consultancy/" title="Threat Hunting Consultancy">Threat Hunting Consultancy</a>
+          </li>
+          
+        </ul>
+       
+    </li>
+    
+      <label for="close-menu"><div class="close-menu"></div></label>
+      <li class="menu-item dropdown-item"  style="order: 0;" >
+        <label for="sm-services">
+          <label for="close-menu">
+            <img class="dropdown-up" src="themes/countercept/img/v2/dropdown_marker_up.png">
+          </label>
+          <img class="dropdown-down" src="themes/countercept/img/v2/dropdown_marker_down.png">
+        </label>
+      </li>
+    
+  
+    
+      <input type="radio" name="menu" id="sm-about-us" class="submenu-trigger nav-trigger" />
+    
+    <li class="menu-item"  style="order: 2;" >
+      <a href="/about-us/" title="Who we are">About us</a>
+       
+        <ul class="menu-submenu">
+          
+          <li class="menu-item" style="order: 1">
+            <a href="/about-us/our-culture/" title="Our culture">Our culture</a>
+          </li>
+          
+          <li class="menu-item" style="order: 2">
+            <a href="/about-us/what-we-look-for/" title="What we look for">Careers</a>
+          </li>
+          
+        </ul>
+       
+    </li>
+    
+      <label for="close-menu"><div class="close-menu"></div></label>
+      <li class="menu-item dropdown-item"  style="order: 2;" >
+        <label for="sm-about-us">
+          <label for="close-menu">
+            <img class="dropdown-up" src="themes/countercept/img/v2/dropdown_marker_up.png">
+          </label>
+          <img class="dropdown-down" src="themes/countercept/img/v2/dropdown_marker_down.png">
+        </label>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+</header>
+
+    <div class="content">
+        <div class="col bg-white post-wrap">
+
+  <div class="row social-share gap-2-top gap-bottom content-940">
+    <span>Share on: </span>
+    <ul class="row social-media-list">
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fcountercept.com%2Fblog%2Fanalysis-shadowhammer-asus-attack-first-stage-payload%2F&text=Analysis of ShadowHammer ASUS Attack First Stage Payload" target="_blank" aria-label="Share on Twitter">
+          <img class="social-icon" src="/themes/countercept/img/v2/twitter_icon.png">
+        </a>
+      </li>
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fcountercept.com%2Fblog%2Fanalysis-shadowhammer-asus-attack-first-stage-payload%2F&title=Analysis of ShadowHammer ASUS Attack First Stage Payload" target="_blank" aria-label="Share on LinkedIn">
+          <img class="social-icon" src="/themes/countercept/img/v2/linkedin_icon.png">
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col content-940">
+    <h2 class="title-left gap-bottom">Analysis of ShadowHammer ASUS Attack First Stage Payload</h2>
+    <p class="p-left"></p>
+    <p class="gap-top gap-bottom">
+        Posted on 28 March 2019
+        
+          by
+          Alex Davies and Matt Hillman
+        
+    </p>
+  </div>
+
+  <div class="col content-940 gap-2-bottom">
+    <article class="post">
+      <p>Kaspersky recently published an advisory about a supply chain attack dubbed âOperation ShadowHammer.â [<a href="https://securelist.com/operation-shadowhammer/89992/">1</a>] The advisory describes how attackers compromised ASUS in order to distribute targeted malware via the ASUS Live Update Utility. This post provides an analysis of the first stage payloads used in this attack.</p><p>Â </p><h4>Introduction</h4><p>On March 25<sup>th</sup>Â 2019, Kaspersky released this high level advisory (<a href="https://securelist.com/operation-shadowhammer/89992/">https://securelist.com/operation-shadowhammer/89992/</a>) describing the attack against ASUS:</p><p>Â </p><address>âIn January 2019, we discoveredÂ <strong>a sophisticated supply chain attack involving the ASUS Live Update Utility.</strong> The attack took place between June and November 2018 and according to our telemetry, it affected a large number of users.â¦</address><address>Â </address><address><strong>TheÂ goal of the attack was to surgically target an unknown pool of users, which were identified by their network adaptersâ MAC addresses.</strong> To achieve this, the attackers had hardcoded a list of MAC addresses in the trojanized samples and this list was used to identify the actual intended targets of this massive operationâ</address><p>Â </p><p>The original advisory contains lots more useful information, but technical details were limited at this early stage. To learn more about the attack we decided to investigate the payloads further.</p><p>Â </p><h4>History of Activity</h4><p>The Kaspersky post references a zip file that is a copy of the ASUS Live Update Utility. Inside this zip file were three files, two MSIs, and a file called Setup.exe. By reviewing the history of these files on VirusTotal and examining the files themselves it was confirmed that shellcode had been inserted within the legitimate Setup.exe and the code modified to redirect execution.</p><p>Â </p><p>We analysed historic samples from VirusTotal to gain a better understanding of the attacker's actions over time. Kaspersky reported that this attack ran from June to November 2018, this appeared to be true based on the samples submitted to VirusTotal. The first malicious sample can be seen on the 29<sup>th</sup>Â June 2018 and the most recent on 17<sup>th</sup>Â November 2018.</p><p>Â <img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCw4OF0/shadowhammer-vt-sample.png" alt="ShadowHammer ASUS VirusTotal Sample" width="600" height="88"></p><p>A high-level analysis of these samples found that at least two different backdoor variants were deployed. From June to September the attackers used an unencoded payload along with a patched WinMain to redirect execution.</p><p><img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCw0NDRd/unencoded-payload.png" alt="Older Unencoded ShadowHammer Payload" width="600" height="444"></p><p>From September onwards a stealthier backdoor was deployed, that included an obfuscated shellcode payload and decoder with execution via the function _crtExitProcess. All samples were also found to use the same C2 channel involving asushotfix[.]com which was first registered on 5<sup>th</sup> May 2018 with an IP address 141.105.71[.]116 located in Russia.</p><p>Â </p><p>Pivoting on this ip address the following additional domains were also found:</p><p>Â Â </p><table style="width: 425px; height: 93px;" align="center"><tbody><tr><td style="text-align: left;"><strong>Domain</strong></td>
+<td><strong>First Seen</strong></td>
+</tr><tr><td>host2[.]infoyoushouldknow[.]biz</td>
+<td>2013-04-27</td>
+</tr><tr><td>nano2[.]baeflix[.]xyz</td>
+<td>2016-03-24</td>
+</tr><tr><td>asushotfix[.]com</td>
+<td>2018-05-22</td>
+</tr><tr><td>www[.]asushotfix[.]com</td>
+<td>2018-07-13</td>
+</tr><tr><td>homeabcd[.]com</td>
+<td>2018-09-05</td>
+</tr><tr><td>simplexoj[.]com</td>
+<td>2018-09-11</td>
+</tr></tbody></table><p>Â </p><p>It is unclear what role these domains played however there is a strong possibility they were also used in the ASUS attack or <span>by the same threat group inÂ </span>other attacks.</p><p>Â </p><p>In the next sections weâll take a deeper dive into the sample referenced by Kaspersky MD5:55a7aa5f0e52ba4d78c145811c830107 which included the obfuscated payload.</p><p>Â </p><h4>Loading the Shellcode</h4><p>At a high level the Setup.exe binary appeared to be a legitimate file. It was signed, meta information matched legitimate files and the majority of the code matched other legitimate setup files. However, when comparing a legitimate Setup.exe with the malicious one we find the code has been patched to divert execution from _crtCoreExitProcess to a new function.</p><p>Â <img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCwyMThd/shadowhammer-crtCoreExitProcess.png" alt="ShadowHammer _crtCoreExitProcess" width="600" height="218"></p><p>Â </p><p>This new function (which we renamed to drop_shellcode) contains the code to extract, decode and execute the embedded payload. By placing the diversion at the end of the Setup.exe file right before the ExitProcess this will ensure the legitimate file runs as expected reducing the chance of discovery.</p><p>Â </p><p>Investigating the shellcode dropping function, we find that it begins by allocating memory within the Setup.exe process with a VirtualAlloc call, then copies embedded shellcode into the allocated memory:</p><p>Â <img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCwxODFd/shadowhammer-shellcode-stage1-VirtualAlloc.png" alt="ShadowHammer Shellcode Stage 1 VirtualAlloc" width="600" height="181"></p><p>Â </p><p>Interestingly this first step only copies the first 16 bytes of the payload into memory before decoding them. These bytes actually contain the size of the payload which is then passed to a second VirtualAlloc call. The main shellcode is then written, decoded and executed.</p><p>Â </p><p>The decoding routine wonât be analysed here, but similar code has been used by Winnti previously.</p><p>Â </p><h4>Analysing the Shellcode</h4><p>Â According to our analysis so far, the shellcode performs the following actions:</p><p>Â </p><p>1. Resolves library functions it needs to call later.</p><p>Â </p><p style="padding-left: 30px;">a. First kernel32âs base address is found by traversing structures in the PEB and matching the module name by checking for the k, l and dot (.) characters.</p><p>Â </p><p style="padding-left: 30px;">b. The modules PE table is parsed to find the export table.</p><p>Â </p><p style="padding-left: 30px;">c. Functions hashed with a custom function, and matched by iterating through each export.</p><p>Â </p><p style="padding-left: 30px;">d. Functions in other modules are found in the same way, but with the help of LoadLibraryExW to get the base address; this function is one of the first things located in kernel32 at the start.</p><p>Â </p><p>2. MAC addresses are found from the machine by calling IPHLPAPI.GetAdaptersAddresses.</p><p>Â </p><p>3. The MAC addresses are hashed with MD5.</p><p>Â </p><p>4. The MD5 hashes are compared against a hardcoded list.</p><p>Â </p><p style="padding-left: 30px;">a. If no match is found, a mysterious IDX file is dropped to disk.</p><p>Â </p><p>5. If a MAC address matches, a second stage payload is downloaded from a URL using a proxy aware API call. This goes directly into RWX memory and is called.</p><p>Â </p><p>More details of each of these steps follows below.</p><p>Â </p><h5>Function Resolution</h5><p>The shellcode starts by locating some library functions that it wants to use. This is broadly a two step process, first looking for LoadLibraryExW and GetProcAddress from kernel32.dll, before resolving further functions from a number of DLLs later, armed with the address of LoadLibraryExW to use on the second stage.</p><p>Â </p><p>For the first step, the base address of kernel32.dll is required. To find this, the Thread Information Block (TIB) is used to navigate structures and ultimately locate InInitializationOrderModuleList which contains a list of loaded modules in the process.</p><p>Â </p><p>The structures queried to get here are:</p><pre>Â TIB -&gt; PEB -&gt; Ldr -&gt; InInitializationOrderModuleList</pre><p>In fact, InInitializationOrderModuleList is of type _LIST_ENTRY, which is a doubly-linked list, and its âFlinkâ (or forward link) is followed to traverse this list of modules. Each entry includes a BaseDllName field, and this field is checked in each entry to see if it matches kernel32.dll.</p><p>Â </p><p>But in the spirit of obfuscation they do not directly check if the name is âkernel32.dllâ. Instead, they check for the presence of the k, l, and dot (.) in the appropriate locations in the string (checking each letter twice, once for lower case and again for upper case). And in fact, they only check the first byte of each 2-byte Unicode character, which works in practice but is certainly not the official way to compare Unicode characters.</p><p>Â </p><p>This whole process can be seen in the commented code below:</p><p><img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCw4MDFd/ShadowHammer-find-kernel32-from-peb.png" alt="ShadowHammer find kernel32 from PEB" width="600" height="801"></p><p>Once kernel32.dllâs entry is found, its DllBase field can be read, giving the base address of the module. This is used with a function in the shellcode that accepts a module base address and a custom hash value for a function name. This function parses the PE header from the module in memory to locate the exports table. It then iterates through each export and runs a simple custom hash-like function on the name. When the matching hash value is found, the target function has been located in the export table, without needing to include the function name directly in the code. The address of the function is saved from the export table for later use.</p><p>Â </p><p>This export table searching is shown commented below, with the hash code in the grey block:</p><p><img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCw5NTNd/ShadowHammer-finding-function-by-hashed-export-name.png" alt="ShadowHammer finding function by hashed export name" width="600" height="953"></p><p>The function resolution's second step uses the same shellcode routine to look for hashed function names in the export table. But as it needs to call several other DLLs it uses LoadLibraryExW which it got in the first step to get the base address of the modules.</p><p>Â </p><p>Below is where all the other hash values for function names are found in code, commented with the module and function name they correspond to:</p><p><img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCwzMjBd/ShadowHammer-function-name-hashes-resolved.png" alt="ShadowHammer function name hashes resolved" width="600" height="320"></p><p>Â </p><p>These function addresses are saved in a structure that the rest of the code often accesses via a register base pointer. To help see what function is being called you can use the following offsets:<br><br></p><table cellspacing="0" cellpadding="0"><tbody><tr><td width="75" valign="top">
+<p>Offset</p>
+</td>
+<td width="255" valign="top">
+<p>Function</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x4</p>
+</td>
+<td width="255" valign="top">
+<p>kernel32.VirtualAlloc</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x8</p>
+</td>
+<td width="255" valign="top">
+<p>kernel32.GetModuleFileNameW</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0xC</p>
+</td>
+<td width="255" valign="top">
+<p>kernel32.WritePrivateProfileStringW</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x10</p>
+</td>
+<td width="255" valign="top">
+<p>kernel32.GetSystemTimeAsFileTime</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x14</p>
+</td>
+<td width="255" valign="top">
+<p>kernel32.FileTimeToSystemTime</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x18</p>
+</td>
+<td width="255" valign="top">
+<p>kernel32.VirtualFree</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x1C</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.memcpy</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x20</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.memcmp</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x24</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.memset</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x28</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.swprintf</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x2C</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.sprintf</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x30</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.strncat</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x34</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.MD5Init</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x38</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.MD5Update</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x3C</p>
+</td>
+<td width="255" valign="top">
+<p>ntdll.MD5Final</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x40</p>
+</td>
+<td width="255" valign="top">
+<p>IPHLPAPI.GetAdaptersAddresses</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x44</p>
+</td>
+<td width="255" valign="top">
+<p>wininet.InternetOpenA</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x48</p>
+</td>
+<td width="255" valign="top">
+<p>wininet.InternetOpenUrlA</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x4C</p>
+</td>
+<td width="255" valign="top">
+<p>wininet.InternetQueryDataAvailable</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x50</p>
+</td>
+<td width="255" valign="top">
+<p>wininet.InternetReadFile</p>
+</td>
+</tr><tr><td width="75" valign="top">
+<p>0x4</p>
+</td>
+<td width="255" valign="top">
+<p>kernel32.VirtualFree</p>
+</td>
+</tr></tbody></table><p><br>Knowing these offsets and defining them makes the code a lot more readable. We go from this:</p><p><img class="leftAlone" title="" src="assets/Uploads/ShadowHammer-function-call-with-no-context.png" alt="ShadowHammer function call with no context" width="478" height="22"></p><p>To this:</p><p><img class="leftAlone" title="" src="assets/Uploads/ShadowHammer-function-call-with-context.png" alt="ShadowHammer function call with context" width="478" height="21"></p><p>In case anyone finds it useful, some Python code to help produce these hashes and find matches against real function names is provided here (slightly abbreviated):</p><p>Â </p><pre>import numpy<br><br># We expect, and require, that int_scalars overflow occurs, so ignore<br>numpy.warnings.filterwarnings('ignore')<br><br>find_hashes = [<br>  0x431A42C9, 0x0C2CBC15A, ... function hashes ...<br>]<br><br>names = [ ... list of exported functions in target DLLs ... ]<br><br>hashes_2s_compliment = {}<br>for hash in find_hashes:<br>  twoscomp = hash<br>  if twoscomp &gt;= 1&lt;&lt;31: twoscomp -= 1&lt;&lt;32<br>  hashes_2s_compliment[twoscomp] = hash<br><br>mul_by = numpy.int32(0x21)<br>for name in names:<br>  name_hash = numpy.int32(0)<br>  for char in name:<br>    name_hash = name_hash * mul_by<br>    name_hash += numpy.int32(ord(char))<br>  if name_hash in hashes_2s_compliment:<br>    print('{}: {}'.format(hex(hashes_2s_compliment[name_hash]), name))</pre><p>Â </p><h5>MAC Addresses</h5><p>Armed with these functions the shellcode continues its work, moving on to the MAC validation phase. Here we can see it getting the MD5 hash of MAC addresses on the machine by calling a function within the shellcode we have called get_macs_and_md5. This is called twice. The first time gets the number of MAC addresses to help it allocate the right amount of memory to store all the MD5 hashes. The second time it actually generates and stores the MD5 hashes.</p><p>Â <img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCw0OTld/ShadowHammer-getting-machine-MAC-addresses2.png" alt="ShadowHammer getting machine MAC addresses2" width="600" height="499"><a></a></p><p>Â </p><p>MAC addresses are obtained by calling GetAdaptersAddresses with AF_UNSPEC to get all interfaces.</p><p><img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCw0NjZd/ShadowHammer-GetAdaptersAddresses-call.png" alt="ShadowHammer GetAdaptersAddresses call" width="600" height="466"></p><p>Â </p><p>And the actual MD5 calls:</p><p><img class="leftAlone" title="" src="assets/Uploads/ShadowHammer-MD5-calls.png" alt="ShadowHammer MD5 calls" width="326" height="499"></p><p>These MD5 hashes are then checked against a set of hashes hardcoded into the shellcode like in the example below:</p><p><img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCw3NV0/ShadowHammer-hardcoded-MAC-address-MD5.png" alt="ShadowHammer hardcoded MAC address MD5" width="600" height="75">Â </p><p>Â This shows the branches taken depending on whether there was a MAC address match or not, right at the end of the entry function in the shellcode:</p><p><img class="leftAlone" title="" src="assets/Uploads/ShadowHammer-branches-depending-on-MAC-address-match.png" alt="ShadowHammer branches depending on MAC address match" width="457" height="397"></p><h5><br>Stage 2 Payload Download and Execute</h5><p>If there is a MAC address match, the shellcode proceeds to download a second stage from the internet. The URL used for this stage is found hardcoded as a set of constant values, which are little-endian, so the string fragments look backwards when forced to display as ASCII below:</p><p><img class="leftAlone" title="" src="assets/Uploads/ShadowHammer-stage-2-URL.png" alt="ShadowHammer stage 2 URL" width="562" height="133"></p><p>Â </p><p>Which gives the URL:</p><pre>https://asushotfix[.]com/logo2[.]jpg</pre><p>The URL is opened with a proxy-aware function:</p><p>Â <img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCwzNzdd/ShadowHammer-proxy-aware-URL-open.png" alt="ShadowHammer proxy aware URL open" width="600" height="377"></p><p>Â </p><p>Data is downloaded from the URL directly into a memory region allocated read/write/execute, and finally the stage 2 code is called:</p><p><img class="leftAlone" title="" src="assets/Uploads/_resampled/ResizedImageWzYwMCwzNThd/ShadowHammer-stage-2-download-into-RWX-memory.png" alt="ShadowHammer stage 2 download into RWX memory" width="600" height="358"></p><p>At the time of analysis the second stage payload was no longer available from the callback URL. It is likely further information will become available over the coming weeks.</p><p>Â </p><h4>Detection of ShadowHammer</h4><p>There are several indicators defensive teams can hunt for including the hashes of files, dropped files, and network-based IOCs.</p><p>Â </p><h5>SHA-256 (along with the month it was seen)</h5><p>Â </p><ul><li>bca9583263f92c55ba191140668d8299ef6b760a1e940bddb0a7580ce68fef82 June</li>
+<li>6aedfef62e7a8ab7b8ab3ff57708a55afa1a2a6765f86d581bc99c738a68fc74 July</li>
+<li>ac0711afee5a157d084251f3443a40965fc63c57955e3a241df866cfc7315223 July</li>
+<li>e78e8d384312b887c01229a69b24cf201e94997d975312abf6486b3363405e9d Sep</li>
+<li>736bda643291c6d2785ebd0c7be1c31568e7fa2cfcabff3bd76e67039b71d0a8 Sep</li>
+<li>9bac5ef9afbfd4cd71634852a46555f0d0720b8c6f0b94e19b1778940edf58f6 Sep</li>
+<li>9a72f971944fcb7a143017bc5c6c2db913bbb59f923110198ebd5a78809ea5fc Oct</li>
+<li>357632ee16707502ddb74497748af0ec1dec841a5460162cb036cfbf3901ac6f Oct</li>
+<li>9842b08e0391f3fe11b3e73ca8fa97f0a20f90b09c83086ad0846d81c8819713 Nov</li>
+</ul><p>Â </p><h5>Dropped Files</h5><p>For systems not matching the MAC address filter, an idx file is created two levels up relative to the Setup.exe current directory, for example:</p><p>Â </p><ul><li>C:\Program Files (x86)\ASUS\ASUS Live Update\Temp\6\Setup.exe</li>
+<li>C:\Program Files (x86)\ASUS\ASUS Live Update\idx.ini</li>
+</ul><p>Â </p><h5>Network</h5><ul><li>host2[.]infoyoushouldknow[.]biz</li>
+<li>nano2[.]baeflix[.]xyz</li>
+<li>asushotfix[.]com</li>
+<li>www[.]asushotfix[.]com</li>
+<li>homeabcd[.]com</li>
+<li>simplexoj[.]com</li>
+<li>141.105.71[.]116</li>
+<li>hxxps://asushotfix[.]com/logo[.]jpg</li>
+<li>hxxps://asushotfix[.]com/logo2[.]jpgÂ </li>
+</ul><p>Â </p><h5>PDB Indicator</h5><ul><li>June sample - D:\C++\AsusShellCode\Release\AsusShellCode.pdb</li>
+</ul><p>Â </p><h4>Summary</h4><p>The ShadowHammer attack is a great example of a supply chain attack where a threat actor abused a trusted update utility to distribute malware across the globe in a targeted way. As mentioned in the Kaspersky analysis the attack shares similarities with those performed by the BARIUM group suggesting a continuation and even escalation in the scale and sophistication of their operations.</p><p>Â </p><p>From a defensive perspective, the significant time it took to uncover this attack demonstrates that the actions taken in the first stage of the incident are stealthy and difficult to detect. But it is quite possible that noisier indicators will be discovered as more information about the second stage payload is released.</p><p>Â </p><p>To provide support for real-time and retrospective detection, it is strongly recommended that organisations deploy endpoint monitoring and response with an EDR, agent as this can give the visibility and control needed to combat such threats.</p><p>Â </p><h4>References</h4><p>[1] <a href="https://securelist.com/operation-shadowhammer/89992/">https://securelist.com/operation-shadowhammer/89992/</a></p><p>Â </p><p>[2]Â <a href="https://www.virustotal.com/#/file/9a72f971944fcb7a143017bc5c6c2db913bbb59f923110198ebd5a78809ea5fc/detection">https://www.virustotal.com/#/file/9a72f971944fcb7a143017bc5c6c2db913bbb59f923110198ebd5a78809ea5fc/detection</a></p><p>Â </p><p>[3] <a href="https://www.vkremez.com/2019/03/lets-learn-dissecting-operation.html">https://www.vkremez.com/2019/03/lets-learn-dissecting-operation.html</a></p><p>Â </p>
+    </article>
+  </div>
+
+  
+
+  
+
+  <div class="row content-940 gap-2">
+    <a href="/the-knowledge/" class="btn center">Back to blog</a>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer footer-item-full footer-1 footer-m-1">
+  <div class="footer-item footer-item-full footer-2 footer-m-3">
+    <a href="/">Countercept</a>
+    <span>&nbsp;-&nbsp;</span>
+    <span class="t-hide m-hide">Managed Detection & Response&nbsp;</span>
+    <span>&copy; 2018.&nbsp;</span>
+    <span>A division of &nbsp;<a href="https://www.f-secure.com/">F-Secure</a>
+    </span>
+
+  </div>
+  <div class="footer-item footer-item-left footer-3 footer-m-4">
+    <a href="about-us/what-we-look-for/">Careers</a>&nbsp;-&nbsp;
+    <a href="/privacy-policy.html">Privacy policy</a>&nbsp;-&nbsp;
+    <a href="/terms-of-use.html">Terms of use</a>
+  </div>
+  <div class="footer-item footer-item-right footer-4 footer-m-2">
+    <span>Follow us</span>
+    <div class="footer-social">
+      <ul class="social-media-list">
+          <li>
+            <a href="https://twitter.com/countercept" target="_blank" aria-label="Follow us on Twitter">
+              <img class="social-icon" src="/themes/countercept/img/v2/twitter_icon.png">
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/showcase/countercept/" target="_blank" aria-label="Connect with us on LinkedIn">
+              <img class="social-icon" src="/themes/countercept/img/v2/linkedin_icon.png">
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/countercept" target="_blank" aria-label="Countercept GitHub projects">
+              <img class="social-icon" src="/themes/countercept/img/v2/github_icon.png">
+            </a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+    <script src="/themes/countercept/js/min/jquery-1.12.4.min.js" id="jqueryscript"></script>
+    <script type="text/javascript" src="https://secure.leadforensics.com/js/52110.js"></script>
+    <noscript><img src="https://secure.leadforensics.com/52110.png" style="display:none;" /></noscript>
+
+    
+    
+    <script src="/themes/countercept/js/min/scripts.js?t=20190128" id="pagescripts" defer></script>
+  
+    
+    
+    <script type="text/javascript"> _linkedin_partner_id = "204186"; window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || []; window._linkedin_data_partner_ids.push(_linkedin_partner_id);</script><script type="text/javascript"> (function(){var s = document.getElementsByTagName("script")[0]; var b = document.createElement("script"); b.type = "text/javascript";b.async = true; b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js"; s.parentNode.insertBefore(b, s);})();</script>
+    <noscript> <img height="1" width="1" style="display:none;" alt="" src="https://dc.ads.linkedin.com/collect/?pid=204186&fmt=gif" /> </noscript>
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LGTM - Making code better. Together.</title>
+<meta name="description" content="Automated code reviews for developers, powered by the purpose-built query language, QL. Free for open-source projects. Pull Request integration supported.">
+    <script>
+      // Polyfill Promise in old browsers
+      if (!('Promise' in this)) {
+        var promisePolyfillScript = document.createElement('script');
+        promisePolyfillScript.async = false;
+        promisePolyfillScript.src = '/static/site/lib/es6-promise/es6-promise.auto.min.js';
+        document.head.appendChild(promisePolyfillScript);
+      }
+      // Polyfill Set if it the browser implementation lacks features
+      if (!('Set' in this) || !('values' in Set.prototype)) {
+        var promisePolyfillScript = document.createElement('script');
+        promisePolyfillScript.async = false;
+        promisePolyfillScript.src = '/static/site/lib/es6-set/implement.js'
+        document.head.appendChild(promisePolyfillScript);
+      }
+      var pageParams = {
+        isEnterprise: false,
+        nonce: "41d8693f0097872a2bbca6b338bbf77be1ddc35ef5f4759fdcfb0410aaaf1b71549b009081ecd4ff0b068af0a0175af94b914a42a1f998c9f0fbdb2f96fa0011",
+        userIsInEU: true,
+        requireLogin: false,
+        disableRegistration: false,
+        passwordLoginRestriction: "unrestricted",
+        canSearchDocumentation: true,
+        canAddProjects: true,
+        skipPRAnalysis: "enabled",
+        hideContributorComparison: false,
+        deployTime: 1554122534000,
+        showBuildAttemptConfig: false,
+        isPublic: true,
+        buildID: "01877d18db6f020dabcd4ff08d47bbbb0651b71e",
+        gitRef: "heads\u002Flgtm\u002Fapplication\u002Flive",
+        versionName: "1.21.0-SNAPSHOT",
+        warningMessage: null,
+        defaultOAuthClientID: "com.semmle.lgtm",
+        allowAdminAllProjectQueries: false,
+        sentryDSN: null      };
+    </script>
+          <script>
+        pageParams.googleAnalyticsKey = 'UA-36097845-5';
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-36097845-5', 'auto');
+      </script>
+        <script>
+      if ('serviceWorker' in window.navigator) {
+        const queryString = 'deployTime=' + pageParams.deployTime +
+          (pageParams.googleAnalyticsKey ? '&analytics' : '');
+        window.addEventListener('load', function() {
+          window.navigator.serviceWorker.register('/sw-import.js?' + queryString)
+            .then(
+              function(registration) {
+                console.log('Registered service worker with scope: ' + registration.scope);
+              },
+              function(err) {
+                console.warn('Service worker registration failed: ' + err);
+              });
+        });
+      }
+    </script>
+    <script src="/static/site/misc/mathjax-config.js"></script>
+    <script src="/static/site/lib/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="stylesheet" href="/static/site/styles/vendor-codemirror.136243f39986500d74f6.css">
+        <link rel="stylesheet" href="/static/site/styles/main.css?1554122534000">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/site/assets/images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/site/assets/images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/site/assets/images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/site/assets/images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/site/assets/images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/site/assets/images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/site/assets/images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/site/assets/images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/site/assets/images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/site/assets/images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/site/assets/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/site/assets/images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/site/assets/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/static/site/assets/images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#241172">
+    <meta name="msapplication-TileImage" content="/static/site/assets/images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#241172">
+  </head>
+  <body>
+    <div id="primary_loader"><img src="/static/site/assets/images/tarski-loader.gif" /></div>
+    <script src="/static/site/misc/enable_loader.js"></script>
+    <div id="preloaded_content" data-api-version=34968286d4fa13ac090e8d11c09ee5b3c8a63549>
+            <script type="application/json" data-path="/internal_api/v0.2/getLoggedInUser" data-params="{}">null</script>
+          </div>
+    <div id="root"></div>
+        <script src="/static/site/scripts/live.f602c91e2e6465a54e68.js"></script>
+        <script src="/static/site/scripts/vendor-_babel.b0d7de80e4af62154beb.js"></script>
+        <script src="/static/site/scripts/vendor-_material-ui.c1dbd4e82234e766a034.js"></script>
+        <script src="/static/site/scripts/vendor-_sentry.e54efc18ab8d64e8e650.js"></script>
+        <script src="/static/site/scripts/vendor-brcast.c3dbd3f5a22d82d5fb5f.js"></script>
+        <script src="/static/site/scripts/vendor-classnames.87af402813fa8ac339fb.js"></script>
+        <script src="/static/site/scripts/vendor-codemirror.24d2099c3bd75083e83a.js"></script>
+        <script src="/static/site/scripts/vendor-css-vendor.82649ad290218efca601.js"></script>
+        <script src="/static/site/scripts/vendor-d3-color.4b9416d51d1d2638b4b6.js"></script>
+        <script src="/static/site/scripts/vendor-d3-interpolate.30adc683db956053c7c9.js"></script>
+        <script src="/static/site/scripts/vendor-d3-legacy.d72541adac61ac370e66.js"></script>
+        <script src="/static/site/scripts/vendor-d3-scale-chromatic.ccda6024401c073a4648.js"></script>
+        <script src="/static/site/scripts/vendor-d3.8c77da0b621ae84c923e.js"></script>
+        <script src="/static/site/scripts/vendor-debounce.ee4ed380a835cc7cb47f.js"></script>
+        <script src="/static/site/scripts/vendor-deepmerge.f1ce3a7c338200f5f696.js"></script>
+        <script src="/static/site/scripts/vendor-dom-helpers.d2d8f60cb33f09c5aeeb.js"></script>
+        <script src="/static/site/scripts/vendor-fbjs.dad80f5dbca4fcf0e26a.js"></script>
+        <script src="/static/site/scripts/vendor-fuse.js.0ed0cd38d9ac52957560.js"></script>
+        <script src="/static/site/scripts/vendor-hoist-non-react-statics.eb6a94fa74f96838e5e2.js"></script>
+        <script src="/static/site/scripts/vendor-hyphenate-style-name.0a925d0986e8b1798041.js"></script>
+        <script src="/static/site/scripts/vendor-is-in-browser.bbebe724d0390c5f8e8b.js"></script>
+        <script src="/static/site/scripts/vendor-is-plain-object.8d90511c824d33450c0e.js"></script>
+        <script src="/static/site/scripts/vendor-isobject.d78211a85eafcba5b191.js"></script>
+        <script src="/static/site/scripts/vendor-jquery-typeahead.617ec218e48db7ae85dc.js"></script>
+        <script src="/static/site/scripts/vendor-jquery.ccd0617f733c1957efca.js"></script>
+        <script src="/static/site/scripts/vendor-jss-camel-case.4b218482cfb6eb854d21.js"></script>
+        <script src="/static/site/scripts/vendor-jss-default-unit.42fef20a7a822ec0e065.js"></script>
+        <script src="/static/site/scripts/vendor-jss-global.5c37bc4f10d0f03f8ae8.js"></script>
+        <script src="/static/site/scripts/vendor-jss-nested.70cf19f848617d6e7713.js"></script>
+        <script src="/static/site/scripts/vendor-jss-props-sort.eaecac068943bae2c071.js"></script>
+        <script src="/static/site/scripts/vendor-jss-vendor-prefixer.931d8cba47f3172db884.js"></script>
+        <script src="/static/site/scripts/vendor-jss.02904bc88ee4b28940ed.js"></script>
+        <script src="/static/site/scripts/vendor-keycode.9aa6bb7df37c55b718d9.js"></script>
+        <script src="/static/site/scripts/vendor-lodash.fd5b67a3a08554818bbd.js"></script>
+        <script src="/static/site/scripts/vendor-memoize-one.4ef04d4d5131840daf0b.js"></script>
+        <script src="/static/site/scripts/vendor-moment.28f4dbe38942725d6785.js"></script>
+        <script src="/static/site/scripts/vendor-node-libs-browser.07e6c49bfe2fecee2b6a.js"></script>
+        <script src="/static/site/scripts/vendor-normalize-scroll-left.f44749b705e7e8582557.js"></script>
+        <script src="/static/site/scripts/vendor-object-assign.192b34ee3335f7c32623.js"></script>
+        <script src="/static/site/scripts/vendor-prop-types.a8bd2b67ff97d1585acc.js"></script>
+        <script src="/static/site/scripts/vendor-react-dom.6ece0f87c21fd4317e9d.js"></script>
+        <script src="/static/site/scripts/vendor-react-event-listener.7d994dc18609ccbd84b6.js"></script>
+        <script src="/static/site/scripts/vendor-react-jss.3d21dcab075258377edc.js"></script>
+        <script src="/static/site/scripts/vendor-react-transition-group.b63c739921bb15cfdb5b.js"></script>
+        <script src="/static/site/scripts/vendor-react.eb88dddd66d13390b240.js"></script>
+        <script src="/static/site/scripts/vendor-recompose.8e952746c990fd66b6fc.js"></script>
+        <script src="/static/site/scripts/vendor-schedule.3cbb9fd9b67454272a98.js"></script>
+        <script src="/static/site/scripts/vendor-select2.4cfdfb99d6d85822f494.js"></script>
+        <script src="/static/site/scripts/vendor-tslib.aab60df413d372c45947.js"></script>
+        <script src="/static/site/scripts/vendor-warning.825a4653a18bdffde422.js"></script>
+        <script src="/static/site/scripts/vendor-webpack.afe699b192058f68f05c.js"></script>
+        <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "LGTM",
+    "description": "Automated code reviews for developers, powered by the purpose-built query language, QL. Free for open-source projects. Pull request integration supported.",
+    "url": "https://lgtm.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://lgtm.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+}
+</script>
+    <div id="problemLoadingMessage">
+      <h1>Problem loading page</h1>
+      <p>There was a problem loading our website. We currently support the following browsers:</p>
+      <ul>
+        <li>Chrome</li>
+        <li>Firefox</li>
+        <li>Internet Explorer 11</li>
+        <li>Edge</li>
+        <li>Safari 9+</li>
+      </ul>
+              <p>If you are using one of these browsers and are still experiencing problems, please let us know on our <a href="https://discuss.lgtm.com/">community forums</a>.</p>
+          </div>
+    <script src="/static/site/misc/error_initialising_page.js"></script>
+    <noscript>
+      <div id="javascriptDisabled">
+        <h1>Problem loading page</h1>
+        <p>JavaScript appears to be disabled in your browser. Please enable it to use LGTM.</p>
+      </div>
+    </noscript>
+  </body>
+</html>
+
+
+
+#####EOF#####
+
+

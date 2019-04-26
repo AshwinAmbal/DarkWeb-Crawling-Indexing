@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang='pl' xml:lang='pl' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=Edge,chrome=1' http-equiv='X-UA-Compatible'>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"cb26a27332","applicationID":"2330887","transactionName":"dlddRkdeVF9XE0lRWUFKWldGHktbXRY=","queueTime":0,"applicationTime":746,"agent":""}</script>
+<script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={xpid:"XAYEUlNACgADVFlaAA=="};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(t){try{c.console&&console.log(t)}catch(e){}}var o,i=t("ee"),a=t(13),c={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(c.console=!0,o.indexOf("dev")!==-1&&(c.dev=!0),o.indexOf("nr_dev")!==-1&&(c.nrDev=!0))}catch(s){}c.nrDev&&i.on("internal-error",function(t){r(t.stack)}),c.dev&&i.on("fn-err",function(t,e,n){r(n.stack)}),c.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(c,function(t,e){return t}).join(", ")))},{}],2:[function(t,e,n){function r(t,e,n,r,c){try{p?p-=1:o(c||new UncaughtException(t,e,n),!0)}catch(f){try{i("ierr",[f,s.now(),!0])}catch(d){}}return"function"==typeof u&&u.apply(this,a(arguments))}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function o(t,e){var n=e?null:s.now();i("err",[t,n])}var i=t("handle"),a=t(14),c=t("ee"),s=t("loader"),f=t("gos"),u=window.onerror,d=!1,l="nr@seenError",p=0;s.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(h){"stack"in h&&(t(5),t(4),"addEventListener"in window&&t(3),s.xhrWrappable&&t(6),d=!0)}c.on("fn-start",function(t,e,n){d&&(p+=1)}),c.on("fn-err",function(t,e,n){d&&!n[l]&&(f(n,l,function(){return!0}),this.thrown=!0,o(n))}),c.on("fn-end",function(){d&&!this.thrown&&p>0&&(p-=1)}),c.on("internal-error",function(t){i("ierr",[t,s.now(),!0])})},{}],3:[function(t,e,n){function r(t){for(var e=t;e&&!e.hasOwnProperty(u);)e=Object.getPrototypeOf(e);e&&o(e)}function o(t){c.inPlace(t,[u,d],"-",i)}function i(t,e){return t[1]}var a=t("ee").get("events"),c=t(16)(a,!0),s=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";e.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,e){var n=t[1],r=s(n,"nr@wrapped",function(){function t(){if("function"==typeof n.handleEvent)return n.handleEvent.apply(n,arguments)}var e={object:t,"function":n}[typeof n];return e?c(e,"fn-",null,e.name||"anonymous"):n});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],4:[function(t,e,n){var r=t("ee").get("raf"),o=t(16)(r),i="equestAnimationFrame";e.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],5:[function(t,e,n){function r(t,e,n){t[0]=a(t[0],"fn-",null,n)}function o(t,e,n){this.method=n,this.timerDuration=isNaN(t[1])?0:+t[1],t[0]=a(t[0],"fn-",this,n)}var i=t("ee").get("timer"),a=t(16)(i),c="setTimeout",s="setInterval",f="clearTimeout",u="-start",d="-";e.exports=i,a.inPlace(window,[c,"setImmediate"],c+d),a.inPlace(window,[s],s+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(s+u,r),i.on(c+u,o)},{}],6:[function(t,e,n){function r(t,e){d.inPlace(e,["onreadystatechange"],"fn-",c)}function o(){var t=this,e=u.context(t);t.readyState>3&&!e.resolved&&(e.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,w,"fn-",c)}function i(t){g.push(t),h&&(b?b.then(a):v?v(a):(E=-E,O.data=E))}function a(){for(var t=0;t<g.length;t++)r([],g[t]);g.length&&(g=[])}function c(t,e){return e}function s(t,e){for(var n in t)e[n]=t[n];return e}t(3);var f=t("ee"),u=f.get("xhr"),d=t(16)(u),l=NREUM.o,p=l.XHR,h=l.MO,m=l.PR,v=l.SI,y="readystatechange",w=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],g=[];e.exports=u;var x=window.XMLHttpRequest=function(t){var e=new p(t);try{u.emit("new-xhr",[e],e),e.addEventListener(y,o,!1)}catch(n){try{u.emit("internal-error",[n])}catch(r){}}return e};if(s(p,x),x.prototype=p.prototype,d.inPlace(x.prototype,["open","send"],"-xhr-",c),u.on("send-xhr-start",function(t,e){r(t,e),i(e)}),u.on("open-xhr-start",r),h){var b=m&&m.resolve();if(!v&&!m){var E=1,O=document.createTextNode(E);new h(a).observe(O,{characterData:!0})}}else f.on("fn-end",function(t){t[0]&&t[0].type===y||a()})},{}],7:[function(t,e,n){function r(t){var e=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<d;r++)t.removeEventListener(u[r],this.listener,!1);if(!e.aborted){if(n.duration=a.now()-this.startTime,4===t.readyState){e.status=t.status;var i=o(t,this.lastSize);if(i&&(n.rxSize=i),this.sameOrigin){var s=t.getResponseHeader("X-NewRelic-App-Data");s&&(e.cat=s.split(", ").pop())}}else e.status=0;n.cbTime=this.cbTime,f.emit("xhr-done",[t],t),c("xhr",[e,n,this.startTime])}}}function o(t,e){var n=t.responseType;if("json"===n&&null!==e)return e;var r="arraybuffer"===n||"blob"===n||"json"===n?t.response:t.responseText;return h(r)}function i(t,e){var n=s(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}var a=t("loader");if(a.xhrWrappable){var c=t("handle"),s=t(8),f=t("ee"),u=["load","error","abort","timeout"],d=u.length,l=t("id"),p=t(11),h=t(10),m=window.XMLHttpRequest;a.features.xhr=!0,t(6),f.on("new-xhr",function(t){var e=this;e.totalCbs=0,e.called=0,e.cbTime=0,e.end=r,e.ended=!1,e.xhrGuids={},e.lastSize=null,p&&(p>34||p<10)||window.opera||t.addEventListener("progress",function(t){e.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,e){var n=this.metrics,r=t[0],o=this;if(n&&r){var i=h(r);i&&(n.txSize=i)}this.startTime=a.now(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof e.onload))&&o.end(e)}catch(n){try{f.emit("internal-error",[n])}catch(r){}}};for(var c=0;c<d;c++)e.addEventListener(u[c],this.listener,!1)}),f.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),f.on("xhr-load-added",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],e)}),f.on("removeEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],e)}),f.on("fn-start",function(t,e,n){e instanceof m&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=a.now()))}),f.on("fn-end",function(t,e){this.xhrCbStart&&f.emit("xhr-cb-time",[a.now()-this.xhrCbStart,this.onload,e],e)})}},{}],8:[function(t,e,n){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!e.protocol||":"===e.protocol||e.protocol===n.protocol,a=e.hostname===document.domain&&e.port===n.port;return r.sameOrigin=i&&(!e.hostname||a),r}},{}],9:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[f.now()].concat(c(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(13),c=t(14),s=t("ee").get("tracer"),f=t("loader"),u=NREUM;"undefined"==typeof window.newrelic&&(newrelic=u);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],l="api-",p=l+"ixn-";a(d,function(t,e){u[e]=o(l+e,!0,"api")}),u.addPageAction=o(l+"addPageAction",!0),u.setCurrentRouteName=o(l+"routeName",!0),e.exports=newrelic,u.interaction=function(){return(new r).get()};var h=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(p+"tracer",[f.now(),t,n],r),function(){if(s.emit((o?"":"no-")+"fn-start",[f.now(),r,o],n),o)try{return e.apply(this,arguments)}catch(t){throw s.emit("fn-err",[arguments,this,t],n),t}finally{s.emit("fn-end",[f.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){h[e]=o(p+e)}),newrelic.noticeError=function(t,e){"string"==typeof t&&(t=new Error(t)),i("err",[t,f.now(),!1,e])}},{}],10:[function(t,e,n){e.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(e){return}}}},{}],11:[function(t,e,n){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),e.exports=r},{}],12:[function(t,e,n){function r(t,e){if(!o)return!1;if(t!==o)return!1;if(!e)return!0;if(!i)return!1;for(var n=i.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var c=navigator.userAgent,s=c.match(a);s&&c.indexOf("Chrome")===-1&&c.indexOf("Chromium")===-1&&(o="Safari",i=s[1])}e.exports={agent:o,version:i,match:r}},{}],13:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],14:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],15:[function(t,e,n){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],16:[function(t,e,n){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(14),a="nr@original",c=Object.prototype.hasOwnProperty,s=!1;e.exports=function(t,e){function n(t,e,n,o){function nrWrapper(){var r,a,c,s;try{a=this,r=i(arguments),c="function"==typeof n?n(r,a):n||{}}catch(f){l([f,"",[r,a,o],c])}u(e+"start",[r,a,o],c);try{return s=t.apply(a,r)}catch(d){throw u(e+"err",[r,a,d],c),d}finally{u(e+"end",[r,a,s],c)}}return r(t)?t:(e||(e=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,e,o,i){o||(o="");var a,c,s,f="-"===o.charAt(0);for(s=0;s<e.length;s++)c=e[s],a=t[c],r(a)||(t[c]=n(a,f?c+o:o,i,c))}function u(n,r,o){if(!s||e){var i=s;s=!0;try{t.emit(n,r,o,e)}catch(a){l([a,n,r,o])}s=i}}function d(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){l([r])}for(var o in t)c.call(t,o)&&(e[o]=t[o]);return e}function l(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=o),n.inPlace=f,n.flag=a,n}},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?s(t,c,i):i()}function n(n,r,o,i){if(!l.aborted||i){t&&t(n,r,o);for(var a=e(o),c=m(n),s=c.length,f=0;f<s;f++)c[f].apply(a,r);var d=u[g[n]];return d&&d.push([x,n,r,a]),a}}function p(t,e){w[t]=m(t).concat(e)}function h(t,e){var n=w[t];if(n)for(var r=0;r<n.length;r++)n[r]===e&&n.splice(r,1)}function m(t){return w[t]||[]}function v(t){return d[t]=d[t]||o(n)}function y(t,e){f(t,function(t,n){e=e||"feature",g[n]=e,e in u||(u[e]=[])})}var w={},g={},x={on:p,addEventListener:p,removeEventListener:h,emit:n,get:v,listeners:m,context:e,buffer:y,abort:a,aborted:!1};return x}function i(){return new r}function a(){(u.api||u.feature)&&(l.aborted=!0,u=l.backlog={})}var c="nr@context",s=t("gos"),f=t(13),u={},d={},l=e.exports=o();l.backlog=u},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!E++){var t=b.info=NREUM.info,e=p.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return u.abort();f(g,function(e,n){t[e]||(t[e]=n)}),s("mark",["onload",a()+b.offset],null,"api");var n=p.createElement("script");n.src="https://"+t.agent,e.parentNode.insertBefore(n,e)}}function o(){"complete"===p.readyState&&i()}function i(){s("mark",["domContent",a()+b.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(c=Math.max((new Date).getTime(),c))-b.offset}var c=(new Date).getTime(),s=t("handle"),f=t(13),u=t("ee"),d=t(12),l=window,p=l.document,h="addEventListener",m="attachEvent",v=l.XMLHttpRequest,y=v&&v.prototype;NREUM.o={ST:setTimeout,SI:l.setImmediate,CT:clearTimeout,XHR:v,REQ:l.Request,EV:l.Event,PR:l.Promise,MO:l.MutationObserver};var w=""+location,g={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},x=v&&y&&y[h]&&!/CriOS/.test(navigator.userAgent),b=e.exports={offset:c,now:a,origin:w,features:{},xhrWrappable:x,userAgent:d};t(9),p[h]?(p[h]("DOMContentLoaded",i,!1),l[h]("load",r,!1)):(p[m]("onreadystatechange",o),l[m]("onload",r)),s("mark",["firstbyte",c],null,"api");var E=0,O=t(15)},{}]},{},["loader",2,7]);</script>
+<meta content='Radio ÅÃ³dÅº' name='author'>
+<link href='/favicon.png?v=v7' rel='icon' type='image/png'>
+<link href='/favicon.ico?v=v9' rel='shortcut icon' size='48x48' type='image/x-icon'>
+<link href='https://www.radiolodz.pl/assets/rl/apple-touch-icon-9d4b32a8555b11919760a991b490327e4ff3f9b709308905d3b2ed9ee9182f41.png' rel='apple-touch-icon'>
+<link rel="alternate" type="application/rss+xml" title="Wszystkie aktualnoÅci" href="https://www.radiolodz.pl/posts/feed" />
+<link rel="alternate" type="application/rss+xml" title="GoÅcie dnia" href="https://www.radiolodz.pl/guest_of_the_day/feed?channel=1" />
+<!--[if lt IE 9]>
+<script src="/assets/html5-24045c590b8e9e6528248d8f061ff7dfbae0e412b2a09b5cf1f24614c4eb0942.js"></script>
+<![endif]-->
+<link rel="stylesheet" media="all" href="/assets/rl2/all-e8c94f76fbc4e400027d7c960c97c1f5ed256e05f2dbfe417e162b61559542c3.css" />
+<title>Monitoring ulicy Piotrkowskiej. SprawdÅº, gdzie zamontujÄ kamery &mdash; Radio ÅÃ³dÅº</title>
+<meta name="description" content="Do koÅca roku na ulicy Piotrkowskiej w Åodzi powinien zaczÄÄ dziaÅaÄ monitoring. Do urzÄdu miasta wpÅynÄÅy trzy oferty na jego wykonanie. Magistrat chce, Å¼eby na Piotrkowskiej i przylegÅych ulicach..." />
+<meta name="keywords" content="radio ÅÃ³dÅº, ÅÃ³dÅº, ÅÃ³dzkie, wojewÃ³dztwo ÅÃ³dzkie, informacje, wydarzenia, aktualnoÅci" />
+<link rel="canonical" href="https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@radiolodz" />
+<meta name="twitter:image" content="https://www.radiolodz.pl/media/W1siZiIsIjIwMTQvMDgvMDYvOXAyZTFiMWJnN19fRFNDOTc0MC5qcGciXSxbInAiLCJ0aHVtYiIsIjYwMHg0MDAjIl0sWyJwIiwiZW5jb2RlIiwianBnIiwiLXF1YWxpdHkgOTAgLXN0cmlwIl1d/99d852ff25ec2973/_DSC9740.jpg" />
+<meta property="og:title" content="Monitoring ulicy Piotrkowskiej. SprawdÅº, gdzie zamontujÄ kamery" />
+<meta property="og:image" content="https://www.radiolodz.pl/media/W1siZiIsIjIwMTQvMDgvMDYvOXAyZTFiMWJnN19fRFNDOTc0MC5qcGciXSxbInAiLCJ0aHVtYiIsIjYwMHg0MDAjIl0sWyJwIiwiZW5jb2RlIiwianBnIiwiLXF1YWxpdHkgOTAgLXN0cmlwIl1d/99d852ff25ec2973/_DSC9740.jpg" />
+<meta property="og:url" content="https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Radio ÅÃ³dÅº" />
+<meta property="og:locale" content="pl_PL" />
+<meta property="og:description" content="Do koÅca roku na ulicy Piotrkowskiej w Åodzi powinien zaczÄÄ dziaÅaÄ monitoring. Do urzÄdu miasta wpÅynÄÅy trzy oferty na jego wykonanie. Magistrat chce, Å¼eby na Piotrkowskiej i przylegÅych ulicach zostaÅo zainstalowanych 89 kamer w 22 miejscach. " />
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="Eabry1Q54eCfB8IOq7rkYGUxkjKOvo4fiCZSp/HMwJeCVdqI8AwZR5KxrRPC+JqcfHKxm3YsUDlk/yU1bsRD+Q==" />
+<meta content='1192322464' property='fb:admins'>
+
+
+</head>
+<body class='entries-controller show-action   theme_wiosna_2' data-channel='1' data-faye-url='https://www.radiolodz.pl/push/faye' data-lightbox='nivo' data-subscribe-token='871aedbaad647b33e5a753222e78c25daf821551'>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-44115645-1', 'radiolodz.pl');
+    ga('set', 'forceSSL', true);
+    ga('send', 'pageview');
+    ga('require', 'displayfeatures');
+  </script>
+
+<section class='color'></section>
+<div id='top_menu'>
+<div class='xs-bar'>
+<div>
+<i class='fa fa-bars' id='menu_toggler'></i>
+<a href='/'>
+<img alt="Logo Radio ÅÃ³dÅº" style="height: 50px;" src="/assets/rl2/logo_wiosna_2-67feeb0f98791ff39fe7293eec46746ad9e537ced8365d8ca8aa3749e684abcd.png" />
+</a>
+</div>
+</div>
+<div class='container'>
+<nav class='cbp-hrmenu' id='cbp-hrmenu'>
+<ul>
+<li class='brand_logo hidden-xs'>
+<a href='/'>
+<img alt="Logo Radio ÅÃ³dÅº" src="/assets/rl2/logo_wiosna_2-67feeb0f98791ff39fe7293eec46746ad9e537ced8365d8ca8aa3749e684abcd.png" />
+</a>
+</li>
+<li class='orange'>
+<a href='#'>
+RamÃ³wka
+<b class='caret'></b>
+</a>
+<div class='cbp-hrsub'>
+<div class='cbp-hrsub-inner'>
+<ul>
+<li>
+<a href='/schedules?date=2019-04-01'>PoniedziaÅek</a>
+</li>
+<li>
+<a href='/schedules?date=2019-04-02'>Wtorek</a>
+</li>
+<li>
+<a href='/schedules?date=2019-04-03'>Åroda</a>
+</li>
+<li>
+<a href='/schedules?date=2019-04-04'>Czwartek</a>
+</li>
+<li>
+<a href='/schedules?date=2019-04-05'>PiÄtek</a>
+</li>
+<li>
+<a href='/schedules?date=2019-04-06'>Sobota</a>
+</li>
+<li>
+<a href='/schedules?date=2019-04-07'>Niedziela</a>
+</li>
+<li>
+<a href='/audycje' title='Wszystkie audycje Radia ÅÃ³dÅº'>Audycje</a>
+</li>
+</ul>
+</div>
+</div>
+</li>
+
+
+<li class='blue'>
+<a href='#'>
+WiadomoÅci
+<b class='caret'></b>
+</a>
+<div class='cbp-hrsub'>
+<div class='cbp-hrsub-inner'>
+<ul>
+<li class=''>
+<a href='https://www.pracuj.pl/praca/lodz;wp'>PRACUJ.PL</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/78'>Biznes </a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/86'>Czas wolny</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/55'>Drogi</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/54'>Na Sygnale</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/56'>Polityka</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/92'>Prawo</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/59'>Region</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/91'>SpoÅeczeÅstwo</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/105'>Wybory samorzÄdowe 2018</a>
+</li>
+
+<li class='blue'>
+<a href='/posts'>Wszystkie</a>
+</li>
+
+<li class=''>
+<a href='https://www.gowork.pl/opinie/lodz;l' title='GOWORK.PL'>GOWORK.PL</a>
+</li>
+
+</ul>
+</div>
+</div>
+</li>
+
+<li class='green'>
+<a href='#'>
+Sport
+<b class='caret'></b>
+</a>
+<div class='cbp-hrsub'>
+<div class='cbp-hrsub-inner'>
+<ul>
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/34'>WiadomoÅci sportowe</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/audycje/507/blog'>BliÅ¼ej Widzewa</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/audycje/512/blog'>ÅKS od nowa</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/39'>Sport Live</a>
+</li>
+
+</ul>
+</div>
+</div>
+</li>
+
+<li class='gray'>
+<a href='#'>
+Kultura
+<b class='caret'></b>
+</a>
+<div class='cbp-hrsub'>
+<div class='cbp-hrsub-inner'>
+<ul>
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/24'>AktualnoÅci </a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/42'>Koncerty w Studiu im. H.Debicha</a>
+</li>
+
+<li class=''>
+<a href='http://www.radiolodz.pl/events'>Kalendarz wydarzeÅ</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/27'>Wywiady</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/26'>Relacje i recenzje </a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/93'>Kultura nad WartÄ</a>
+</li>
+
+</ul>
+</div>
+</div>
+</li>
+
+<li class='cyan'>
+<a href='#'>
+Muzyka
+<b class='caret'></b>
+</a>
+<div class='cbp-hrsub'>
+<div class='cbp-hrsub-inner'>
+<ul>
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/45'>WiadomoÅci muzyczne</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/94'>Spotlight</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/30'>PÅyta tygodnia</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/categories/31'>Koncerty</a>
+</li>
+
+<li class=''>
+<a href='https://www.radiolodz.pl/played_songs'>ZagraliÅmy</a>
+</li>
+
+</ul>
+</div>
+</div>
+</li>
+
+<li class='gray'>
+<a href='https://www.radiolodz.pl/categories/61'>Nad WartÄ</a>
+</li>
+
+<li class='weather visible-lg-inline-block'>
+<a href='#'>
+<i class='weather-icon' data-icon='B'></i>
+<span>
+13&deg;C
+</span>
+</a>
+<div class='cbp-hrsub'>
+<div class='cbp-hrsub-inner'>
+<i class='weather-icon big black' data-icon='B'></i>
+<h3>
+13&deg;C
+</h3>
+<ul>
+<li>
+<p>
+WilgotnoÅÄ
+<span>40%</span>
+</p>
+</li>
+<li>
+<p>
+Wiatr
+<span class='normal'>
+6
+km/h,
+E
+</span>
+</p>
+</li>
+<li>
+<p>
+CiÅnienie
+<span class='normal'>
+1012
+hPa
+</span>
+</p>
+</li>
+</ul>
+</div>
+</div>
+</li>
+<li class='img search'>
+<a href='#' title='Szukaj'>
+<i class='fa fa-search'></i>
+</a>
+<div class='cbp-hrsub'>
+<div class='cbp-hrsub-inner'>
+<form action='/search/simple' method='get'>
+<input id='q' name='q' placeholder='Szukana fraza' type='text'>
+<button type='submit'>Szukaj</button>
+</form>
+</div>
+</div>
+</li>
+<li class='img user'>
+<a href='#' title='Personalizacja'>
+<i class='fa fa-user'></i>
+</a>
+<div class='cbp-hrsub'>
+<div class='cbp-hrsub-inner'>
+<form class="playlist_button" method="get" action="/playlist"><button type="submit">Playlista
+</button></form></div>
+</div>
+</li>
+<li class='img sc visible-lg-inline-block'>
+<a href='http://twitter.com/radiolodz' rel='me noopener' target='_blank' title='Twitter - Radio ÅÃ³dÅº'>
+<i class='fa fa-twitter'></i>
+</a>
+</li>
+<li class='img sc visible-lg-inline-block'>
+<a href='http://www.youtube.com/user/polskieradiolodz' rel='me noopener' target='_blank' title='Youtube - Radio ÅÃ³dÅº'>
+<i class='fa fa-youtube'></i>
+</a>
+</li>
+<li class='img sc visible-lg-inline-block'>
+<a href='http://www.facebook.com/RadioLodz' rel='me noopener' target='_blank' title='Facebook - Radio ÅÃ³dÅº'>
+<i class='fa fa-facebook'></i>
+</a>
+</li>
+<li class='img sc visible-lg-inline-block'>
+<a href='http://plus.google.com/u/0/101033918433982771922' rel='me noopener' target='_blank' title='Google+ - Radio ÅÃ³dÅº'>
+<i class='fa fa-google-plus'></i>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+
+
+<div class='container main'>
+
+<div class='row'>
+<div class='col-md-8' id='main-part'>
+
+<article class='article_content' data-entry='6936' itemprop='mainEntity' itemscope='' itemtype='http://schema.org/NewsArticle'>
+<meta content='https://www.radiolodz.pl/media/W1siZiIsIjIwMTQvMDgvMDYvOXAyZTFiMWJnN19fRFNDOTc0MC5qcGciXSxbInAiLCJ0aHVtYiIsIjI1MHgyNTAjIl1d/e907ced1e47e14f9/_DSC9740.jpg' itemprop='image'>
+<ol class='breadcrumb'>
+<li>
+<a href='https://www.radiolodz.pl/'>Strona gÅÃ³wna</a>
+</li>
+<li>
+<a href='/posts'>AktualnoÅci</a>
+</li>
+<li>
+<a href='/categories/1'>WiadomoÅci</a>
+</li>
+</ol>
+<div class='article_info'>
+<time class='dateline nowrap' datetime='2014-08-06' itemprop='datePublished'>Åro, 06 sie 2014 16:12:15 +0200</time>
+<meta content='2014-11-19' itemprop='dateModified'>
+<div class='space visible-xs'></div>
+<div class='share_icons'>
+<a href='javascript:void(null)' onclick="javascript:window.open('https://twitter.com/intent/tweet?url=https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery', '',&#x000A;'width=626,height=436');return false;" rel='nofollow' title='UdostÄpnij przez Twitter'>
+<i class='fa fa-lg fa-twitter'></i>
+</a>
+<a href='javascript:void(null)' onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery', 'facebook-share-dialog',&#x000A;'width=626,height=436');return false;" rel='nofollow' title='UdostÄpnij przez Facebook'>
+<i class='fa fa-lg fa-facebook'></i>
+</a>
+<a href='https://plus.google.com/share?url=https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery' onclick="javascript:window.open(this.href,&#x000A;'gplus-share-dialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" rel='nofollow' title='UdostÄpnij przez Google+'>
+<i class='fa fa-lg fa-google-plus'></i>
+</a>
+<a href='#comments' rel='nofollow' title='PrzejdÅº do komentarzy'>
+<i class='fa fa-lg fa-comment'></i>
+</a>
+<a href='mailto:?subject=PrzesyÅam Ci link do ciekawego artykuÅu: Monitoring Piotrkowskiej. SprawdÅº, gdzie zamontujÄ kamery&amp;body=Do koÅca roku na ulicy Piotrkowskiej w Åodzi powinien zaczÄÄ dziaÅaÄ monitoring. Do urzÄdu miasta wpÅynÄÅy trzy oferty na jego wykonanie. Magistrat chce, Å¼eby na Piotrkowskiej i przylegÅych ulicach zostaÅo zainstalowanych 89 kamer w 22 miejscach.  https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery' rel='nofollow' title='WyÅlij jako email'>
+<i class='fa fa-lg fa-envelope-o'></i>
+</a>
+<a href='javascript:void(null)' onclick='javascript:window.print();' rel='nofollow' title='Wydrukuj'>
+<i class='fa fa-lg fa-print'></i>
+</a>
+<div class='change_font_size'>
+<a class='normal' href='#' rel='nofollow' title='Normalna wielkoÅÄ czcionki'>
+<i class='fa fa-font'></i>
+</a>
+<a class='larger' href='#' rel='nofollow' title='WiÄksza czcionka'>
+<i class='fa fa-font'></i>
+</a>
+<a class='largest' href='#' rel='nofollow' title='Jeszce wiÄksza czcionka'>
+<i class='fa fa-font'></i>
+</a>
+</div>
+</div>
+
+</div>
+<div class='resizable article' itemprop='articleBody'>
+<div class='space'></div>
+<h1 itemprop='headline'>Monitoring Piotrkowskiej. SprawdÅº, gdzie zamontujÄ kamery</h1>
+<div class='lead' itemprop='description'><p>Do koÅca roku na ulicy Piotrkowskiej w Åodzi powinien zaczÄÄ dziaÅaÄ monitoring. Do urzÄdu miasta wpÅynÄÅy trzy oferty na jego wykonanie. Magistrat chce, Å¼eby na Piotrkowskiej i przylegÅych ulicach zostaÅo zainstalowanych 89 kamer w 22 miejscach. </p></div>
+<div class='fb-root'></div>
+<div class='social-like-buttons'>
+<div class='scbtn'>
+<div class='fb-like' data-action='like' data-href='https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery' data-layout='button_count' data-share='false' data-show-faces='true' data-width='200'></div>
+</div>
+<div class='scbtn'>
+<a class='twitter-share-button' data-lang='pl' data-via='radiolodz' href='https://twitter.com/share'>Tweetnij</a>
+</div>
+<div class='scbtn'>
+<div class='g-plusone' data-annotation='bubble' data-width='200'></div>
+</div>
+</div>
+<div class='clearfix'></div>
+
+<figure class='image'>
+<a data-lightbox-hidpi='/media/W1siZiIsIjIwMTQvMDgvMDYvOXAyZTFiMWJnN19fRFNDOTc0MC5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4MTIwMD4iXSxbInAiLCJlbmNvZGUiLCJqcGciLCItcXVhbGl0eSA3NSAtc3RyaXAiXV0/a295454eef36a5cc/_DSC9740.jpg' href='/media/W1siZiIsIjIwMTQvMDgvMDYvOXAyZTFiMWJnN19fRFNDOTc0MC5qcGciXSxbInAiLCJ0aHVtYiIsIjEwMjR4NzY4PiJdLFsicCIsImVuY29kZSIsImpwZyIsIi1xdWFsaXR5IDc1IC1zdHJpcCJdXQ/a15863b3fecbd181/_DSC9740.jpg' title='piotrkowska [fot. Konrad CiÄÅ¼ki/arch. Radio ÅÃ³dÅº ]'>
+<img alt="" class="img-responsive" src="/media/W1siZiIsIjIwMTQvMDgvMDYvOXAyZTFiMWJnN19fRFNDOTc0MC5qcGciXSxbInAiLCJ0aHVtYiIsIjc1MHg1NjQ%2BIl0sWyJwIiwiZW5jb2RlIiwianBnIiwiLXF1YWxpdHkgNzUgLXN0cmlwIl1d/52706aeacc6bc342/_DSC9740.jpg" />
+</a>
+<figcaption class='meta'>
+<span class='author'>(Fot. Konrad CiÄÅ¼ki/arch. Radio ÅÃ³dÅº )</span>
+</figcaption>
+
+</figure>
+
+<div class='text'>
+<p>Zbigniew Kuleta, komendant StraÅ¼y Miejskiej w Åodzi: - To nie bÄdÄ kamery przemysÅowe, kt&oacute;re przekazujÄ czarno-biaÅy obraz kiepskiej jakoÅci. BÄdÄ to systemy o dobrej rozdzielczoÅci, w jakoÅci HD, urzÄdzenia speÅniajÄce najwyÅ¼sze wymagania techniczne. MyÅlÄ, Å¼e wpÅynie to nie tylko na zwiÄkszenie poczucia bezpieczeÅstwa mieszkaÅc&oacute;w, ale na faktycznÄ poprawÄ bezpieczeÅstwa. Teraz bÄdziemy mogli natyczmiast reagowaÄ na wszelkie niebezpieczne zjawiska.</p>
+<p>Na budowÄ monitoringu miasto przeznaczyÅo prawie 3 miliony 300 tysiÄcy zÅotych. Jednak wiele&nbsp;wskazuje na to, Å¼e bÄdzie on kosztowaÅ mniej. Monitoring ma r&oacute;wnieÅ¼ speÅniaÄ dodatkowe funkcje.</p>
+<p>Hanna Zdanowska, prezydent Åodzi: - BÄdziemy mogli r&oacute;wnieÅ¼ przeprowadzaÄ analizy, z czego tak naprawdÄ najczÄÅciej korzystajÄ Åodzianie, kt&oacute;rzy przebywajÄ na ulicy Piotrkowskiej. MoÅ¼emy sprawdziÄ, czy obecnoÅÄ Åodzian spowodowana jest tym, Å¼e chcÄ tu robiÄ zakupy, odwiedzaÄ obiekty gastronomiczne. Da nam to podstawy do tego by lepiej zarzÄdzaÄ przestrzeniÄ ulicy Piotrkowskiej.&nbsp;</p>
+<p>Magistrat zapewnia, Å¼e jeÅli uda siÄ zaoszczÄdzi na przetargu na monitoring ulicy Piotrkowskiej, pieniÄdze, kt&oacute;re zostanÄ bÄdÄ przeznaczone na dodatkowe patrole policji.</p>
+</div>
+
+<figure class='image'>
+<a data-lightbox-hidpi='/media/W1siZiIsIjIwMTQvMDgvMDYvNGMzbGM4NXNwcV9tb25pdG9yaW5nXzFfdl8xLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHgxMjAwPiJdLFsicCIsImVuY29kZSIsImpwZyIsIi1xdWFsaXR5IDc1IC1zdHJpcCJdXQ/f0eb56142c94f244/monitoring_1_v_1.jpg' href='/media/W1siZiIsIjIwMTQvMDgvMDYvNGMzbGM4NXNwcV9tb25pdG9yaW5nXzFfdl8xLmpwZyJdLFsicCIsInRodW1iIiwiMTAyNHg3Njg%2BIl0sWyJwIiwiZW5jb2RlIiwianBnIiwiLXF1YWxpdHkgNzUgLXN0cmlwIl1d/5b8fd3b03e577429/monitoring_1_v_1.jpg' title='Monitoring ulicy Piotrkowskiej [fot. mat. UMÅ]'>
+<img alt="" class="img-responsive" src="/media/W1siZiIsIjIwMTQvMDgvMDYvNGMzbGM4NXNwcV9tb25pdG9yaW5nXzFfdl8xLmpwZyJdLFsicCIsInRodW1iIiwiNzUweDU2ND4iXSxbInAiLCJlbmNvZGUiLCJqcGciLCItcXVhbGl0eSA3NSAtc3RyaXAiXV0/e7c9a85a0fe808e0/monitoring_1_v_1.jpg" />
+</a>
+<figcaption class='meta'>
+<span class='author'>(Fot. mat. UMÅ)</span>
+</figcaption>
+
+</figure>
+
+<div class='text'>
+<p><strong>Wykaz lokalizacji punkt&oacute;w kamerowych monitoringu miejskiego</strong></p>
+<p>- Punkt kamerowy PK01 (Plac WolnoÅci 7/8)</p>
+<p>- Punkt kamerowy PK02 (Plac WolnoÅci 5)</p>
+<p>- Punkt kamerowy PK03 (Plac WolnoÅci 12)</p>
+<p>- Punkt kamerowy PK04 (Piotrkowska 2)</p>
+<p>- Punkt kamerowy PK05 (Pr&oacute;chnika 2)</p>
+<p>- Punkt kamerowy PK06 (Piotrkowska 17)</p>
+<p>- Punkt kamerowy PK07 (Piotrkowska 34)</p>
+<p>- Punkt kamerowy PK08 (Piotrkowska 42)</p>
+<p>- Punkt kamerowy PK09 (Narutowicza 2)</p>
+<p>- Punkt kamerowy PK10 (Piotrkowska 60)</p>
+<p>- Punkt kamerowy PK11 (6 Sierpnia 4)</p>
+<p>- Punkt kamerowy PK12 (Piotrkowska 72)</p>
+<p>- Punkt kamerowy PK13 (Piotrkowska 71)</p>
+<p>- Punkt kamerowy PK14 (Piotrkowska 94)</p>
+<p>- Punkt kamerowy PK15 (Piotrkowska 97)</p>
+<p>- Punkt kamerowy PK16 (Piotrkowska 104a)</p>
+<p>- Punkt kamerowy PK17 (Plac Komuny Paryskiej 5a)</p>
+<p>- Punkt kamerowy PK18 (Piotrkowska 115/119)</p>
+<p>- Punkt kamerowy PK19 (Piotrkowska 124)</p>
+<p>- Punkt kamerowy PK20 (Piotrkowska 147)</p>
+<p>- Punkt kamerowy PK21 (Piotrkowska 152)</p>
+<p>- Punkt kamerowy PK22 (Traugutta 21/23 ÅOG)</p>
+</div>
+
+<div class='article_meta'>
+<a href='/redactors/48' itemprop='editor' itemscope='' itemtype='http://schema.org/Person' rel='author'>
+<span itemprop='name'>Maciej Trojanowski</span>
+</a>
+ / 
+Konrad CiÄÅ¼ki
+<div itemprop='author publisher' itemscope='' itemtype='http://schema.org/Organization'>
+<meta content='Radio ÅÃ³dÅº' itemprop='name'>
+</div>
+</div>
+
+<div class='fb-root'></div>
+<div class='social-like-buttons'>
+<div class='scbtn'>
+<div class='fb-like' data-action='like' data-href='https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery' data-layout='button_count' data-share='false' data-show-faces='true' data-width='200'></div>
+</div>
+<div class='scbtn'>
+<a class='twitter-share-button' data-lang='pl' data-via='radiolodz' href='https://twitter.com/share'>Tweetnij</a>
+</div>
+<div class='scbtn'>
+<div class='g-plusone' data-annotation='bubble' data-width='200'></div>
+</div>
+</div>
+<div class='clearfix'></div>
+
+</div>
+<div class='box comments with_space'>
+<div class='anchor' id='comments'></div>
+<ul class='nav nav-tabs'>
+<li>
+<a data-toggle='tab' href='#comments_default'>
+Komentarze
+</a>
+</li>
+<li class='active'>
+<a data-toggle='tab' href='#comments_fb'>
+Komentarze Facebook
+<span class='small'>
+<i class='fa fa-comments-o'></i>
+<span class='fb-comments-count' data-href='https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery'>0</span>
+</span>
+</a>
+</li>
+</ul>
+<div class='tab-content'>
+<div class='tab-pane' id='comments_default'>
+<div class='comment_errors'></div>
+<div class='comment_form'>
+<form class="new_comment" id="new_comment" action="/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery/comments" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><div class='hidden'>
+<input type="text" name="nickname" id="nickname" value="" />
+</div>
+<div class='form-group'>
+<label for="comment_name">ImiÄ</label>
+<input class="form-control" type="text" value="GoÅÄ" name="comment[name]" id="comment_name" />
+</div>
+<div class='form-group'>
+<label for="comment_content">TreÅÄ komentarza</label>
+<textarea rows="9" class="form-control" name="comment[content]" id="comment_content">
+</textarea>
+</div>
+<input type="submit" name="commit" value="Zapisz komentarz" class="btn btn-default" id="submit_comment" data-disable-with="Zapisywanie..." />
+</form>
+</div>
+
+<div class='comments_list'>
+</div>
+
+</div>
+<div class='tab-pane active' id='comments_fb'>
+<div class='fb-comments' data-colorscheme='light' data-href='https://www.radiolodz.pl/posts/6936-monitoring-ulicy-piotrkowskiej-sprawdz-gdzie-zamontuja-kamery' data-numposts='30' data-width='100%'></div>
+</div>
+</div>
+</div>
+
+
+</article>
+
+</div>
+<div class='col-md-4 sidebar'>
+<div class='box oa_box' id='onair_box'>
+<h2 class='header_black'><span class='header_sub'>
+<a href='/schedules'>Program</a>
+</span>Na antenie
+</h2>
+<ul>
+<li class='program oa_em' id='0' style='display: none'>
+<div class='left hours'>
+<div class='start_at hour' id='oa_em_start_at'></div>
+<div class='end_at hour' id='oa_em_end_at'></div>
+</div>
+<a href='' id='oa_em_title'>
+<div class='title'></div>
+<div class='desc' id='oa_em_lead'></div>
+</a>
+</li>
+<li class='song' data-id='0' id='oa_track' style='display: none'>
+<div class='left'>
+<img alt='' id='oa_track_image' style='display: none;'>
+</div>
+<div class='title' id='oa_track_title'></div>
+<div class='desc' id='oa_track_performer'></div>
+<a class='goto_music_chart' href='https://www.radiolodz.pl/music_charts/current' style='display: none;' title='GÅosuj na utwÃ³r w aktualnym notowaniu listy przebojÃ³w'>GÅosuj</a>
+</li>
+<li id='oa_em_redactors' style='display: none;'>
+<div class='body'></div>
+</li>
+</ul>
+<div class='listen_live'>
+<a class='listen_btn with_space' href='javascript:void(null)' onclick="javascript:window.open('https://www.radiolodz.pl/onair','onair','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=500,height=800');return false;">
+<i class='fa fa-volume-up'></i>
+<span>SÅuchaj na Å¼ywo</span>
+</a>
+<div class='contact'>
+<h3>Kontakt dla sÅuchaczy</h3>
+<a href='mailto:studio@radiolodz.pl'>
+<i class='fa fa-envelope-o'></i>
+studio@radiolodz.pl
+</a>
+<a>
+<i class='fa fa-phone'></i>
++48 42 678 78 78
+</a>
+<a href='http://www.facebook.com/RadioLodz' rel='me'>
+<i class='fa fa-facebook'></i>
+http://www.facebook.com/RadioLodz
+</a>
+</div>
+</div>
+</div>
+
+
+<div class='box'>
+<h2 class='header_gray with_space'>
+Zobacz takÅ¼e
+</h2>
+<div class='txt_list'>
+<a href='/posts/50937-sieradzki-monitoring-rowniez-w-miejskim-parku' title='Sieradzki monitoring rÃ³wnieÅ¼ w miejskim parku'>Sieradzki monitoring rÃ³wnieÅ¼ w miejskim parku</a>
+<a href='/posts/48074-nowe-radiowozy-i-uliczne-kamery-czy-w-lodzi-bedzie-bezpieczniej' title='Nowe radiowozy i uliczne kamery. Czy w Åodzi bÄdzie bezpieczniej?'>Nowe radiowozy i uliczne kamery. Czy w Åodzi bÄdzie bezpieczniej?</a>
+<a href='/posts/46930-wyskoczyl-z-balkonu-po-zazyciu-dopalaczy-incydent-zarejestrowaly-kamery-monitoringu' title='WyskoczyÅ z balkonu po zaÅ¼yciu dopalaczy. Incydent zarejestrowaÅy kamery monitoringu'>WyskoczyÅ z balkonu po zaÅ¼yciu dopalaczy. Incydent zarejestrowaÅy kamery monitoringu</a>
+<a href='/posts/44016-rozstrzygniety-przetarg-na-rozbudowe-systemu-monitoringu-miejskiego' title='RozstrzygniÄty przetarg na rozbudowÄ systemu monitoringu miejskiego'>RozstrzygniÄty przetarg na rozbudowÄ systemu monitoringu miejskiego</a>
+<a href='/posts/42853-system-monitoringu-miejskiego-w-lodzi-wzbogaci-sie-o-150-kamer' title='System monitoringu miejskiego w Åodzi wzbogaci siÄ o 150 kamer'>System monitoringu miejskiego w Åodzi wzbogaci siÄ o 150 kamer</a>
+</div>
+</div>
+
+
+
+<div class='box suggested'>
+<h2 class='header_gray with_space'>Polecamy</h2>
+<div class='list'>
+<a href='/posts/50107-premiera-singla-plyty-i-koncert-patrycji-i-grzegorza-markowskich-w-lodzi' title='Weekend z PatrycjÄ MarkowskÄ w Radiu ÅÃ³dÅº i koncert Patrycji i Grzegorza Markowskich oraz grupy Perfect w Åodzi'>
+<div class='img_container'>
+<img alt="Patrycja i Grzegorz Markowscy [fot. mat. organizatora]" src="/media/W1siZiIsIjIwMTkvMDEvMjIvMTlucjBtNnF2N19wYXRyeWNqYWdyemVnb3J6LmpwZyJdLFsicCIsInRodW1iIiwiMTUweDEwMCMiXSxbInAiLCJlbmNvZGUiLCJqcGciLCItcXVhbGl0eSA3NSAtc3RyaXAiXV0/695561f36a947867/patrycjagrzegorz.jpg" />
+<div class='icon_container'>
+</div>
+</div>
+<h5>Weekend z PatrycjÄ MarkowskÄ w Radiu ÅÃ³dÅº i koncert Patrycji i Grzegorza Markowskich oraz grupy Perfect w Åodzi</h5>
+</a>
+<a href='/posts/51731-weekend-z-kurierem-w-radiu-lodz' title='Weekend z "Kurierem" w Radiu ÅÃ³dÅº'>
+<div class='img_container'>
+<img alt="Kurier [fot. Bartosz Mrozowski/mat. dystrybutora Kino Åwiat]" src="/media/W1siZiIsIjIwMTkvMDMvMjgvMnp5M3U5MDZ2Y19EU0MwOTUwNi5qcGciXSxbInAiLCJ0aHVtYiIsIjE1MHgxMDAjIl0sWyJwIiwiZW5jb2RlIiwianBnIiwiLXF1YWxpdHkgNzUgLXN0cmlwIl1d/5422f0943065dfd9/DSC09506.jpg" />
+<div class='icon_container'>
+<div class='has_audio'>
+<i class='fa fa-headphones'></i>
+</div>
+</div>
+</div>
+<h5>Weekend z &quot;Kurierem&quot; w Radiu ÅÃ³dÅº</h5>
+</a>
+<a href='/posts/51437-powiesc-czapkins-historia-tomka-mackiewicza-w-radiu-lodz' title='PowieÅÄ "Czapkins. Historia Tomka Mackiewicza" w Radiu ÅÃ³dÅº'>
+<div class='img_container'>
+<img alt="Czapkins [fot. mat. prasowe]" src="/media/W1siZiIsIjIwMTkvMDMvMTUvMnU4azVybXlxZV9DemFwa2luc19mcm9udC5qcGciXSxbInAiLCJ0aHVtYiIsIjE1MHgxMDAjIl0sWyJwIiwiZW5jb2RlIiwianBnIiwiLXF1YWxpdHkgNzUgLXN0cmlwIl1d/5df0e056ef5d9c77/Czapkins_front.jpg" />
+<div class='icon_container'>
+<div class='has_audio'>
+<i class='fa fa-headphones'></i>
+</div>
+</div>
+</div>
+<h5>PowieÅÄ &quot;Czapkins. Historia Tomka Mackiewicza&quot; w Radiu ÅÃ³dÅº</h5>
+</a>
+<a href='/posts/51506-perfect-son-w-radiu-lodz' title='Perfect Son w Radiu ÅÃ³dÅº'>
+<div class='img_container'>
+<img alt="Perfect Son [fot. mat. prasowe]" src="/media/W1siZiIsIjIwMTkvMDMvMTgvMm45dHhjNnJxNF91cGxvYWRzXzE1NDMzNDYyMjg0NjVfUGVyZmVjdFNvbl9DYXN0XzYwMC5qcGciXSxbInAiLCJ0aHVtYiIsIjE1MHgxMDAjIl0sWyJwIiwiZW5jb2RlIiwianBnIiwiLXF1YWxpdHkgNzUgLXN0cmlwIl1d/085dd4600bfe67a4/uploads_1543346228465-PerfectSon_Cast_600.jpg" />
+<div class='icon_container'>
+</div>
+</div>
+<h5>Perfect Son w Radiu ÅÃ³dÅº</h5>
+</a>
+<a href='/posts/51892-toto-cutugno-autor-wloskich-szlagierow-na-koncercie-w-warszawie' title='Toto Cutugno - autor wÅoskich szlagierÃ³w na koncercie w Warszawie'>
+<div class='img_container'>
+<img alt="Toto Cutugno [fot. mat. prasowe]" src="/media/W1siZiIsIjIwMTkvMDQvMDMvNmU1amlhZXJieF8yLmpwZyJdLFsicCIsInRodW1iIiwiMTUweDEwMCMiXSxbInAiLCJlbmNvZGUiLCJqcGciLCItcXVhbGl0eSA3NSAtc3RyaXAiXV0/8470f820b1ff8b3c/2.jpg" />
+<div class='icon_container'>
+</div>
+</div>
+<h5>Toto Cutugno - autor wÅoskich szlagierÃ³w na koncercie w Warszawie</h5>
+</a>
+<a href='/posts/51877-koncert-marka-dyjaka-gintrowski-w-klubie-wytwornia' title='Koncert Marka Dyjaka - "Gintrowski" w klubie WytwÃ³rnia'>
+<div class='img_container'>
+<img alt="Marek Dyjak [fot. materiaÅy prasowe]" src="/media/W1siZiIsIjIwMTkvMDQvMDIvNHoxcGE1cWJ5Zl9keWpha19naW50cm93c2tpX3BseXRhX2Zyb250X2F1dG9fMTYwMHg4MDBfMV8uanBnIl0sWyJwIiwidGh1bWIiLCIxNTB4MTAwIyJdLFsicCIsImVuY29kZSIsImpwZyIsIi1xdWFsaXR5IDc1IC1zdHJpcCJdXQ/df0b9034e825b368/dyjak-gintrowski-plyta-front_auto_1600x800%20%281%29.jpg" />
+<div class='icon_container'>
+</div>
+</div>
+<h5>Koncert Marka Dyjaka - &quot;Gintrowski&quot; w klubie WytwÃ³rnia</h5>
+</a>
+<a href='/posts/51520-plyta-chemistry-of-love-z-muzyka-marzeny-majcher' title='PÅyta Chemistry of Love z muzykÄ Marzeny Majcher'>
+<div class='img_container'>
+<img alt="CHEMISTRY OF LOVE [fot. mat. prasowe]" src="/media/W1siZiIsIjIwMTkvMDMvMTkvMnJ4OXV4ZzRjN19va19hZGthX3BfeXR5X0NIRU1JU1RSWV9PRl9MT1ZFLmpwZyJdLFsicCIsInRodW1iIiwiMTUweDEwMCMiXSxbInAiLCJlbmNvZGUiLCJqcGciLCItcXVhbGl0eSA3NSAtc3RyaXAiXV0/1aaa6912f0dc8c1c/ok%C5%82adka%20p%C5%82yty%20CHEMISTRY%20OF%20LOVE.jpg" />
+<div class='icon_container'>
+</div>
+</div>
+<h5>PÅyta Chemistry of Love z muzykÄ Marzeny Majcher</h5>
+</a>
+<a href='/posts/2177-nie-publikowac-aplikacja-mobilna-radia-lodz' title='Aplikacja mobilna Radia ÅÃ³dÅº'>
+<div class='img_container'>
+<img alt="Aplikacja mobilna Radia ÅÃ³dÅº [fot. Konrad CiÄÅ¼ki]" src="/media/W1siZiIsIjIwMTQvMDIvMTkvOW0yZmxpaDJwZl9hcGxpa2FjamFfbW9iaWxuYV9yYWRpb19kX2ZvdF9rb25yYWRfY2lfa2kuSlBHIl0sWyJwIiwidGh1bWIiLCIxNTB4MTAwIyJdLFsicCIsImVuY29kZSIsImpwZyIsIi1xdWFsaXR5IDc1IC1zdHJpcCJdXQ/86ce045b5db20949/aplikacja-mobilna-radio-%C5%82%C3%B3d%C5%BA-fot-konrad-ci%C4%99%C5%BCki.jpg" />
+<div class='icon_container'>
+</div>
+</div>
+<h5>Aplikacja mobilna Radia ÅÃ³dÅº</h5>
+</a>
+
+</div>
+</div>
+
+<div class='box ext-link-box'>
+<div class='info'>Reklama</div>
+<a class='ext-link' data-area='12' data-id='33' href='http://www.lkslodz.pl' rel='nofollow noopener' target='_blank'>
+<img class="img-responsive" src="/media/W1siZiIsIjIwMTUvMDkvMjEvM2ZveHg3eWh5bl9sb2dvTEtTLmpwZyJdLFsicCIsInRodW1iIiwiMzAweDEwMD4iXSxbInAiLCJlbmNvZGUiLCJqcGciLCItcXVhbGl0eSA5MCAtc3RyaXAiXV0/58139bda6f6f9bc3/file.jpg" alt="File" />
+</a>
+</div>
+<div class='box ext-link-box'>
+<div class='info'>Reklama</div>
+<a class='ext-link' data-area='14' data-id='57' href='https://www.storytel.pl/publishers/944-Radio-Lodz?utm_source=radio_lodz&amp;utm_medium=banner20112017&amp;utm_campaign=audiopromo' rel='nofollow noopener' target='_blank'>
+<img class="img-responsive" src="/media/W1siZiIsIjIwMTcvMTEvMjAvNDg2ZG0wcmhyM19yYWRpb19sb2R6X2JhbmVyLmpwZyJdLFsicCIsInRodW1iIiwiMzI1eDI3MD4iXSxbInAiLCJlbmNvZGUiLCJqcGciLCItcXVhbGl0eSA5MCAtc3RyaXAiXV0/5b46b68006ccb8ba/file.jpg" alt="File" />
+</a>
+</div>
+
+
+</div>
+</div>
+</div>
+<footer data-jplayer-solution='html, flash' id='footer'>
+<div class='container'>
+<div class='row'>
+<div class='col-xs-6 col-sm-2'>
+<h5>O nas </h5>
+<ul>
+<li>
+<a href='https://www.radiolodz.pl/pages/590-zasieg-i-czestotliwosci'>ZasiÄg i czÄstotliwoÅci </a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/588-historia-radia'>Historia Radia</a>
+</li>
+
+<li>
+<a href='/redactors'>Ludzie radia</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/posts/23116-ogolny-regulamin-konkursow-radia-lodz'>Regulamin konkursÃ³w</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/608-kalendarium'>Kalendarium</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/12'>Studio im. H. Debicha</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/18'>Ekspresowe Sesje Nagraniowe</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/bip/'>BIP</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/1368-polityka-prywatnosci'>Polityka prywatnoÅci</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/589-kontakt'>Kontakt</a>
+</li>
+
+</ul>
+
+</div>
+<div class='col-xs-6 col-sm-2'>
+<h5>Promocja</h5>
+<ul>
+<li>
+<a href='https://www.radiolodz.pl/categories/16'>Nasze akcje</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/17'>Patronaty medialne</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/593-wniosek-o-patronat-medialny'>Jak uzyskaÄ patronat medialny?</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/595-do-pobrania'>Do pobrania</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/594-do-pobrania'>Kontakt</a>
+</li>
+
+</ul>
+
+</div>
+<div class='clearfix visible-xs-block'></div>
+<div class='col-xs-6 col-sm-2'>
+<h5>Reklama</h5>
+<ul>
+<li>
+<a href='https://www.radiolodz.pl/pages/596-rodzaje-reklam'>Rodzaje reklam</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/1714-kampanie-spoleczne'>Kampanie spoÅeczne</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/pages/599-kontakt'>Kontakt</a>
+</li>
+
+</ul>
+
+</div>
+<div class='col-xs-6 col-sm-2'>
+<h5>W regionie</h5>
+<ul>
+<li>
+<a href='https://www.radiolodz.pl/categories/79'>AleksandrÃ³w ÅÃ³dzki </a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/72'>BeÅchatÃ³w </a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/74'>GÅowno</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/83'>KonstantynÃ³w ÅÃ³dzki</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/76'>Kutno</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/66'>ÅÄczyca</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/77'>Åowicz</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/99'>Opoczno</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/71'>OzorkÃ³w</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/70'>Pabianice</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/81'>PiotrkÃ³w Trybunalski</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/89'>PoddÄbice</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/67'>Radomsko</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/85'>Rawa Mazowiecka </a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/75'>RzgÃ³w</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/65'>Skierniewice</a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/73'>TomaszÃ³w Mazowiecki </a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/80'>Tuszyn </a>
+</li>
+
+<li>
+<a href='https://www.radiolodz.pl/categories/68'>Zgierz </a>
+</li>
+
+</ul>
+
+</div>
+<div class='clearfix visible-xs-block'></div>
+<div class='col-xs-12 col-sm-4'>
+<h5>
+<a href='/schedules'>RamÃ³wka</a>
+</h5>
+
+<h5>
+<a href='https://www.radiolodz.pl/categories/1'>WiadomoÅci</a>
+</h5>
+
+<h5>
+<a href='https://www.radiolodz.pl/categories/4'>Sport</a>
+</h5>
+
+<h5>
+<a href='https://www.radiolodz.pl/categories/23'>Kultura</a>
+</h5>
+
+<h5>
+<a href='https://www.radiolodz.pl/categories/22'>Muzyka</a>
+</h5>
+
+<h5>
+<a href='https://www.radiolodz.pl/categories/61'>Nad WartÄ</a>
+</h5>
+
+
+<div class='icons'>
+<a href='https://www.radiolodz.pl/posts/feed' rel='nofollow noopener' title='KanaÅ RSS'>
+<i class='fa fa-2x fa-rss'></i>
+</a>
+<a href='http://twitter.com/radiolodz' rel='me noopener' target='_blank' title='Twitter - Radio ÅÃ³dÅº'>
+<i class='fa fa-2x fa-twitter'></i>
+</a>
+<a href='http://www.youtube.com/user/polskieradiolodz' rel='me noopener' target='_blank' title='Youtube - Radio ÅÃ³dÅº'>
+<i class='fa fa-2x fa-youtube'></i>
+</a>
+<a href='http://www.facebook.com/RadioLodz' rel='me noopener' target='_blank' title='Facebook - Radio ÅÃ³dÅº'>
+<i class='fa fa-2x fa-facebook'></i>
+</a>
+<a href='http://plus.google.com/u/0/101033918433982771922' rel='me noopener' target='_blank' title='Google+ - Radio ÅÃ³dÅº'>
+<i class='fa fa-2x fa-google-plus'></i>
+</a>
+<a href='/bip' title='BIP - Radio ÅÃ³dÅº'>
+<img src="/assets/rl2/icon_bip_30-9c9f3f71716c8d74218eef1851cf3a1006093454a4cda5f53e35deaa5f8a345b.png" alt="Icon bip 30" />
+</a>
+</div>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-12 copyrights'>
+<div class='text-center owner'>
+&copy
+<a title="Radio ÅÃ³dÅº" href="https://www.radiolodz.pl/">Radio ÅÃ³dÅº</a>
+2013 - 2019
+</div>
+<div class='text-center producer'>
+<a title="Fanatical Code" href="http://fanaticalcode.com/pl?utm_source=rl&amp;utm_medium=click&amp;utm_content=link_stopka&amp;utm_campaign=main">Wykonanie: Fanatical Code</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+
+<script src="/assets/rl2/all-21d03d2a2fb89ca7fbec7a0372b4248a2896df809043e8c3b133827cd07d2deb.js"></script>
+
+  <script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/pl_PL/all.js#xfbml=1&appId=#{Figaro.env.facebook_key}";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+  <script>
+    window.___gcfg = {lang: 'pl'};
+
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/platform.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+
+    !function(d,s,id){
+      var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+      if(!d.getElementById(id)){
+        js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);
+      }
+    }(document, 'script', 'twitter-wjs');
+  </script>
+
+
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.radiolodz.pl",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.radiolodz.pl/search/simple?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+
+</script>
+
+<div class='infobars'>
+<div class='infobar'>
+<a class='close' data-dismiss='infobar' data-id='32'>&times;</a>
+<div class='marquee' data-id='32'>
+Mariusz WlazÅy przedÅuÅ¼y kontrakt ze SkrÄ BeÅchatÃ³w. Zawodnik potwierdziÅ tÄ informacjÄ na konferencji prasowej przed jutrzejszym meczem z Cucine Lube Civitanova | DziÅ mija 14 lat od Åmierci Jana PawÅa II. PapieÅ¼ Polak odszedÅ 2 kwietnia 2005 roku o godzinie 21.37. Przed Bazylika ArchikatedralnÄ Åodzianie uczcili tÄ rocznicÄ. ZÅoÅ¼ono kwiaty i zapalono znicze | NajwyÅ¼sza Izba Kontroli skontrolowaÅa Regionalne Centrum Krwiodawstwa i Krwiolecznictwa w Åodzi. &quot;Markowa odzieÅ¼, skÃ³rzane torby i buty znanych firm to &quot;odzieÅ¼ robocza&quot; w Regionalnym Centrum Krwiodawstwa i Krwiolecznictwa w Åodzi. Karetki do przewozu krwi sÅuÅ¼yÅy teÅ¼ do przewozu niektÃ³rych pracownikÃ³w Centrum&quot; - czytamy na stronie NIK | Komornik wstrzymaÅ eksmisjÄ niepeÅnosprawnych mÄÅ¼czyzn z gminnej kamienicy. Ojciec i syn przez pewien czas, kilka lat temu, nie pÅacili czynszu. ZalegÅoÅci sprawiÅy, Å¼e sÄd orzekÅ eksmisjÄ. Jednak administrator nie powiadomiÅ o niepeÅnosprawnoÅci obu mÄÅ¼czyzn, co staÅo siÄ powodem wstrzymania eksmisji przez komornika | DziesiÄÄ pojazdÃ³w Flirt, ktÃ³re jeÅ¼dÅ¼Ä po torach wojewÃ³dztwa ÅÃ³dzkiego od poczÄtku dziaÅalnoÅci firmy, rozbudowanych zostanie o nowy czÅon. We wtorek (2 kwietnia) podpisano umowÄ w tej sprawie pomiÄdzy przewoÅºnikiem a producentem pociÄgÃ³w 
+</div>
+</div>
+</div>
+
+
+<div class='cookies_policy'>
+Uwaga! Nasze strony wykorzystujÄ pliki cookies. UÅ¼ywamy informacji zapisanych za pomocÄ cookies i podobnych technologii m.in. w celach statystycznych i reklamowych. MogÄ teÅ¼ stosowaÄ je wspÃ³ÅpracujÄcy z nami reklamodawcy, firmy badawcze oraz dostawcy aplikacji multimedialnych. W programie sÅuÅ¼Äcym do obsÅugi internetu (przeglÄdarce internetowej) moÅ¼na zmieniÄ ustawienia dotyczÄce plikÃ³w cookies. Korzystanie z naszych serwisÃ³w internetowych bez zmiany ustawieÅ dotyczÄcych cookies oznacza, Å¼e bÄdÄ one zapisane w pamiÄci urzÄdzenia. KorzystajÄc ze strony wyraÅ¼asz zgodÄ na uÅ¼ywanie cookies, zgodnie z aktualnymi ustawieniami przeglÄdarki.
+<div class='space'></div>
+<div class='centered'>
+<a class='btn cookies_accepted' href='#'>Zgadzam siÄ z politykÄ</a>
+</div>
+</div>
+
+<!--[if lt IE 9]>
+<script src="/assets/response-cfbeea868a11ffcc5112e6e5e67841b3e893673279eba29ba8bb90e5b60c8a46.js"></script>
+<![endif]-->
+</body>
+</html>
+
+
+
+#####EOF#####
+
+

